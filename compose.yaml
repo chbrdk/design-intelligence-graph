@@ -1,0 +1,66 @@
+services:
+  db:
+    image: pgvector/pgvector:0.8.6-pg18-trixie
+    environment:
+      POSTGRES_DB: dig
+      POSTGRES_USER: dig
+      POSTGRES_PASSWORD: ${DIG_PG_PASSWORD:-dig}
+    ports:
+      - "5432:5432"
+    volumes:
+      - dig_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dig -d dig"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  dig:
+    build:
+      context: .
+    image: design-intelligence-graph:local
+    init: true
+    shm_size: "1gb"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DIG_IN_CONTAINER: "1"
+      DIG_DATABASE_URL: postgres://dig:${DIG_PG_PASSWORD:-dig}@db:5432/dig
+    volumes:
+      # Keep generated, potentially large capture packages out of the image.
+      # Paths mirrored in knowledge/paths.json → docker.captures*
+      - ./captures:/data/captures
+      - ./indexes:/data/indexes
+
+  web:
+    image: design-intelligence-graph:local
+    build:
+      context: .
+    init: true
+    shm_size: "1gb"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DIG_IN_CONTAINER: "1"
+      DIG_WEB_HOST: "0.0.0.0"
+      DIG_WEB_PORT: "8787"
+      DIG_LLM_ENABLED: "true"
+      DIG_LLM_BASE_URL: "http://host.docker.internal:11434/v1"
+      DIG_LLM_MODEL: "mlx-community/gemma-4-e4b-it-4bit"
+      DIG_LLM_TIMEOUT_MS: "180000"
+      DIG_DATABASE_URL: postgres://dig:${DIG_PG_PASSWORD:-dig}@db:5432/dig
+      NODE_OPTIONS: "--max-old-space-size=8192"
+    ports:
+      # Host/container ports from knowledge/paths.json → docker.web*
+      - "8787:8787"
+    volumes:
+      - ./captures:/data/captures
+      - ./indexes:/data/indexes
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: ["node", "dist/src/web-server.js"]
+
+volumes:
+  dig_pgdata:

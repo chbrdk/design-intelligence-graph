@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/geometry-layout.schema.json",
+  "title": "DIG-003 Geometry and Layout Model",
+  "type": "object",
+  "required": ["schema_version", "geometry_model_version", "generated_at", "layer", "viewports"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "geometry_model_version": { "const": "0.1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "layer": { "const": "L2" },
+    "viewports": { "type": "array", "items": { "$ref": "#/$defs/viewport" } }
+  },
+  "$defs": {
+    "viewport": {
+      "type": "object",
+      "required": ["viewport_capture_id", "viewport_name", "layer", "canvas", "alignment_groups", "spacing_scale", "probable_grid", "layout_containers", "spatial_relationships", "provenance"],
+      "properties": {
+        "viewport_capture_id": { "type": "string" },
+        "viewport_name": { "type": "string" },
+        "layer": { "const": "L2" },
+        "canvas": { "type": "object", "required": ["width", "height", "document_width", "document_height"] },
+        "alignment_groups": { "type": "array" },
+        "spacing_scale": { "type": "array" },
+        "probable_grid": { "type": ["object", "null"] },
+        "layout_containers": { "type": "array", "items": { "type": "object", "required": ["node_id", "mode", "box", "child_node_ids", "confidence"] } },
+        "spatial_relationships": { "type": "array", "items": { "type": "object", "required": ["relationship_id", "type", "from_node_id", "to_node_id", "evidence", "confidence", "layer"], "properties": { "type": { "enum": ["left_of", "above", "overlaps", "aligned"] }, "layer": { "const": "L2" } } },
+        "provenance": { "type": "object" }
+      }
+    }
+  }
+}

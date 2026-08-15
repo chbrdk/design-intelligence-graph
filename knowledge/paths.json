@@ -1,0 +1,150 @@
+{
+  "docker": {
+    "image": "design-intelligence-graph:local",
+    "playwrightBaseImage": "mcr.microsoft.com/playwright:v1.62.1-noble",
+    "composeService": "dig",
+    "composeWebService": "web",
+    "capturesHostDir": "./captures",
+    "capturesContainerDir": "/data/captures",
+    "indexesHostDir": "./indexes",
+    "indexesContainerDir": "/data/indexes",
+    "hostFromContainer": "http://host.docker.internal",
+    "webHostPort": 8787,
+    "webContainerPort": 8787
+  },
+  "web": {
+    "port": 8787,
+    "host": "0.0.0.0",
+    "staticDir": "web/dist",
+    "viteDevPort": 5173
+  },
+  "api": {
+    "basePath": "/api",
+    "jobsPath": "/api/jobs",
+    "libraryPath": "/api/library",
+    "enrichmentPath": "/api/enrichment"
+  },
+  "runtime": {
+    "capturesDir": "captures",
+    "indexesDir": "indexes",
+    "containerCapturesDir": "/data/captures",
+    "containerIndexesDir": "/data/indexes"
+  },
+  "llm": {
+    "enabledDefault": false,
+    "defaultBaseUrl": "http://127.0.0.1:11434/v1",
+    "baseUrlFromContainer": "http://host.docker.internal:11434/v1",
+    "defaultModel": "mlx-community/gemma-4-e4b-it-4bit",
+    "modelId": "mlx-community/gemma-4-e4b-it-4bit",
+    "serverHost": "127.0.0.1",
+    "serverPort": 11434,
+    "pythonCandidates": [
+      "../ECHON/v3/.venv/bin/python",
+      ".venv/bin/python",
+      "python3"
+    ],
+    "timeoutMs": 120000,
+    "stagedAnalysis": true,
+    "stageMaxTokens": 700,
+    "parityTarget": "mobbin",
+    "providerDefault": "local",
+    "fallbackProvider": "openrouter",
+    "openrouter": {
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "defaultModel": "nvidia/nemotron-3-nano-30b-a3b:free",
+      "visionModel": "nvidia/nemotron-nano-12b-v2-vl:free",
+      "apiKeyEnv": "OPENROUTER_API_KEY",
+      "httpReferer": "https://github.com/design-intelligence-graph",
+      "appTitle": "DIG"
+    },
+    "qualityEval": {
+      "scenarioDefault": "marketing-hero",
+      "scenariosDir": "fixtures/eval",
+      "reportDir": "tmp/llm-quality-eval",
+      "models": [
+        {
+          "id": "nvidia/nemotron-3-nano-30b-a3b:free",
+          "label": "Nemotron 3 Nano (text, free)",
+          "tracks": ["text"]
+        },
+        {
+          "id": "nvidia/nemotron-nano-12b-v2-vl:free",
+          "label": "Nemotron Nano 12B VL (vision, free)",
+          "tracks": ["vision"]
+        },
+        {
+          "id": "google/gemma-4-26b-a4b-it:free",
+          "label": "Gemma 4 26B A4B (free)",
+          "tracks": ["text", "vision"]
+        },
+        {
+          "id": "qwen/qwen3.7-flash",
+          "label": "Qwen3.7 Flash (paid volume)",
+          "tracks": ["text", "vision"]
+        },
+        {
+          "id": "openai/gpt-5.6-luna",
+          "label": "GPT-5.6 Luna (paid reliability)",
+          "tracks": ["text", "vision"]
+        }
+      ]
+    },
+    "scaling": {
+      "target": "mobbin",
+      "callsPerCaptureEstimate": {
+        "textStages": 5,
+        "visionPerViewport": 1,
+        "optionalHotspotFlow": 2
+      },
+      "roles": {
+        "bulkText": "qwen/qwen3.7-flash",
+        "bulkVision": "qwen/qwen3.7-flash",
+        "qualityText": "openai/gpt-5.6-luna",
+        "qualityVision": "openai/gpt-5.6-luna",
+        "freeDevText": "nvidia/nemotron-3-nano-30b-a3b:free",
+        "freeDevVision": "nvidia/nemotron-nano-12b-v2-vl:free"
+      },
+      "bulkReasoningEffort": "none",
+      "confidenceEscalateBelow": 0.55,
+      "asyncDefault": true,
+      "doc": "knowledge/llm-scaling-mobbin.md"
+    }
+  },
+  "captureLimits": {
+    "maxHtmlBytes": 8000000,
+    "omitStylesheetCssText": true,
+    "maxStylesheetRuleCssTextChars": 2000,
+    "matchedStylesMode": "essential",
+    "maxMatchedStyleNodes": 200,
+    "maxMatchedRulesPerNode": 8,
+    "maxInheritedEntriesPerNode": 4,
+    "compactMaxMatchedStyleNodes": 800,
+    "compactMaxMatchedRulesPerNode": 30,
+    "compactMaxInheritedEntriesPerNode": 12,
+    "screenshotFormat": "webp",
+    "webpQuality": 80
+  },
+  "taxonomy": {
+    "sectionComponentCatalog": "knowledge/section-component-catalog.json",
+    "ontologyVersion": "0.2.0"
+  },
+  "database": {
+    "composeService": "db",
+    "image": "pgvector/pgvector:0.8.6-pg18-trixie",
+    "hostPort": 5432,
+    "containerPort": 5432,
+    "database": "dig",
+    "user": "dig",
+    "passwordEnv": "DIG_PG_PASSWORD",
+    "defaultPassword": "dig",
+    "urlEnv": "DIG_DATABASE_URL",
+    "defaultUrl": "postgres://dig:dig@127.0.0.1:5432/dig",
+    "urlFromContainer": "postgres://dig:dig@db:5432/dig",
+    "migrationsDir": "db/migrations"
+  },
+  "embeddings": {
+    "dims": 384,
+    "model": "dig-hashing-v1",
+    "provider": "hashing"
+  }
+}

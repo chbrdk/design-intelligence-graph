@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/knowledge-graph.schema.json",
+  "title": "DIG-006 Portable Knowledge Graph",
+  "type": "object",
+  "required": ["schema_version", "storage_model_version", "source_capture_run_id", "indexed_at", "nodes", "edges", "lineage"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" }, "storage_model_version": { "const": "0.1.0" }, "source_capture_run_id": { "type": "string" }, "indexed_at": { "type": "string", "format": "date-time" },
+    "nodes": { "type": "array", "items": { "type": "object", "required": ["node_id", "type", "label", "properties"] } },
+    "edges": { "type": "array", "items": { "type": "object", "required": ["edge_id", "type", "from_node_id", "to_node_id", "properties"] } },
+    "lineage": { "type": "array", "items": { "type": "object", "required": ["artifact_path", "sha256", "bytes", "media_type"] } }
+  }
+}

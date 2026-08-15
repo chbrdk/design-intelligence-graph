@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://example.test/dig-fixture">
+    <link rel="stylesheet" href="fixture.css">
+    <title>DIG capture fixture</title>
+    <style>
+      :root { --ink: #172026; --accent: #5b5bd6; --space: 24px; }
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); font: 400 18px/1.5 system-ui, sans-serif; }
+      header { position: sticky; top: 0; z-index: 2; padding: 12px 16px; background: color-mix(in srgb, white 92%, transparent); backdrop-filter: blur(12px); }
+      main { width: min(100% - 32px, 1120px); margin: 0 auto; }
+      .hero { min-height: 70vh; display: grid; place-content: center; gap: var(--space); animation: reveal 900ms cubic-bezier(.2,.8,.2,1) both; }
+      h1 { max-width: 12ch; margin: 0; font-size: clamp(48px, 8vw, 112px); line-height: .92; letter-spacing: -.05em; }
+      h1::after { content: " ✦"; color: var(--accent); font-size: .35em; vertical-align: top; }
+      a { width: fit-content; padding: 12px 18px; color: white; background: var(--accent); border-radius: 999px; text-decoration: none; transition: transform 180ms cubic-bezier(.2,.8,.2,1); }
+      a:hover { transform: translateY(-2px); }
+      @keyframes reveal { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+      #details { min-height: 140vh; padding-top: 80px; background-image: linear-gradient(180deg, transparent, rgb(91 91 214 / .08)); }
+      iframe { width: 100%; height: 120px; border: 1px solid rgb(23 32 38 / .2); border-radius: 12px; }
+      @media (max-width: 600px) { .hero { min-height: 55vh; } }
+    </style>
+  </head>
+  <body>
+    <header>DIG fixture</header>
+    <main>
+      <section class="hero" aria-labelledby="title">
+        <h1 id="title">Design evidence, captured.</h1>
+        <p>A deterministic local fixture for the first DIG-001 implementation.</p>
+        <a href="#details">Inspect the system</a>
+      </section>
+      <section id="details">
+        <h2>Evidence layers</h2><p>Raw and measured facts remain distinct.</p>
+        <form action="/submit?token=rawtoken"><label>Secret <input type="password" value="super-secret"></label></form>
+        <canvas width="320" height="80" aria-label="Canvas evidence surface"></canvas>
+        <iframe title="Embedded evidence" srcdoc="<!doctype html><html><body><p>Same-origin frame evidence.</p></body></html>"></iframe>
+      </section>
+    </main>
+  </body>
+</html>

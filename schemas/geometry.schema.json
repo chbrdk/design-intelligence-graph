@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/geometry.schema.json",
+  "title": "DIG-001 measured node geometry",
+  "type": "object",
+  "required": ["node_id", "bbox", "provenance"],
+  "properties": {
+    "node_id": { "type": "string" },
+    "bbox": { "$ref": "#/$defs/box" },
+    "bbox_normalized": {
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["reference", "x", "y", "width", "height"],
+        "properties": {
+          "reference": { "enum": ["viewport", "document", "parent", "section"] },
+          "x": { "type": "number" }, "y": { "type": "number" },
+          "width": { "type": "number" }, "height": { "type": "number" }
+        }
+      }
+    },
+    "box_model": { "type": "object" },
+    "layout_context": { "type": "object" },
+    "client_rects": { "type": "array", "items": { "$ref": "#/$defs/box" } },
+    "provenance": { "type": "object" }
+  },
+  "$defs": {
+    "box": {
+      "type": "object", "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "number" }, "y": { "type": "number" },
+        "viewport_x": { "type": "number" }, "viewport_y": { "type": "number" },
+        "width": { "type": "number", "minimum": 0 }, "height": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/analysis-report.schema.json",
+  "title": "DIG-005 Analysis Pipeline Report",
+  "type": "object",
+  "required": ["schema_version", "analysis_pipeline_version", "generated_at", "stages", "findings", "semantic_inputs", "quality", "provenance"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" }, "analysis_pipeline_version": { "const": "0.1.0" }, "generated_at": { "type": "string", "format": "date-time" },
+    "stages": { "type": "array", "items": { "$ref": "#/$defs/stage" } }, "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }, "semantic_inputs": { "type": "array", "items": { "$ref": "#/$defs/semantic" } }, "quality": { "type": "object", "required": ["overall", "rating", "formula_version", "gate"] }, "provenance": { "type": "object" }
+  },
+  "$defs": {
+    "stage": { "type": "object", "required": ["stage_id", "kind", "status", "method", "input_artifacts", "output_record_count"], "properties": { "kind": { "enum": ["deterministic", "vision", "llm", "quality"] }, "status": { "enum": ["complete", "not_attempted"] } } },
+    "finding": { "type": "object", "required": ["finding_id", "kind", "layer", "value", "unit", "confidence", "method", "evidence"], "properties": { "kind": { "enum": ["coverage", "responsive_complexity", "visual_consistency"] }, "layer": { "const": "L2" }, "confidence": { "const": 1 } } },
+    "semantic": { "type": "object", "required": ["source", "source_id", "viewport_capture_id", "confidence", "method", "layer"], "properties": { "source": { "enum": ["ontology", "visual_language", "llm"] }, "layer": { "const": "L3" }, "confidence": { "type": "number", "minimum": 0, "exclusiveMaximum": 1 } } }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/visual-language.schema.json",
+  "title": "DIG-004 Visual Language Model",
+  "type": "object",
+  "required": ["schema_version", "visual_language_version", "generated_at", "viewports", "hypotheses"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "visual_language_version": { "const": "0.1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "viewports": { "type": "array", "items": { "$ref": "#/$defs/viewport" } },
+    "hypotheses": { "type": "array", "items": { "$ref": "#/$defs/hypothesis" } }
+  },
+  "$defs": {
+    "viewport": { "type": "object", "required": ["viewport_capture_id", "viewport_name", "layer", "typography", "color_palette", "shape", "imagery", "composition", "motion", "provenance"], "properties": { "layer": { "const": "L2" }, "viewport_capture_id": { "type": "string" }, "viewport_name": { "type": "string" }, "typography": { "type": "array" }, "color_palette": { "type": "array" }, "shape": { "type": "object" }, "imagery": { "type": "object" }, "composition": { "type": "object" }, "motion": { "type": "object" }, "provenance": { "type": "object" } } },
+    "hypothesis": { "type": "object", "required": ["hypothesis_id", "viewport_capture_id", "category", "value", "confidence", "evidence", "layer", "method"], "properties": { "layer": { "const": "L3" }, "confidence": { "type": "number", "minimum": 0, "exclusiveMaximum": 1 }, "category": { "enum": ["visual_character", "motion_personality"] }, "value": { "enum": ["restrained", "expressive", "static", "animated"] } } }
+  }
+}

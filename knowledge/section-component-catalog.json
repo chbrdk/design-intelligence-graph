@@ -1,0 +1,5694 @@
+{
+  "schema_version": "0.1.0",
+  "catalog_version": "0.1.0",
+  "generated_at": "2026-08-15",
+  "description": "Curated DIG section/component taxonomy for composition classification (~500 terms).",
+  "entries": [
+    {
+      "id": "dig:section.hero",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_media_above",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero media above",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_media_below",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero media below",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_split",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero split",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_split_cta",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero split with CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_full_bleed",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero full bleed",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_centered",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero centered",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_minimal",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero minimal",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_video",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero video",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_product_shot",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero product shot",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_typographic",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero typographic",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_with_form",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero with form",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_with_search",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero with search",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_dual_cta",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero dual CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta_pair"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_stats",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero with stats",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_logo_bar",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero with logo bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_app_store",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero app download",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta_pair",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_announcement",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero announcement",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_overlay_copy",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero overlay copy",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_carousel",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero carousel",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_grid",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature grid",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "heading",
+          "media",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_list",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature list",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_alternating",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature alternating rows",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_cards",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature cards",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_icon_row",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature icon row",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_spotlight",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature spotlight",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_comparison",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature comparison",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_tabs",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature tabs",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_timeline",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature timeline",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_bento",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature bento grid",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_zigzag",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature zigzag",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_showcase",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product showcase",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_gallery",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product gallery",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_specs",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product specs",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_detail",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product detail",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_bundle",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product bundle",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_configurator",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product configurator",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_hotspot",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Product hotspot image",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.how_it_works",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "How it works",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.process_steps",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Process steps",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.use_cases",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Use cases",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.benefits",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Benefits",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.capabilities",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Capabilities",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.integrations",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Integrations",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.platforms",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Platforms",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.tech_stack",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Tech stack",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.testimonials",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Testimonials",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.testimonial_carousel",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Testimonial carousel",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.testimonial_featured",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Featured testimonial",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.reviews",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Reviews",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.ratings_summary",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Ratings summary",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.logo_wall",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Logo wall",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.logo_marquee",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Logo marquee",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.customer_stories",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Customer stories",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.case_studies",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Case studies",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.case_study_highlight",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Case study highlight",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.press_mentions",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Press mentions",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.awards",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Awards",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.stats_row",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Stats row",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.metrics_band",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Metrics band",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.social_proof_bar",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Social proof bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.trust_badges",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Trust badges",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.user_count",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "User count callout",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.quote_band",
+      "entity_type": "section",
+      "category": "social_proof",
+      "label": "Quote band",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_band",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "CTA band",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_banner",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "CTA banner",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_split",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "CTA split",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_newsletter",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Newsletter CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_download",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Download CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta_pair"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_trial",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Trial CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_contact",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Contact CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cta_demo",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Demo request CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.final_cta",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Final CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.sticky_cta_bar",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Sticky CTA bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.floating_cta",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Floating CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.promo_strip",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Promo strip",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.announcement_bar",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Announcement bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cookie_consent",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Cookie consent",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "body",
+          "cta_pair"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.exit_intent",
+      "entity_type": "section",
+      "category": "conversion",
+      "label": "Exit intent offer",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pricing",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Pricing",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pricing_table",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Pricing table",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pricing_cards",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Pricing cards",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pricing_toggle",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Pricing billing toggle",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pricing_comparison",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Pricing comparison",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.plans",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Plans",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.enterprise_pricing",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Enterprise pricing",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cart",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Cart",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cart_summary",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Cart summary",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.checkout",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Checkout",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.checkout_steps",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Checkout steps",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_grid",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Product grid",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.product_list",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Product list",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.collection",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Collection",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.category_nav",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Category navigation",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.filters_sidebar",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Filters sidebar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.sort_bar",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Sort bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.wishlist",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Wishlist",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.related_products",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Related products",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.recently_viewed",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Recently viewed",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.upsell",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Upsell",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cross_sell",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Cross-sell",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.bundle_offer",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Bundle offer",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.discount_banner",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Discount banner",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.shipping_info",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Shipping info",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.return_policy",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Return policy",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.size_guide",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Size guide",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.inventory_status",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Inventory status",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.order_tracking",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Order tracking",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_block",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content block",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.rich_text",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Rich text",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.article_body",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Article body",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.blog_index",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Blog index",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.blog_cards",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Blog cards",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.blog_hero",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Blog hero",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.news_list",
+      "entity_type": "section",
+      "category": "content",
+      "label": "News list",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.docs_toc",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Docs table of contents",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.docs_content",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Docs content",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.changelog",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Changelog",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.faq",
+      "entity_type": "section",
+      "category": "content",
+      "label": "FAQ",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.faq_accordion",
+      "entity_type": "section",
+      "category": "content",
+      "label": "FAQ accordion",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.faq_two_column",
+      "entity_type": "section",
+      "category": "content",
+      "label": "FAQ two column",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.glossary",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Glossary",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.team",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Team",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.team_grid",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Team grid",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.about",
+      "entity_type": "section",
+      "category": "content",
+      "label": "About",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.mission",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Mission",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.values",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Values",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.timeline",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Timeline",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.history",
+      "entity_type": "section",
+      "category": "content",
+      "label": "History",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.careers",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Careers",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.job_list",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Job list",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.job_detail",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Job detail",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.contact",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Contact",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.contact_split",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Contact split",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.locations",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Locations",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.map",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Map",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.office_list",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Office list",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.resources",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Resources",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.downloads",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Downloads",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.whitepaper",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Whitepaper gate",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.webinar",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Webinar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.event",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Event",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.event_list",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Event list",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.agenda",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Agenda",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.speakers",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Speakers",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.portfolio",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Portfolio",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.gallery",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Gallery",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.masonry",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Masonry gallery",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.lightbox_gallery",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Lightbox gallery",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.video_section",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Video section",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.podcast",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Podcast",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.ebook",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Ebook",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.press_kit",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Press kit",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.legal",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Legal",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.privacy",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Privacy",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.terms",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Terms",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.cookie_policy",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Cookie policy",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.header",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Header",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.global_nav",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Global navigation",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.mega_menu",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Mega menu",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.utility_nav",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Utility navigation",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.breadcrumb_bar",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Breadcrumb bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.sidebar_nav",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Sidebar navigation",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.tab_nav",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Tab navigation",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.footer",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Footer",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.footer_columns",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Footer columns",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.footer_minimal",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Footer minimal",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.footer_cta",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Footer with CTA",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta",
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.mobile_nav",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Mobile navigation",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.bottom_tab_bar",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Bottom tab bar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pagination",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Pagination",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.pager",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Pager",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.language_switcher",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Language switcher",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.account_menu",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Account menu",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.search_overlay",
+      "entity_type": "section",
+      "category": "nav",
+      "label": "Search overlay",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.signup",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Sign up",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.login",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Login",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.password_reset",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Password reset",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.onboarding",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Onboarding",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.survey",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Survey",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.quiz",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Quiz",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.lead_form",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Lead form",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.multi_step_form",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Multi-step form",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.waitlist",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Waitlist",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.subscribe",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Subscribe",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feedback_form",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Feedback form",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.support_form",
+      "entity_type": "section",
+      "category": "form",
+      "label": "Support form",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.media_band",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Media band",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.image_banner",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Image banner",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.video_banner",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Video banner",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.before_after",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Before after",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.comparison_slider",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Comparison slider",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.360_viewer",
+      "entity_type": "section",
+      "category": "media",
+      "label": "360 viewer",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.embed_section",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Embed section",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.live_stream",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Live stream",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.audio_player",
+      "entity_type": "section",
+      "category": "media",
+      "label": "Audio player",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.empty_state",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Empty state",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.error_state",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Error state",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.404",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Not found",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.500",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Server error",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.loading",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Loading",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.success",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Success",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.maintenance",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Maintenance",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.permission_denied",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Permission denied",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.offline",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Offline",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.toast_stack",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Toast stack",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.alert_banner",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "Alert banner",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.system_status",
+      "entity_type": "section",
+      "category": "feedback",
+      "label": "System status",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.dashboard_header",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Dashboard header",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "nav",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.kpi_cards",
+      "entity_type": "section",
+      "category": "app",
+      "label": "KPI cards",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.chart_section",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Chart section",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.data_table",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Data table",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.toolbar",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Toolbar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.filter_panel",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Filter panel",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.detail_panel",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Detail panel",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.activity_feed",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Activity feed",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.inbox",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Inbox",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.calendar",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Calendar",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.kanban",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Kanban",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.settings",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Settings",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.profile",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Profile",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "media",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.notifications",
+      "entity_type": "section",
+      "category": "app",
+      "label": "Notifications",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.generic",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Section",
+      "aliases": [
+        "section"
+      ],
+      "composition_hints": [
+        [
+          "heading"
+        ],
+        [
+          "body"
+        ],
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.article",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Article",
+      "aliases": [
+        "article"
+      ],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.unknown",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Unknown section",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cta_primary",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Primary CTA",
+      "aliases": [
+        "button",
+        "cta"
+      ],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cta_secondary",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Secondary CTA",
+      "aliases": [
+        "button"
+      ],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cta_pair",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "CTA pair",
+      "aliases": [
+        "cta_pair"
+      ],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cta_text_link",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Text link CTA",
+      "aliases": [
+        "link"
+      ],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cta_icon_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Icon button CTA",
+      "aliases": [
+        "button"
+      ],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.button_group",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Button group",
+      "aliases": [
+        "cta_pair"
+      ],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.chip",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Chip",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.badge",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Badge",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.tag",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Tag",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.avatar",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Avatar",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.avatar_group",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Avatar group",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_media",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Media card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_pricing",
+      "entity_type": "component",
+      "category": "commerce",
+      "label": "Pricing card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_product",
+      "entity_type": "component",
+      "category": "commerce",
+      "label": "Product card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_blog",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Blog card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_stat",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Stat card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_testimonial",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Testimonial card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_feature",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Feature card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.card_horizontal",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Horizontal card",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.list",
+      "entity_type": "component",
+      "category": "content",
+      "label": "List",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.list_item",
+      "entity_type": "component",
+      "category": "content",
+      "label": "List item",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.definition_list",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Definition list",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.table",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Table",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.table_row",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Table row",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.accordion",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Accordion",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.accordion_item",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Accordion item",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.tabs",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Tabs",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.tab_panel",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Tab panel",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.carousel",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Carousel",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.carousel_slide",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Carousel slide",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.modal",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Modal",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.dialog",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Dialog",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.drawer",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Drawer",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.sheet",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Sheet",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.popover",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Popover",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.tooltip",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Tooltip",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.dropdown",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Dropdown",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.menu",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Menu",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.menubar",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Menubar",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.breadcrumb",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Breadcrumb",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.pagination",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Pagination control",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.search",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Search",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.search_suggest",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Search suggestions",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.form",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Form",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.form_control",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Form control",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.text_input",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Text input",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.textarea",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Textarea",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.select",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Select",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.checkbox",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Checkbox",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.radio",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Radio",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.switch",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Switch",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.slider",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Slider",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.date_picker",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Date picker",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.file_upload",
+      "entity_type": "component",
+      "category": "form",
+      "label": "File upload",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.otp_input",
+      "entity_type": "component",
+      "category": "form",
+      "label": "OTP input",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.combobox",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Combobox",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.media",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Media",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.image",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Image",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.video",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Video",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.audio",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Audio",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.figure",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Figure",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.embed",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Embed",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.iframe",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Iframe",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.icon",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Icon",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.illustration",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Illustration",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.logo",
+      "entity_type": "component",
+      "category": "brand",
+      "label": "Logo",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.brand_mark",
+      "entity_type": "component",
+      "category": "brand",
+      "label": "Brand mark",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.navigation",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Navigation",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.link",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Link",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.progress",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Progress",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.spinner",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Spinner",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.skeleton",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Skeleton",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.alert",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Alert",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.toast",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Toast",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.banner",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Banner",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.divider",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Divider",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.spacer",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Spacer",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.container",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Container",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.stack",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Stack",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.grid",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Grid",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cluster",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Cluster",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.sidebar",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Sidebar",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.toolbar",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Toolbar",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.statusbar",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Status bar",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.code_block",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Code block",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.code_inline",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Inline code",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.quote",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Quote",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.blockquote",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Blockquote",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.caption",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Caption",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.label",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Label",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.helper_text",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Helper text",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.error_text",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Error text",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.price",
+      "entity_type": "component",
+      "category": "commerce",
+      "label": "Price",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.price_strike",
+      "entity_type": "component",
+      "category": "commerce",
+      "label": "Strikethrough price",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.rating",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Rating",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.star_rating",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Star rating",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.share",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Share",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.social_links",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Social links",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.cookie_banner",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Cookie banner",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.consent_manager",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Consent manager",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.chat_widget",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Chat widget",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.help_widget",
+      "entity_type": "component",
+      "category": "feedback",
+      "label": "Help widget",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.map_embed",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Map embed",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.calendar_widget",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Calendar widget",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.chart",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Chart",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.sparkline",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Sparkline",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.kpi",
+      "entity_type": "component",
+      "category": "app",
+      "label": "KPI",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.filter_chip",
+      "entity_type": "component",
+      "category": "app",
+      "label": "Filter chip",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.segmented_control",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Segmented control",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.stepper",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Stepper",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.wizard_steps",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Wizard steps",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.timeline_item",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Timeline item",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.feed_item",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Feed item",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.comment",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Comment",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.comment_thread",
+      "entity_type": "component",
+      "category": "social_proof",
+      "label": "Comment thread",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.author_byline",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Author byline",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.read_time",
+      "entity_type": "component",
+      "category": "content",
+      "label": "Read time",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.toc",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Table of contents",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.skip_link",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Skip link",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.back_to_top",
+      "entity_type": "component",
+      "category": "nav",
+      "label": "Back to top",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.fab",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Floating action button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.split_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Split button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.icon_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Icon button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.link_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Link button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.ghost_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Ghost button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.destructive_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Destructive button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.pill_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Pill button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.toggle_button",
+      "entity_type": "component",
+      "category": "form",
+      "label": "Toggle button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.copy_button",
+      "entity_type": "component",
+      "category": "conversion",
+      "label": "Copy button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.play_button",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Play button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.mute_button",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Mute button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:component.fullscreen_button",
+      "entity_type": "component",
+      "category": "media",
+      "label": "Fullscreen button",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.hero",
+      "entity_type": "pattern",
+      "category": "hero",
+      "label": "Hero pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.primary_action",
+      "entity_type": "pattern",
+      "category": "conversion",
+      "label": "Primary action",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.sticky_header",
+      "entity_type": "pattern",
+      "category": "nav",
+      "label": "Sticky header",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.navigation",
+      "entity_type": "pattern",
+      "category": "nav",
+      "label": "Navigation pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.form",
+      "entity_type": "pattern",
+      "category": "form",
+      "label": "Form pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.embedded_content",
+      "entity_type": "pattern",
+      "category": "media",
+      "label": "Embedded content pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.accordion",
+      "entity_type": "pattern",
+      "category": "content",
+      "label": "Accordion pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.tabs",
+      "entity_type": "pattern",
+      "category": "content",
+      "label": "Tabs pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.modal",
+      "entity_type": "pattern",
+      "category": "feedback",
+      "label": "Modal pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.search",
+      "entity_type": "pattern",
+      "category": "form",
+      "label": "Search pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.breadcrumb",
+      "entity_type": "pattern",
+      "category": "nav",
+      "label": "Breadcrumb pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.card_grid",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Card grid pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.media_heading_cta",
+      "entity_type": "pattern",
+      "category": "hero",
+      "label": "Media heading CTA stack",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.heading_body_cta",
+      "entity_type": "pattern",
+      "category": "conversion",
+      "label": "Heading body CTA stack",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.split_media_copy",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Split media copy",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.logo_cloud",
+      "entity_type": "pattern",
+      "category": "social_proof",
+      "label": "Logo cloud",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.pricing_tiers",
+      "entity_type": "pattern",
+      "category": "commerce",
+      "label": "Pricing tiers",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.faq_stack",
+      "entity_type": "pattern",
+      "category": "content",
+      "label": "FAQ stack",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.newsletter_capture",
+      "entity_type": "pattern",
+      "category": "conversion",
+      "label": "Newsletter capture",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.testimonial_slider",
+      "entity_type": "pattern",
+      "category": "social_proof",
+      "label": "Testimonial slider",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.feature_row",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Feature row",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.cta_duo",
+      "entity_type": "pattern",
+      "category": "conversion",
+      "label": "Dual CTA pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "cta_pair"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.nav_mega",
+      "entity_type": "pattern",
+      "category": "nav",
+      "label": "Mega nav pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.footer_sitemap",
+      "entity_type": "pattern",
+      "category": "nav",
+      "label": "Footer sitemap",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "nav",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.commerce_plp",
+      "entity_type": "pattern",
+      "category": "commerce",
+      "label": "Product listing pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.commerce_pdp",
+      "entity_type": "pattern",
+      "category": "commerce",
+      "label": "Product detail pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.auth_gate",
+      "entity_type": "pattern",
+      "category": "form",
+      "label": "Auth gate",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "form",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.empty_prompt",
+      "entity_type": "pattern",
+      "category": "feedback",
+      "label": "Empty prompt",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.error_prompt",
+      "entity_type": "pattern",
+      "category": "feedback",
+      "label": "Error prompt",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.cookie_gate",
+      "entity_type": "pattern",
+      "category": "feedback",
+      "label": "Cookie gate",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "body",
+          "cta_pair"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.marquee",
+      "entity_type": "pattern",
+      "category": "media",
+      "label": "Marquee",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.bento",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Bento layout",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.masonry",
+      "entity_type": "pattern",
+      "category": "media",
+      "label": "Masonry pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.sticky_cta",
+      "entity_type": "pattern",
+      "category": "conversion",
+      "label": "Sticky CTA pattern",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.scroll_story",
+      "entity_type": "pattern",
+      "category": "content",
+      "label": "Scroll story",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.parallax_band",
+      "entity_type": "pattern",
+      "category": "media",
+      "label": "Parallax band",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.comparison_table",
+      "entity_type": "pattern",
+      "category": "commerce",
+      "label": "Comparison table",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.step_wizard",
+      "entity_type": "pattern",
+      "category": "form",
+      "label": "Step wizard",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.chat_assist",
+      "entity_type": "pattern",
+      "category": "feedback",
+      "label": "Chat assist",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list",
+          "form"
+        ]
+      ]
+    },
+    {
+      "id": "dig:pattern.notification_center",
+      "entity_type": "pattern",
+      "category": "app",
+      "label": "Notification center",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:content.heading",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Heading",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.subheading",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Subheading",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.body_text",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Body text",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.eyebrow",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Eyebrow",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.label",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Label",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.caption",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Caption",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.quote",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Quote",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.code",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Code",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.stat_value",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Stat value",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.stat_label",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Stat label",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.price_text",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Price text",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.legal_text",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Legal text",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.microcopy",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Microcopy",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.headline",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Headline",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.dek",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Dek",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.pull_quote",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Pull quote",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.byline",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Byline",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.kicker",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Kicker",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.overline",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Overline",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:content.footnote",
+      "entity_type": "content",
+      "category": "content",
+      "label": "Footnote",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.banner",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Banner",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.navigation",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Navigation",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.main",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Main content",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.complementary",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Complementary content",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.contentinfo",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Content information",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.search",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Search region",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.form",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Form region",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.aside",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Aside",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:region.toolbar",
+      "entity_type": "region",
+      "category": "nav",
+      "label": "Toolbar region",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.unknown",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Unknown page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.content",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Content page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.landing",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Landing page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.marketing",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Marketing page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.product",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Product page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.pricing",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Pricing page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.blog",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Blog page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.docs",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Docs page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.app",
+      "entity_type": "page",
+      "category": "content",
+      "label": "App page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.auth",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Auth page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.checkout",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Checkout page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.account",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Account page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.search_results",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Search results page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.category",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Category page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.article",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Article page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.contact",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Contact page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.about",
+      "entity_type": "page",
+      "category": "content",
+      "label": "About page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.careers",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Careers page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.legal",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Legal page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:page.error",
+      "entity_type": "page",
+      "category": "content",
+      "label": "Error page",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.container",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Container",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.decorative",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Decorative element",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.overlay",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Overlay",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.scrim",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Scrim",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.backdrop",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Backdrop",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.rail",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Rail",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.gutter",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Gutter",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.frame",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Frame",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.slot",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Slot",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:element.portal",
+      "entity_type": "element",
+      "category": "content",
+      "label": "Portal",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:section.feature_variant_01",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 1",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_01",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 1",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_01",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 1",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_01",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 1",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_01",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 1",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_01",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 1",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_variant_02",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 2",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_02",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 2",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_02",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 2",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_02",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 2",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_02",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 2",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_02",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 2",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_variant_03",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 3",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_03",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 3",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_03",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 3",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_03",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 3",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_03",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 3",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_03",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 3",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_variant_04",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 4",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_04",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 4",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_04",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 4",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_04",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 4",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_04",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 4",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_04",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 4",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_variant_05",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 5",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_05",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 5",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_05",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 5",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_05",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 5",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_05",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 5",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_05",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 5",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_variant_06",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 6",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_06",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 6",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_06",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 6",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_06",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 6",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_06",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 6",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_06",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 6",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.feature_variant_07",
+      "entity_type": "section",
+      "category": "feature",
+      "label": "Feature variant 7",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list"
+        ],
+        [
+          "media",
+          "heading",
+          "body"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.hero_variant_07",
+      "entity_type": "section",
+      "category": "hero",
+      "label": "Hero variant 7",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "media",
+          "heading",
+          "cta"
+        ],
+        [
+          "heading",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.content_variant_07",
+      "entity_type": "section",
+      "category": "content",
+      "label": "Content variant 7",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "body"
+        ],
+        [
+          "heading",
+          "list"
+        ]
+      ]
+    },
+    {
+      "id": "dig:section.commerce_variant_07",
+      "entity_type": "section",
+      "category": "commerce",
+      "label": "Commerce variant 7",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "heading",
+          "list",
+          "cta"
+        ]
+      ]
+    },
+    {
+      "id": "dig:component.card_variant_07",
+      "entity_type": "component",
+      "category": "feature",
+      "label": "Card variant 7",
+      "aliases": [],
+      "composition_hints": []
+    },
+    {
+      "id": "dig:pattern.layout_variant_07",
+      "entity_type": "pattern",
+      "category": "feature",
+      "label": "Layout variant 7",
+      "aliases": [],
+      "composition_hints": [
+        [
+          "list"
+        ],
+        [
+          "media",
+          "heading"
+        ]
+      ]
+    }
+  ]
+}

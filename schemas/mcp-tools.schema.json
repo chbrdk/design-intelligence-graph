@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/mcp-tools.schema.json",
+  "title": "DIG-007 MCP Tool Contract",
+  "type": "object",
+  "required": ["name", "description", "inputSchema"],
+  "properties": { "name": { "enum": ["dig_search", "dig_inspect", "dig_neighbors", "dig_compare", "dig_recommend"] }, "description": { "type": "string" }, "inputSchema": { "type": "object" } }
+}

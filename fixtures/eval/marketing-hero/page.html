@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Aurora — Product Launch</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1d1d1f;
+        --paper: #f5f5f7;
+        --accent: #0071e3;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: 1fr auto auto;
+        align-items: end;
+        padding: 48px 64px 72px;
+        gap: 24px;
+        background:
+          linear-gradient(180deg, rgba(245, 245, 247, 0.15), rgba(245, 245, 247, 0.92)),
+          radial-gradient(circle at 70% 30%, #9ec9ff 0%, #4b7cff 40%, #1d1d1f 100%);
+      }
+      .media {
+        width: min(720px, 100%);
+        height: 360px;
+        border-radius: 18px;
+        background:
+          linear-gradient(135deg, rgba(255,255,255,0.35), transparent 50%),
+          linear-gradient(180deg, #6aa8ff, #1a5cff);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+        justify-self: start;
+      }
+      h1 {
+        margin: 0;
+        font-size: 56px;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        max-width: 12ch;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 22px;
+        border-radius: 980px;
+        background: var(--accent);
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        width: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero" data-dig-section="hero">
+      <div class="media" role="img" aria-label="Product hero media"></div>
+      <h1>Aurora Phone</h1>
+      <a class="cta" href="#learn">Learn more</a>
+    </section>
+  </body>
+</html>

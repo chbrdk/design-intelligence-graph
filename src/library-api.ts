@@ -1,0 +1,495 @@
+import type { IncomingMessage, ServerResponse } from "node:http";
+import { createReadStream, existsSync, statSync } from "node:fs";
+import { readFile } from "node:fs/promises";
+import { extname, resolve } from "node:path";
+import { createId } from "./io.js";
+import type { Queryable } from "./db.js";
+import { getPool } from "./db.js";
+import { searchEmbeddings } from "./embeddings.js";
+import { buildFigmaExport } from "./figma-export.js";
+import { libraryApiPath } from "./runtime-paths.js";
+import type { SectionCompositionDocument } from "./section-composition.js";
+import type { CaptureManifest } from "./types.js";
+
+type Box = { x: number; y: number; width: number; height: number };
+
+function sendJson(response: ServerResponse, status: number, body: unknown): void {
+  response.writeHead(status, {
+    "content-type": "application/json; charset=utf-8",
+    "cache-control": "no-store",
+    "access-control-allow-origin": "*"
+  });
+  response.end(JSON.stringify(body));
+}
+
+function queryParam(url: URL, name: string): string | null {
+  const value = url.searchParams.get(name);
+  return value && value.trim() ? value.trim() : null;
+}
+
+async function readJsonBody(request: IncomingMessage): Promise<Record<string, unknown>> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of request) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  if (!chunks.length) return {};
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString("utf8")) as Record<string, unknown>;
+  } catch {
+    return {};
+  }
+}
+
+function asBox(value: unknown): Box | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const record = value as Record<string, unknown>;
+  const x = Number(record.x);
+  const y = Number(record.y);
+  const width = Number(record.width);
+  const height = Number(record.height);
+  if (![x, y, width, height].every(Number.isFinite)) return null;
+  return { x, y, width, height };
+}
+
+function normalizeBox(box: Box, viewportWidth: number | null, viewportHeight: number | null): Box | null {
+  if (!viewportWidth || !viewportHeight || viewportWidth <= 0 || viewportHeight <= 0) return null;
+  return {
+    x: box.x / viewportWidth,
+    y: box.y / viewportHeight,
+    width: box.width / viewportWidth,
+    height: box.height / viewportHeight
+  };
+}
+
+export function buildHotspotsFromSection(row: {
+  section_id?: unknown;
+  category?: unknown;
+  signature?: unknown;
+  root_box?: unknown;
+  recipe?: unknown;
+  viewport_width?: unknown;
+  viewport_height?: unknown;
+}): Array<{
+  section_id: string;
+  label: string;
+  role: string;
+  box: Box;
+  normalized: Box | null;
+}> {
+  const sectionId = String(row.section_id ?? "");
+  const category = typeof row.category === "string" ? row.category : "section";
+  const signature = typeof row.signature === "string" ? row.signature : "";
+  const vw = typeof row.viewport_width === "number" ? row.viewport_width : Number(row.viewport_width);
+  const vh = typeof row.viewport_height === "number" ? row.viewport_height : Number(row.viewport_height);
+  const viewportWidth = Number.isFinite(vw) ? vw : null;
+  const viewportHeight = Number.isFinite(vh) ? vh : null;
+  const hotspots: Array<{
+    section_id: string;
+    label: string;
+    role: string;
+    box: Box;
+    normalized: Box | null;
+  }> = [];
+
+  const root = asBox(row.root_box);
+  if (root) {
+    hotspots.push({
+      section_id: sectionId,
+      label: signature || category,
+      role: "section",
+      box: root,
+      normalized: normalizeBox(root, viewportWidth, viewportHeight)
+    });
+  }
+
+  const recipe = Array.isArray(row.recipe) ? row.recipe : [];
+  for (const step of recipe) {
+    if (!step || typeof step !== "object" || Array.isArray(step)) continue;
+    const record = step as Record<string, unknown>;
+    if (record.kind !== "role") continue;
+    const box = asBox(record.box);
+    if (!box) continue;
+    const role = typeof record.role === "string" ? record.role : "unknown";
+    hotspots.push({
+      section_id: sectionId,
+      label: role,
+      role,
+      box,
+      normalized: normalizeBox(box, viewportWidth, viewportHeight)
+    });
+  }
+  return hotspots;
+}
+
+function mediaUrl(base: string, captureRunId: string, relativePath: string | null): string | null {
+  if (!relativePath) return null;
+  return `${base}/media?capture_run_id=${encodeURIComponent(captureRunId)}&path=${encodeURIComponent(relativePath)}`;
+}
+
+export async function handleLibraryApi(
+  request: IncomingMessage,
+  response: ServerResponse,
+  requestUrl: URL,
+  client: Queryable | null = getPool()
+): Promise<boolean> {
+  const base = libraryApiPath().replace(/\/$/, "");
+  if (!requestUrl.pathname.startsWith(base)) return false;
+
+  if (!client) {
+    sendJson(response, 503, { error: "database_unavailable", message: "Postgres is not configured or not reachable" });
+    return true;
+  }
+
+  const path = requestUrl.pathname.slice(base.length) || "/";
+
+  if (request.method === "GET" && path === "/captures") {
+    const result = await client.query(
+      `SELECT capture_run_id, package_path, requested_url, canonical_url, status, site_domain, page_route,
+              quality_overall, quality_rating, started_at, completed_at, indexed_at
+       FROM captures
+       ORDER BY indexed_at DESC
+       LIMIT 100`
+    );
+    sendJson(response, 200, { captures: result.rows });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/sections") {
+    const category = queryParam(requestUrl, "category");
+    const signature = queryParam(requestUrl, "signature");
+    const q = queryParam(requestUrl, "q");
+    const clauses: string[] = [];
+    const values: unknown[] = [];
+    if (category) {
+      values.push(category);
+      clauses.push(`category = $${values.length}`);
+    }
+    if (signature) {
+      values.push(signature);
+      clauses.push(`signature = $${values.length}`);
+    }
+    if (q) {
+      values.push(`%${q.toLocaleLowerCase()}%`);
+      clauses.push(
+        `(LOWER(taxonomy_id) LIKE $${values.length} OR LOWER(signature) LIKE $${values.length} OR LOWER(text_signals::text) LIKE $${values.length})`
+      );
+    }
+    const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
+    const result = await client.query(
+      `SELECT id, capture_run_id, viewport_name, section_id, taxonomy_id, category, signature,
+              confidence, method, recipe, text_signals, root_box, viewport_width, viewport_height
+       FROM sections
+       ${where}
+       ORDER BY confidence DESC, id DESC
+       LIMIT 200`,
+      values
+    );
+    sendJson(response, 200, { sections: result.rows });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/screens") {
+    const result = await client.query(
+      `SELECT v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
+              v.title, v.settled_screenshot_path, v.full_page_screenshot_path,
+              c.canonical_url, c.site_domain, c.package_path
+       FROM viewports v
+       JOIN captures c ON c.capture_run_id = v.capture_run_id
+       ORDER BY c.indexed_at DESC, v.name
+       LIMIT 200`
+    );
+    sendJson(response, 200, {
+      screens: result.rows.map((row) => {
+        const captureRunId = String(row.capture_run_id ?? "");
+        const settledPath = typeof row.settled_screenshot_path === "string" ? row.settled_screenshot_path : null;
+        return {
+          ...row,
+          settled_url: mediaUrl(base, captureRunId, settledPath)
+        };
+      })
+    });
+    return true;
+  }
+
+  const screenDetail = path.match(/^\/screens\/([^/]+)$/);
+  if (request.method === "GET" && screenDetail) {
+    const viewportCaptureId = decodeURIComponent(screenDetail[1]!);
+    const screen = await client.query(
+      `SELECT v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
+              v.title, v.settled_screenshot_path, v.full_page_screenshot_path,
+              c.canonical_url, c.site_domain, c.package_path
+       FROM viewports v
+       JOIN captures c ON c.capture_run_id = v.capture_run_id
+       WHERE v.viewport_capture_id = $1
+       LIMIT 1`,
+      [viewportCaptureId]
+    );
+    const row = screen.rows[0];
+    if (!row) {
+      sendJson(response, 404, { error: "screen_not_found" });
+      return true;
+    }
+    const captureRunId = String(row.capture_run_id ?? "");
+    const sections = await client.query(
+      `SELECT section_id, category, signature, recipe, root_box, viewport_width, viewport_height, confidence
+       FROM sections
+       WHERE capture_run_id = $1 AND (viewport_capture_id = $2 OR viewport_name = $3)
+       ORDER BY id ASC`,
+      [captureRunId, viewportCaptureId, row.name]
+    );
+    const hotspots = sections.rows.flatMap((section) => buildHotspotsFromSection(section));
+    const settledPath = typeof row.settled_screenshot_path === "string" ? row.settled_screenshot_path : null;
+    sendJson(response, 200, {
+      screen: {
+        ...row,
+        settled_url: mediaUrl(base, captureRunId, settledPath)
+      },
+      hotspots,
+      sections: sections.rows
+    });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/flows") {
+    const captureRunId = queryParam(requestUrl, "capture_run_id");
+    if (!captureRunId) {
+      sendJson(response, 400, { error: "capture_run_id is required" });
+      return true;
+    }
+    const flow = await client.query(
+      `SELECT id, section_label, signature, step_index, evidence_refs
+       FROM llm_items
+       WHERE capture_run_id = $1 AND kind = 'page_flow'
+       ORDER BY step_index ASC NULLS LAST, id ASC`,
+      [captureRunId]
+    );
+    const sections = await client.query(
+      `SELECT section_id, category, signature, taxonomy_id, confidence, viewport_name
+       FROM sections
+       WHERE capture_run_id = $1
+       ORDER BY id ASC`,
+      [captureRunId]
+    );
+    sendJson(response, 200, {
+      capture_run_id: captureRunId,
+      steps: flow.rows.map((step) => {
+        const signature = typeof step.signature === "string" ? step.signature : null;
+        const match = sections.rows.find((section) => section.signature === signature) ?? null;
+        return {
+          ...step,
+          matched_section: match
+        };
+      })
+    });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/ui-elements") {
+    const result = await client.query(
+      `SELECT name, COUNT(*)::int AS count, AVG(confidence) AS avg_confidence
+       FROM llm_items
+       WHERE kind = 'ui_element' AND name IS NOT NULL
+       GROUP BY name
+       ORDER BY count DESC, name ASC
+       LIMIT 100`
+    );
+    sendJson(response, 200, { ui_elements: result.rows });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/collections") {
+    const result = await client.query(
+      `SELECT c.id, c.name, c.created_at,
+              COALESCE(COUNT(cc.capture_run_id), 0)::int AS capture_count
+       FROM collections c
+       LEFT JOIN collection_captures cc ON cc.collection_id = c.id
+       GROUP BY c.id
+       ORDER BY c.created_at DESC`
+    );
+    sendJson(response, 200, { collections: result.rows });
+    return true;
+  }
+
+  if (request.method === "POST" && path === "/collections") {
+    const body = await readJsonBody(request);
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    if (!name) {
+      sendJson(response, 400, { error: "name is required" });
+      return true;
+    }
+    const id = createId("col");
+    await client.query(`INSERT INTO collections (id, name) VALUES ($1, $2)`, [id, name]);
+    sendJson(response, 201, { id, name });
+    return true;
+  }
+
+  const collectionCaptures = path.match(/^\/collections\/([^/]+)\/captures$/);
+  if (collectionCaptures && (request.method === "POST" || request.method === "DELETE")) {
+    const collectionId = decodeURIComponent(collectionCaptures[1]!);
+    const body = await readJsonBody(request);
+    const captureRunId = typeof body.capture_run_id === "string" ? body.capture_run_id.trim() : "";
+    if (!captureRunId) {
+      sendJson(response, 400, { error: "capture_run_id is required" });
+      return true;
+    }
+    if (request.method === "POST") {
+      await client.query(
+        `INSERT INTO collection_captures (collection_id, capture_run_id)
+         VALUES ($1, $2)
+         ON CONFLICT DO NOTHING`,
+        [collectionId, captureRunId]
+      );
+      sendJson(response, 201, { collection_id: collectionId, capture_run_id: captureRunId });
+      return true;
+    }
+    await client.query(
+      `DELETE FROM collection_captures WHERE collection_id = $1 AND capture_run_id = $2`,
+      [collectionId, captureRunId]
+    );
+    sendJson(response, 200, { removed: true });
+    return true;
+  }
+
+  const collectionDetail = path.match(/^\/collections\/([^/]+)$/);
+  if (request.method === "GET" && collectionDetail) {
+    const collectionId = decodeURIComponent(collectionDetail[1]!);
+    const collection = await client.query(`SELECT id, name, created_at FROM collections WHERE id = $1`, [collectionId]);
+    if (!collection.rows[0]) {
+      sendJson(response, 404, { error: "collection_not_found" });
+      return true;
+    }
+    const members = await client.query(
+      `SELECT cc.capture_run_id, cc.added_at, c.site_domain, c.canonical_url
+       FROM collection_captures cc
+       JOIN captures c ON c.capture_run_id = cc.capture_run_id
+       WHERE cc.collection_id = $1
+       ORDER BY cc.added_at DESC`,
+      [collectionId]
+    );
+    sendJson(response, 200, { collection: collection.rows[0], captures: members.rows });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/search") {
+    const q = queryParam(requestUrl, "q");
+    if (!q) {
+      sendJson(response, 400, { error: "q is required" });
+      return true;
+    }
+    const limit = Number(queryParam(requestUrl, "limit") ?? "20");
+    try {
+      const results = await searchEmbeddings(client, q, Number.isFinite(limit) ? limit : 20);
+      sendJson(response, 200, { query: q, results });
+    } catch (error) {
+      sendJson(response, 503, {
+        error: "vector_search_unavailable",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/nodes") {
+    const taxonomyId = queryParam(requestUrl, "taxonomy_id");
+    const q = queryParam(requestUrl, "q");
+    const clauses: string[] = [];
+    const values: unknown[] = [];
+    if (taxonomyId) {
+      values.push(taxonomyId);
+      clauses.push(`taxonomy_id = $${values.length}`);
+    }
+    if (q) {
+      values.push(`%${q.toLocaleLowerCase()}%`);
+      clauses.push(
+        `(LOWER(label) LIKE $${values.length} OR LOWER(taxonomy_id) LIKE $${values.length} OR LOWER(COALESCE(text_preview, '')) LIKE $${values.length})`
+      );
+    }
+    const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
+    const result = await client.query(
+      `SELECT id, capture_run_id, viewport_capture_id, ontology_entity_id, node_id,
+              taxonomy_id, label, entity_type, text_preview, confidence, box
+       FROM design_nodes
+       ${where}
+       ORDER BY confidence DESC NULLS LAST, id DESC
+       LIMIT 200`,
+      values
+    );
+    sendJson(response, 200, { nodes: result.rows });
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/export/figma") {
+    const captureRunId = queryParam(requestUrl, "capture_run_id");
+    if (!captureRunId) {
+      sendJson(response, 400, { error: "capture_run_id is required" });
+      return true;
+    }
+    const capture = await client.query(
+      "SELECT package_path FROM captures WHERE capture_run_id = $1",
+      [captureRunId]
+    );
+    const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
+    if (!packagePath) {
+      sendJson(response, 404, { error: "capture_not_found" });
+      return true;
+    }
+    try {
+      const manifest = JSON.parse(await readFile(resolve(packagePath, "manifest.json"), "utf8")) as CaptureManifest;
+      let sections: SectionCompositionDocument | null = null;
+      try {
+        const sectionPath = manifest.run_artifacts.section_compositions?.path ?? "derived/section-compositions.json";
+        sections = JSON.parse(await readFile(resolve(packagePath, sectionPath), "utf8")) as SectionCompositionDocument;
+      } catch {
+        sections = null;
+      }
+      const flow = await client.query(
+        `SELECT section_label, signature, step_index
+         FROM llm_items
+         WHERE capture_run_id = $1 AND kind = 'page_flow'
+         ORDER BY step_index ASC NULLS LAST, id ASC`,
+        [captureRunId]
+      );
+      const flowLabels = flow.rows.map((row) => {
+        const label = typeof row.section_label === "string" ? row.section_label : "step";
+        const signature = typeof row.signature === "string" ? row.signature : "";
+        return signature ? `${label} (${signature})` : label;
+      });
+      const document = buildFigmaExport({ manifest, sections, flowLabels });
+      sendJson(response, 200, document);
+    } catch (error) {
+      sendJson(response, 500, {
+        error: "figma_export_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
+  if (request.method === "GET" && path === "/media") {
+    const captureRunId = queryParam(requestUrl, "capture_run_id");
+    const relativePath = queryParam(requestUrl, "path");
+    if (!captureRunId || !relativePath) {
+      sendJson(response, 400, { error: "capture_run_id and path are required" });
+      return true;
+    }
+    const capture = await client.query("SELECT package_path FROM captures WHERE capture_run_id = $1", [captureRunId]);
+    const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
+    if (!packagePath) {
+      sendJson(response, 404, { error: "capture_not_found" });
+      return true;
+    }
+    const absolute = resolve(packagePath, relativePath);
+    if (!absolute.startsWith(resolve(packagePath)) || !existsSync(absolute) || !statSync(absolute).isFile()) {
+      sendJson(response, 404, { error: "media_not_found" });
+      return true;
+    }
+    const ext = extname(absolute).toLowerCase();
+    const type = ext === ".webp" ? "image/webp" : ext === ".png" ? "image/png" : "application/octet-stream";
+    response.writeHead(200, { "content-type": type, "cache-control": "public, max-age=3600" });
+    createReadStream(absolute).pipe(response);
+    return true;
+  }
+
+  sendJson(response, 404, { error: "not_found" });
+  return true;
+}

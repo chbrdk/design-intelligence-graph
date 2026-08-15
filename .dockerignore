@@ -1,0 +1,11 @@
+.git
+.DS_Store
+.env
+node_modules
+web/node_modules
+dist
+web/dist
+captures
+indexes
+tmp
+*.log

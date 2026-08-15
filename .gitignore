@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+.env
+node_modules/
+dist/
+tmp/
+captures/
+indexes/
+web/node_modules/
+web/dist/
+.specstory/
+*.log

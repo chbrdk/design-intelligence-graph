@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/node.schema.json",
+  "title": "DIG-001 DOM or synthetic node",
+  "type": "object",
+  "required": ["node_id", "node_type", "rendered", "provenance"],
+  "properties": {
+    "node_id": { "type": "string", "pattern": "^node_[0-9]{8}$" },
+    "parent_node_id": { "type": ["string", "null"] },
+    "node_type": { "enum": ["element", "text", "pseudo"] },
+    "tag": { "type": "string" },
+    "pseudo_type": { "enum": ["::before", "::after"] },
+    "owner_node_id": { "type": "string" },
+    "sibling_index": { "type": "integer" },
+    "attributes": { "type": "object", "additionalProperties": { "type": "string" } },
+    "source_anchor": { "type": "object", "additionalProperties": { "type": "string" } },
+    "dom_path": { "type": "string" },
+    "text": { "type": "string" },
+    "rendered": { "type": "boolean" },
+    "in_viewport": { "type": "boolean" },
+    "provenance": { "$ref": "#/$defs/provenance" }
+  },
+  "$defs": {
+    "provenance": {
+      "type": "object", "required": ["layer", "method", "confidence"],
+      "properties": {
+        "layer": { "enum": ["L0", "L1", "L2", "L3"] },
+        "method": { "type": "string" }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "marketing-hero",
+  "title": "Aurora Phone marketing hero",
+  "canonical_url": "https://example.com/aurora",
+  "page_html": "page.html",
+  "screenshot": "settled.webp",
+  "viewport": { "width": 1280, "height": 800 },
+  "evidence": {
+    "title": "Aurora — Product Launch",
+    "section_signature": "media>heading>cta",
+    "section_category": "hero",
+    "text_signals": ["Aurora Phone", "Learn more"],
+    "ui_taxonomies": [
+      "dig:component.button",
+      "dig:component.media",
+      "dig:content.heading"
+    ],
+    "typography": {
+      "font_family": "Helvetica Neue",
+      "font_size": "56px",
+      "font_weight": "700"
+    },
+    "colors": [
+      { "hex": "#f5f5f7", "roles": ["background"] },
+      { "hex": "#1d1d1f", "roles": ["foreground"] },
+      { "hex": "#0071e3", "roles": ["foreground"] }
+    ]
+  },
+  "golden": {
+    "expected_screen_patterns": ["marketing", "hero", "product"],
+    "expected_ui_elements": ["button", "media", "heading", "navigation"],
+    "expected_recipe_signatures": ["media>heading>cta"],
+    "expected_flow_labels": ["hero"],
+    "expected_style_keywords": ["helvetica", "sans", "blue", "#0071e3", "18", "round"],
+    "vision": {
+      "expected_heading_keywords": ["aurora", "phone"],
+      "expected_cta_keywords": ["learn", "more"],
+      "expected_layout_order": ["media", "heading", "cta"]
+    }
+  }
+}

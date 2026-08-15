@@ -1,0 +1,51 @@
+{
+  "name": "design-intelligence-graph",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Spec-driven web design capture tooling for DIG-001",
+  "type": "module",
+  "bin": {
+    "dig-capture": "./dist/src/cli.js",
+    "dig-verify": "./dist/src/verify-cli.js",
+    "dig-index": "./dist/src/index-cli.js",
+    "dig-mcp": "./dist/src/mcp-server.js",
+    "dig-generate": "./dist/src/generate-cli.js",
+    "dig-web": "./dist/src/web-server.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "capture": "npm run build --silent && node dist/src/cli.js",
+    "verify": "npm run build --silent && node dist/src/verify-cli.js",
+    "index": "npm run build --silent && node dist/src/index-cli.js",
+    "mcp": "npm run build --silent && node dist/src/mcp-server.js",
+    "generate": "npm run build --silent && node dist/src/generate-cli.js",
+    "web:install": "npm install --prefix web",
+    "web:dev": "npm run --prefix web dev",
+    "web:build": "npm run --prefix web build",
+    "web:test": "npm run --prefix web test",
+    "serve": "npm run build --silent && node dist/src/web-server.js",
+    "serve:api": "DIG_WEB_STATIC=0 npm run serve",
+    "llm:serve": "bash scripts/start-gemma-server.sh",
+    "llm:openrouter-smoke": "node --import tsx scripts/openrouter-quality-smoke.ts",
+    "llm:quality-eval": "node --import tsx scripts/llm-quality-eval.ts",
+    "dev:web": "npm run build --silent && node --import tsx src/dev-web.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "test:e2e": "npm run build --silent && node --test dist/test/e2e/*.test.js",
+    "test:docker": "docker compose run --rm dig npm run typecheck && docker compose run --rm dig npm test && docker compose run --rm dig npm run test:e2e",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "db:migrate": "npm run build --silent && node dist/src/db-migrate-cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.23.0",
+    "playwright": "^1.54.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "@types/pg": "^8.21.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

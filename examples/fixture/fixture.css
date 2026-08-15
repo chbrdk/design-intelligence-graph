@@ -1,0 +1,4 @@
+/* External static resource used to verify CSS capture and response hashing. */
+.hero p {
+  max-width: 54ch;
+}
