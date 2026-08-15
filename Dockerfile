@@ -65,6 +65,9 @@ RUN AUTH_SECRET= \
 FROM ${NODE_IMAGE} AS runner
 WORKDIR /workspace/design-intelligence-graph/apps/web
 
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3010
