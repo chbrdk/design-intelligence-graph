@@ -80,3 +80,34 @@ test("applyCheckionScreenshotToPackage replaces desktop full_page", async () => 
   assert.deepEqual(desktop.document, { width: 1920, height: 3500 });
   assert.ok(updated.run_artifacts.checkion_screenshot);
 });
+
+test("attach soft-fails by default when CHECKION API returns HTML", async () => {
+  const root = await mkdtemp(join(tmpdir(), "dig-checkion-soft-"));
+  await mkdir(join(root, "viewports/desktop/screenshots"), { recursive: true });
+  await writeFile(
+    join(root, "manifest.json"),
+    JSON.stringify({
+      schema_version: "0.1.0",
+      capture_run_id: "cap_soft",
+      run_artifacts: {},
+      viewport_captures: [{ name: "desktop", artifacts: {} }]
+    })
+  );
+  const { attachCheckionScreenshotIfConfigured } = await import("../src/checkion-attach.js");
+  const result = await attachCheckionScreenshotIfConfigured(
+    root,
+    "https://msqdx.com/",
+    {
+      baseUrl: "https://example.com",
+      token: "checkion_test",
+      projectId: "proj_test",
+      pollIntervalMs: 100,
+      pollTimeoutMs: 500,
+      required: true
+    },
+    process.cwd(),
+    { DIG_CHECKION_STRICT: "0" }
+  );
+  assert.equal(result.attached, false);
+  assert.ok(result.skipped);
+});

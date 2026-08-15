@@ -95,7 +95,8 @@ export async function attachCheckionScreenshotIfConfigured(
   packageRoot: string,
   targetUrl: string,
   config: CheckionConfig = checkionConfig(),
-  root = process.cwd()
+  root = process.cwd(),
+  environment: NodeJS.ProcessEnv = process.env
 ): Promise<AttachCheckionResult> {
   if (!isCheckionConfigured(config)) {
     return {
@@ -103,15 +104,19 @@ export async function attachCheckionScreenshotIfConfigured(
       skipped: checkionPeerReadyReason(config) ?? "CHECKION not configured"
     };
   }
+  const strictFlag = (environment.DIG_CHECKION_STRICT ?? "").trim().toLowerCase();
+  const strict = strictFlag === "1" || strictFlag === "true" || strictFlag === "on";
   try {
     const shot = await captureCheckionFullPage(targetUrl, config, root);
     return applyCheckionScreenshotToPackage(packageRoot, shot);
   } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    // Default: soft-fail so DIG capture/index still completes; Playwright full-page remains.
+    if (!strict) {
+      return { attached: false, skipped: message };
+    }
     if (!config.required) {
-      return {
-        attached: false,
-        skipped: error instanceof Error ? error.message : String(error)
-      };
+      return { attached: false, skipped: message };
     }
     throw error;
   }

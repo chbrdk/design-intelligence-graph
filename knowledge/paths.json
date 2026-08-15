@@ -222,7 +222,9 @@
     "projectIdEnv": "CHECKION_PROJECT_ID",
     "defaultProjectName": "DIG",
     "defaultProjectDomain": "design-intelligence-graph.local",
-    "screenshotsRequiredEnv": "DIG_CHECKION_SCREENSHOTS"
+    "screenshotsRequiredEnv": "DIG_CHECKION_SCREENSHOTS",
+    "screenshotsStrictEnv": "DIG_CHECKION_STRICT",
+    "attachFailureDoc": "knowledge/checkion-attach-job-failure.md"
   },
   "plexon": {
     "productId": "dig",

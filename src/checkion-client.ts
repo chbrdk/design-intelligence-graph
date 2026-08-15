@@ -110,7 +110,9 @@ export function isCheckionConfigured(config: CheckionConfig = checkionConfig()):
 }
 
 function authHeaders(config: CheckionConfig, json = false): HeadersInit {
-  const headers: Record<string, string> = {};
+  const headers: Record<string, string> = {
+    Accept: "application/json"
+  };
   if (json) headers["Content-Type"] = "application/json";
   if (config.token) headers.Authorization = `Bearer ${config.token}`;
   return headers;
@@ -128,10 +130,17 @@ async function checkionFetchJson<T>(
   };
   let response: Response;
   try {
-    response = await fetch(url, { ...init, headers });
+    response = await fetch(url, { ...init, headers, redirect: "manual" });
   } catch (error: unknown) {
     throw new CheckionClientError(
       `CHECKION request failed: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+  if (response.status >= 300 && response.status < 400) {
+    const location = response.headers.get("location") ?? "";
+    throw new CheckionClientError(
+      `CHECKION redirected (${response.status}) to ${location || "unknown"} — check CHECKION_API_TOKEN`,
+      response.status
     );
   }
   const text = await response.text();
@@ -140,10 +149,13 @@ async function checkionFetchJson<T>(
     try {
       data = JSON.parse(text);
     } catch {
-      throw new CheckionClientError(
-        response.ok ? `CHECKION non-JSON response: ${text.slice(0, 200)}` : `HTTP ${response.status}: ${text.slice(0, 200)}`,
-        response.status
-      );
+      const trimmed = text.trim();
+      const message = /^<!DOCTYPE html/i.test(trimmed) || /<html[\s>]/i.test(trimmed)
+        ? `CHECKION returned HTML instead of JSON (HTTP ${response.status}) — usually missing/invalid CHECKION_API_TOKEN or login redirect`
+        : response.ok
+          ? `CHECKION non-JSON response: ${trimmed.slice(0, 200)}`
+          : `HTTP ${response.status}: ${trimmed.slice(0, 200)}`;
+      throw new CheckionClientError(message, response.status);
     }
   }
   if (!response.ok) {
@@ -268,10 +280,16 @@ export async function downloadCheckionScreenshot(
   const url = `${config.baseUrl}/api/scans/${encodeURIComponent(scanId)}/screenshot`;
   let response: Response;
   try {
-    response = await fetch(url, { headers: authHeaders(config) });
+    response = await fetch(url, { headers: authHeaders(config), redirect: "manual" });
   } catch (error: unknown) {
     throw new CheckionClientError(
       `CHECKION screenshot download failed: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+  if (response.status >= 300 && response.status < 400) {
+    throw new CheckionClientError(
+      `CHECKION screenshot redirected (${response.status}) — check CHECKION_API_TOKEN`,
+      response.status
     );
   }
   if (!response.ok) {

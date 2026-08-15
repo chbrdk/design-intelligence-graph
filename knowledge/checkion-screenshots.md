@@ -19,7 +19,8 @@ DIG uses **CHECKION v3** for complete-page screenshots. Playwright `settled` / `
 | `CHECKION_API_URL` | Base (default `http://127.0.0.1:3007`) |
 | `CHECKION_API_TOKEN` | Bearer for staging / Plexon; optional for local without Plexon |
 | `CHECKION_PROJECT_ID` | Optional; else auto-create/find project `DIG` |
-| `DIG_CHECKION_SCREENSHOTS` | `1` (default) require CHECKION; `0` skip |
+| `DIG_CHECKION_SCREENSHOTS` | `1` (default) try CHECKION attach; `0` skip |
+| `DIG_CHECKION_STRICT` | `1` fail DIG job if CHECKION attach errors; default soft-skip and keep Playwright full-page |
 
 ## Local CHECKION
 
