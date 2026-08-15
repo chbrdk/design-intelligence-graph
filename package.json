@@ -33,6 +33,7 @@
     "llm:serve": "bash scripts/start-gemma-server.sh",
     "llm:openrouter-smoke": "node --import tsx scripts/openrouter-quality-smoke.ts",
     "llm:quality-eval": "node --import tsx scripts/llm-quality-eval.ts",
+    "eval:design-reference": "node --import tsx scripts/design-reference-eval.ts",
     "dev:web": "npm run build --silent && node --import tsx src/dev-web.ts",
     "test": "node --import tsx --test test/*.test.ts",
     "test:e2e": "npm run build --silent && node --test dist/test/e2e/*.test.js",

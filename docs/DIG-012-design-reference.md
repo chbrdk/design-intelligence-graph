@@ -160,7 +160,7 @@ Do not require a Flow to exist before emitting references. Single-URL captures r
 |------|-------------|
 | 0 | Spec + schemas + fixtures + validation tests | Done |
 | 0b | Prompt-pack, look_conditioned mapping, embeddings, design eval specs | Done (spec-era) |
-| 1 | Emit `derived/design-references.jsonl` from existing section_look at index/enrich time | Not started |
+| 1 | Emit `derived/design-references.jsonl` from existing section_look at index/enrich time | Done (dummy) |
 | 2 | Library + MCP search/get/pack | Not started |
 | 3 | Prompt-pack helper for agents (no DIG-008 change) | Spec done; runtime not started |
 | 4 | DIG-008 `look_conditioned` mode | Spec done; runtime not started |

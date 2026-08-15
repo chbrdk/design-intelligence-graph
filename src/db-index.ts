@@ -407,5 +407,12 @@ export async function indexCapturePackageToDatabase(
     /* vector extension may be unavailable until migrate/image switch */
   }
 
+  try {
+    const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
+    await emitDesignReferencesForPackage(packageRoot);
+  } catch {
+    /* emit is best-effort when llm_design absent */
+  }
+
   return { indexed: true };
 }

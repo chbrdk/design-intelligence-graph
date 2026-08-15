@@ -54,11 +54,11 @@ DIG cannot “finish” platform alone. Without plexon-v3 accepting product `dig
 ## Recommended order (revised)
 
 ```text
-1. DIG-013 P0 paths/docs                          ✅ now
-2. Offline eval runner for design-reference fixtures   (cheap)
-3. DIG-012 Wave 1 emit in dummy mode + tests
-4. plexon-v3: dig binding + catalog stubs              (parallel)
-5. DIG P2: auth + project binding + Coolify DIG
+1. DIG-013 P0 paths/docs                          ✅
+2. Offline eval runner for design-reference fixtures   ✅
+3. DIG-012 Wave 1 emit in dummy mode + tests           ✅
+4. plexon-v3: dig binding + catalog stubs              (parallel / next)
+5. DIG P2: Collection-scoped projects + live MCP gate
 6. DIG-012 Wave 2 Collection-scoped MCP/Library
 7. Live CHECKION peer (staging URL + token) hardened
 8. Wave 3–4 prompt / look_conditioned

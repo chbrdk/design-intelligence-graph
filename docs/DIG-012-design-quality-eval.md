@@ -76,7 +76,7 @@ Run B1–B3 mapping on aurora reference without LLM:
 npm run eval:design-reference
 ```
 
-Not wired yet. Until then, contract tests cover R2 fixtures + R4 mapping table presence.
+Wired: `scripts/design-reference-eval.ts` → R1 retrieval, R2 prompt-pack envelope, R4 look-conditioned mapping, E1 embedding canonical. R3 (LLM layout_hints) remains optional when a key is present.
 
 ## Non-goals
 

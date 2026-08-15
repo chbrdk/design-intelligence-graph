@@ -200,5 +200,15 @@ export async function applyLlmDesignAnalysis(
     completed_at: new Date().toISOString()
   };
   await writeArtifact(packageRoot, "manifest.json", JSON.stringify(updatedManifest, null, 2), "application/json");
+
+  try {
+    const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
+    await emitDesignReferencesForPackage(packageRoot);
+  } catch (error: unknown) {
+    process.stderr.write(
+      `DIG-012 design-references emit skipped: ${error instanceof Error ? error.message : String(error)}\n`
+    );
+  }
+
   return { llm, analysis: merged, updated: true };
 }
