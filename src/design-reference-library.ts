@@ -169,7 +169,9 @@ export async function searchDesignReferences(
         digProjectId: query.digProjectId,
         limit: clampLimit(query.limit)
       });
-      return neighbors.map((row) => row.payload);
+      if (neighbors.length) {
+        return neighbors.map((row) => row.payload);
+      }
     } catch {
       /* fall through to lexical if vector unavailable */
     }
@@ -197,8 +199,9 @@ export async function searchDesignReferences(
     values.push(JSON.stringify([query.style_label.trim()]));
     clauses.push(`style_labels @> $${values.length}::jsonb`);
   }
-  if (query.query?.trim()) {
-    values.push(`%${query.query.trim().toLocaleLowerCase()}%`);
+  const textQuery = query.query?.trim() || query.similar_to?.trim();
+  if (textQuery) {
+    values.push(`%${textQuery.toLocaleLowerCase()}%`);
     clauses.push(
       `(LOWER(COALESCE(look_summary,'')) LIKE $${values.length} OR LOWER(COALESCE(signature,'')) LIKE $${values.length} OR LOWER(COALESCE(category,'')) LIKE $${values.length} OR LOWER(payload::text) LIKE $${values.length})`
     );
