@@ -19,4 +19,4 @@
 
 ## Blocked elsewhere
 
-- CHECKION live attach still needs `CHECKION_API_TOKEN` on dig-api
+- CHECKION token set on dig-api; verify capture attach after deploy

@@ -18,7 +18,7 @@
 - dig-api Coolify: `CHECKION_API_URL` + `DIG_CHECKION_SCREENSHOTS=1` set
 - Island: duplicate `CHECKION_API_URL` removed
 - Code: staging without `CHECKION_API_TOKEN` skips with explicit reason (`checkionPeerReadyReason`)
-- **Blocked:** `CHECKION_API_TOKEN` not present in Coolify dig-api / shell — operator must paste Bearer from CHECKION Settings into dig-api env, then redeploy
+- **Status:** `CHECKION_API_TOKEN` set on dig-api Coolify (2026-08-15); redeploy queued.
 
 ## Operator next
 1. Create token in CHECKION staging Settings (Plexon-authed session)
