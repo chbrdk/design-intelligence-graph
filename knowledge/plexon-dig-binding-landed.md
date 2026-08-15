@@ -24,5 +24,5 @@ Redeploy queued after env set (build needed for `NEXT_PUBLIC_*`).
 
 ## Still open (DIG)
 
-- DIG `PUT/GET` provisioning handlers (mirror CREATION)
-- Commit/push plexon-v3 branch (local changes uncommitted until requested)
+- Persist dig projects to Postgres (replace in-memory store)
+- DIG-012 Wave 2 Collection-scoped MCP/Library

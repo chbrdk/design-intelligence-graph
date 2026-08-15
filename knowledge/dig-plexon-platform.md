@@ -45,7 +45,7 @@ User never “creates a DIG project type” — they open the Design Intelligenc
 - [x] plexon-v3: capability catalog owner `dig` + `dig.*` ids  
 - [x] plexon-v3 Coolify: `NEXT_PUBLIC_DIG_URL` when DIG staging exists  
 - [ ] DIG Coolify: Plexon auth env + `CHECKION_API_URL` staging + msqdx-ui Docker strip  
-- [ ] DIG: Collection-scoped projects before public MCP  
+- [x] DIG: Collection-scoped projects before public MCP — [`dig-collection-projects.md`](dig-collection-projects.md) (memory mirror; Postgres later)  
 
 ## Related
 

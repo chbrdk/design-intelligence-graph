@@ -17,6 +17,8 @@ test("paths.json documents plexon dig product and live CHECKION staging", async 
       capabilityIds: string[];
       platformDoc: string;
       openTopicsChallenge: string;
+      provisioningProjectsPath: string;
+      platformProjectQueryParam: string;
     };
   };
 
@@ -35,4 +37,6 @@ test("paths.json documents plexon dig product and live CHECKION staging", async 
   assert.ok(paths.plexon.capabilityIds.includes("dig.capture"));
   assert.equal(paths.plexon.platformDoc, "docs/DIG-013-plexon-app.md");
   assert.equal(paths.plexon.openTopicsChallenge, "knowledge/runtime-open-topics-challenge.md");
+  assert.equal(paths.plexon.provisioningProjectsPath, "/api/platform/provisioning/projects");
+  assert.equal(paths.plexon.platformProjectQueryParam, "platformProjectId");
 });

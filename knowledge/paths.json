@@ -247,6 +247,8 @@
     "adr": "architecture/ADR-013-plexon-capability.md",
     "digApiUrlEnv": "DIG_API_URL",
     "defaultDigApiUrl": "http://127.0.0.1:8787",
+    "provisioningProjectsPath": "/api/platform/provisioning/projects",
+    "platformProjectQueryParam": "platformProjectId",
     "capabilityIds": [
       "dig.capture",
       "dig.enrich",

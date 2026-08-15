@@ -8,6 +8,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, '.'),
       '@msqdx/ui': path.resolve(__dirname, './lib/msqdx-ui.ts'),
       '@msqdx/ui-shell': path.resolve(__dirname, './lib/msqdx-ui-shell.ts'),
     },

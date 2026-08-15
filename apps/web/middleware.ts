@@ -13,6 +13,7 @@ const gated = auth((req) => {
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/health') ||
     pathname.startsWith('/api/dig') ||
+    pathname.startsWith('/api/platform/provisioning') ||
     pathname.startsWith('/_next') ||
     pathname === '/favicon.ico' ||
     (pathname.startsWith('/api/') && hasBearer)

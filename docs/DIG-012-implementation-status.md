@@ -16,9 +16,9 @@
 | Embeddings / similarity spec | Done | `docs/DIG-012-embeddings.md` |
 | Design quality eval scenario | Done | `docs/DIG-012-design-quality-eval.md` + `fixtures/eval/design-reference-hero/` |
 | Spec-era helpers/tests (canonical, constraints) | Done | `src/design-reference-spec.ts` |
-| Platform tenancy (DIG-013) | Spec only | Auth + `dig` binding before live MCP |
+| Platform tenancy (DIG-013) | P2 projects Done | Auth island + dig binding + PUT/GET provisioning; live MCP still Wave 2 |
 | Emit `derived/design-references.jsonl` | Done (Wave 1 dummy) | `src/design-reference-emit.ts`; hooked from enrich + db-index |
-| Library/MCP reference APIs | Not started | Wave 2 — after DIG-013 P2 |
+| Library/MCP reference APIs | Not started | Wave 2 — Collection-scoped after P2 |
 | Prompt-pack runtime assembler | Partial | Eval assembles envelope; full Wave 3 helper later |
 | DIG-008 look_conditioned runtime | Not started | Wave 4 |
 | `eval:design-reference` runner | Done | `npm run eval:design-reference` (R1/R2/R4 + E1) |

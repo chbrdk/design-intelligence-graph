@@ -38,6 +38,8 @@ export const paths = {
   digApiJobs: '/api/jobs',
   digApiLibrary: '/api/library',
   digApiEnrichment: '/api/enrichment',
+  apiPlatformProvisioningProjects: '/api/platform/provisioning/projects',
+  platformProjectQueryParam: 'platformProjectId',
   defaultDigApiUrl: 'http://127.0.0.1:8787',
   msqdxUiSibling: '../../../msqdx-ui',
   bindingTicket: 'knowledge/plexon-dig-binding-ticket.md',
@@ -45,6 +47,7 @@ export const paths = {
   routes: {
     home: '/',
     login: '/login',
+    projects: '/projects',
     capture: '/capture',
     library: '/library',
     enrichment: '/enrichment',

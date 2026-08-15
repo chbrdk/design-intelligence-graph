@@ -25,6 +25,7 @@ import { useUserPrefs } from '../lib/user-prefs'
 
 const PRIMARY_NAV = [
   { id: 'home', href: paths.routes.home, label: 'Home', icon: <NavIconHome /> },
+  { id: 'projects', href: paths.routes.projects, label: 'Projects', icon: <NavIconLibrary /> },
   { id: 'capture', href: paths.routes.capture, label: 'Capture', icon: <NavIconCapture /> },
   { id: 'library', href: paths.routes.library, label: 'Library', icon: <NavIconLibrary /> },
   { id: 'enrichment', href: paths.routes.enrichment, label: 'Enrichment', icon: <NavIconEnrich /> },
