@@ -349,8 +349,9 @@ export async function verifyCapturePackage(packageRootInput: string): Promise<Ve
       issues.push({ code: "artifact_path_escape", path: artifact.path, message: `${key} resolves outside the package` });
       continue;
     }
+    // Intentional aliases (e.g. CHECKION JPEG as both full_page_screenshot and
+    // checkion_full_page_screenshot) share one path — verify the file once.
     if (seenPaths.has(artifact.path)) {
-      issues.push({ code: "duplicate_artifact_path", path: artifact.path, message: `${key} repeats an existing artifact path` });
       continue;
     }
     seenPaths.add(artifact.path);

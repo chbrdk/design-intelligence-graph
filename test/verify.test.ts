@@ -91,6 +91,24 @@ test("detects duplicate viewport identities", async () => {
   assert.ok(report.issues.some((issue) => issue.code === "duplicate_viewport_name"));
 });
 
+test("allows intentional artifact path aliases (CHECKION full-page)", async () => {
+  const { root, manifest } = await createPackage();
+  const shot = await writeArtifact(
+    root,
+    "viewports/mobile/screenshots/checkion-full-page.jpg",
+    Buffer.from([0xff, 0xd8, 0xff, 0xd9]),
+    "image/jpeg"
+  );
+  manifest.run_artifacts.checkion_screenshot = shot;
+  manifest.viewport_captures[0]!.artifacts.full_page_screenshot = shot;
+  manifest.viewport_captures[0]!.artifacts.checkion_full_page_screenshot = shot;
+  await writeFile(join(root, "manifest.json"), JSON.stringify(manifest));
+  const report = await verifyCapturePackage(root);
+  assert.equal(report.valid, true);
+  assert.equal(report.issues.filter((i) => i.code === "duplicate_artifact_path").length, 0);
+  assert.ok(report.checked_artifacts >= 3);
+});
+
 test("detects invalid DIG-002 ontology references", async () => {
   const { root, manifest } = await createPackage();
   manifest.run_artifacts.ontology = await writeArtifact(root, "derived/ontology.json", JSON.stringify({

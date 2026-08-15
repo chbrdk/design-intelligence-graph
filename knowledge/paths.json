@@ -198,7 +198,8 @@
       "dimsHashing": 384,
       "doc": "docs/DIG-012-embeddings.md"
     },
-    "digOpenrouterStaging": "knowledge/dig-openrouter-staging.md"
+    "digOpenrouterStaging": "knowledge/dig-openrouter-staging.md",
+    "checkionDuplicateArtifactPath": "knowledge/checkion-duplicate-artifact-path.md"
   },
   "database": {
     "composeService": "db",
