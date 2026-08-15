@@ -84,3 +84,18 @@ curl -sS -X POST -H "Authorization: Bearer $COOLIFY_TOKEN" \
 ## Build note
 
 Do **not** webpack-alias `react` / `react-dom` in `apps/web/next.config.ts`. That caused Next 16 `/_global-error` prerender (`useContext` null) and a broken SSR runtime (`useState` null) when we tried `--experimental-build-mode=compile` as a workaround. Match CHECKION: DS aliases only + single `node_modules` via Dockerfile symlink.
+
+
+## dig-api LLM (OpenRouter)
+
+| Key | Value |
+|-----|--------|
+| `DIG_LLM_ENABLED` | `true` |
+| `DIG_LLM_PROVIDER` | `openrouter` |
+| `DIG_LLM_ASYNC` | `true` |
+| `DIG_LLM_REASONING_EFFORT` | `none` |
+| `DIG_LLM_MODEL` | `nvidia/nemotron-3-nano-30b-a3b:free` |
+| `DIG_LLM_VISION_MODEL` | `nvidia/nemotron-nano-12b-v2-vl:free` |
+| `OPENROUTER_API_KEY` | secret — **required** (not in git) |
+
+After key is set: restart dig-api; next capture should enqueue `/api/enrichment`.

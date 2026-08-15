@@ -70,27 +70,40 @@
         {
           "id": "nvidia/nemotron-3-nano-30b-a3b:free",
           "label": "Nemotron 3 Nano (text, free)",
-          "tracks": ["text"]
+          "tracks": [
+            "text"
+          ]
         },
         {
           "id": "nvidia/nemotron-nano-12b-v2-vl:free",
           "label": "Nemotron Nano 12B VL (vision, free)",
-          "tracks": ["vision"]
+          "tracks": [
+            "vision"
+          ]
         },
         {
           "id": "google/gemma-4-26b-a4b-it:free",
           "label": "Gemma 4 26B A4B (free)",
-          "tracks": ["text", "vision"]
+          "tracks": [
+            "text",
+            "vision"
+          ]
         },
         {
           "id": "qwen/qwen3.7-flash",
           "label": "Qwen3.7 Flash (paid volume)",
-          "tracks": ["text", "vision"]
+          "tracks": [
+            "text",
+            "vision"
+          ]
         },
         {
           "id": "openai/gpt-5.6-luna",
           "label": "GPT-5.6 Luna (paid reliability)",
-          "tracks": ["text", "vision"]
+          "tracks": [
+            "text",
+            "vision"
+          ]
         }
       ]
     },
@@ -184,7 +197,8 @@
       "denseBaseUrlEnv": "DIG_EMBEDDING_BASE_URL",
       "dimsHashing": 384,
       "doc": "docs/DIG-012-embeddings.md"
-    }
+    },
+    "digOpenrouterStaging": "knowledge/dig-openrouter-staging.md"
   },
   "database": {
     "composeService": "db",
@@ -262,7 +276,12 @@
       "dig.reference_pack",
       "dig.generate"
     ],
-    "siblingBindings": ["checkion", "audion", "brandion", "creation"]
+    "siblingBindings": [
+      "checkion",
+      "audion",
+      "brandion",
+      "creation"
+    ]
   },
   "coolify": {
     "apiBase": "https://coolify.plygrnd.tech/api/v1",
