@@ -11,7 +11,17 @@ export type McpToolName =
   | "dig_recommend"
   | "dig_reference_search"
   | "dig_reference_get"
-  | "dig_reference_pack";
+  | "dig_reference_pack"
+  | "dig_reference_prompt_pack"
+  | "dig_generate";
+
+const REFERENCE_TOOL_NAMES = new Set<McpToolName>([
+  "dig_reference_search",
+  "dig_reference_get",
+  "dig_reference_pack",
+  "dig_reference_prompt_pack",
+  "dig_generate"
+]);
 
 export async function loadKnowledgeGraph(path: string): Promise<KnowledgeGraph> {
   const graph = JSON.parse(await readFile(path, "utf8")) as KnowledgeGraph;
@@ -68,12 +78,44 @@ export function listDigTools() {
           platformProjectId: { type: "string" }
         }
       }
+    },
+    {
+      name: "dig_reference_prompt_pack",
+      description: "Assemble a DesignPromptPack (Wave 3) from reference ids + brief.",
+      inputSchema: {
+        type: "object",
+        required: ["intent", "reference_ids"],
+        properties: {
+          intent: { type: "string" },
+          brief: { type: "string" },
+          reference_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          synthesis_mode: { type: "string", enum: ["structural", "look_conditioned"] },
+          output_contract: {
+            type: "string",
+            enum: ["layout_hints_json", "prose_brief", "both"]
+          },
+          platformProjectId: { type: "string" }
+        }
+      }
+    },
+    {
+      name: "dig_generate",
+      description: "Look-conditioned layout generation from DesignReferences (DIG-012 Wave 4 / dig.generate).",
+      inputSchema: {
+        type: "object",
+        required: ["intent", "reference_ids"],
+        properties: {
+          intent: { type: "string" },
+          reference_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          platformProjectId: { type: "string" }
+        }
+      }
     }
   ];
 }
 
 export function callDigTool(graph: KnowledgeGraph, name: McpToolName, args: Record<string, unknown>): unknown {
-  if (name === "dig_reference_search" || name === "dig_reference_get" || name === "dig_reference_pack") {
+  if (REFERENCE_TOOL_NAMES.has(name)) {
     throw new Error(`Use callDigReferenceTool for ${name}`);
   }
   if (name === "dig_search") {
@@ -110,7 +152,14 @@ export function callDigTool(graph: KnowledgeGraph, name: McpToolName, args: Reco
 }
 
 export async function callDigReferenceTool(
-  name: Extract<McpToolName, "dig_reference_search" | "dig_reference_get" | "dig_reference_pack">,
+  name: Extract<
+    McpToolName,
+    | "dig_reference_search"
+    | "dig_reference_get"
+    | "dig_reference_pack"
+    | "dig_reference_prompt_pack"
+    | "dig_generate"
+  >,
   args: Record<string, unknown>
 ): Promise<unknown> {
   const {
@@ -149,12 +198,33 @@ export async function callDigReferenceTool(
   const ids = Array.isArray(args.reference_ids)
     ? args.reference_ids.filter((id): id is string => typeof id === "string")
     : [];
-  return assembleDesignReferencePack({
-    intent: String(args.intent ?? ""),
+  const pack = await assembleDesignReferencePack({
+    intent: String(args.intent ?? args.brief ?? ""),
     reference_ids: ids,
-    synthesis_mode: args.synthesis_mode === "look_conditioned" ? "look_conditioned" : "structural",
+    synthesis_mode:
+      name === "dig_generate"
+        ? "look_conditioned"
+        : args.synthesis_mode === "look_conditioned"
+          ? "look_conditioned"
+          : "structural",
     platformProjectId
   });
+  if (name === "dig_reference_pack") return pack;
+  if (name === "dig_reference_prompt_pack") {
+    const { assembleDesignPromptPack } = await import("./design-prompt-pack.js");
+    const brief =
+      typeof args.brief === "string" && args.brief.trim()
+        ? args.brief.trim()
+        : pack.intent;
+    const output_contract =
+      args.output_contract === "prose_brief" || args.output_contract === "both"
+        ? args.output_contract
+        : "layout_hints_json";
+    return assembleDesignPromptPack({ brief, pack, output_contract });
+  }
+  const { deriveLayoutFromReferencePack } = await import("./layout-generation.js");
+  const specification = deriveLayoutFromReferencePack({ pack, layout_hints: null, graph: null });
+  return { pack, specification };
 }
 
 export function toolResult(value: unknown) { return { content: [{ type: "text", text: JSON.stringify(value, null, 2) }] }; }

@@ -27,6 +27,7 @@ export const paths = {
   envDigPublicUrl: 'NEXT_PUBLIC_DIG_URL',
   envDigApiUrl: 'DIG_API_URL',
   envPlexonServiceSecret: 'PLEXON_SERVICE_SECRET',
+  envDigApiToken: 'DIG_API_TOKEN',
   envPlexonAuthUrl: 'PLEXON_AUTH_URL',
   envPlexonRegisterUrl: 'NEXT_PUBLIC_PLEXON_REGISTER_URL',
   envAuthSecret: 'AUTH_SECRET',
@@ -37,6 +38,7 @@ export const paths = {
   digProxyBase: '/api/dig',
   digApiJobs: '/api/jobs',
   digApiLibrary: '/api/library',
+  digApiLibraryReferences: '/api/library/references',
   digApiEnrichment: '/api/enrichment',
   apiPlatformProvisioningProjects: '/api/platform/provisioning/projects',
   platformProjectQueryParam: 'platformProjectId',
@@ -57,3 +59,15 @@ export const paths = {
     apiHealth: '/api/health',
   },
 } as const
+
+/** Append Collection query to island routes so nav keeps platformProjectId. */
+export function withPlatformProject(
+  href: string,
+  platformProjectId: string | null | undefined,
+): string {
+  const id = platformProjectId?.trim()
+  if (!id) return href
+  const url = new URL(href, 'http://dig.local')
+  url.searchParams.set(paths.platformProjectQueryParam, id)
+  return `${url.pathname}${url.search}`
+}

@@ -29,7 +29,13 @@ for await (const line of rl) {
       const params = request.params ?? {};
       const name = String(params.name) as McpToolName;
       const args = (params.arguments ?? {}) as Record<string, unknown>;
-      if (name === "dig_reference_search" || name === "dig_reference_get" || name === "dig_reference_pack") {
+      if (
+        name === "dig_reference_search" ||
+        name === "dig_reference_get" ||
+        name === "dig_reference_pack" ||
+        name === "dig_reference_prompt_pack" ||
+        name === "dig_generate"
+      ) {
         result = toolResult(await callDigReferenceTool(name, args));
       } else {
         result = toolResult(callDigTool(graph, name, args));

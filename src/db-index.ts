@@ -69,6 +69,42 @@ export type IndexCaptureScope = {
   digProjectId?: string | null;
 };
 
+/** Prefer explicit scope; otherwise reuse Collection ids already stored on the capture row. */
+export async function resolveIndexScopeFromCapture(
+  client: Queryable,
+  captureRunId: string,
+  scope: IndexCaptureScope = {}
+): Promise<{ digProjectId: string | null; platformProjectId: string | null }> {
+  let digProjectId = scope.digProjectId?.trim() || null;
+  let platformProjectId = scope.platformProjectId?.trim() || null;
+  if (!digProjectId || !platformProjectId) {
+    const existing = await client.query(
+      `SELECT dig_project_id, platform_project_id FROM captures WHERE capture_run_id = $1 LIMIT 1`,
+      [captureRunId]
+    );
+    const row = existing.rows[0] as
+      | { dig_project_id?: string | null; platform_project_id?: string | null }
+      | undefined;
+    if (row) {
+      if (!digProjectId && typeof row.dig_project_id === "string" && row.dig_project_id.trim()) {
+        digProjectId = row.dig_project_id.trim();
+      }
+      if (
+        !platformProjectId &&
+        typeof row.platform_project_id === "string" &&
+        row.platform_project_id.trim()
+      ) {
+        platformProjectId = row.platform_project_id.trim();
+      }
+    }
+  }
+  if (!digProjectId && platformProjectId) {
+    const project = await getDigProjectByPlatformId(platformProjectId, client);
+    if (project) digProjectId = project.id;
+  }
+  return { digProjectId, platformProjectId };
+}
+
 export async function indexCapturePackageToDatabase(
   packageRoot: string,
   client: Queryable | null = getPool(),
@@ -79,15 +115,9 @@ export async function indexCapturePackageToDatabase(
 
   const manifest = JSON.parse(await readFile(resolve(packageRoot, "manifest.json"), "utf8")) as CaptureManifest;
   const captureRunId = manifest.capture_run_id;
-  let digProjectId = scope.digProjectId?.trim() || null;
-  let platformProjectId = scope.platformProjectId?.trim() || null;
-  if (!digProjectId && platformProjectId) {
-    const project = await getDigProjectByPlatformId(platformProjectId, client);
-    if (project) digProjectId = project.id;
-  }
-  if (digProjectId && !platformProjectId) {
-    /* keep dig id only */
-  }
+  const resolved = await resolveIndexScopeFromCapture(client, captureRunId, scope);
+  const digProjectId = resolved.digProjectId;
+  const platformProjectId = resolved.platformProjectId;
   const qualityOverall =
     typeof (manifest as { quality?: { overall?: number } }).quality?.overall === "number"
       ? (manifest as { quality?: { overall?: number } }).quality!.overall!

@@ -64,6 +64,7 @@ DIG cannot “finish” platform alone. Without plexon-v3 accepting product `dig
 8. Wave 3–4 prompt / look_conditioned                   ✅ see knowledge/dig-012-wave3-4.md
 8b. DesignReference embeddings + similar_to             ✅ hashing; knowledge/dig-012-embeddings-runtime.md
 8c. P2d live API Bearer gate (references*)              ✅ code; DIG_API_TOKEN on dig-api; live flip later
+8d. Island proxy auth + Library refs UI + reindex scope   ✅ see knowledge/dig-staging-finish-path.md
 9. DIG-011 only if multi-screen briefs demand it
 ```
 

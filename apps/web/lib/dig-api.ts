@@ -125,8 +125,13 @@ export interface LibraryAnalysisDetail {
   }
 }
 
-export async function fetchLibraryScreens(): Promise<LibraryScreen[]> {
-  const response = await fetch(`${BASE}${paths.digApiLibrary}/screens`)
+export async function fetchLibraryScreens(opts?: {
+  platformProjectId?: string | null
+}): Promise<LibraryScreen[]> {
+  const params = new URLSearchParams()
+  if (opts?.platformProjectId) params.set(paths.platformProjectQueryParam, opts.platformProjectId)
+  const qs = params.toString()
+  const response = await fetch(`${BASE}${paths.digApiLibrary}/screens${qs ? `?${qs}` : ''}`)
   const body = await readJson<{ screens?: LibraryScreen[] }>(response)
   if (!response.ok) throw new Error(body.error ?? `Screens failed (${response.status})`)
   return body.screens ?? []
@@ -135,10 +140,12 @@ export async function fetchLibraryScreens(): Promise<LibraryScreen[]> {
 export async function fetchLibrarySections(opts?: {
   category?: string
   signature?: string
+  platformProjectId?: string | null
 }): Promise<LibrarySection[]> {
   const params = new URLSearchParams()
   if (opts?.category) params.set('category', opts.category)
   if (opts?.signature) params.set('signature', opts.signature)
+  if (opts?.platformProjectId) params.set(paths.platformProjectQueryParam, opts.platformProjectId)
   const qs = params.toString()
   const response = await fetch(
     `${BASE}${paths.digApiLibrary}/sections${qs ? `?${qs}` : ''}`,
@@ -148,13 +155,93 @@ export async function fetchLibrarySections(opts?: {
   return body.sections ?? []
 }
 
-export async function searchLibrary(q: string): Promise<LibrarySearchHit[]> {
-  const response = await fetch(
-    `${BASE}${paths.digApiLibrary}/search?q=${encodeURIComponent(q)}`,
-  )
+export async function searchLibrary(
+  q: string,
+  opts?: { platformProjectId?: string | null },
+): Promise<LibrarySearchHit[]> {
+  const params = new URLSearchParams({ q })
+  if (opts?.platformProjectId) params.set(paths.platformProjectQueryParam, opts.platformProjectId)
+  const response = await fetch(`${BASE}${paths.digApiLibrary}/search?${params}`)
   const body = await readJson<{ hits?: LibrarySearchHit[] }>(response)
   if (!response.ok) throw new Error(body.error ?? `Search failed (${response.status})`)
   return body.hits ?? []
+}
+
+export interface DesignReferenceHit {
+  reference_id: string
+  capture_run_id?: string
+  category?: string
+  signature?: string
+  style_label?: string
+  summary?: string
+  similarity?: number
+  platform_project_id?: string | null
+}
+
+export async function fetchDesignReferences(opts?: {
+  q?: string
+  similarTo?: string
+  category?: string
+  platformProjectId?: string | null
+  limit?: number
+}): Promise<DesignReferenceHit[]> {
+  const params = new URLSearchParams()
+  if (opts?.q) params.set('q', opts.q)
+  if (opts?.similarTo) params.set('similar_to', opts.similarTo)
+  if (opts?.category) params.set('category', opts.category)
+  if (opts?.platformProjectId) params.set(paths.platformProjectQueryParam, opts.platformProjectId)
+  if (opts?.limit) params.set('limit', String(opts.limit))
+  const qs = params.toString()
+  const response = await fetch(
+    `${BASE}${paths.digApiLibraryReferences}${qs ? `?${qs}` : ''}`,
+  )
+  const body = await readJson<{ references?: DesignReferenceHit[] }>(response)
+  if (!response.ok) throw new Error(body.error ?? `References failed (${response.status})`)
+  return body.references ?? []
+}
+
+export async function assembleReferencePromptPack(input: {
+  intent: string
+  referenceIds: string[]
+  platformProjectId?: string | null
+  synthesisMode?: 'structural' | 'look_conditioned'
+}): Promise<unknown> {
+  const response = await fetch(`${BASE}${paths.digApiLibraryReferences}/prompt-pack`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      intent: input.intent,
+      reference_ids: input.referenceIds,
+      synthesis_mode: input.synthesisMode ?? 'look_conditioned',
+      ...(input.platformProjectId
+        ? { platformProjectId: input.platformProjectId }
+        : {}),
+    }),
+  })
+  const body = await readJson<Record<string, unknown>>(response)
+  if (!response.ok) throw new Error(body.error ?? `Prompt-pack failed (${response.status})`)
+  return body
+}
+
+export async function generateFromReferences(input: {
+  intent: string
+  referenceIds: string[]
+  platformProjectId?: string | null
+}): Promise<{ pack?: unknown; specification?: unknown }> {
+  const response = await fetch(`${BASE}${paths.digApiLibraryReferences}/generate`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      intent: input.intent,
+      reference_ids: input.referenceIds,
+      ...(input.platformProjectId
+        ? { platformProjectId: input.platformProjectId }
+        : {}),
+    }),
+  })
+  const body = await readJson<{ pack?: unknown; specification?: unknown; error?: string }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Generate failed (${response.status})`)
+  return body
 }
 
 export async function fetchAnalyses(): Promise<LibraryAnalysisSummary[]> {

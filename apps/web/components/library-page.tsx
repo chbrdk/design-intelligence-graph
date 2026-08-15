@@ -1,48 +1,66 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Alert, Button, Field, Input, Panel, Text } from '../lib/msqdx-ui'
 import {
+  assembleReferencePromptPack,
   fetchAnalysisDetail,
+  fetchDesignReferences,
   fetchLibraryScreens,
   fetchLibrarySections,
+  generateFromReferences,
   searchLibrary,
+  type DesignReferenceHit,
   type LibraryAnalysisDetail,
   type LibraryScreen,
   type LibrarySearchHit,
   type LibrarySection,
 } from '../lib/dig-api'
+import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
 
-export function LibraryPageClient() {
+function LibraryPageInner() {
+  const searchParams = useSearchParams()
+  const platformProjectId = searchParams.get(paths.platformProjectQueryParam)?.trim() || null
   const [screens, setScreens] = useState<LibraryScreen[]>([])
   const [sections, setSections] = useState<LibrarySection[]>([])
+  const [references, setReferences] = useState<DesignReferenceHit[]>([])
   const [category, setCategory] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
+  const [similarTo, setSimilarTo] = useState('')
   const [searchHits, setSearchHits] = useState<LibrarySearchHit[]>([])
   const [selected, setSelected] = useState<LibraryScreen | null>(null)
+  const [selectedRefs, setSelectedRefs] = useState<string[]>([])
+  const [intent, setIntent] = useState('hero marketing section')
+  const [packPreview, setPackPreview] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<LibraryAnalysisDetail | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   async function refresh(nextCategory = category) {
     try {
       setError(null)
-      const [nextScreens, nextSections] = await Promise.all([
-        fetchLibraryScreens(),
-        fetchLibrarySections(nextCategory ? { category: nextCategory } : undefined),
+      const scope = { platformProjectId }
+      const [nextScreens, nextSections, nextRefs] = await Promise.all([
+        fetchLibraryScreens(scope),
+        fetchLibrarySections(nextCategory ? { category: nextCategory, ...scope } : scope),
+        fetchDesignReferences({ ...scope, limit: 40 }),
       ])
       setScreens(nextScreens)
       setSections(nextSections)
+      setReferences(nextRefs)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setScreens([])
       setSections([])
+      setReferences([])
     }
   }
 
   useEffect(() => {
     void refresh()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope drives refresh
+  }, [platformProjectId])
 
   async function openScreen(screen: LibraryScreen) {
     setSelected(screen)
@@ -61,19 +79,83 @@ export function LibraryPageClient() {
     }
     try {
       setError(null)
-      setSearchHits(await searchLibrary(q))
+      setSearchHits(await searchLibrary(q, { platformProjectId }))
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setSearchHits([])
     }
   }
 
+  async function onSimilar() {
+    const q = similarTo.trim()
+    if (!q) return
+    try {
+      setError(null)
+      setReferences(
+        await fetchDesignReferences({
+          similarTo: q,
+          platformProjectId,
+          limit: 20,
+        }),
+      )
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err))
+    }
+  }
+
+  function toggleRef(id: string) {
+    setSelectedRefs((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id].slice(0, 8),
+    )
+  }
+
+  async function onPromptPack() {
+    if (!selectedRefs.length) {
+      setError('Select at least one DesignReference')
+      return
+    }
+    try {
+      setError(null)
+      const pack = await assembleReferencePromptPack({
+        intent,
+        referenceIds: selectedRefs,
+        platformProjectId,
+      })
+      setPackPreview(JSON.stringify(pack, null, 2).slice(0, 4000))
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err))
+    }
+  }
+
+  async function onGenerate() {
+    if (!selectedRefs.length) {
+      setError('Select at least one DesignReference')
+      return
+    }
+    try {
+      setError(null)
+      const result = await generateFromReferences({
+        intent,
+        referenceIds: selectedRefs,
+        platformProjectId,
+      })
+      setPackPreview(JSON.stringify(result, null, 2).slice(0, 4000))
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err))
+    }
+  }
+
   return (
     <AppShell
       title="Library"
-      description="Browse captured screens, section recipes, and search the design index."
+      description="Browse captured screens, DesignReferences, and assemble look-conditioned packs."
     >
       {error ? <Alert tone="error">{error}</Alert> : null}
+      {platformProjectId ? (
+        <Text role="meta">
+          Collection: <code>{platformProjectId}</code>
+        </Text>
+      ) : null}
 
       <Panel className="dig-panel">
         <div className="dig-row">
@@ -82,6 +164,12 @@ export function LibraryPageClient() {
           </Field>
           <Button type="button" variant="subtle" onClick={() => void onSearch()}>
             Search
+          </Button>
+          <Field label="similar_to">
+            <Input value={similarTo} onChange={(e) => setSimilarTo(e.target.value)} />
+          </Field>
+          <Button type="button" variant="subtle" onClick={() => void onSimilar()}>
+            Similar refs
           </Button>
           <Field label="Section category">
             <Input
@@ -111,6 +199,45 @@ export function LibraryPageClient() {
               </li>
             ))}
           </ul>
+        ) : null}
+      </Panel>
+
+      <Panel className="dig-panel">
+        <Text role="title">DesignReferences</Text>
+        <div className="dig-row">
+          <Field label="Intent">
+            <Input value={intent} onChange={(e) => setIntent(e.target.value)} />
+          </Field>
+          <Button type="button" variant="subtle" onClick={() => void onPromptPack()}>
+            Prompt pack
+          </Button>
+          <Button type="button" onClick={() => void onGenerate()}>
+            Generate
+          </Button>
+        </div>
+        <ul className="dig-list">
+          {references.map((ref) => (
+            <li key={ref.reference_id}>
+              <label className="dig-linkish">
+                <input
+                  type="checkbox"
+                  checked={selectedRefs.includes(ref.reference_id)}
+                  onChange={() => toggleRef(ref.reference_id)}
+                />{' '}
+                <strong>{ref.signature ?? ref.category ?? ref.reference_id}</strong>
+                <Text role="meta">
+                  {ref.style_label ?? ''}
+                  {typeof ref.similarity === 'number' ? ` · sim ${(ref.similarity * 100).toFixed(0)}%` : ''}
+                </Text>
+              </label>
+            </li>
+          ))}
+          {!references.length ? <li>No DesignReferences indexed yet.</li> : null}
+        </ul>
+        {packPreview ? (
+          <pre className="dig-pre" style={{ maxHeight: 280, overflow: 'auto', fontSize: 12 }}>
+            {packPreview}
+          </pre>
         ) : null}
       </Panel>
 
@@ -153,5 +280,19 @@ export function LibraryPageClient() {
         </Panel>
       </div>
     </AppShell>
+  )
+}
+
+export function LibraryPageClient() {
+  return (
+    <Suspense
+      fallback={
+        <AppShell title="Library">
+          <Panel className="dig-panel">Loading…</Panel>
+        </AppShell>
+      }
+    >
+      <LibraryPageInner />
+    </Suspense>
   )
 }

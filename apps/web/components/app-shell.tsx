@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useMemo, type ReactNode } from 'react'
+import React, { Suspense, useMemo, type ReactNode } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import {
   AppFrame,
   BrandCorner,
@@ -20,7 +20,7 @@ import {
   NavIconLibrary,
 } from './nav-icons'
 import { PlatformAssistantHost } from './platform-assistant-host'
-import { paths } from '../lib/paths'
+import { paths, withPlatformProject } from '../lib/paths'
 import { useUserPrefs } from '../lib/user-prefs'
 
 const PRIMARY_NAV = [
@@ -32,7 +32,7 @@ const PRIMARY_NAV = [
   { id: 'analyses', href: paths.routes.analyses, label: 'Analyses', icon: <NavIconAnalyses /> },
 ]
 
-export function AppShell({
+function AppShellInner({
   children,
   title,
   description,
@@ -46,6 +46,8 @@ export function AppShell({
   status?: ReactNode
 }) {
   const pathname = usePathname()
+  const search = useSearchParams()
+  const platformProjectId = search.get(paths.platformProjectQueryParam)?.trim() || null
   const { displayName } = useUserPrefs()
 
   const frameStyle = useMemo(
@@ -63,6 +65,12 @@ export function AppShell({
     return href === '/' ? pathname === href : pathname.startsWith(href)
   }
 
+  const navItems = PRIMARY_NAV.map((item) => ({
+    ...item,
+    href: withPlatformProject(item.href, platformProjectId),
+    active: isActive(item.href),
+  }))
+
   return (
     <AppFrame
       railEdge={paths.railDockEdge}
@@ -76,12 +84,12 @@ export function AppShell({
           logo={<MsqdxLogoMark size={26} title="MSQ DX" />}
           logoLabel={`${paths.brandLabel} home`}
           linkComponent={Link}
-          items={PRIMARY_NAV.map((item) => ({ ...item, active: isActive(item.href) }))}
+          items={navItems}
           footerItems={[
             {
               id: 'settings',
               label: 'Settings',
-              href: paths.routes.settings,
+              href: withPlatformProject(paths.routes.settings, platformProjectId),
               active: isActive(paths.routes.settings),
               ariaLabel: 'Settings',
               icon: <Avatar name={displayName} size="sm" className="rail-avatar" />,
@@ -105,7 +113,21 @@ export function AppShell({
         {description ? <p className="dig-page-lead">{description}</p> : null}
         {children}
       </div>
-      <PlatformAssistantHost />
+      <PlatformAssistantHost platformProjectId={platformProjectId} />
     </AppFrame>
+  )
+}
+
+export function AppShell(props: {
+  children: ReactNode
+  title?: string | null
+  description?: string
+  actions?: ReactNode
+  status?: ReactNode
+}) {
+  return (
+    <Suspense fallback={null}>
+      <AppShellInner {...props} />
+    </Suspense>
   )
 }

@@ -199,7 +199,8 @@
       "doc": "docs/DIG-012-embeddings.md"
     },
     "digOpenrouterStaging": "knowledge/dig-openrouter-staging.md",
-    "checkionDuplicateArtifactPath": "knowledge/checkion-duplicate-artifact-path.md"
+    "checkionDuplicateArtifactPath": "knowledge/checkion-duplicate-artifact-path.md",
+    "digStagingFinishPath": "knowledge/dig-staging-finish-path.md"
   },
   "database": {
     "composeService": "db",
