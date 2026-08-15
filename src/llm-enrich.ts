@@ -203,10 +203,24 @@ export async function applyLlmDesignAnalysis(
 
   try {
     const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
-    await emitDesignReferencesForPackage(packageRoot);
+    const emitted = await emitDesignReferencesForPackage(packageRoot);
+    if (emitted.count > 0) {
+      const { getPool } = await import("./db.js");
+      const { resolveIndexScopeFromCapture } = await import("./db-index.js");
+      const { indexDesignReferencesFromPackage } = await import("./design-reference-library.js");
+      const client = getPool();
+      if (client) {
+        const scope = await resolveIndexScopeFromCapture(client, manifest.capture_run_id, {});
+        await indexDesignReferencesFromPackage(
+          packageRoot,
+          { platformProjectId: scope.platformProjectId, digProjectId: scope.digProjectId },
+          client
+        );
+      }
+    }
   } catch (error: unknown) {
     process.stderr.write(
-      `DIG-012 design-references emit skipped: ${error instanceof Error ? error.message : String(error)}\n`
+      `DIG-012 design-references emit/index skipped: ${error instanceof Error ? error.message : String(error)}\n`
     );
   }
 

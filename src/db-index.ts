@@ -464,15 +464,21 @@ export async function indexCapturePackageToDatabase(
 
   try {
     const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
-    await emitDesignReferencesForPackage(packageRoot);
+    const emitted = await emitDesignReferencesForPackage(packageRoot);
     const { indexDesignReferencesFromPackage } = await import("./design-reference-library.js");
-    await indexDesignReferencesFromPackage(
-      packageRoot,
-      { platformProjectId, digProjectId },
-      client
+    if (emitted.count > 0) {
+      await indexDesignReferencesFromPackage(
+        packageRoot,
+        { platformProjectId, digProjectId },
+        client
+      );
+    }
+  } catch (error: unknown) {
+    process.stderr.write(
+      `DIG-012 design-references index skipped for ${captureRunId}: ${
+        error instanceof Error ? error.message : String(error)
+      }\n`
     );
-  } catch {
-    /* emit/index is best-effort when llm_design absent */
   }
 
   return { indexed: true };

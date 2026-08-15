@@ -792,6 +792,67 @@ export async function handleLibraryApi(
     return true;
   }
 
+  if (request.method === "POST" && path === "/references/reindex") {
+    try {
+      const body = await readJsonBody(request);
+      const captureRunId =
+        typeof body.capture_run_id === "string"
+          ? body.capture_run_id
+          : typeof body.captureRunId === "string"
+            ? body.captureRunId
+            : null;
+      if (!captureRunId) {
+        sendJson(response, 400, { error: "capture_run_id required" });
+        return true;
+      }
+      const row = await client.query(
+        `SELECT package_path, platform_project_id, dig_project_id FROM captures WHERE capture_run_id = $1 LIMIT 1`,
+        [captureRunId]
+      );
+      const capture = row.rows[0] as
+        | {
+            package_path?: string;
+            platform_project_id?: string | null;
+            dig_project_id?: string | null;
+          }
+        | undefined;
+      if (!capture?.package_path) {
+        sendJson(response, 404, { error: "capture_not_found" });
+        return true;
+      }
+      const platformProjectId =
+        typeof body.platformProjectId === "string"
+          ? body.platformProjectId
+          : capture.platform_project_id ?? null;
+      const { assertCollectionScopeAllowed, indexDesignReferencesFromPackage } = await import(
+        "./design-reference-library.js"
+      );
+      assertCollectionScopeAllowed(platformProjectId);
+      const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
+      const emitted = await emitDesignReferencesForPackage(capture.package_path);
+      const indexed = await indexDesignReferencesFromPackage(
+        capture.package_path,
+        {
+          platformProjectId,
+          digProjectId: capture.dig_project_id ?? null
+        },
+        client
+      );
+      sendJson(response, 200, {
+        capture_run_id: captureRunId,
+        emitted: emitted.count,
+        indexed,
+        platform_project_id: platformProjectId
+      });
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status =
+        message.includes("required") || message.includes("not_found") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
   sendJson(response, 404, { error: "not_found" });
   return true;
 }
