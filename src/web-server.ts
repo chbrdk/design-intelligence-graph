@@ -103,6 +103,15 @@ function writeSse(response: ServerResponse, event: JobEvent): void {
 async function handleApi(request: IncomingMessage, response: ServerResponse, url: URL): Promise<boolean> {
   if (!url.pathname.startsWith(paths.api.basePath)) return false;
 
+  if (request.method === "GET" && url.pathname === "/api/health") {
+    sendJson(response, 200, {
+      ok: true,
+      service: "dig-api",
+      static: shouldServeStatic()
+    });
+    return true;
+  }
+
   if (await handleLibraryApi(request, response, url)) return true;
 
   if (request.method === "OPTIONS") {

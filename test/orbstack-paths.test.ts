@@ -19,11 +19,12 @@ test("knowledge paths stay aligned with Dockerfile and compose", async () => {
     web: { port: number; staticDir: string };
     api: { jobsPath: string };
   };
-  const dockerfile = await readFile(resolve("Dockerfile"), "utf8");
+  const dockerfile = await readFile(resolve("Dockerfile.api"), "utf8");
   const compose = await readFile(resolve("compose.yaml"), "utf8");
 
-  assert.match(dockerfile, new RegExp(`FROM ${paths.docker.playwrightBaseImage.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  assert.match(dockerfile, new RegExp(`FROM .*${paths.docker.playwrightBaseImage.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
   assert.match(dockerfile, /EXPOSE 8787/);
+  assert.match(compose, /dockerfile:\s*Dockerfile\.api/);
   assert.match(compose, new RegExp(`image:\\s*${paths.docker.image}`));
   assert.match(compose, new RegExp(`${paths.docker.composeWebService}:`));
   assert.match(compose, /shm_size:\s*["']?1gb["']?/i);

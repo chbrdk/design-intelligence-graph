@@ -1,0 +1,22 @@
+# DIG capture / job API for OrbStack + Coolify (Playwright + Chromium).
+# Context: repository root. Coolify: dockerfile_location `/Dockerfile.api`, port 8787.
+# Pin must match knowledge/paths.json → docker.playwrightBaseImage and package-lock playwright.
+
+FROM mcr.microsoft.com/playwright:v1.62.1-noble
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . ./
+
+RUN npm run build
+
+ENV DIG_IN_CONTAINER=1
+ENV DIG_WEB_STATIC=0
+ENV DIG_WEB_HOST=0.0.0.0
+ENV DIG_WEB_PORT=8787
+EXPOSE 8787
+
+CMD ["node", "dist/src/web-server.js"]

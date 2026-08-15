@@ -7,22 +7,26 @@
 | Item | Value |
 |------|--------|
 | Project | `MSQDX-DIG-v3` · uuid `hx1vxpmu1heuou535kht5t9s` |
-| App | `dig-v3:main-app` · uuid `e114xfi9b4qpvcr3i0eqiqpw` |
-| FQDN | https://dig.projects-a.plygrnd.tech |
+| Island app | `dig-v3:main-app` · uuid `e114xfi9b4qpvcr3i0eqiqpw` |
+| Island FQDN | https://dig.projects-a.plygrnd.tech |
+| API app | `dig-v3:api` · uuid in `paths.json` → `coolify.digApiAppUuid` |
+| API FQDN | https://dig-api.projects-a.plygrnd.tech |
 | Server | `projects-01` (`gcko84c8wogss4wskocssc00`) |
 | Destination | `l04kc8csogk8gk0cwwk884c4` |
 | Repo | `https://github.com/chbrdk/design-intelligence-graph` (`main`) |
-| Build | Dockerfile `/Dockerfile` · port **3010** |
+| Island build | Dockerfile `/Dockerfile` · port **3010** |
+| API build | Dockerfile `/Dockerfile.api` · port **8787** (Playwright) |
 | Peer CHECKION | https://checkion-v3.projects-a.plygrnd.tech |
 | Peer Plexon | https://plexon-v3.projects-a.plygrnd.tech |
 
 UUIDs also in `knowledge/paths.json` → `coolify.*`.
 
-## Env (Coolify)
+## Env (island)
 
 | Key | Notes |
 |-----|--------|
 | `NEXT_PUBLIC_DIG_URL` | `https://dig.projects-a.plygrnd.tech` |
+| `DIG_API_URL` | `https://dig-api.projects-a.plygrnd.tech` (upstream Node API) |
 | `NEXT_PLEXON_BASE_URL` / `NEXT_PUBLIC_PLEXON_URL` / `PLEXON_AUTH_URL` | plexon-v3 staging |
 | `NEXT_PUBLIC_PLEXON_REGISTER_URL` | `{plexon}/register` |
 | `PLEXON_SERVICE_SECRET` | shared with CHECKION/Plexon (secret) |
@@ -32,21 +36,32 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 | `HOSTNAME` | `0.0.0.0` |
 | `PORT` | `3010` |
 
+## Env (API)
+
+| Key | Notes |
+|-----|--------|
+| `DIG_WEB_STATIC` | `0` |
+| `DIG_WEB_HOST` | `0.0.0.0` |
+| `DIG_WEB_PORT` | `8787` |
+| `DIG_IN_CONTAINER` | `1` |
+| `DIG_DATABASE_URL` | optional until Postgres service is wired |
+
 ## Deploy
 
 ```bash
-# force deploy (uuid from paths.json → coolify.digAppUuid)
+# force deploy island or API (uuid from paths.json)
 curl -sS -X POST -H "Authorization: Bearer $COOLIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d "{\"uuid\":\"$DIG_APP_UUID\",\"force\":true}" \
+  -d "{\"uuid\":\"$APP_UUID\",\"force\":true}" \
   https://coolify.plygrnd.tech/api/v1/deploy
 ```
 
 ## Smoke
 
 1. `GET https://dig.projects-a.plygrnd.tech/api/health`
-2. Open `/` — AppShell loads
-3. `/login` — fixture continue when federation dummy / auth unset
+2. `GET https://dig-api.projects-a.plygrnd.tech/api/health`
+3. Open `/login` — AppShell; `/capture` proxies via `/api/dig/*` → API
+4. Island healthcheck path `/api/health` port 3010
 
 ## Build note
 

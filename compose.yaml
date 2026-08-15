@@ -1,3 +1,7 @@
+# Local OrbStack / Docker Compose — capture CLI + API (not the Next island).
+# Island: apps/web via `npm run island:dev`. Coolify island: Dockerfile.
+# API image: Dockerfile.api (Playwright). Ports from knowledge/paths.json → docker.*
+
 services:
   db:
     image: pgvector/pgvector:0.8.6-pg18-trixie
@@ -18,6 +22,7 @@ services:
   dig:
     build:
       context: .
+      dockerfile: Dockerfile.api
     image: design-intelligence-graph:local
     init: true
     shm_size: "1gb"
@@ -28,8 +33,6 @@ services:
       DIG_IN_CONTAINER: "1"
       DIG_DATABASE_URL: postgres://dig:${DIG_PG_PASSWORD:-dig}@db:5432/dig
     volumes:
-      # Keep generated, potentially large capture packages out of the image.
-      # Paths mirrored in knowledge/paths.json → docker.captures*
       - ./captures:/data/captures
       - ./indexes:/data/indexes
 
@@ -37,6 +40,7 @@ services:
     image: design-intelligence-graph:local
     build:
       context: .
+      dockerfile: Dockerfile.api
     init: true
     shm_size: "1gb"
     depends_on:
@@ -46,6 +50,7 @@ services:
       DIG_IN_CONTAINER: "1"
       DIG_WEB_HOST: "0.0.0.0"
       DIG_WEB_PORT: "8787"
+      DIG_WEB_STATIC: "0"
       DIG_LLM_ENABLED: "true"
       DIG_LLM_BASE_URL: "http://host.docker.internal:11434/v1"
       DIG_LLM_MODEL: "mlx-community/gemma-4-e4b-it-4bit"
@@ -53,7 +58,6 @@ services:
       DIG_DATABASE_URL: postgres://dig:${DIG_PG_PASSWORD:-dig}@db:5432/dig
       NODE_OPTIONS: "--max-old-space-size=8192"
     ports:
-      # Host/container ports from knowledge/paths.json → docker.web*
       - "8787:8787"
     volumes:
       - ./captures:/data/captures

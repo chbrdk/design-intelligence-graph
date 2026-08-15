@@ -56,6 +56,7 @@ From the web UI inside OrbStack, capture a Mac-hosted fixture with `http://host.
 - `init: true` — reap Chromium child processes
 - `shm_size: 1gb` — Chromium needs more than Docker’s default 64 MB `/dev/shm`; on OrbStack use this instead of `ipc: host`
 - Volumes `./captures:/data/captures` and `./indexes:/data/indexes`
+- Image build: **`Dockerfile.api`** (Playwright). Coolify Next island uses root **`Dockerfile`**.
 - Service `web` exposes `8787` and runs `node dist/src/web-server.js`
 - LLM stays on the host (`mlx_vlm.server`); container uses `host.docker.internal:11434`
 
