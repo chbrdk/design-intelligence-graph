@@ -267,7 +267,7 @@
     "digAppUuid": "e114xfi9b4qpvcr3i0eqiqpw",
     "digFqdn": "https://dig.projects-a.plygrnd.tech",
     "digApiAppName": "dig-v3:api",
-    "digApiAppUuid": "",
+    "digApiAppUuid": "fjlcya8d9jnlecj4s44yru4q",
     "digApiFqdn": "https://dig-api.projects-a.plygrnd.tech",
     "digApiDockerfile": "/Dockerfile.api",
     "digApiPort": 8787,
