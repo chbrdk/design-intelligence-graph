@@ -435,8 +435,14 @@ export async function indexCapturePackageToDatabase(
   try {
     const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
     await emitDesignReferencesForPackage(packageRoot);
+    const { indexDesignReferencesFromPackage } = await import("./design-reference-library.js");
+    await indexDesignReferencesFromPackage(
+      packageRoot,
+      { platformProjectId, digProjectId },
+      client
+    );
   } catch {
-    /* emit is best-effort when llm_design absent */
+    /* emit/index is best-effort when llm_design absent */
   }
 
   return { indexed: true };

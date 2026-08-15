@@ -8,9 +8,9 @@
 | Slice | Status |
 |-------|--------|
 | P2a Island PUT/GET (memory) | Done |
-| **P2b Postgres `dig_projects` + capture columns** | Done (this doc) |
-| P2c Wave 2 Library/MCP `dig_reference_*` | Next |
-| P2d Persist references table + live MCP gate | Later |
+| P2b Postgres `dig_projects` + capture columns | Done |
+| **P2c Wave 2 Library/MCP `dig_reference_*`** | Done |
+| P2d Live MCP Bearer gate / Assistant wiring | Later |
 
 ## Durable SoT
 

@@ -6,7 +6,8 @@ import type { KnowledgeGraph } from "../src/storage.js";
 const graph: KnowledgeGraph = { schema_version: "0.1.0", storage_model_version: "0.1.0", source_capture_run_id: "cap_test", indexed_at: "2026-01-01T00:00:00Z", lineage: [], nodes: [{ node_id: "a", type: "ontology_entity", label: "Button", properties: { taxonomy_id: "dig:component.button" } }, { node_id: "b", type: "ontology_entity", label: "Button", properties: { taxonomy_id: "dig:component.button" } }, { node_id: "c", type: "page", label: "Home", properties: {} }], edges: [{ edge_id: "e", type: "contains", from_node_id: "c", to_node_id: "a", properties: {} }] };
 
 test("exposes and executes deterministic DIG retrieval tools", () => {
-  assert.equal(listDigTools().length, 5);
+  assert.equal(listDigTools().length, 8);
+  assert.ok(listDigTools().some((t) => t.name === "dig_reference_search"));
   const search = callDigTool(graph, "dig_search", { query: "button" }) as { matches: unknown[] };
   assert.equal(search.matches.length, 2);
   const neighbors = callDigTool(graph, "dig_neighbors", { node_id: "a" }) as { neighbors: unknown[] };

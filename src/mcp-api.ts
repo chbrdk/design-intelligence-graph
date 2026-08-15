@@ -3,7 +3,15 @@ import type { KnowledgeEdge, KnowledgeGraph, KnowledgeNode } from "./storage.js"
 import { searchKnowledgeGraph } from "./storage.js";
 
 export const MCP_API_VERSION = "0.1.0";
-export type McpToolName = "dig_search" | "dig_inspect" | "dig_neighbors" | "dig_compare" | "dig_recommend";
+export type McpToolName =
+  | "dig_search"
+  | "dig_inspect"
+  | "dig_neighbors"
+  | "dig_compare"
+  | "dig_recommend"
+  | "dig_reference_search"
+  | "dig_reference_get"
+  | "dig_reference_pack";
 
 export async function loadKnowledgeGraph(path: string): Promise<KnowledgeGraph> {
   const graph = JSON.parse(await readFile(path, "utf8")) as KnowledgeGraph;
@@ -21,11 +29,52 @@ export function listDigTools() {
     { name: "dig_inspect", description: "Inspect a graph node with directly incident edges.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" } } } },
     { name: "dig_neighbors", description: "Retrieve typed graph neighbors to a bounded depth of one.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" }, edge_type: { type: "string" }, limit: { type: "number" } } } },
     { name: "dig_compare", description: "Compare two graph nodes by type, properties, and shared neighbor IDs.", inputSchema: { type: "object", required: ["left_node_id", "right_node_id"], properties: { left_node_id: { type: "string" }, right_node_id: { type: "string" } } } },
-    { name: "dig_recommend", description: "Recommend nodes with the same type or taxonomy as a seed node; deterministic, not model-ranked.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" }, limit: { type: "number" } } } }
+    { name: "dig_recommend", description: "Recommend nodes with the same type or taxonomy as a seed node; deterministic, not model-ranked.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" }, limit: { type: "number" } } } },
+    {
+      name: "dig_reference_search",
+      description: "Search Collection-scoped DesignReferences (DIG-012). Live mode requires platformProjectId.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          query: { type: "string" },
+          category: { type: "string" },
+          signature: { type: "string" },
+          style_label: { type: "string" },
+          platformProjectId: { type: "string" },
+          limit: { type: "number" }
+        }
+      }
+    },
+    {
+      name: "dig_reference_get",
+      description: "Fetch one DesignReference by id (optionally scoped to platformProjectId).",
+      inputSchema: {
+        type: "object",
+        required: ["reference_id"],
+        properties: { reference_id: { type: "string" }, platformProjectId: { type: "string" } }
+      }
+    },
+    {
+      name: "dig_reference_pack",
+      description: "Assemble a DesignReferencePack from ids + intent for generation prompts.",
+      inputSchema: {
+        type: "object",
+        required: ["intent", "reference_ids"],
+        properties: {
+          intent: { type: "string" },
+          reference_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          synthesis_mode: { type: "string", enum: ["structural", "look_conditioned"] },
+          platformProjectId: { type: "string" }
+        }
+      }
+    }
   ];
 }
 
 export function callDigTool(graph: KnowledgeGraph, name: McpToolName, args: Record<string, unknown>): unknown {
+  if (name === "dig_reference_search" || name === "dig_reference_get" || name === "dig_reference_pack") {
+    throw new Error(`Use callDigReferenceTool for ${name}`);
+  }
   if (name === "dig_search") {
     const type = typeof args.type === "string" ? args.type : undefined;
     const matches = searchKnowledgeGraph(graph, String(args.query ?? ""), typeof args.limit === "number" ? args.limit : 20).filter((node) => !type || node.type === type);
@@ -57,6 +106,48 @@ export function callDigTool(graph: KnowledgeGraph, name: McpToolName, args: Reco
     return { seed_node_id: seed.node_id, strategy: taxonomy ? "same_taxonomy_id" : "same_node_type", recommendations: limited(candidates, args.limit) };
   }
   throw new Error(`Unknown DIG tool: ${name}`);
+}
+
+export async function callDigReferenceTool(
+  name: Extract<McpToolName, "dig_reference_search" | "dig_reference_get" | "dig_reference_pack">,
+  args: Record<string, unknown>
+): Promise<unknown> {
+  const {
+    searchDesignReferences,
+    getDesignReference,
+    assembleDesignReferencePack
+  } = await import("./design-reference-library.js");
+  const platformProjectId =
+    typeof args.platformProjectId === "string"
+      ? args.platformProjectId
+      : typeof args.platform_project_id === "string"
+        ? args.platform_project_id
+        : null;
+  if (name === "dig_reference_search") {
+    const references = await searchDesignReferences({
+      query: typeof args.query === "string" ? args.query : undefined,
+      category: typeof args.category === "string" ? args.category : undefined,
+      signature: typeof args.signature === "string" ? args.signature : undefined,
+      style_label: typeof args.style_label === "string" ? args.style_label : undefined,
+      platformProjectId,
+      limit: typeof args.limit === "number" ? args.limit : 20
+    });
+    return { count: references.length, references };
+  }
+  if (name === "dig_reference_get") {
+    const reference = await getDesignReference(String(args.reference_id ?? ""), { platformProjectId });
+    if (!reference) throw new Error(`Unknown reference_id: ${String(args.reference_id ?? "")}`);
+    return { reference };
+  }
+  const ids = Array.isArray(args.reference_ids)
+    ? args.reference_ids.filter((id): id is string => typeof id === "string")
+    : [];
+  return assembleDesignReferencePack({
+    intent: String(args.intent ?? ""),
+    reference_ids: ids,
+    synthesis_mode: args.synthesis_mode === "look_conditioned" ? "look_conditioned" : "structural",
+    platformProjectId
+  });
 }
 
 export function toolResult(value: unknown) { return { content: [{ type: "text", text: JSON.stringify(value, null, 2) }] }; }

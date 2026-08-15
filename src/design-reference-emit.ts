@@ -19,6 +19,9 @@ export type DesignReferenceRecord = {
   schema_version: typeof DESIGN_REFERENCE_SCHEMA_VERSION;
   reference_id: string;
   capture_run_id: string;
+  /** Optional Collection scope when federated. */
+  platform_project_id?: string;
+  dig_project_id?: string;
   scope: "section" | "screen";
   section_id: string | null;
   viewport_capture_id: string | null;

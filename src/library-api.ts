@@ -636,6 +636,80 @@ export async function handleLibraryApi(
     return true;
   }
 
+  if (request.method === "GET" && path === "/references") {
+    try {
+      const { searchDesignReferences } = await import("./design-reference-library.js");
+      const references = await searchDesignReferences({
+        query: queryParam(requestUrl, "q") ?? queryParam(requestUrl, "query") ?? undefined,
+        category: queryParam(requestUrl, "category") ?? undefined,
+        signature: queryParam(requestUrl, "signature") ?? undefined,
+        style_label: queryParam(requestUrl, "style_label") ?? undefined,
+        platformProjectId:
+          queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id"),
+        digProjectId: queryParam(requestUrl, "digProjectId") ?? queryParam(requestUrl, "dig_project_id"),
+        limit: Number(queryParam(requestUrl, "limit") ?? 20)
+      });
+      sendJson(response, 200, { references, count: references.length });
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status = message.includes("platformProjectId required") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
+  const referenceMatch = path.match(/^\/references\/([^/]+)$/);
+  if (request.method === "GET" && referenceMatch) {
+    try {
+      const { getDesignReference } = await import("./design-reference-library.js");
+      const referenceId = decodeURIComponent(referenceMatch[1]!);
+      const reference = await getDesignReference(referenceId, {
+        platformProjectId:
+          queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
+      });
+      if (!reference) {
+        sendJson(response, 404, { error: "not_found" });
+        return true;
+      }
+      sendJson(response, 200, { reference });
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status = message.includes("platformProjectId required") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
+  if (request.method === "POST" && path === "/references/pack") {
+    try {
+      const body = await readJsonBody(request);
+      const { assembleDesignReferencePack } = await import("./design-reference-library.js");
+      const referenceIds = Array.isArray(body.reference_ids)
+        ? body.reference_ids.filter((id): id is string => typeof id === "string")
+        : Array.isArray(body.referenceIds)
+          ? body.referenceIds.filter((id): id is string => typeof id === "string")
+          : [];
+      const pack = await assembleDesignReferencePack({
+        intent: typeof body.intent === "string" ? body.intent : "",
+        reference_ids: referenceIds,
+        synthesis_mode: body.synthesis_mode === "look_conditioned" ? "look_conditioned" : "structural",
+        platformProjectId:
+          typeof body.platformProjectId === "string"
+            ? body.platformProjectId
+            : typeof body.platform_project_id === "string"
+              ? body.platform_project_id
+              : null
+      });
+      sendJson(response, 200, pack);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status =
+        message.includes("required") || message.includes("Unknown reference") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
   sendJson(response, 404, { error: "not_found" });
   return true;
 }
