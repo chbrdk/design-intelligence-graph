@@ -54,9 +54,19 @@ export function findSettledScreenshot(packageRoot: string, manifest: CaptureMani
   const preferred =
     manifest.viewport_captures.find((viewport) => viewport.name === "desktop") ??
     manifest.viewport_captures[0];
-  const artifact = preferred?.artifacts?.viewport_screenshot;
+  const preferFull =
+    (process.env.DIG_LLM_VISION_FULL_PAGE ?? "true").trim().toLowerCase() !== "false" &&
+    (process.env.DIG_LLM_VISION_FULL_PAGE ?? "true").trim() !== "0";
+  const artifact = preferFull
+    ? preferred?.artifacts?.full_page_screenshot ?? preferred?.artifacts?.viewport_screenshot
+    : preferred?.artifacts?.viewport_screenshot ?? preferred?.artifacts?.full_page_screenshot;
   if (!artifact?.path) return null;
   return resolve(packageRoot, artifact.path);
+}
+
+/** Prefer full-page marketing capture for vision; fall back to settled viewport. */
+export function findVisionScreenshot(packageRoot: string, manifest: CaptureManifest): string | null {
+  return findSettledScreenshot(packageRoot, manifest);
 }
 
 export async function runVisionScreenAnalysis(
@@ -72,14 +82,21 @@ export async function runVisionScreenAnalysis(
   if (!visionEnabled()) {
     return { status: "skipped", error: "DIG_LLM_VISION=false" };
   }
-  const screenshotPath = findSettledScreenshot(packageRoot, manifest);
+  const screenshotPath = findVisionScreenshot(packageRoot, manifest);
   if (!screenshotPath) {
-    return { status: "skipped", error: "No settled screenshot artifact" };
+    return { status: "skipped", error: "No full-page or settled screenshot artifact" };
   }
 
   const visionModel = resolveVisionModel(options.config);
   const bytes = await readFile(screenshotPath);
-  const dataUrl = `data:image/webp;base64,${bytes.toString("base64")}`;
+  const lower = screenshotPath.toLowerCase();
+  const mime =
+    lower.endsWith(".jpg") || lower.endsWith(".jpeg")
+      ? "image/jpeg"
+      : lower.endsWith(".png")
+        ? "image/png"
+        : "image/webp";
+  const dataUrl = `data:${mime};base64,${bytes.toString("base64")}`;
   const evidenceKey = evidenceSha256(`${screenshotPath}:${createHash("sha256").update(bytes).digest("hex")}`);
   const cache = options.stageCache;
 

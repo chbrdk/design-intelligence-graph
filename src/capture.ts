@@ -26,7 +26,7 @@ import {
 } from "./section-composition.js";
 import { deriveVisualHypotheses, deriveVisualLanguageViewport, VISUAL_LANGUAGE_VERSION, type VisualViewportEvidence } from "./visual-language.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
-import { pauseAnimations, stabilizePage } from "./stabilize.js";
+import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
 
@@ -149,6 +149,17 @@ async function captureViewport(
     if (response && !response.ok()) warnings.push(`navigation_http_${response.status()}`);
     const settled = await stabilizePage(page, options.settleMs, options.timeoutMs);
     if (!settled) warnings.push("stabilization_timeout");
+    try {
+      const scrollSettle = await scrollSettlePage(page);
+      if (scrollSettle.scrolled_px > 0) {
+        warnings.push(`scroll_settle_px:${scrollSettle.scrolled_px}`);
+      }
+      // Brief quiet window after lazy loads.
+      const postScrollQuiet = await stabilizePage(page, Math.min(options.settleMs, 400), Math.min(options.timeoutMs, 5000));
+      if (!postScrollQuiet) warnings.push("post_scroll_settle_timeout");
+    } catch (error) {
+      warnings.push(`scroll_settle_failed:${error instanceof Error ? error.message : String(error)}`);
+    }
 
     const userAgent = await page.evaluate(() => navigator.userAgent);
     const sourceHtmlBound = boundUtf8Text(

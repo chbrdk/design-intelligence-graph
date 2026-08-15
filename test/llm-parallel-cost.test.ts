@@ -129,13 +129,33 @@ test("parallel text stages run concurrently then synthesize", async () => {
 test("vision helpers respect env and screenshot artifact path", () => {
   assert.equal(visionEnabled({ DIG_LLM_VISION: "false" }), false);
   assert.equal(visionEnabled({ DIG_LLM_VISION: "true" }), true);
+  const previous = process.env.DIG_LLM_VISION_FULL_PAGE;
+  process.env.DIG_LLM_VISION_FULL_PAGE = "true";
   const path = findSettledScreenshot("/tmp/pkg", {
     viewport_captures: [
       {
         name: "desktop",
-        artifacts: { viewport_screenshot: { path: "viewports/desktop/screenshots/settled.webp" } }
+        artifacts: {
+          viewport_screenshot: { path: "viewports/desktop/screenshots/settled.webp" },
+          full_page_screenshot: { path: "viewports/desktop/screenshots/full-page.webp" }
+        }
       }
     ]
   } as unknown as CaptureManifest);
-  assert.equal(path, "/tmp/pkg/viewports/desktop/screenshots/settled.webp");
+  assert.equal(path, "/tmp/pkg/viewports/desktop/screenshots/full-page.webp");
+  process.env.DIG_LLM_VISION_FULL_PAGE = "false";
+  const settled = findSettledScreenshot("/tmp/pkg", {
+    viewport_captures: [
+      {
+        name: "desktop",
+        artifacts: {
+          viewport_screenshot: { path: "viewports/desktop/screenshots/settled.webp" },
+          full_page_screenshot: { path: "viewports/desktop/screenshots/full-page.webp" }
+        }
+      }
+    ]
+  } as unknown as CaptureManifest);
+  assert.equal(settled, "/tmp/pkg/viewports/desktop/screenshots/settled.webp");
+  if (previous === undefined) delete process.env.DIG_LLM_VISION_FULL_PAGE;
+  else process.env.DIG_LLM_VISION_FULL_PAGE = previous;
 });

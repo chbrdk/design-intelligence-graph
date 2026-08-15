@@ -23,6 +23,43 @@ export async function stabilizePage(page: Page, quietWindowMs: number, timeoutMs
   }), { quietWindowMs, timeoutMs });
 }
 
+/**
+ * CHECKION-style scroll settle: walk the page so lazy media loads, then return to top.
+ * Improves full-page screenshot completeness before DIG continues capture.
+ */
+export async function scrollSettlePage(
+  page: Page,
+  options: { stepPx?: number; maxPx?: number; pauseMs?: number } = {}
+): Promise<{ scrolled_px: number; document_height: number }> {
+  const stepPx = options.stepPx ?? 100;
+  const maxPx = options.maxPx ?? 8000;
+  const pauseMs = options.pauseMs ?? 40;
+  return page.evaluate(
+    async ({ stepPx, maxPx, pauseMs }) => {
+      const sleep = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
+      const height = () =>
+        Math.max(
+          document.documentElement.scrollHeight,
+          document.body?.scrollHeight ?? 0,
+          document.documentElement.clientHeight
+        );
+      let y = 0;
+      let scrolled = 0;
+      const limit = Math.min(height(), maxPx);
+      while (y < limit) {
+        y = Math.min(y + stepPx, limit);
+        window.scrollTo(0, y);
+        scrolled = y;
+        await sleep(pauseMs);
+      }
+      window.scrollTo(0, 0);
+      await sleep(200);
+      return { scrolled_px: scrolled, document_height: height() };
+    },
+    { stepPx, maxPx, pauseMs }
+  );
+}
+
 export async function pauseAnimations(page: Page): Promise<void> {
   await page.addStyleTag({ content: `
     *, *::before, *::after {

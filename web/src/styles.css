@@ -446,8 +446,9 @@ input[type="url"]:focus {
 .screen-card img,
 .screen-fallback {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
+  object-position: top center;
   border: 1px solid var(--line);
   background: rgba(8, 14, 12, 0.85);
 }
@@ -493,7 +494,8 @@ input[type="url"]:focus {
   position: relative;
   border: 1px solid var(--line);
   background: rgba(8, 14, 12, 0.85);
-  overflow: hidden;
+  overflow: auto;
+  max-height: min(85vh, 1400px);
 }
 
 .hotspot-stage img {
@@ -707,6 +709,18 @@ input[type="url"]:focus {
 .analysis-block code {
   color: var(--accent);
   font-size: 0.76rem;
+}
+
+.look-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+.look-chips code {
+  padding: 0.05rem 0.3rem;
+  border: 1px solid var(--line);
 }
 
 .section-list {

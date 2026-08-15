@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { capture } from "./capture.js";
+import { attachCheckionScreenshotIfConfigured } from "./checkion-attach.js";
 import { CANONICAL_VIEWPORTS } from "./config.js";
 import { asyncEnrichmentEnabled, type EnrichmentQueue } from "./enrichment-queue.js";
 import { applyLlmDesignAnalysis } from "./llm-enrich.js";
@@ -209,6 +210,33 @@ export class JobRunner {
           capture_status: captureResult.manifest.status
         }
       });
+
+      this.emit(job, {
+        stage: "capturing",
+        message: "Capturing full-page screenshot via CHECKION"
+      });
+      const checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
+      if (checkion.attached) {
+        this.emit(job, {
+          stage: "capturing",
+          message: `CHECKION full-page attached (${checkion.width ?? "?"}×${checkion.height ?? "?"} JPEG)`,
+          result: {
+            package_root: captureResult.packageRoot,
+            capture_run_id: captureResult.manifest.capture_run_id,
+            capture_status: captureResult.manifest.status
+          }
+        });
+      } else if (checkion.skipped) {
+        this.emit(job, {
+          stage: "capturing",
+          message: `CHECKION screenshot skipped: ${checkion.skipped}`,
+          result: {
+            package_root: captureResult.packageRoot,
+            capture_run_id: captureResult.manifest.capture_run_id,
+            capture_status: captureResult.manifest.status
+          }
+        });
+      }
 
       const llmConfig = localLlmConfig();
       let llmStatus = "skipped";

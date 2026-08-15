@@ -123,8 +123,8 @@ export async function indexCapturePackageToDatabase(
     await client.query(
       `INSERT INTO viewports (
         capture_run_id, viewport_capture_id, name, status, width, height, node_count, title,
-        settled_screenshot_path, full_page_screenshot_path
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+        settled_screenshot_path, full_page_screenshot_path, document_width, document_height
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
       [
         captureRunId,
         viewport.viewport_capture_id,
@@ -135,7 +135,9 @@ export async function indexCapturePackageToDatabase(
         viewport.node_count,
         viewport.title,
         viewport.artifacts.viewport_screenshot?.path ?? null,
-        viewport.artifacts.full_page_screenshot?.path ?? null
+        viewport.artifacts.full_page_screenshot?.path ?? null,
+        viewport.document?.width ?? null,
+        viewport.document?.height ?? null
       ]
     );
   }
@@ -301,6 +303,38 @@ export async function indexCapturePackageToDatabase(
         subject_kind: "llm_item",
         subject_id: `visual_style:${llmItemIndex}:${label.name}`,
         content_text: `visual_style ${label.name}`
+      });
+    }
+    for (const description of llm.mobbin?.section_descriptions ?? []) {
+      llmItemIndex += 1;
+      await client.query(
+        `INSERT INTO llm_items (capture_run_id, kind, name, signature, category, interpretation, confidence, evidence_refs, gaps)
+         VALUES ($1,'section_look',$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb)`,
+        [
+          captureRunId,
+          description.section_id,
+          description.signature,
+          description.category ?? null,
+          [description.stack_summary, description.look_summary, description.interaction_summary]
+            .filter(Boolean)
+            .join(" · ")
+            .slice(0, 800),
+          description.confidence,
+          JSON.stringify(description.evidence_refs),
+          JSON.stringify({
+            background: description.background ?? null,
+            overlay: description.overlay ?? null,
+            shadows: description.shadows ?? null,
+            typography_emphasis: description.typography_emphasis ?? [],
+            alignment: description.alignment ?? null,
+            media: description.media ?? null
+          })
+        ]
+      );
+      embeddingSubjects.push({
+        subject_kind: "llm_item",
+        subject_id: `section_look:${llmItemIndex}:${description.section_id}`,
+        content_text: `section_look ${description.category ?? ""} ${description.signature} ${description.look_summary}`
       });
     }
   } catch {

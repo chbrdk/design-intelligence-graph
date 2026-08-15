@@ -157,7 +157,9 @@ test("library API screen detail includes hotspots", async () => {
               height: 900,
               title: "Example",
               settled_screenshot_path: "viewports/desktop/screenshots/settled.webp",
-              full_page_screenshot_path: null,
+              full_page_screenshot_path: "viewports/desktop/screenshots/full-page.webp",
+              document_width: 1440,
+              document_height: 5000,
               canonical_url: "https://example.com/",
               site_domain: "example.com",
               package_path: "/tmp/pkg"
@@ -189,9 +191,14 @@ test("library API screen detail includes hotspots", async () => {
   );
   assert.equal(handled, true);
   assert.equal(mock.statusCode, 200);
-  const body = JSON.parse(mock.body) as { hotspots: unknown[]; screen: { settled_url: string } };
+  const body = JSON.parse(mock.body) as {
+    hotspots: unknown[];
+    screen: { settled_url: string; full_page_url: string; primary_url: string };
+  };
   assert.ok(body.hotspots.length >= 2);
   assert.match(body.screen.settled_url, /settled\.webp/);
+  assert.match(body.screen.full_page_url, /full-page\.webp/);
+  assert.match(body.screen.primary_url, /full-page\.webp/);
 });
 
 test("library API creates collections", async () => {
@@ -388,6 +395,19 @@ test("library API analysis detail groups items", async () => {
             confidence: null,
             evidence_refs: [],
             gaps: null
+          },
+          {
+            id: 4,
+            kind: "section_look",
+            name: "sec_hero",
+            signature: "media>heading>cta",
+            category: "hero",
+            interpretation: "Minimalist hero with scrim",
+            section_label: null,
+            step_index: null,
+            confidence: 0.9,
+            evidence_refs: [],
+            gaps: null
           }
         ]
       };
@@ -402,9 +422,15 @@ test("library API analysis detail groups items", async () => {
   assert.equal(handled, true);
   assert.equal(mock.statusCode, 200);
   const body = JSON.parse(mock.body) as {
-    items: { screen_patterns: unknown[]; ui_elements: unknown[]; page_flow: unknown[] };
+    items: {
+      screen_patterns: unknown[];
+      ui_elements: unknown[];
+      page_flow: unknown[];
+      section_look: unknown[];
+    };
   };
   assert.equal(body.items.screen_patterns.length, 1);
   assert.equal(body.items.ui_elements.length, 1);
   assert.equal(body.items.page_flow.length, 1);
+  assert.equal(body.items.section_look.length, 1);
 });

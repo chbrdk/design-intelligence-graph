@@ -480,8 +480,12 @@ export function App() {
                 className="screen-card"
                 onClick={() => void openScreen(screen)}
               >
-                {screen.settled_url ? (
-                  <img src={screen.settled_url} alt={`${screen.site_domain ?? "site"} ${screen.name}`} loading="lazy" />
+                {screen.primary_url ?? screen.full_page_url ?? screen.settled_url ? (
+                  <img
+                    src={screen.primary_url ?? screen.full_page_url ?? screen.settled_url ?? undefined}
+                    alt={`${screen.site_domain ?? "site"} ${screen.name}`}
+                    loading="lazy"
+                  />
                 ) : (
                   <div className="screen-fallback">{screen.name}</div>
                 )}
@@ -508,8 +512,16 @@ export function App() {
               </header>
               <div className="screen-detail-layout">
                 <div className="hotspot-stage">
-                  {selectedScreen.settled_url ? (
-                    <img src={selectedScreen.settled_url} alt="" />
+                  {selectedScreen.primary_url ?? selectedScreen.full_page_url ?? selectedScreen.settled_url ? (
+                    <img
+                      src={
+                        selectedScreen.primary_url ??
+                        selectedScreen.full_page_url ??
+                        selectedScreen.settled_url ??
+                        undefined
+                      }
+                      alt=""
+                    />
                   ) : (
                     <div className="screen-fallback">No screenshot</div>
                   )}

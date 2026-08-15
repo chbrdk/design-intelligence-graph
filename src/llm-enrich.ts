@@ -15,7 +15,51 @@ import { runVisionScreenAnalysis } from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
+import type { NodeStyleMap } from "./section-look.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
+
+async function loadNodeStylesFromPackage(
+  packageRoot: string,
+  manifest: CaptureManifest,
+  sections: SectionComposition[]
+): Promise<NodeStyleMap> {
+  const needed = new Set<string>();
+  for (const section of sections) {
+    needed.add(section.root_node_id);
+    for (const step of section.recipe) {
+      if (step.kind === "role") needed.add(step.node_id);
+    }
+  }
+  if (!needed.size) return {};
+
+  const preferredNames = new Set(sections.map((section) => section.viewport_name));
+  const viewports = [...manifest.viewport_captures].sort((a, b) => {
+    const aScore = preferredNames.has(a.name) ? 1 : 0;
+    const bScore = preferredNames.has(b.name) ? 1 : 0;
+    if (a.name === "desktop") return -1;
+    if (b.name === "desktop") return 1;
+    return bScore - aScore;
+  });
+
+  const styles: NodeStyleMap = {};
+  for (const viewport of viewports) {
+    const stylePath =
+      viewport.artifacts.computed_styles?.path ?? `viewports/${viewport.name}/styles/computed.jsonl`;
+    try {
+      const raw = await readFile(resolve(packageRoot, stylePath), "utf8");
+      for (const line of raw.split("\n")) {
+        if (!line.trim()) continue;
+        const row = JSON.parse(line) as { node_id?: string; properties?: Record<string, string> };
+        if (!row.node_id || !needed.has(row.node_id) || !row.properties) continue;
+        styles[row.node_id] = row.properties;
+      }
+    } catch {
+      /* viewport may lack styles */
+    }
+    if (Object.keys(styles).length >= needed.size) break;
+  }
+  return styles;
+}
 
 export async function applyLlmDesignAnalysis(
   packageRoot: string,
@@ -63,6 +107,8 @@ export async function applyLlmDesignAnalysis(
     /* older packages may lack section compositions */
   }
 
+  const nodeStyles = await loadNodeStylesFromPackage(packageRoot, manifest, sectionCompositions);
+
   let llm = await analyzeDesignWithLlm(
     {
       canonical_url: manifest.canonical_url,
@@ -73,7 +119,8 @@ export async function applyLlmDesignAnalysis(
       logical_element_count: logicalDoc.logical_element_count ?? logicalDoc.logical_elements?.length ?? 0,
       transformation_count: responsiveDoc.transformations?.length ?? 0,
       section_compositions: sectionCompositions,
-      section_clusters: sectionClusters
+      section_clusters: sectionClusters,
+      node_styles: nodeStyles
     },
     { ...options, stageCache }
   );

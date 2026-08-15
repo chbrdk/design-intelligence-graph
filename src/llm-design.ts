@@ -18,6 +18,13 @@ import {
   type LlmStageResult,
   type MobbinParityContent
 } from "./llm-stages.js";
+import {
+  buildSectionLookEvidence,
+  parseSectionLookResponse,
+  selectSectionsForLook,
+  type NodeStyleMap,
+  type SectionLookDescription
+} from "./section-look.js";
 import { createDefaultStageCache, evidenceSha256, type LlmStageCache } from "./llm-stage-cache.js";
 import { resolveScalingRoles, shouldEscalateStage } from "./llm-routing.js";
 import { aggregateCosts, usageToStageCost, type StageCostRecord } from "./llm-cost.js";
@@ -70,6 +77,8 @@ export interface DesignEvidenceInput {
   transformation_count: number;
   section_compositions?: SectionComposition[];
   section_clusters?: SectionCompositionCluster[];
+  /** Computed styles keyed by node_id for section_look evidence. */
+  node_styles?: NodeStyleMap;
 }
 
 const SYSTEM_PROMPT = `You are DIG design analyst. Given measured web-design evidence, infer concise design understanding.
@@ -428,6 +437,11 @@ async function runStageWithCacheAndRouting(
       const items = parseVisualStyleLabels(bulk.raw);
       itemCount = items.length;
       confidences = items.map((item) => item.confidence);
+    } else if (stageId === "section_look") {
+      const parsed = parseSectionLookResponse(bulk.raw, { section_id: "unknown", signature: "unknown" });
+      itemCount = parsed ? 1 : 0;
+      confidences = parsed ? [parsed.confidence] : [];
+      parseOk = Boolean(parsed);
     } else if (stageId === "synthesize") {
       const synthesized = parseLlmDesignResponse(bulk.raw, bulk.model, "");
       itemCount = synthesized.hypotheses.length;
@@ -514,6 +528,19 @@ function applyParsedStage(
       patch: { visual_style_labels }
     };
   }
+  if (stageId === "section_look") {
+    const description = parseSectionLookResponse(raw, { section_id: "unknown", signature: "unknown" });
+    return {
+      stage: {
+        stage_id: stageId,
+        status: description ? "complete" : "failed",
+        raw_sha256,
+        data: { count: description ? 1 : 0, ...costData },
+        ...(description ? {} : { error: "section_look_parse_failed" })
+      },
+      patch: description ? { section_descriptions: [description] } : {}
+    };
+  }
   const synthesized = parseLlmDesignResponse(raw, model, configBaseUrl);
   return {
     stage: {
@@ -596,6 +623,83 @@ async function analyzeDesignWithLlmStaged(
     Object.assign(mobbin, found.outcome.patch);
   }
 
+  // Wave B: per-section look & feel (measured recipes + CSS), parallel and budgeted.
+  const selectedSections = selectSectionsForLook(input.section_compositions ?? []);
+  const nodeStyles = input.node_styles ?? {};
+  if (selectedSections.length) {
+    const lookResults = await Promise.all(
+      selectedSections.map(async (section) => {
+        const evidence = buildSectionLookEvidence(section, nodeStyles, {
+          url: input.canonical_url,
+          title: input.title ?? null,
+          page_style_labels: mobbin.visual_style_labels.map((label) => label.name)
+        });
+        try {
+          const result = await runStageWithCacheAndRouting(
+            provider,
+            "section_look",
+            evidence,
+            maxTokens,
+            stageCache,
+            bulkModel,
+            qualityModel,
+            roles.confidenceEscalateBelow,
+            reasoningEffort
+          );
+          model = result.model;
+          rawChunks.push(`section_look:${section.section_id}:${result.raw}`);
+          costRecords.push(result.cost);
+          const description = parseSectionLookResponse(result.raw, {
+            section_id: section.section_id,
+            signature: section.signature,
+            category: section.category
+          });
+          return {
+            stage: {
+              stage_id: "section_look" as const,
+              status: description ? ("complete" as const) : ("failed" as const),
+              raw_sha256: `sha256:${createHash("sha256").update(result.raw).digest("hex")}`,
+              data: {
+                section_id: section.section_id,
+                escalated: result.escalated,
+                cache_hit: result.cacheHit,
+                prompt_tokens: result.cost.prompt_tokens,
+                completion_tokens: result.cost.completion_tokens,
+                estimated_usd: result.cost.estimated_usd
+              },
+              ...(description ? {} : { error: "section_look_parse_failed" })
+            },
+            description
+          };
+        } catch (error: unknown) {
+          return {
+            stage: {
+              stage_id: "section_look" as const,
+              status: "failed" as const,
+              error: error instanceof Error ? error.message : String(error),
+              data: { section_id: section.section_id }
+            },
+            description: null as SectionLookDescription | null
+          };
+        }
+      })
+    );
+    const descriptions = lookResults
+      .map((item) => item.description)
+      .filter((item): item is SectionLookDescription => Boolean(item));
+    mobbin.section_descriptions = descriptions;
+    stages.push({
+      stage_id: "section_look",
+      status: descriptions.length ? "complete" : "failed",
+      data: {
+        count: descriptions.length,
+        attempted: selectedSections.length,
+        failed: lookResults.filter((item) => !item.description).length
+      },
+      ...(descriptions.length ? {} : { error: lookResults.map((item) => item.stage.error).filter(Boolean).join("; ") })
+    });
+  }
+
   const synthesizeEvidence = JSON.stringify({
     url: input.canonical_url,
     title: input.title ?? null,
@@ -604,7 +708,16 @@ async function analyzeDesignWithLlmStaged(
       ui_elements: mobbin.ui_elements,
       recipe_insights: mobbin.recipe_insights,
       page_flow: mobbin.page_flow,
-      visual_style_labels: mobbin.visual_style_labels
+      visual_style_labels: mobbin.visual_style_labels,
+      section_descriptions: mobbin.section_descriptions.map((item) => ({
+        section_id: item.section_id,
+        category: item.category,
+        signature: item.signature,
+        stack_summary: item.stack_summary,
+        look_summary: item.look_summary,
+        interaction_summary: item.interaction_summary,
+        confidence: item.confidence
+      }))
     }
   });
   const synthesizeOutcome = await runOne("synthesize", synthesizeEvidence);
@@ -651,6 +764,7 @@ async function analyzeDesignWithLlmStaged(
   // Soft-complete from partial stages when synthesize failed.
   const summaryParts = [
     mobbin.screen_patterns[0]?.name,
+    mobbin.section_descriptions[0]?.look_summary,
     mobbin.recipe_insights[0]?.interpretation,
     mobbin.visual_style_labels[0]?.name
   ].filter(Boolean);
@@ -788,7 +902,8 @@ export function mergeLlmIntoAnalysisReport(
         ? {
           screen_pattern_count: llm.mobbin.screen_patterns.length,
           ui_element_count: llm.mobbin.ui_elements.length,
-          recipe_insight_count: llm.mobbin.recipe_insights.length
+          recipe_insight_count: llm.mobbin.recipe_insights.length,
+          section_look_count: llm.mobbin.section_descriptions.length
         }
         : {})
     };

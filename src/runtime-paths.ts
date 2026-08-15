@@ -107,6 +107,7 @@ export interface DigPaths {
       bulkReasoningEffort?: "none" | "low" | "medium" | "high" | "max";
       confidenceEscalateBelow?: number;
       asyncDefault?: boolean;
+      sectionLookMaxSections?: number;
       doc?: string;
     };
   };

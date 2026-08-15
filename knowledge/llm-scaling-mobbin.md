@@ -24,8 +24,9 @@ Per capture (staged mode):
 2. `ui_elements`
 3. `section_recipes` (+ page flow)
 4. `visual_style`
-5. `synthesize`
-6. *(planned)* vision screen score / OCR / hotspot labels per viewport
+5. `section_look` × N (DIG-010, capped; compositional look & feel)
+6. `synthesize`
+7. *(optional)* vision screen score / OCR / hotspot labels per viewport
 
 Config: `llm.stagedAnalysis`, `llm.stageMaxTokens`, quality eval in [`llm-quality-eval.md`](llm-quality-eval.md).
 

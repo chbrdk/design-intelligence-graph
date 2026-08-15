@@ -69,6 +69,9 @@ export function buildHotspotsFromSection(row: {
   recipe?: unknown;
   viewport_width?: unknown;
   viewport_height?: unknown;
+  /** When set (full-page media), normalize against document height instead of CSS viewport. */
+  document_width?: unknown;
+  document_height?: unknown;
 }): Array<{
   section_id: string;
   label: string;
@@ -81,8 +84,10 @@ export function buildHotspotsFromSection(row: {
   const signature = typeof row.signature === "string" ? row.signature : "";
   const vw = typeof row.viewport_width === "number" ? row.viewport_width : Number(row.viewport_width);
   const vh = typeof row.viewport_height === "number" ? row.viewport_height : Number(row.viewport_height);
-  const viewportWidth = Number.isFinite(vw) ? vw : null;
-  const viewportHeight = Number.isFinite(vh) ? vh : null;
+  const dw = typeof row.document_width === "number" ? row.document_width : Number(row.document_width);
+  const dh = typeof row.document_height === "number" ? row.document_height : Number(row.document_height);
+  const viewportWidth = Number.isFinite(dw) && dw > 0 ? dw : Number.isFinite(vw) ? vw : null;
+  const viewportHeight = Number.isFinite(dh) && dh > 0 ? dh : Number.isFinite(vh) ? vh : null;
   const hotspots: Array<{
     section_id: string;
     label: string;
@@ -124,6 +129,22 @@ export function buildHotspotsFromSection(row: {
 function mediaUrl(base: string, captureRunId: string, relativePath: string | null): string | null {
   if (!relativePath) return null;
   return `${base}/media?capture_run_id=${encodeURIComponent(captureRunId)}&path=${encodeURIComponent(relativePath)}`;
+}
+
+function screenMediaUrls(
+  base: string,
+  captureRunId: string,
+  row: { settled_screenshot_path?: unknown; full_page_screenshot_path?: unknown }
+): { settled_url: string | null; full_page_url: string | null; primary_url: string | null } {
+  const settledPath = typeof row.settled_screenshot_path === "string" ? row.settled_screenshot_path : null;
+  const fullPath = typeof row.full_page_screenshot_path === "string" ? row.full_page_screenshot_path : null;
+  const settled_url = mediaUrl(base, captureRunId, settledPath);
+  const full_page_url = mediaUrl(base, captureRunId, fullPath);
+  return {
+    settled_url,
+    full_page_url,
+    primary_url: full_page_url ?? settled_url
+  };
 }
 
 export async function handleLibraryApi(
@@ -191,6 +212,7 @@ export async function handleLibraryApi(
   if (request.method === "GET" && path === "/screens") {
     const result = await client.query(
       `SELECT v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
+              v.document_width, v.document_height,
               v.title, v.settled_screenshot_path, v.full_page_screenshot_path,
               c.canonical_url, c.site_domain, c.package_path
        FROM viewports v
@@ -201,10 +223,9 @@ export async function handleLibraryApi(
     sendJson(response, 200, {
       screens: result.rows.map((row) => {
         const captureRunId = String(row.capture_run_id ?? "");
-        const settledPath = typeof row.settled_screenshot_path === "string" ? row.settled_screenshot_path : null;
         return {
           ...row,
-          settled_url: mediaUrl(base, captureRunId, settledPath)
+          ...screenMediaUrls(base, captureRunId, row)
         };
       })
     });
@@ -216,6 +237,7 @@ export async function handleLibraryApi(
     const viewportCaptureId = decodeURIComponent(screenDetail[1]!);
     const screen = await client.query(
       `SELECT v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
+              v.document_width, v.document_height,
               v.title, v.settled_screenshot_path, v.full_page_screenshot_path,
               c.canonical_url, c.site_domain, c.package_path
        FROM viewports v
@@ -237,12 +259,34 @@ export async function handleLibraryApi(
        ORDER BY id ASC`,
       [captureRunId, viewportCaptureId, row.name]
     );
-    const hotspots = sections.rows.flatMap((section) => buildHotspotsFromSection(section));
-    const settledPath = typeof row.settled_screenshot_path === "string" ? row.settled_screenshot_path : null;
+    const docW =
+      typeof row.document_width === "number"
+        ? row.document_width
+        : Number(row.document_width) || Number(row.width) || null;
+    let docH =
+      typeof row.document_height === "number"
+        ? row.document_height
+        : Number(row.document_height) || null;
+    if (!docH || !Number.isFinite(docH)) {
+      docH = sections.rows.reduce((max, section) => {
+        const box = asBox(section.root_box);
+        if (!box) return max;
+        return Math.max(max, box.y + box.height);
+      }, Number(row.height) || 0);
+    }
+    const hotspots = sections.rows.flatMap((section) =>
+      buildHotspotsFromSection({
+        ...section,
+        document_width: docW,
+        document_height: docH
+      })
+    );
     sendJson(response, 200, {
       screen: {
         ...row,
-        settled_url: mediaUrl(base, captureRunId, settledPath)
+        document_width: docW,
+        document_height: docH,
+        ...screenMediaUrls(base, captureRunId, row)
       },
       hotspots,
       sections: sections.rows
@@ -342,7 +386,8 @@ export async function handleLibraryApi(
       ui_elements: items.rows.filter((item) => item.kind === "ui_element"),
       recipe_insights: items.rows.filter((item) => item.kind === "recipe_insight"),
       page_flow: items.rows.filter((item) => item.kind === "page_flow"),
-      visual_style: items.rows.filter((item) => item.kind === "visual_style")
+      visual_style: items.rows.filter((item) => item.kind === "visual_style"),
+      section_look: items.rows.filter((item) => item.kind === "section_look")
     };
     let packageExtras: Record<string, unknown> | null = null;
     const packagePath = typeof row.package_path === "string" ? row.package_path : null;
@@ -354,12 +399,14 @@ export async function handleLibraryApi(
           cost?: unknown;
           stages?: unknown;
           hypotheses?: unknown;
+          mobbin?: { section_descriptions?: unknown };
         };
         packageExtras = {
           vision: llm.vision ?? null,
           cost: llm.cost ?? null,
           stages: llm.stages ?? null,
-          hypotheses: llm.hypotheses ?? null
+          hypotheses: llm.hypotheses ?? null,
+          section_descriptions: llm.mobbin?.section_descriptions ?? null
         };
       } catch {
         packageExtras = null;
@@ -560,7 +607,14 @@ export async function handleLibraryApi(
       return true;
     }
     const ext = extname(absolute).toLowerCase();
-    const type = ext === ".webp" ? "image/webp" : ext === ".png" ? "image/png" : "application/octet-stream";
+    const type =
+      ext === ".webp"
+        ? "image/webp"
+        : ext === ".png"
+          ? "image/png"
+          : ext === ".jpg" || ext === ".jpeg"
+            ? "image/jpeg"
+            : "application/octet-stream";
     response.writeHead(200, { "content-type": type, "cache-control": "public, max-age=3600" });
     createReadStream(absolute).pipe(response);
     return true;

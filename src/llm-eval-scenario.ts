@@ -179,10 +179,12 @@ export function buildEvidenceFromScenario(scenario: EvalScenario): DesignEvidenc
 }
 
 export const VISION_SCREEN_PROMPT = `You are scoring a marketing webpage screenshot for DIG.
+The image may be a full-page capture (tall) or a single viewport — read the whole image.
 Return ONLY minified JSON (no markdown, no trailing commas):
 {"heading":string,"cta":string,"layout_order":["media"|"heading"|"cta"|"other"],"notes":string,"confidence":number}
 Rules:
-- heading = main hero headline text visible in the image
-- cta = primary call-to-action button/link text
+- heading = main hero headline text visible near the top of the page
+- cta = primary call-to-action button/link text in the hero
 - layout_order = top-to-bottom order of the main hero blocks
+- notes = brief page-wide composition cues (e.g. full-bleed media bands, repeated product modules)
 - confidence in (0,1)`;

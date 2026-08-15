@@ -30,6 +30,7 @@ export function AnalysisResults({ detail }: { detail: LibraryAnalysisDetail | nu
   const { analysis, items, package: pkg } = detail;
   const cost = pkg?.cost;
   const vision = pkg?.vision as { status?: string; summary?: string; labels?: Array<{ name?: string }> } | null | undefined;
+  const sectionLooks = pkg?.section_descriptions ?? [];
 
   return (
     <div className="analysis-results">
@@ -66,6 +67,44 @@ export function AnalysisResults({ detail }: { detail: LibraryAnalysisDetail | nu
           </>
         ) : null}
       </dl>
+      {sectionLooks.length ? (
+        <div className="analysis-block">
+          <h5>Section look & feel</h5>
+          <ul>
+            {sectionLooks.map((item) => (
+              <li key={item.section_id ?? item.signature ?? item.look_summary}>
+                <strong>
+                  {item.category ?? "section"}
+                  {item.signature ? ` · ${item.signature}` : ""}
+                  {confidenceLabel(item.confidence)}
+                </strong>
+                {item.stack_summary ? <span>{item.stack_summary}</span> : null}
+                {item.look_summary ? <span>{item.look_summary}</span> : null}
+                {item.interaction_summary ? <span>{item.interaction_summary}</span> : null}
+                <span className="look-chips">
+                  {[
+                    item.background?.treatment ?? item.background?.kind,
+                    item.overlay?.present ? item.overlay.kind ?? "overlay" : null,
+                    item.shadows?.present ? item.shadows.notes ?? "shadow" : null,
+                    item.alignment?.cta ? `cta:${item.alignment.cta}` : null,
+                    ...(item.typography_emphasis ?? [])
+                  ]
+                    .filter(Boolean)
+                    .map((chip) => (
+                      <code key={String(chip)}>{chip}</code>
+                    ))}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <ItemList
+          title="Section look & feel"
+          items={items.section_look ?? []}
+          render={(item) => `${item.category ?? item.name ?? "section"}${confidenceLabel(item.confidence)}`}
+        />
+      )}
       <ItemList
         title="Screen patterns"
         items={items.screen_patterns}

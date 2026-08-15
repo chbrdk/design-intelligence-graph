@@ -97,6 +97,7 @@
       "target": "mobbin",
       "callsPerCaptureEstimate": {
         "textStages": 5,
+        "sectionLookMax": 8,
         "visionPerViewport": 1,
         "optionalHotspotFlow": 2
       },
@@ -111,6 +112,7 @@
       "bulkReasoningEffort": "none",
       "confidenceEscalateBelow": 0.55,
       "asyncDefault": true,
+      "sectionLookMaxSections": 8,
       "doc": "knowledge/llm-scaling-mobbin.md"
     }
   },
@@ -150,5 +152,23 @@
     "dims": 384,
     "model": "dig-hashing-v1",
     "provider": "hashing"
+  },
+  "checkionV3": {
+    "repo": "https://github.com/chbrdk/checkion-v3",
+    "localClone": "/Volumes/DevStorage/Development/checkion-v3",
+    "nearbyV2": "/Volumes/DevStorage/Development/CHECKION",
+    "capabilityMap": "knowledge/checkion-v3-capability-map.md",
+    "scanApiDoc": "knowledge/checkion-v3-scan-api.md",
+    "devWebPort": 3007,
+    "devMcpPort": 3100,
+    "stagingWeb": "https://checkion-v3.projects-a.plygrnd.tech",
+    "stagingMcp": "https://checkion-v3-mcp.projects-a.plygrnd.tech",
+    "mcpToolPrefix": "checkion_v3.",
+    "apiTokenEnv": "CHECKION_API_TOKEN",
+    "apiUrlEnv": "CHECKION_API_URL",
+    "projectIdEnv": "CHECKION_PROJECT_ID",
+    "defaultProjectName": "DIG",
+    "defaultProjectDomain": "design-intelligence-graph.local",
+    "screenshotsRequiredEnv": "DIG_CHECKION_SCREENSHOTS"
   }
 }

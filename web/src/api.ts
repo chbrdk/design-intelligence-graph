@@ -81,8 +81,12 @@ export interface LibraryScreen {
   site_domain: string | null;
   canonical_url: string;
   settled_url: string | null;
+  full_page_url?: string | null;
+  primary_url?: string | null;
   width: number | null;
   height: number | null;
+  document_width?: number | null;
+  document_height?: number | null;
 }
 
 export interface LibrarySection {
@@ -166,6 +170,7 @@ export interface LibraryAnalysisDetail {
     recipe_insights: LibraryAnalysisItem[];
     page_flow: LibraryAnalysisItem[];
     visual_style: LibraryAnalysisItem[];
+    section_look: LibraryAnalysisItem[];
   };
   package: {
     vision?: unknown;
@@ -176,6 +181,21 @@ export interface LibraryAnalysisDetail {
     } | null;
     stages?: unknown;
     hypotheses?: unknown;
+    section_descriptions?: Array<{
+      section_id?: string;
+      category?: string;
+      signature?: string;
+      stack_summary?: string;
+      look_summary?: string;
+      interaction_summary?: string;
+      confidence?: number;
+      background?: { kind?: string; treatment?: string };
+      overlay?: { present?: boolean; kind?: string; notes?: string };
+      shadows?: { present?: boolean; notes?: string };
+      typography_emphasis?: string[];
+      alignment?: { text?: string; cta?: string };
+      media?: { role?: string; notes?: string };
+    }> | null;
   } | null;
 }
 

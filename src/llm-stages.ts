@@ -1,11 +1,14 @@
 import type { DesignEvidenceInput } from "./llm-design.js";
 import type { LlmCompleter, LlmMessage } from "./llm-provider.js";
+import type { SectionLookDescription } from "./section-look.js";
+import { SECTION_LOOK_SYSTEM_PROMPT, sectionLookUserPrompt } from "./section-look.js";
 
 export type LlmStageId =
   | "screen_patterns"
   | "ui_elements"
   | "section_recipes"
   | "visual_style"
+  | "section_look"
   | "synthesize"
   | "vision_screen";
 
@@ -18,6 +21,7 @@ export const PARALLEL_TEXT_STAGES: LlmStageId[] = [
 
 export const CANONICAL_STAGE_ORDER: LlmStageId[] = [
   ...PARALLEL_TEXT_STAGES,
+  "section_look",
   "synthesize",
   "vision_screen"
 ];
@@ -42,6 +46,7 @@ export interface MobbinParityContent {
   }>;
   page_flow: Array<{ step: number; section_label: string; signature?: string }>;
   visual_style_labels: Array<{ name: string; confidence: number; evidence_refs: string[] }>;
+  section_descriptions: SectionLookDescription[];
 }
 
 function extractJsonObject(raw: string): unknown {
@@ -155,7 +160,8 @@ export function buildStageEvidence(stageId: LlmStageId, input: DesignEvidenceInp
       })),
       shape: {
         border_radius_values: viewport.shape.border_radius_values.slice(0, 5),
-        border_width_values: viewport.shape.border_width_values.slice(0, 4)
+        border_width_values: viewport.shape.border_width_values.slice(0, 4),
+        shadow_values: viewport.shape.shadow_values.slice(0, 4)
       }
     }));
     return JSON.stringify({
@@ -191,17 +197,21 @@ Return ONLY a single minified JSON object (no markdown, no trailing commas, no c
 Rules: explain stacks like "media then headline then CTA with ~Npx gaps"; 1-8 insights; ordered page_flow; keep interpretations under 160 chars.`;
   }
   if (stageId === "visual_style") {
-    return `You label visual style from measured fonts/colors/shape.
+    return `You label visual style from measured fonts/colors/shape/shadows.
 Return ONLY JSON: {"visual_style_labels":[{"name":string,"confidence":number,"evidence_refs":string[]}]}
-Rules: 2-6 labels (e.g. "SF Pro system sans", "high-contrast monochrome"); cite hex/fonts.`;
+Rules: 2-6 labels (e.g. "SF Pro system sans", "high-contrast monochrome", "soft drop shadows"); cite hex/fonts/shadows.`;
+  }
+  if (stageId === "section_look") {
+    return SECTION_LOOK_SYSTEM_PROMPT;
   }
   return `You synthesize prior DIG stage results into a short design reading.
 Return ONLY a single minified JSON object (no markdown, no trailing commas, no comments):
 {"design_summary":string,"hypotheses":[{"category":"page_archetype"|"layout_system"|"visual_style"|"hierarchy"|"component_pattern"|"responsive_strategy","value":string,"confidence":number,"rationale":string,"evidence_refs":string[]}]}
-Rules: 3-8 hypotheses; confidence in (0,1); do not invent unseen UI; keep summary <= 2 sentences.`;
+Rules: 3-8 hypotheses; confidence in (0,1); do not invent unseen UI; keep summary <= 2 sentences; weave in section look summaries when present.`;
 }
 
 export function stageUserPrompt(stageId: LlmStageId, evidenceJson: string): string {
+  if (stageId === "section_look") return sectionLookUserPrompt(evidenceJson);
   return `Stage=${stageId}. Evidence JSON:\n${evidenceJson}\nReturn JSON only.`;
 }
 
@@ -304,6 +314,7 @@ export function emptyMobbinParityContent(): MobbinParityContent {
     ui_elements: [],
     recipe_insights: [],
     page_flow: [],
-    visual_style_labels: []
+    visual_style_labels: [],
+    section_descriptions: []
   };
 }
