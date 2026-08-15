@@ -7,11 +7,19 @@ async function readJson<T>(response: Response): Promise<T & { error?: string }> 
   return (await response.json()) as T & { error?: string }
 }
 
-export async function startJob(url: string): Promise<JobSnapshot> {
+export async function startJob(
+  url: string,
+  opts?: { platformProjectId?: string | null },
+): Promise<JobSnapshot> {
   const response = await fetch(`${BASE}${paths.digApiJobs}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ url }),
+    body: JSON.stringify({
+      url,
+      ...(opts?.platformProjectId
+        ? { platformProjectId: opts.platformProjectId }
+        : {}),
+    }),
   })
   const body = await readJson<JobSnapshot>(response)
   if (!response.ok) throw new Error(body.error ?? `Request failed (${response.status})`)

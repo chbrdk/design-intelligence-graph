@@ -13,7 +13,7 @@
 | Unit test paths contract | Done | `test/plexon-paths.test.ts` |
 | plexon-v3: product `dig` binding + catalog | Done (code + Coolify env) | Cross-repo `plexon-v3`; `NEXT_PUBLIC_DIG_URL` set; deploy queued |
 | DIG Next island + Plexon auth | Done (staging) | `apps/web`; https://dig.projects-a.plygrnd.tech |
-| Collection-scoped dig projects | Done (P2 memory mirror) | PUT/GET provisioning + `/projects?platformProjectId=`; store in-memory until Postgres |
+| Collection-scoped dig projects | Done (P2 durable) | Postgres dig_projects + capture scope; island proxies to dig-api |
 | Coolify DIG staging | Done | Island + API + Postgres + volumes |
 | Live CHECKION peer via staging token | Partial | Attach exists; harden under Collection ids |
 | Assistant capabilities `dig.*` | Not started | |

@@ -47,7 +47,16 @@ export interface JobRecord {
   events: JobEvent[];
   result?: JobResult;
   error?: string;
+  /** Plexon Collection id when capture is scoped. */
+  platform_project_id?: string | null;
+  /** Local dig_projects.id when known. */
+  dig_project_id?: string | null;
 }
+
+export type StartJobOptions = {
+  platformProjectId?: string | null;
+  digProjectId?: string | null;
+};
 
 export interface JobRunnerOptions {
   capturesDir?: string;
@@ -128,9 +137,11 @@ export class JobRunner {
     };
   }
 
-  startJob(rawUrl: string): JobRecord {
+  startJob(rawUrl: string, options: StartJobOptions = {}): JobRecord {
     const url = normalizeCaptureUrl(rawUrl);
     const now = (this.options.now ?? (() => new Date()))().toISOString();
+    const platformProjectId = options.platformProjectId?.trim() || null;
+    const digProjectId = options.digProjectId?.trim() || null;
     const job: JobRecord = {
       job_id: createJobId(this.options.now),
       url,
@@ -138,7 +149,9 @@ export class JobRunner {
       message: "Job queued",
       created_at: now,
       updated_at: now,
-      events: []
+      events: [],
+      ...(platformProjectId ? { platform_project_id: platformProjectId } : {}),
+      ...(digProjectId ? { dig_project_id: digProjectId } : {})
     };
     this.jobs.set(job.job_id, job);
     this.emit(job, { stage: "queued", message: "Waiting to start detection" });
@@ -331,7 +344,10 @@ export class JobRunner {
       this.emit(job, { stage: "indexing", message: "Ingesting into portable knowledge graph" });
       const indexed = await indexFn(captureResult.packageRoot, indexesDir);
       try {
-        const dbIndex = await indexCapturePackageToDatabase(captureResult.packageRoot);
+        const dbIndex = await indexCapturePackageToDatabase(captureResult.packageRoot, undefined, {
+          platformProjectId: job.platform_project_id ?? null,
+          digProjectId: job.dig_project_id ?? null
+        });
         if (dbIndex.indexed) {
           this.emit(job, {
             stage: "indexing",
@@ -408,6 +424,8 @@ export function publicJobView(job: JobRecord): Omit<JobRecord, "events"> & { eve
     updated_at: job.updated_at,
     event_count: job.events.length
   };
+  if (job.platform_project_id) view.platform_project_id = job.platform_project_id;
+  if (job.dig_project_id) view.dig_project_id = job.dig_project_id;
   if (job.result) view.result = job.result;
   if (job.error) view.error = job.error;
   if (latest) view.latest_event = latest;

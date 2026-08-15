@@ -1,28 +1,30 @@
-# DIG Collection-scoped projects (P2)
+# DIG Collection projects — durable + capture scope
 
 **Date:** 2026-08-15  
-**Spec:** `docs/DIG-013-plexon-app.md` §5  
-**Island:** `apps/web`
+**Spec:** `docs/DIG-013-plexon-app.md` §5
 
-## Contract
+## Structured slices
 
-| Method | Path | Auth |
-|--------|------|------|
-| PUT | `/api/platform/provisioning/projects/{platformProjectId}` | `X-Service-Secret` + `X-Plexon-Contract-Version` |
-| GET | same | + `X-Plexon-User-Id` |
+| Slice | Status |
+|-------|--------|
+| P2a Island PUT/GET (memory) | Done |
+| **P2b Postgres `dig_projects` + capture columns** | Done (this doc) |
+| P2c Wave 2 Library/MCP `dig_reference_*` | Next |
+| P2d Persist references table + live MCP gate | Later |
 
-PUT body (federation v3): `contractVersion`, `name`, `platformCompanyId`, `ownerUserId`, optional `domain` / `status` / `source` / `requestedAt`.
+## Durable SoT
 
-PUT response must include `externalProjectId` (local dig project id) so plexon-v3 can bind.
+- Migration: `db/migrations/009_dig_projects.sql`
+- dig-api: `PUT/GET /api/platform/provisioning/projects/{platformProjectId}` (`src/platform-provisioning-api.ts`)
+- Island route proxies to dig-api when healthy + `PLEXON_SERVICE_SECRET`; else memory fallback
 
-## Storage (current)
+## Capture scope
 
-In-memory store on the Next island (`lib/dig-project-store.ts`) — enough for Coolify sync smoke and CI. Persist to Postgres in a later slice (shared dig-api DB or island `DATABASE_URL`).
+- `POST /api/jobs` body may include `platformProjectId` / `digProjectId`
+- Index writes `captures.platform_project_id` + `captures.dig_project_id`
+- Library: `GET /api/library/captures?platformProjectId=`
+- Capture UI reads `?platformProjectId=` from Collection deep link
 
-## Deep link
+## Coolify note
 
-`/projects?platformProjectId={id}` — Collection context for Capture/Library handoff.
-
-## Paths
-
-`knowledge/paths.json` → `plexon.provisioningProjectsPath` · `apps/web/lib/paths.ts` → `apiPlatformProvisioningProjects`.
+Redeploy **dig-v3:api** (migrate on start) **and** island after this lands. Shared secret must match plexon ↔ island ↔ api for durable upserts.

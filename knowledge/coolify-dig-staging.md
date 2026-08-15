@@ -45,6 +45,10 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 | `DIG_WEB_PORT` | `8787` |
 | `DIG_IN_CONTAINER` | `1` → captures `/data/captures`, indexes `/data/indexes` |
 | `DIG_DATABASE_URL` | Coolify internal URL for `dig-v3-postgres` (secret) |
+| `CHECKION_API_URL` | `https://checkion-v3.projects-a.plygrnd.tech` (full-page screenshot SoT) |
+| `DIG_CHECKION_SCREENSHOTS` | `1` (enable CHECKION attach; `0` skips) |
+| `CHECKION_API_TOKEN` | Bearer from CHECKION Settings (secret; required for live scans) |
+
 
 ## Storage / DB
 

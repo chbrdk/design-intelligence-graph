@@ -7,6 +7,7 @@ import { JobRunner, publicJobView, type JobEvent } from "./job-runner.js";
 import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
 import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-store.js";
 import { handleLibraryApi } from "./library-api.js";
+import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
 import { loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
 
@@ -113,12 +114,13 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
   }
 
   if (await handleLibraryApi(request, response, url)) return true;
+  if (await handlePlatformProvisioningApi(request, response, url)) return true;
 
   if (request.method === "OPTIONS") {
     response.writeHead(204, {
       "access-control-allow-origin": "*",
-      "access-control-allow-methods": "GET,POST,OPTIONS",
-      "access-control-allow-headers": "content-type"
+      "access-control-allow-methods": "GET,POST,PUT,OPTIONS",
+      "access-control-allow-headers": "content-type, x-service-secret, x-plexon-contract-version, x-plexon-user-id"
     });
     response.end();
     return true;
@@ -126,12 +128,30 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
 
   if (request.method === "POST" && url.pathname === paths.api.jobsPath) {
     try {
-      const body = (await readJson(request)) as { url?: unknown };
+      const body = (await readJson(request)) as {
+        url?: unknown;
+        platformProjectId?: unknown;
+        platform_project_id?: unknown;
+        digProjectId?: unknown;
+        dig_project_id?: unknown;
+      };
       if (typeof body.url !== "string") {
         sendJson(response, 400, { error: "Body must include string url" });
         return true;
       }
-      const job = runner.startJob(body.url);
+      const platformProjectId =
+        typeof body.platformProjectId === "string"
+          ? body.platformProjectId
+          : typeof body.platform_project_id === "string"
+            ? body.platform_project_id
+            : null;
+      const digProjectId =
+        typeof body.digProjectId === "string"
+          ? body.digProjectId
+          : typeof body.dig_project_id === "string"
+            ? body.dig_project_id
+            : null;
+      const job = runner.startJob(body.url, { platformProjectId, digProjectId });
       sendJson(response, 202, publicJobView(job));
     } catch (error: unknown) {
       sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });

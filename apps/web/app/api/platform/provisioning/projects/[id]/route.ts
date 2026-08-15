@@ -30,7 +30,7 @@ export async function GET(
     return jsonWithContract({ error: 'platform project id required' }, { status: 400 })
   }
 
-  const project = getProjectByPlatformId(platformProjectId)
+  const project = await getProjectByPlatformId(platformProjectId)
   if (!project) {
     return jsonWithContract({ error: 'Not found' }, { status: 404 })
   }
@@ -89,7 +89,7 @@ export async function PUT(
     )
   }
 
-  const project = upsertByPlatformProjectId(platformProjectId, {
+  const project = await upsertByPlatformProjectId(platformProjectId, {
     name: body.name,
     domain: body.domain,
     status: body.status,

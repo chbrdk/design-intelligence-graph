@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import type { Queryable } from "./db.js";
 import { getPool, runMigrations } from "./db.js";
+import { bumpDigProjectCaptureActivity, getDigProjectByPlatformId } from "./dig-projects.js";
 import { upsertEmbeddings, type EmbeddingSubject } from "./embeddings.js";
 import type { LlmDesignAnalysis } from "./llm-design.js";
 import type { OntologyEntity, ViewportOntology } from "./ontology.js";
@@ -63,15 +64,30 @@ function boxFromEntity(entity: OntologyEntity): Box | null {
   return null;
 }
 
+export type IndexCaptureScope = {
+  platformProjectId?: string | null;
+  digProjectId?: string | null;
+};
+
 export async function indexCapturePackageToDatabase(
   packageRoot: string,
-  client: Queryable | null = getPool()
+  client: Queryable | null = getPool(),
+  scope: IndexCaptureScope = {}
 ): Promise<{ indexed: boolean; reason?: string }> {
   if (!client) return { indexed: false, reason: "database_unavailable" };
   await runMigrations(process.cwd(), client);
 
   const manifest = JSON.parse(await readFile(resolve(packageRoot, "manifest.json"), "utf8")) as CaptureManifest;
   const captureRunId = manifest.capture_run_id;
+  let digProjectId = scope.digProjectId?.trim() || null;
+  let platformProjectId = scope.platformProjectId?.trim() || null;
+  if (!digProjectId && platformProjectId) {
+    const project = await getDigProjectByPlatformId(platformProjectId, client);
+    if (project) digProjectId = project.id;
+  }
+  if (digProjectId && !platformProjectId) {
+    /* keep dig id only */
+  }
   const qualityOverall =
     typeof (manifest as { quality?: { overall?: number } }).quality?.overall === "number"
       ? (manifest as { quality?: { overall?: number } }).quality!.overall!
@@ -94,14 +110,17 @@ export async function indexCapturePackageToDatabase(
   await client.query(
     `INSERT INTO captures (
       capture_run_id, package_path, requested_url, canonical_url, status,
-      site_domain, page_route, quality_overall, quality_rating, started_at, completed_at, indexed_at
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,NOW())
+      site_domain, page_route, quality_overall, quality_rating, started_at, completed_at, indexed_at,
+      dig_project_id, platform_project_id
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,NOW(),$12,$13)
     ON CONFLICT (capture_run_id) DO UPDATE SET
       package_path = EXCLUDED.package_path,
       status = EXCLUDED.status,
       quality_overall = EXCLUDED.quality_overall,
       quality_rating = EXCLUDED.quality_rating,
       completed_at = EXCLUDED.completed_at,
+      dig_project_id = COALESCE(EXCLUDED.dig_project_id, captures.dig_project_id),
+      platform_project_id = COALESCE(EXCLUDED.platform_project_id, captures.platform_project_id),
       indexed_at = NOW()`,
     [
       captureRunId,
@@ -114,9 +133,15 @@ export async function indexCapturePackageToDatabase(
       qualityScore,
       qualityRating,
       manifest.started_at,
-      manifest.completed_at
+      manifest.completed_at,
+      digProjectId,
+      platformProjectId
     ]
   );
+
+  if (digProjectId) {
+    await bumpDigProjectCaptureActivity(digProjectId, client);
+  }
 
   await client.query("DELETE FROM viewports WHERE capture_run_id = $1", [captureRunId]);
   for (const viewport of manifest.viewport_captures) {

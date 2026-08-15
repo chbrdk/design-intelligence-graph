@@ -164,12 +164,28 @@ export async function handleLibraryApi(
   const path = requestUrl.pathname.slice(base.length) || "/";
 
   if (request.method === "GET" && path === "/captures") {
+    const platformProjectId = queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id");
+    const digProjectId = queryParam(requestUrl, "digProjectId") ?? queryParam(requestUrl, "dig_project_id");
+    const clauses: string[] = [];
+    const values: unknown[] = [];
+    if (platformProjectId) {
+      values.push(platformProjectId);
+      clauses.push(`platform_project_id = $${values.length}`);
+    }
+    if (digProjectId) {
+      values.push(digProjectId);
+      clauses.push(`dig_project_id = $${values.length}`);
+    }
+    const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
     const result = await client.query(
       `SELECT capture_run_id, package_path, requested_url, canonical_url, status, site_domain, page_route,
-              quality_overall, quality_rating, started_at, completed_at, indexed_at
+              quality_overall, quality_rating, started_at, completed_at, indexed_at,
+              dig_project_id, platform_project_id
        FROM captures
+       ${where}
        ORDER BY indexed_at DESC
-       LIMIT 100`
+       LIMIT 100`,
+      values
     );
     sendJson(response, 200, { captures: result.rows });
     return true;

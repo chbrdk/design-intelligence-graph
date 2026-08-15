@@ -1,6 +1,7 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Alert, Button, Field, Input, Panel, Text, TopStatus } from '../lib/msqdx-ui'
 import {
   fetchEnrichmentJobs,
@@ -9,12 +10,15 @@ import {
   subscribeJobEvents,
   type EnrichmentJob,
 } from '../lib/dig-api'
+import { paths } from '../lib/paths'
 import { STAGE_ORDER, stageLabel, stagePhase, type JobEvent, type JobSnapshot, type JobStage } from '../lib/stages'
 import { AppShell } from './app-shell'
 
 const ACTIVE: JobStage[] = ['queued', 'capturing', 'analyzing', 'verifying', 'indexing']
 
-export function CapturePageClient() {
+function CaptureBody() {
+  const search = useSearchParams()
+  const platformProjectId = search.get(paths.platformProjectQueryParam)?.trim() || null
   const [url, setUrl] = useState('https://example.com')
   const [job, setJob] = useState<JobSnapshot | null>(null)
   const [events, setEvents] = useState<JobEvent[]>([])
@@ -64,7 +68,7 @@ export function CapturePageClient() {
     setSubmitting(true)
     setEvents([])
     try {
-      const created = await startJob(url)
+      const created = await startJob(url, { platformProjectId })
       setJob(await fetchJob(created.job_id))
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
@@ -96,6 +100,11 @@ export function CapturePageClient() {
       }
     >
       <Panel className="dig-panel">
+        {platformProjectId ? (
+          <Text role="meta">
+            Collection: <code>{platformProjectId}</code>
+          </Text>
+        ) : null}
         <form className="dig-stack" onSubmit={onSubmit}>
           <Field label="Target URL">
             <Input
@@ -154,5 +163,13 @@ export function CapturePageClient() {
         ) : null}
       </Panel>
     </AppShell>
+  )
+}
+
+export function CapturePageClient() {
+  return (
+    <Suspense fallback={<AppShell title="Capture"><Panel className="dig-panel">Loading…</Panel></AppShell>}>
+      <CaptureBody />
+    </Suspense>
   )
 }

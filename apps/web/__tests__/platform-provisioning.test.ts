@@ -54,7 +54,7 @@ describe('platform provisioning projects', () => {
     expect(typeof body.externalProjectId).toBe('string')
     expect(body.externalProjectId).toMatch(/^dig-/)
 
-    const project = getProjectByPlatformId('pp-live-1')
+    const project = await getProjectByPlatformId('pp-live-1')
     expect(project?.name).toBe('Live Collection')
     expect(project?.domain).toBe('live.example')
     expect(project?.capabilityStatus).toBe('in_sync')
@@ -92,8 +92,8 @@ describe('platform provisioning projects', () => {
     )
     const secondBody = await second.json()
     expect(secondBody.externalProjectId).toBe(firstBody.externalProjectId)
-    expect(getProjectByPlatformId('pp-idem')?.name).toBe('B')
-    expect(getProjectByPlatformId('pp-idem')?.status).toBe('archived')
+    expect((await getProjectByPlatformId('pp-idem'))?.name).toBe('B')
+    expect((await getProjectByPlatformId('pp-idem'))?.status).toBe('archived')
   })
 
   it('PUT rejects unauthorized requests', async () => {
