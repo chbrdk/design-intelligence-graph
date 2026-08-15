@@ -138,3 +138,15 @@ export async function listEnrichmentJobsFromDb(
   );
   return result.rows.map(rowToJob);
 }
+
+export async function getEnrichmentJobFromDb(
+  enrichmentJobId: string,
+  client: Queryable | null = getPool()
+): Promise<EnrichmentJobRecord | null> {
+  if (!client) return null;
+  const result = await client.query(`SELECT * FROM enrichment_jobs WHERE enrichment_job_id = $1 LIMIT 1`, [
+    enrichmentJobId
+  ]);
+  const row = result.rows[0];
+  return row ? rowToJob(row) : null;
+}

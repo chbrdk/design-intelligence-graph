@@ -283,3 +283,128 @@ test("library API lists design nodes", async () => {
   assert.equal(mock.statusCode, 200);
   assert.match(mock.body, /Button/);
 });
+
+test("library API lists analyses", async () => {
+  const mock = mockResponse();
+  const client = {
+    async query(sql: string) {
+      assert.match(sql, /llm_analyses/i);
+      return {
+        rows: [
+          {
+            capture_run_id: "cap_llm",
+            model: "qwen",
+            status: "ok",
+            analysis_mode: "staged",
+            design_summary: "Hero-led marketing page",
+            hypothesis_count: 2,
+            generated_at: new Date().toISOString(),
+            raw_response_sha256: "abc",
+            site_domain: "example.com",
+            canonical_url: "https://example.com/",
+            package_path: "/tmp/pkg"
+          }
+        ]
+      };
+    }
+  };
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/analyses"),
+    client
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  const body = JSON.parse(mock.body) as { analyses: Array<{ capture_run_id: string }> };
+  assert.equal(body.analyses[0]?.capture_run_id, "cap_llm");
+});
+
+test("library API analysis detail groups items", async () => {
+  const mock = mockResponse();
+  let call = 0;
+  const client = {
+    async query(sql: string) {
+      call += 1;
+      if (call === 1) {
+        assert.match(sql, /llm_analyses/i);
+        return {
+          rows: [
+            {
+              capture_run_id: "cap_llm",
+              model: "qwen",
+              base_url: null,
+              status: "ok",
+              analysis_mode: "staged",
+              design_summary: "Summary",
+              hypothesis_count: 1,
+              generated_at: null,
+              raw_response_sha256: null,
+              site_domain: "example.com",
+              canonical_url: "https://example.com/",
+              package_path: "/tmp/missing-pkg"
+            }
+          ]
+        };
+      }
+      assert.match(sql, /llm_items/i);
+      return {
+        rows: [
+          {
+            id: 1,
+            kind: "screen_pattern",
+            name: "hero_media",
+            signature: null,
+            category: null,
+            interpretation: "Media above heading",
+            section_label: null,
+            step_index: null,
+            confidence: 0.9,
+            evidence_refs: [],
+            gaps: null
+          },
+          {
+            id: 2,
+            kind: "ui_element",
+            name: "primary_cta",
+            signature: null,
+            category: null,
+            interpretation: null,
+            section_label: null,
+            step_index: null,
+            confidence: 0.8,
+            evidence_refs: [],
+            gaps: null
+          },
+          {
+            id: 3,
+            kind: "page_flow",
+            name: null,
+            signature: "media>heading",
+            category: null,
+            interpretation: null,
+            section_label: "Hero",
+            step_index: 1,
+            confidence: null,
+            evidence_refs: [],
+            gaps: null
+          }
+        ]
+      };
+    }
+  };
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/analyses/cap_llm"),
+    client
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  const body = JSON.parse(mock.body) as {
+    items: { screen_patterns: unknown[]; ui_elements: unknown[]; page_flow: unknown[] };
+  };
+  assert.equal(body.items.screen_patterns.length, 1);
+  assert.equal(body.items.ui_elements.length, 1);
+  assert.equal(body.items.page_flow.length, 1);
+});

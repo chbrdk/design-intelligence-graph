@@ -590,6 +590,125 @@ input[type="url"]:focus {
   margin: 0.25rem 0 0.5rem;
 }
 
+.ops-panel {
+  scroll-margin-top: 1rem;
+}
+
+.ops-split {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.9fr) minmax(0, 1.3fr);
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.ops-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+  max-height: 22rem;
+  overflow: auto;
+}
+
+.ops-empty {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  padding: 0.4rem 0;
+}
+
+.ops-row {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0;
+}
+
+.ops-row.active {
+  border-color: var(--line);
+  background: rgba(61, 207, 154, 0.08);
+}
+
+.ops-row span {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
+.ops-detail {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.35rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.result-grid.compact {
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.82rem;
+}
+
+.status-pill {
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.status-pill.status-complete,
+.status-pill.status-succeeded {
+  color: var(--accent);
+}
+
+.status-pill.status-failed {
+  color: var(--danger);
+}
+
+.status-pill.status-running,
+.status-pill.status-queued {
+  color: #d6b462;
+}
+
+.analysis-results {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.analysis-block h5 {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.analysis-block ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.analysis-block li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.35rem 0;
+  border-top: 1px solid var(--line);
+  font-size: 0.84rem;
+}
+
+.analysis-block span {
+  color: var(--ink-muted);
+}
+
+.analysis-block code {
+  color: var(--accent);
+  font-size: 0.76rem;
+}
+
 .section-list {
   list-style: none;
   margin: 0;
@@ -620,7 +739,8 @@ input[type="url"]:focus {
 
   .library-filters,
   .section-list li,
-  .screen-detail-layout {
+  .screen-detail-layout,
+  .ops-split {
     grid-template-columns: 1fr;
   }
 

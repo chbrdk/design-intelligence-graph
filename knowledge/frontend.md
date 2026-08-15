@@ -1,10 +1,10 @@
 # Slim web UI
 
-Added 2026-08-15.
+Added 2026-08-15. Updated 2026-08-15 (enrichment + analyses dashboard).
 
 ## Purpose
 
-URL entry plus live status for **detection** (capture) and **ingestion** (verify + graph index).
+URL entry plus live status for **detection** (capture), **ingestion** (verify + graph index), **async enrichment** ops, and **indexed LLM analyses**.
 
 ## Endpoints
 
@@ -13,6 +13,17 @@ Paths come from [`paths.json`](paths.json):
 - `POST /api/jobs` `{ "url": "https://…" }` → `202` job snapshot
 - `GET /api/jobs/:id` → snapshot
 - `GET /api/jobs/:id/events` → SSE `event: job`
+- `GET /api/enrichment` → enrichment jobs (memory + Postgres)
+- `GET /api/enrichment/:id` → single enrichment job
+- `GET /api/library/analyses` → indexed LLM analyses
+- `GET /api/library/analyses/:capture_run_id` → grouped items + package extras (vision/cost/stages)
+
+## Dashboard panels
+
+1. **Pipeline status** — capture job timeline; shows `enrichment_job_id` when async LLM is queued
+2. **Enrichment** — queue status, models, tokens, estimated USD; link to analysis
+3. **Analyses** — design summary, patterns, UI elements, recipes, visual style, page flow, vision/cost
+4. **Library** — screens/hotspots; screen detail embeds the same analysis results when present
 
 ## Local
 

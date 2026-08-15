@@ -11,6 +11,8 @@ export interface JobResult {
   llm_status?: string;
   llm_hypothesis_count?: number;
   design_summary?: string;
+  enrichment_job_id?: string;
+  enrichment_status?: string;
 }
 
 export interface JobEvent {

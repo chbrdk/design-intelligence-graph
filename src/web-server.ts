@@ -5,6 +5,7 @@ import { extname, join, normalize, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { JobRunner, publicJobView, type JobEvent } from "./job-runner.js";
 import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
+import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-store.js";
 import { handleLibraryApi } from "./library-api.js";
 import { loadDotEnv } from "./load-env.js";
 import { loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
@@ -135,13 +136,20 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
   }
 
   if (request.method === "GET" && url.pathname === enrichmentPath) {
-    sendJson(response, 200, { jobs: enrichmentQueue.listJobs().map(publicEnrichmentView) });
+    const memory = enrichmentQueue.listJobs();
+    const fromDb = await listEnrichmentJobsFromDb(100).catch(() => []);
+    const byId = new Map<string, ReturnType<typeof publicEnrichmentView>>();
+    for (const job of fromDb) byId.set(job.enrichment_job_id, publicEnrichmentView(job));
+    for (const job of memory) byId.set(job.enrichment_job_id, publicEnrichmentView(job));
+    const jobs = [...byId.values()].sort((a, b) => b.created_at.localeCompare(a.created_at));
+    sendJson(response, 200, { jobs });
     return true;
   }
 
   const enrichmentMatch = url.pathname.match(new RegExp(`^${enrichmentPath}/([^/]+)$`));
   if (request.method === "GET" && enrichmentMatch) {
-    const job = enrichmentQueue.getJob(decodeURIComponent(enrichmentMatch[1]!));
+    const id = decodeURIComponent(enrichmentMatch[1]!);
+    const job = enrichmentQueue.getJob(id) ?? (await getEnrichmentJobFromDb(id).catch(() => null));
     if (!job) {
       sendJson(response, 404, { error: "Enrichment job not found" });
       return true;

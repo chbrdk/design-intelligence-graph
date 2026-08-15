@@ -297,6 +297,82 @@ export async function handleLibraryApi(
     return true;
   }
 
+  if (request.method === "GET" && path === "/analyses") {
+    const result = await client.query(
+      `SELECT a.capture_run_id, a.model, a.status, a.analysis_mode, a.design_summary,
+              a.hypothesis_count, a.generated_at, a.raw_response_sha256,
+              c.site_domain, c.canonical_url, c.package_path
+       FROM llm_analyses a
+       JOIN captures c ON c.capture_run_id = a.capture_run_id
+       ORDER BY COALESCE(a.generated_at, c.indexed_at) DESC
+       LIMIT 100`
+    );
+    sendJson(response, 200, { analyses: result.rows });
+    return true;
+  }
+
+  const analysisDetail = path.match(/^\/analyses\/([^/]+)$/);
+  if (request.method === "GET" && analysisDetail) {
+    const captureRunId = decodeURIComponent(analysisDetail[1]!);
+    const analysis = await client.query(
+      `SELECT a.capture_run_id, a.model, a.base_url, a.status, a.analysis_mode, a.design_summary,
+              a.hypothesis_count, a.generated_at, a.raw_response_sha256,
+              c.site_domain, c.canonical_url, c.package_path
+       FROM llm_analyses a
+       JOIN captures c ON c.capture_run_id = a.capture_run_id
+       WHERE a.capture_run_id = $1
+       LIMIT 1`,
+      [captureRunId]
+    );
+    const row = analysis.rows[0];
+    if (!row) {
+      sendJson(response, 404, { error: "analysis_not_found" });
+      return true;
+    }
+    const items = await client.query(
+      `SELECT id, kind, name, signature, category, interpretation, section_label, step_index,
+              confidence, evidence_refs, gaps
+       FROM llm_items
+       WHERE capture_run_id = $1
+       ORDER BY kind ASC, step_index ASC NULLS LAST, id ASC`,
+      [captureRunId]
+    );
+    const grouped = {
+      screen_patterns: items.rows.filter((item) => item.kind === "screen_pattern"),
+      ui_elements: items.rows.filter((item) => item.kind === "ui_element"),
+      recipe_insights: items.rows.filter((item) => item.kind === "recipe_insight"),
+      page_flow: items.rows.filter((item) => item.kind === "page_flow"),
+      visual_style: items.rows.filter((item) => item.kind === "visual_style")
+    };
+    let packageExtras: Record<string, unknown> | null = null;
+    const packagePath = typeof row.package_path === "string" ? row.package_path : null;
+    if (packagePath) {
+      try {
+        const llmPath = resolve(packagePath, "derived/llm-design.json");
+        const llm = JSON.parse(await readFile(llmPath, "utf8")) as {
+          vision?: unknown;
+          cost?: unknown;
+          stages?: unknown;
+          hypotheses?: unknown;
+        };
+        packageExtras = {
+          vision: llm.vision ?? null,
+          cost: llm.cost ?? null,
+          stages: llm.stages ?? null,
+          hypotheses: llm.hypotheses ?? null
+        };
+      } catch {
+        packageExtras = null;
+      }
+    }
+    sendJson(response, 200, {
+      analysis: row,
+      items: grouped,
+      package: packageExtras
+    });
+    return true;
+  }
+
   if (request.method === "GET" && path === "/collections") {
     const result = await client.query(
       `SELECT c.id, c.name, c.created_at,

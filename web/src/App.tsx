@@ -2,7 +2,10 @@ import { useEffect, useState, type FormEvent } from "react";
 import {
   addCaptureToCollection,
   createCollection,
+  fetchAnalyses,
+  fetchAnalysisDetail,
   fetchCollections,
+  fetchEnrichmentJobs,
   fetchJob,
   fetchLibraryFlows,
   fetchLibraryScreens,
@@ -12,6 +15,9 @@ import {
   searchLibrary,
   startJob,
   subscribeJobEvents,
+  type EnrichmentJob,
+  type LibraryAnalysisDetail,
+  type LibraryAnalysisSummary,
   type LibraryCollection,
   type LibraryFlowStep,
   type LibraryHotspot,
@@ -19,9 +25,11 @@ import {
   type LibrarySearchHit,
   type LibrarySection
 } from "./api";
+import { AnalysisResults, AnalysesPanel, EnrichmentPanel } from "./OpsPanels";
 import { STAGE_ORDER, stageLabel, stagePhase, type JobEvent, type JobSnapshot, type JobStage } from "./stages";
 
 const ACTIVE: JobStage[] = ["queued", "capturing", "analyzing", "verifying", "indexing"];
+const ENRICH_ACTIVE = new Set(["queued", "running"]);
 
 export function App() {
   const [url, setUrl] = useState("https://example.com");
@@ -41,6 +49,14 @@ export function App() {
   const [collectionName, setCollectionName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchHits, setSearchHits] = useState<LibrarySearchHit[]>([]);
+  const [enrichmentJobs, setEnrichmentJobs] = useState<EnrichmentJob[]>([]);
+  const [enrichmentError, setEnrichmentError] = useState<string | null>(null);
+  const [selectedEnrichmentId, setSelectedEnrichmentId] = useState<string | null>(null);
+  const [analyses, setAnalyses] = useState<LibraryAnalysisSummary[]>([]);
+  const [analysesError, setAnalysesError] = useState<string | null>(null);
+  const [selectedAnalysisId, setSelectedAnalysisId] = useState<string | null>(null);
+  const [analysisDetail, setAnalysisDetail] = useState<LibraryAnalysisDetail | null>(null);
+  const [screenAnalysis, setScreenAnalysis] = useState<LibraryAnalysisDetail | null>(null);
 
   async function refreshLibrary(nextCategory = category, nextSignature = signature) {
     try {
@@ -63,6 +79,37 @@ export function App() {
     }
   }
 
+  async function refreshEnrichment() {
+    try {
+      setEnrichmentError(null);
+      setEnrichmentJobs(await fetchEnrichmentJobs());
+    } catch (err: unknown) {
+      setEnrichmentError(err instanceof Error ? err.message : String(err));
+      setEnrichmentJobs([]);
+    }
+  }
+
+  async function refreshAnalyses() {
+    try {
+      setAnalysesError(null);
+      setAnalyses(await fetchAnalyses());
+    } catch (err: unknown) {
+      setAnalysesError(err instanceof Error ? err.message : String(err));
+      setAnalyses([]);
+    }
+  }
+
+  async function openAnalysis(captureRunId: string) {
+    setSelectedAnalysisId(captureRunId);
+    try {
+      setAnalysesError(null);
+      setAnalysisDetail(await fetchAnalysisDetail(captureRunId));
+    } catch (err: unknown) {
+      setAnalysesError(err instanceof Error ? err.message : String(err));
+      setAnalysisDetail(null);
+    }
+  }
+
   async function openScreen(screen: LibraryScreen) {
     try {
       setLibraryError(null);
@@ -70,6 +117,11 @@ export function App() {
       setSelectedScreen(detail.screen);
       setHotspots(detail.hotspots.filter((item) => item.role === "section" || item.normalized));
       setFlowSteps(await fetchLibraryFlows(screen.capture_run_id));
+      try {
+        setScreenAnalysis(await fetchAnalysisDetail(screen.capture_run_id));
+      } catch {
+        setScreenAnalysis(null);
+      }
     } catch (err: unknown) {
       setLibraryError(err instanceof Error ? err.message : String(err));
     }
@@ -124,6 +176,8 @@ export function App() {
 
   useEffect(() => {
     void refreshLibrary();
+    void refreshEnrichment();
+    void refreshAnalyses();
   }, []);
 
   useEffect(() => {
@@ -147,9 +201,35 @@ export function App() {
             }
           : prev
       );
-      if (event.stage === "complete") void refreshLibrary();
+      if (event.stage === "complete") {
+        void refreshLibrary();
+        void refreshEnrichment();
+        if (event.result?.enrichment_job_id) setSelectedEnrichmentId(event.result.enrichment_job_id);
+      }
     });
   }, [job?.job_id, job?.stage]);
+
+  useEffect(() => {
+    const enrichmentId = job?.result?.enrichment_job_id;
+    if (!enrichmentId) return;
+    const tick = () => {
+      void refreshEnrichment();
+      void refreshAnalyses();
+    };
+    tick();
+    const handle = window.setInterval(tick, 2500);
+    return () => window.clearInterval(handle);
+  }, [job?.result?.enrichment_job_id, job?.result?.enrichment_status]);
+
+  useEffect(() => {
+    const hasActive = enrichmentJobs.some((item) => ENRICH_ACTIVE.has(item.status));
+    if (!hasActive) return;
+    const handle = window.setInterval(() => {
+      void refreshEnrichment();
+      void refreshAnalyses();
+    }, 3000);
+    return () => window.clearInterval(handle);
+  }, [enrichmentJobs]);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -171,6 +251,10 @@ export function App() {
 
   const phase = job ? stagePhase(job.stage) : "idle";
   const currentIndex = job ? STAGE_ORDER.indexOf(job.stage === "failed" ? "queued" : job.stage) : -1;
+  const liveEnrichment =
+    job?.result?.enrichment_job_id != null
+      ? enrichmentJobs.find((item) => item.enrichment_job_id === job.result?.enrichment_job_id)
+      : undefined;
 
   return (
     <div className="shell">
@@ -271,6 +355,15 @@ export function App() {
                   </dd>
                 </>
               ) : null}
+              {job.result.enrichment_job_id ? (
+                <>
+                  <dt>Enrichment</dt>
+                  <dd>
+                    {liveEnrichment?.status ?? job.result.enrichment_status ?? "queued"}
+                    {liveEnrichment?.design_summary ? ` · ${liveEnrichment.design_summary.slice(0, 80)}` : ""}
+                  </dd>
+                </>
+              ) : null}
               {typeof job.result.checked_artifacts === "number" ? (
                 <>
                   <dt>Artifacts</dt>
@@ -299,6 +392,24 @@ export function App() {
             </ul>
           ) : null}
         </section>
+
+        <EnrichmentPanel
+          jobs={enrichmentJobs}
+          selectedId={selectedEnrichmentId}
+          error={enrichmentError}
+          onRefresh={() => void refreshEnrichment()}
+          onSelect={setSelectedEnrichmentId}
+          onOpenAnalysis={(captureRunId) => void openAnalysis(captureRunId)}
+        />
+
+        <AnalysesPanel
+          analyses={analyses}
+          selectedId={selectedAnalysisId}
+          detail={analysisDetail}
+          error={analysesError}
+          onRefresh={() => void refreshAnalyses()}
+          onSelect={(id) => void openAnalysis(id)}
+        />
 
         <section className="library-panel" aria-label="Design library">
           <header className="status-header">
@@ -421,6 +532,8 @@ export function App() {
                   })}
                 </div>
                 <div className="flow-panel">
+                  <h4>Design AI</h4>
+                  <AnalysisResults detail={screenAnalysis} />
                   <h4>Page flow</h4>
                   {flowSteps.length ? (
                     <ol className="flow-list">

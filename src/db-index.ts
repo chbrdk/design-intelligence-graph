@@ -290,6 +290,19 @@ export async function indexCapturePackageToDatabase(
         content_text: `page_flow ${step.section_label} ${step.signature ?? ""}`
       });
     }
+    for (const label of llm.mobbin?.visual_style_labels ?? []) {
+      llmItemIndex += 1;
+      await client.query(
+        `INSERT INTO llm_items (capture_run_id, kind, name, confidence, evidence_refs)
+         VALUES ($1,'visual_style',$2,$3,$4::jsonb)`,
+        [captureRunId, label.name, label.confidence, JSON.stringify(label.evidence_refs)]
+      );
+      embeddingSubjects.push({
+        subject_kind: "llm_item",
+        subject_id: `visual_style:${llmItemIndex}:${label.name}`,
+        content_text: `visual_style ${label.name}`
+      });
+    }
   } catch {
     /* llm optional */
   }

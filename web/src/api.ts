@@ -1,4 +1,4 @@
-import { API_JOBS_PATH, API_LIBRARY_PATH } from "./dig-config";
+import { API_ENRICHMENT_PATH, API_JOBS_PATH, API_LIBRARY_PATH } from "./dig-config";
 import type { JobEvent, JobSnapshot } from "./stages";
 
 export async function startJob(url: string): Promise<JobSnapshot> {
@@ -32,6 +32,45 @@ export function subscribeJobEvents(jobId: string, onEvent: (event: JobEvent) => 
     source.removeEventListener("job", handle as EventListener);
     source.close();
   };
+}
+
+export interface EnrichmentJob {
+  enrichment_job_id: string;
+  capture_job_id?: string;
+  capture_run_id: string;
+  package_path: string;
+  status: string;
+  message: string;
+  attempts: number;
+  max_attempts: number;
+  bulk_model?: string;
+  quality_model?: string | null;
+  created_at: string;
+  updated_at: string;
+  started_at?: string;
+  completed_at?: string;
+  error?: string;
+  llm_status?: string;
+  hypothesis_count?: number;
+  design_summary?: string;
+  vision_status?: string;
+  prompt_tokens?: number;
+  completion_tokens?: number;
+  estimated_usd?: number | null;
+}
+
+export async function fetchEnrichmentJobs(): Promise<EnrichmentJob[]> {
+  const response = await fetch(API_ENRICHMENT_PATH);
+  const body = (await response.json()) as { jobs?: EnrichmentJob[]; error?: string };
+  if (!response.ok) throw new Error(body.error ?? `Enrichment list failed (${response.status})`);
+  return body.jobs ?? [];
+}
+
+export async function fetchEnrichmentJob(id: string): Promise<EnrichmentJob> {
+  const response = await fetch(`${API_ENRICHMENT_PATH}/${encodeURIComponent(id)}`);
+  const body = (await response.json()) as EnrichmentJob & { error?: string };
+  if (!response.ok) throw new Error(body.error ?? `Enrichment job failed (${response.status})`);
+  return body;
 }
 
 export interface LibraryScreen {
@@ -89,6 +128,57 @@ export interface LibraryCollection {
   capture_count?: number;
 }
 
+export interface LibraryAnalysisSummary {
+  capture_run_id: string;
+  model: string | null;
+  status: string | null;
+  analysis_mode: string | null;
+  design_summary: string | null;
+  hypothesis_count: number | null;
+  generated_at: string | null;
+  site_domain: string | null;
+  canonical_url: string | null;
+}
+
+export interface LibraryAnalysisItem {
+  id: number;
+  kind: string;
+  name: string | null;
+  signature: string | null;
+  category: string | null;
+  interpretation: string | null;
+  section_label: string | null;
+  step_index: number | null;
+  confidence: number | null;
+  evidence_refs: unknown;
+  gaps: unknown;
+}
+
+export interface LibraryAnalysisDetail {
+  analysis: LibraryAnalysisSummary & {
+    base_url?: string | null;
+    raw_response_sha256?: string | null;
+    package_path?: string | null;
+  };
+  items: {
+    screen_patterns: LibraryAnalysisItem[];
+    ui_elements: LibraryAnalysisItem[];
+    recipe_insights: LibraryAnalysisItem[];
+    page_flow: LibraryAnalysisItem[];
+    visual_style: LibraryAnalysisItem[];
+  };
+  package: {
+    vision?: unknown;
+    cost?: {
+      prompt_tokens?: number;
+      completion_tokens?: number;
+      estimated_usd?: number | null;
+    } | null;
+    stages?: unknown;
+    hypotheses?: unknown;
+  } | null;
+}
+
 export async function fetchLibraryScreens(): Promise<LibraryScreen[]> {
   const response = await fetch(`${API_LIBRARY_PATH}/screens`);
   const body = (await response.json()) as { screens?: LibraryScreen[]; error?: string };
@@ -132,6 +222,20 @@ export async function fetchLibraryFlows(captureRunId: string): Promise<LibraryFl
   const body = (await response.json()) as { steps?: LibraryFlowStep[]; error?: string };
   if (!response.ok) throw new Error(body.error ?? `Flows failed (${response.status})`);
   return body.steps ?? [];
+}
+
+export async function fetchAnalyses(): Promise<LibraryAnalysisSummary[]> {
+  const response = await fetch(`${API_LIBRARY_PATH}/analyses`);
+  const body = (await response.json()) as { analyses?: LibraryAnalysisSummary[]; error?: string };
+  if (!response.ok) throw new Error(body.error ?? `Analyses failed (${response.status})`);
+  return body.analyses ?? [];
+}
+
+export async function fetchAnalysisDetail(captureRunId: string): Promise<LibraryAnalysisDetail> {
+  const response = await fetch(`${API_LIBRARY_PATH}/analyses/${encodeURIComponent(captureRunId)}`);
+  const body = (await response.json()) as LibraryAnalysisDetail & { error?: string };
+  if (!response.ok) throw new Error(body.error ?? `Analysis detail failed (${response.status})`);
+  return body;
 }
 
 export async function fetchCollections(): Promise<LibraryCollection[]> {
