@@ -1,4 +1,8 @@
 {
+  "repository": {
+    "url": "https://github.com/chbrdk/design-intelligence-graph",
+    "defaultBranch": "main"
+  },
   "docker": {
     "image": "design-intelligence-graph:local",
     "playwrightBaseImage": "mcr.microsoft.com/playwright:v1.62.1-noble",
