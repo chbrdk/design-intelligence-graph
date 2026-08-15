@@ -105,4 +105,12 @@ test("emit DesignReference from section_look validates and writes jsonl", async 
   assert.match(parsed.reference_id, /^ref_sec_hero_0_/);
   const manifest = JSON.parse(await readFile(join(root, "manifest.json"), "utf8"));
   assert.ok(manifest.run_artifacts.design_references?.path);
+  assert.ok(manifest.run_artifacts.design_reference_embeddings?.path);
+  const embLines = (await readFile(join(root, "derived/design-references.embeddings.jsonl"), "utf8"))
+    .trim()
+    .split("\n");
+  assert.equal(embLines.length, 1);
+  const emb = JSON.parse(embLines[0]!);
+  assert.equal(emb.provider, "dig-hashing-v1");
+  assert.equal(emb.dims, 384);
 });

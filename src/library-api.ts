@@ -644,6 +644,7 @@ export async function handleLibraryApi(
         category: queryParam(requestUrl, "category") ?? undefined,
         signature: queryParam(requestUrl, "signature") ?? undefined,
         style_label: queryParam(requestUrl, "style_label") ?? undefined,
+        similar_to: queryParam(requestUrl, "similar_to") ?? queryParam(requestUrl, "similarTo") ?? undefined,
         platformProjectId:
           queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id"),
         digProjectId: queryParam(requestUrl, "digProjectId") ?? queryParam(requestUrl, "dig_project_id"),

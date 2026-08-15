@@ -40,6 +40,7 @@ export function listDigTools() {
           category: { type: "string" },
           signature: { type: "string" },
           style_label: { type: "string" },
+          similar_to: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
         }
@@ -129,6 +130,12 @@ export async function callDigReferenceTool(
       category: typeof args.category === "string" ? args.category : undefined,
       signature: typeof args.signature === "string" ? args.signature : undefined,
       style_label: typeof args.style_label === "string" ? args.style_label : undefined,
+      similar_to:
+        typeof args.similar_to === "string"
+          ? args.similar_to
+          : typeof args.similarTo === "string"
+            ? args.similarTo
+            : undefined,
       platformProjectId,
       limit: typeof args.limit === "number" ? args.limit : 20
     });

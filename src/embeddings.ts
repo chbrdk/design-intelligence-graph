@@ -54,9 +54,19 @@ export async function upsertEmbeddings(
   subjects: EmbeddingSubject[],
   root = process.cwd()
 ): Promise<number> {
+  await client.query("DELETE FROM embeddings WHERE capture_run_id = $1", [captureRunId]);
+  return upsertEmbeddingSubjects(client, captureRunId, subjects, root);
+}
+
+/** Upsert subjects without wiping other kinds for the capture (used for design_reference). */
+export async function upsertEmbeddingSubjects(
+  client: Queryable,
+  captureRunId: string,
+  subjects: EmbeddingSubject[],
+  root = process.cwd()
+): Promise<number> {
   const dims = embeddingDims(root);
   const model = embeddingModelName(root);
-  await client.query("DELETE FROM embeddings WHERE capture_run_id = $1", [captureRunId]);
   let written = 0;
   for (const subject of subjects) {
     const text = subject.content_text.trim();

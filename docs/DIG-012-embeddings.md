@@ -1,6 +1,6 @@
 # DIG-012 — DesignReference embeddings & similarity
 
-**Status:** Draft v0.1 — specified, **not implemented**  
+**Status:** v0.1 — **hashing runtime implemented** (`src/design-reference-embeddings.ts`); dense provider still optional  
 **Parent:** [DIG-012](DIG-012-design-reference.md)  
 **Paths:** `knowledge/paths.json` → `taxonomy.designReferenceEmbeddings`
 

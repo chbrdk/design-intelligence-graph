@@ -24,5 +24,7 @@ Redeploy queued after env set (build needed for `NEXT_PUBLIC_*`).
 
 ## Still open (DIG)
 
-- Persist dig projects to Postgres (replace in-memory store)
-- DIG-012 Wave 2 Collection-scoped MCP/Library
+- ~~Persist dig projects to Postgres~~ ✅
+- ~~DIG-012 Wave 2 Collection-scoped MCP/Library~~ ✅
+- CHECKION `CHECKION_API_TOKEN` on dig-api (operator)
+- Dense embedding provider (optional; hashing shipped)

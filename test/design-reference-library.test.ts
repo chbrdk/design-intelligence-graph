@@ -9,6 +9,8 @@ test("listDigTools includes dig_reference_* Wave 2 tools", () => {
   assert.ok(names.includes("dig_reference_search"));
   assert.ok(names.includes("dig_reference_get"));
   assert.ok(names.includes("dig_reference_pack"));
+  const search = listDigTools().find((t) => t.name === "dig_reference_search");
+  assert.ok(search?.inputSchema && "similar_to" in (search.inputSchema.properties as object));
 });
 
 test("assertCollectionScopeAllowed requires platformProjectId in live mode", () => {

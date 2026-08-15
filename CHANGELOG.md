@@ -1,5 +1,6 @@
 # Changelog
 
+- DIG-012 DesignReference hashing embeddings + `similar_to` search (library/MCP); sidecar `design-references.embeddings.jsonl`.
 - DIG-012 Wave 3–4 runtime: DesignPromptPack assembler + look_conditioned DIG-008 (`generation_version` 0.2.0); CHECKION peer skip reason when staging token missing.
 - DIG-011 Draft v0.1 spezifiziert (spec-only): User Flow Graph Phasen A–D, ADR-011, JSON Schemas, flow_actions-Katalog, CHECKION/AUDION Seed-Bridges — Runtime bewusst deferred.
 - DIG-011 Fixture-Validierung: Golden Scenarios unter `fixtures/flows/`, Ajv-Schema-Checks und Graph-Invarianten (`flow-schema-validate`).

@@ -170,6 +170,7 @@
     "designPromptPackSpec": "docs/DIG-012-prompt-pack.md",
     "designLookConditionedSpec": "docs/DIG-012-look-conditioned-generation.md",
     "designWave34Runtime": "knowledge/dig-012-wave3-4.md",
+    "designEmbeddingsRuntime": "knowledge/dig-012-embeddings-runtime.md",
     "designEmbeddingsSpec": "docs/DIG-012-embeddings.md",
     "designQualityEvalSpec": "docs/DIG-012-design-quality-eval.md",
     "lookConditionedMapping": "fixtures/design-references/look-conditioned-mapping.json",

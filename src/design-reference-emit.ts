@@ -201,9 +201,26 @@ export async function emitDesignReferencesForPackage(
     "application/x-ndjson"
   );
 
+  let embeddingsArtifact: ArtifactReference | undefined;
+  if (references.length) {
+    const {
+      buildDesignReferenceEmbeddingRow,
+      DESIGN_REFERENCE_EMBEDDINGS_RELATIVE_PATH
+    } = await import("./design-reference-embeddings.js");
+    const embBody =
+      references.map((ref) => JSON.stringify(buildDesignReferenceEmbeddingRow(ref))).join("\n") + "\n";
+    embeddingsArtifact = await writeArtifact(
+      packageRoot,
+      DESIGN_REFERENCE_EMBEDDINGS_RELATIVE_PATH,
+      embBody,
+      "application/x-ndjson"
+    );
+  }
+
   const runArtifacts: Record<string, ArtifactReference> = {
     ...manifest.run_artifacts,
-    design_references: artifact
+    design_references: artifact,
+    ...(embeddingsArtifact ? { design_reference_embeddings: embeddingsArtifact } : {})
   };
   const updatedManifest: CaptureManifest = {
     ...manifest,

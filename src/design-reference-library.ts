@@ -14,6 +14,7 @@ export type DesignReferenceSearchQuery = {
   category?: string;
   signature?: string;
   style_label?: string;
+  similar_to?: string;
   platformProjectId?: string | null;
   digProjectId?: string | null;
   limit?: number;
@@ -93,6 +94,12 @@ export async function upsertDesignReferencesForCapture(
     );
     count += 1;
   }
+  try {
+    const { upsertDesignReferenceEmbeddings } = await import("./design-reference-embeddings.js");
+    await upsertDesignReferenceEmbeddings(client, input.captureRunId, input.references);
+  } catch {
+    /* vector extension may be unavailable */
+  }
   if (input.digProjectId) {
     await client.query(
       `UPDATE dig_projects SET
@@ -149,6 +156,25 @@ export async function searchDesignReferences(
   assertCollectionScopeAllowed(query.platformProjectId);
   if (!client) return [];
   await runMigrations(process.cwd(), client);
+
+  if (query.similar_to?.trim()) {
+    const { searchDesignReferenceEmbeddingNeighbors } = await import("./design-reference-embeddings.js");
+    try {
+      const neighbors = await searchDesignReferenceEmbeddingNeighbors(client, {
+        similarTo: query.similar_to.trim(),
+        category: query.category,
+        signature: query.signature,
+        style_label: query.style_label,
+        platformProjectId: query.platformProjectId,
+        digProjectId: query.digProjectId,
+        limit: clampLimit(query.limit)
+      });
+      return neighbors.map((row) => row.payload);
+    } catch {
+      /* fall through to lexical if vector unavailable */
+    }
+  }
+
   const clauses: string[] = [];
   const values: unknown[] = [];
   if (query.platformProjectId?.trim()) {
