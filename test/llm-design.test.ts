@@ -3,7 +3,9 @@ import test from "node:test";
 import { deriveAnalysisReport } from "../src/analysis-pipeline.js";
 import {
   buildDesignEvidencePrompt,
+  isSectionEchoSummary,
   mergeLlmIntoAnalysisReport,
+  pageSummaryFromMobbin,
   parseLlmDesignResponse
 } from "../src/llm-design.js";
 import { localLlmConfig, OpenAiCompatibleLlmProvider } from "../src/llm-provider.js";
@@ -156,4 +158,43 @@ test("buildDesignEvidencePrompt strips node_ids and stays compact on large viewp
   assert.equal(prompt.includes("node_000001"), false);
   assert.ok(prompt.length < 8_000);
   assert.doesNotThrow(() => JSON.parse(prompt));
+});
+
+test("detects section-echo summaries and builds page-level fallback", () => {
+  assert.equal(
+    isSectionEchoSummary(
+      "Brand Hero — This section functions as a tall above-fold hero band (844px height)."
+    ),
+    true
+  );
+  assert.equal(isSectionEchoSummary("Marketing homepage with hero media, product bands, and sticky CTA."), false);
+  const summary = pageSummaryFromMobbin({
+    screen_patterns: [{ name: "marketing_home", confidence: 0.8, evidence_refs: [] }],
+    ui_elements: [],
+    recipe_insights: [],
+    page_flow: [],
+    visual_style_labels: [{ name: "high-contrast monochrome", confidence: 0.7, evidence_refs: [] }],
+    section_descriptions: [
+      {
+        section_id: "a",
+        signature: "media",
+        category: "hero",
+        stack_summary: "full-bleed media",
+        look_summary: "This section functions as hero",
+        confidence: 0.8,
+        evidence_refs: []
+      },
+      {
+        section_id: "b",
+        signature: "cta",
+        category: "conversion",
+        stack_summary: "sticky cta",
+        look_summary: "sticky bar",
+        confidence: 0.7,
+        evidence_refs: []
+      }
+    ]
+  });
+  assert.match(summary, /Page flow leans hero → conversion/i);
+  assert.equal(isSectionEchoSummary(summary), false);
 });

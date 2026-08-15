@@ -33,6 +33,35 @@ import type { LlmTokenUsage } from "./llm-provider.js";
 
 export const LLM_DESIGN_VERSION = "0.2.0";
 
+export function isSectionEchoSummary(summary: string): boolean {
+  const text = summary.trim();
+  if (!text) return true;
+  return (
+    /this section functions/i.test(text) ||
+    /this above-fold hero section/i.test(text) ||
+    /^(brand hero|hero media)\s*[—-]/i.test(text) ||
+    (/^\S+(?:\s+\S+){0,3}\s*[—-]\s*this section/i.test(text) && /px height|object-fit/i.test(text))
+  );
+}
+
+export function pageSummaryFromMobbin(mobbin: MobbinParityContent): string {
+  const sections = mobbin.section_descriptions ?? [];
+  const flow = [...new Set(sections.map((item) => item.category).filter(Boolean))].slice(0, 6);
+  const bands = sections.slice(0, 5).map((item) => {
+    const stack = (item.stack_summary || item.signature || "section").slice(0, 72);
+    return `${item.category ?? "section"} (${item.signature}): ${stack}`;
+  });
+  const styles = (mobbin.visual_style_labels ?? []).slice(0, 4).map((item) => item.name);
+  const patterns = (mobbin.screen_patterns ?? []).slice(0, 3).map((item) => item.name);
+  const parts = [
+    flow.length ? `Page flow leans ${flow.join(" → ")}.` : null,
+    bands.length ? `Key bands: ${bands.join("; ")}.` : null,
+    styles.length ? `Visual cues: ${styles.join(", ")}.` : null,
+    patterns.length ? `Screen patterns: ${patterns.join(", ")}.` : null
+  ].filter(Boolean);
+  return parts.join(" ") || "Staged design analysis complete";
+}
+
 export interface LlmDesignHypothesis {
   hypothesis_id: string;
   category:
@@ -716,10 +745,7 @@ async function analyzeDesignWithLlmStaged(
         section_id: item.section_id,
         category: item.category,
         signature: item.signature,
-        stack_summary: item.stack_summary,
-        // Keep synthesize page-level: short beats, not full section essays.
-        look_beat: (item.look_summary || item.stack_summary || "").slice(0, 140),
-        interaction_summary: item.interaction_summary?.slice(0, 100),
+        stack_summary: (item.stack_summary || "").slice(0, 100),
         confidence: item.confidence
       }))
     }
@@ -734,8 +760,12 @@ async function analyzeDesignWithLlmStaged(
 
   if (synthesizeOutcome.synthesized) {
     const completedStages = orderedStages.filter((stage) => stage.status === "complete").length;
+    const design_summary = isSectionEchoSummary(synthesizeOutcome.synthesized.design_summary)
+      ? pageSummaryFromMobbin(mobbin)
+      : synthesizeOutcome.synthesized.design_summary;
     return {
       ...synthesizeOutcome.synthesized,
+      design_summary,
       model,
       analysis_mode: "staged",
       stages: orderedStages,
@@ -768,10 +798,10 @@ async function analyzeDesignWithLlmStaged(
   // Soft-complete from partial stages when synthesize failed.
   const summaryParts = [
     mobbin.screen_patterns[0]?.name,
-    mobbin.section_descriptions[0]?.look_summary,
     mobbin.recipe_insights[0]?.interpretation,
     mobbin.visual_style_labels[0]?.name
   ].filter(Boolean);
+  const softSummary = pageSummaryFromMobbin(mobbin) || summaryParts.join(" — ") || "Staged design analysis complete";
   const hypotheses: LlmDesignHypothesis[] = [];
   for (const pattern of mobbin.screen_patterns.slice(0, 2)) {
     hypotheses.push({
@@ -835,7 +865,7 @@ async function analyzeDesignWithLlmStaged(
     model,
     base_url: config.baseUrl,
     status: "complete",
-    design_summary: summaryParts.join(" — ") || "Staged design analysis complete",
+    design_summary: softSummary,
     hypotheses: hypotheses.slice(0, 8),
     raw_response_sha256: `sha256:${createHash("sha256").update(rawChunks.join("\n")).digest("hex")}`,
     analysis_mode: "staged",
