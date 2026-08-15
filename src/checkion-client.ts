@@ -84,8 +84,29 @@ export function checkionConfig(environment: NodeJS.ProcessEnv = process.env, roo
   };
 }
 
+function isLocalCheckionBase(baseUrl: string): boolean {
+  try {
+    const host = new URL(baseUrl).hostname;
+    return host === "localhost" || host === "127.0.0.1" || host === "::1";
+  } catch {
+    return false;
+  }
+}
+
+/** Staging/remote CHECKION needs a Bearer token; local can run without Plexon. */
+export function checkionPeerReadyReason(config: CheckionConfig = checkionConfig()): string | null {
+  if (!config.required) {
+    return "CHECKION screenshots disabled (set CHECKION_API_URL + DIG_CHECKION_SCREENSHOTS=1)";
+  }
+  if (!config.baseUrl) return "CHECKION_API_URL not set";
+  if (!config.token && !isLocalCheckionBase(config.baseUrl)) {
+    return "CHECKION_API_TOKEN not set (create Bearer in CHECKION Settings → paste into dig-api Coolify env)";
+  }
+  return null;
+}
+
 export function isCheckionConfigured(config: CheckionConfig = checkionConfig()): boolean {
-  return config.required && Boolean(config.baseUrl);
+  return checkionPeerReadyReason(config) === null;
 }
 
 function authHeaders(config: CheckionConfig, json = false): HeadersInit {

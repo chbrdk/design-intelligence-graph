@@ -7,6 +7,7 @@ import { resolve } from "node:path";
 import {
   captureCheckionFullPage,
   checkionConfig,
+  checkionPeerReadyReason,
   isCheckionConfigured,
   type CheckionConfig,
   type CheckionScreenshot
@@ -99,9 +100,7 @@ export async function attachCheckionScreenshotIfConfigured(
   if (!isCheckionConfigured(config)) {
     return {
       attached: false,
-      skipped: config.required
-        ? "CHECKION_API_URL not set"
-        : "CHECKION screenshots disabled (set CHECKION_API_URL + DIG_CHECKION_SCREENSHOTS=1)"
+      skipped: checkionPeerReadyReason(config) ?? "CHECKION not configured"
     };
   }
   try {

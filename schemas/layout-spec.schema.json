@@ -1,1 +1,53 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://design-intelligence-graph.dev/schemas/0.1.0/layout-spec.schema.json","title":"DIG-008 Layout Specification","type":"object","required":["schema_version","generation_version","source_capture_run_id","generated_at","intent","breakpoints","tokens","blocks","provenance","constraints"],"properties":{"schema_version":{"const":"0.1.0"},"generation_version":{"const":"0.1.0"},"intent":{"const":"evidence_based_structural_synthesis"},"blocks":{"type":"array","items":{"type":"object","required":["block_id","kind","taxonomy_id","source_node_ids","responsive"]}}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/layout-spec.schema.json",
+  "title": "DIG-008 Layout Specification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generation_version",
+    "source_capture_run_id",
+    "generated_at",
+    "intent",
+    "breakpoints",
+    "tokens",
+    "blocks",
+    "provenance",
+    "constraints"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "generation_version": { "enum": ["0.1.0", "0.2.0"] },
+    "intent": {
+      "enum": ["evidence_based_structural_synthesis", "look_conditioned_structural_synthesis"]
+    },
+    "token_hints": {
+      "type": "object",
+      "properties": {
+        "colors": { "type": "object", "additionalProperties": { "type": "string" } },
+        "typography": { "type": "object", "additionalProperties": { "type": "string" } },
+        "shape": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["block_id", "kind", "taxonomy_id", "source_node_ids", "responsive"]
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["graph_lineage_count", "methods"],
+      "properties": {
+        "graph_lineage_count": { "type": "integer", "minimum": 0 },
+        "methods": { "type": "array", "items": { "type": "string" } },
+        "seed": { "enum": ["graph", "blank_canvas"] },
+        "reference_ids": { "type": "array", "items": { "type": "string" } },
+        "layout_hints_used": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    }
+  }
+}

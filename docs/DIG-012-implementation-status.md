@@ -19,6 +19,6 @@
 | Platform tenancy (DIG-013) | P2 projects Done | Auth island + dig binding + PUT/GET provisioning; live MCP still Wave 2 |
 | Emit `derived/design-references.jsonl` | Done (Wave 1 dummy) | `src/design-reference-emit.ts`; hooked from enrich + db-index |
 | Library/MCP reference APIs | Done (Wave 2) | `GET/POST /api/library/references*`; MCP `dig_reference_*`; Collection filter + live gate |
-| Prompt-pack runtime assembler | Partial | Eval assembles envelope; full Wave 3 helper later |
-| DIG-008 look_conditioned runtime | Not started | Wave 4 |
+| Prompt-pack runtime assembler | Done (Wave 3) | `src/design-prompt-pack.ts`; `POST /api/library/references/prompt-pack` |
+| DIG-008 look_conditioned runtime | Done (Wave 4) | `src/look-conditioned-generation.ts`; `generation_version` `0.2.0` |
 | `eval:design-reference` runner | Done | `npm run eval:design-reference` (R1/R2/R4 + E1) |

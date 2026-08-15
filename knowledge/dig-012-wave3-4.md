@@ -1,0 +1,26 @@
+# DIG-012 Wave 3–4 runtime (2026-08-15)
+
+## Shipped
+
+### Wave 3 — Prompt pack assembler
+- Runtime: `src/design-prompt-pack.ts` (`assembleDesignPromptPack`, `compactDesignReference`)
+- Library API: `POST /api/library/references/prompt-pack`
+- Eval R2 reuses assembler via `assemblePromptPackEnvelope` re-export
+- Tests: `test/design-prompt-pack.test.ts`
+
+### Wave 4 — look_conditioned generation
+- Runtime: `src/look-conditioned-generation.ts` (mapping SoT: `fixtures/design-references/look-conditioned-mapping.json`)
+- Hooked from `src/layout-generation.ts` (`deriveLayoutFromReferencePack`, optional pack path on generate)
+- Schema additive: `schemas/layout-spec.schema.json` allows `0.2.0` + `look_conditioned_structural_synthesis`
+- Tests: `test/look-conditioned-generation.test.ts`, extended `test/layout-generation.test.ts`
+
+## CHECKION peer harden (partial)
+- dig-api Coolify: `CHECKION_API_URL` + `DIG_CHECKION_SCREENSHOTS=1` set
+- Island: duplicate `CHECKION_API_URL` removed
+- Code: staging without `CHECKION_API_TOKEN` skips with explicit reason (`checkionPeerReadyReason`)
+- **Blocked:** `CHECKION_API_TOKEN` not present in Coolify dig-api / shell — operator must paste Bearer from CHECKION Settings into dig-api env, then redeploy
+
+## Operator next
+1. Create token in CHECKION staging Settings (Plexon-authed session)
+2. Coolify dig-api → set `CHECKION_API_TOKEN` (paths: `knowledge/paths.json` → `checkionV3.apiTokenEnv`)
+3. Redeploy dig-api; smoke one capture attach

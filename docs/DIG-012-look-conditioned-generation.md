@@ -1,6 +1,6 @@
 # DIG-012 — Look-conditioned DIG-008 generation (Wave 4)
 
-**Status:** Draft v0.1 — specified, **not implemented**  
+**Status:** v0.1 — **implemented** (`src/look-conditioned-generation.ts`, `generation_version` `0.2.0`)  
 **Parent:** [DIG-012](DIG-012-design-reference.md) · Upstream generator: [DIG-008](DIG-008-layout-generation.md)  
 **Mapping table:** [`fixtures/design-references/look-conditioned-mapping.json`](../fixtures/design-references/look-conditioned-mapping.json)  
 **Example output delta:** [`fixtures/design-references/aurora-layout-hints.expected.json`](../fixtures/design-references/aurora-layout-hints.expected.json)

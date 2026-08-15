@@ -1,6 +1,6 @@
 # DIG-012 — Agent Prompt Pack (Wave 3)
 
-**Status:** Draft v0.1 — specified, **not implemented**  
+**Status:** v0.1 — **implemented** (`src/design-prompt-pack.ts`)  
 **Parent:** [DIG-012 Design Reference](DIG-012-design-reference.md)  
 **Fixture:** [`fixtures/design-references/prompt-pack.aurora.json`](../fixtures/design-references/prompt-pack.aurora.json)  
 **Schema:** [`schemas/design-prompt-pack.schema.json`](../schemas/design-prompt-pack.schema.json)

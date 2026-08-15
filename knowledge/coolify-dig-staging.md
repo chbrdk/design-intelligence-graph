@@ -47,7 +47,7 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 | `DIG_DATABASE_URL` | Coolify internal URL for `dig-v3-postgres` (secret) |
 | `CHECKION_API_URL` | `https://checkion-v3.projects-a.plygrnd.tech` (full-page screenshot SoT) |
 | `DIG_CHECKION_SCREENSHOTS` | `1` (enable CHECKION attach; `0` skips) |
-| `CHECKION_API_TOKEN` | Bearer from CHECKION Settings (secret; required for live scans) |
+| `CHECKION_API_TOKEN` | Bearer from CHECKION Settings (secret; required for live scans). **Not set yet on dig-api** — attach skips with explicit message until operator pastes token. |
 
 
 ## Storage / DB

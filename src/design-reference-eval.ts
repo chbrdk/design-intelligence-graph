@@ -10,8 +10,12 @@ import {
   rolesFromSignature,
   type DesignReferenceLike
 } from "./design-reference-spec.js";
+import type { DesignReferenceRecord } from "./design-reference-emit.js";
+import { assemblePromptPackEnvelope } from "./design-prompt-pack.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import { validateAgainstSchema } from "./flow-schema-validate.js";
+
+export { assemblePromptPackEnvelope } from "./design-prompt-pack.js";
 
 export type DesignReferenceEvalGolden = {
   expected_primary_reference_id: string;
@@ -80,37 +84,6 @@ export function scoreRetrieval(
   return { id: "R1", score: 0, notes };
 }
 
-export function assemblePromptPackEnvelope(
-  brief: string,
-  primary: DesignReferenceLike & { reference_id: string },
-  forbidSourceCopy = true
-): {
-  schema_version: string;
-  role: string;
-  brief: string;
-  rules: string[];
-  references: unknown[];
-  ask: string;
-  output_contract: string;
-} {
-  return {
-    schema_version: "0.1.0",
-    role: "design_synthesis",
-    brief,
-    rules: [
-      "Do not copy source marketing headlines, body copy, or brand names from references unless the brief explicitly asks to redesign that product.",
-      "Do not invent measured geometry; treat gaps/roles as structural hints.",
-      "Prefer primary reference (index 0) for look; secondary refs only for contrast or missing roles.",
-      "Cite reference_ids in the output when making look claims.",
-      "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens).",
-      ...(forbidSourceCopy ? ["forbid_source_copy is absolute for this pack."] : [])
-    ],
-    references: [primary],
-    ask: `Return ONLY layout_hints_json. Cite ${primary.reference_id}.`,
-    output_contract: "layout_hints_json"
-  };
-}
-
 export function scorePromptPack(
   brief: string,
   corpus: Array<DesignReferenceLike & { reference_id: string; tokens?: { colors?: Array<{ hex: string; roles?: string[] }> } }>,
@@ -121,7 +94,7 @@ export function scorePromptPack(
   const notes: string[] = [];
   if (!primary) return { id: "R2", score: 0, notes: ["missing corpus"] };
 
-  const pack = assemblePromptPackEnvelope(brief, primary, true);
+  const pack = assemblePromptPackEnvelope(brief, primary as DesignReferenceRecord, true);
   const serialized = JSON.stringify(pack);
   const sizeOk = serialized.length <= 12_000;
   notes.push(`bytes=${serialized.length}`);

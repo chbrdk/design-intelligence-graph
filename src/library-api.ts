@@ -710,6 +710,46 @@ export async function handleLibraryApi(
     return true;
   }
 
+  if (request.method === "POST" && path === "/references/prompt-pack") {
+    try {
+      const body = await readJsonBody(request);
+      const { assembleDesignReferencePack } = await import("./design-reference-library.js");
+      const { assembleDesignPromptPack } = await import("./design-prompt-pack.js");
+      const referenceIds = Array.isArray(body.reference_ids)
+        ? body.reference_ids.filter((id): id is string => typeof id === "string")
+        : Array.isArray(body.referenceIds)
+          ? body.referenceIds.filter((id): id is string => typeof id === "string")
+          : [];
+      const pack = await assembleDesignReferencePack({
+        intent: typeof body.intent === "string" ? body.intent : typeof body.brief === "string" ? body.brief : "",
+        reference_ids: referenceIds,
+        synthesis_mode: body.synthesis_mode === "look_conditioned" ? "look_conditioned" : "structural",
+        platformProjectId:
+          typeof body.platformProjectId === "string"
+            ? body.platformProjectId
+            : typeof body.platform_project_id === "string"
+              ? body.platform_project_id
+              : null
+      });
+      const brief =
+        typeof body.brief === "string" && body.brief.trim()
+          ? body.brief.trim()
+          : pack.intent;
+      const output_contract =
+        body.output_contract === "prose_brief" || body.output_contract === "both"
+          ? body.output_contract
+          : "layout_hints_json";
+      const promptPack = assembleDesignPromptPack({ brief, pack, output_contract });
+      sendJson(response, 200, promptPack);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status =
+        message.includes("required") || message.includes("Unknown reference") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
   sendJson(response, 404, { error: "not_found" });
   return true;
 }
