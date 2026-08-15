@@ -27,6 +27,7 @@ test("paths.json documents plexon dig product and live CHECKION staging", async 
   assert.equal(paths.checkionV3.apiTokenEnv, "CHECKION_API_TOKEN");
 
   assert.equal(paths.plexon.productId, "dig");
+  assert.equal((paths.plexon as { digApiTokenEnv?: string }).digApiTokenEnv, "DIG_API_TOKEN");
   assert.equal(paths.plexon.federationContract, "2026-05-plexon-federation-v3");
   assert.equal(paths.plexon.stagingWeb, "https://plexon-v3.projects-a.plygrnd.tech");
   assert.equal(paths.plexon.proposedStagingWeb, "https://dig.projects-a.plygrnd.tech");

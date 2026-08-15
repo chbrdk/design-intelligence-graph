@@ -120,7 +120,8 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
     response.writeHead(204, {
       "access-control-allow-origin": "*",
       "access-control-allow-methods": "GET,POST,PUT,OPTIONS",
-      "access-control-allow-headers": "content-type, x-service-secret, x-plexon-contract-version, x-plexon-user-id"
+      "access-control-allow-headers":
+        "content-type, authorization, x-service-secret, x-plexon-contract-version, x-plexon-user-id"
     });
     response.end();
     return true;

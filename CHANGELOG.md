@@ -1,5 +1,6 @@
 # Changelog
 
+- P2d: live dig-api Bearer/`x-service-secret` gate for `/api/library/references*`; `POST …/references/generate` for dig.generate; CHECKION peer smoke verified.
 - DIG-012 DesignReference hashing embeddings + `similar_to` search (library/MCP); sidecar `design-references.embeddings.jsonl`.
 - DIG-012 Wave 3–4 runtime: DesignPromptPack assembler + look_conditioned DIG-008 (`generation_version` 0.2.0); CHECKION peer skip reason when staging token missing.
 - DIG-011 Draft v0.1 spezifiziert (spec-only): User Flow Graph Phasen A–D, ADR-011, JSON Schemas, flow_actions-Katalog, CHECKION/AUDION Seed-Bridges — Runtime bewusst deferred.

@@ -8,6 +8,7 @@ import { getPool } from "./db.js";
 import { searchEmbeddings } from "./embeddings.js";
 import { buildFigmaExport } from "./figma-export.js";
 import { libraryApiPath } from "./runtime-paths.js";
+import { rejectIfUnauthorized } from "./api-auth.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
 
@@ -162,6 +163,10 @@ export async function handleLibraryApi(
   }
 
   const path = requestUrl.pathname.slice(base.length) || "/";
+
+  if (path === "/references" || path.startsWith("/references/")) {
+    if (rejectIfUnauthorized(request, response)) return true;
+  }
 
   if (request.method === "GET" && path === "/captures") {
     const platformProjectId = queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id");
@@ -742,6 +747,42 @@ export async function handleLibraryApi(
           : "layout_hints_json";
       const promptPack = assembleDesignPromptPack({ brief, pack, output_contract });
       sendJson(response, 200, promptPack);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status =
+        message.includes("required") || message.includes("Unknown reference") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
+  if (request.method === "POST" && path === "/references/generate") {
+    try {
+      const body = await readJsonBody(request);
+      const { assembleDesignReferencePack } = await import("./design-reference-library.js");
+      const { deriveLayoutFromReferencePack } = await import("./layout-generation.js");
+      const referenceIds = Array.isArray(body.reference_ids)
+        ? body.reference_ids.filter((id): id is string => typeof id === "string")
+        : Array.isArray(body.referenceIds)
+          ? body.referenceIds.filter((id): id is string => typeof id === "string")
+          : [];
+      const pack = await assembleDesignReferencePack({
+        intent: typeof body.intent === "string" ? body.intent : "",
+        reference_ids: referenceIds,
+        synthesis_mode: "look_conditioned",
+        platformProjectId:
+          typeof body.platformProjectId === "string"
+            ? body.platformProjectId
+            : typeof body.platform_project_id === "string"
+              ? body.platform_project_id
+              : null
+      });
+      const layout_hints =
+        body.layout_hints && typeof body.layout_hints === "object"
+          ? (body.layout_hints as import("./layout-generation.js").LayoutHints)
+          : null;
+      const specification = deriveLayoutFromReferencePack({ pack, layout_hints, graph: null });
+      sendJson(response, 200, { pack, specification });
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
       const status =

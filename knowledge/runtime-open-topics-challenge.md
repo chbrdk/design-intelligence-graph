@@ -60,9 +60,10 @@ DIG cannot “finish” platform alone. Without plexon-v3 accepting product `dig
 4. plexon-v3: dig binding + catalog stubs              ✅
 5. DIG P2: Collection-scoped projects + live MCP gate   ✅ projects durable + capture scope; MCP gate still Wave 2
 6. DIG-012 Wave 2 Collection-scoped MCP/Library         ✅ library + dig_reference_* (+ live platformProjectId gate)
-7. Live CHECKION peer (staging URL + token) hardened    ✅ token on dig-api; verify attach after deploy
+7. Live CHECKION peer (staging URL + token) hardened    ✅ token + smoke JPEG (`npm run smoke:checkion-peer`)
 8. Wave 3–4 prompt / look_conditioned                   ✅ see knowledge/dig-012-wave3-4.md
 8b. DesignReference embeddings + similar_to             ✅ hashing; knowledge/dig-012-embeddings-runtime.md
+8c. P2d live API Bearer gate (references*)              ✅ code; DIG_API_TOKEN on dig-api; live flip later
 9. DIG-011 only if multi-screen briefs demand it
 ```
 
