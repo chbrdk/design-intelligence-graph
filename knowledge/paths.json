@@ -200,7 +200,8 @@
     },
     "digOpenrouterStaging": "knowledge/dig-openrouter-staging.md",
     "checkionDuplicateArtifactPath": "knowledge/checkion-duplicate-artifact-path.md",
-    "digStagingFinishPath": "knowledge/dig-staging-finish-path.md"
+    "digStagingFinishPath": "knowledge/dig-staging-finish-path.md",
+    "checkionPa11yProcessSkip": "knowledge/checkion-pa11y-process-skip.md"
   },
   "database": {
     "composeService": "db",
