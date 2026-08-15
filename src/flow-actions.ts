@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
+import { resolveRepoRoot } from "./repo-root.js";
 
 export const FLOW_ACTIONS_VERSION = "0.1.0";
 
@@ -17,7 +17,7 @@ interface FlowActionsCatalogFile {
   actions: FlowActionTerm[];
 }
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = resolveRepoRoot();
 
 function resolveCatalogPath(): string {
   try {

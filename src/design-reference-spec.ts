@@ -3,10 +3,10 @@
  * Not a provider caller and not DIG-008 generation.
  */
 import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
+import { resolveRepoRoot } from "./repo-root.js";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = resolveRepoRoot();
 
 export interface DesignReferenceLike {
   reference_id: string;

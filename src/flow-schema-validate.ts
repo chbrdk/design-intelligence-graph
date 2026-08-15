@@ -1,13 +1,13 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
 import { Ajv2020, type ErrorObject, type ValidateFunction } from "ajv/dist/2020.js";
 import addFormatsImport from "ajv-formats";
 import { isFlowActionId } from "./flow-actions.js";
+import { resolveRepoRoot } from "./repo-root.js";
 
 const addFormats = addFormatsImport as unknown as (ajv: Ajv2020) => void;
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = resolveRepoRoot();
 
 export type FlowSchemaKind =
   | "flowGraph"
