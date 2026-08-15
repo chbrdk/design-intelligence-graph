@@ -9,7 +9,7 @@
 | Project | `MSQDX-DIG-v3` · uuid `hx1vxpmu1heuou535kht5t9s` |
 | Island app | `dig-v3:main-app` · uuid `e114xfi9b4qpvcr3i0eqiqpw` |
 | Island FQDN | https://dig.projects-a.plygrnd.tech |
-| API app | `dig-v3:api` · uuid in `paths.json` → `coolify.digApiAppUuid` |
+| API app | `dig-v3:api` · uuid `fjlcya8d9jnlecj4s44yru4q` |
 | API FQDN | https://dig-api.projects-a.plygrnd.tech |
 | Server | `projects-01` (`gcko84c8wogss4wskocssc00`) |
 | Destination | `l04kc8csogk8gk0cwwk884c4` |
