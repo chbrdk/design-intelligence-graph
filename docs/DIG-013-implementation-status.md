@@ -11,7 +11,7 @@
 | Open-topics challenge | Done | `knowledge/runtime-open-topics-challenge.md` |
 | paths.json `plexon` + staging URLs | Done | |
 | Unit test paths contract | Done | `test/plexon-paths.test.ts` |
-| plexon-v3: product `dig` binding + catalog | Not started | Cross-repo |
+| plexon-v3: product `dig` binding + catalog | Done (code + Coolify env) | Cross-repo `plexon-v3`; `NEXT_PUBLIC_DIG_URL` set; deploy queued |
 | DIG Next island + Plexon auth | Done (staging) | `apps/web`; https://dig.projects-a.plygrnd.tech |
 | Collection-scoped dig projects | Not started | |
 | Coolify DIG staging | Done | Island + API + Postgres + volumes |

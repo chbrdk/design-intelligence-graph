@@ -27,37 +27,37 @@ Clone the **CREATION Wave 3** pattern end-to-end.
 
 ### A. Product registry
 
-- [ ] `'dig'` in `PLATFORM_PRODUCT_IDS` (`lib/platform-entitlements.ts`)
-- [ ] Registry entry in `lib/platform-products.ts` gated by `getDigUrl()` / `NEXT_PUBLIC_DIG_URL` (lifecycle `active` when URL set, else `planned`)
-- [ ] `specs/domain/collection-projects.md` lists `dig` as a capability binding
+- [x] `'dig'` in `PLATFORM_PRODUCT_IDS` (`lib/platform-entitlements.ts`)
+- [x] Registry entry in `lib/platform-products.ts` gated by `getDigUrl()` / `NEXT_PUBLIC_DIG_URL` (lifecycle `active` when URL set, else `planned`)
+- [x] `specs/domain/collection-projects.md` lists `dig` as a capability binding
 
 ### B. Env (Coolify plexon-v3)
 
-- [ ] `NEXT_PUBLIC_DIG_URL` — public DIG origin
-- [ ] `DIG_API_URL` — optional service upsert base (fallback = public URL)
-- [ ] Helpers: `getDigUrl()`, `getDigServiceApiUrl()` in `lib/constants.ts`
-- [ ] Cheatsheet section (mirror CREATION §4d → § DIG)
+- [x] `NEXT_PUBLIC_DIG_URL` — public DIG origin
+- [x] `DIG_API_URL` — optional service upsert base (fallback = public URL)
+- [x] Helpers: `getDigUrl()`, `getDigServiceApiUrl()` in `lib/constants.ts`
+- [x] Cheatsheet section (mirror CREATION §4d → § DIG)
 
 ### C. Bindings + sync
 
-- [ ] `ensureBindingPlaceholders` includes `'dig'`
-- [ ] Sync `PRODUCTS` loop includes `'dig'`
-- [ ] `isProductUpsertConfigured('dig')` → `Boolean(getDigServiceApiUrl())`
-- [ ] Upsert URL: `{DIG}/api/platform/provisioning/projects/{platformProjectId}` (PUT/GET), same contract headers as CREATION
-- [ ] Unconfigured URL leaves binding `pending` (do **not** fail Collection create)
+- [x] `ensureBindingPlaceholders` includes `'dig'`
+- [x] Sync `PRODUCTS` loop includes `'dig'`
+- [x] `isProductUpsertConfigured('dig')` → `Boolean(getDigServiceApiUrl())`
+- [x] Upsert URL: `{DIG}/api/platform/provisioning/projects/{platformProjectId}` (PUT/GET), same contract headers as CREATION
+- [x] Unconfigured URL leaves binding `pending` (do **not** fail Collection create)
 
 ### D. Origin route
 
-- [ ] `POST /api/platform/provisioning/dig-project-origin`
-- [ ] Body: `{ digProjectId, name, domain?, ownerPlexonUserId?, platformCompanyId? }`
-- [ ] Auth: service secret + contract version
-- [ ] Idempotent bind; best-effort sibling mirrors (`checkion`, `audion`, `brandion`, `creation`)
-- [ ] Constant `API_PLATFORM_PROVISIONING_DIG_PROJECT_ORIGIN`
+- [x] `POST /api/platform/provisioning/dig-project-origin`
+- [x] Body: `{ digProjectId, name, domain?, ownerPlexonUserId?, platformCompanyId? }`
+- [x] Auth: service secret + contract version
+- [x] Idempotent bind; best-effort sibling mirrors (`checkion`, `audion`, `brandion`, `creation`)
+- [x] Constant `API_PLATFORM_PROVISIONING_DIG_PROJECT_ORIGIN`
 
 ### E. Capability catalog stubs
 
-- [ ] Owner `'dig'` on `CapabilityOwner`
-- [ ] Catalog stubs (execute later in DIG):
+- [x] Owner `'dig'` on `CapabilityOwner`
+- [x] Catalog stubs (execute later in DIG):
 
 | id | surfaces |
 |----|----------|
@@ -69,9 +69,9 @@ Clone the **CREATION Wave 3** pattern end-to-end.
 
 ### F. Tests
 
-- [ ] Origin route tests (mirror `creation-project-origin`)
-- [ ] Placeholders include `dig`
-- [ ] Upsert URL resolution when `DIG_API_URL` / `NEXT_PUBLIC_DIG_URL` set
+- [x] Origin route tests (mirror `creation-project-origin`)
+- [x] Placeholders include `dig`
+- [x] Upsert URL resolution when `DIG_API_URL` / `NEXT_PUBLIC_DIG_URL` set
 
 ## Out of scope (DIG repo)
 

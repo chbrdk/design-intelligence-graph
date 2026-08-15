@@ -41,9 +41,9 @@ User never “creates a DIG project type” — they open the Design Intelligenc
 
 ## Cross-repo checklist
 
-- [ ] plexon-v3: add `dig` to `ensureBindingPlaceholders` + sync + origin route — ticket [`plexon-dig-binding-ticket.md`](plexon-dig-binding-ticket.md)
-- [ ] plexon-v3: capability catalog owner `dig` + `dig.*` ids  
-- [ ] plexon-v3 Coolify: `NEXT_PUBLIC_DIG_URL` when DIG staging exists  
+- [x] plexon-v3: add `dig` to `ensureBindingPlaceholders` + sync + origin route — ticket [`plexon-dig-binding-ticket.md`](plexon-dig-binding-ticket.md) · landed [`plexon-dig-binding-landed.md`](plexon-dig-binding-landed.md)
+- [x] plexon-v3: capability catalog owner `dig` + `dig.*` ids  
+- [x] plexon-v3 Coolify: `NEXT_PUBLIC_DIG_URL` when DIG staging exists  
 - [ ] DIG Coolify: Plexon auth env + `CHECKION_API_URL` staging + msqdx-ui Docker strip  
 - [ ] DIG: Collection-scoped projects before public MCP  
 
