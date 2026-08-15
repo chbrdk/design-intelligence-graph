@@ -47,3 +47,7 @@ curl -sS -X POST -H "Authorization: Bearer $COOLIFY_TOKEN" \
 1. `GET https://dig.projects-a.plygrnd.tech/api/health`
 2. Open `/` — AppShell loads
 3. `/login` — fixture continue when federation dummy / auth unset
+
+## Build note
+
+`next build --experimental-build-mode=compile` avoids Next 16 `/_global-error` prerender crash (useContext null) on Coolify.
