@@ -18,8 +18,8 @@ export interface DesignReferenceLike {
   };
   look?: {
     look_summary?: string;
-    overlay?: { kind?: string };
-    alignment?: { text?: string; cta?: string };
+    overlay?: { kind?: string } | undefined;
+    alignment?: { text?: string; cta?: string } | undefined;
   };
   tokens?: { style_labels?: string[] };
 }

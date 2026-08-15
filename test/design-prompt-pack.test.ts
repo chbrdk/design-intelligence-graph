@@ -20,7 +20,7 @@ test("assembles aurora prompt pack under budget with hard rules", () => {
     intent: "premium centered hero",
     references: [aurora],
     synthesis_mode: "look_conditioned" as const,
-    constraints: { forbid_source_copy: true }
+    constraints: { forbid_source_copy: true as const }
   };
   const prompt = assembleDesignPromptPack({
     brief: "Design a product launch hero that feels premium and centered.",

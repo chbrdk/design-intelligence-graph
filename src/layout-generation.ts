@@ -119,7 +119,7 @@ export async function generateLayoutSpecification(
       pack,
       graph,
       layout_hints,
-      root: options.root
+      ...(options.root !== undefined ? { root: options.root } : {})
     });
   } else {
     specification = deriveLayoutSpecification(graph);

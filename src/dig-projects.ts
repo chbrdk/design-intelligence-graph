@@ -23,10 +23,10 @@ export type DigProjectRow = {
 
 export type DigProjectUpsertInput = {
   name: string;
-  domain?: string | null;
-  status?: DigProjectStatus;
-  ownerPlexonUserId?: string;
-  platformCompanyId?: string;
+  domain?: string | null | undefined;
+  status?: DigProjectStatus | undefined;
+  ownerPlexonUserId?: string | undefined;
+  platformCompanyId?: string | undefined;
 };
 
 export function normalizeProjectDomain(input: string | null | undefined): string | null {

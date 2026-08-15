@@ -41,21 +41,21 @@ export function designReferenceEmbeddingProvider(root = process.cwd()): string {
 }
 
 export function embeddingSubjectForReference(
-  ref: DesignReferenceLike & { reference_id: string; capture_run_id?: string },
+  ref: DesignReferenceRecord | (DesignReferenceLike & { reference_id: string; capture_run_id?: string }),
   root = process.cwd()
 ): EmbeddingSubject {
   return {
     subject_kind: DESIGN_REFERENCE_EMBEDDING_KIND,
     subject_id: ref.reference_id,
-    content_text: buildEmbeddingCanonical(ref)
+    content_text: buildEmbeddingCanonical(ref as DesignReferenceLike)
   };
 }
 
 export function buildDesignReferenceEmbeddingRow(
-  ref: DesignReferenceLike & { reference_id: string },
+  ref: DesignReferenceRecord | (DesignReferenceLike & { reference_id: string }),
   root = process.cwd()
 ): DesignReferenceEmbeddingRow {
-  const canonical = buildEmbeddingCanonical(ref);
+  const canonical = buildEmbeddingCanonical(ref as DesignReferenceLike);
   const dims = embeddingDims(root);
   return {
     reference_id: ref.reference_id,
@@ -156,12 +156,12 @@ export async function searchDesignReferenceEmbeddingNeighbors(
   client: Queryable,
   input: {
     similarTo: string;
-    category?: string;
-    signature?: string;
-    style_label?: string;
-    platformProjectId?: string | null;
-    digProjectId?: string | null;
-    limit?: number;
+    category?: string | undefined;
+    signature?: string | undefined;
+    style_label?: string | undefined;
+    platformProjectId?: string | null | undefined;
+    digProjectId?: string | null | undefined;
+    limit?: number | undefined;
   },
   root = process.cwd()
 ): Promise<Array<{ reference_id: string; score: number; payload: DesignReferenceRecord }>> {
@@ -181,14 +181,14 @@ export async function searchDesignReferenceEmbeddingNeighbors(
   if (anchorRow?.embedding_text) {
     anchorVec = parseVectorLiteral(anchorRow.embedding_text);
   } else if (anchorRow?.payload) {
-    anchorVec = hashEmbedText(buildEmbeddingCanonical(anchorRow.payload), embeddingDims(root));
+    anchorVec = hashEmbedText(buildEmbeddingCanonical(anchorRow.payload as DesignReferenceLike), embeddingDims(root));
   } else {
     const fallback = await client.query(`SELECT payload FROM design_references WHERE reference_id = $1 LIMIT 1`, [
       input.similarTo.trim()
     ]);
     const payload = (fallback.rows[0] as { payload?: DesignReferenceRecord } | undefined)?.payload;
     if (!payload) return [];
-    anchorVec = hashEmbedText(buildEmbeddingCanonical(payload), embeddingDims(root));
+    anchorVec = hashEmbedText(buildEmbeddingCanonical(payload as DesignReferenceLike), embeddingDims(root));
   }
 
   const clauses = [`e.subject_kind = $1`, `e.subject_id <> $2`, `e.embedding IS NOT NULL`];

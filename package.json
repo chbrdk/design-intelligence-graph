@@ -13,7 +13,7 @@
     "dig-web": "./dist/src/web-server.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "capture": "npm run build --silent && node dist/src/cli.js",
     "verify": "npm run build --silent && node dist/src/verify-cli.js",
     "index": "npm run build --silent && node dist/src/index-cli.js",

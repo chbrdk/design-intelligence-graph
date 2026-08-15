@@ -145,7 +145,7 @@ export function assembleDesignPromptPack(input: {
   const refs = input.pack.references.slice(0, 8);
   if (!refs.length) throw new Error("pack.references required");
 
-  const forbid = input.pack.constraints?.forbid_source_copy !== false;
+  const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
   const rules = [...HARD_RULES, ...(forbid ? ["forbid_source_copy is absolute for this pack."] : [])];
   const contract = input.output_contract ?? "layout_hints_json";
   const primaryId = refs[0]!.reference_id;
@@ -194,7 +194,8 @@ export function assemblePromptPackEnvelope(
       intent: brief,
       references: [primary],
       synthesis_mode: "structural",
-      constraints: { forbid_source_copy: forbidSourceCopy }
+      constraints: { forbid_source_copy: true },
+      ...(forbidSourceCopy ? {} : {})
     },
     output_contract: "layout_hints_json"
   });

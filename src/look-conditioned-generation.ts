@@ -33,7 +33,7 @@ export type LookConditionedLayoutSpec = {
     colors?: Record<string, string>;
     typography?: Record<string, string>;
     shape?: Record<string, string>;
-  };
+  } | undefined;
   blocks: Array<{
     block_id: string;
     kind: string;
@@ -118,9 +118,9 @@ function tokenHintsFromReference(ref: DesignReferenceRecord): LookConditionedLay
 
 export function deriveLookConditionedLayout(input: {
   pack: DesignReferencePack;
-  graph?: KnowledgeGraph | null;
-  layout_hints?: LayoutHints | null;
-  root?: string;
+  graph?: KnowledgeGraph | null | undefined;
+  layout_hints?: LayoutHints | null | undefined;
+  root?: string | undefined;
 }): LookConditionedLayoutSpec {
   const mapping = loadLookConditionedMapping(input.root);
   const primary = input.pack.references[0];

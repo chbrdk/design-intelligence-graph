@@ -38,7 +38,7 @@ test("layout_hints proposed_signature overrides when roles map", () => {
     intent: "hero",
     references: [aurora],
     synthesis_mode: "look_conditioned" as const,
-    constraints: { forbid_source_copy: true }
+    constraints: { forbid_source_copy: true as const }
   };
   const spec = deriveLookConditionedLayout({
     pack,

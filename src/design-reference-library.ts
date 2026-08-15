@@ -10,21 +10,21 @@ import { DESIGN_REFERENCES_RELATIVE_PATH } from "./design-reference-emit.js";
 import { getFederationMode } from "./federation-mode.js";
 
 export type DesignReferenceSearchQuery = {
-  query?: string;
-  category?: string;
-  signature?: string;
-  style_label?: string;
-  similar_to?: string;
-  platformProjectId?: string | null;
-  digProjectId?: string | null;
-  limit?: number;
+  query?: string | undefined;
+  category?: string | undefined;
+  signature?: string | undefined;
+  style_label?: string | undefined;
+  similar_to?: string | undefined;
+  platformProjectId?: string | null | undefined;
+  digProjectId?: string | null | undefined;
+  limit?: number | undefined;
 };
 
 export type DesignReferencePackInput = {
   intent: string;
   reference_ids: string[];
-  synthesis_mode?: "structural" | "look_conditioned";
-  platformProjectId?: string | null;
+  synthesis_mode?: "structural" | "look_conditioned" | undefined;
+  platformProjectId?: string | null | undefined;
 };
 
 export type DesignReferencePack = {
@@ -50,8 +50,8 @@ export async function upsertDesignReferencesForCapture(
   input: {
     captureRunId: string;
     references: DesignReferenceRecord[];
-    platformProjectId?: string | null;
-    digProjectId?: string | null;
+    platformProjectId?: string | null | undefined;
+    digProjectId?: string | null | undefined;
   },
   client: Queryable | null = getPool()
 ): Promise<number> {
@@ -116,7 +116,7 @@ export async function upsertDesignReferencesForCapture(
 
 export async function indexDesignReferencesFromPackage(
   packageRoot: string,
-  scope: { platformProjectId?: string | null; digProjectId?: string | null } = {},
+  scope: { platformProjectId?: string | null | undefined; digProjectId?: string | null | undefined } = {},
   client: Queryable | null = getPool()
 ): Promise<number> {
   if (!client) return 0;
@@ -218,7 +218,7 @@ export async function searchDesignReferences(
 
 export async function getDesignReference(
   referenceId: string,
-  opts: { platformProjectId?: string | null } = {},
+  opts: { platformProjectId?: string | null | undefined } = {},
   client: Queryable | null = getPool()
 ): Promise<DesignReferenceRecord | null> {
   assertCollectionScopeAllowed(opts.platformProjectId);
