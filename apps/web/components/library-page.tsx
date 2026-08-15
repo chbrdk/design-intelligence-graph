@@ -10,6 +10,7 @@ import {
   fetchLibraryScreens,
   fetchLibrarySections,
   generateFromReferences,
+  islandMediaUrl,
   searchLibrary,
   type DesignReferenceHit,
   type LibraryAnalysisDetail,
@@ -145,10 +146,16 @@ function LibraryPageInner() {
     }
   }
 
+  const selectedMedia = islandMediaUrl(selected?.primary_url)
+  const sectionLooks = analysis?.section_look ?? []
+  const screenSections = sections.filter((s) =>
+    selected ? s.capture_run_id === selected.capture_run_id : true,
+  )
+
   return (
     <AppShell
       title="Library"
-      description="Browse captured screens, DesignReferences, and assemble look-conditioned packs."
+      description="Browse captured screens, section look, DesignReferences, and assemble packs."
     >
       {error ? <Alert tone="error">{error}</Alert> : null}
       {platformProjectId ? (
@@ -244,15 +251,30 @@ function LibraryPageInner() {
       <div className="dig-split">
         <Panel className="dig-panel">
           <Text role="title">Screens</Text>
-          <ul className="dig-list">
-            {screens.map((screen) => (
-              <li key={screen.viewport_capture_id}>
-                <button type="button" className="dig-linkish" onClick={() => void openScreen(screen)}>
-                  <strong>{screen.title || screen.name}</strong>
-                  <Text role="meta">{screen.site_domain ?? screen.canonical_url}</Text>
-                </button>
-              </li>
-            ))}
+          <ul className="dig-screen-grid">
+            {screens.map((screen) => {
+              const thumb = islandMediaUrl(screen.primary_url)
+              return (
+                <li key={screen.viewport_capture_id}>
+                  <button
+                    type="button"
+                    className={`dig-screen-card${selected?.viewport_capture_id === screen.viewport_capture_id ? ' is-active' : ''}`}
+                    onClick={() => void openScreen(screen)}
+                  >
+                    {thumb ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
+                      <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
+                    ) : (
+                      <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
+                    )}
+                    <strong>{screen.title || screen.name}</strong>
+                    <Text role="meta">
+                      {screen.name} · {screen.site_domain ?? screen.canonical_url}
+                    </Text>
+                  </button>
+                </li>
+              )
+            })}
             {!screens.length ? <li>No screens indexed yet.</li> : null}
           </ul>
         </Panel>
@@ -261,21 +283,59 @@ function LibraryPageInner() {
           <Text role="title">Detail</Text>
           {selected ? (
             <>
+              {selectedMedia ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={selectedMedia}
+                  alt={selected.title || selected.name}
+                  className="dig-screen-hero"
+                />
+              ) : (
+                <Text role="hint">No screenshot path on this viewport.</Text>
+              )}
               <Text role="headline">{selected.title || selected.name}</Text>
               <Text role="meta">{selected.canonical_url}</Text>
               <Text role="body">{analysis?.analysis.design_summary ?? 'No analysis summary yet.'}</Text>
+              {analysis?.package?.vision?.status ? (
+                <Text role="meta">Vision: {analysis.package.vision.status}</Text>
+              ) : null}
             </>
           ) : (
             <Text role="hint">Select a screen.</Text>
           )}
-          <Text role="title">Sections</Text>
+
+          <Text role="title">Section look</Text>
           <ul className="dig-list">
-            {sections.slice(0, 40).map((section) => (
+            {sectionLooks.map((section) => (
+              <li key={section.id ?? `${section.name}-${section.signature}`}>
+                <strong>
+                  {section.category ?? 'section'} · {section.signature ?? section.name}
+                </strong>
+                <Text role="body">{section.interpretation ?? '—'}</Text>
+                {typeof section.confidence === 'number' ? (
+                  <Text role="meta">{(section.confidence * 100).toFixed(0)}% confidence</Text>
+                ) : null}
+              </li>
+            ))}
+            {selected && !sectionLooks.length ? (
+              <li>
+                <Text role="hint">
+                  No section_look yet for this capture (sparse pages fall back to screen-level
+                  DesignReference only).
+                </Text>
+              </li>
+            ) : null}
+          </ul>
+
+          <Text role="title">Ontology sections</Text>
+          <ul className="dig-list">
+            {screenSections.slice(0, 40).map((section) => (
               <li key={`${section.capture_run_id}-${section.taxonomy_id}`}>
                 {section.category} · {section.signature}{' '}
                 <Text role="meta">{(section.confidence * 100).toFixed(0)}%</Text>
               </li>
             ))}
+            {!screenSections.length ? <li>No ontology sections indexed.</li> : null}
           </ul>
         </Panel>
       </div>

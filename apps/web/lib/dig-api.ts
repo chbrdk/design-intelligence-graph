@@ -74,6 +74,17 @@ export interface LibraryScreen {
   height: number | null
 }
 
+/** Rewrite dig-api media paths so the browser hits the Island proxy. */
+export function islandMediaUrl(apiMediaPath: string | null | undefined): string | null {
+  if (!apiMediaPath?.trim()) return null
+  const raw = apiMediaPath.trim()
+  if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('data:')) return raw
+  if (raw.startsWith(BASE)) return raw
+  if (raw.startsWith('/api/')) return `${BASE}${raw}`
+  if (raw.startsWith('/')) return `${BASE}${paths.digApiLibrary}${raw}`
+  return `${BASE}${paths.digApiLibrary}/media?path=${encodeURIComponent(raw)}`
+}
+
 export interface LibrarySection {
   capture_run_id: string
   viewport_name: string
@@ -98,6 +109,27 @@ export interface LibraryAnalysisSummary {
   updated_at: string | null
 }
 
+export interface SectionLookItem {
+  id?: string
+  kind?: string
+  name?: string | null
+  label?: string | null
+  signature?: string | null
+  category?: string | null
+  interpretation?: string | null
+  confidence?: number | null
+}
+
+export interface SectionDescription {
+  section_id?: string
+  category?: string
+  signature?: string
+  stack_summary?: string
+  look_summary?: string
+  interaction_summary?: string
+  confidence?: number
+}
+
 export interface LibraryAnalysisDetail {
   analysis: {
     status?: string | null
@@ -105,23 +137,49 @@ export interface LibraryAnalysisDetail {
     design_summary?: string | null
     hypothesis_count?: number
   }
-  items: Array<{
-    id: string
-    kind?: string
-    label?: string
-    interpretation?: string | null
-    signature?: string | null
-  }>
+  /** Flat list for UI; API also returns grouped object — normalized in fetchAnalysisDetail. */
+  items: SectionLookItem[]
+  section_look: SectionLookItem[]
   package?: {
     cost?: { estimated_usd?: number; prompt_tokens?: number; completion_tokens?: number }
     vision?: { status?: string; summary?: string }
-    section_descriptions?: Array<{
-      section_id?: string
-      category?: string
-      signature?: string
-      look_summary?: string
-      confidence?: number
-    }>
+    section_descriptions?: SectionDescription[]
+  }
+}
+
+function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryAnalysisDetail {
+  const analysis = (body.analysis ?? {}) as LibraryAnalysisDetail['analysis']
+  const pkg = body.package as LibraryAnalysisDetail['package'] | undefined
+  const rawItems = body.items
+  let section_look: SectionLookItem[] = []
+  let flat: SectionLookItem[] = []
+  if (Array.isArray(rawItems)) {
+    flat = rawItems as SectionLookItem[]
+    section_look = flat.filter((item) => item.kind === 'section_look')
+  } else if (rawItems && typeof rawItems === 'object') {
+    const grouped = rawItems as Record<string, SectionLookItem[]>
+    section_look = Array.isArray(grouped.section_look) ? grouped.section_look : []
+    flat = Object.values(grouped).flatMap((rows) => (Array.isArray(rows) ? rows : []))
+  }
+  const fromPackage = pkg?.section_descriptions ?? []
+  if (!section_look.length && fromPackage.length) {
+    section_look = fromPackage.map((desc, index) => ({
+      id: desc.section_id ?? `section_${index}`,
+      kind: 'section_look',
+      name: desc.section_id ?? null,
+      signature: desc.signature ?? null,
+      category: desc.category ?? null,
+      interpretation: [desc.stack_summary, desc.look_summary, desc.interaction_summary]
+        .filter(Boolean)
+        .join(' · '),
+      confidence: desc.confidence ?? null,
+    }))
+  }
+  return {
+    analysis,
+    items: flat,
+    section_look,
+    ...(pkg ? { package: pkg } : {}),
   }
 }
 
@@ -255,9 +313,9 @@ export async function fetchAnalysisDetail(captureRunId: string): Promise<Library
   const response = await fetch(
     `${BASE}${paths.digApiLibrary}/analyses/${encodeURIComponent(captureRunId)}`,
   )
-  const body = await readJson<LibraryAnalysisDetail>(response)
-  if (!response.ok) throw new Error(body.error ?? `Analysis detail failed (${response.status})`)
-  return body
+  const body = await readJson<Record<string, unknown>>(response)
+  if (!response.ok) throw new Error((body as { error?: string }).error ?? `Analysis detail failed (${response.status})`)
+  return normalizeAnalysisDetail(body)
 }
 
 export async function fetchScreenDetail(viewportCaptureId: string): Promise<{

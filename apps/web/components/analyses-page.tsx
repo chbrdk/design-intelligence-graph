@@ -67,14 +67,31 @@ export function AnalysesPageClient() {
               <Text role="body">{detail.analysis.design_summary ?? 'No summary.'}</Text>
               <Text role="meta">
                 {detail.analysis.model ?? '—'} · {detail.analysis.status ?? '—'}
+                {detail.package?.vision?.status ? ` · vision ${detail.package.vision.status}` : ''}
               </Text>
+              <Text role="title">Section look</Text>
               <ul className="dig-list">
-                {detail.items.slice(0, 20).map((item) => (
-                  <li key={item.id}>
-                    {item.label ?? item.kind ?? item.id}
-                    {item.interpretation ? ` — ${item.interpretation}` : ''}
+                {detail.section_look.map((item) => (
+                  <li key={item.id ?? `${item.name}-${item.signature}`}>
+                    <strong>
+                      {item.category ?? item.kind ?? 'section'} · {item.signature ?? item.name}
+                    </strong>
+                    <Text role="body">{item.interpretation ?? '—'}</Text>
                   </li>
                 ))}
+                {!detail.section_look.length ? <li>No section_look items.</li> : null}
+              </ul>
+              <Text role="title">Other facets</Text>
+              <ul className="dig-list">
+                {detail.items
+                  .filter((item) => item.kind !== 'section_look')
+                  .slice(0, 30)
+                  .map((item) => (
+                    <li key={item.id ?? `${item.kind}-${item.label}-${item.signature}`}>
+                      {item.label ?? item.name ?? item.kind ?? item.id}
+                      {item.interpretation ? ` — ${item.interpretation}` : ''}
+                    </li>
+                  ))}
               </ul>
             </>
           ) : (
