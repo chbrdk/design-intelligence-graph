@@ -716,6 +716,12 @@
       "aliases": [],
       "composition_hints": [
         [
+          "media",
+          "media"
+        ],
+        [
+          "heading",
+          "media",
           "media"
         ]
       ]

@@ -59,6 +59,53 @@ test("selectSectionsForLook prefers hero and caps count", () => {
   assert.equal(picked[0]?.section_id, "b");
 });
 
+test("selectSectionsForLook diversifies categories and signatures", () => {
+  const sections = [
+    sampleSection({
+      section_id: "m1",
+      category: "social_proof",
+      signature: "media",
+      confidence: 0.9,
+      recipe: [{ kind: "role", role: "media", node_id: "n1", box: { x: 0, y: 0, width: 10, height: 10 } }]
+    }),
+    sampleSection({
+      section_id: "m2",
+      category: "social_proof",
+      signature: "media",
+      confidence: 0.89,
+      recipe: [{ kind: "role", role: "media", node_id: "n2", box: { x: 0, y: 0, width: 10, height: 10 } }]
+    }),
+    sampleSection({
+      section_id: "m3",
+      category: "social_proof",
+      signature: "media",
+      confidence: 0.88,
+      recipe: [{ kind: "role", role: "media", node_id: "n3", box: { x: 0, y: 0, width: 10, height: 10 } }]
+    }),
+    sampleSection({
+      section_id: "h1",
+      category: "hero",
+      signature: "media>heading>cta",
+      confidence: 0.7
+    }),
+    sampleSection({
+      section_id: "f1",
+      category: "feature",
+      signature: "heading>list",
+      confidence: 0.75,
+      recipe: [
+        { kind: "role", role: "heading", node_id: "nh", box: { x: 0, y: 0, width: 10, height: 10 } },
+        { kind: "role", role: "list", node_id: "nl", box: { x: 0, y: 20, width: 10, height: 10 } }
+      ]
+    })
+  ];
+  const picked = selectSectionsForLook(sections, 4);
+  const categories = new Set(picked.map((section) => section.category));
+  assert.ok(categories.has("hero"));
+  assert.ok(categories.has("feature"));
+  assert.ok(picked.filter((section) => section.signature === "media").length <= 1);
+});
+
 test("buildSectionLookEvidence includes allowlisted CSS and alignment hints", () => {
   const evidence = JSON.parse(
     buildSectionLookEvidence(sampleSection(), {

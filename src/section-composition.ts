@@ -142,7 +142,16 @@ function detectSectionRoots(
   const ranked = [...unique.values()]
     .map((node) => ({ node, box: boxes.get(node.node_id) }))
     .filter((item): item is { node: MatchableNode; box: BBox } => Boolean(item.box))
-    .sort((a, b) => a.box.y - b.box.y || b.box.height - a.box.height);
+    // Prefer semantic section/article bands over giant main wrappers at the same fold.
+    .sort((a, b) => {
+      const tagScore = (tag: string | undefined) =>
+        tag === "section" || tag === "article" ? 2 : tag === "header" || tag === "footer" ? 1 : 0;
+      const y = a.box.y - b.box.y;
+      if (y !== 0) return y;
+      const semantic = tagScore(b.node.tag) - tagScore(a.node.tag);
+      if (semantic !== 0) return semantic;
+      return b.box.height - a.box.height;
+    });
 
   const selected: MatchableNode[] = [];
   for (const { node, box } of ranked) {
@@ -164,6 +173,11 @@ function detectSectionRoots(
   return selected;
 }
 
+function isMediaTag(tag: string | undefined): boolean {
+  const value = (tag ?? "").toLowerCase();
+  return value === "img" || value === "picture" || value === "video" || value === "canvas" || value === "svg" || value === "iframe" || value === "figure";
+}
+
 function collectDirectChildren(
   rootId: string,
   children: Map<string | null, MatchableNode[]>,
@@ -173,12 +187,20 @@ function collectDirectChildren(
   const withBoxes = direct.filter((node) => boxes.has(node.node_id));
   if (withBoxes.length >= 2) return withBoxes;
 
-  // Flatten one level when the section is a thin wrapper.
+  // Flatten one level when the section is a thin wrapper (multi-child or single media band).
   const flattened: MatchableNode[] = [];
   for (const child of withBoxes.length ? withBoxes : direct) {
     const grand = (children.get(child.node_id) ?? []).filter((node) => isRenderedElement(node) && boxes.has(node.node_id));
-    if (grand.length >= 2) flattened.push(...grand);
-    else if (boxes.has(child.node_id)) flattened.push(child);
+    if (grand.length >= 2) {
+      flattened.push(...grand);
+      continue;
+    }
+    const sole = grand[0];
+    if (sole && isMediaTag(sole.tag)) {
+      flattened.push(sole);
+      continue;
+    }
+    if (boxes.has(child.node_id)) flattened.push(child);
   }
   return flattened.length ? flattened : withBoxes;
 }
@@ -343,13 +365,21 @@ function classifySection(input: {
 }): { taxonomy_id: string; category: string; confidence: number; method: string } {
   const tag = (input.root.tag ?? "").toLowerCase();
   const textBlob = input.text_signals.join(" ").toLowerCase();
-  const nearTop = input.box.y <= Math.max(80, input.viewportHeight * 0.35);
+  const nearTop = input.box.y <= Math.max(80, input.viewportHeight * 0.45);
   const hasMedia = /(^|>)media(>|$)/.test(input.signature);
   const hasHeading = input.signature.includes("heading");
   const hasCta = input.signature.includes("cta");
   const hasForm = input.signature.includes("form");
   const hasList = input.signature.includes("list");
   const hasNav = input.signature.includes("nav") || tag === "nav" || tag === "header";
+  const roles = input.signature.split(">").filter(Boolean);
+  const mediaOnly =
+    roles.length > 0 && roles.every((role) => role === "media" || role === "media_large");
+  const tallMedia =
+    hasMedia && input.box.height >= Math.max(260, input.viewportHeight * 0.32);
+  const socialProofText = /testimonial|review|customer|kunde|quote|partner logo|trusted by|as seen/.test(
+    textBlob
+  );
 
   if (tag === "header" || (hasNav && nearTop && input.box.height < 160)) {
     return { taxonomy_id: "dig:section.global_nav", category: "nav", confidence: 0.9, method: "header_nav_heuristic" };
@@ -373,8 +403,27 @@ function classifySection(input: {
   if (/price|pricing|plan|€|\$|monat|month/.test(textBlob) && (hasList || hasCta)) {
     return { taxonomy_id: "dig:section.pricing", category: "commerce", confidence: 0.83, method: "pricing_heuristic" };
   }
-  if (/testimonial|review|customer|kunde|quote/.test(textBlob)) {
+  if (socialProofText) {
     return { taxonomy_id: "dig:section.testimonials", category: "social_proof", confidence: 0.8, method: "testimonial_heuristic" };
+  }
+  // Full-bleed / tall media above the fold is hero even when overlay text was not measured as heading.
+  if (nearTop && tallMedia && !socialProofText) {
+    const taxonomy_id =
+      hasHeading && hasCta
+        ? hasMedia && input.signature.startsWith("media")
+          ? "dig:section.hero_media_above"
+          : "dig:section.hero_split_cta"
+        : mediaOnly || input.signature.startsWith("media")
+          ? "dig:section.hero_media_above"
+          : hasCta
+            ? "dig:section.hero"
+            : "dig:section.hero_centered";
+    return {
+      taxonomy_id,
+      category: "hero",
+      confidence: hasHeading || hasCta ? 0.86 : 0.8,
+      method: hasHeading || hasCta ? "hero_position_heuristic" : "hero_tall_media_heuristic"
+    };
   }
   if (nearTop && hasHeading && (hasMedia || hasCta)) {
     const taxonomy_id = hasMedia && input.signature.startsWith("media")
@@ -399,6 +448,15 @@ function classifySection(input: {
       method: "media_heading_cta_heuristic"
     };
   }
+  // Mid-page tall media blocks are features/content, not logo marquees.
+  if (tallMedia && mediaOnly && !socialProofText) {
+    return {
+      taxonomy_id: "dig:section.feature_spotlight",
+      category: "feature",
+      confidence: 0.72,
+      method: "tall_media_block_heuristic"
+    };
+  }
   if (hasHeading && hasList && !hasForm) {
     return {
       taxonomy_id: "dig:section.feature_grid",
@@ -421,6 +479,13 @@ function classifySection(input: {
   for (const entry of catalog) {
     const hints = entry.composition_hints ?? [];
     if (!hints.length) continue;
+    // ["media"] alone matches almost every image band — skip for tall/near-top blocks.
+    const onlyBroadMedia = hints.every(
+      (hint) => hint.length === 1 && (hint[0] === "media" || hint[0] === "media_large")
+    );
+    if (onlyBroadMedia && (tallMedia || nearTop) && entry.category === "social_proof") {
+      continue;
+    }
     const score = Math.max(...hints.map((hint) => hintScore(input.signature, hint)));
     if (score < 0.66) continue;
     if (!best || score > best.score) best = { entry, score };

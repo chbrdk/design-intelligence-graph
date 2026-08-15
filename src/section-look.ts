@@ -68,7 +68,7 @@ export function sectionLookMaxSections(environment: NodeJS.ProcessEnv = process.
   return Number.isFinite(fromPaths) && fromPaths >= 0 ? Math.floor(fromPaths) : 8;
 }
 
-/** Prefer hero / above-fold / high-confidence sections with CTA or media. */
+/** Prefer hero / above-fold / high-confidence sections with CTA or media; diversify categories. */
 export function selectSectionsForLook(
   sections: SectionComposition[],
   maxSections = sectionLookMaxSections()
@@ -78,20 +78,54 @@ export function selectSectionsForLook(
     let score = section.confidence;
     const category = section.category.toLowerCase();
     if (category.includes("hero")) score += 2;
-    if (category.includes("cta") || category.includes("pricing")) score += 0.8;
+    if (category.includes("feature")) score += 1;
+    if (category.includes("cta") || category.includes("conversion") || category.includes("pricing") || category.includes("commerce"))
+      score += 0.8;
+    if (category.includes("nav") || category.includes("form")) score += 0.5;
     if (section.signature.includes("media")) score += 0.6;
     if (section.signature.includes("cta")) score += 0.5;
+    if (section.signature.includes("heading")) score += 0.35;
     if (index < 3) score += 0.4;
+    // Soft-penalize repetitive social_proof so diverse pages don't fill the budget with marquees.
+    if (category.includes("social_proof")) score -= 0.35;
     return { section, score, index };
   });
   scored.sort((a, b) => b.score - a.score || a.index - b.index);
-  const seen = new Set<string>();
+
+  const seenIds = new Set<string>();
+  const categoryCounts = new Map<string, number>();
+  const signatureCounts = new Map<string, number>();
   const picked: SectionComposition[] = [];
+  const maxPerCategory = Math.max(1, Math.ceil(maxSections / 3));
+
+  function normalizeSignature(signature: string): string {
+    return signature
+      .split(">")
+      .map((role) => (role === "media_large" ? "media" : role))
+      .filter(Boolean)
+      .join(">");
+  }
+
   for (const item of scored) {
-    if (seen.has(item.section.section_id)) continue;
-    seen.add(item.section.section_id);
+    if (seenIds.has(item.section.section_id)) continue;
+    const category = item.section.category.toLowerCase() || "unknown";
+    const signature = normalizeSignature(item.section.signature);
+    if ((categoryCounts.get(category) ?? 0) >= maxPerCategory) continue;
+    if ((signatureCounts.get(signature) ?? 0) >= 1) continue;
+    seenIds.add(item.section.section_id);
+    categoryCounts.set(category, (categoryCounts.get(category) ?? 0) + 1);
+    signatureCounts.set(signature, (signatureCounts.get(signature) ?? 0) + 1);
     picked.push(item.section);
     if (picked.length >= maxSections) break;
+  }
+
+  // If diversity gates left the budget empty (all identical), fall back to score order.
+  if (!picked.length) {
+    for (const item of scored) {
+      if (seenIds.has(item.section.section_id)) continue;
+      picked.push(item.section);
+      if (picked.length >= maxSections) break;
+    }
   }
   return picked;
 }
@@ -256,10 +290,11 @@ export function parseSectionLookResponse(
 
 export const SECTION_LOOK_SYSTEM_PROMPT = `You describe how a measured web DESIGN SECTION looks and works.
 Return ONLY a single minified JSON object (no markdown, no trailing commas):
-{"section_id":string,"signature":string,"category":string,"stack_summary":string,"background":{"kind":"solid"|"image"|"gradient"|"video"|"none","treatment":string},"overlay":{"present":boolean,"kind":"gradient"|"scrim"|"blur"|"other","notes":string},"shadows":{"present":boolean,"targets":["card"|"cta"|"text"|"container"],"notes":string},"typography_emphasis":["italic"|"bold"|"underline"|"all_caps"|"tight_tracking"],"alignment":{"text":"left"|"center"|"right","cta":"left"|"center"|"right"|"full_width"},"media":{"role":"background"|"hero"|"inline"|"none","object_fit":string,"notes":string},"look_summary":string,"interaction_summary":string,"confidence":number,"evidence_refs":string[]}
+{"section_id":string,"signature":string,"category":string,"stack_summary":string,"background":{"kind":"solid"|"image"|"gradient"|"video"|"none","treatment":string},"overlay":{"present":boolean,"kind":"gradient"|"scrim"|"blur"|"other"|"null","notes":string},"shadows":{"present":boolean,"targets":["card"|"cta"|"text"|"container"],"notes":string},"typography_emphasis":["italic"|"bold"|"underline"|"all_caps"|"tight_tracking"],"alignment":{"text":"left"|"center"|"right","cta":"left"|"center"|"right"|"full_width"},"media":{"role":"background"|"hero"|"inline"|"none","object_fit":string,"notes":string},"look_summary":string,"interaction_summary":string,"confidence":number,"evidence_refs":string[]}
 Rules:
 - Use ONLY provided CSS/recipe evidence; do not invent unseen UI.
-- look_summary: 1-2 sentences on atmosphere and composition (e.g. full-bleed photo, dark gradient scrim, centered CTA, italic highlight, drop shadow).
+- category: choose the best of hero|nav|feature|content|commerce|conversion|form|social_proof from THIS section's roles/geometry. Refine the suggested category when tall/full-bleed above-fold media looks like a hero, not a logo wall or testimonial.
+- look_summary: 1-2 sentences on atmosphere and composition unique to THIS section (cite distinctive CSS or roles). Do not paste the same page_style_labels sentence for every section.
 - stack_summary: short role chain in reading order.
 - Prefer concrete treatments over vague adjectives.
 - confidence in (0,1); cite node_ids / css props in evidence_refs.`;

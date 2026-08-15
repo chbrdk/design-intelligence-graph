@@ -39,6 +39,32 @@ test("derives media>heading>cta signature and hero-like category", () => {
   assert.ok(hero.text_signals.some((signal) => /Mac|Buy/i.test(signal)));
 });
 
+test("tall above-fold media-only section is hero not social_proof logo_marquee", () => {
+  const nodes = [
+    { node_id: "main", parent_node_id: null, node_type: "element", tag: "main", rendered: true },
+    { node_id: "band", parent_node_id: "main", node_type: "element", tag: "section", rendered: true },
+    { node_id: "img", parent_node_id: "band", node_type: "element", tag: "img", rendered: true }
+  ];
+  const boxes = [
+    { node_id: "main", bbox: { x: 0, y: 0, width: 1440, height: 2400 } },
+    { node_id: "band", bbox: { x: 0, y: 0, width: 1440, height: 820 } },
+    { node_id: "img", bbox: { x: 0, y: 0, width: 1440, height: 820 } }
+  ];
+  const sections = deriveViewportSectionCompositions({
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop",
+    viewport_height: 900,
+    nodes,
+    boxes,
+    styles: []
+  });
+  const band = sections.find((section) => section.root_node_id === "band") ?? sections[0]!;
+  assert.equal(band.signature, "media");
+  assert.equal(band.category, "hero");
+  assert.match(band.taxonomy_id, /hero/);
+  assert.notEqual(band.category, "social_proof");
+});
+
 test("clusters recurring signatures across viewports", () => {
   const base: Omit<SectionComposition, "section_id" | "viewport_capture_id" | "viewport_name"> = {
     root_node_id: "hero",
