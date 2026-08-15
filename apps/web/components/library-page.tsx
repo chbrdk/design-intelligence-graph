@@ -39,22 +39,30 @@ function LibraryPageInner() {
   const [error, setError] = useState<string | null>(null)
 
   async function refresh(nextCategory = category) {
+    setError(null)
+    const scope = { platformProjectId }
     try {
-      setError(null)
-      const scope = { platformProjectId }
-      const [nextScreens, nextSections, nextRefs] = await Promise.all([
+      const [nextScreens, nextSections] = await Promise.all([
         fetchLibraryScreens(scope),
         fetchLibrarySections(nextCategory ? { category: nextCategory, ...scope } : scope),
-        fetchDesignReferences({ ...scope, limit: 40 }),
       ])
       setScreens(nextScreens)
       setSections(nextSections)
-      setReferences(nextRefs)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setScreens([])
       setSections([])
+    }
+
+    if (!platformProjectId) {
       setReferences([])
+      return
+    }
+    try {
+      setReferences(await fetchDesignReferences({ ...scope, limit: 40 }))
+    } catch (err: unknown) {
+      setReferences([])
+      setError(err instanceof Error ? err.message : String(err))
     }
   }
 
@@ -90,6 +98,10 @@ function LibraryPageInner() {
   async function onSimilar() {
     const q = similarTo.trim()
     if (!q) return
+    if (!platformProjectId) {
+      setError(`Set ${paths.platformProjectQueryParam} (open Library from a Collection) for similar_to.`)
+      return
+    }
     try {
       setError(null)
       setReferences(
@@ -162,7 +174,14 @@ function LibraryPageInner() {
         <Text role="meta">
           Collection: <code>{platformProjectId}</code>
         </Text>
-      ) : null}
+      ) : (
+        <Alert tone="info">
+          Live federation needs a Collection. Open{' '}
+          <a href={paths.routes.projects}>Projects</a> with{' '}
+          <code>?{paths.platformProjectQueryParam}=…</code> (from Plexon), then Library — screens still
+          load below without it; DesignReferences stay Collection-scoped.
+        </Alert>
+      )}
 
       <Panel className="dig-panel">
         <div className="dig-row">
