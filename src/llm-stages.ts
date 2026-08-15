@@ -208,7 +208,7 @@ Rules: 2-6 labels (e.g. "SF Pro system sans", "high-contrast monochrome", "soft 
 Return ONLY a single minified JSON object (no markdown, no trailing commas, no comments):
 {"design_summary":string,"hypotheses":[{"category":"page_archetype"|"layout_system"|"visual_style"|"hierarchy"|"component_pattern"|"responsive_strategy","value":string,"confidence":number,"rationale":string,"evidence_refs":string[]}]}
 Rules:
-- design_summary: 3-5 sentences about the WHOLE page (archetype, fold structure, recurring treatments, conversion pattern). Do NOT paste a single section_look look_summary verbatim; compress across sections.
+- design_summary: 3-5 sentences about the WHOLE page (archetype, above-the-fold structure, recurring treatments, conversion pattern). Synthesize the short look_beat list — NEVER copy one section essay or start with a single section title like "Brand Hero — This section…".
 - 4-8 hypotheses; confidence in (0,1); do not invent unseen UI.
 - Cite section categories/signatures and visual_style_labels as evidence when present.`;
 }

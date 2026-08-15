@@ -423,8 +423,12 @@ export function parseSectionLookResponse(
         : undefined;
   const textBlob = [...(fallback.text_signals ?? []), look_summary, stack_summary].join(" ").toLowerCase();
   const socialCue = /testimonial|review|customer|kunde|quote|trusted by|as seen|logo marquee|partner/.test(textBlob);
+  const commerceCue = /price|pricing|plan|€|\$|cart|shop|buy|kaufen|warenkorb|commerce/.test(textBlob);
   const thinSignature = signature === "body" || signature === "unknown";
   if (thinSignature && category === "social_proof" && !socialCue) {
+    category = "content";
+  }
+  if (thinSignature && (category === "commerce" || category === "conversion") && !commerceCue) {
     category = "content";
   }
 

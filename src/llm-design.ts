@@ -717,15 +717,9 @@ async function analyzeDesignWithLlmStaged(
         category: item.category,
         signature: item.signature,
         stack_summary: item.stack_summary,
-        look_summary: item.look_summary,
-        interaction_summary: item.interaction_summary,
-        role_notes: item.role_notes,
-        color_notes: item.color_notes,
-        spacing: item.spacing,
-        layout: item.layout,
-        background: item.background,
-        overlay: item.overlay,
-        media: item.media,
+        // Keep synthesize page-level: short beats, not full section essays.
+        look_beat: (item.look_summary || item.stack_summary || "").slice(0, 140),
+        interaction_summary: item.interaction_summary?.slice(0, 100),
         confidence: item.confidence
       }))
     }

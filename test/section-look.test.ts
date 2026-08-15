@@ -96,6 +96,25 @@ test("parseSectionLookResponse demotes thin social_proof without cues", () => {
   assert.equal(parsed?.category, "content");
 });
 
+test("parseSectionLookResponse demotes thin commerce without cues", () => {
+  const raw = JSON.stringify({
+    section_id: "sec_body2",
+    signature: "body",
+    category: "commerce",
+    stack_summary: "body text",
+    look_summary: "Plain text block on white background.",
+    confidence: 0.7,
+    evidence_refs: ["node_b"]
+  });
+  const parsed = parseSectionLookResponse(raw, {
+    section_id: "sec_body2",
+    signature: "body",
+    category: "commerce",
+    text_signals: ["Featured Content"]
+  });
+  assert.equal(parsed?.category, "content");
+});
+
 test("selectSectionsForLook prefers hero and caps count", () => {
   const sections = [
     sampleSection({ section_id: "a", category: "footer", confidence: 0.5 }),
