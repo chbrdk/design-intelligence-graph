@@ -50,4 +50,4 @@ curl -sS -X POST -H "Authorization: Bearer $COOLIFY_TOKEN" \
 
 ## Build note
 
-`next build --experimental-build-mode=compile` avoids Next 16 `/_global-error` prerender crash (useContext null) on Coolify.
+Do **not** webpack-alias `react` / `react-dom` in `apps/web/next.config.ts`. That caused Next 16 `/_global-error` prerender (`useContext` null) and a broken SSR runtime (`useState` null) when we tried `--experimental-build-mode=compile` as a workaround. Match CHECKION: DS aliases only + single `node_modules` via Dockerfile symlink.

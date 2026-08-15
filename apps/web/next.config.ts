@@ -6,16 +6,14 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     const appNodeModules = path.resolve(__dirname, 'node_modules')
     config.resolve = config.resolve || {}
+    // Match checkion-v3: do not alias react/react-dom — Next 16 /_global-error
+    // prerender breaks with useContext null when webpack forces a second React copy.
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       '@msqdx/ui': path.resolve(__dirname, './lib/msqdx-ui.ts'),
       '@msqdx/ui-shell': path.resolve(__dirname, './lib/msqdx-ui-shell.ts'),
       '@msqdx/ui/styles.css': path.resolve(__dirname, '../../../msqdx-ui/packages/ui/src/styles.css'),
       '@msqdx/ui-tokens': path.resolve(__dirname, '../../../msqdx-ui/packages/ui-tokens/dist/index.js'),
-      react: path.resolve(__dirname, 'node_modules/react'),
-      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
-      'react/jsx-runtime': path.resolve(__dirname, 'node_modules/react/jsx-runtime.js'),
-      'react/jsx-dev-runtime': path.resolve(__dirname, 'node_modules/react/jsx-dev-runtime.js'),
     }
     config.resolve.modules = [
       appNodeModules,

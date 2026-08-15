@@ -67,7 +67,7 @@ npm run island:typecheck
 
 ## Production build note
 
-`next build` may fail on Next 16 internal `/_global-error` prerender (`useContext` null) when the sibling DS / nested React trees are present — known Next 16 issue. Coolify should follow CHECKION’s Dockerfile pattern: fetch pinned `msqdx-ui`, strip DS `node_modules`, symlink app `node_modules` for a single React tree. Local SoT for UI work is **`island:dev`**.
+Do not add webpack aliases for `react` / `react-dom` (breaks Next 16 `/_global-error` prerender). Coolify follows CHECKION’s Dockerfile: fetch pinned `msqdx-ui`, strip DS `node_modules`, symlink app `node_modules`. Local SoT for UI work is **`island:dev`**.
 
 Legacy Vite SPA under `web/` remains for API static demos; product UI is this island.
 
