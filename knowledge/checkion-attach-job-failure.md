@@ -27,3 +27,9 @@ dig-api followed/received CHECKION **HTML login shell** instead of JSON (auth/re
 
 Coolify dig-api `updated_at` stayed at 18:27 while commits landed later — soft-fail code was not running yet.
 Mitigation: set `DIG_CHECKION_SCREENSHOTS=0` + restart so attach is skipped on old image; job-runner now also try/catches attach errors.
+
+
+## First complete capture after fix
+
+- `job_20260815191047_7b389661` → `complete` (`cap_77177817a4d842329d275a2e47841932`, msqdx.com)
+- dig-api redeployed `1b56592` (build unblocked); `DIG_CHECKION_SCREENSHOTS` re-enabled after success
