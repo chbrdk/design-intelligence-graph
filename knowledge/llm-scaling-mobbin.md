@@ -48,13 +48,14 @@ Keep prompts **under 32K** so Qwen stays in the cheap bracket (longer context ju
 ## Architecture for scale (build status)
 
 1. **Async enrichment queue** — Done (DIG-009): capture finishes without blocking; `EnrichmentQueue` + `/api/enrichment`
-2. **Idempotent stage store** — Done: file cache `indexes/llm-stage-cache` + migration `004`
-3. **Parallelize independent stages** — Planned
-4. **Vision budget** — Planned
+2. **Idempotent stage store** — Done: file cache `indexes/llm-stage-cache` + migration `004`/`005`
+3. **Parallelize independent stages** — Done: text wave in parallel; `synthesize` after
+4. **Vision budget** — Done: one settled screenshot per enrichment (`DIG_LLM_VISION`)
 5. **Cache + embeddings** — Partial (hashing embeddings exist; stage cache done)
-6. **Rate limits & backpressure** — Partial (enrichment retries)
-7. **Cost telemetry** — Planned
+6. **Rate limits & backpressure** — Partial (enrichment retries + PG claim)
+7. **Cost telemetry** — Done: tokens + estimated USD on stages/jobs
 8. **Eval gate** — Done (`npm run llm:quality-eval`)
+9. **Postgres-backed drain** — Done: persist + `FOR UPDATE SKIP LOCKED` claim
 
 Confidence routing bulk→quality: Done in `analyzeDesignWithLlmStaged` via `llm.scaling`.
 

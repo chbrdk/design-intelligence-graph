@@ -6,7 +6,21 @@ export type LlmStageId =
   | "ui_elements"
   | "section_recipes"
   | "visual_style"
-  | "synthesize";
+  | "synthesize"
+  | "vision_screen";
+
+export const PARALLEL_TEXT_STAGES: LlmStageId[] = [
+  "screen_patterns",
+  "ui_elements",
+  "section_recipes",
+  "visual_style"
+];
+
+export const CANONICAL_STAGE_ORDER: LlmStageId[] = [
+  ...PARALLEL_TEXT_STAGES,
+  "synthesize",
+  "vision_screen"
+];
 
 export interface LlmStageResult {
   stage_id: LlmStageId;
@@ -267,7 +281,7 @@ export async function runLlmStage(
   evidenceJson: string,
   maxTokens: number,
   options: { model?: string; reasoningEffort?: "none" | "low" | "medium" | "high" | "max" } = {}
-): Promise<{ raw: string; model: string }> {
+): Promise<{ raw: string; model: string; usage?: import("./llm-provider.js").LlmTokenUsage }> {
   const messages: LlmMessage[] = [
     { role: "system", content: stageSystemPrompt(stageId) },
     { role: "user", content: stageUserPrompt(stageId, evidenceJson) }
@@ -277,7 +291,11 @@ export async function runLlmStage(
     ...(options.model ? { model: options.model } : {}),
     ...(options.reasoningEffort ? { reasoningEffort: options.reasoningEffort } : {})
   });
-  return { raw: completion.content, model: completion.model };
+  return {
+    raw: completion.content,
+    model: completion.model,
+    ...(completion.usage ? { usage: completion.usage } : {})
+  };
 }
 
 export function emptyMobbinParityContent(): MobbinParityContent {

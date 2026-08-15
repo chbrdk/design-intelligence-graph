@@ -38,9 +38,12 @@ test("shouldEscalateStage triggers on empty or low confidence", () => {
 });
 
 test("EnrichmentQueue processes queued job with injectable analyzeFn", async () => {
+  process.env.DIG_LLM_VISION = "false";
   const queue = new EnrichmentQueue({
     autoStart: false,
     pollMs: 50,
+    persist: async () => false,
+    claim: async () => null,
     config: {
       enabled: true,
       provider: "openrouter",
@@ -59,7 +62,9 @@ test("EnrichmentQueue processes queued job with injectable analyzeFn", async () 
         base_url: "http://example",
         status: "complete",
         design_summary: "Hero marketing",
-        hypotheses: [{ hypothesis_id: "h1" }]
+        hypotheses: [{ hypothesis_id: "h1" }],
+        vision: { status: "skipped" },
+        cost: { prompt_tokens: 10, completion_tokens: 5, estimated_usd: 0, by_stage: [] }
       } as never
     }),
     reindexFn: async () => ({ indexed: true } as never),
@@ -81,5 +86,6 @@ test("EnrichmentQueue processes queued job with injectable analyzeFn", async () 
     assert.equal(done.hypothesis_count, 1);
   } finally {
     queue.stop();
+    delete process.env.DIG_LLM_VISION;
   }
 });

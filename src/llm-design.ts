@@ -12,12 +12,16 @@ import {
   parseUiElements,
   parseVisualStyleLabels,
   runLlmStage,
+  PARALLEL_TEXT_STAGES,
+  CANONICAL_STAGE_ORDER,
   type LlmStageId,
   type LlmStageResult,
   type MobbinParityContent
 } from "./llm-stages.js";
 import { createDefaultStageCache, evidenceSha256, type LlmStageCache } from "./llm-stage-cache.js";
 import { resolveScalingRoles, shouldEscalateStage } from "./llm-routing.js";
+import { aggregateCosts, usageToStageCost, type StageCostRecord } from "./llm-cost.js";
+import type { LlmTokenUsage } from "./llm-provider.js";
 
 export const LLM_DESIGN_VERSION = "0.2.0";
 
@@ -52,6 +56,8 @@ export interface LlmDesignAnalysis {
   analysis_mode?: "staged" | "single_shot";
   stages?: LlmStageResult[];
   mobbin?: MobbinParityContent;
+  vision?: import("./llm-vision.js").LlmVisionResult;
+  cost?: import("./llm-cost.js").LlmCostSummary;
 }
 
 export interface DesignEvidenceInput {
@@ -372,10 +378,18 @@ async function runStageWithCacheAndRouting(
   qualityModel: string | null,
   threshold: number,
   reasoningEffort: LlmProviderConfig["reasoningEffort"]
-): Promise<{ raw: string; model: string; escalated: boolean; cacheHit: boolean }> {
+): Promise<{
+  raw: string;
+  model: string;
+  escalated: boolean;
+  cacheHit: boolean;
+  cost: StageCostRecord;
+}> {
   const evidenceHash = evidenceSha256(evidence);
 
-  const tryModel = async (model: string): Promise<{ raw: string; model: string; cacheHit: boolean }> => {
+  const tryModel = async (
+    model: string
+  ): Promise<{ raw: string; model: string; cacheHit: boolean; usage?: LlmTokenUsage }> => {
     const cached = await cache.get(stageId, model, evidenceHash);
     if (cached?.raw_response) {
       return { raw: cached.raw_response, model, cacheHit: true };
@@ -391,7 +405,7 @@ async function runStageWithCacheAndRouting(
       raw_response: result.raw,
       status: "complete"
     });
-    return { raw: result.raw, model: result.model, cacheHit: false };
+    return { raw: result.raw, model: result.model, cacheHit: false, ...(result.usage ? { usage: result.usage } : {}) };
   };
 
   const bulk = await tryModel(bulkModel);
@@ -415,7 +429,7 @@ async function runStageWithCacheAndRouting(
       const items = parseVisualStyleLabels(bulk.raw);
       itemCount = items.length;
       confidences = items.map((item) => item.confidence);
-    } else {
+    } else if (stageId === "synthesize") {
       const synthesized = parseLlmDesignResponse(bulk.raw, bulk.model, "");
       itemCount = synthesized.hypotheses.length;
       confidences = synthesized.hypotheses.map((item) => item.confidence);
@@ -428,10 +442,90 @@ async function runStageWithCacheAndRouting(
   const escalate =
     Boolean(qualityModel) && shouldEscalateStage({ parseOk, itemCount, confidences, threshold });
   if (!escalate || !qualityModel) {
-    return { ...bulk, escalated: false };
+    return {
+      ...bulk,
+      escalated: false,
+      cost: usageToStageCost(stageId, bulk.model, bulk.usage, bulk.cacheHit)
+    };
   }
   const quality = await tryModel(qualityModel);
-  return { ...quality, escalated: true };
+  return {
+    ...quality,
+    escalated: true,
+    cost: usageToStageCost(stageId, quality.model, quality.usage, quality.cacheHit)
+  };
+}
+
+function applyParsedStage(
+  stageId: LlmStageId,
+  raw: string,
+  model: string,
+  escalated: boolean,
+  cacheHit: boolean,
+  cost: StageCostRecord,
+  configBaseUrl: string
+): {
+  stage: LlmStageResult;
+  synthesized?: LlmDesignAnalysis;
+  patch: Partial<MobbinParityContent>;
+} {
+  const raw_sha256 = `sha256:${createHash("sha256").update(raw).digest("hex")}`;
+  const costData = {
+    escalated,
+    cache_hit: cacheHit,
+    prompt_tokens: cost.prompt_tokens,
+    completion_tokens: cost.completion_tokens,
+    estimated_usd: cost.estimated_usd
+  };
+  if (stageId === "screen_patterns") {
+    const screen_patterns = parseScreenPatterns(raw);
+    return {
+      stage: { stage_id: stageId, status: "complete", raw_sha256, data: { count: screen_patterns.length, ...costData } },
+      patch: { screen_patterns }
+    };
+  }
+  if (stageId === "ui_elements") {
+    const ui_elements = parseUiElements(raw);
+    return {
+      stage: { stage_id: stageId, status: "complete", raw_sha256, data: { count: ui_elements.length, ...costData } },
+      patch: { ui_elements }
+    };
+  }
+  if (stageId === "section_recipes") {
+    const parsed = parseRecipeStage(raw);
+    return {
+      stage: {
+        stage_id: stageId,
+        status: "complete",
+        raw_sha256,
+        data: { insights: parsed.recipe_insights.length, flow_steps: parsed.page_flow.length, ...costData }
+      },
+      patch: { recipe_insights: parsed.recipe_insights, page_flow: parsed.page_flow }
+    };
+  }
+  if (stageId === "visual_style") {
+    const visual_style_labels = parseVisualStyleLabels(raw);
+    return {
+      stage: {
+        stage_id: stageId,
+        status: "complete",
+        raw_sha256,
+        data: { count: visual_style_labels.length, ...costData }
+      },
+      patch: { visual_style_labels }
+    };
+  }
+  const synthesized = parseLlmDesignResponse(raw, model, configBaseUrl);
+  return {
+    stage: {
+      stage_id: stageId,
+      status: "complete",
+      raw_sha256,
+      data: { hypotheses: synthesized.hypotheses.length, ...costData }
+    },
+    synthesized,
+    patch: {}
+  };
 }
 
 async function analyzeDesignWithLlmStaged(
@@ -445,40 +539,15 @@ async function analyzeDesignWithLlmStaged(
   const bulkModel = config.model || roles.bulkText;
   const qualityModel = roles.qualityText;
   const reasoningEffort = config.reasoningEffort ?? roles.bulkReasoningEffort;
-  const stageIds: LlmStageId[] = [
-    "screen_patterns",
-    "ui_elements",
-    "section_recipes",
-    "visual_style",
-    "synthesize"
-  ];
   const stages: LlmStageResult[] = [];
+  const costRecords: StageCostRecord[] = [];
   const mobbin = emptyMobbinParityContent();
   let model = bulkModel;
   const rawChunks: string[] = [];
 
-  for (const stageId of stageIds) {
+  const runOne = async (stageId: LlmStageId, evidence: string) => {
     try {
-      let evidence = buildStageEvidence(stageId, input);
-      if (stageId === "synthesize") {
-        evidence = JSON.stringify({
-          url: input.canonical_url,
-          title: input.title ?? null,
-          prior_stages: {
-            screen_patterns: mobbin.screen_patterns,
-            ui_elements: mobbin.ui_elements,
-            recipe_insights: mobbin.recipe_insights,
-            page_flow: mobbin.page_flow,
-            visual_style_labels: mobbin.visual_style_labels
-          }
-        });
-      }
-      const {
-        raw,
-        model: stageModel,
-        escalated,
-        cacheHit
-      } = await runStageWithCacheAndRouting(
+      const result = await runStageWithCacheAndRouting(
         provider,
         stageId,
         evidence,
@@ -489,79 +558,79 @@ async function analyzeDesignWithLlmStaged(
         roles.confidenceEscalateBelow,
         reasoningEffort
       );
-      model = stageModel;
-      rawChunks.push(`${stageId}:${raw}`);
-      const raw_sha256 = `sha256:${createHash("sha256").update(raw).digest("hex")}`;
-
-      if (stageId === "screen_patterns") {
-        mobbin.screen_patterns = parseScreenPatterns(raw);
-        stages.push({
-          stage_id: stageId,
-          status: "complete",
-          raw_sha256,
-          data: { count: mobbin.screen_patterns.length, escalated, cache_hit: cacheHit }
-        });
-      } else if (stageId === "ui_elements") {
-        mobbin.ui_elements = parseUiElements(raw);
-        stages.push({
-          stage_id: stageId,
-          status: "complete",
-          raw_sha256,
-          data: { count: mobbin.ui_elements.length, escalated, cache_hit: cacheHit }
-        });
-      } else if (stageId === "section_recipes") {
-        const parsed = parseRecipeStage(raw);
-        mobbin.recipe_insights = parsed.recipe_insights;
-        mobbin.page_flow = parsed.page_flow;
-        stages.push({
-          stage_id: stageId,
-          status: "complete",
-          raw_sha256,
-          data: {
-            insights: parsed.recipe_insights.length,
-            flow_steps: parsed.page_flow.length,
-            escalated,
-            cache_hit: cacheHit
-          }
-        });
-      } else if (stageId === "visual_style") {
-        mobbin.visual_style_labels = parseVisualStyleLabels(raw);
-        stages.push({
-          stage_id: stageId,
-          status: "complete",
-          raw_sha256,
-          data: { count: mobbin.visual_style_labels.length, escalated, cache_hit: cacheHit }
-        });
-      } else {
-        const synthesized = parseLlmDesignResponse(raw, model, config.baseUrl);
-        stages.push({
-          stage_id: stageId,
-          status: "complete",
-          raw_sha256,
-          data: { hypotheses: synthesized.hypotheses.length, escalated, cache_hit: cacheHit }
-        });
-        const completedStages = stages.filter((stage) => stage.status === "complete").length;
-        return {
-          ...synthesized,
-          model,
-          analysis_mode: "staged",
-          stages,
-          mobbin,
-          raw_response_sha256: `sha256:${createHash("sha256").update(rawChunks.join("\n")).digest("hex")}`,
-          status: completedStages >= 2 ? "complete" : synthesized.status
-        };
-      }
+      model = result.model;
+      rawChunks.push(`${stageId}:${result.raw}`);
+      costRecords.push(result.cost);
+      return applyParsedStage(
+        stageId,
+        result.raw,
+        result.model,
+        result.escalated,
+        result.cacheHit,
+        result.cost,
+        config.baseUrl
+      );
     } catch (error: unknown) {
-      stages.push({
-        stage_id: stageId,
-        status: "failed",
-        error: error instanceof Error ? error.message : String(error)
-      });
-      if (stageId === "synthesize") break;
+      return {
+        stage: {
+          stage_id: stageId,
+          status: "failed" as const,
+          error: error instanceof Error ? error.message : String(error)
+        },
+        patch: {} as Partial<MobbinParityContent>
+      };
     }
+  };
+
+  const parallelResults = await Promise.all(
+    PARALLEL_TEXT_STAGES.map(async (stageId) => {
+      const evidence = buildStageEvidence(stageId, input);
+      const outcome = await runOne(stageId, evidence);
+      return { stageId, outcome };
+    })
+  );
+
+  for (const stageId of PARALLEL_TEXT_STAGES) {
+    const found = parallelResults.find((item) => item.stageId === stageId);
+    if (!found) continue;
+    stages.push(found.outcome.stage);
+    Object.assign(mobbin, found.outcome.patch);
   }
 
-  const successful = stages.filter((stage) => stage.status === "complete").length;
+  const synthesizeEvidence = JSON.stringify({
+    url: input.canonical_url,
+    title: input.title ?? null,
+    prior_stages: {
+      screen_patterns: mobbin.screen_patterns,
+      ui_elements: mobbin.ui_elements,
+      recipe_insights: mobbin.recipe_insights,
+      page_flow: mobbin.page_flow,
+      visual_style_labels: mobbin.visual_style_labels
+    }
+  });
+  const synthesizeOutcome = await runOne("synthesize", synthesizeEvidence);
+  stages.push(synthesizeOutcome.stage);
+
+  const orderedStages = [...stages].sort(
+    (a, b) => CANONICAL_STAGE_ORDER.indexOf(a.stage_id) - CANONICAL_STAGE_ORDER.indexOf(b.stage_id)
+  );
+  const cost = aggregateCosts(costRecords);
+
+  if (synthesizeOutcome.synthesized) {
+    const completedStages = orderedStages.filter((stage) => stage.status === "complete").length;
+    return {
+      ...synthesizeOutcome.synthesized,
+      model,
+      analysis_mode: "staged",
+      stages: orderedStages,
+      mobbin,
+      cost,
+      raw_response_sha256: `sha256:${createHash("sha256").update(rawChunks.join("\n")).digest("hex")}`,
+      status: completedStages >= 2 ? "complete" : synthesizeOutcome.synthesized.status
+    };
+  }
+
+  const successful = orderedStages.filter((stage) => stage.status === "complete").length;
   if (successful === 0) {
     return {
       schema_version: "0.1.0",
@@ -572,10 +641,11 @@ async function analyzeDesignWithLlmStaged(
       status: "failed",
       design_summary: "",
       hypotheses: [],
-      error: stages.map((stage) => stage.error).filter(Boolean).join("; ") || "All LLM stages failed",
+      error: orderedStages.map((stage) => stage.error).filter(Boolean).join("; ") || "All LLM stages failed",
       analysis_mode: "staged",
-      stages,
-      mobbin
+      stages: orderedStages,
+      mobbin,
+      cost
     };
   }
 
@@ -635,8 +705,9 @@ async function analyzeDesignWithLlmStaged(
       hypotheses: [],
       error: "Staged LLM produced no usable hypotheses",
       analysis_mode: "staged",
-      stages,
-      mobbin
+      stages: orderedStages,
+      mobbin,
+      cost
     };
   }
 
@@ -651,8 +722,9 @@ async function analyzeDesignWithLlmStaged(
     hypotheses: hypotheses.slice(0, 8),
     raw_response_sha256: `sha256:${createHash("sha256").update(rawChunks.join("\n")).digest("hex")}`,
     analysis_mode: "staged",
-    stages,
-    mobbin
+    stages: orderedStages,
+    mobbin,
+    cost
   };
 }
 

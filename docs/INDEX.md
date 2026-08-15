@@ -10,7 +10,7 @@
 | DIG-006 | Storage & Knowledge Graph | Relational, object, vector, and graph storage; identity, lineage, and versioning | Draft v0.1 — implemented |
 | DIG-007 | MCP API | Search, inspection, comparison, retrieval, and recommendation tools for design agents | Draft v0.1 — implemented |
 | DIG-008 | Layout Generation Specification | Evidence-based synthesis into a new deterministic layout specification | Draft v0.1 — implemented |
-| DIG-009 | Async LLM Enrichment Queue | Detached enrichment jobs, stage cache, bulk→quality confidence routing | Draft v0.1 — implemented |
+| DIG-009 | Async LLM Enrichment Queue | Detached enrichment jobs, stage cache, parallel stages, vision, cost, PG drain | Draft v0.2 — implemented |
 
 ## Dependency direction
 

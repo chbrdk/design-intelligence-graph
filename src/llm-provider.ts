@@ -33,12 +33,22 @@ export interface LlmMessage {
   content: string | LlmContentPart[];
 }
 
+export interface LlmTokenUsage {
+  prompt_tokens?: number;
+  completion_tokens?: number;
+  total_tokens?: number;
+  /** Provider-reported USD when available (OpenRouter `usage.cost`). */
+  cost?: number;
+}
+
 export interface LlmCompletion {
   model: string;
   content: string;
   finish_reason: string | null;
   provider?: LlmProviderKind;
+  usage?: LlmTokenUsage;
 }
+
 
 export type LlmCompleter = {
   complete(
@@ -242,6 +252,12 @@ export class OpenAiCompatibleLlmProvider {
       }
       const data = (await response.json()) as {
         model?: string;
+        usage?: {
+          prompt_tokens?: number;
+          completion_tokens?: number;
+          total_tokens?: number;
+          cost?: number;
+        };
         choices?: Array<{
           message?: { content?: unknown; reasoning?: string };
           finish_reason?: string | null;
@@ -257,11 +273,20 @@ export class OpenAiCompatibleLlmProvider {
             : "Local LLM response has no message content"
         );
       }
+      const usage: LlmTokenUsage | undefined = data.usage
+        ? {
+            ...(data.usage.prompt_tokens !== undefined ? { prompt_tokens: data.usage.prompt_tokens } : {}),
+            ...(data.usage.completion_tokens !== undefined ? { completion_tokens: data.usage.completion_tokens } : {}),
+            ...(data.usage.total_tokens !== undefined ? { total_tokens: data.usage.total_tokens } : {}),
+            ...(data.usage.cost !== undefined ? { cost: data.usage.cost } : {})
+          }
+        : undefined;
       return {
         model: data.model ?? model,
         content,
         finish_reason: choice?.finish_reason ?? null,
-        provider: this.config.provider
+        provider: this.config.provider,
+        ...(usage ? { usage } : {})
       };
     } finally {
       clearTimeout(timer);

@@ -9,6 +9,9 @@ import {
 } from "./llm-design.js";
 import { localLlmConfig, type LlmCompleter, type LlmProviderConfig } from "./llm-provider.js";
 import type { LlmStageCache } from "./llm-stage-cache.js";
+import { createDefaultStageCache } from "./llm-stage-cache.js";
+import { aggregateCosts } from "./llm-cost.js";
+import { runVisionScreenAnalysis } from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
@@ -23,6 +26,7 @@ export async function applyLlmDesignAnalysis(
   } = {}
 ): Promise<{ llm: LlmDesignAnalysis; analysis: AnalysisReport; updated: boolean }> {
   const config = options.config ?? localLlmConfig();
+  const stageCache = options.stageCache ?? createDefaultStageCache();
   const manifestPath = resolve(packageRoot, "manifest.json");
   const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as CaptureManifest;
   const analysisPath = resolve(packageRoot, manifest.run_artifacts.analysis?.path ?? "derived/analysis-report.json");
@@ -59,7 +63,7 @@ export async function applyLlmDesignAnalysis(
     /* older packages may lack section compositions */
   }
 
-  const llm = await analyzeDesignWithLlm(
+  let llm = await analyzeDesignWithLlm(
     {
       canonical_url: manifest.canonical_url,
       ...(manifest.viewport_captures[0]?.title ? { title: manifest.viewport_captures[0].title } : {}),
@@ -71,8 +75,50 @@ export async function applyLlmDesignAnalysis(
       section_compositions: sectionCompositions,
       section_clusters: sectionClusters
     },
-    options
+    { ...options, stageCache }
   );
+
+  const vision = await runVisionScreenAnalysis(packageRoot, manifest, {
+    config,
+    ...(options.provider ? { provider: options.provider } : {}),
+    stageCache
+  });
+  const stages = [...(llm.stages ?? [])];
+  if (vision.status === "complete") {
+    stages.push({
+      stage_id: "vision_screen",
+      status: "complete",
+      ...(vision.raw_sha256 ? { raw_sha256: vision.raw_sha256 } : {}),
+      data: {
+        heading: vision.heading,
+        cta: vision.cta,
+        layout_order: vision.layout_order,
+        ...(vision.cost
+          ? {
+              prompt_tokens: vision.cost.prompt_tokens,
+              completion_tokens: vision.cost.completion_tokens,
+              estimated_usd: vision.cost.estimated_usd,
+              cache_hit: vision.cost.cache_hit
+            }
+          : {})
+      }
+    });
+  } else if (vision.status === "failed" || vision.status === "skipped") {
+    stages.push({
+      stage_id: "vision_screen",
+      status: vision.status === "skipped" ? "skipped" : "failed",
+      ...(vision.error ? { error: vision.error } : {})
+    });
+  }
+  const cost = vision.cost
+    ? aggregateCosts([...(llm.cost?.by_stage ?? []), vision.cost])
+    : llm.cost;
+  llm = {
+    ...llm,
+    vision,
+    stages,
+    ...(cost ? { cost } : {})
+  };
 
   if (llm.status !== "complete") {
     return { llm, analysis, updated: false };

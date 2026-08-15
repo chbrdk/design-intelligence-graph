@@ -3,7 +3,9 @@ import { loadDigPaths } from "./runtime-paths.js";
 
 export interface ScalingRoles {
   bulkText: string;
+  bulkVision: string;
   qualityText: string | null;
+  qualityVision: string | null;
   confidenceEscalateBelow: number;
   bulkReasoningEffort: "none" | "low" | "medium" | "high" | "max" | undefined;
 }
@@ -17,9 +19,17 @@ export function resolveScalingRoles(environment: NodeJS.ProcessEnv = process.env
     environment.DIG_LLM_MODEL ??
     paths.llm.openrouter?.defaultModel ??
     paths.llm.defaultModel;
+  const bulkVision =
+    environment.DIG_LLM_VISION_MODEL ??
+    roles?.bulkVision ??
+    paths.llm.openrouter?.visionModel ??
+    bulkText;
   const qualityRaw =
-    environment.DIG_LLM_QUALITY_MODEL ?? roles?.qualityText ?? paths.llm.openrouter?.defaultModel ?? null;
+    environment.DIG_LLM_QUALITY_MODEL ?? roles?.qualityText ?? null;
   const qualityText = qualityRaw && qualityRaw !== bulkText ? qualityRaw : null;
+  const qualityVisionRaw =
+    environment.DIG_LLM_QUALITY_VISION_MODEL ?? roles?.qualityVision ?? qualityRaw ?? null;
+  const qualityVision = qualityVisionRaw && qualityVisionRaw !== bulkVision ? qualityVisionRaw : null;
   const threshold = Number(environment.DIG_LLM_ESCALATE_BELOW ?? paths.llm.scaling?.confidenceEscalateBelow ?? 0.55);
   const effortRaw = (
     environment.DIG_LLM_REASONING_EFFORT ??
@@ -38,7 +48,9 @@ export function resolveScalingRoles(environment: NodeJS.ProcessEnv = process.env
         : undefined;
   return {
     bulkText,
+    bulkVision,
     qualityText,
+    qualityVision,
     confidenceEscalateBelow: Number.isFinite(threshold) ? threshold : 0.55,
     bulkReasoningEffort
   };
