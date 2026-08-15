@@ -108,6 +108,7 @@ export interface DigPaths {
       confidenceEscalateBelow?: number;
       asyncDefault?: boolean;
       sectionLookMaxSections?: number;
+      sectionLookMaxTokens?: number;
       doc?: string;
     };
   };

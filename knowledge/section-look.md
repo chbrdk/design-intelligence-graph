@@ -28,7 +28,9 @@ That is searchable (“gradient overlay”, “italic accent”, “centered CTA
 Implemented as **DIG-010** (`docs/DIG-010-section-look.md`):
 
 - Wave B `section_look` after page-scan stages, before synthesize
-- Cap: `paths.json` → `llm.scaling.sectionLookMaxSections` (default 8) or `DIG_LLM_SECTION_LOOK_MAX`
+- Cap: `paths.json` → `llm.scaling.sectionLookMaxSections` (default **14**) or `DIG_LLM_SECTION_LOOK_MAX`
+- Tokens: `llm.scaling.sectionLookMaxTokens` (default **1200**) or `DIG_LLM_SECTION_LOOK_MAX_TOKENS`
+- Granular fields: `role_notes`, `spacing`, `layout`, `color_notes` + richer CSS/geometry evidence — see [`section-look-granular.md`](section-look-granular.md)
 - Index kind `section_look` + UI Analyses panel
 
 ## Architecture (fits DIG-009)
@@ -116,7 +118,7 @@ Also feed `shadow_values` into page-level `visual_style` evidence (today dropped
 
 1. `buildSectionLookEvidence(section, nodes)` in `src/section-look.ts`
 2. Stage `section_look` in `llm-stages.ts` + wave B in `llm-design.ts`
-3. Paths: `llm.scaling.sectionLookMaxSections` (default 8)
+3. Paths: `llm.scaling.sectionLookMaxSections` (default 14) + `sectionLookMaxTokens` (default 1200)
 4. Migration for `llm_items` kind if needed
 5. UI: analysis detail blocks for section look summaries
 6. Fixture eval: marketing-hero expects gradient/scrim + centered CTA language

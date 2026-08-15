@@ -10,7 +10,7 @@ After the page-level Mobbin facet stages, run **budgeted per-section LLM tasks**
 ## Pipeline
 
 1. Wave A (parallel): `screen_patterns` | `ui_elements` | `section_recipes` | `visual_style`
-2. Wave B (parallel, capped): `section_look` × N measured sections (default 8 via `llm.scaling.sectionLookMaxSections` / `DIG_LLM_SECTION_LOOK_MAX`)
+2. Wave B (parallel, capped): `section_look` × N measured sections (default 14 via `llm.scaling.sectionLookMaxSections` / `DIG_LLM_SECTION_LOOK_MAX`; tokens via `sectionLookMaxTokens`)
 3. Wave C: `synthesize` (includes section look summaries)
 4. Wave D: `vision_screen`
 

@@ -370,10 +370,10 @@ export async function indexCapturePackageToDatabase(
           description.section_id,
           description.signature,
           description.category ?? null,
-          [description.stack_summary, description.look_summary, description.interaction_summary]
+          [description.stack_summary, description.look_summary, description.interaction_summary, description.color_notes]
             .filter(Boolean)
             .join(" · ")
-            .slice(0, 800),
+            .slice(0, 1600),
           description.confidence,
           JSON.stringify(description.evidence_refs),
           JSON.stringify({
@@ -382,7 +382,11 @@ export async function indexCapturePackageToDatabase(
             shadows: description.shadows ?? null,
             typography_emphasis: description.typography_emphasis ?? [],
             alignment: description.alignment ?? null,
-            media: description.media ?? null
+            media: description.media ?? null,
+            spacing: description.spacing ?? null,
+            layout: description.layout ?? null,
+            role_notes: description.role_notes ?? [],
+            color_notes: description.color_notes ?? null
           })
         ]
       );

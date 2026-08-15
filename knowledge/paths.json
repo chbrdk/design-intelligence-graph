@@ -111,7 +111,7 @@
       "target": "mobbin",
       "callsPerCaptureEstimate": {
         "textStages": 5,
-        "sectionLookMax": 8,
+        "sectionLookMax": 14,
         "visionPerViewport": 1,
         "flowActions": 1,
         "optionalHotspotFlow": 2
@@ -127,7 +127,8 @@
       "bulkReasoningEffort": "none",
       "confidenceEscalateBelow": 0.55,
       "asyncDefault": true,
-      "sectionLookMaxSections": 8,
+      "sectionLookMaxSections": 14,
+      "sectionLookMaxTokens": 1200,
       "doc": "knowledge/llm-scaling-mobbin.md"
     }
   },

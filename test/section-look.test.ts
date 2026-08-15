@@ -103,7 +103,9 @@ test("selectSectionsForLook diversifies categories and signatures", () => {
   const categories = new Set(picked.map((section) => section.category));
   assert.ok(categories.has("hero"));
   assert.ok(categories.has("feature"));
-  assert.ok(picked.filter((section) => section.signature === "media").length <= 1);
+  // Same signature may repeat a little, but social_proof media should not dominate the whole budget.
+  assert.ok(picked.filter((section) => section.signature === "media").length <= 2);
+  assert.ok(picked.length >= 3);
 });
 
 test("buildSectionLookEvidence includes allowlisted CSS and alignment hints", () => {
@@ -111,15 +113,19 @@ test("buildSectionLookEvidence includes allowlisted CSS and alignment hints", ()
     buildSectionLookEvidence(sampleSection(), {
       node_root: { "background-image": "linear-gradient(black, transparent)", "box-shadow": "none" },
       node_media: { "background-image": "url(hero.jpg)", "object-fit": "cover" },
-      node_heading: { "font-style": "italic", "text-align": "center", "font-weight": "600" },
+      node_heading: { "font-style": "italic", "text-align": "center", "font-weight": "600", "font-size": "48px" },
       node_cta: { "box-shadow": "0 8px 24px rgba(0,0,0,.25)", "text-align": "center" }
     })
   );
   assert.equal(evidence.section.signature, "media>heading>cta");
   assert.match(evidence.section.root_styles["background-image"], /gradient/i);
+  assert.ok(evidence.section.geometry?.w > 0);
+  assert.equal(evidence.section.geometry?.band, "above_fold");
   const heading = evidence.section.roles.find((role: { role: string }) => role.role === "heading");
   assert.equal(heading.styles["font-style"], "italic");
+  assert.equal(heading.styles["font-size"], "48px");
   assert.equal(heading.alignment_hint, "center");
+  assert.ok(heading.box?.h > 0);
 });
 
 test("parseSectionLookResponse keeps compositional fields", () => {
@@ -134,10 +140,18 @@ test("parseSectionLookResponse keeps compositional fields", () => {
     typography_emphasis: ["italic"],
     alignment: { text: "center", cta: "center" },
     media: { role: "background", object_fit: "cover" },
-    look_summary: "Minimalist hero with full-bleed photo, gradient overlay, italic highlight, centered CTA.",
+    spacing: { gaps_px: [24], notes: "24px between media and heading" },
+    layout: { mode: "flex column", notes: "centered stack" },
+    role_notes: [
+      { role: "heading", notes: "italic 48px centered" },
+      { role: "cta", notes: "box-shadow 0 8px 24px" }
+    ],
+    color_notes: "black text on photo with dark scrim",
+    look_summary:
+      "Above-fold hero with full-bleed photo. Dark gradient scrim over the lower half. Centered italic 48px headline. Soft-shadow CTA centered under the title with 24px gap.",
     interaction_summary: "Primary buy CTA centered under headline.",
     confidence: 0.88,
-    evidence_refs: ["node_cta", "box-shadow"]
+    evidence_refs: ["node_cta", "box-shadow", "font-size"]
   });
   const parsed = parseSectionLookResponse(raw, {
     section_id: "sec_hero",
@@ -147,4 +161,8 @@ test("parseSectionLookResponse keeps compositional fields", () => {
   assert.equal(parsed.overlay?.kind, "gradient");
   assert.deepEqual(parsed.typography_emphasis, ["italic"]);
   assert.match(parsed.look_summary, /gradient/i);
+  assert.equal(parsed.spacing?.gaps_px?.[0], 24);
+  assert.equal(parsed.role_notes?.[0]?.role, "heading");
+  assert.match(parsed.color_notes ?? "", /scrim/i);
+  assert.ok(parsed.look_summary.length > 80);
 });

@@ -21,6 +21,7 @@ import {
 import {
   buildSectionLookEvidence,
   parseSectionLookResponse,
+  sectionLookMaxTokens,
   selectSectionsForLook,
   type NodeStyleMap,
   type SectionLookDescription
@@ -561,6 +562,7 @@ async function analyzeDesignWithLlmStaged(
   stageCache: LlmStageCache
 ): Promise<LlmDesignAnalysis> {
   const maxTokens = config.stageMaxTokens ?? 700;
+  const sectionLookTokens = Math.max(maxTokens, sectionLookMaxTokens());
   const roles = resolveScalingRoles();
   const bulkModel = config.model || roles.bulkText;
   const qualityModel = roles.qualityText;
@@ -639,7 +641,7 @@ async function analyzeDesignWithLlmStaged(
             provider,
             "section_look",
             evidence,
-            maxTokens,
+            sectionLookTokens,
             stageCache,
             bulkModel,
             qualityModel,
@@ -716,6 +718,13 @@ async function analyzeDesignWithLlmStaged(
         stack_summary: item.stack_summary,
         look_summary: item.look_summary,
         interaction_summary: item.interaction_summary,
+        role_notes: item.role_notes,
+        color_notes: item.color_notes,
+        spacing: item.spacing,
+        layout: item.layout,
+        background: item.background,
+        overlay: item.overlay,
+        media: item.media,
         confidence: item.confidence
       }))
     }
