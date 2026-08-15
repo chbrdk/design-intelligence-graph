@@ -13,7 +13,8 @@ Matched styles default to **`essential`** (allowlisted props, no inherited dump)
 
 ## Postgres
 
-Compose service `db` image: **`pgvector/pgvector:0.8.6-pg18-trixie`** (`knowledge/paths.json` → `database.image`).
+Compose service `db` image (local): **`pgvector/pgvector:0.8.6-pg18-trixie`** (`knowledge/paths.json` → `database.image`).
+Coolify staging uses **`pgvector/pgvector:pg16`** (`coolify.digPostgresImage`) after PG18 volume-path quirks.
 
 - Env override: `DIG_DATABASE_URL`
 - Migrations: `db/migrations/` via `npm run db:migrate`
