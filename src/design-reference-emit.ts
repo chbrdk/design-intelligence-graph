@@ -156,7 +156,7 @@ export function designReferencesFromLlmAnalysis(
   const visualStyleLabels = (llm.mobbin?.visual_style_labels ?? [])
     .map((item) => item.name)
     .filter(Boolean);
-  return descriptions.map((description) =>
+  const fromSections = descriptions.map((description) =>
     designReferenceFromSectionLook({
       captureRunId,
       description,
@@ -166,6 +166,46 @@ export function designReferencesFromLlmAnalysis(
       designSummary: llm.design_summary
     })
   );
+  if (fromSections.length) return fromSections;
+  // Sparse pages (e.g. example.com) may lack section_look — still emit a screen reference
+  // so Collection search / prompt-pack / generate have corpus after enrichment.
+  if (!llm.design_summary?.trim()) return [];
+  const summary = truncate(llm.design_summary, 400);
+  const style = visualStyleLabels[0] ?? screenPatterns[0] ?? "content";
+  const record: DesignReferenceRecord = {
+    schema_version: DESIGN_REFERENCE_SCHEMA_VERSION,
+    reference_id: referenceIdForSection(captureRunId, "screen"),
+    capture_run_id: captureRunId,
+    scope: "screen",
+    section_id: null,
+    viewport_capture_id: viewportCaptureId ?? null,
+    taxonomy: {
+      category: "screen",
+      taxonomy_ids: ["dig:pattern.unknown"],
+      ...(screenPatterns.length ? { screen_patterns: screenPatterns.slice(0, 8) } : {})
+    },
+    composition: {
+      signature: `screen/${style}`,
+      stack_summary: truncate(summary, 200)
+    },
+    look: {
+      look_summary: summary,
+      confidence: 0.55
+    },
+    provenance: {
+      evidence_refs: ["screen"],
+      methods: ["llm_design_summary"],
+      layers: ["L3"]
+    }
+  };
+  if (visualStyleLabels.length) {
+    record.tokens = { style_labels: visualStyleLabels.slice(0, 8) };
+  }
+  record.page_context = {
+    ...(visualStyleLabels.length ? { visual_style_labels: visualStyleLabels.slice(0, 8) } : {}),
+    design_summary: summary
+  };
+  return [record];
 }
 
 export async function emitDesignReferencesForPackage(

@@ -114,3 +114,32 @@ test("emit DesignReference from section_look validates and writes jsonl", async 
   assert.equal(emb.provider, "dig-hashing-v1");
   assert.equal(emb.dims, 384);
 });
+
+test("emit falls back to screen DesignReference when section_look is empty", async () => {
+  const { designReferencesFromLlmAnalysis } = await import("../src/design-reference-emit.js");
+  const refs = designReferencesFromLlmAnalysis(
+    "cap_sparse",
+    {
+      schema_version: "0.1.0",
+      llm_design_version: "0.2.0",
+      generated_at: new Date().toISOString(),
+      model: "test",
+      base_url: "http://127.0.0.1",
+      status: "complete",
+      design_summary: "Minimalist content layout with high-contrast monochrome styling.",
+      hypotheses: [],
+      mobbin: {
+        screen_patterns: [{ name: "content", confidence: 0.8, evidence_refs: [] }],
+        ui_elements: [],
+        recipe_insights: [],
+        page_flow: [],
+        visual_style_labels: [{ name: "minimal", confidence: 0.7, evidence_refs: [] }],
+        section_descriptions: []
+      }
+    } as import("../src/llm-design.js").LlmDesignAnalysis,
+    "vpc_desktop"
+  );
+  assert.equal(refs.length, 1);
+  assert.equal(refs[0]!.scope, "screen");
+  assert.equal(validateAgainstSchema("designReference", refs[0]!).length, 0);
+});
