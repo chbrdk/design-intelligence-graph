@@ -60,3 +60,43 @@ test("OpenAiCompatibleLlmProvider explains empty content when reasoning burned t
     /reasoning burned tokens/
   );
 });
+
+test("createLlmProviderFromConfig falls back to OpenRouter when local fetch fails", async () => {
+  const { createLlmProviderFromConfig } = await import("../src/llm-provider.js");
+  let urls: string[] = [];
+  const provider = createLlmProviderFromConfig(
+    {
+      enabled: true,
+      provider: "local",
+      baseUrl: "http://127.0.0.1:9/v1",
+      model: "qwen/qwen3.7-flash",
+      timeoutMs: 2000,
+      fallbackProvider: "openrouter",
+      reasoningEffort: "none"
+    },
+    {
+      OPENROUTER_API_KEY: "test-key"
+    } as NodeJS.ProcessEnv,
+    async (url) => {
+      urls.push(String(url));
+      if (String(url).includes("127.0.0.1:9")) {
+        throw new TypeError("fetch failed");
+      }
+      return new Response(
+        JSON.stringify({
+          model: "qwen/qwen3.7-flash",
+          choices: [{ message: { content: "{\"ok\":true}" }, finish_reason: "stop" }]
+        }),
+        { status: 200, headers: { "content-type": "application/json" } }
+      );
+    }
+  );
+  const result = await provider.complete([{ role: "user", content: "hi" }], {
+    model: "qwen/qwen3.7-flash",
+    maxTokens: 50
+  });
+  assert.equal(result.content, "{\"ok\":true}");
+  assert.equal(urls.length, 2);
+  assert.match(urls[0]!, /127\.0\.0\.1:9/);
+  assert.match(urls[1]!, /openrouter\.ai/);
+});

@@ -329,17 +329,31 @@ export class FallbackLlmProvider {
   }
 }
 
-export function createLlmProvider(
+/**
+ * Build a completer for an already-resolved config (e.g. enrichment bulk-model override).
+ * Preserves local → OpenRouter fallback so callers that pass `config` do not skip it.
+ */
+export function createLlmProviderFromConfig(
+  config: LlmProviderConfig,
   environment: NodeJS.ProcessEnv = process.env,
   request: typeof fetch = fetch
 ): LlmCompleter {
-  const config = localLlmConfig(environment);
   const primary = new OpenAiCompatibleLlmProvider(config, request);
   if (config.provider === "local" && config.fallbackProvider === "openrouter") {
     const fallbackConfig = openrouterFallbackConfig(environment, config);
+    fallbackConfig.model = config.model;
+    if (config.visionModel) fallbackConfig.visionModel = config.visionModel;
+    if (config.reasoningEffort) fallbackConfig.reasoningEffort = config.reasoningEffort;
     if (fallbackConfig.apiKey) {
       return new FallbackLlmProvider(primary, new OpenAiCompatibleLlmProvider(fallbackConfig, request), config);
     }
   }
   return primary;
+}
+
+export function createLlmProvider(
+  environment: NodeJS.ProcessEnv = process.env,
+  request: typeof fetch = fetch
+): LlmCompleter {
+  return createLlmProviderFromConfig(localLlmConfig(environment), environment, request);
 }

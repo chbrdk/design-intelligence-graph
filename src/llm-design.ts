@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
-import { localLlmConfig, createLlmProvider, OpenAiCompatibleLlmProvider, type LlmCompleter, type LlmProviderConfig } from "./llm-provider.js";
+import { localLlmConfig, createLlmProviderFromConfig, type LlmCompleter, type LlmProviderConfig } from "./llm-provider.js";
 import type { AnalysisReport } from "./analysis-pipeline.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
@@ -335,8 +335,7 @@ export async function analyzeDesignWithLlm(
       mobbin: emptyMobbinParityContent()
     };
   }
-  const provider =
-    options.provider ?? (options.config ? new OpenAiCompatibleLlmProvider(options.config) : createLlmProvider());
+  const provider = options.provider ?? createLlmProviderFromConfig(config);
   if (config.stagedAnalysis === false) {
     try {
       const completion = await provider.complete([

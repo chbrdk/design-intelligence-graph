@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import type { LlmCompleter, LlmProviderConfig, LlmTokenUsage } from "./llm-provider.js";
-import { OpenAiCompatibleLlmProvider } from "./llm-provider.js";
+import { createLlmProviderFromConfig } from "./llm-provider.js";
 import { VISION_SCREEN_PROMPT } from "./llm-eval-scenario.js";
 import { resolveScalingRoles } from "./llm-routing.js";
 import { evidenceSha256, type LlmStageCache } from "./llm-stage-cache.js";
@@ -111,7 +111,7 @@ export async function runVisionScreenAnalysis(
 
   const provider =
     options.provider ??
-    new OpenAiCompatibleLlmProvider({
+    createLlmProviderFromConfig({
       ...options.config,
       model: visionModel,
       visionModel
