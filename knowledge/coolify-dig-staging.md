@@ -43,8 +43,19 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 | `DIG_WEB_STATIC` | `0` |
 | `DIG_WEB_HOST` | `0.0.0.0` |
 | `DIG_WEB_PORT` | `8787` |
-| `DIG_IN_CONTAINER` | `1` |
-| `DIG_DATABASE_URL` | optional until Postgres service is wired |
+| `DIG_IN_CONTAINER` | `1` → captures `/data/captures`, indexes `/data/indexes` |
+| `DIG_DATABASE_URL` | Coolify internal URL for `dig-v3-postgres` (secret) |
+
+## Storage / DB
+
+| Resource | Value |
+|----------|--------|
+| Postgres | `dig-v3-postgres` · uuid `f9aiylej9ic9i6pkck8sutz5` · image `pgvector/pgvector:pg16` |
+| Volume captures | mount `/data/captures` |
+| Volume indexes | mount `/data/indexes` |
+| Migrate | `scripts/docker-api-entrypoint.sh` runs `db:migrate` on start |
+
+PG18 Coolify default mount `/var/lib/postgresql/data` breaks PG18 images — staging uses **pg16** after fixing the volume path to `/var/lib/postgresql`.
 
 ## Deploy
 

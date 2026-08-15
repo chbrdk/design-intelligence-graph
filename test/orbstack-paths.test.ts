@@ -24,6 +24,7 @@ test("knowledge paths stay aligned with Dockerfile and compose", async () => {
 
   assert.match(dockerfile, new RegExp(`FROM .*${paths.docker.playwrightBaseImage.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
   assert.match(dockerfile, /EXPOSE 8787/);
+  assert.match(dockerfile, /docker-api-entrypoint\.sh/);
   assert.match(compose, /dockerfile:\s*Dockerfile\.api/);
   assert.match(compose, new RegExp(`image:\\s*${paths.docker.image}`));
   assert.match(compose, new RegExp(`${paths.docker.composeWebService}:`));
