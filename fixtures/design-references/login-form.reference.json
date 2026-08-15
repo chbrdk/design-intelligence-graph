@@ -1,0 +1,51 @@
+{
+  "schema_version": "0.1.0",
+  "reference_id": "ref_shop_login_form",
+  "capture_run_id": "run_fixture_login",
+  "scope": "section",
+  "section_id": "sec_login_form",
+  "viewport_capture_id": "vpc_login_desktop",
+  "taxonomy": {
+    "category": "form",
+    "taxonomy_ids": ["dig:component.form", "dig:pattern.form", "dig:component.button"],
+    "screen_patterns": ["auth", "login"]
+  },
+  "composition": {
+    "signature": "heading>form>cta",
+    "stack_summary": "title → email/password fields → submit",
+    "gaps_px": [16, 20],
+    "roles": ["heading", "form", "cta"]
+  },
+  "look": {
+    "look_summary": "Quiet centered auth card on neutral ground. Simple stacked fields, full-width primary submit, minimal chrome.",
+    "interaction_summary": "Submit is the only primary action; password field present (values never stored).",
+    "background": { "kind": "solid", "treatment": "neutral page wash" },
+    "overlay": { "present": false },
+    "shadows": { "present": true, "targets": ["card"], "notes": "light card elevation" },
+    "alignment": { "text": "left", "cta": "full_width" },
+    "media": { "role": "none" },
+    "confidence": 0.8
+  },
+  "tokens": {
+    "colors": [
+      { "hex": "#ffffff", "roles": ["surface"] },
+      { "hex": "#111827", "roles": ["foreground"] },
+      { "hex": "#2563eb", "roles": ["cta"] }
+    ],
+    "typography": [
+      { "family": "Inter", "size": "28px", "weight": "600", "role": "title" }
+    ],
+    "style_labels": ["utilitarian", "auth"]
+  },
+  "flow_context": {
+    "flow_action_ids": ["dig:flow.logging_in"],
+    "prev_screen_id": "fs_home",
+    "next_screen_id": null
+  },
+  "media_ref": { "kind": "none", "path": null },
+  "provenance": {
+    "evidence_refs": ["sec_login_form", "dig:flow.logging_in"],
+    "methods": ["section_look", "path_hint"],
+    "layers": ["L2", "L3"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "checkout-seed-walk",
+  "title": "Checkout path from ordered URL seeds (CHECKION-like)",
+  "phase_coverage": ["B2", "C1", "D"],
+  "seed_source": "checkion_domain_scan",
+  "ownership_notes": "URLs imagined as CHECKION domain page index; DIG captures only — no spider in DIG",
+  "artifacts": {
+    "flow_graph": "flow-graph.json",
+    "edges": "edges.json",
+    "candidates": []
+  },
+  "expect": {
+    "schema_valid": true,
+    "flow_action_ids": ["dig:flow.checkout"],
+    "min_screens": 3,
+    "min_edges": 2,
+    "required_edge_methods": ["seed_sequence"],
+    "require_hotspot_on_edges": false,
+    "max_inferred_confidence": 1
+  }
+}

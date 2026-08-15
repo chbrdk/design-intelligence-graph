@@ -1,0 +1,46 @@
+{
+  "schema_version": "0.1.0",
+  "role": "design_synthesis",
+  "brief": "Design a product launch hero that feels premium and centered, with a clear primary CTA. Prefer Aurora-like scrim and stack; do not copy Aurora copy.",
+  "rules": [
+    "Do not copy source marketing headlines, body copy, or brand names from references unless the brief explicitly asks to redesign that product.",
+    "Do not invent measured geometry; treat gaps/roles as structural hints.",
+    "Prefer primary reference (index 0) for look; secondary refs only for contrast or missing roles.",
+    "Cite reference_ids in the output when making look claims.",
+    "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens).",
+    "forbid_source_copy is absolute for this pack."
+  ],
+  "references": [
+    {
+      "reference_id": "ref_aurora_hero",
+      "scope": "section",
+      "taxonomy": { "category": "hero" },
+      "composition": {
+        "signature": "media>heading>cta",
+        "stack_summary": "full-bleed media → centered headline → primary CTA",
+        "roles": ["media", "heading", "cta"]
+      },
+      "look": {
+        "look_summary": "Minimalist product hero. Full-bleed photo, soft dark gradient scrim on the lower half. Centered bold headline; primary CTA centered below with soft drop shadow.",
+        "alignment": { "text": "center", "cta": "center" },
+        "overlay": { "present": true, "kind": "scrim" },
+        "shadows": { "present": true, "targets": ["cta"] },
+        "background": { "kind": "image" },
+        "confidence": 0.86
+      },
+      "tokens": {
+        "colors": [
+          { "hex": "#f5f5f7", "roles": ["background"] },
+          { "hex": "#1d1d1f", "roles": ["foreground"] },
+          { "hex": "#0071e3", "roles": ["accent", "cta"] }
+        ],
+        "typography": [
+          { "family": "Helvetica Neue", "size": "56px", "weight": "700", "role": "display" }
+        ],
+        "style_labels": ["sans", "blue accent", "round"]
+      }
+    }
+  ],
+  "ask": "Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ref_aurora_hero. Do not include the phrases Aurora Phone or Learn more.",
+  "output_contract": "layout_hints_json"
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.1.0",
+  "app_scope_id": "app_fixture_shop",
+  "flow_session_id": "fsess_checkout_seed",
+  "edges": [
+    {
+      "edge_id": "fe_cart_checkout",
+      "from_capture_run_id": "run_fixture_cart",
+      "to_capture_run_id": "run_fixture_checkout",
+      "from_screen_id": "fs_cart",
+      "to_screen_id": "fs_checkout",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": null,
+        "destination_url": "https://shop.example/checkout",
+        "candidate_id": null
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.8,
+      "provenance": {
+        "layer": "L2",
+        "evidence_refs": ["seed:checkion_domain_scan:pages[1]"]
+      }
+    },
+    {
+      "edge_id": "fe_checkout_confirm",
+      "from_capture_run_id": "run_fixture_checkout",
+      "to_capture_run_id": "run_fixture_confirm",
+      "from_screen_id": "fs_checkout",
+      "to_screen_id": "fs_confirm",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": null,
+        "destination_url": "https://shop.example/checkout/confirm",
+        "candidate_id": null
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.8,
+      "provenance": {
+        "layer": "L2",
+        "evidence_refs": ["seed:checkion_domain_scan:pages[2]"]
+      }
+    }
+  ]
+}

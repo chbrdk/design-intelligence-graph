@@ -1,0 +1,75 @@
+{
+  "schema_version": "0.1.0",
+  "app_scope_id": "app_fixture_mobile",
+  "flow_session_id": "fsess_onboarding_branch",
+  "edges": [
+    {
+      "edge_id": "fe_welcome_tips",
+      "from_capture_run_id": "run_ob_welcome",
+      "to_capture_run_id": "run_ob_tips",
+      "from_screen_id": "fs_welcome",
+      "to_screen_id": "fs_tips",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": "/onboarding/tips",
+        "destination_url": "https://app.example/onboarding/tips",
+        "candidate_id": null
+      },
+      "hotspot": {
+        "x": 100,
+        "y": 900,
+        "width": 200,
+        "height": 56,
+        "space": "viewport"
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.82,
+      "provenance": { "layer": "L2", "evidence_refs": ["audion_step:1"] }
+    },
+    {
+      "edge_id": "fe_tips_done",
+      "from_capture_run_id": "run_ob_tips",
+      "to_capture_run_id": "run_ob_done",
+      "from_screen_id": "fs_tips",
+      "to_screen_id": "fs_done",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": "/onboarding/done",
+        "destination_url": "https://app.example/onboarding/done",
+        "candidate_id": null
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.82,
+      "provenance": { "layer": "L2", "evidence_refs": ["audion_step:2"] }
+    },
+    {
+      "edge_id": "fe_welcome_skip",
+      "from_capture_run_id": "run_ob_welcome",
+      "to_capture_run_id": "run_ob_skip_done",
+      "from_screen_id": "fs_welcome",
+      "to_screen_id": "fs_skip_done",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": "/onboarding/done?via=skip",
+        "destination_url": "https://app.example/onboarding/done?via=skip",
+        "candidate_id": null
+      },
+      "hotspot": {
+        "x": 20,
+        "y": 40,
+        "width": 80,
+        "height": 32,
+        "space": "viewport"
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.75,
+      "provenance": { "layer": "L2", "evidence_refs": ["audion_branch:skip"] }
+    }
+  ]
+}

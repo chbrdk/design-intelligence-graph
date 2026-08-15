@@ -1,0 +1,19 @@
+{
+  "id": "design-reference-hero",
+  "title": "Retrieve and condition a premium hero from DesignReferences",
+  "spec": "docs/DIG-012-design-quality-eval.md",
+  "brief": "Premium centered product launch hero; clear primary CTA; no copy theft.",
+  "corpus": [
+    "fixtures/design-references/aurora-hero.reference.json",
+    "fixtures/design-references/login-form.reference.json"
+  ],
+  "golden": {
+    "expected_primary_reference_id": "ref_aurora_hero",
+    "forbidden_primary_reference_id": "ref_shop_login_form",
+    "expected_signature_roles": ["media", "heading", "cta"],
+    "expected_look_keywords": ["scrim", "center", "cta"],
+    "expected_token_accent_present": true,
+    "forbid_source_phrases": ["Aurora Phone", "Learn more"]
+  },
+  "embedding_canonical_golden": "category:hero\nsignature:media>heading>cta\nroles:media heading cta\nlook:Minimalist product hero. Full-bleed photo, soft dark gradient scrim on the lower half. Centered bold headline with quiet supporting line; primary CTA centered below with soft drop shadow.\nstyle:sans blue accent round\noverlay:scrim\nalign_text:center\nalign_cta:center"
+}

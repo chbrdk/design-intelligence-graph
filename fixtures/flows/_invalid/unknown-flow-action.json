@@ -1,0 +1,22 @@
+{
+  "flow_schema_version": "0.1.0",
+  "flow_id": "flow_invalid_unknown_action",
+  "app_scope_id": "app_fixture_shop",
+  "flow_actions": [
+    {
+      "taxonomy_id": "dig:flow.not_in_catalog",
+      "confidence": 0.5,
+      "method": "bad",
+      "layer": "L3"
+    }
+  ],
+  "screens": [
+    {
+      "flow_screen_id": "fs_a",
+      "order": 0,
+      "capture_run_id": "run_a",
+      "checkion_scan_id": null
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "onboarding-branch",
+  "title": "Onboarding with tip path and skip branch",
+  "phase_coverage": ["B2", "C1", "D"],
+  "seed_source": "audion_journey",
+  "ownership_notes": "Ordered steps + alternate skip URL from AUDION-like export; DIG indexes only",
+  "artifacts": {
+    "flow_graph": "flow-graph.json",
+    "edges": "edges.json",
+    "candidates": []
+  },
+  "expect": {
+    "schema_valid": true,
+    "flow_action_ids": ["dig:flow.onboarding"],
+    "min_screens": 4,
+    "min_edges": 3,
+    "required_edge_methods": ["seed_sequence"],
+    "require_hotspot_on_edges": false,
+    "max_inferred_confidence": 1
+  }
+}

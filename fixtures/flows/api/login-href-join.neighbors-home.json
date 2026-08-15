@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "flow_id": "flow_fixture_login_href_join",
+  "flow_screen_id": "fs_home",
+  "inbound": [],
+  "outbound": [
+    {
+      "edge_id": "fe_home_to_login",
+      "screen_id": "fs_login",
+      "method": "href_join",
+      "activation": "inferred_href_only",
+      "has_hotspot": true
+    }
+  ]
+}

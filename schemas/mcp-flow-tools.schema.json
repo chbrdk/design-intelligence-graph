@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/mcp-flow-tools.schema.json",
+  "title": "DIG-011 MCP Flow Tool Contract (planned)",
+  "description": "Extension tools for DIG-007; not implemented. Names must not collide with checkion_v3.*",
+  "type": "object",
+  "required": ["name", "description", "inputSchema"],
+  "properties": {
+    "name": {
+      "enum": ["dig_flow_search", "dig_flow_get", "dig_flow_neighbors"]
+    },
+    "description": { "type": "string" },
+    "inputSchema": { "type": "object" }
+  },
+  "$defs": {
+    "dig_flow_search_input": {
+      "type": "object",
+      "properties": {
+        "flow_action": {
+          "type": "string",
+          "description": "dig:flow.* id or label substring"
+        },
+        "app_scope_id": { "type": "string" },
+        "query": { "type": "string" },
+        "limit": { "type": "integer", "minimum": 1, "maximum": 50 }
+      }
+    },
+    "dig_flow_get_input": {
+      "type": "object",
+      "required": ["flow_id"],
+      "properties": {
+        "flow_id": { "type": "string" }
+      }
+    },
+    "dig_flow_neighbors_input": {
+      "type": "object",
+      "required": ["flow_id", "flow_screen_id"],
+      "properties": {
+        "flow_id": { "type": "string" },
+        "flow_screen_id": { "type": "string" },
+        "direction": { "enum": ["out", "in", "both"], "default": "out" }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1.0",
+  "app_scope_id": "app_fixture_shop",
+  "flow_session_id": null,
+  "edges": [
+    {
+      "edge_id": "fe_settings_profile",
+      "from_capture_run_id": "run_settings",
+      "to_capture_run_id": "run_profile",
+      "from_screen_id": "fs_settings",
+      "to_screen_id": "fs_profile",
+      "trigger": {
+        "kind": "href",
+        "node_id": "n_profile_row",
+        "href": "/settings/profile",
+        "destination_url": "https://shop.example/settings/profile",
+        "candidate_id": null
+      },
+      "hotspot": {
+        "x": 24,
+        "y": 180,
+        "width": 360,
+        "height": 64,
+        "space": "document"
+      },
+      "activation": "inferred_href_only",
+      "method": "href_join",
+      "confidence": 0.91,
+      "provenance": { "layer": "L2", "evidence_refs": [] }
+    }
+  ]
+}

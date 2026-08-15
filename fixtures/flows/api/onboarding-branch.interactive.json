@@ -1,0 +1,62 @@
+{
+  "schema_version": "0.1.0",
+  "flow_id": "flow_fixture_onboarding_branch",
+  "start_screen_id": "fs_welcome",
+  "steps": [
+    {
+      "flow_screen_id": "fs_welcome",
+      "order": 0,
+      "primary_url": "https://app.example/onboarding/welcome",
+      "image_ref": null,
+      "advance_anywhere": false,
+      "hotspots": [
+        {
+          "edge_id": "fe_welcome_tips",
+          "to_screen_id": "fs_tips",
+          "box": {
+            "x": 0.06944444444444445,
+            "y": 0.18,
+            "width": 0.1388888888888889,
+            "height": 0.0112,
+            "space": "normalized"
+          }
+        },
+        {
+          "edge_id": "fe_welcome_skip",
+          "to_screen_id": "fs_skip_done",
+          "box": {
+            "x": 0.013888888888888888,
+            "y": 0.008,
+            "width": 0.05555555555555555,
+            "height": 0.0064,
+            "space": "normalized"
+          }
+        }
+      ]
+    },
+    {
+      "flow_screen_id": "fs_tips",
+      "order": 1,
+      "primary_url": "https://app.example/onboarding/tips",
+      "image_ref": null,
+      "advance_anywhere": true,
+      "hotspots": []
+    },
+    {
+      "flow_screen_id": "fs_done",
+      "order": 2,
+      "primary_url": "https://app.example/onboarding/done",
+      "image_ref": null,
+      "advance_anywhere": false,
+      "hotspots": []
+    },
+    {
+      "flow_screen_id": "fs_skip_done",
+      "order": 3,
+      "primary_url": "https://app.example/onboarding/done?via=skip",
+      "image_ref": null,
+      "advance_anywhere": false,
+      "hotspots": []
+    }
+  ]
+}

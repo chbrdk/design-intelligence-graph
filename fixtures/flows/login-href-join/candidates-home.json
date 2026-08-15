@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1.0",
+  "capture_run_id": "run_fixture_home",
+  "generated_at": "2026-08-15T15:00:00.000Z",
+  "candidates": [
+    {
+      "candidate_id": "cand_home_signin",
+      "node_id": "n_cta_signin",
+      "viewport_capture_id": "vpc_home_desktop",
+      "control_kind": "link",
+      "destination": "https://shop.example/login",
+      "destination_class": "internal_path",
+      "candidacy_score": 0.92,
+      "hotspot_box": {
+        "x": 640,
+        "y": 720,
+        "width": 160,
+        "height": 48,
+        "space": "document"
+      },
+      "safety": "href_join_only",
+      "layer": "L2",
+      "method": "link_href_scan",
+      "evidence": [
+        { "kind": "attribute", "fact": "href", "value": "/login" },
+        { "kind": "text", "fact": "accessible_name", "value": "Sign in" }
+      ]
+    },
+    {
+      "candidate_id": "cand_home_footer_privacy",
+      "node_id": "n_footer_privacy",
+      "viewport_capture_id": "vpc_home_desktop",
+      "control_kind": "link",
+      "destination": "https://shop.example/privacy",
+      "destination_class": "internal_path",
+      "candidacy_score": 0.2,
+      "safety": "href_join_only",
+      "layer": "L2",
+      "method": "link_href_scan",
+      "evidence": [{ "kind": "attribute", "fact": "href", "value": "/privacy" }]
+    }
+  ]
+}

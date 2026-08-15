@@ -1,0 +1,9 @@
+{
+  "flow_id": "flow_missing_schema_version",
+  "app_scope_id": "app_x",
+  "flow_actions": [],
+  "screens": [
+    { "flow_screen_id": "fs_a", "order": 0, "capture_run_id": "run_a" }
+  ],
+  "edges": []
+}

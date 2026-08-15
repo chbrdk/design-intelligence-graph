@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/flow-library-list.schema.json",
+  "title": "DIG-011 Library Flow List (planned)",
+  "type": "object",
+  "required": ["schema_version", "items"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/listItem" }
+    }
+  },
+  "$defs": {
+    "listItem": {
+      "type": "object",
+      "required": [
+        "flow_id",
+        "app_scope_id",
+        "flow_action_ids",
+        "screen_count",
+        "edge_count"
+      ],
+      "properties": {
+        "flow_id": { "type": "string" },
+        "app_scope_id": { "type": "string" },
+        "title": { "type": ["string", "null"] },
+        "flow_action_ids": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^dig:flow\\.[a-z0-9_]+$" }
+        },
+        "screen_count": { "type": "integer", "minimum": 1 },
+        "edge_count": { "type": "integer", "minimum": 0 },
+        "preview_screen_id": { "type": ["string", "null"] },
+        "preview_url": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

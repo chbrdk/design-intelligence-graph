@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/mcp-reference-tools.schema.json",
+  "title": "DIG-012 MCP Design Reference Tools (planned)",
+  "description": "Higher agent-value priority than dig_flow_*. Read-only.",
+  "type": "object",
+  "required": ["name", "description", "inputSchema"],
+  "properties": {
+    "name": {
+      "enum": ["dig_reference_search", "dig_reference_get", "dig_reference_pack"]
+    },
+    "description": { "type": "string" },
+    "inputSchema": { "type": "object" }
+  },
+  "$defs": {
+    "dig_reference_search_input": {
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" },
+        "category": { "type": "string" },
+        "signature": { "type": "string" },
+        "style_label": { "type": "string" },
+        "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
+      }
+    },
+    "dig_reference_get_input": {
+      "type": "object",
+      "required": ["reference_id"],
+      "properties": { "reference_id": { "type": "string" } }
+    },
+    "dig_reference_pack_input": {
+      "type": "object",
+      "required": ["intent", "reference_ids"],
+      "properties": {
+        "intent": { "type": "string" },
+        "reference_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": { "type": "string" }
+        },
+        "synthesis_mode": {
+          "enum": ["structural", "look_conditioned"]
+        }
+      }
+    }
+  }
+}

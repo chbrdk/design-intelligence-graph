@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/flow-edges.schema.json",
+  "title": "DIG-011 Phase B Flow Edges Document",
+  "description": "JSONL lines each validate as flowEdge; this schema also allows a wrapped array document for tests.",
+  "type": "object",
+  "required": ["schema_version", "app_scope_id", "edges"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "app_scope_id": { "type": "string" },
+    "flow_session_id": { "type": ["string", "null"] },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/flowEdge" }
+    }
+  },
+  "$defs": {
+    "box": {
+      "type": "object",
+      "required": ["x", "y", "width", "height", "space"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "space": { "enum": ["document", "viewport"] }
+      }
+    },
+    "flowEdge": {
+      "type": "object",
+      "required": [
+        "edge_id",
+        "from_capture_run_id",
+        "to_capture_run_id",
+        "trigger",
+        "activation",
+        "method",
+        "confidence",
+        "provenance"
+      ],
+      "properties": {
+        "edge_id": { "type": "string" },
+        "from_capture_run_id": { "type": "string" },
+        "to_capture_run_id": { "type": "string" },
+        "from_screen_id": { "type": "string" },
+        "to_screen_id": { "type": "string" },
+        "trigger": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "enum": [
+                "href",
+                "same_document",
+                "spa_route",
+                "safe_activate",
+                "external_import",
+                "manual",
+                "seed_sequence"
+              ]
+            },
+            "node_id": { "type": ["string", "null"] },
+            "href": { "type": ["string", "null"] },
+            "destination_url": { "type": ["string", "null"] },
+            "candidate_id": { "type": ["string", "null"] }
+          }
+        },
+        "hotspot": { "$ref": "#/$defs/box" },
+        "activation": {
+          "enum": ["none", "observed", "inferred_href_only"]
+        },
+        "method": {
+          "enum": [
+            "href_join",
+            "seed_sequence",
+            "safe_activate",
+            "external_import",
+            "manual"
+          ]
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "provenance": {
+          "type": "object",
+          "required": ["layer"],
+          "properties": {
+            "layer": { "enum": ["L1", "L2"] },
+            "evidence_refs": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

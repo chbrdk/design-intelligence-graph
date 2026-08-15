@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/flow-candidates.schema.json",
+  "title": "DIG-011 Phase A Flow Candidates",
+  "type": "object",
+  "required": ["schema_version", "capture_run_id", "generated_at", "candidates"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "capture_run_id": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/candidate" }
+    }
+  },
+  "$defs": {
+    "box": {
+      "type": "object",
+      "required": ["x", "y", "width", "height", "space"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "space": { "enum": ["document", "viewport"] }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "node_id",
+        "viewport_capture_id",
+        "control_kind",
+        "destination_class",
+        "candidacy_score",
+        "safety",
+        "layer",
+        "method",
+        "evidence"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "node_id": { "type": "string" },
+        "viewport_capture_id": { "type": "string" },
+        "control_kind": {
+          "enum": ["link", "button", "nav_item", "tab", "submit", "other"]
+        },
+        "destination": { "type": ["string", "null"] },
+        "destination_class": {
+          "enum": [
+            "internal_same_origin",
+            "internal_path",
+            "external",
+            "fragment",
+            "action_unsafe",
+            "unknown"
+          ]
+        },
+        "candidacy_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "hotspot_box": { "$ref": "#/$defs/box" },
+        "safety": { "enum": ["allow_activate", "href_join_only", "forbid"] },
+        "layer": { "const": "L2" },
+        "method": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind", "fact"],
+            "properties": {
+              "kind": { "type": "string" },
+              "fact": { "type": "string" },
+              "value": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

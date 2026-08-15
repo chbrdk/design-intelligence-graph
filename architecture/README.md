@@ -11,6 +11,10 @@ Accepted decisions:
 - [ADR-005 — Explicit Analysis Stage Ledger](ADR-005-analysis-orchestration.md)
 - [ADR-006 — Portable Graph Projection Before Database Adapters](ADR-006-portable-knowledge-graph.md)
 - [ADR-007 — Read-only MCP Over a Portable Graph](ADR-007-read-only-mcp.md)
+- [ADR-009 — Async Enrichment with Stage Cache and Tiered Models](ADR-009-async-llm-enrichment.md)
+- [ADR-011 — Design Flow Graph Owned by DIG](ADR-011-user-flow-graph.md)
+- [ADR-012 — DesignReference as the agent retrieval unit](ADR-012-design-reference.md)
+- [ADR-013 — DIG as a Plexon Collection capability](ADR-013-plexon-capability.md)
 
 Initial decision topics:
 

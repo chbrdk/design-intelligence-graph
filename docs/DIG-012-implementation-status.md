@@ -1,0 +1,24 @@
+# DIG-012 Implementation Status
+
+**Spec:** [DIG-012 Design Reference](DIG-012-design-reference.md)  
+**Updated:** 2026-08-15  
+**Policy:** Spec-first; **higher agent-value priority than DIG-011 runtime**. Multi-tenant MCP waits on [DIG-013](DIG-013-plexon-app.md) (Plexon auth + Collection binding). See [`knowledge/runtime-open-topics-challenge.md`](../knowledge/runtime-open-topics-challenge.md).
+
+| Requirement | Status | Notes |
+| --- | --- | --- |
+| ADR-012 | Done | |
+| Parent spec + size budgets | Done | |
+| Schemas (reference, pack, MCP tools) | Done | |
+| Fixtures (aurora / login / pack) | Done | |
+| Validation tests (Wave 0) | Done | `test/design-reference.test.ts` |
+| Prompt-pack spec + schema + fixture | Done | `docs/DIG-012-prompt-pack.md` |
+| Look-conditioned DIG-008 mapping | Done | `docs/DIG-012-look-conditioned-generation.md` + mapping fixture |
+| Embeddings / similarity spec | Done | `docs/DIG-012-embeddings.md` |
+| Design quality eval scenario | Done | `docs/DIG-012-design-quality-eval.md` + `fixtures/eval/design-reference-hero/` |
+| Spec-era helpers/tests (canonical, constraints) | Done | `src/design-reference-spec.ts` |
+| Platform tenancy (DIG-013) | Spec only | Auth + `dig` binding before live MCP |
+| Emit `derived/design-references.jsonl` | Not started | Wave 1 — dummy OK; live needs project scope |
+| Library/MCP reference APIs | Not started | Wave 2 — after DIG-013 P2 |
+| Prompt-pack runtime assembler | Not started | Wave 3 |
+| DIG-008 look_conditioned runtime | Not started | Wave 4 |
+| `eval:design-reference` runner | Not started | Offline fixtures — can precede platform |

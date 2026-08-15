@@ -8,5 +8,8 @@ captures/
 indexes/
 web/node_modules/
 web/dist/
+apps/web/node_modules/
+apps/web/.next/
 .specstory/
 *.log
+apps/web/tsconfig.tsbuildinfo

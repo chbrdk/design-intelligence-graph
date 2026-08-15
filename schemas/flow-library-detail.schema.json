@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/flow-library-detail.schema.json",
+  "title": "DIG-011 Library Flow Detail (planned)",
+  "type": "object",
+  "required": ["schema_version", "flow"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "flow": { "type": "object" },
+    "media": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "primary_image_path": { "type": ["string", "null"] },
+          "checkion_scan_id": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

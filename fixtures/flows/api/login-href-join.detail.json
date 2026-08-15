@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.1.0",
+  "flow": {
+    "flow_schema_version": "0.1.0",
+    "flow_id": "flow_fixture_login_href_join",
+    "app_scope_id": "app_fixture_shop",
+    "flow_session_id": "fsess_login_href_join",
+    "title": "Sign in from home",
+    "flow_actions": [
+      {
+        "taxonomy_id": "dig:flow.logging_in",
+        "confidence": 0.9,
+        "method": "path_ontology_rule",
+        "layer": "L2"
+      }
+    ],
+    "screens": [
+      {
+        "flow_screen_id": "fs_home",
+        "order": 0,
+        "capture_run_id": "run_fixture_home",
+        "checkion_scan_id": null,
+        "primary_url": "https://shop.example/home"
+      },
+      {
+        "flow_screen_id": "fs_login",
+        "order": 1,
+        "capture_run_id": "run_fixture_login",
+        "checkion_scan_id": null,
+        "primary_url": "https://shop.example/login"
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "fe_home_to_login",
+        "from_screen_id": "fs_home",
+        "to_screen_id": "fs_login",
+        "trigger": {
+          "kind": "href",
+          "node_id": "n_cta_signin",
+          "href": "/login",
+          "destination_url": "https://shop.example/login"
+        },
+        "hotspot": {
+          "x": 640,
+          "y": 720,
+          "width": 160,
+          "height": 48,
+          "space": "document"
+        },
+        "activation": "inferred_href_only",
+        "method": "href_join",
+        "confidence": 0.88,
+        "provenance": {
+          "layer": "L2"
+        }
+      }
+    ]
+  },
+  "media": {}
+}

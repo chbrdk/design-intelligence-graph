@@ -1,0 +1,26 @@
+{
+  "flow_schema_version": "0.1.0",
+  "flow_id": "flow_invalid_dangling_edge",
+  "app_scope_id": "app_fixture_shop",
+  "flow_actions": [],
+  "screens": [
+    {
+      "flow_screen_id": "fs_only",
+      "order": 0,
+      "capture_run_id": "run_only",
+      "checkion_scan_id": null
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "fe_ghost",
+      "from_screen_id": "fs_only",
+      "to_screen_id": "fs_missing",
+      "trigger": { "kind": "href", "node_id": null, "href": "/x", "destination_url": null },
+      "activation": "inferred_href_only",
+      "method": "href_join",
+      "confidence": 0.5,
+      "provenance": { "layer": "L2" }
+    }
+  ]
+}

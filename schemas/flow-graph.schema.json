@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/flow-graph.schema.json",
+  "title": "DIG-011 Flow Graph Artifact",
+  "type": "object",
+  "required": [
+    "flow_schema_version",
+    "flow_id",
+    "app_scope_id",
+    "flow_actions",
+    "screens",
+    "edges"
+  ],
+  "properties": {
+    "flow_schema_version": { "const": "0.1.0" },
+    "flow_id": { "type": "string" },
+    "app_scope_id": { "type": "string" },
+    "flow_session_id": { "type": ["string", "null"] },
+    "title": { "type": "string" },
+    "notes": { "type": "string" },
+    "flow_actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/flowAction" }
+    },
+    "screens": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/flowScreen" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/assembledEdge" }
+    }
+  },
+  "$defs": {
+    "box": {
+      "type": "object",
+      "required": ["x", "y", "width", "height", "space"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "space": { "enum": ["document", "viewport"] }
+      }
+    },
+    "flowAction": {
+      "type": "object",
+      "required": ["taxonomy_id", "confidence", "method"],
+      "properties": {
+        "taxonomy_id": {
+          "type": "string",
+          "pattern": "^dig:flow\\.[a-z0-9_]+$"
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "method": { "type": "string" },
+        "layer": { "enum": ["L2", "L3"] }
+      }
+    },
+    "flowScreen": {
+      "type": "object",
+      "required": ["flow_screen_id", "order", "capture_run_id"],
+      "properties": {
+        "flow_screen_id": { "type": "string" },
+        "order": { "type": "integer", "minimum": 0 },
+        "capture_run_id": { "type": "string" },
+        "checkion_scan_id": { "type": ["string", "null"] },
+        "primary_url": { "type": ["string", "null"] }
+      }
+    },
+    "assembledEdge": {
+      "type": "object",
+      "required": [
+        "edge_id",
+        "from_screen_id",
+        "to_screen_id",
+        "trigger",
+        "activation",
+        "method",
+        "confidence",
+        "provenance"
+      ],
+      "properties": {
+        "edge_id": { "type": "string" },
+        "from_screen_id": { "type": "string" },
+        "to_screen_id": { "type": "string" },
+        "trigger": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "enum": [
+                "href",
+                "same_document",
+                "spa_route",
+                "safe_activate",
+                "external_import",
+                "manual",
+                "seed_sequence"
+              ]
+            },
+            "node_id": { "type": ["string", "null"] },
+            "href": { "type": ["string", "null"] },
+            "destination_url": { "type": ["string", "null"] }
+          }
+        },
+        "hotspot": { "$ref": "#/$defs/box" },
+        "activation": {
+          "enum": ["none", "observed", "inferred_href_only"]
+        },
+        "method": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "provenance": {
+          "type": "object",
+          "required": ["layer"],
+          "properties": {
+            "layer": { "enum": ["L1", "L2"] }
+          }
+        }
+      }
+    }
+  }
+}

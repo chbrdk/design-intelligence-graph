@@ -1,5 +1,12 @@
 # Changelog
 
+- DIG-011 Draft v0.1 spezifiziert (spec-only): User Flow Graph Phasen A–D, ADR-011, JSON Schemas, flow_actions-Katalog, CHECKION/AUDION Seed-Bridges — Runtime bewusst deferred.
+- DIG-011 Fixture-Validierung: Golden Scenarios unter `fixtures/flows/`, Ajv-Schema-Checks und Graph-Invarianten (`flow-schema-validate`).
+- DIG-011 Library/Interactive/MCP-Contracts: Response-Schemas, API-Fixtures, reine Projector-Hilfen, Draft-SQL `009` (nicht applied).
+- DIG-011 Flows-UI IA: Library-Tab Screens/Sections/Flows, Interactive Mode, Copy-Trennung zu page_flow.
+- DIG-012 Design Reference Bundle (spec-only): Retrieval-Unit für LLM/DIG-008; Fixtures + Schemas; Priorität vor Flow-Runtime.
+- DIG-012 Spec-Details: Prompt-Pack, look_conditioned Mapping, Embeddings, Design-Quality-Eval (+ Spec-Helfer/Tests).
+
 - DIG-008 vollständig umgesetzt: deterministische, evidenzverknüpfte Layout-Spezifikation mit Taxonomieblöcken, Breakpoints und Token-Slots.
 
 - DIG-007 vollständig umgesetzt: read-only MCP-stdio-API für Suche, Inspektion, Nachbarschaft, Vergleich und deterministische Empfehlungen.

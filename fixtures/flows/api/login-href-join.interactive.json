@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1.0",
+  "flow_id": "flow_fixture_login_href_join",
+  "start_screen_id": "fs_home",
+  "steps": [
+    {
+      "flow_screen_id": "fs_home",
+      "order": 0,
+      "primary_url": "https://shop.example/home",
+      "image_ref": null,
+      "advance_anywhere": false,
+      "hotspots": [
+        {
+          "edge_id": "fe_home_to_login",
+          "to_screen_id": "fs_login",
+          "box": {
+            "x": 0.4444444444444444,
+            "y": 0.144,
+            "width": 0.1111111111111111,
+            "height": 0.0096,
+            "space": "normalized"
+          }
+        }
+      ]
+    },
+    {
+      "flow_screen_id": "fs_login",
+      "order": 1,
+      "primary_url": "https://shop.example/login",
+      "image_ref": null,
+      "advance_anywhere": false,
+      "hotspots": []
+    }
+  ]
+}

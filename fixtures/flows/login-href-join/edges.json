@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1.0",
+  "app_scope_id": "app_fixture_shop",
+  "flow_session_id": "fsess_login_href_join",
+  "edges": [
+    {
+      "edge_id": "fe_home_to_login",
+      "from_capture_run_id": "run_fixture_home",
+      "to_capture_run_id": "run_fixture_login",
+      "from_screen_id": "fs_home",
+      "to_screen_id": "fs_login",
+      "trigger": {
+        "kind": "href",
+        "node_id": "n_cta_signin",
+        "href": "/login",
+        "destination_url": "https://shop.example/login",
+        "candidate_id": "cand_home_signin"
+      },
+      "hotspot": {
+        "x": 640,
+        "y": 720,
+        "width": 160,
+        "height": 48,
+        "space": "document"
+      },
+      "activation": "inferred_href_only",
+      "method": "href_join",
+      "confidence": 0.88,
+      "provenance": {
+        "layer": "L2",
+        "evidence_refs": ["candidates-home.json#cand_home_signin"]
+      }
+    }
+  ]
+}

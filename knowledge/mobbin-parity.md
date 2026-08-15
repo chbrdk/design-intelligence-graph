@@ -9,8 +9,10 @@ Move DIG LLM analysis toward [Mobbin](https://mobbin.com)-style reference conten
 - **Screens / screen patterns** (page archetype)
 - **UI elements** (buttons, nav, cards, …)
 - **Section recipes** (media → headline → gap → CTA)
-- **Flows** (ordered page narrative of sections)
+- **Page narrative** (`page_flow` — ordered **sections within one page**; not DIG-011 multi-screen Flows)
 - **Visual style** tokens interpreted as design language
+
+Multi-screen user journeys are specified separately in [`docs/DIG-011-user-flow-graph.md`](../docs/DIG-011-user-flow-graph.md). Do not call `page_flow` a “user flow.” Goal challenge: [`dig-011-challenge.md`](dig-011-challenge.md).
 
 Not a Mobbin clone yet — we generate structured evidence from captures, then enrich with small sequential LLM calls.
 

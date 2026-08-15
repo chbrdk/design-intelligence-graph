@@ -1,0 +1,71 @@
+{
+  "flow_schema_version": "0.1.0",
+  "flow_id": "flow_fixture_checkout_seed",
+  "app_scope_id": "app_fixture_shop",
+  "flow_session_id": "fsess_checkout_seed",
+  "title": "Cart to confirmation",
+  "notes": "Seeded from domain crawl URL list; edges are seed_sequence",
+  "flow_actions": [
+    {
+      "taxonomy_id": "dig:flow.checkout",
+      "confidence": 0.85,
+      "method": "path_hint",
+      "layer": "L2"
+    }
+  ],
+  "screens": [
+    {
+      "flow_screen_id": "fs_cart",
+      "order": 0,
+      "capture_run_id": "run_fixture_cart",
+      "checkion_scan_id": "scan_cart_wcag_optional",
+      "primary_url": "https://shop.example/cart"
+    },
+    {
+      "flow_screen_id": "fs_checkout",
+      "order": 1,
+      "capture_run_id": "run_fixture_checkout",
+      "checkion_scan_id": null,
+      "primary_url": "https://shop.example/checkout"
+    },
+    {
+      "flow_screen_id": "fs_confirm",
+      "order": 2,
+      "capture_run_id": "run_fixture_confirm",
+      "checkion_scan_id": null,
+      "primary_url": "https://shop.example/checkout/confirm"
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "fe_cart_checkout",
+      "from_screen_id": "fs_cart",
+      "to_screen_id": "fs_checkout",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": null,
+        "destination_url": "https://shop.example/checkout"
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.8,
+      "provenance": { "layer": "L2" }
+    },
+    {
+      "edge_id": "fe_checkout_confirm",
+      "from_screen_id": "fs_checkout",
+      "to_screen_id": "fs_confirm",
+      "trigger": {
+        "kind": "seed_sequence",
+        "node_id": null,
+        "href": null,
+        "destination_url": "https://shop.example/checkout/confirm"
+      },
+      "activation": "none",
+      "method": "seed_sequence",
+      "confidence": 0.8,
+      "provenance": { "layer": "L2" }
+    }
+  ]
+}

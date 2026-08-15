@@ -1,0 +1,70 @@
+{
+  "schema_version": "0.1.0",
+  "reference_id": "ref_aurora_hero",
+  "capture_run_id": "run_eval_marketing_hero",
+  "scope": "section",
+  "section_id": "sec_hero_0",
+  "viewport_capture_id": "vpc_desktop",
+  "taxonomy": {
+    "category": "hero",
+    "taxonomy_ids": [
+      "dig:pattern.hero",
+      "dig:component.button",
+      "dig:component.media",
+      "dig:content.heading"
+    ],
+    "screen_patterns": ["marketing", "hero", "product"]
+  },
+  "composition": {
+    "signature": "media>heading>cta",
+    "stack_summary": "full-bleed media → centered headline → primary CTA",
+    "gaps_px": [24, 32],
+    "roles": ["media", "heading", "cta"]
+  },
+  "look": {
+    "look_summary": "Minimalist product hero. Full-bleed photo, soft dark gradient scrim on the lower half. Centered bold headline with quiet supporting line; primary CTA centered below with soft drop shadow.",
+    "interaction_summary": "Single primary Learn more CTA; no competing secondary actions in-fold.",
+    "background": { "kind": "image", "treatment": "full-bleed product photo" },
+    "overlay": { "present": true, "kind": "scrim", "notes": "dark gradient over lower half" },
+    "shadows": { "present": true, "targets": ["cta"], "notes": "soft button shadow" },
+    "typography_emphasis": ["bold"],
+    "alignment": { "text": "center", "cta": "center" },
+    "media": { "role": "background", "object_fit": "cover", "notes": "hero product imagery" },
+    "confidence": 0.86
+  },
+  "tokens": {
+    "colors": [
+      { "hex": "#f5f5f7", "roles": ["background"] },
+      { "hex": "#1d1d1f", "roles": ["foreground"] },
+      { "hex": "#0071e3", "roles": ["accent", "cta"] }
+    ],
+    "typography": [
+      {
+        "family": "Helvetica Neue",
+        "size": "56px",
+        "weight": "700",
+        "role": "display"
+      }
+    ],
+    "radii": ["18px"],
+    "style_labels": ["sans", "blue accent", "round"]
+  },
+  "page_context": {
+    "visual_style_labels": ["clean", "product-marketing"],
+    "design_summary": "Aurora launch marketing page with hero-first composition."
+  },
+  "media_ref": {
+    "kind": "viewport",
+    "path": "fixtures/eval/marketing-hero/settled.webp"
+  },
+  "provenance": {
+    "evidence_refs": [
+      "sec_hero_0",
+      "recipe:media>heading>cta",
+      "color:#0071e3",
+      "type:Helvetica Neue"
+    ],
+    "methods": ["section_composition", "section_look", "visual_language"],
+    "layers": ["L2", "L3"]
+  }
+}

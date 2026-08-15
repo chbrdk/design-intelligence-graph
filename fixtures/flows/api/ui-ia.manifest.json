@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.1.0",
+  "spec": "docs/DIG-011-flows-ui.md",
+  "library_modes": ["screens", "sections", "flows"],
+  "views": [
+    {
+      "id": "flows_list",
+      "hash": "#/library/flows",
+      "fixture": "fixtures/flows/api/flows.list.json",
+      "requires": ["flow_action filter", "list items with screen_count"]
+    },
+    {
+      "id": "flow_detail",
+      "hash": "#/library/flows/:flow_id",
+      "fixture": "fixtures/flows/api/login-href-join.detail.json",
+      "requires": ["Open Interactive CTA", "ordered screen strip", "edge summary"]
+    },
+    {
+      "id": "flow_interactive",
+      "hash": "#/library/flows/:flow_id/interactive",
+      "fixture": "fixtures/flows/api/login-href-join.interactive.json",
+      "requires": ["hotspot overlay", "exit", "step index"]
+    },
+    {
+      "id": "flow_interactive_branch",
+      "hash": "#/library/flows/:flow_id/interactive",
+      "fixture": "fixtures/flows/api/onboarding-branch.interactive.json",
+      "requires": ["two hotspots on welcome", "no auto-advance when branched"]
+    }
+  ],
+  "copy": {
+    "flows_label": "Flows",
+    "page_flow_label": "Page narrative",
+    "forbidden_aliases_for_page_flow": ["User flow", "Userflow", "Journey"]
+  },
+  "api_planned": {
+    "list": "/api/library/flows",
+    "detail": "/api/library/flows/:flow_id",
+    "interactive": "/api/library/flows/:flow_id/interactive",
+    "page_flows_rename": "/api/library/page-flows"
+  }
+}

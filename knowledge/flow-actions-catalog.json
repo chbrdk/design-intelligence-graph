@@ -1,0 +1,98 @@
+{
+  "version": "0.1.0",
+  "idPrefix": "dig:flow.",
+  "doc": "knowledge/mobbin-user-flows.md",
+  "spec": "docs/DIG-011-user-flow-graph.md",
+  "actions": [
+    {
+      "id": "dig:flow.onboarding",
+      "label": "Onboarding",
+      "aliases": ["welcome", "getting started", "first run"],
+      "path_hints": ["/onboarding", "/welcome", "/getting-started", "/intro"]
+    },
+    {
+      "id": "dig:flow.logging_in",
+      "label": "Logging in",
+      "aliases": ["login", "sign in", "signin"],
+      "path_hints": ["/login", "/signin", "/sign-in", "/auth/login"]
+    },
+    {
+      "id": "dig:flow.creating_account",
+      "label": "Creating account",
+      "aliases": ["sign up", "signup", "register"],
+      "path_hints": ["/signup", "/sign-up", "/register", "/auth/register"]
+    },
+    {
+      "id": "dig:flow.editing_profile",
+      "label": "Editing profile",
+      "aliases": ["profile settings", "account settings"],
+      "path_hints": ["/profile", "/account", "/settings/profile"]
+    },
+    {
+      "id": "dig:flow.filtering_sorting",
+      "label": "Filtering & sorting",
+      "aliases": ["filters", "sort", "refine"],
+      "path_hints": []
+    },
+    {
+      "id": "dig:flow.chatting_messaging",
+      "label": "Chatting & sending messages",
+      "aliases": ["chat", "messages", "inbox"],
+      "path_hints": ["/messages", "/chat", "/inbox"]
+    },
+    {
+      "id": "dig:flow.subscribing_upgrading",
+      "label": "Subscribing & upgrading",
+      "aliases": ["pricing", "upgrade", "paywall", "subscribe"],
+      "path_hints": ["/pricing", "/upgrade", "/subscribe", "/billing"]
+    },
+    {
+      "id": "dig:flow.browsing_tutorial",
+      "label": "Browsing tutorial",
+      "aliases": ["tutorial", "walkthrough", "product tour"],
+      "path_hints": ["/tutorial", "/tour", "/guide"]
+    },
+    {
+      "id": "dig:flow.checkout",
+      "label": "Checkout",
+      "aliases": ["cart", "bag", "purchase", "payment"],
+      "path_hints": ["/checkout", "/cart", "/bag", "/payment"]
+    },
+    {
+      "id": "dig:flow.searching",
+      "label": "Searching",
+      "aliases": ["search", "find"],
+      "path_hints": ["/search", "/find"]
+    },
+    {
+      "id": "dig:flow.settings",
+      "label": "Settings",
+      "aliases": ["preferences", "configuration"],
+      "path_hints": ["/settings", "/preferences"]
+    },
+    {
+      "id": "dig:flow.empty_recovery",
+      "label": "Empty state & recovery",
+      "aliases": ["empty state", "no results", "error recovery"],
+      "path_hints": []
+    },
+    {
+      "id": "dig:flow.navigation_ia",
+      "label": "Primary navigation",
+      "aliases": ["nav", "menu", "tab bar"],
+      "path_hints": []
+    },
+    {
+      "id": "dig:flow.content_browse",
+      "label": "Content browsing",
+      "aliases": ["browse", "explore", "feed"],
+      "path_hints": ["/explore", "/browse", "/feed"]
+    },
+    {
+      "id": "dig:flow.unknown",
+      "label": "Unknown flow",
+      "aliases": [],
+      "path_hints": []
+    }
+  ]
+}

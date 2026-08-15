@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/mcp-flow-neighbors.schema.json",
+  "title": "DIG-011 dig_flow_neighbors output (planned)",
+  "type": "object",
+  "required": ["schema_version", "flow_id", "flow_screen_id", "inbound", "outbound"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "flow_id": { "type": "string" },
+    "flow_screen_id": { "type": "string" },
+    "inbound": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/neighbor" }
+    },
+    "outbound": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/neighbor" }
+    }
+  },
+  "$defs": {
+    "neighbor": {
+      "type": "object",
+      "required": ["edge_id", "screen_id", "method"],
+      "properties": {
+        "edge_id": { "type": "string" },
+        "screen_id": { "type": "string" },
+        "method": { "type": "string" },
+        "activation": { "type": "string" },
+        "has_hotspot": { "type": "boolean" }
+      }
+    }
+  }
+}

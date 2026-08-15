@@ -1,0 +1,61 @@
+{
+  "flow_schema_version": "0.1.0",
+  "flow_id": "flow_fixture_settings_mixed",
+  "app_scope_id": "app_fixture_shop",
+  "flow_session_id": null,
+  "title": "Open profile from settings",
+  "flow_actions": [
+    {
+      "taxonomy_id": "dig:flow.settings",
+      "confidence": 0.9,
+      "method": "path_hint",
+      "layer": "L2"
+    },
+    {
+      "taxonomy_id": "dig:flow.editing_profile",
+      "confidence": 0.8,
+      "method": "path_hint",
+      "layer": "L2"
+    }
+  ],
+  "screens": [
+    {
+      "flow_screen_id": "fs_settings",
+      "order": 0,
+      "capture_run_id": "run_settings",
+      "checkion_scan_id": null,
+      "primary_url": "https://shop.example/settings"
+    },
+    {
+      "flow_screen_id": "fs_profile",
+      "order": 1,
+      "capture_run_id": "run_profile",
+      "checkion_scan_id": null,
+      "primary_url": "https://shop.example/settings/profile"
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "fe_settings_profile",
+      "from_screen_id": "fs_settings",
+      "to_screen_id": "fs_profile",
+      "trigger": {
+        "kind": "href",
+        "node_id": "n_profile_row",
+        "href": "/settings/profile",
+        "destination_url": "https://shop.example/settings/profile"
+      },
+      "hotspot": {
+        "x": 24,
+        "y": 180,
+        "width": 360,
+        "height": 64,
+        "space": "document"
+      },
+      "activation": "inferred_href_only",
+      "method": "href_join",
+      "confidence": 0.91,
+      "provenance": { "layer": "L2" }
+    }
+  ]
+}

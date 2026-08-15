@@ -1,0 +1,22 @@
+{
+  "primary_reference_id": "ref_aurora_hero",
+  "proposed_signature": "media>heading>cta",
+  "block_plan": [
+    { "role": "media", "notes": "full-bleed background" },
+    { "role": "heading", "alignment": "center" },
+    { "role": "cta", "alignment": "center", "emphasis": "primary" }
+  ],
+  "token_hints": {
+    "accent": "#0071e3",
+    "foreground": "#1d1d1f",
+    "background": "#f5f5f7",
+    "radius": "18px",
+    "type_display": "sans bold large"
+  },
+  "look_directives": [
+    "dark gradient scrim over lower media",
+    "single primary CTA, soft shadow"
+  ],
+  "avoid": ["multi-CTA hero", "left-aligned sales stack"],
+  "cited_reference_ids": ["ref_aurora_hero"]
+}

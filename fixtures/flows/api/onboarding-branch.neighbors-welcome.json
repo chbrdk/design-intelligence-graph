@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.1.0",
+  "flow_id": "flow_fixture_onboarding_branch",
+  "flow_screen_id": "fs_welcome",
+  "inbound": [],
+  "outbound": [
+    {
+      "edge_id": "fe_welcome_tips",
+      "screen_id": "fs_tips",
+      "method": "seed_sequence",
+      "activation": "none",
+      "has_hotspot": true
+    },
+    {
+      "edge_id": "fe_welcome_skip",
+      "screen_id": "fs_skip_done",
+      "method": "seed_sequence",
+      "activation": "none",
+      "has_hotspot": true
+    }
+  ]
+}

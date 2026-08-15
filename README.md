@@ -11,7 +11,7 @@ Web → Capture → Measurement → Derivation → Multimodal analysis
 
 ## Status
 
-DIG-001 through DIG-009 are available as implemented Draft v0.1 specifications.
+DIG-001 through DIG-010 are available as implemented Draft specifications. DIG-011 (User Flow Graph) and DIG-012 (Design Reference) are Draft v0.1 **spec-only**; agent-value priority is DIG-012 — see [docs/DIG-012-design-reference.md](docs/DIG-012-design-reference.md).
 
 ## Capture MVP
 

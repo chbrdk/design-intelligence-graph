@@ -1,0 +1,21 @@
+{
+  "id": "login-href-join",
+  "title": "Login via href-join between home and login captures",
+  "phase_coverage": ["A", "B1", "C1", "D"],
+  "seed_source": "fixture",
+  "ownership_notes": "Pure DIG B1 href-join; no CHECKION spider; no AUDION agent",
+  "artifacts": {
+    "flow_graph": "flow-graph.json",
+    "edges": "edges.json",
+    "candidates": ["candidates-home.json", "candidates-login.json"]
+  },
+  "expect": {
+    "schema_valid": true,
+    "flow_action_ids": ["dig:flow.logging_in"],
+    "min_screens": 2,
+    "min_edges": 1,
+    "required_edge_methods": ["href_join"],
+    "require_hotspot_on_edges": true,
+    "max_inferred_confidence": 0.99
+  }
+}

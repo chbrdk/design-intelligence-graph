@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "capture_run_id": "run_fixture_login",
+  "generated_at": "2026-08-15T15:00:00.000Z",
+  "candidates": [
+    {
+      "candidate_id": "cand_login_submit",
+      "node_id": "n_login_submit",
+      "viewport_capture_id": "vpc_login_desktop",
+      "control_kind": "submit",
+      "destination": null,
+      "destination_class": "action_unsafe",
+      "candidacy_score": 0.1,
+      "safety": "forbid",
+      "layer": "L2",
+      "method": "form_submit_scan",
+      "evidence": [
+        { "kind": "attribute", "fact": "type", "value": "submit" },
+        { "kind": "policy", "fact": "auth_mutation", "value": true }
+      ]
+    }
+  ]
+}

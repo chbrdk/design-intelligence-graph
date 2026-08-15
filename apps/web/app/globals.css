@@ -1,0 +1,158 @@
+@import '../../../../msqdx-ui/packages/ui/src/styles.css';
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg0);
+  color: var(--fg);
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.dig-stage {
+  max-width: none;
+  width: 100%;
+}
+
+.dig-page-lead {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+  font-size: var(--type-sm);
+  line-height: 1.45;
+  max-width: 42rem;
+}
+
+.dig-panel {
+  margin-bottom: 1rem;
+}
+
+.dig-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.dig-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.dig-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.dig-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.dig-linkish {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dig-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+}
+
+.dig-timeline li {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  color: var(--muted);
+}
+
+.dig-timeline li.active {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
+.dig-timeline li.done {
+  color: var(--fg);
+  opacity: 0.85;
+}
+
+.dig-event-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+
+.dig-login-panel {
+  max-width: 26rem;
+  margin: 4rem auto;
+  padding: 1.5rem;
+}
+
+.dig-login-title {
+  margin: 0 0 0.5rem;
+}
+
+.dig-muted {
+  color: var(--muted);
+}
+
+.platform-assistant-fab.ds-btn {
+  position: fixed;
+  inset-inline-end: 1.25rem;
+  inset-block-end: 1.25rem;
+  z-index: 70;
+  border-radius: 999px;
+}
+
+.platform-assistant-embed-frame {
+  width: 100%;
+  height: 100%;
+  min-height: 28rem;
+  border: 0;
+  background: var(--bg1);
+}
+
+.topbar-brand,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rail-avatar {
+  pointer-events: none;
+}

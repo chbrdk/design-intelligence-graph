@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1.0",
+  "doc": "docs/DIG-012-look-conditioned-generation.md",
+  "role_to_taxonomy": {
+    "media": "dig:component.media",
+    "heading": "dig:content.heading",
+    "cta": "dig:component.button",
+    "form": "dig:component.form",
+    "nav": "dig:component.navigation",
+    "card": "dig:pattern.card_grid"
+  },
+  "look_to_constraints": [
+    {
+      "when": { "path": "look.overlay.kind", "in": ["scrim", "gradient"] },
+      "constraint": "Prefer lower-third dark scrim over media"
+    },
+    {
+      "when": { "path": "look.alignment.cta", "eq": "center" },
+      "constraint": "Primary CTA centered"
+    },
+    {
+      "when": { "path": "look.alignment.text", "eq": "center" },
+      "constraint": "Hero text centered"
+    },
+    {
+      "when": { "path": "look.shadows.targets", "includes": "cta" },
+      "constraint": "Soft elevation on primary CTA"
+    },
+    {
+      "when": { "path": "look.media.role", "eq": "background" },
+      "constraint": "Media as full-bleed background, not inline thumbnail"
+    }
+  ],
+  "token_slot_map": {
+    "colors.accent": "token_hints.colors.accent",
+    "colors.cta": "token_hints.colors.accent",
+    "colors.foreground": "token_hints.colors.foreground",
+    "colors.background": "token_hints.colors.background",
+    "typography.display": "token_hints.typography.heading",
+    "typography.heading": "token_hints.typography.heading",
+    "radii.0": "token_hints.shape.radius"
+  }
+}

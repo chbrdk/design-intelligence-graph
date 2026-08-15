@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.1.0",
+  "items": [
+    {
+      "flow_id": "flow_fixture_checkout_seed",
+      "app_scope_id": "app_fixture_shop",
+      "title": "Cart to confirmation",
+      "flow_action_ids": [
+        "dig:flow.checkout"
+      ],
+      "screen_count": 3,
+      "edge_count": 2,
+      "preview_screen_id": "fs_cart",
+      "preview_url": "https://shop.example/cart"
+    },
+    {
+      "flow_id": "flow_fixture_login_href_join",
+      "app_scope_id": "app_fixture_shop",
+      "title": "Sign in from home",
+      "flow_action_ids": [
+        "dig:flow.logging_in"
+      ],
+      "screen_count": 2,
+      "edge_count": 1,
+      "preview_screen_id": "fs_home",
+      "preview_url": "https://shop.example/home"
+    },
+    {
+      "flow_id": "flow_fixture_onboarding_branch",
+      "app_scope_id": "app_fixture_mobile",
+      "title": "First-run onboarding",
+      "flow_action_ids": [
+        "dig:flow.onboarding"
+      ],
+      "screen_count": 4,
+      "edge_count": 3,
+      "preview_screen_id": "fs_welcome",
+      "preview_url": "https://app.example/onboarding/welcome"
+    },
+    {
+      "flow_id": "flow_fixture_settings_mixed",
+      "app_scope_id": "app_fixture_shop",
+      "title": "Open profile from settings",
+      "flow_action_ids": [
+        "dig:flow.settings",
+        "dig:flow.editing_profile"
+      ],
+      "screen_count": 2,
+      "edge_count": 1,
+      "preview_screen_id": "fs_settings",
+      "preview_url": "https://shop.example/settings"
+    }
+  ]
+}

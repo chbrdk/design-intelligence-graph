@@ -1,0 +1,21 @@
+{
+  "id": "settings-mixed-actions",
+  "title": "Settings hub labeled with profile and subscribe facets",
+  "phase_coverage": ["C1", "D"],
+  "seed_source": "fixture",
+  "ownership_notes": "Shows multi-label flow_actions on one short path",
+  "artifacts": {
+    "flow_graph": "flow-graph.json",
+    "edges": "edges.json",
+    "candidates": []
+  },
+  "expect": {
+    "schema_valid": true,
+    "flow_action_ids": ["dig:flow.settings", "dig:flow.editing_profile"],
+    "min_screens": 2,
+    "min_edges": 1,
+    "required_edge_methods": ["href_join"],
+    "require_hotspot_on_edges": true,
+    "max_inferred_confidence": 0.99
+  }
+}

@@ -1,7 +1,8 @@
 # CHECKION v3 — capability map for DIG reuse
 
-**Date:** 2026-08-15  
-**Source:** https://github.com/chbrdk/checkion-v3 (GitHub; **no local clone** under `/Volumes/DevStorage/Development/` — nearby: `CHECKION` = v2, `ECHON` ≠ CHECKION)  
+**Date:** 2026-08-15 (clone path updated)  
+**Source:** https://github.com/chbrdk/checkion-v3 · local: [`paths.json`](paths.json) → `checkionV3.localClone` (`/Users/m1air/GITHUB/checkion-v3`) · v2 nearby: `checkionV3.nearbyV2`  
+**Ownership vs DIG:** [`dig-checkion-boundary.md`](dig-checkion-boundary.md)  
 **Staging:** `https://checkion-v3.projects-a.plygrnd.tech` · MCP: `https://checkion-v3-mcp.projects-a.plygrnd.tech`
 
 ## What it is
@@ -94,19 +95,13 @@ Prefix distinct from v2 `checkion.*`. Auth: Bearer Settings API token. Package: 
 
 ### Honesty check (2026-08-15 Apple capture)
 
-DIG **already captures** full-page evidence:
-
-| Artifact | Size (example) | Used today? |
-|----------|----------------|-------------|
-| `settled.webp` (viewport) | 1440×1000 | Library UI + `vision_screen` |
-| `full-page.webp` | 1440×5571 | Stored + DB column — **not shown / not visioned** |
-| scroll tiles `scroll_0N` | viewport slices | Stored only |
-
-So the “fraction of the page” feeling is mostly a **product/UI + vision wiring gap**, not a missing capture. Prefer wiring `full_page_screenshot` into Library/hotspots/vision (budgeted: tiles or section crops) before outsourcing screenshots to CHECKION.
+DIG Playwright still captures full-page + scroll tiles; **Library/vision SoT is CHECKION JPEG when attached** ([`checkion-screenshots.md`](checkion-screenshots.md)). Older note about “prefer DIG full-page before CHECKION” is obsolete.
 
 ### Reuse CHECKION (don’t reinvent)
 
 Repo: [chbrdk/checkion-v3](https://github.com/chbrdk/checkion-v3)
+
+**Screenshot SoT:** DIG Library/vision prefer CHECKION full-page JPEG when attached — see [`checkion-screenshots.md`](checkion-screenshots.md). Playwright full-page remains capture fallback if `DIG_CHECKION_SCREENSHOTS=0`.
 
 1. **A11y / SEO / performance / UX issue corpus** — `scan_issues` + `scan_scores` + overview bands (axe/htmlcs path DIG does not own).
 2. **Multi-page / domain crawl** — `domain_scan_*` + pause/resume rather than DIG inventing a spider.

@@ -1,0 +1,49 @@
+-- DIG-011 flow tables (DRAFT — not applied by db:migrate)
+-- Spec: docs/DIG-011-library-api.md · docs/DIG-011-phase-d-process.md
+-- Move to db/migrations/009_….sql only when implementing Phase D storage.
+
+-- CREATE TABLE IF NOT EXISTS flows (
+--   flow_id TEXT PRIMARY KEY,
+--   app_scope_id TEXT NOT NULL,
+--   flow_session_id TEXT,
+--   title TEXT,
+--   notes TEXT,
+--   flow_schema_version TEXT NOT NULL DEFAULT '0.1.0',
+--   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS flow_screens (
+--   flow_id TEXT NOT NULL REFERENCES flows(flow_id) ON DELETE CASCADE,
+--   flow_screen_id TEXT NOT NULL,
+--   capture_run_id TEXT NOT NULL,
+--   ord INTEGER NOT NULL,
+--   checkion_scan_id TEXT,
+--   primary_url TEXT,
+--   PRIMARY KEY (flow_id, flow_screen_id)
+-- );
+--
+-- CREATE INDEX IF NOT EXISTS idx_flow_screens_capture
+--   ON flow_screens (capture_run_id);
+--
+-- CREATE TABLE IF NOT EXISTS flow_edges (
+--   flow_id TEXT NOT NULL REFERENCES flows(flow_id) ON DELETE CASCADE,
+--   edge_id TEXT NOT NULL,
+--   from_screen_id TEXT NOT NULL,
+--   to_screen_id TEXT NOT NULL,
+--   payload JSONB NOT NULL,
+--   PRIMARY KEY (flow_id, edge_id)
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS flow_actions (
+--   flow_id TEXT NOT NULL REFERENCES flows(flow_id) ON DELETE CASCADE,
+--   taxonomy_id TEXT NOT NULL,
+--   confidence DOUBLE PRECISION NOT NULL,
+--   method TEXT NOT NULL,
+--   layer TEXT NOT NULL DEFAULT 'L2',
+--   PRIMARY KEY (flow_id, taxonomy_id)
+-- );
+--
+-- CREATE INDEX IF NOT EXISTS idx_flow_actions_taxonomy
+--   ON flow_actions (taxonomy_id);
+
+SELECT 1; -- placeholder so the draft file stays valid SQL if accidentally run

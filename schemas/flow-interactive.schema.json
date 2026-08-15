@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/flow-interactive.schema.json",
+  "title": "DIG-011 Interactive Mode Payload (planned)",
+  "type": "object",
+  "required": ["schema_version", "flow_id", "start_screen_id", "steps"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "flow_id": { "type": "string" },
+    "start_screen_id": { "type": "string" },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/step" }
+    }
+  },
+  "$defs": {
+    "box": {
+      "type": "object",
+      "required": ["x", "y", "width", "height", "space"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "space": { "enum": ["normalized", "document", "viewport"] }
+      }
+    },
+    "hotspot": {
+      "type": "object",
+      "required": ["edge_id", "to_screen_id", "box"],
+      "properties": {
+        "edge_id": { "type": "string" },
+        "to_screen_id": { "type": "string" },
+        "box": { "$ref": "#/$defs/box" },
+        "label": { "type": "string" }
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["flow_screen_id", "order", "hotspots"],
+      "properties": {
+        "flow_screen_id": { "type": "string" },
+        "order": { "type": "integer", "minimum": 0 },
+        "primary_url": { "type": ["string", "null"] },
+        "image_ref": { "type": ["string", "null"] },
+        "advance_anywhere": { "type": "boolean" },
+        "hotspots": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hotspot" }
+        }
+      }
+    }
+  }
+}
