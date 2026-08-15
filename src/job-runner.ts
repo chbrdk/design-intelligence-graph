@@ -228,7 +228,15 @@ export class JobRunner {
         stage: "capturing",
         message: "Capturing full-page screenshot via CHECKION"
       });
-      const checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
+      let checkion: Awaited<ReturnType<typeof attachCheckionScreenshotIfConfigured>>;
+      try {
+        checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
+      } catch (checkionError: unknown) {
+        checkion = {
+          attached: false,
+          skipped: checkionError instanceof Error ? checkionError.message : String(checkionError)
+        };
+      }
       if (checkion.attached) {
         this.emit(job, {
           stage: "capturing",

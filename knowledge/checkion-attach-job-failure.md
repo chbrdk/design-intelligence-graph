@@ -21,3 +21,9 @@ dig-api followed/received CHECKION **HTML login shell** instead of JSON (auth/re
 
 - Local: `npm run smoke:checkion-peer` (token + staging)
 - Re-run capture on dig UI after dig-api redeploy
+
+
+## Deploy lag (2026-08-15 evening)
+
+Coolify dig-api `updated_at` stayed at 18:27 while commits landed later — soft-fail code was not running yet.
+Mitigation: set `DIG_CHECKION_SCREENSHOTS=0` + restart so attach is skipped on old image; job-runner now also try/catches attach errors.
