@@ -486,6 +486,14 @@ function classifySection(input: {
     if (onlyBroadMedia && (tallMedia || nearTop) && entry.category === "social_proof") {
       continue;
     }
+    // Bare body/unknown signatures should not become social_proof via weak catalog hints.
+    if (
+      entry.category === "social_proof" &&
+      (input.signature === "body" || input.signature === "unknown") &&
+      !socialProofText
+    ) {
+      continue;
+    }
     const score = Math.max(...hints.map((hint) => hintScore(input.signature, hint)));
     if (score < 0.66) continue;
     if (!best || score > best.score) best = { entry, score };

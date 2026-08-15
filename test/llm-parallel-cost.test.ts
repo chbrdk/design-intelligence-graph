@@ -5,7 +5,7 @@ import { MemoryLlmStageCache } from "../src/llm-stage-cache.js";
 import { OpenAiCompatibleLlmProvider } from "../src/llm-provider.js";
 import { analyzeDesignWithLlm } from "../src/llm-design.js";
 import { PARALLEL_TEXT_STAGES } from "../src/llm-stages.js";
-import { findSettledScreenshot, visionEnabled } from "../src/llm-vision.js";
+import { findSettledScreenshot, visionEnabled, visionMaxBytes } from "../src/llm-vision.js";
 import type { CaptureManifest } from "../src/types.js";
 
 test("estimateUsd uses known model rates and free tiers", () => {
@@ -129,6 +129,8 @@ test("parallel text stages run concurrently then synthesize", async () => {
 test("vision helpers respect env and screenshot artifact path", () => {
   assert.equal(visionEnabled({ DIG_LLM_VISION: "false" }), false);
   assert.equal(visionEnabled({ DIG_LLM_VISION: "true" }), true);
+  assert.equal(visionMaxBytes({ DIG_LLM_VISION_MAX_BYTES: "1000000" }), 1_000_000);
+  assert.ok(visionMaxBytes({}) >= 1_000_000);
   const previous = process.env.DIG_LLM_VISION_FULL_PAGE;
   process.env.DIG_LLM_VISION_FULL_PAGE = "true";
   const path = findSettledScreenshot("/tmp/pkg", {

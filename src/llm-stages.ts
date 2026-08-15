@@ -204,10 +204,13 @@ Rules: 2-6 labels (e.g. "SF Pro system sans", "high-contrast monochrome", "soft 
   if (stageId === "section_look") {
     return SECTION_LOOK_SYSTEM_PROMPT;
   }
-  return `You synthesize prior DIG stage results into a short design reading.
+  return `You synthesize prior DIG stage results into a PAGE-LEVEL design reading.
 Return ONLY a single minified JSON object (no markdown, no trailing commas, no comments):
 {"design_summary":string,"hypotheses":[{"category":"page_archetype"|"layout_system"|"visual_style"|"hierarchy"|"component_pattern"|"responsive_strategy","value":string,"confidence":number,"rationale":string,"evidence_refs":string[]}]}
-Rules: 3-8 hypotheses; confidence in (0,1); do not invent unseen UI; keep summary <= 2 sentences; weave in section look summaries when present.`;
+Rules:
+- design_summary: 3-5 sentences about the WHOLE page (archetype, fold structure, recurring treatments, conversion pattern). Do NOT paste a single section_look look_summary verbatim; compress across sections.
+- 4-8 hypotheses; confidence in (0,1); do not invent unseen UI.
+- Cite section categories/signatures and visual_style_labels as evidence when present.`;
 }
 
 export function stageUserPrompt(stageId: LlmStageId, evidenceJson: string): string {

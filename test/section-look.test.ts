@@ -48,6 +48,54 @@ function sampleSection(overrides: Partial<SectionComposition> = {}): SectionComp
   };
 }
 
+test("selectSectionsForLook skips giant body page wrappers", () => {
+  const sections = [
+    sampleSection({
+      section_id: "wrapper",
+      category: "social_proof",
+      signature: "body",
+      confidence: 0.95,
+      recipe: [{ kind: "role", role: "body", node_id: "w", box: { x: 0, y: 0, width: 390, height: 5600 } }]
+    }),
+    sampleSection({
+      section_id: "hero",
+      category: "hero",
+      signature: "media",
+      confidence: 0.8,
+      recipe: [{ kind: "role", role: "media", node_id: "m", box: { x: 0, y: 0, width: 1440, height: 800 } }]
+    }),
+    sampleSection({
+      section_id: "cta",
+      category: "conversion",
+      signature: "cta",
+      confidence: 0.75,
+      recipe: [{ kind: "role", role: "cta", node_id: "c", box: { x: 0, y: 900, width: 200, height: 48 } }]
+    })
+  ];
+  const picked = selectSectionsForLook(sections, 4);
+  assert.ok(!picked.some((section) => section.section_id === "wrapper"));
+  assert.ok(picked.some((section) => section.section_id === "hero"));
+});
+
+test("parseSectionLookResponse demotes thin social_proof without cues", () => {
+  const raw = JSON.stringify({
+    section_id: "sec_body",
+    signature: "body",
+    category: "social_proof",
+    stack_summary: "body text",
+    look_summary: "Plain text block with Porsche Next 16px on white.",
+    confidence: 0.7,
+    evidence_refs: ["node_a"]
+  });
+  const parsed = parseSectionLookResponse(raw, {
+    section_id: "sec_body",
+    signature: "body",
+    category: "social_proof",
+    text_signals: ["Featured Content"]
+  });
+  assert.equal(parsed?.category, "content");
+});
+
 test("selectSectionsForLook prefers hero and caps count", () => {
   const sections = [
     sampleSection({ section_id: "a", category: "footer", confidence: 0.5 }),

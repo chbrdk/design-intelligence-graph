@@ -130,6 +130,26 @@ export function selectSectionsForLook(
   maxSections = sectionLookMaxSections()
 ): SectionComposition[] {
   if (maxSections <= 0 || !sections.length) return [];
+
+  function sectionHeight(section: SectionComposition): number {
+    const roles = roleSteps(section);
+    if (!roles.length) return 0;
+    let minY = Infinity;
+    let maxY = -Infinity;
+    for (const step of roles) {
+      minY = Math.min(minY, step.box.y);
+      maxY = Math.max(maxY, step.box.y + step.box.height);
+    }
+    return Number.isFinite(minY) ? Math.max(0, maxY - minY) : 0;
+  }
+
+  function isPageWrapper(section: SectionComposition): boolean {
+    const signature = section.signature;
+    const thin = signature === "body" || signature === "unknown";
+    const height = sectionHeight(section);
+    return thin && height >= 2800;
+  }
+
   const scored = sections.map((section, index) => {
     let score = section.confidence;
     const category = section.category.toLowerCase();
@@ -148,7 +168,8 @@ export function selectSectionsForLook(
     const roleCount = section.signature.split(">").filter(Boolean).length;
     if (roleCount >= 3) score += 0.45;
     if (roleCount === 1 && (section.signature === "body" || section.signature === "unknown")) score -= 0.5;
-    return { section, score, index };
+    if (isPageWrapper(section)) score -= 2;
+    return { section, score, index, skip: isPageWrapper(section) };
   });
   scored.sort((a, b) => b.score - a.score || a.index - b.index);
 
@@ -168,6 +189,7 @@ export function selectSectionsForLook(
   }
 
   for (const item of scored) {
+    if (item.skip) continue;
     if (seenIds.has(item.section.section_id)) continue;
     const category = item.section.category.toLowerCase() || "unknown";
     const signature = normalizeSignature(item.section.signature);
@@ -183,7 +205,7 @@ export function selectSectionsForLook(
   // If diversity gates left the budget empty (all identical), fall back to score order.
   if (!picked.length) {
     for (const item of scored) {
-      if (seenIds.has(item.section.section_id)) continue;
+      if (item.skip || seenIds.has(item.section.section_id)) continue;
       picked.push(item.section);
       if (picked.length >= maxSections) break;
     }
@@ -351,7 +373,7 @@ function extractJsonObject(raw: string): unknown {
 
 export function parseSectionLookResponse(
   raw: string,
-  fallback: { section_id: string; signature: string; category?: string }
+  fallback: { section_id: string; signature: string; category?: string; text_signals?: string[] }
 ): SectionLookDescription | null {
   const parsed = extractJsonObject(raw) as Record<string, unknown>;
   const look_summary = String(parsed.look_summary ?? "").trim();
@@ -392,14 +414,24 @@ export function parseSectionLookResponse(
       ? parsed.color_notes.trim().slice(0, 320)
       : undefined;
 
+  const signature = String(parsed.signature ?? fallback.signature);
+  let category =
+    typeof parsed.category === "string"
+      ? parsed.category
+      : fallback.category
+        ? fallback.category
+        : undefined;
+  const textBlob = [...(fallback.text_signals ?? []), look_summary, stack_summary].join(" ").toLowerCase();
+  const socialCue = /testimonial|review|customer|kunde|quote|trusted by|as seen|logo marquee|partner/.test(textBlob);
+  const thinSignature = signature === "body" || signature === "unknown";
+  if (thinSignature && category === "social_proof" && !socialCue) {
+    category = "content";
+  }
+
   return {
     section_id: String(parsed.section_id ?? fallback.section_id),
-    signature: String(parsed.signature ?? fallback.signature),
-    ...(typeof parsed.category === "string"
-      ? { category: parsed.category }
-      : fallback.category
-        ? { category: fallback.category }
-        : {}),
+    signature,
+    ...(category ? { category } : {}),
     stack_summary: stack_summary || look_summary.slice(0, 160),
     ...(background ? { background } : {}),
     ...(overlay ? { overlay } : {}),

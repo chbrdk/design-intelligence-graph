@@ -181,6 +181,11 @@ export class EnrichmentQueue {
       job.hypothesis_count = enrichment.llm.hypotheses.length;
       if (enrichment.llm.design_summary) job.design_summary = enrichment.llm.design_summary;
       if (enrichment.llm.vision?.status) job.vision_status = enrichment.llm.vision.status;
+      if (enrichment.llm.vision?.status === "failed" && enrichment.llm.vision.error) {
+        job.error = job.error
+          ? `${job.error}; vision: ${enrichment.llm.vision.error}`
+          : `vision: ${enrichment.llm.vision.error}`;
+      }
       if (enrichment.llm.cost) {
         job.prompt_tokens = enrichment.llm.cost.prompt_tokens;
         job.completion_tokens = enrichment.llm.cost.completion_tokens;

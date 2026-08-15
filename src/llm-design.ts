@@ -654,7 +654,8 @@ async function analyzeDesignWithLlmStaged(
           const description = parseSectionLookResponse(result.raw, {
             section_id: section.section_id,
             signature: section.signature,
-            category: section.category
+            category: section.category,
+            text_signals: section.text_signals
           });
           return {
             stage: {

@@ -129,6 +129,7 @@
       "asyncDefault": true,
       "sectionLookMaxSections": 14,
       "sectionLookMaxTokens": 1200,
+      "visionMaxBytes": 2500000,
       "doc": "knowledge/llm-scaling-mobbin.md"
     }
   },
