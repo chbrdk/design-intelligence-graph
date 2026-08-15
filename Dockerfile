@@ -53,11 +53,11 @@ RUN test -d /workspace/msqdx-ui/packages/ui/src \
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--max-old-space-size=6144
-# Blank secrets during build so Next does not SSG against live Plexon/API.
+# Blank secrets during build so Next does not SSG against live Plexon.
+# Keep DIG_API_URL from Coolify buildtime env when present (island proxy base).
 RUN AUTH_SECRET= \
     PLEXON_SERVICE_SECRET= \
     PLEXON_AUTH_URL= \
-    DIG_API_URL= \
     npm run build \
     && rm -f /workspace/msqdx-ui/node_modules
 
