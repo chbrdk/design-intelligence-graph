@@ -41,7 +41,7 @@ COPY . /workspace/design-intelligence-graph
 WORKDIR /workspace/design-intelligence-graph/apps/web
 
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --no-audit --no-fund --include=dev
+    npm install --no-audit --no-fund --include=dev --legacy-peer-deps
 
 # One React tree for app + DS source (see msqdx-ui/knowledge/react-types-dedupe.md).
 RUN test -d /workspace/msqdx-ui/packages/ui/src \
