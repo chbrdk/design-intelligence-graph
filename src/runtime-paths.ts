@@ -50,6 +50,11 @@ export interface DigPaths {
     maxTypeStyles?: number;
     doc?: string;
   };
+  structureSpine?: {
+    relativePath?: string;
+    maxBands?: number;
+    doc?: string;
+  };
   database?: {
     composeService: string;
     image: string;

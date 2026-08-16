@@ -29,6 +29,7 @@ import {
 import { emitSectionCrops } from "./section-crops.js";
 import { deriveVisualHypotheses, deriveVisualLanguageViewport, VISUAL_LANGUAGE_VERSION, type VisualViewportEvidence } from "./visual-language.js";
 import { emitDesignTokensForPackage } from "./design-tokens.js";
+import { emitStructureSpineForPackage } from "./structure-spine.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
@@ -568,6 +569,18 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     JSON.stringify(sectionCompositionDoc, null, 2),
     "application/json"
   );
+  try {
+    const heights = Object.fromEntries(responsiveEvidence.map((item) => [item.viewport_name, item.height]));
+    const spineEmit = await emitStructureSpineForPackage(packageRoot, sectionCompositionDoc, {
+      viewportHeights: heights
+    });
+    if (spineEmit) runArtifacts.structure_spine = spineEmit.artifact;
+  } catch (error: unknown) {
+    errors.push({
+      code: "structure_spine_failed",
+      message: error instanceof Error ? error.message : String(error)
+    });
+  }
   try {
     const cropEmit = await emitSectionCrops({
       packageRoot,

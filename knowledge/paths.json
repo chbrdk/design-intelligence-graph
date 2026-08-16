@@ -185,6 +185,11 @@
     "doc": "knowledge/design-tokens.md",
     "dtcgFormat": "https://www.designtokens.org/tr/2025.10/"
   },
+  "structureSpine": {
+    "relativePath": "derived/structure-spine.json",
+    "maxBands": 12,
+    "doc": "knowledge/structure-spine.md"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",

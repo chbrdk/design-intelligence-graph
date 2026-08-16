@@ -99,13 +99,11 @@ export async function applyLlmDesignAnalysis(
   const responsiveDoc = JSON.parse(await readFile(responsivePath, "utf8")) as { transformations?: unknown[] };
   let sectionCompositions: SectionComposition[] = [];
   let sectionClusters: SectionCompositionCluster[] = [];
+  let sectionDocFull: import("./section-composition.js").SectionCompositionDocument | null = null;
   try {
-    const sectionDoc = JSON.parse(await readFile(sectionPath, "utf8")) as {
-      viewports?: Array<{ sections?: SectionComposition[] }>;
-      clusters?: SectionCompositionCluster[];
-    };
-    sectionCompositions = sectionDoc.viewports?.flatMap((viewport) => viewport.sections ?? []) ?? [];
-    sectionClusters = sectionDoc.clusters ?? [];
+    sectionDocFull = JSON.parse(await readFile(sectionPath, "utf8")) as import("./section-composition.js").SectionCompositionDocument;
+    sectionCompositions = sectionDocFull.viewports?.flatMap((viewport) => viewport.sections ?? []) ?? [];
+    sectionClusters = sectionDocFull.clusters ?? [];
   } catch {
     /* older packages may lack section compositions */
   }
@@ -223,15 +221,37 @@ export async function applyLlmDesignAnalysis(
   if (vision.cost) costRecords.push(vision.cost);
   const cost = costRecords.length ? aggregateCosts(costRecords) : llm.cost;
 
-  // Refresh page summary after section vision merges (synthesize runs earlier without VL beats).
+  // Always refresh page summary after vision merges so VL beats inform design_summary
+  // (synthesize runs earlier without section vision).
   if (llm.mobbin?.section_descriptions?.length) {
     const synthesizeFailed = stages.some((stage) => stage.stage_id === "synthesize" && stage.status === "failed");
-    if (synthesizeFailed || isSectionEchoSummary(llm.design_summary || "")) {
+    const visionBeats = (llm.section_visions ?? []).some((item) => item.status === "complete");
+    if (synthesizeFailed || visionBeats || isSectionEchoSummary(llm.design_summary || "")) {
       llm = {
         ...llm,
         design_summary: pageSummaryFromMobbin(llm.mobbin)
       };
     }
+  }
+
+  try {
+    if (sectionDocFull) {
+      const { emitStructureSpineForPackage } = await import("./structure-spine.js");
+      const heights = Object.fromEntries(
+        (manifest.viewport_captures ?? []).map((item) => [
+          item.name,
+          item.viewport?.height ?? 900
+        ])
+      );
+      await emitStructureSpineForPackage(packageRoot, sectionDocFull, {
+        looks: llm.mobbin?.section_descriptions ?? [],
+        viewportHeights: heights
+      });
+    }
+  } catch (error: unknown) {
+    process.stderr.write(
+      `structure-spine refresh skipped: ${error instanceof Error ? error.message : String(error)}\n`
+    );
   }
 
   llm = {

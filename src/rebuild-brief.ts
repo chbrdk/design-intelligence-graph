@@ -10,6 +10,10 @@ import {
   formatDesignTokensBriefSection,
   type DesignTokensDocument
 } from "./design-tokens.js";
+import {
+  formatStructureSpineBriefSection,
+  type StructureSpineDocument
+} from "./structure-spine.js";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -25,6 +29,7 @@ export function buildRebuildBriefMarkdown(input: {
     open_labels?: string[];
   }>;
   designTokens?: DesignTokensDocument | null;
+  structureSpine?: StructureSpineDocument | null;
 }): string {
   const llm = input.llm;
   const sections = llm.mobbin?.section_descriptions ?? [];
@@ -39,6 +44,10 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push("");
   if (input.designTokens) {
     lines.push(formatDesignTokensBriefSection(input.designTokens).trimEnd());
+    lines.push("");
+  }
+  if (input.structureSpine) {
+    lines.push(formatStructureSpineBriefSection(input.structureSpine).trimEnd());
     lines.push("");
   }
   lines.push("## Page reading");
@@ -58,7 +67,11 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push(`- Patterns: ${patterns.join(", ") || "—"}`);
   lines.push(`- Style labels: ${styles.join(", ") || "—"}`);
   lines.push(
-    `- Flow: ${[...new Set(sections.map((item) => item.category).filter(Boolean))].join(" → ") || "—"}`
+    `- Flow: ${
+      input.structureSpine?.page_arc ||
+      [...new Set(sections.map((item) => item.category).filter(Boolean))].join(" → ") ||
+      "—"
+    }`
   );
   lines.push("");
   if (input.chromeStates?.length) {
@@ -96,6 +109,7 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push("4. Skip cookie/CMP chrome.");
   lines.push("5. Prefer measured chrome IA labels when rebuilding nav/search/cart.");
   lines.push("6. Prefer measured design tokens for fonts/colors/radii/CTA; refuse invented brand chrome when tokens exist.");
+  lines.push("7. Follow the structure spine band order; do not invent extra commerce body wrappers.");
   lines.push("");
   return `${lines.join("\n")}\n`;
 }
@@ -122,12 +136,21 @@ export async function emitRebuildBriefForPackage(
   } catch {
     /* optional */
   }
+  let structureSpine: StructureSpineDocument | null = null;
+  try {
+    structureSpine = JSON.parse(
+      await readFile(resolve(packageRoot, "derived/structure-spine.json"), "utf8")
+    ) as StructureSpineDocument;
+  } catch {
+    /* optional */
+  }
   const body = buildRebuildBriefMarkdown({
     captureRunId: manifest.capture_run_id,
     url: manifest.canonical_url,
     llm,
     chromeStates,
-    designTokens
+    designTokens,
+    structureSpine
   });
   const artifact = await writeArtifact(packageRoot, REBUILD_BRIEF_RELATIVE_PATH, body, "text/markdown; charset=utf-8");
   const updated: CaptureManifest = {

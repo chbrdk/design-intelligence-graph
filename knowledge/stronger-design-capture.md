@@ -38,15 +38,9 @@ See `src/chrome-states.ts`. Next: optional LLM `chrome_ia` stage + Library thumb
 
 See [`design-tokens.md`](design-tokens.md) / `src/design-tokens.ts`. Emits `derived/design-tokens.json` + brief section.
 
-### 3. Structure spine (not more essays)
+### 3. Structure spine (not more essays) — **DONE (capture path)**
 
-Per page:
-
-- Ordered **band list**: category + signature + one beat (vision preferred)
-- Explicit **above-fold recipe**: media / brand / headline / CTA / chrome
-- Demote wrappers harder; promote recurring inventory/card grids
-
-Optional: sticky/fixed chrome map (header height, footer density).
+See [`structure-spine.md`](structure-spine.md). Emits `derived/structure-spine.json` + brief section; demotes thin wrappers.
 
 ### 4. Destination samples (light multi-page)
 
@@ -72,7 +66,7 @@ Agent should refuse to invent fonts/colors when tokens present.
 
 1. Chrome open-state capture — **DONE**  
 2. Token pack + brief schema — **DONE**  
-3. Re-synthesize **after** vision_section  
+3. Re-synthesize **after** vision_section — **DONE** (summary refresh when VL completes) + structure spine  
 4. Light related-URL captures from chrome links  
 5. DIG-011 flows when Collection multi-screen is boring  
 
