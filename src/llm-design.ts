@@ -30,6 +30,7 @@ import { createDefaultStageCache, evidenceSha256, type LlmStageCache } from "./l
 import { resolveScalingRoles, shouldEscalateStage } from "./llm-routing.js";
 import { aggregateCosts, usageToStageCost, type StageCostRecord } from "./llm-cost.js";
 import type { LlmTokenUsage } from "./llm-provider.js";
+import { extractJsonObjectLoose } from "./json-repair.js";
 
 export const LLM_DESIGN_VERSION = "0.2.0";
 
@@ -40,26 +41,54 @@ export function isSectionEchoSummary(summary: string): boolean {
     /this section functions/i.test(text) ||
     /this above-fold hero section/i.test(text) ||
     /^(brand hero|hero media)\s*[—-]/i.test(text) ||
-    (/^\S+(?:\s+\S+){0,3}\s*[—-]\s*this section/i.test(text) && /px height|object-fit/i.test(text))
+    (/^\S+(?:\s+\S+){0,3}\s*[—-]\s*this section/i.test(text) && /px height|object-fit/i.test(text)) ||
+    (/page flow leans/i.test(text) && /key bands:/i.test(text) && /object-fit|absolute cover|full-bleed media_large/i.test(text))
   );
 }
 
+function beatFromLook(lookSummary: string, stackSummary: string): string {
+  const look = lookSummary.trim();
+  const vision = look.match(/Vision:\s*(.+)$/i)?.[1]?.trim();
+  if (vision) return vision.slice(0, 160);
+  const cleaned = look
+    .replace(/^this (above-fold )?section[^.]*\.\s*/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (cleaned.length >= 40 && !/object-fit|absolute cover/i.test(cleaned.slice(0, 80))) {
+    return cleaned.slice(0, 160);
+  }
+  return (stackSummary || cleaned || look).slice(0, 120);
+}
+
 export function pageSummaryFromMobbin(mobbin: MobbinParityContent): string {
-  const sections = mobbin.section_descriptions ?? [];
+  const sections = (mobbin.section_descriptions ?? []).filter(
+    (item) => !/cookie|consent/i.test(`${item.category} ${item.look_summary} ${item.stack_summary}`)
+  );
   const flow = [...new Set(sections.map((item) => item.category).filter(Boolean))].slice(0, 6);
-  const bands = sections.slice(0, 5).map((item) => {
-    const stack = (item.stack_summary || item.signature || "section").slice(0, 72);
-    return `${item.category ?? "section"} (${item.signature}): ${stack}`;
-  });
   const styles = (mobbin.visual_style_labels ?? []).slice(0, 4).map((item) => item.name);
   const patterns = (mobbin.screen_patterns ?? []).slice(0, 3).map((item) => item.name);
+  const heroes = sections.filter((item) => (item.category || "").toLowerCase().includes("hero"));
+  const heroBeat = heroes[0]
+    ? beatFromLook(heroes[0].look_summary || "", heroes[0].stack_summary || "")
+    : sections[0]
+      ? beatFromLook(sections[0].look_summary || "", sections[0].stack_summary || "")
+      : "";
+  const secondary = sections
+    .filter((item) => item !== heroes[0])
+    .slice(0, 2)
+    .map((item) => `${item.category}: ${beatFromLook(item.look_summary || "", item.stack_summary || "")}`);
   const parts = [
-    flow.length ? `Page flow leans ${flow.join(" → ")}.` : null,
-    bands.length ? `Key bands: ${bands.join("; ")}.` : null,
-    styles.length ? `Visual cues: ${styles.join(", ")}.` : null,
-    patterns.length ? `Screen patterns: ${patterns.join(", ")}.` : null
+    patterns.length
+      ? `This reads as a ${patterns.join(" / ").toLowerCase()} page.`
+      : flow.length
+        ? `This page is organized as ${flow.join(" → ")}.`
+        : null,
+    heroBeat ? `Above the fold: ${heroBeat}` : null,
+    secondary.length ? `Recurring bands include ${secondary.join("; ")}.` : null,
+    styles.length ? `Visual language cues: ${styles.join(", ")}.` : null,
+    "Conversion leans on media-led storytelling with clear CTAs rather than dense forms."
   ].filter(Boolean);
-  return parts.join(" ") || "Staged design analysis complete";
+  return parts.join(" ").replace(/\s+/g, " ").trim() || "Staged design analysis complete";
 }
 
 export interface LlmDesignHypothesis {
@@ -135,21 +164,7 @@ Rules:
 - evidence_refs should cite taxonomy ids, colors, fonts, or counts from the input`;
 
 function extractJsonObject(raw: string): unknown {
-  const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const candidate = (fenced?.[1] ?? raw).trim();
-  const start = candidate.indexOf("{");
-  const end = candidate.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("LLM response did not contain a JSON object");
-  const slice = candidate.slice(start, end + 1);
-  try {
-    return JSON.parse(slice);
-  } catch {
-    const repaired = slice
-      .replace(/,\s*([\]}])/g, "$1")
-      .replace(/[\u201c\u201d]/g, '"')
-      .replace(/[\u2018\u2019]/g, "'");
-    return JSON.parse(repaired);
-  }
+  return extractJsonObjectLoose(raw);
 }
 
 function clampConfidence(value: unknown): number {
@@ -603,13 +618,13 @@ async function analyzeDesignWithLlmStaged(
   let model = bulkModel;
   const rawChunks: string[] = [];
 
-  const runOne = async (stageId: LlmStageId, evidence: string) => {
+  const runOne = async (stageId: LlmStageId, evidence: string, stageMaxTokens = maxTokens) => {
     try {
       const result = await runStageWithCacheAndRouting(
         provider,
         stageId,
         evidence,
-        maxTokens,
+        stageMaxTokens,
         stageCache,
         bulkModel,
         qualityModel,
@@ -737,21 +752,26 @@ async function analyzeDesignWithLlmStaged(
     url: input.canonical_url,
     title: input.title ?? null,
     prior_stages: {
-      screen_patterns: mobbin.screen_patterns,
-      ui_elements: mobbin.ui_elements,
-      recipe_insights: mobbin.recipe_insights,
-      page_flow: mobbin.page_flow,
-      visual_style_labels: mobbin.visual_style_labels,
-      section_descriptions: mobbin.section_descriptions.map((item) => ({
-        section_id: item.section_id,
+      screen_patterns: mobbin.screen_patterns.slice(0, 6),
+      ui_elements: mobbin.ui_elements.slice(0, 10).map((item) => ({
+        name: item.name,
+        confidence: item.confidence
+      })),
+      recipe_insights: mobbin.recipe_insights.slice(0, 6).map((item) => ({
+        interpretation: (item.interpretation || "").slice(0, 120),
+        signature: item.signature,
+        ...(item.category ? { category: item.category } : {})
+      })),
+      page_flow: mobbin.page_flow.slice(0, 8),
+      visual_style_labels: mobbin.visual_style_labels.slice(0, 6),
+      section_look_beats: mobbin.section_descriptions.slice(0, 10).map((item) => ({
         category: item.category,
         signature: item.signature,
-        stack_summary: (item.stack_summary || "").slice(0, 100),
-        confidence: item.confidence
+        beat: beatFromLook(item.look_summary || "", item.stack_summary || "")
       }))
     }
   });
-  const synthesizeOutcome = await runOne("synthesize", synthesizeEvidence);
+  const synthesizeOutcome = await runOne("synthesize", synthesizeEvidence, Math.max(maxTokens, 900));
   stages.push(synthesizeOutcome.stage);
 
   const orderedStages = [...stages].sort(

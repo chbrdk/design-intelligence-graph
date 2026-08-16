@@ -180,7 +180,7 @@ test("detects section-echo summaries and builds page-level fallback", () => {
         signature: "media",
         category: "hero",
         stack_summary: "full-bleed media",
-        look_summary: "This section functions as hero",
+        look_summary: "This section functions as hero. Vision: tall night photo with centered product",
         confidence: 0.8,
         evidence_refs: []
       },
@@ -189,12 +189,13 @@ test("detects section-echo summaries and builds page-level fallback", () => {
         signature: "cta",
         category: "conversion",
         stack_summary: "sticky cta",
-        look_summary: "sticky bar",
+        look_summary: "sticky bar with primary CTA",
         confidence: 0.7,
         evidence_refs: []
       }
     ]
   });
-  assert.match(summary, /Page flow leans hero → conversion/i);
+  assert.match(summary, /marketing_home|hero/i);
+  assert.match(summary, /night photo|sticky/i);
   assert.equal(isSectionEchoSummary(summary), false);
 });

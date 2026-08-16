@@ -113,7 +113,7 @@ test("analyzeDesignWithLlm runs sequential stages by default", async () => {
     { enabled: true, provider: "local", baseUrl: "http://local/v1", model: "gemma4", timeoutMs: 2000, stagedAnalysis: true, stageMaxTokens: 400 },
     async (_url, init) => {
       const body = JSON.parse(String(init?.body ?? "{}")) as { max_tokens?: number; messages?: Array<{ content: string }> };
-      assert.ok((body.max_tokens ?? 0) <= 700);
+      assert.ok((body.max_tokens ?? 0) <= 900);
       assert.ok(body.messages?.some((message) => /Stage=/.test(message.content) || /synthesize|screen_patterns|Mobbin|section composition/i.test(message.content)));
       const content = responses[call] ?? responses.at(-1)!;
       call += 1;

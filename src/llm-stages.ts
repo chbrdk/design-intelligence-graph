@@ -2,6 +2,7 @@ import type { DesignEvidenceInput } from "./llm-design.js";
 import type { LlmCompleter, LlmMessage } from "./llm-provider.js";
 import type { SectionLookDescription } from "./section-look.js";
 import { SECTION_LOOK_SYSTEM_PROMPT, sectionLookUserPrompt } from "./section-look.js";
+import { extractJsonObjectLoose } from "./json-repair.js";
 
 export type LlmStageId =
   | "screen_patterns"
@@ -52,22 +53,7 @@ export interface MobbinParityContent {
 }
 
 function extractJsonObject(raw: string): unknown {
-  const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const candidate = (fenced?.[1] ?? raw).trim();
-  const start = candidate.indexOf("{");
-  const end = candidate.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("LLM response did not contain a JSON object");
-  const slice = candidate.slice(start, end + 1);
-  try {
-    return JSON.parse(slice);
-  } catch {
-    // Models (esp. free OpenRouter) often emit trailing commas / soft JSON.
-    const repaired = slice
-      .replace(/,\s*([\]}])/g, "$1")
-      .replace(/[\u201c\u201d]/g, '"')
-      .replace(/[\u2018\u2019]/g, "'");
-    return JSON.parse(repaired);
-  }
+  return extractJsonObjectLoose(raw);
 }
 
 function asStringArray(value: unknown): string[] {

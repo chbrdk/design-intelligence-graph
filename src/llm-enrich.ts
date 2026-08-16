@@ -4,7 +4,9 @@ import type { AnalysisReport } from "./analysis-pipeline.js";
 import { writeArtifact } from "./io.js";
 import {
   analyzeDesignWithLlm,
+  isSectionEchoSummary,
   mergeLlmIntoAnalysisReport,
+  pageSummaryFromMobbin,
   type LlmDesignAnalysis
 } from "./llm-design.js";
 import { localLlmConfig, type LlmCompleter, type LlmProviderConfig } from "./llm-provider.js";
@@ -220,6 +222,18 @@ export async function applyLlmDesignAnalysis(
   }
   if (vision.cost) costRecords.push(vision.cost);
   const cost = costRecords.length ? aggregateCosts(costRecords) : llm.cost;
+
+  // Refresh page summary after section vision merges (synthesize runs earlier without VL beats).
+  if (llm.mobbin?.section_descriptions?.length) {
+    const synthesizeFailed = stages.some((stage) => stage.stage_id === "synthesize" && stage.status === "failed");
+    if (synthesizeFailed || isSectionEchoSummary(llm.design_summary || "")) {
+      llm = {
+        ...llm,
+        design_summary: pageSummaryFromMobbin(llm.mobbin)
+      };
+    }
+  }
+
   llm = {
     ...llm,
     vision,
@@ -260,6 +274,15 @@ export async function applyLlmDesignAnalysis(
     completed_at: new Date().toISOString()
   };
   await writeArtifact(packageRoot, "manifest.json", JSON.stringify(updatedManifest, null, 2), "application/json");
+
+  try {
+    const { emitRebuildBriefForPackage } = await import("./rebuild-brief.js");
+    await emitRebuildBriefForPackage(packageRoot, llm);
+  } catch (error: unknown) {
+    process.stderr.write(
+      `rebuild-brief emit skipped: ${error instanceof Error ? error.message : String(error)}\n`
+    );
+  }
 
   try {
     const { emitDesignReferencesForPackage } = await import("./design-reference-emit.js");
