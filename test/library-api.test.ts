@@ -103,6 +103,41 @@ test("buildHotspotsFromSection normalizes boxes", async () => {
   assert.equal(hotspots[1]?.role, "heading");
 });
 
+test("library API returns page-flows with matched sections", async () => {
+  const mock = mockResponse();
+  const client = {
+    async query(sql: string) {
+      if (/kind = 'page_flow'/i.test(sql)) {
+        return {
+          rows: [{ id: 1, section_label: "Hero", signature: "media>heading>cta", step_index: 1, evidence_refs: [] }]
+        };
+      }
+      return {
+        rows: [
+          {
+            section_id: "sec_1",
+            category: "hero",
+            signature: "media>heading>cta",
+            taxonomy_id: "dig:section.hero_media_above",
+            confidence: 0.9,
+            viewport_name: "desktop"
+          }
+        ]
+      };
+    }
+  };
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/page-flows?capture_run_id=cap_test"),
+    client
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  const body = JSON.parse(mock.body) as { steps: Array<{ matched_section: { section_id: string } | null }> };
+  assert.equal(body.steps[0]?.matched_section?.section_id, "sec_1");
+});
+
 test("library API returns flows with matched sections", async () => {
   const mock = mockResponse();
   const client = {
@@ -136,6 +171,58 @@ test("library API returns flows with matched sections", async () => {
   assert.equal(mock.statusCode, 200);
   const body = JSON.parse(mock.body) as { steps: Array<{ matched_section: { section_id: string } | null }> };
   assert.equal(body.steps[0]?.matched_section?.section_id, "sec_1");
+});
+
+test("library API lists DIG-011 flows and returns detail", async () => {
+  const { setFlowLibraryStoreForTests } = await import("../src/flow-library.js");
+  const graph = {
+    flow_schema_version: "0.1.0" as const,
+    flow_id: "flow_lib_test",
+    app_scope_id: "app_fixture_shop",
+    flow_session_id: null,
+    title: "Lib test",
+    flow_actions: [
+      { taxonomy_id: "dig:flow.logging_in", confidence: 0.9, method: "path_ontology_rule", layer: "L2" as const }
+    ],
+    screens: [
+      {
+        flow_screen_id: "fs_home",
+        order: 0,
+        capture_run_id: "run_home",
+        checkion_scan_id: null,
+        primary_url: "https://shop.example/home"
+      }
+    ],
+    edges: []
+  };
+  setFlowLibraryStoreForTests([graph]);
+  try {
+    const listMock = mockResponse();
+    const listed = await handleLibraryApi(
+      { method: "GET" } as IncomingMessage,
+      listMock.response,
+      new URL("http://127.0.0.1/api/library/flows?flow_action=dig:flow.logging_in"),
+      { async query() { return { rows: [] }; } }
+    );
+    assert.equal(listed, true);
+    assert.equal(listMock.statusCode, 200);
+    const listBody = JSON.parse(listMock.body) as { items: Array<{ flow_id: string }> };
+    assert.ok(listBody.items.some((item) => item.flow_id === "flow_lib_test"));
+
+    const detailMock = mockResponse();
+    const detailed = await handleLibraryApi(
+      { method: "GET" } as IncomingMessage,
+      detailMock.response,
+      new URL("http://127.0.0.1/api/library/flows/flow_lib_test"),
+      { async query() { return { rows: [] }; } }
+    );
+    assert.equal(detailed, true);
+    assert.equal(detailMock.statusCode, 200);
+    const detailBody = JSON.parse(detailMock.body) as { flow: { flow_id: string } };
+    assert.equal(detailBody.flow.flow_id, "flow_lib_test");
+  } finally {
+    setFlowLibraryStoreForTests(null);
+  }
 });
 
 test("library API screen detail includes hotspots", async () => {

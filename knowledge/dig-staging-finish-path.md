@@ -20,7 +20,7 @@ Do **not** flip until island image includes proxy inject.
 
 ## DIG-011
 
-Phases A–C shipped (candidates, edges, flow_actions detect). Phase D still parked.
+Phases A–D core shipped (assemble + Library/MCP file store). Interactive UI + PG `009` still parked.
 
 ## Verified live (2026-08-15)
 

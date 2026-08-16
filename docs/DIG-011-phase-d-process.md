@@ -1,8 +1,9 @@
 # DIG-011 Phase D — Describe, store, retrieve
 
 **Parent:** [DIG-011 User Flow Graph](DIG-011-user-flow-graph.md)  
-**Status:** Draft v0.1 — specified, **not implemented**  
-**Schemas:** [`schemas/flow-graph.schema.json`](../schemas/flow-graph.schema.json), [`schemas/mcp-flow-tools.schema.json`](../schemas/mcp-flow-tools.schema.json)
+**Status:** Draft v0.1 — **Phase D assemble + Library/MCP file store shipped**; PG `009` + Interactive UI deferred  
+**Schemas:** [`schemas/flow-graph.schema.json`](../schemas/flow-graph.schema.json), [`schemas/mcp-flow-tools.schema.json`](../schemas/mcp-flow-tools.schema.json)  
+**Code:** `src/flow-assemble.ts` · `src/flow-library.ts` · knowledge: [`knowledge/dig-011-phase-d.md`](../knowledge/dig-011-phase-d.md)
 
 ## Goal
 

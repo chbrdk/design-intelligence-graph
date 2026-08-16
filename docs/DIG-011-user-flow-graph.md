@@ -2,7 +2,7 @@
 
 **Project:** Design Intelligence Graph  
 **Document:** DIG-011  
-**Status:** Draft v0.1 — **Phases A–C runtime shipped**; phase D specified, runtime deferred  
+**Status:** Draft v0.1 — **Phases A–D core runtime shipped** (file-backed Library/MCP; PG + Interactive UI deferred)  
 **Purpose:** Recognize, measure, detect, and index multi-screen design flows without duplicating CHECKION crawl or AUDION journey agents  
 **ADR:** [ADR-011](../architecture/ADR-011-user-flow-graph.md)  
 **Dependencies:** DIG-001 Capture, DIG-002 Ontology, DIG-005 Analysis, DIG-006 Storage, DIG-009 Enrichment  
@@ -127,7 +127,7 @@ Stage `flow_actions` after screen facets; evidence = ordered screen summaries on
 
 ## 10. Implementation policy
 
-Phases **A–C runtime shipped** (see [`DIG-011-implementation-status.md`](DIG-011-implementation-status.md)). Phase **D** (assemble / Library / MCP / Interactive UI) remains deferred until scheduled.
+Phases **A–D core runtime shipped** (see [`DIG-011-implementation-status.md`](DIG-011-implementation-status.md)). Postgres `009` apply + Interactive Mode React UI remain deferred.
 
 | Wave | Deliverable | Status |
 |------|-------------|--------|
@@ -135,9 +135,10 @@ Phases **A–C runtime shipped** (see [`DIG-011-implementation-status.md`](DIG-0
 | **1** | Phase A candidates | **Done** (`src/flow-candidates.ts`) |
 | **2** | Phase B edges (B1/B2/B3-refuse/B4) | **Done** (`src/flow-edges.ts`) |
 | **3** | Phase C `flow_actions` detect | **Done** (`src/flow-detect.ts`) |
-| **4** | Phase D assemble + Library/MCP + Interactive | Spec only |
-| **5** | CHECKION/AUDION seed worker | Spec only |
-| **6** | B3 live safe-activate worker | Spec only |
+| **4** | Phase D assemble + Library/MCP | **Done** (file store; `src/flow-assemble.ts`, `src/flow-library.ts`) |
+| **5** | Interactive Mode UI | Spec only |
+| **6** | CHECKION/AUDION seed worker + apply `009` | Spec only |
+| **7** | B3 live safe-activate worker | Spec only |
 
 ---
 

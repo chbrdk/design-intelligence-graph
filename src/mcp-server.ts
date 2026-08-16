@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { createInterface } from "node:readline";
 import {
+  callDigFlowTool,
   callDigReferenceTool,
   callDigTool,
   listDigTools,
@@ -37,6 +38,8 @@ for await (const line of rl) {
         name === "dig_generate"
       ) {
         result = toolResult(await callDigReferenceTool(name, args));
+      } else if (name === "dig_flow_search" || name === "dig_flow_get" || name === "dig_flow_neighbors") {
+        result = toolResult(await callDigFlowTool(name, args));
       } else {
         result = toolResult(callDigTool(graph, name, args));
       }

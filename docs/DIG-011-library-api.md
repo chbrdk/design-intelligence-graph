@@ -1,9 +1,10 @@
 # DIG-011 Phase D — Library, Interactive Mode & MCP contracts
 
 **Parent:** [DIG-011 Phase D](DIG-011-phase-d-process.md)  
-**Status:** Draft v0.1 — **specified, not implemented**  
+**Status:** Draft v0.1 — **Library/MCP HTTP + tools shipped** (file-backed index; PG deferred)  
 **Fixtures:** `fixtures/flows/api/`  
-**Schemas:** `schemas/flow-library-*.schema.json`, `flow-interactive.schema.json`, `mcp-flow-*.schema.json`
+**Schemas:** `schemas/flow-library-*.schema.json`, `flow-interactive.schema.json`, `mcp-flow-*.schema.json`  
+**Runtime:** `src/flow-library.ts` · `src/library-api.ts` · MCP `dig_flow_*`
 
 ## Namespace decision (normative)
 

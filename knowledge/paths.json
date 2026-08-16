@@ -209,6 +209,17 @@
     "doc": "knowledge/dig-011-phase-c.md",
     "spec": "docs/DIG-011-phase-c-detect.md"
   },
+  "flowGraph": {
+    "relativePath": "derived/flow-graph.json",
+    "doc": "knowledge/dig-011-phase-d.md",
+    "spec": "docs/DIG-011-phase-d-process.md"
+  },
+  "flowLibrary": {
+    "graphsRelativeDir": "flows",
+    "includeFixturesWhenEmpty": true,
+    "doc": "knowledge/dig-011-phase-d.md",
+    "apiSpec": "docs/DIG-011-library-api.md"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",

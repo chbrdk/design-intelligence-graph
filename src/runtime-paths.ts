@@ -71,6 +71,15 @@ export interface DigPaths {
     relativePath?: string;
     doc?: string;
   };
+  flowGraph?: {
+    relativePath?: string;
+    doc?: string;
+  };
+  flowLibrary?: {
+    graphsRelativeDir?: string;
+    includeFixturesWhenEmpty?: boolean;
+    doc?: string;
+  };
   database?: {
     composeService: string;
     image: string;

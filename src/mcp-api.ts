@@ -13,7 +13,10 @@ export type McpToolName =
   | "dig_reference_get"
   | "dig_reference_pack"
   | "dig_reference_prompt_pack"
-  | "dig_generate";
+  | "dig_generate"
+  | "dig_flow_search"
+  | "dig_flow_get"
+  | "dig_flow_neighbors";
 
 const REFERENCE_TOOL_NAMES = new Set<McpToolName>([
   "dig_reference_search",
@@ -21,6 +24,12 @@ const REFERENCE_TOOL_NAMES = new Set<McpToolName>([
   "dig_reference_pack",
   "dig_reference_prompt_pack",
   "dig_generate"
+]);
+
+const FLOW_TOOL_NAMES = new Set<McpToolName>([
+  "dig_flow_search",
+  "dig_flow_get",
+  "dig_flow_neighbors"
 ]);
 
 export async function loadKnowledgeGraph(path: string): Promise<KnowledgeGraph> {
@@ -110,6 +119,40 @@ export function listDigTools() {
           platformProjectId: { type: "string" }
         }
       }
+    },
+    {
+      name: "dig_flow_search",
+      description: "Search DIG-011 multi-screen Flows by flow_action / app_scope / title (read-only).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          flow_action: { type: "string" },
+          app_scope_id: { type: "string" },
+          q: { type: "string" },
+          limit: { type: "number" }
+        }
+      }
+    },
+    {
+      name: "dig_flow_get",
+      description: "Fetch one DIG-011 Flow graph by flow_id.",
+      inputSchema: {
+        type: "object",
+        required: ["flow_id"],
+        properties: { flow_id: { type: "string" } }
+      }
+    },
+    {
+      name: "dig_flow_neighbors",
+      description: "List inbound/outbound screens for a Flow screen via measured edges.",
+      inputSchema: {
+        type: "object",
+        required: ["flow_id", "flow_screen_id"],
+        properties: {
+          flow_id: { type: "string" },
+          flow_screen_id: { type: "string" }
+        }
+      }
     }
   ];
 }
@@ -117,6 +160,9 @@ export function listDigTools() {
 export function callDigTool(graph: KnowledgeGraph, name: McpToolName, args: Record<string, unknown>): unknown {
   if (REFERENCE_TOOL_NAMES.has(name)) {
     throw new Error(`Use callDigReferenceTool for ${name}`);
+  }
+  if (FLOW_TOOL_NAMES.has(name)) {
+    throw new Error(`Use callDigFlowTool for ${name}`);
   }
   if (name === "dig_search") {
     const type = typeof args.type === "string" ? args.type : undefined;
@@ -225,6 +271,29 @@ export async function callDigReferenceTool(
   const { deriveLayoutFromReferencePack } = await import("./layout-generation.js");
   const specification = deriveLayoutFromReferencePack({ pack, layout_hints: null, graph: null });
   return { pack, specification };
+}
+
+export async function callDigFlowTool(
+  name: Extract<McpToolName, "dig_flow_search" | "dig_flow_get" | "dig_flow_neighbors">,
+  args: Record<string, unknown>
+): Promise<unknown> {
+  const { digFlowSearch, digFlowGet, digFlowNeighbors } = await import("./flow-library.js");
+  if (name === "dig_flow_search") {
+    return digFlowSearch({
+      ...(typeof args.flow_action === "string" ? { flow_action: args.flow_action } : {}),
+      ...(typeof args.app_scope_id === "string" ? { app_scope_id: args.app_scope_id } : {}),
+      ...(typeof args.q === "string" ? { q: args.q } : {}),
+      ...(typeof args.limit === "number" ? { limit: args.limit } : {})
+    });
+  }
+  if (name === "dig_flow_get") {
+    const detail = await digFlowGet(String(args.flow_id ?? ""));
+    if (!detail) throw new Error(`Unknown flow_id: ${String(args.flow_id ?? "")}`);
+    return detail;
+  }
+  const neighbors = await digFlowNeighbors(String(args.flow_id ?? ""), String(args.flow_screen_id ?? ""));
+  if (!neighbors) throw new Error(`Unknown flow_id: ${String(args.flow_id ?? "")}`);
+  return neighbors;
 }
 
 export function toolResult(value: unknown) { return { content: [{ type: "text", text: JSON.stringify(value, null, 2) }] }; }
