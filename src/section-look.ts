@@ -1,4 +1,5 @@
 import type { SectionComposition } from "./section-composition.js";
+import { isConsentOverlaySection } from "./consent-noise.js";
 import { loadDigPaths } from "./runtime-paths.js";
 
 export const SECTION_LOOK_VERSION = "0.2.0";
@@ -150,6 +151,16 @@ export function selectSectionsForLook(
     return thin && height >= 2800;
   }
 
+  function isConsentNoise(section: SectionComposition): boolean {
+    return isConsentOverlaySection({
+      category: section.category,
+      taxonomy_id: section.taxonomy_id,
+      signature: section.signature,
+      text_signals: section.text_signals,
+      stack_summary: section.signature
+    });
+  }
+
   const scored = sections.map((section, index) => {
     let score = section.confidence;
     const category = section.category.toLowerCase();
@@ -169,11 +180,12 @@ export function selectSectionsForLook(
     if (roleCount >= 3) score += 0.45;
     if (roleCount === 1 && (section.signature === "body" || section.signature === "unknown")) score -= 0.5;
     if (isPageWrapper(section)) score -= 2;
+    if (isConsentNoise(section)) score -= 3;
     // Prefer desktop for crops + look consistency across viewports.
     if (section.viewport_name === "desktop") score += 1.2;
     else if (section.viewport_name === "tablet") score += 0.2;
     else if (section.viewport_name === "mobile") score -= 0.3;
-    return { section, score, index, skip: isPageWrapper(section) };
+    return { section, score, index, skip: isPageWrapper(section) || isConsentNoise(section) };
   });
   scored.sort((a, b) => b.score - a.score || a.index - b.index);
 

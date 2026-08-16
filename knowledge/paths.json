@@ -159,6 +159,10 @@
     "webpQuality": 72,
     "doc": "knowledge/section-crops-next.md"
   },
+  "cookieConsent": {
+    "doc": "knowledge/cookie-consent-dismiss.md",
+    "source": "checkion/lib/cookie-banner-dismiss.ts"
+  },
   "taxonomy": {
     "sectionComponentCatalog": "knowledge/section-component-catalog.json",
     "ontologyVersion": "0.2.0",

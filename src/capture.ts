@@ -1,4 +1,5 @@
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright";
+import { dismissCookieBanner } from "./cookie-banner-dismiss.js";
 import { resolve } from "node:path";
 import { captureBrowserSnapshot } from "./browser-snapshot.js";
 import { VERSION } from "./config.js";
@@ -162,6 +163,10 @@ async function captureViewport(
       warnings.push(`scroll_settle_failed:${error instanceof Error ? error.message : String(error)}`);
     }
 
+    const cookieDismiss = await dismissCookieBanner(page);
+    if (cookieDismiss.error) warnings.push(`cookie_dismiss_failed:${cookieDismiss.error}`);
+    else warnings.push("cookie_banner_dismissed");
+
     const userAgent = await page.evaluate(() => navigator.userAgent);
     const sourceHtmlBound = boundUtf8Text(
       sanitizeHtml(response ? await response.body().then((body) => body.toString("utf8")).catch(() => "") : "", page.url()),
@@ -248,6 +253,7 @@ async function captureViewport(
       "application/json"
     );
     await pauseAnimations(page);
+    await dismissCookieBanner(page);
     const stabilizedScreenshot = await page.screenshot(screenshotOptions(false));
 
     artifacts.source_html = await writeArtifact(packageRoot, `${prefix}/html/source.html`, sourceHtml, "text/html; charset=utf-8");
@@ -606,7 +612,7 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     environment: { prefers_color_scheme: options.colorScheme, prefers_reduced_motion: options.reducedMotion === "reduce",
       forced_colors: false, touch: false, pointer: "fine", hover: true },
     capture_dimensions: {
-      locale: options.locale, market: "unknown", theme: options.colorScheme, consent_state: "unknown",
+      locale: options.locale, market: "unknown", theme: options.colorScheme, consent_state: "dismissed_heuristic",
       authentication_state: "unauthenticated", personalization: "unknown", experiments: []
     },
     policy: {
@@ -619,7 +625,12 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     capture_status: { dom: status, css: status, visual: status, assets: status, accessibility: status, interaction: status },
     run_artifacts: runArtifacts,
     viewport_captures: results,
-    interventions: ["sanitized_stored_urls_and_sensitive_form_values", "paused_css_animations_for_stabilized_screenshot", "disabled_css_transitions_for_stabilized_screenshot"],
+    interventions: [
+      "sanitized_stored_urls_and_sensitive_form_values",
+      "paused_css_animations_for_stabilized_screenshot",
+      "disabled_css_transitions_for_stabilized_screenshot",
+      "cookie_banner_dismiss_heuristic"
+    ],
     errors
   };
   await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");

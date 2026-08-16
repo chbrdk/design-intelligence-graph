@@ -82,7 +82,7 @@ export interface CaptureManifest {
     locale: string;
     market: "unknown";
     theme: "light" | "dark";
-    consent_state: "unknown";
+    consent_state: "unknown" | "dismissed_heuristic" | string;
     authentication_state: "unauthenticated";
     personalization: "unknown";
     experiments: string[];

@@ -10,6 +10,7 @@ import { usageToStageCost, type StageCostRecord } from "./llm-cost.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import type { SectionCropRecord } from "./section-crops.js";
 import type { SectionLookDescription } from "./section-look.js";
+import { isConsentOverlaySection } from "./consent-noise.js";
 import type { CaptureManifest } from "./types.js";
 
 export interface LlmVisionResult {
@@ -265,10 +266,24 @@ export function sectionVisionMaxPerCapture(environment: NodeJS.ProcessEnv = proc
 
 /** Gate: only spend VL tokens where text/CSS look is thin or high-value. */
 export function shouldRunSectionVision(
-  description: Pick<SectionLookDescription, "section_id" | "signature" | "category" | "confidence" | "media">,
+  description: Pick<
+    SectionLookDescription,
+    "section_id" | "signature" | "category" | "confidence" | "media" | "look_summary" | "stack_summary" | "role_notes"
+  >,
   crop: SectionCropRecord | undefined
 ): { ok: boolean; reason: string } {
   if (!crop?.path) return { ok: false, reason: "no_crop" };
+  if (
+    isConsentOverlaySection({
+      ...(description.category ? { category: description.category } : {}),
+      ...(description.signature ? { signature: description.signature } : {}),
+      ...(description.look_summary ? { look_summary: description.look_summary } : {}),
+      ...(description.stack_summary ? { stack_summary: description.stack_summary } : {}),
+      ...(description.role_notes ? { role_notes: description.role_notes } : {})
+    })
+  ) {
+    return { ok: false, reason: "consent_overlay" };
+  }
   const signature = (description.signature || "").toLowerCase();
   const category = (description.category || "").toLowerCase();
   const thin = signature === "media" || signature === "body" || signature === "unknown" || signature === "media_large";

@@ -65,6 +65,46 @@ test("tall above-fold media-only section is hero not social_proof logo_marquee",
   assert.notEqual(band.category, "social_proof");
 });
 
+test("cookie consent dialog text classifies as cookie_consent not commerce", () => {
+  const nodes = [
+    { node_id: "main", parent_node_id: null, node_type: "element", tag: "main", rendered: true },
+    { node_id: "dlg", parent_node_id: "main", node_type: "element", tag: "section", rendered: true },
+    {
+      node_id: "h",
+      parent_node_id: "dlg",
+      node_type: "element",
+      tag: "h2",
+      rendered: true,
+      text: "Ihre Cookie Einstellungen"
+    },
+    {
+      node_id: "btn",
+      parent_node_id: "dlg",
+      node_type: "element",
+      tag: "button",
+      rendered: true,
+      text: "Alle akzeptieren"
+    }
+  ];
+  const boxes = [
+    { node_id: "main", bbox: { x: 0, y: 0, width: 1200, height: 900 } },
+    { node_id: "dlg", bbox: { x: 200, y: 120, width: 800, height: 480 } },
+    { node_id: "h", bbox: { x: 240, y: 160, width: 700, height: 40 } },
+    { node_id: "btn", bbox: { x: 240, y: 500, width: 180, height: 44 } }
+  ];
+  const sections = deriveViewportSectionCompositions({
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop",
+    viewport_height: 900,
+    nodes,
+    boxes,
+    styles: []
+  });
+  const dlg = sections.find((section) => section.root_node_id === "dlg") ?? sections[0]!;
+  assert.equal(dlg.category, "cookie_consent");
+  assert.equal(dlg.taxonomy_id, "dig:section.cookie_consent");
+});
+
 test("clusters recurring signatures across viewports", () => {
   const base: Omit<SectionComposition, "section_id" | "viewport_capture_id" | "viewport_name"> = {
     root_node_id: "hero",

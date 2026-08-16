@@ -61,6 +61,7 @@ derive sections (L2 geometry)
    - Gate: thin signature / low confidence / high-value category (+ crop present); cap `sectionVisionMaxPerCapture` (default 4)
    - Merge into `look_summary` + `role_notes`; store on `llm.section_visions` and `llm_items.gaps.vision_section`
 4. Merge vision notes into `look_summary` / `role_notes` when text confidence low — **DONE** (always merge when VL completes)
-5. Emit `media_ref.kind=section_crop` on DesignReferences
+5. Emit `media_ref.kind=section_crop` on DesignReferences — **DONE 2026-08-16**
+6. Cookie/CMP dismiss (CHECKION port) + consent noise gate — **DONE 2026-08-16** → [`cookie-consent-dismiss.md`](cookie-consent-dismiss.md)
 
 Do **not** block on DIG-011 flows for this.

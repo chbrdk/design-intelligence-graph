@@ -53,6 +53,10 @@ export type DesignReferenceRecord = {
     visual_style_labels?: string[];
     design_summary?: string;
   };
+  media_ref?: {
+    kind: "viewport" | "full_page" | "section_crop" | "none";
+    path: string | null;
+  };
   provenance: {
     evidence_refs: string[];
     methods: string[];
@@ -73,6 +77,7 @@ function categoryToTaxonomyIds(category: string): string[] {
   if (normalized.includes("login") || normalized.includes("auth")) return ["dig:pattern.auth"];
   if (normalized.includes("pricing")) return ["dig:pattern.pricing"];
   if (normalized.includes("nav")) return ["dig:pattern.navigation"];
+  if (normalized.includes("cookie") || normalized.includes("consent")) return ["dig:section.cookie_consent"];
   return [`dig:pattern.${normalized.slice(0, 48)}`];
 }
 
@@ -88,12 +93,14 @@ export function designReferenceFromSectionLook(input: {
   screenPatterns?: string[];
   visualStyleLabels?: string[];
   designSummary?: string;
+  cropPath?: string | null;
 }): DesignReferenceRecord {
   const category = input.description.category?.trim() || "unknown";
   const roles = rolesFromSignature(input.description.signature);
   const lookSummary = truncate(input.description.look_summary || input.description.stack_summary, 400);
   const stackSummary = truncate(input.description.stack_summary || lookSummary, 200);
   const evidence = (input.description.evidence_refs ?? []).slice(0, 24);
+  const cropPath = input.cropPath?.trim() || null;
   const record: DesignReferenceRecord = {
     schema_version: DESIGN_REFERENCE_SCHEMA_VERSION,
     reference_id: referenceIdForSection(input.captureRunId, input.description.section_id),
@@ -126,9 +133,12 @@ export function designReferenceFromSectionLook(input: {
       ...(input.description.alignment ? { alignment: input.description.alignment } : {}),
       ...(input.description.media ? { media: input.description.media } : {})
     },
+    media_ref: cropPath
+      ? { kind: "section_crop", path: cropPath }
+      : { kind: "none", path: null },
     provenance: {
       evidence_refs: evidence.length ? evidence : [input.description.section_id],
-      methods: ["section_look"],
+      methods: ["section_look", ...(cropPath ? ["section_crop"] : [])],
       layers: ["L2", "L3"]
     }
   };
@@ -149,13 +159,18 @@ export function designReferenceFromSectionLook(input: {
 export function designReferencesFromLlmAnalysis(
   captureRunId: string,
   llm: LlmDesignAnalysis,
-  viewportCaptureId?: string | null
+  viewportCaptureId?: string | null,
+  cropPaths?: Map<string, string> | Record<string, string>
 ): DesignReferenceRecord[] {
   const descriptions = llm.mobbin?.section_descriptions ?? [];
   const screenPatterns = (llm.mobbin?.screen_patterns ?? []).map((item) => item.name).filter(Boolean);
   const visualStyleLabels = (llm.mobbin?.visual_style_labels ?? [])
     .map((item) => item.name)
     .filter(Boolean);
+  const crops =
+    cropPaths instanceof Map
+      ? cropPaths
+      : new Map(Object.entries(cropPaths ?? {}));
   const fromSections = descriptions.map((description) =>
     designReferenceFromSectionLook({
       captureRunId,
@@ -163,7 +178,8 @@ export function designReferencesFromLlmAnalysis(
       ...(viewportCaptureId !== undefined ? { viewportCaptureId } : {}),
       screenPatterns,
       visualStyleLabels,
-      designSummary: llm.design_summary
+      designSummary: llm.design_summary,
+      cropPath: crops.get(description.section_id) ?? null
     })
   );
   if (fromSections.length) return fromSections;
@@ -192,6 +208,7 @@ export function designReferencesFromLlmAnalysis(
       look_summary: summary,
       confidence: 0.55
     },
+    media_ref: { kind: "none", path: null },
     provenance: {
       evidence_refs: ["screen"],
       methods: ["llm_design_summary"],
@@ -220,8 +237,20 @@ export async function emitDesignReferencesForPackage(
     llm = null;
   }
   const viewportCaptureId = manifest.viewport_captures[0]?.viewport_capture_id ?? null;
+  const cropPaths = new Map<string, string>();
+  try {
+    const cropsPath = manifest.run_artifacts.section_crops?.path ?? "derived/section-crops.json";
+    const cropsDoc = JSON.parse(await readFile(resolve(packageRoot, cropsPath), "utf8")) as {
+      crops?: Array<{ section_id?: string; path?: string }>;
+    };
+    for (const crop of cropsDoc.crops ?? []) {
+      if (crop.section_id && crop.path) cropPaths.set(crop.section_id, crop.path);
+    }
+  } catch {
+    /* older packages may lack crops */
+  }
   const references = llm
-    ? designReferencesFromLlmAnalysis(manifest.capture_run_id, llm, viewportCaptureId)
+    ? designReferencesFromLlmAnalysis(manifest.capture_run_id, llm, viewportCaptureId, cropPaths)
     : [];
 
   for (const reference of references) {

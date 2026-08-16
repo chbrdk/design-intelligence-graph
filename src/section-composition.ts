@@ -406,6 +406,18 @@ function classifySection(input: {
   if (socialProofText) {
     return { taxonomy_id: "dig:section.testimonials", category: "social_proof", confidence: 0.8, method: "testimonial_heuristic" };
   }
+  if (
+    /cookie|consent|einwilligung|zustimmung|datenschutz.*einstell|alle akzeptieren|accept all cookies|manage cookies|cmp/i.test(
+      textBlob
+    )
+  ) {
+    return {
+      taxonomy_id: "dig:section.cookie_consent",
+      category: "cookie_consent",
+      confidence: 0.9,
+      method: "cookie_consent_text_heuristic"
+    };
+  }
   // Full-bleed / tall media above the fold is hero even when overlay text was not measured as heading.
   if (nearTop && tallMedia && !socialProofText) {
     const taxonomy_id =
