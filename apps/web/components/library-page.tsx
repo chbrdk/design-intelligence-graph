@@ -8,7 +8,6 @@ import {
   fetchAnalysisDetail,
   fetchDesignReferences,
   fetchLibraryScreens,
-  fetchLibrarySections,
   generateFromReferences,
   islandMediaUrl,
   searchLibrary,
@@ -16,7 +15,6 @@ import {
   type LibraryAnalysisDetail,
   type LibraryScreen,
   type LibrarySearchHit,
-  type LibrarySection,
 } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
@@ -25,9 +23,7 @@ function LibraryPageInner() {
   const searchParams = useSearchParams()
   const platformProjectId = searchParams.get(paths.platformProjectQueryParam)?.trim() || null
   const [screens, setScreens] = useState<LibraryScreen[]>([])
-  const [sections, setSections] = useState<LibrarySection[]>([])
   const [references, setReferences] = useState<DesignReferenceHit[]>([])
-  const [category, setCategory] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [similarTo, setSimilarTo] = useState('')
   const [searchHits, setSearchHits] = useState<LibrarySearchHit[]>([])
@@ -38,20 +34,14 @@ function LibraryPageInner() {
   const [analysis, setAnalysis] = useState<LibraryAnalysisDetail | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  async function refresh(nextCategory = category) {
+  async function refresh() {
     setError(null)
     const scope = { platformProjectId }
     try {
-      const [nextScreens, nextSections] = await Promise.all([
-        fetchLibraryScreens(scope),
-        fetchLibrarySections(nextCategory ? { category: nextCategory, ...scope } : scope),
-      ])
-      setScreens(nextScreens)
-      setSections(nextSections)
+      setScreens(await fetchLibraryScreens(scope))
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setScreens([])
-      setSections([])
     }
 
     if (!platformProjectId) {
@@ -160,9 +150,6 @@ function LibraryPageInner() {
 
   const selectedMedia = islandMediaUrl(selected?.primary_url)
   const sectionLooks = analysis?.section_look ?? []
-  const screenSections = sections.filter((s) =>
-    selected ? s.capture_run_id === selected.capture_run_id : true,
-  )
 
   return (
     <AppShell
@@ -197,13 +184,6 @@ function LibraryPageInner() {
           <Button type="button" variant="subtle" onClick={() => void onSimilar()}>
             Similar refs
           </Button>
-          <Field label="Section category">
-            <Input
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              onBlur={() => void refresh(category)}
-            />
-          </Field>
           <Button type="button" variant="subtle" onClick={() => void refresh()}>
             Refresh
           </Button>
@@ -353,17 +333,6 @@ function LibraryPageInner() {
                 </Text>
               </li>
             ) : null}
-          </ul>
-
-          <Text role="title">Ontology sections</Text>
-          <ul className="dig-list">
-            {screenSections.slice(0, 40).map((section) => (
-              <li key={`${section.capture_run_id}-${section.taxonomy_id}`}>
-                {section.category} · {section.signature}{' '}
-                <Text role="meta">{(section.confidence * 100).toFixed(0)}%</Text>
-              </li>
-            ))}
-            {!screenSections.length ? <li>No ontology sections indexed.</li> : null}
           </ul>
         </Panel>
       </div>
