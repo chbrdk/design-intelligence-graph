@@ -178,6 +178,7 @@ export function buildEvidenceFromScenario(scenario: EvalScenario): DesignEvidenc
   };
 }
 
+/** Legacy compact hero score — still used by quality-eval scripts. */
 export const VISION_SCREEN_PROMPT = `You are scoring a marketing webpage screenshot for DIG.
 The image may be a full-page capture (tall) or a single viewport — read the whole image.
 Return ONLY minified JSON (no markdown, no trailing commas):
@@ -189,17 +190,36 @@ Rules:
 - notes = brief page-wide composition cues (e.g. full-bleed media bands, repeated product modules)
 - confidence in (0,1)`;
 
-export const VISION_SECTION_PROMPT = `You describe ONE cropped web DESIGN SECTION screenshot for DIG.
+/** Run A — rich desktop full-page visual catalog for later LLM rebuild / matching. */
+export const VISION_PAGE_PROMPT = `You are a senior visual design analyst for DIG.
+You see a DESKTOP full-page (or tall) marketing website screenshot. Describe it so another LLM can rebuild and reason about the visual system WITHOUT seeing the image again.
+Return ONLY minified JSON (no markdown, no trailing commas):
+{"page_type":string,"overall_atmosphere":string,"color_mood":string,"typography_feel":string,"above_the_fold":string,"vertical_rhythm":string,"media_strategy":string,"notable_modules":string[],"brand_cues":string,"interaction_chrome":string,"category_tags":string[],"rebuild_hints":string,"heading":string,"cta":string,"layout_order":["media"|"heading"|"cta"|"other"],"confidence":number}
+Rules:
+- page_type: short label (e.g. "automotive product landing", "editorial brand home").
+- overall_atmosphere / color_mood / typography_feel: concrete, pixel-grounded (not generic praise).
+- above_the_fold: 2-4 sentences on hero composition, media, type hierarchy, CTA placement.
+- vertical_rhythm: how the page stacks top→bottom (bands, density changes, repeats).
+- media_strategy: photo/video/illustration/product CG usage and framing.
+- notable_modules: up to 8 short labels for distinctive blocks (grids, lifestyle, specs, footer…).
+- brand_cues: logo treatment, wordmarks, signature colors if visible.
+- interaction_chrome: nav, sticky bars, chat, cookie — only if visible; else "".
+- category_tags: up to 8 lowercase tags (hero_media, product_grid, lifestyle, commerce…).
+- rebuild_hints: 2-4 sentences a designer/agent would need to recreate the look.
+- heading / cta / layout_order: hero-level facts for scoring compatibility.
+- confidence in (0,1). Be specific; do not invent unread text.`;
+
+export const VISION_SECTION_PROMPT = `You describe ONE cropped web DESIGN SECTION screenshot for DIG in rich visual detail.
 Return ONLY minified JSON (no markdown, no trailing commas):
 {"visible_text":string[],"media_subject":string,"atmosphere":string,"overlay":string,"cta_chrome":string,"composition":string,"confidence":number}
 Rules:
 - Use ONLY what is visible in THIS crop; do not invent off-crop UI.
 - visible_text: up to 6 short strings actually readable in the crop (headlines, CTAs, labels).
-- media_subject: what the image/video shows (car, product, people, abstract, none).
+- media_subject: what the image/video shows (car, product, people, abstract, none) — be specific.
 - atmosphere: lighting/contrast/mood tied to pixels (e.g. dark scrim over night photo).
 - overlay: gradient/scrim/none and where it sits.
 - cta_chrome: button/link styling if present, else "".
-- composition: 1-2 sentences on layout inside the crop (alignment, stack, negative space).
+- composition: 2-3 sentences on layout inside the crop (alignment, stack, negative space, type scale).
 - confidence in (0,1).`;
 
 export const VISION_LAYOUT_PROMPT = `You segment a marketing webpage screenshot into vertical DESIGN SECTIONS for DIG.

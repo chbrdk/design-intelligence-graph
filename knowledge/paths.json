@@ -131,7 +131,7 @@
       "sectionLookMaxSections": 14,
       "sectionLookMaxTokens": 1200,
       "visionMaxBytes": 2500000,
-      "sectionVisionMaxPerCapture": 4,
+      "sectionVisionMaxPerCapture": 8,
       "doc": "knowledge/llm-scaling-mobbin.md"
     }
   },
@@ -162,7 +162,11 @@
   "visionLayout": {
     "relativePath": "derived/vision-layout.json",
     "maxBands": 12,
-    "doc": "knowledge/vision-layout-bands.md"
+    "doc": "knowledge/vision-desktop-pipeline.md"
+  },
+  "visionPage": {
+    "relativePath": "derived/vision-page.json",
+    "doc": "knowledge/vision-desktop-pipeline.md"
   },
   "cookieConsent": {
     "doc": "knowledge/cookie-consent-dismiss.md",

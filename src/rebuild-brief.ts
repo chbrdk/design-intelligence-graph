@@ -55,11 +55,26 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push(llm.design_summary?.trim() || "_No design_summary_");
   lines.push("");
   if (vision?.status === "complete") {
-    lines.push("## Above-the-fold (vision_screen)");
+    lines.push("## Above-the-fold (vision_page)");
     lines.push("");
     lines.push(`- Heading: ${vision.heading ?? "—"}`);
     lines.push(`- CTA: ${vision.cta ?? "—"}`);
     lines.push(`- Layout: ${(vision.layout_order ?? []).join(" → ") || "—"}`);
+    if (vision.notes) lines.push(`- Notes: ${vision.notes}`);
+    lines.push("");
+  }
+  const page = input.llm.vision_page?.document;
+  if (page?.status === "complete") {
+    lines.push("## Visual catalog (vision_page)");
+    lines.push("");
+    lines.push(`- Page type: ${page.page_type || "—"}`);
+    lines.push(`- Atmosphere: ${page.overall_atmosphere || "—"}`);
+    lines.push(`- Color mood: ${page.color_mood || "—"}`);
+    lines.push(`- Type feel: ${page.typography_feel || "—"}`);
+    lines.push(`- Media: ${page.media_strategy || "—"}`);
+    lines.push(`- Rhythm: ${page.vertical_rhythm || "—"}`);
+    if (page.rebuild_hints) lines.push(`- Rebuild: ${page.rebuild_hints}`);
+    if (page.category_tags?.length) lines.push(`- Tags: ${page.category_tags.join(", ")}`);
     lines.push("");
   }
   lines.push("## Direction");

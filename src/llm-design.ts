@@ -123,6 +123,7 @@ export interface LlmDesignAnalysis {
   stages?: LlmStageResult[];
   mobbin?: MobbinParityContent;
   vision?: import("./llm-vision.js").LlmVisionResult;
+  vision_page?: import("./llm-vision.js").LlmVisionPageResult;
   vision_layout?: import("./llm-vision.js").LlmVisionLayoutResult;
   section_visions?: import("./llm-vision.js").LlmSectionVisionResult[];
   cost?: import("./llm-cost.js").LlmCostSummary;

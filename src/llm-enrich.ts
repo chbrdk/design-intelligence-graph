@@ -13,7 +13,12 @@ import { localLlmConfig, type LlmCompleter, type LlmProviderConfig } from "./llm
 import type { LlmStageCache } from "./llm-stage-cache.js";
 import { createDefaultStageCache } from "./llm-stage-cache.js";
 import { aggregateCosts } from "./llm-cost.js";
-import { runGatedSectionVisions, runVisionLayoutAnalysis, runVisionScreenAnalysis } from "./llm-vision.js";
+import {
+  mergeSectionVisionIntoLook,
+  runVisionBandSectionVisions,
+  runVisionLayoutAnalysis,
+  runVisionPageAnalysis
+} from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
@@ -22,8 +27,8 @@ import { emitSectionCrops, loadSectionCropsDocument } from "./section-crops.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
 import {
   emitVisionBandCrops,
-  shouldPreferVisionLooks,
-  visionBandsToSectionLooks
+  visionBandsToSectionLooks,
+  type VisionLayoutCropRecord
 } from "./vision-layout.js";
 
 async function loadNodeStylesFromPackage(
@@ -156,13 +161,38 @@ export async function applyLlmDesignAnalysis(
   const stages = [...(llm.stages ?? [])];
   const costRecords = [...(llm.cost?.by_stage ?? [])];
 
-  // Vision layout bands (screenshot → normalized coordinates) before crop VL / screen VL.
-  const visionLayout = await runVisionLayoutAnalysis(packageRoot, manifest, {
+  // Desktop vision pipeline: A page catalog ∥ B section bands → crops → C section detail.
+  const visionOpts = {
     config,
     ...(options.provider ? { provider: options.provider } : {}),
     stageCache,
-    persist: true
+    persist: true as const
+  };
+  const [visionPage, visionLayout] = await Promise.all([
+    runVisionPageAnalysis(packageRoot, manifest, visionOpts),
+    runVisionLayoutAnalysis(packageRoot, manifest, visionOpts)
+  ]);
+
+  stages.push({
+    stage_id: "vision_page",
+    status: visionPage.status,
+    ...(visionPage.raw_sha256 ? { raw_sha256: visionPage.raw_sha256 } : {}),
+    ...(visionPage.error ? { error: visionPage.error } : {}),
+    data: {
+      page_type: visionPage.document?.page_type ?? null,
+      category_tags: visionPage.document?.category_tags ?? [],
+      ...(visionPage.cost
+        ? {
+            prompt_tokens: visionPage.cost.prompt_tokens,
+            completion_tokens: visionPage.cost.completion_tokens,
+            estimated_usd: visionPage.cost.estimated_usd,
+            cache_hit: visionPage.cost.cache_hit
+          }
+        : {})
+    }
   });
+  if (visionPage.cost) costRecords.push(visionPage.cost);
+
   stages.push({
     stage_id: "vision_layout",
     status: visionLayout.status,
@@ -182,11 +212,45 @@ export async function applyLlmDesignAnalysis(
     }
   });
   if (visionLayout.cost) costRecords.push(visionLayout.cost);
-  llm = { ...llm, vision_layout: visionLayout };
 
+  const vision = visionPage.compat ?? {
+    status: visionPage.status,
+    ...(visionPage.model ? { model: visionPage.model } : {}),
+    ...(visionPage.error ? { error: visionPage.error } : {}),
+    ...(visionPage.cost ? { cost: visionPage.cost } : {})
+  };
+  if (vision.status === "complete") {
+    stages.push({
+      stage_id: "vision_screen",
+      status: "complete",
+      ...(vision.raw_sha256 ? { raw_sha256: vision.raw_sha256 } : {}),
+      data: {
+        heading: vision.heading,
+        cta: vision.cta,
+        layout_order: vision.layout_order,
+        from: "vision_page"
+      }
+    });
+  } else if (vision.status === "failed" || vision.status === "skipped") {
+    stages.push({
+      stage_id: "vision_screen",
+      status: vision.status === "skipped" ? "skipped" : "failed",
+      ...(vision.error ? { error: vision.error } : {})
+    });
+  }
+
+  llm = {
+    ...llm,
+    vision_page: visionPage,
+    vision_layout: visionLayout,
+    vision
+  };
+
+  let visionCropRecords: import("./section-crops.js").SectionCropRecord[] = [];
+  let visionBandCrops: VisionLayoutCropRecord[] = [];
   if (visionLayout.status === "complete" && visionLayout.bands.length && visionLayout.document) {
     try {
-      const crops = await emitVisionBandCrops({
+      visionBandCrops = await emitVisionBandCrops({
         packageRoot,
         screenshotRelative: visionLayout.document.source_screenshot,
         imageWidth: visionLayout.document.image_width,
@@ -194,46 +258,22 @@ export async function applyLlmDesignAnalysis(
         bands: visionLayout.bands,
         maxCrops: Math.min(8, visionLayout.bands.length)
       });
-      const visionLooks = visionBandsToSectionLooks(
-        visionLayout.bands,
-        crops,
-        visionLayout.notes ?? visionLayout.document.notes
-      );
-      const domLooks = llm.mobbin?.section_descriptions ?? [];
-      if (llm.mobbin && (shouldPreferVisionLooks(domLooks) || !domLooks.length)) {
-        // Prefer vision bands when DOM recipes collapsed to thin body/commerce.
-        const mergedLooks = [
-          ...visionLooks,
-          ...domLooks.filter(
-            (look) => !visionLooks.some((vision) => vision.section_id === look.section_id)
-          )
-        ].slice(0, Math.max(visionLooks.length, 8));
-        llm = {
-          ...llm,
-          mobbin: {
-            ...llm.mobbin,
-            section_descriptions: mergedLooks
-          }
-        };
-      } else if (llm.mobbin && visionLooks.length) {
-        // Attach crop evidence onto matching thin looks by vertical order / keep vision as extras.
-        llm = {
-          ...llm,
-          mobbin: {
-            ...llm.mobbin,
-            section_descriptions: [...domLooks, ...visionLooks].slice(0, 14)
-          }
-        };
-      }
-      // Register vision crops into section-crops doc for UI thumbs when missing.
-      if (crops.length) {
+      if (visionBandCrops.length) {
         const existing = (await loadSectionCropsDocument(packageRoot)) ?? {
           schema_version: "0.1.0" as const,
           section_crops_version: "0.1.0" as const,
           generated_at: new Date().toISOString(),
           crops: []
         };
-        const asRecords = crops.map((crop) => {
+        const docW =
+          manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.width ??
+          visionLayout.document.image_width;
+        const docH =
+          manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.height ??
+          visionLayout.document.image_height;
+        const imgW = Math.max(1, visionLayout.document.image_width);
+        const imgH = Math.max(1, visionLayout.document.image_height);
+        visionCropRecords = visionBandCrops.map((crop) => {
           const band = visionLayout.bands.find((item) => item.id === crop.band_id);
           return {
             section_id: crop.band_id,
@@ -246,30 +286,20 @@ export async function applyLlmDesignAnalysis(
             signature: band?.category === "hero" ? "media" : "vision_band",
             path: crop.path,
             bbox_css: {
-              x: (crop.bbox_px.left / Math.max(1, visionLayout.document!.image_width)) *
-                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.width ??
-                  visionLayout.document!.image_width),
-              y: (crop.bbox_px.top / Math.max(1, visionLayout.document!.image_height)) *
-                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.height ??
-                  visionLayout.document!.image_height),
-              width:
-                (crop.bbox_px.width / Math.max(1, visionLayout.document!.image_width)) *
-                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.width ??
-                  visionLayout.document!.image_width),
-              height:
-                (crop.bbox_px.height / Math.max(1, visionLayout.document!.image_height)) *
-                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.height ??
-                  visionLayout.document!.image_height)
+              x: (crop.bbox_px.left / imgW) * docW,
+              y: (crop.bbox_px.top / imgH) * docH,
+              width: (crop.bbox_px.width / imgW) * docW,
+              height: (crop.bbox_px.height / imgH) * docH
             },
             bbox_px: crop.bbox_px,
             source_screenshot: visionLayout.document!.source_screenshot,
             bytes: crop.bytes,
             sha256: crop.sha256,
-            reason: "vision_layout_band"
+            reason: "vision_layout_band" as const
           };
         });
         const byId = new Map(existing.crops.map((crop) => [crop.section_id, crop]));
-        for (const crop of asRecords) byId.set(crop.section_id, crop);
+        for (const crop of visionCropRecords) byId.set(crop.section_id, crop);
         await writeArtifact(
           packageRoot,
           "derived/section-crops.json",
@@ -287,20 +317,19 @@ export async function applyLlmDesignAnalysis(
       }
     } catch (error: unknown) {
       process.stderr.write(
-        `vision_layout crops/looks skipped: ${error instanceof Error ? error.message : String(error)}\n`
+        `vision_layout crops skipped: ${error instanceof Error ? error.message : String(error)}\n`
       );
     }
   }
 
-  // Wave D.2 — gated VL on section crops (after text section_look).
-  const cropsDoc = await loadSectionCropsDocument(packageRoot);
-  const sectionVisions = await runGatedSectionVisions({
+  const sectionVisions = await runVisionBandSectionVisions({
     packageRoot,
-    descriptions: llm.mobbin?.section_descriptions ?? [],
-    crops: cropsDoc?.crops ?? [],
+    crops: visionCropRecords,
+    bands: visionLayout.bands,
     config,
     ...(options.provider ? { provider: options.provider } : {}),
-    stageCache
+    stageCache,
+    maxSections: 8
   });
   if (sectionVisions.results.length) {
     const complete = sectionVisions.results.filter((item) => item.status === "complete").length;
@@ -316,50 +345,35 @@ export async function applyLlmDesignAnalysis(
       }
     });
     costRecords.push(...sectionVisions.costs);
-    if (llm.mobbin) {
+
+    const visionLooks = visionBandsToSectionLooks(
+      visionLayout.bands,
+      visionBandCrops,
+      visionLayout.notes ?? visionLayout.document?.notes
+    );
+    const byVision = new Map(sectionVisions.results.map((item) => [item.section_id, item]));
+    const enrichedLooks = visionLooks.map((look) => {
+      const detail = byVision.get(look.section_id);
+      return detail ? mergeSectionVisionIntoLook(look, detail) : look;
+    });
+    const domLooks = llm.mobbin?.section_descriptions ?? [];
+    if (llm.mobbin && enrichedLooks.length) {
       llm = {
         ...llm,
         mobbin: {
           ...llm.mobbin,
-          section_descriptions: sectionVisions.descriptions
+          section_descriptions: [
+            ...enrichedLooks,
+            ...domLooks.filter((look) => !enrichedLooks.some((vision) => vision.section_id === look.section_id))
+          ]
         },
         section_visions: sectionVisions.results
       };
+    } else {
+      llm = { ...llm, section_visions: sectionVisions.results };
     }
   }
 
-  const vision = await runVisionScreenAnalysis(packageRoot, manifest, {
-    config,
-    ...(options.provider ? { provider: options.provider } : {}),
-    stageCache
-  });
-  if (vision.status === "complete") {
-    stages.push({
-      stage_id: "vision_screen",
-      status: "complete",
-      ...(vision.raw_sha256 ? { raw_sha256: vision.raw_sha256 } : {}),
-      data: {
-        heading: vision.heading,
-        cta: vision.cta,
-        layout_order: vision.layout_order,
-        ...(vision.cost
-          ? {
-              prompt_tokens: vision.cost.prompt_tokens,
-              completion_tokens: vision.cost.completion_tokens,
-              estimated_usd: vision.cost.estimated_usd,
-              cache_hit: vision.cost.cache_hit
-            }
-          : {})
-      }
-    });
-  } else if (vision.status === "failed" || vision.status === "skipped") {
-    stages.push({
-      stage_id: "vision_screen",
-      status: vision.status === "skipped" ? "skipped" : "failed",
-      ...(vision.error ? { error: vision.error } : {})
-    });
-  }
-  if (vision.cost) costRecords.push(vision.cost);
   const cost = costRecords.length ? aggregateCosts(costRecords) : llm.cost;
 
   // Always refresh page summary after vision merges so VL beats inform design_summary

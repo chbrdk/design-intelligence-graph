@@ -3,7 +3,12 @@ import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import type { LlmCompleter, LlmProviderConfig, LlmTokenUsage } from "./llm-provider.js";
 import { createLlmProviderFromConfig } from "./llm-provider.js";
-import { VISION_SCREEN_PROMPT, VISION_SECTION_PROMPT, VISION_LAYOUT_PROMPT } from "./llm-eval-scenario.js";
+import {
+  VISION_SCREEN_PROMPT,
+  VISION_SECTION_PROMPT,
+  VISION_LAYOUT_PROMPT,
+  VISION_PAGE_PROMPT
+} from "./llm-eval-scenario.js";
 import { resolveScalingRoles } from "./llm-routing.js";
 import { evidenceSha256, type LlmStageCache } from "./llm-stage-cache.js";
 import { usageToStageCost, type StageCostRecord } from "./llm-cost.js";
@@ -24,6 +29,12 @@ import {
   type VisionLayoutDocument,
   type VisionLayoutBand
 } from "./vision-layout.js";
+import {
+  parseVisionPageResponse,
+  VISION_PAGE_VERSION,
+  writeVisionPageDocument,
+  type VisionPageDocument
+} from "./vision-page.js";
 
 export interface LlmVisionResult {
   status: "complete" | "failed" | "skipped";
@@ -37,6 +48,17 @@ export interface LlmVisionResult {
   raw_sha256?: string;
   cost?: StageCostRecord;
 }
+
+export type LlmVisionPageResult = {
+  status: "complete" | "failed" | "skipped";
+  model?: string;
+  document?: VisionPageDocument;
+  /** Compat projection for quality-eval / rebuild-brief (same shape as vision_screen). */
+  compat?: LlmVisionResult;
+  error?: string;
+  raw_sha256?: string;
+  cost?: StageCostRecord;
+};
 
 export interface LlmSectionVisionResult {
   section_id: string;
@@ -281,6 +303,165 @@ export async function runVisionScreenAnalysis(
   }
 }
 
+export async function runVisionPageAnalysis(
+  packageRoot: string,
+  manifest: CaptureManifest,
+  options: {
+    config: LlmProviderConfig;
+    provider?: LlmCompleter;
+    stageCache?: LlmStageCache;
+    maxTokens?: number;
+    persist?: boolean;
+  }
+): Promise<LlmVisionPageResult> {
+  if (!visionEnabled()) {
+    return { status: "skipped", error: "DIG_LLM_VISION=false" };
+  }
+  const image = await loadVisionImage(packageRoot, manifest);
+  if ("error" in image) {
+    const skipped = /No (full-page or settled|readable) screenshot/i.test(image.error);
+    return { status: skipped ? "skipped" : "failed", error: image.error };
+  }
+
+  const visionModel = resolveVisionModel(options.config);
+  const { path: screenshotPath, bytes, mime } = image;
+  const relative =
+    findLayoutScreenshot(packageRoot, manifest)?.relative ??
+    screenshotPath.replace(`${packageRoot}/`, "").replace(`${packageRoot}\\`, "");
+  const dataUrl = `data:${mime};base64,${bytes.toString("base64")}`;
+  const evidenceKey = evidenceSha256(
+    `vision_page:${relative}:${createHash("sha256").update(bytes).digest("hex")}`
+  );
+  const cache = options.stageCache;
+
+  const toResult = (raw: string, model: string, cost: StageCostRecord): LlmVisionPageResult => {
+    const parsed = parseVisionPageResponse(raw);
+    const document: VisionPageDocument = {
+      schema_version: "0.1.0",
+      vision_page_version: VISION_PAGE_VERSION,
+      generated_at: new Date().toISOString(),
+      source_screenshot: relative,
+      ...parsed,
+      model,
+      status: "complete"
+    };
+    const notes = [parsed.overall_atmosphere, parsed.vertical_rhythm].filter(Boolean).join(" ");
+    const raw_sha256 = `sha256:${createHash("sha256").update(raw).digest("hex")}`;
+    const compat: LlmVisionResult = {
+      status: "complete",
+      model,
+      heading: parsed.heading,
+      cta: parsed.cta,
+      layout_order: parsed.layout_order,
+      ...(notes ? { notes } : {}),
+      confidence: parsed.confidence,
+      raw_sha256,
+      cost
+    };
+    return {
+      status: "complete",
+      model,
+      document,
+      compat,
+      raw_sha256,
+      cost
+    };
+  };
+
+  if (cache) {
+    const hit = await cache.get("vision_page", visionModel, evidenceKey);
+    if (hit?.raw_response) {
+      try {
+        const result = toResult(
+          hit.raw_response,
+          visionModel,
+          usageToStageCost("vision_page", visionModel, undefined, true)
+        );
+        if (options.persist !== false && result.document) {
+          await writeVisionPageDocument(packageRoot, result.document);
+        }
+        return result;
+      } catch {
+        /* fall through */
+      }
+    }
+  }
+
+  const provider =
+    options.provider ??
+    createLlmProviderFromConfig({
+      ...options.config,
+      model: visionModel,
+      visionModel
+    });
+
+  try {
+    const completion = await provider.complete(
+      [
+        { role: "system", content: VISION_PAGE_PROMPT },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Catalog this desktop full-page marketing screenshot in rich visual detail. Return JSON only."
+            },
+            { type: "image_url", image_url: { url: dataUrl } }
+          ]
+        }
+      ],
+      { maxTokens: options.maxTokens ?? 1400, model: visionModel }
+    );
+    await cache?.set({
+      stage_id: "vision_page",
+      model: visionModel,
+      evidence_sha256: evidenceKey,
+      raw_response: completion.content,
+      status: "complete"
+    });
+    const result = toResult(
+      completion.content,
+      completion.model,
+      usageToStageCost("vision_page", completion.model, completion.usage, false)
+    );
+    if (options.persist !== false && result.document) {
+      await writeVisionPageDocument(packageRoot, result.document);
+    }
+    return result;
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    const failedDoc: VisionPageDocument = {
+      schema_version: "0.1.0",
+      vision_page_version: VISION_PAGE_VERSION,
+      generated_at: new Date().toISOString(),
+      source_screenshot: relative,
+      page_type: "",
+      overall_atmosphere: "",
+      color_mood: "",
+      typography_feel: "",
+      above_the_fold: "",
+      vertical_rhythm: "",
+      media_strategy: "",
+      notable_modules: [],
+      brand_cues: "",
+      interaction_chrome: "",
+      category_tags: [],
+      rebuild_hints: "",
+      heading: "",
+      cta: "",
+      layout_order: [],
+      confidence: 0.05,
+      model: visionModel,
+      status: "failed",
+      error: message
+    };
+    if (options.persist !== false) {
+      await writeVisionPageDocument(packageRoot, failedDoc).catch(() => undefined);
+    }
+    return { status: "failed", model: visionModel, document: failedDoc, error: message };
+  }
+}
+
 export async function runVisionLayoutAnalysis(
   packageRoot: string,
   manifest: CaptureManifest,
@@ -467,8 +648,8 @@ export async function runVisionLayoutAnalysis(
 export function sectionVisionMaxPerCapture(environment: NodeJS.ProcessEnv = process.env): number {
   const fromEnv = Number(environment.DIG_LLM_SECTION_VISION_MAX);
   if (Number.isFinite(fromEnv) && fromEnv >= 0) return Math.floor(fromEnv);
-  const fromPaths = Number(loadDigPaths().llm.scaling?.sectionVisionMaxPerCapture ?? 4);
-  return Number.isFinite(fromPaths) && fromPaths >= 0 ? Math.floor(fromPaths) : 4;
+  const fromPaths = Number(loadDigPaths().llm.scaling?.sectionVisionMaxPerCapture ?? 8);
+  return Number.isFinite(fromPaths) && fromPaths >= 0 ? Math.floor(fromPaths) : 8;
 }
 
 /** Gate: only spend VL tokens where text/CSS look is thin or high-value. */
@@ -783,4 +964,76 @@ export async function runGatedSectionVisions(input: {
   });
   const costs = filtered.flatMap((result) => (result.cost ? [result.cost] : []));
   return { results: filtered, descriptions, costs };
+}
+
+/** Run C — detailed VL for every vision-band crop (no DOM gate). Desktop max default 8. */
+export async function runVisionBandSectionVisions(input: {
+  packageRoot: string;
+  crops: SectionCropRecord[];
+  bands?: VisionLayoutBand[];
+  config: LlmProviderConfig;
+  provider?: LlmCompleter;
+  stageCache?: LlmStageCache;
+  maxSections?: number;
+}): Promise<{
+  results: LlmSectionVisionResult[];
+  costs: StageCostRecord[];
+}> {
+  const maxSections = input.maxSections ?? Math.min(8, sectionVisionMaxPerCapture());
+  if (maxSections <= 0 || !visionEnabled()) {
+    return { results: [], costs: [] };
+  }
+  const bandById = new Map((input.bands ?? []).map((band) => [band.id, band]));
+  const selected = input.crops
+    .filter((crop) => crop.path && crop.reason === "vision_layout_band")
+    .slice(0, maxSections);
+
+  const results = await Promise.all(
+    selected.map((crop) => {
+      const band = bandById.get(crop.section_id);
+      return runVisionSectionAnalysis(
+        input.packageRoot,
+        crop,
+        {
+          ...(crop.category ? { category: crop.category } : band?.category ? { category: band.category } : {}),
+          ...(crop.signature
+            ? { signature: crop.signature }
+            : { signature: band?.category === "hero" ? "media" : "vision_band" })
+        },
+        {
+          config: input.config,
+          ...(input.provider ? { provider: input.provider } : {}),
+          ...(input.stageCache ? { stageCache: input.stageCache } : {}),
+          gateReason: "vision_layout_band"
+        }
+      );
+    })
+  );
+
+  const filtered: LlmSectionVisionResult[] = results.map((result) => {
+    if (result.status !== "complete") return result;
+    if (
+      !isConsentOverlayVision({
+        ...(result.visible_text ? { visible_text: result.visible_text } : {}),
+        ...(result.cta_chrome ? { cta_chrome: result.cta_chrome } : {}),
+        ...(result.composition ? { composition: result.composition } : {}),
+        ...(result.media_subject ? { media_subject: result.media_subject } : {})
+      })
+    ) {
+      return result;
+    }
+    return {
+      section_id: result.section_id,
+      status: "skipped",
+      ...(result.crop_path ? { crop_path: result.crop_path } : {}),
+      gate_reason: "consent_overlay_vision",
+      error: "vision detected cookie/consent chrome",
+      ...(result.cost ? { cost: result.cost } : {})
+    };
+  });
+
+  return {
+    results: filtered,
+    costs: filtered.flatMap((result) => (result.cost ? [result.cost] : []))
+  };
 }

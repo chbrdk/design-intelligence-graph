@@ -8,6 +8,7 @@ import {
   mergeSectionVisionIntoLook,
   shouldRunSectionVision,
   runVisionSectionAnalysis,
+  runVisionBandSectionVisions,
   type LlmSectionVisionResult
 } from "../src/llm-vision.js";
 import type { SectionCropRecord } from "../src/section-crops.js";
@@ -121,4 +122,82 @@ test("runVisionSectionAnalysis uses provider image call", async () => {
   assert.equal(result.status, "complete");
   assert.equal(result.media_subject, "porsche");
   assert.equal(result.gate_reason, "thin_signature");
+});
+
+test("runVisionBandSectionVisions runs all vision_layout_band crops without DOM gate", async () => {
+  const root = await mkdtemp(join(tmpdir(), "dig-vision-band-"));
+  const dir = join(root, "viewports/desktop/sections");
+  await mkdir(dir, { recursive: true });
+  const webp = await sharp({
+    create: { width: 320, height: 180, channels: 3, background: { r: 10, g: 10, b: 20 } }
+  })
+    .webp()
+    .toBuffer();
+  await writeFile(join(dir, "band_1.webp"), webp);
+  await writeFile(join(dir, "band_2.webp"), webp);
+
+  const crops: SectionCropRecord[] = [
+    {
+      ...crop,
+      section_id: "band_1",
+      path: "viewports/desktop/sections/band_1.webp",
+      signature: "heading>list",
+      category: "content",
+      reason: "vision_layout_band"
+    },
+    {
+      ...crop,
+      section_id: "band_2",
+      path: "viewports/desktop/sections/band_2.webp",
+      signature: "heading>list",
+      category: "content",
+      reason: "vision_layout_band"
+    },
+    {
+      ...crop,
+      section_id: "dom_only",
+      path: "viewports/desktop/sections/band_1.webp",
+      reason: "selected_geometry"
+    }
+  ];
+
+  let calls = 0;
+  const { results } = await runVisionBandSectionVisions({
+    packageRoot: root,
+    crops,
+    bands: [
+      {
+        id: "band_1",
+        label: "Grid",
+        category: "feature",
+        box: { x: 0, y: 0.2, width: 1, height: 0.2 },
+        confidence: 0.8
+      }
+    ],
+    config: { enabled: true, provider: "openrouter", baseUrl: "http://local", model: "vision-test", timeoutMs: 1000 },
+    provider: {
+      async complete() {
+        calls += 1;
+        return {
+          content: JSON.stringify({
+            visible_text: ["A"],
+            media_subject: "cars",
+            atmosphere: "bright",
+            overlay: "none",
+            cta_chrome: "",
+            composition: "Three-up grid.",
+            confidence: 0.75
+          }),
+          model: "vision-test",
+          usage: { prompt_tokens: 5, completion_tokens: 10 }
+        };
+      }
+    },
+    maxSections: 8
+  });
+
+  assert.equal(calls, 2);
+  assert.equal(results.length, 2);
+  assert.ok(results.every((item) => item.gate_reason === "vision_layout_band"));
+  assert.equal(results[0]?.status, "complete");
 });
