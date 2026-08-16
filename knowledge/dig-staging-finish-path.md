@@ -20,7 +20,7 @@ Do **not** flip until island image includes proxy inject.
 
 ## DIG-011
 
-Phase A (flow candidates) shipped on capture → `derived/flow-candidates.json`. Phases B–D still parked.
+Phase A–B shipped (candidates + href-join/seed edges). Phases C–D still parked.
 
 ## Verified live (2026-08-15)
 

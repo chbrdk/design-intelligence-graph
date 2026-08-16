@@ -1,7 +1,7 @@
 # DIG-011 — concept index (spec only)
 
 **Updated:** 2026-08-16  
-**Phase A runtime:** `src/flow-candidates.ts` → `derived/flow-candidates.json` ([knowledge](dig-011-phase-a.md)). Phases B–D still deferred.
+**Phase A–B runtime:** candidates + edges (`knowledge/dig-011-phase-a.md`, `knowledge/dig-011-phase-b.md`). Phases C–D deferred.
 
 ## Read order
 
@@ -35,6 +35,7 @@ page_flow (sections on one page) ── separate, already shipped
 ## paths.json keys
 
 - `flowCandidates.*` — Phase A artifact path / maxCandidates  
+- `flowEdges.*` — Phase B artifact paths / sibling join cap  
 - `taxonomy.flowActionsCatalog` / `flowActionsVersion` / `flowSpec`  
 - `taxonomy.ownershipBoundary`  
 - `checkionV3.*` for consume-only integrations  

@@ -31,6 +31,7 @@ import { deriveVisualHypotheses, deriveVisualLanguageViewport, VISUAL_LANGUAGE_V
 import { emitDesignTokensForPackage } from "./design-tokens.js";
 import { emitStructureSpineForPackage } from "./structure-spine.js";
 import { emitFlowCandidatesForPackage } from "./flow-candidates.js";
+import { emitLocalHrefJoinForPackage } from "./flow-edges.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
@@ -694,5 +695,20 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     errors
   };
   await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");
+  try {
+    const localEdges = await emitLocalHrefJoinForPackage(packageRoot, manifest);
+    if (localEdges) {
+      runArtifacts.flow_edges_local = localEdges.artifact;
+      manifest.run_artifacts = runArtifacts;
+      await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");
+    }
+  } catch (error: unknown) {
+    errors.push({
+      code: "flow_edges_local_failed",
+      message: error instanceof Error ? error.message : String(error)
+    });
+    manifest.errors = errors;
+    await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");
+  }
   return { packageRoot, manifest };
 }

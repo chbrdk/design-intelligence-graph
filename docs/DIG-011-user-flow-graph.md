@@ -2,7 +2,7 @@
 
 **Project:** Design Intelligence Graph  
 **Document:** DIG-011  
-**Status:** Draft v0.1 — **Phase A runtime shipped**; phases B–D specified, runtime deferred  
+**Status:** Draft v0.1 — **Phases A–B runtime shipped**; phases C–D specified, runtime deferred  
 **Purpose:** Recognize, measure, detect, and index multi-screen design flows without duplicating CHECKION crawl or AUDION journey agents  
 **ADR:** [ADR-011](../architecture/ADR-011-user-flow-graph.md)  
 **Dependencies:** DIG-001 Capture, DIG-002 Ontology, DIG-005 Analysis, DIG-006 Storage, DIG-009 Enrichment  

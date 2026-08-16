@@ -60,6 +60,13 @@ export interface DigPaths {
     maxCandidates?: number;
     doc?: string;
   };
+  flowEdges?: {
+    relativePath?: string;
+    jsonlRelativePath?: string;
+    localJsonlRelativePath?: string;
+    maxSiblingPackages?: number;
+    doc?: string;
+  };
   database?: {
     composeService: string;
     image: string;

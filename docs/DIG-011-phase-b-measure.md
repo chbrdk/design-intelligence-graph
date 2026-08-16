@@ -1,9 +1,10 @@
 # DIG-011 Phase B — Measure transitions
 
 **Parent:** [DIG-011 User Flow Graph](DIG-011-user-flow-graph.md)  
-**Status:** Draft v0.1 — specified, **not implemented**  
+**Status:** Draft v0.1 — **Phase B runtime shipped** (B1/B2/B3-refuse/B4); live B3 click worker deferred  
 **Schema:** [`schemas/flow-edges.schema.json`](../schemas/flow-edges.schema.json)  
-**Artifact paths (planned):** `derived/flow-edges.jsonl` (per AppScope or FlowSession), optional per-run `derived/flow-edges.local.jsonl`
+**Artifact paths:** `derived/flow-edges.json` + `.jsonl`; per-run `derived/flow-edges.local.jsonl`  
+**Code:** `src/flow-edges.ts` · knowledge: [`knowledge/dig-011-phase-b.md`](../knowledge/dig-011-phase-b.md)
 
 ## Goal
 

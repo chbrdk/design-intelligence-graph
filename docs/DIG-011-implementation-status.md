@@ -2,7 +2,7 @@
 
 **Spec:** [DIG-011 User Flow Graph](DIG-011-user-flow-graph.md)  
 **Updated:** 2026-08-16  
-**Policy:** Phase A runtime shipped; Phases B–D still deferred until scheduled.
+**Policy:** Phases A–B runtime shipped; Phases C–D still deferred until scheduled.
 
 | Requirement | Status | Notes |
 | --- | --- | --- |
@@ -19,7 +19,7 @@
 | Draft PG migration (not applied) | Done | `db/migrations/draft/009_dig011_flows.sql` |
 | Catalog loader (vocab only) | Done | `src/flow-actions.ts` — not a flow pipeline |
 | Phase A candidate extraction | **Done** | `src/flow-candidates.ts` → `derived/flow-candidates.json`; `knowledge/dig-011-phase-a.md` |
-| Phase B measure / edges | **Not started** | Spec only |
+| Phase B measure / edges | **Done** | `src/flow-edges.ts` — B1/B2/B3-refuse/B4; local sibling href-join on capture; `knowledge/dig-011-phase-b.md` |
 | Phase C detect / LLM stage | **Not started** | Spec only |
 | Phase D assemble / PG / Library / MCP | **Not started** | Spec only |
 | Interactive Mode UI | **Not started** | Spec only |
