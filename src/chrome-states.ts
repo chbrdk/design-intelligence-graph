@@ -596,7 +596,7 @@ export async function captureChromeStates(
     }
   }
 
-  const document: ChromeStatesDocument = {
+  const chromeDoc: ChromeStatesDocument = {
     schema_version: "0.1.0",
     chrome_states_version: CHROME_STATES_VERSION,
     generated_at: new Date().toISOString(),
@@ -607,14 +607,14 @@ export async function captureChromeStates(
   const artifact = await writeArtifact(
     packageRoot,
     `${viewportPrefix}/chrome-states/index.json`,
-    JSON.stringify(document, null, 2),
+    JSON.stringify(chromeDoc, null, 2),
     "application/json"
   );
   // Also mirror a package-level rollup for desktop-first consumers.
   if (viewportPrefix.includes("desktop")) {
-    await writeArtifact(packageRoot, "derived/chrome-states.json", JSON.stringify(document, null, 2), "application/json");
+    await writeArtifact(packageRoot, "derived/chrome-states.json", JSON.stringify(chromeDoc, null, 2), "application/json");
   }
-  return { document, artifact, records, warnings };
+  return { document: chromeDoc, artifact, records, warnings };
 }
 
 function emptyDoc(maxOpens: number): ChromeStatesDocument {
