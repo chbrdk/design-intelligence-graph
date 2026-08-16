@@ -23,8 +23,8 @@
 | Phase C detect / LLM stage | **Done** | `src/flow-detect.ts` — C1 L2 + C2 parse/soft-fail; `knowledge/dig-011-phase-c.md` |
 | Phase D assemble / Library / MCP | **Done (file store + PG schema)** | `src/flow-assemble.ts` + `src/flow-library.ts`; `/page-flows` vs `/flows`; MCP `dig_flow_*`; migration `011_dig011_flows.sql` |
 | Interactive Mode UI | **Done** | `apps/web` Library Flows tab + Interactive (`#/library/flows…`); media via `image_ref` when captures indexed |
-| CHECKION URL seed worker | **Not started** | Spec only |
-| Apply `011` Postgres migration on staging | **Pending ops** | Schema in repo; run `db:migrate` per env |
+| CHECKION URL seed worker | **Done** | `src/flow-seed.ts` + domain overview client; `POST /api/library/flows/seed`; `npm run flow:seed` |
+| Apply `011` Postgres migration on staging | **Pending ops** | Schema in repo; dig-api entrypoint migrates on deploy — needs fresh Coolify deploy |
 
 ## Spec entrypoints
 

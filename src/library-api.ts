@@ -163,7 +163,87 @@ export async function handleLibraryApi(
     if (rejectIfUnauthorized(request, response)) return true;
   }
 
+  if (path === "/flows/seed") {
+    if (rejectIfUnauthorized(request, response)) return true;
+  }
+
   // DIG-011 Library flows: file-backed; no Postgres required (media enrichment optional).
+  if (request.method === "POST" && path === "/flows/seed") {
+    try {
+      const body = await readJsonBody(request);
+      const domainScanId =
+        typeof body.domain_scan_id === "string"
+          ? body.domain_scan_id
+          : typeof body.domainScanId === "string"
+            ? body.domainScanId
+            : null;
+      const appScopeId =
+        typeof body.app_scope_id === "string"
+          ? body.app_scope_id
+          : typeof body.appScopeId === "string"
+            ? body.appScopeId
+            : null;
+      if (!domainScanId || !appScopeId) {
+        sendJson(response, 400, { error: "domain_scan_id and app_scope_id are required" });
+        return true;
+      }
+      const enqueueCaptures =
+        body.enqueue_captures === true ||
+        body.enqueueCaptures === true ||
+        body.enqueue_captures === "1";
+      const maxUrlsRaw = body.max_urls ?? body.maxUrls;
+      const maxUrls = typeof maxUrlsRaw === "number" ? maxUrlsRaw : Number(maxUrlsRaw);
+
+      let captures: Array<{ capture_run_id: string; canonical_url: string }> = [];
+      if (client) {
+        const listed = await client.query(
+          `SELECT capture_run_id, canonical_url
+           FROM captures
+           WHERE canonical_url IS NOT NULL
+           ORDER BY indexed_at DESC
+           LIMIT 500`
+        );
+        captures = (listed.rows as Array<{ capture_run_id: unknown; canonical_url: unknown }>)
+          .map((row) => ({
+            capture_run_id: String(row.capture_run_id ?? ""),
+            canonical_url: String(row.canonical_url ?? "")
+          }))
+          .filter((row) => row.capture_run_id && row.canonical_url);
+      }
+
+      const { runCheckionDomainSeed } = await import("./flow-seed.js");
+      const maxUrlsResolved = Number.isFinite(maxUrls) && maxUrls > 0 ? maxUrls : undefined;
+      const result = await runCheckionDomainSeed({
+        domainScanId,
+        appScopeId,
+        persist: true,
+        captures,
+        ...(maxUrlsResolved !== undefined ? { maxUrls: maxUrlsResolved } : {}),
+        ...(enqueueCaptures ? {} : { enqueueCapture: async () => undefined })
+      });
+
+      sendJson(response, 200, {
+        seed_source: result.session.seed_source,
+        seed_ref: result.session.seed_ref,
+        flow_session_id: result.session.flow_session_id,
+        app_scope_id: result.session.app_scope_id,
+        urls: result.session.urls,
+        session_path: result.session_path,
+        matched_capture_run_ids: result.matched.map((item) => item.capture_run_id),
+        missing_urls: result.missing_urls,
+        enqueued_jobs: result.enqueued_jobs,
+        edge_count: result.edges?.edges.length ?? 0,
+        edges: result.edges
+      });
+    } catch (error: unknown) {
+      sendJson(response, 502, {
+        error: "flow_seed_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
   if (request.method === "GET" && path === "/flows" && !queryParam(requestUrl, "capture_run_id")) {
     const {
       loadFlowLibraryGraphs,

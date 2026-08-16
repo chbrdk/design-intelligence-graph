@@ -188,6 +188,22 @@ test("library API lists DIG-011 flows without database", async () => {
   assert.ok(body.items.length >= 1);
 });
 
+test("library API flow seed requires domain_scan_id and app_scope_id", async () => {
+  async function* emptyBody() {
+    /* no chunks */
+  }
+  const mock = mockResponse();
+  const handled = await handleLibraryApi(
+    { method: "POST", headers: {}, [Symbol.asyncIterator]: emptyBody } as unknown as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/flows/seed"),
+    { async query() { return { rows: [] }; } }
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 400);
+  assert.match(mock.body, /domain_scan_id/);
+});
+
 test("library API lists DIG-011 flows and returns detail", async () => {
   const { setFlowLibraryStoreForTests } = await import("../src/flow-library.js");
   const graph = {

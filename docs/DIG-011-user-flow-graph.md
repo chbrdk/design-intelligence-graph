@@ -137,7 +137,7 @@ Phases **A–D core runtime shipped** (see [`DIG-011-implementation-status.md`](
 | **3** | Phase C `flow_actions` detect | **Done** (`src/flow-detect.ts`) |
 | **4** | Phase D assemble + Library/MCP | **Done** (file store; `src/flow-assemble.ts`, `src/flow-library.ts`) |
 | **5** | Interactive Mode UI | **Done** (`apps/web` Library Flows) |
-| **6** | CHECKION/AUDION seed worker + apply `009` | Spec only |
+| **6** | CHECKION seed worker + apply `011` | **CHECKION done** (`src/flow-seed.ts`); AUDION + staging migrate pending |
 | **7** | B3 live safe-activate worker | Spec only |
 
 ---

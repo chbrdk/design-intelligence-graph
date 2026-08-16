@@ -40,6 +40,7 @@
     "test:e2e": "npm run build --silent && node --test dist/test/e2e/*.test.js",
     "test:docker": "docker compose run --rm dig npm run typecheck && docker compose run --rm dig npm test && docker compose run --rm dig npm run test:e2e",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "flow:seed": "node --import tsx scripts/flow-seed-cli.ts",
     "db:migrate": "npm run build --silent && node dist/src/db-migrate-cli.js"
   },
   "engines": {

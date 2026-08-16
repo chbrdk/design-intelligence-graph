@@ -46,6 +46,34 @@ export interface CheckionScreenshot {
   height: number | null;
 }
 
+/** Light domain crawl row from CHECKION `GET /api/domain-scans/:id`. */
+export interface CheckionDomainScanLight {
+  id: string;
+  projectId: string;
+  rootUrl: string;
+  status: string;
+  pageCount?: number;
+  overallScore?: number | null;
+  issueCount?: number;
+  startedAt?: string;
+  completedAt?: string | null;
+  error?: string;
+}
+
+export interface CheckionDomainPageSample {
+  url: string;
+  score?: number | null;
+  errors?: number;
+  warnings?: number;
+}
+
+/** Overview payload from `GET /api/domain-scans/:id/overview` (URL seeds for DIG-011 B2). */
+export interface CheckionDomainOverview {
+  scan: CheckionDomainScanLight;
+  pageSamples?: CheckionDomainPageSample[];
+  lede?: string;
+}
+
 export class CheckionClientError extends Error {
   constructor(
     message: string,
@@ -252,6 +280,32 @@ export async function getCheckionScan(
   config: CheckionConfig = checkionConfig()
 ): Promise<CheckionScanSummary> {
   return checkionFetchJson(config, `/api/scans/${encodeURIComponent(scanId)}`);
+}
+
+export async function listCheckionDomainScans(
+  projectId?: string | null,
+  config: CheckionConfig = checkionConfig()
+): Promise<CheckionDomainScanLight[]> {
+  const q = projectId ? `?projectId=${encodeURIComponent(projectId)}` : "";
+  const body = await checkionFetchJson<{ items?: CheckionDomainScanLight[] } | CheckionDomainScanLight[]>(
+    config,
+    `/api/domain-scans${q}`
+  );
+  return Array.isArray(body) ? body : (body.items ?? []);
+}
+
+export async function getCheckionDomainScan(
+  domainScanId: string,
+  config: CheckionConfig = checkionConfig()
+): Promise<CheckionDomainScanLight> {
+  return checkionFetchJson(config, `/api/domain-scans/${encodeURIComponent(domainScanId)}`);
+}
+
+export async function getCheckionDomainOverview(
+  domainScanId: string,
+  config: CheckionConfig = checkionConfig()
+): Promise<CheckionDomainOverview> {
+  return checkionFetchJson(config, `/api/domain-scans/${encodeURIComponent(domainScanId)}/overview`);
 }
 
 export async function waitForCheckionScan(

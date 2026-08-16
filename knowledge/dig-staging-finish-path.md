@@ -20,7 +20,7 @@ Do **not** flip until island image includes proxy inject.
 
 ## DIG-011
 
-Phases A–D + Flows UI + Interactive media wiring shipped. PG schema `011` in repo — migrate per env. CHECKION seed worker still parked.
+Phases A–D + Flows UI + Interactive media + CHECKION seed worker shipped. PG schema `011` in repo — dig-api entrypoint runs `db:migrate` on start; force-redeploy dig-api when Coolify token available. AUDION seed + B3 live activate still parked.
 
 ## Verified live (2026-08-15)
 

@@ -10,10 +10,15 @@ import { handleLibraryApi } from "./library-api.js";
 import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
 import { loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
+import { setFlowSeedEnqueueCapture } from "./flow-seed.js";
 
 loadDotEnv();
 const enrichmentQueue = new EnrichmentQueue({ autoStart: true });
 const runner = new JobRunner({ enrichmentQueue });
+setFlowSeedEnqueueCapture((url) => {
+  const job = runner.startJob(url);
+  return { job_id: job.job_id };
+});
 const paths = loadDigPaths();
 const enrichmentPath = paths.api.enrichmentPath ?? "/api/enrichment";
 

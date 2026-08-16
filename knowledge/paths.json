@@ -220,6 +220,12 @@
     "doc": "knowledge/dig-011-phase-d.md",
     "apiSpec": "docs/DIG-011-library-api.md"
   },
+  "flowSeed": {
+    "sessionsRelativeDir": "flow-seeds",
+    "maxUrlsDefault": 24,
+    "doc": "knowledge/flow-seed-bridges.md",
+    "cli": "scripts/flow-seed-cli.ts"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",
