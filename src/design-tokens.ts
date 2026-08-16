@@ -127,8 +127,8 @@ export function guessColorRole(
   if (hasBorder && !hasBg && lum > 0.35 && lum < 0.85) return "border";
   if (lum > 0.15 && lum < 0.85 && a > 0.5 && (hasFg || hasBg)) return "accent";
   if (a < 0.85) return "muted";
-  if (hasBg && lum < 0.35) return "bg";
-  if (hasFg && lum > 0.65) return "ink";
+  if (!ranked.bg && hasBg && lum < 0.35) return "bg";
+  if (!ranked.ink && hasFg && lum > 0.65) return "ink";
   return hasBorder ? "border" : "muted";
 }
 
