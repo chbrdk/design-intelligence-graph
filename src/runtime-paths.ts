@@ -67,6 +67,10 @@ export interface DigPaths {
     maxSiblingPackages?: number;
     doc?: string;
   };
+  flowActionsDetect?: {
+    relativePath?: string;
+    doc?: string;
+  };
   database?: {
     composeService: string;
     image: string;

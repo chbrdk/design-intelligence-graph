@@ -204,6 +204,11 @@
     "doc": "knowledge/dig-011-phase-b.md",
     "spec": "docs/DIG-011-phase-b-measure.md"
   },
+  "flowActionsDetect": {
+    "relativePath": "derived/flow-actions.json",
+    "doc": "knowledge/dig-011-phase-c.md",
+    "spec": "docs/DIG-011-phase-c-detect.md"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",

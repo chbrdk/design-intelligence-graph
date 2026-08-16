@@ -3,6 +3,11 @@ import type { LlmCompleter, LlmMessage } from "./llm-provider.js";
 import type { SectionLookDescription } from "./section-look.js";
 import { SECTION_LOOK_SYSTEM_PROMPT, sectionLookUserPrompt } from "./section-look.js";
 import { extractJsonObjectLoose } from "./json-repair.js";
+import {
+  FLOW_ACTIONS_STAGE_SYSTEM_PROMPT,
+  catalogIdsForPrompt,
+  flowActionsStageUserPrompt
+} from "./flow-detect.js";
 
 export type LlmStageId =
   | "screen_patterns"
@@ -12,7 +17,8 @@ export type LlmStageId =
   | "section_look"
   | "synthesize"
   | "vision_section"
-  | "vision_screen";
+  | "vision_screen"
+  | "flow_actions";
 
 export const PARALLEL_TEXT_STAGES: LlmStageId[] = [
   "screen_patterns",
@@ -192,6 +198,9 @@ Rules: 2-6 labels (e.g. "SF Pro system sans", "high-contrast monochrome", "soft 
   if (stageId === "section_look") {
     return SECTION_LOOK_SYSTEM_PROMPT;
   }
+  if (stageId === "flow_actions") {
+    return FLOW_ACTIONS_STAGE_SYSTEM_PROMPT;
+  }
   return `You synthesize prior DIG stage results into a PAGE-LEVEL design reading.
 Return ONLY a single minified JSON object (no markdown, no trailing commas, no comments):
 {"design_summary":string,"hypotheses":[{"category":"page_archetype"|"layout_system"|"visual_style"|"hierarchy"|"component_pattern"|"responsive_strategy","value":string,"confidence":number,"rationale":string,"evidence_refs":string[]}]}
@@ -203,6 +212,9 @@ Rules:
 
 export function stageUserPrompt(stageId: LlmStageId, evidenceJson: string): string {
   if (stageId === "section_look") return sectionLookUserPrompt(evidenceJson);
+  if (stageId === "flow_actions") {
+    return flowActionsStageUserPrompt(evidenceJson, catalogIdsForPrompt());
+  }
   return `Stage=${stageId}. Evidence JSON:\n${evidenceJson}\nReturn JSON only.`;
 }
 

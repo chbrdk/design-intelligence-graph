@@ -20,7 +20,7 @@ Do **not** flip until island image includes proxy inject.
 
 ## DIG-011
 
-Phase A–B shipped (candidates + href-join/seed edges). Phases C–D still parked.
+Phases A–C shipped (candidates, edges, flow_actions detect). Phase D still parked.
 
 ## Verified live (2026-08-15)
 

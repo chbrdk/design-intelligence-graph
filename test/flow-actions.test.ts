@@ -53,5 +53,5 @@ test("page_flow remains distinct from DIG-011 Flow naming in docs", async () => 
   assert.match(spec, /CHECKION/);
   assert.match(spec, /AUDION/);
   assert.match(spec, /Non-goals:.*Journey Agent soft-fork/i);
-  assert.match(spec, /runtime not implemented/i);
+  assert.match(spec, /Phases A–C runtime shipped/i);
 });

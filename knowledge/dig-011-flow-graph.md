@@ -1,7 +1,7 @@
 # DIG-011 — concept index (spec only)
 
 **Updated:** 2026-08-16  
-**Phase A–B runtime:** candidates + edges (`knowledge/dig-011-phase-a.md`, `knowledge/dig-011-phase-b.md`). Phases C–D deferred.
+**Phase A–C runtime:** candidates, edges, flow_actions detect. Phase D deferred.
 
 ## Read order
 
@@ -36,6 +36,7 @@ page_flow (sections on one page) ── separate, already shipped
 
 - `flowCandidates.*` — Phase A artifact path / maxCandidates  
 - `flowEdges.*` — Phase B artifact paths / sibling join cap  
+- `flowActionsDetect.*` — Phase C artifact path  
 - `taxonomy.flowActionsCatalog` / `flowActionsVersion` / `flowSpec`  
 - `taxonomy.ownershipBoundary`  
 - `checkionV3.*` for consume-only integrations  

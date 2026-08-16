@@ -1,9 +1,10 @@
 # DIG-011 Phase C — Detect flow_actions
 
 **Parent:** [DIG-011 User Flow Graph](DIG-011-user-flow-graph.md)  
-**Status:** Draft v0.1 — specified, **not implemented**  
+**Status:** Draft v0.1 — **Phase C runtime shipped** (C1 L2 + C2 parse/soft-fail; optional LLM runner)  
 **Catalog:** [`knowledge/flow-actions-catalog.json`](../knowledge/flow-actions-catalog.json)  
-**Paths key:** `taxonomy.flowActionsCatalog`
+**Paths key:** `taxonomy.flowActionsCatalog` · `flowActionsDetect`  
+**Code:** `src/flow-detect.ts` · knowledge: [`knowledge/dig-011-phase-c.md`](../knowledge/dig-011-phase-c.md)
 
 ## Goal
 
