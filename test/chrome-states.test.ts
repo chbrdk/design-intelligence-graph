@@ -2,10 +2,27 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   classifyChromeTrigger,
+  isChromeIaNoiseLabel,
+  preferNewChromeLabels,
   rankChromeCandidates,
   type ChromeStateCandidate
 } from "../src/chrome-states.js";
 import { buildRebuildBriefMarkdown } from "../src/rebuild-brief.js";
+
+test("preferNewChromeLabels drops footer noise and keeps fresh IA", () => {
+  const before = ["Menü", "Porsche.com"];
+  const after = [
+    "Menü",
+    "Porsche.com",
+    "Modelle",
+    "Händler",
+    "Service & Zubehör",
+    "Hinweise zum Datenschutz.",
+    "Impressum und Rechtliche Hinweise."
+  ];
+  assert.deepEqual(preferNewChromeLabels(before, after), ["Modelle", "Händler", "Service & Zubehör"]);
+  assert.equal(isChromeIaNoiseLabel("EU Data Act."), true);
+});
 
 test("classifyChromeTrigger maps nav/search/cart/account siblings", () => {
   assert.equal(classifyChromeTrigger({ text: "Modelle", role: "button", expanded: "false" }), "nav_menu");

@@ -240,6 +240,9 @@ async function discoverCandidates(page: Page): Promise<ChromeStateCandidate[]> {
         return { kind: "account_drawer", score: 0.9, trigger: "click", label: label || "Account" };
       }
       if (/language|sprache|region|land oder region|locale|country|deutschland|english/.test(blob)) {
+        // Prefer in-place switchers; skip hard navigations that leave the capture URL.
+        const href = el instanceof HTMLAnchorElement ? el.getAttribute("href") || "" : "";
+        if (href.startsWith("http") && !haspopup) return null;
         return { kind: "lang_switcher", score: 0.85, trigger: "click", label: label || "Region" };
       }
       if (/filter|filt|sortier/.test(blob)) {
@@ -309,16 +312,32 @@ async function discoverCandidates(page: Page): Promise<ChromeStateCandidate[]> {
   }) as Promise<ChromeStateCandidate[]>;
 }
 
+/** Drop legal/footer noise that leaks when panel detection misses. */
+export function isChromeIaNoiseLabel(text: string): boolean {
+  const t = text.toLowerCase();
+  return /cookie|datenschutz|impressum|barrierefreiheit|open source|hinweisgeber|verbraucher|sensordaten|eu data act|facebook|instagram|youtube|twitter|linkedin|pinterest|alle akzeptieren|notwendige cookies|copyright|©/.test(
+    t
+  );
+}
+
+export function preferNewChromeLabels(before: string[], after: string[]): string[] {
+  const prior = new Set(before.map((item) => item.toLowerCase()));
+  const fresh = after.filter((item) => !prior.has(item.toLowerCase()) && !isChromeIaNoiseLabel(item));
+  if (fresh.length >= 2) return [...new Set(fresh)].slice(0, 24);
+  return [...new Set(after.filter((item) => !isChromeIaNoiseLabel(item)))].slice(0, 24);
+}
+
 async function extractOpenPanel(page: Page): Promise<{
   open_labels: string[];
   open_links: Array<{ text: string; href: string | null }>;
   panel_hint: string | null;
 }> {
   return page.evaluate(() => {
-    function deepElements(root: ParentNode = document.documentElement): Element[] {
+    function deepElements(root: ParentNode): Element[] {
       const found: Element[] = [];
       const stack: Array<ParentNode | Element> = [root];
-      while (stack.length && found.length < 400) {
+      if (root instanceof Element && root.shadowRoot) stack.push(root.shadowRoot);
+      while (stack.length && found.length < 500) {
         const node = stack.pop();
         if (!node) continue;
         const children = "children" in node ? [...node.children] : [];
@@ -331,50 +350,65 @@ async function extractOpenPanel(page: Page): Promise<{
       return found;
     }
 
-    const all = deepElements();
-    const panels = all.filter((el) => {
+    function collectLinks(roots: ParentNode[]): Array<{ text: string; href: string | null }> {
+      const links: Array<{ text: string; href: string | null }> = [];
+      for (const root of roots) {
+        for (const el of deepElements(root)) {
+          const tag = el.tagName;
+          if (tag !== "A" && tag !== "BUTTON" && el.getAttribute("role") !== "menuitem") continue;
+          const rect = el.getBoundingClientRect();
+          if (rect.width < 4 || rect.height < 4) continue;
+          const text = ((el as HTMLElement).innerText || el.getAttribute("aria-label") || "")
+            .replace(/\s+/g, " ")
+            .trim();
+          if (!text || text.length > 80) continue;
+          const href = el instanceof HTMLAnchorElement ? el.getAttribute("href") : null;
+          links.push({ text: text.slice(0, 80), href });
+          if (links.length >= 40) return links;
+        }
+      }
+      return links;
+    }
+
+    const scopeRoots: ParentNode[] = [];
+    const header = document.querySelector("phn-header, header, [role='banner']");
+    if (header?.shadowRoot) scopeRoots.push(header.shadowRoot);
+    if (header) scopeRoots.push(header);
+    scopeRoots.push(document.body);
+
+    const candidates = scopeRoots.flatMap((root) => deepElements(root)).filter((el) => {
       const role = (el.getAttribute("role") || "").toLowerCase();
       const tag = el.tagName.toLowerCase();
       const cls = String((el as HTMLElement).className || "").toLowerCase();
       const style = getComputedStyle(el);
       const rect = el.getBoundingClientRect();
-      if (style.display === "none" || style.visibility === "hidden") return false;
-      if (rect.width < 80 || rect.height < 120) return false;
-      if (/cookie|consent|uc-/.test(tag + cls + (el.id || ""))) return false;
+      if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+      if (rect.width < 120 || rect.height < 160) return false;
+      if (rect.top > innerHeight * 0.85) return false;
+      if (/cookie|consent|uc-layer|usercentrics|footer|fine-print/.test(tag + cls + (el.id || ""))) return false;
       return (
         role === "dialog" ||
         role === "menu" ||
         el.getAttribute("aria-modal") === "true" ||
-        /drawer|flyout|mega|overlay|navigation-drawer|menu/.test(tag + " " + cls)
+        /drawer|flyout|mega|overlay|navigation-drawer|menu-panel|level-1|level-2/.test(tag + " " + cls)
       );
     });
+
     const panel =
-      panels.sort((a, b) => b.getBoundingClientRect().height - a.getBoundingClientRect().height)[0] ?? null;
-    const scanRoots: ParentNode[] = panel ? [panel, ...(panel.shadowRoot ? [panel.shadowRoot] : [])] : [];
-    if (!panel) {
-      // Fallback: header host often keeps the open drawer in its shadow tree.
-      const header = document.querySelector("phn-header, header, [role='banner']");
-      if (header?.shadowRoot) scanRoots.push(header.shadowRoot);
-      scanRoots.push(document.body);
-    }
+      candidates.sort((a, b) => b.getBoundingClientRect().height - a.getBoundingClientRect().height)[0] ?? null;
 
-    const links: Array<{ text: string; href: string | null }> = [];
-    for (const root of scanRoots) {
-      for (const el of deepElements(root)) {
-        const tag = el.tagName;
-        if (tag !== "A" && tag !== "BUTTON" && el.getAttribute("role") !== "menuitem") continue;
-        const text = ((el as HTMLElement).innerText || el.getAttribute("aria-label") || "")
-          .replace(/\s+/g, " ")
-          .trim();
-        if (!text || text.length > 80) continue;
-        if (/cookie|consent|akzeptieren|datenschutz/.test(text.toLowerCase())) continue;
-        const href = el instanceof HTMLAnchorElement ? el.getAttribute("href") : null;
-        links.push({ text: text.slice(0, 80), href });
-        if (links.length >= 40) break;
-      }
-      if (links.length >= 40) break;
-    }
+    const linkRoots: ParentNode[] = panel
+      ? [panel, ...(panel.shadowRoot ? [panel.shadowRoot] : [])]
+      : header?.shadowRoot
+        ? [header.shadowRoot]
+        : [];
 
+    const links = collectLinks(linkRoots).filter((item) => {
+      const t = item.text.toLowerCase();
+      return !/cookie|datenschutz|impressum|barrierefreiheit|open source|hinweisgeber|verbraucher|sensordaten|eu data act|facebook|instagram|youtube|twitter|linkedin|pinterest/.test(
+        t
+      );
+    });
     const open_labels = [...new Set(links.map((item) => item.text))].slice(0, 24);
     const panel_hint = panel
       ? `${panel.tagName.toLowerCase()}.${String((panel as HTMLElement).className || "")
@@ -382,7 +416,7 @@ async function extractOpenPanel(page: Page): Promise<{
           .slice(0, 3)
           .join(".")}`.slice(0, 120)
       : open_labels.length
-        ? "shadow_chrome_open"
+        ? "header_shadow_open"
         : null;
     return {
       open_labels,
@@ -449,6 +483,7 @@ export async function captureChromeStates(
   const selected = rankChromeCandidates(discovered, maxOpens);
   const shot = screenshotSettings();
   let sequence = 0;
+  let baseline = await extractOpenPanel(page);
 
   for (const candidate of selected) {
     let locator = page.locator(candidate.selector);
@@ -483,7 +518,9 @@ export async function captureChromeStates(
       }
       await sleep(650);
       const panel = await extractOpenPanel(page);
-      if (!panel.open_labels.length && !panel.panel_hint) {
+      const open_labels = preferNewChromeLabels(baseline.open_labels, panel.open_labels);
+      const open_links = panel.open_links.filter((item) => open_labels.includes(item.text));
+      if (!open_labels.length && !panel.panel_hint) {
         warnings.push(`chrome_open_empty:${candidate.kind}`);
         await restoreChrome(page, candidate.selector);
         continue;
@@ -499,14 +536,16 @@ export async function captureChromeStates(
         kind: candidate.kind,
         label: candidate.label,
         trigger: { action: candidate.trigger, selector: candidate.selector },
-        open_labels: panel.open_labels,
-        open_links: panel.open_links,
+        open_labels,
+        open_links,
         panel_hint: panel.panel_hint,
         screenshot,
         restoration: { attempted: true, successful: restorationOk },
         captured_at: new Date().toISOString(),
         provenance: { layer: "L1", method: "chrome_state_open", confidence: candidate.score }
       });
+      await sleep(200);
+      baseline = await extractOpenPanel(page);
     } catch (error: unknown) {
       warnings.push(`chrome_open_failed:${candidate.kind}:${error instanceof Error ? error.message : String(error)}`);
       await restoreChrome(page, candidate.selector).catch(() => undefined);
