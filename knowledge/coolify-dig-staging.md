@@ -1,6 +1,6 @@
 # DIG Coolify staging
 
-**Updated:** 2026-08-15  
+**Updated:** 2026-08-16  
 **Coolify UI:** https://coolify.plygrnd.tech/  
 **API base:** `https://coolify.plygrnd.tech/api/v1` (Bearer token — never commit)
 
@@ -8,9 +8,8 @@
 |------|--------|
 | Project | `MSQDX-DIG-v3` · uuid `hx1vxpmu1heuou535kht5t9s` |
 | Island app | `dig-v3:main-app` · uuid `e114xfi9b4qpvcr3i0eqiqpw` |
-| Island FQDN | https://dig.projects-a.plygrnd.tech |
-| API app | `dig-v3:api` · uuid `fjlcya8d9jnlecj4s44yru4q` |
-| API FQDN | https://dig-api.projects-a.plygrnd.tech |
+| Island FQDN | https://spirion.projects-a.plygrnd.tech |
+| API FQDN | https://spirion-api.projects-a.plygrnd.tech |
 | Server | `projects-01` (`gcko84c8wogss4wskocssc00`) |
 | Destination | `l04kc8csogk8gk0cwwk884c4` |
 | Repo | `https://github.com/chbrdk/design-intelligence-graph` (`main`) |
@@ -25,8 +24,8 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 
 | Key | Notes |
 |-----|--------|
-| `NEXT_PUBLIC_DIG_URL` | `https://dig.projects-a.plygrnd.tech` |
-| `DIG_API_URL` | `https://dig-api.projects-a.plygrnd.tech` (upstream Node API) |
+| `NEXT_PUBLIC_DIG_URL` / `NEXT_PUBLIC_SPIRION_URL` | `https://spirion.projects-a.plygrnd.tech` |
+| `DIG_API_URL` / `SPIRION_API_URL` | `https://spirion-api.projects-a.plygrnd.tech` (upstream Node API) |
 | `NEXT_PLEXON_BASE_URL` / `NEXT_PUBLIC_PLEXON_URL` / `PLEXON_AUTH_URL` | plexon-v3 staging |
 | `NEXT_PUBLIC_PLEXON_REGISTER_URL` | `{plexon}/register` |
 | `PLEXON_SERVICE_SECRET` | shared with CHECKION/Plexon (secret) |
@@ -76,8 +75,8 @@ curl -sS -X POST -H "Authorization: Bearer $COOLIFY_TOKEN" \
 
 ## Smoke
 
-1. `GET https://dig.projects-a.plygrnd.tech/api/health`
-2. `GET https://dig-api.projects-a.plygrnd.tech/api/health`
+1. `GET https://spirion.projects-a.plygrnd.tech/api/health`
+2. `GET https://spirion-api.projects-a.plygrnd.tech/api/health`
 3. Open `/login` — AppShell; `/capture` proxies via `/api/dig/*` → API
 4. Island healthcheck path `/api/health` port 3010
 

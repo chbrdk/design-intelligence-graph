@@ -11,8 +11,8 @@
 | Open-topics challenge | Done | `knowledge/runtime-open-topics-challenge.md` |
 | paths.json `plexon` + staging URLs | Done | |
 | Unit test paths contract | Done | `test/plexon-paths.test.ts` |
-| plexon-v3: product `dig` binding + catalog | Done (code + Coolify env) | Cross-repo `plexon-v3`; `NEXT_PUBLIC_DIG_URL` set; deploy queued |
-| DIG Next island + Plexon auth | Done (staging) | `apps/web`; https://dig.projects-a.plygrnd.tech |
+| DIG Next island + Plexon auth | Done (staging) | `apps/web`; https://spirion.projects-a.plygrnd.tech (legacy dig.* still routed) |
+| plexon-v3: product `spirion` binding + catalog | Done (code) | Renamed from `dig`; migrate DB `0008_rename_dig_to_spirion.sql` |
 | Collection-scoped dig projects | Done (P2 durable) | Postgres dig_projects + capture scope; island proxies to dig-api |
 | Coolify DIG staging | Done | Island + API + Postgres + volumes |
 | Live CHECKION peer via staging token | Partial | Attach exists; harden under Collection ids |

@@ -10,7 +10,8 @@
 | **Plexon** | https://plexon-v3.projects-a.plygrnd.tech |
 | **CHECKION v3** | https://checkion-v3.projects-a.plygrnd.tech ([Sign in via Plexon](https://checkion-v3.projects-a.plygrnd.tech/)) |
 | **CHECKION MCP** | https://checkion-v3-mcp.projects-a.plygrnd.tech |
-| **SPIRION (staging FQDN still dig.*)** | https://dig.projects-a.plygrnd.tech |
+| **SPIRION** | https://spirion.projects-a.plygrnd.tech |
+| **SPIRION API** | https://spirion-api.projects-a.plygrnd.tech |
 
 Paths SoT: [`paths.json`](paths.json) → `plexon`, `checkionV3`.
 
