@@ -193,7 +193,10 @@ export function selectSectionsForLook(
   const categoryCounts = new Map<string, number>();
   const signatureCounts = new Map<string, number>();
   const picked: SectionComposition[] = [];
-  const maxPerCategory = Math.max(2, Math.ceil(maxSections / 2.5));
+  /** Hard-cap heroes — pages like Porsche were filling the budget with repeated hero looks. */
+  let heroCount = 0;
+  const maxHeroes = 1;
+  const maxPerCategory = Math.max(2, Math.ceil(maxSections / 3));
   const maxPerSignature = Math.max(2, Math.ceil(maxSections / 5));
 
   function normalizeSignature(signature: string): string {
@@ -204,16 +207,37 @@ export function selectSectionsForLook(
       .join(">");
   }
 
+  function sectionBandY(section: SectionComposition): number {
+    for (const step of section.recipe) {
+      if (step.kind === "role" && "box" in step && step.box) return step.box.y;
+    }
+    return Number.POSITIVE_INFINITY;
+  }
+
+  const pickedBands: number[] = [];
+
   for (const item of scored) {
     if (item.skip) continue;
     if (seenIds.has(item.section.section_id)) continue;
     const category = item.section.category.toLowerCase() || "unknown";
+    const isHero = category.includes("hero");
     const signature = normalizeSignature(item.section.signature);
+    if (isHero && heroCount >= maxHeroes) continue;
     if ((categoryCounts.get(category) ?? 0) >= maxPerCategory) continue;
     if ((signatureCounts.get(signature) ?? 0) >= maxPerSignature) continue;
+    const bandY = sectionBandY(item.section);
+    if (
+      Number.isFinite(bandY) &&
+      pickedBands.some((y) => Math.abs(y - bandY) < 120)
+    ) {
+      // Prefer vertical diversity so we don't describe three stacked hero fragments.
+      if (isHero || signature === "media") continue;
+    }
     seenIds.add(item.section.section_id);
     categoryCounts.set(category, (categoryCounts.get(category) ?? 0) + 1);
+    if (isHero) heroCount += 1;
     signatureCounts.set(signature, (signatureCounts.get(signature) ?? 0) + 1);
+    if (Number.isFinite(bandY)) pickedBands.push(bandY);
     picked.push(item.section);
     if (picked.length >= maxSections) break;
   }
@@ -485,7 +509,7 @@ Return ONLY a single minified JSON object (no markdown, no trailing commas):
 {"section_id":string,"signature":string,"category":string,"stack_summary":string,"background":{"kind":"solid"|"image"|"gradient"|"video"|"none","treatment":string},"overlay":{"present":boolean,"kind":"gradient"|"scrim"|"blur"|"other"|"null","notes":string},"shadows":{"present":boolean,"targets":["card"|"cta"|"text"|"container"],"notes":string},"typography_emphasis":["italic"|"bold"|"underline"|"all_caps"|"tight_tracking"],"alignment":{"text":"left"|"center"|"right","cta":"left"|"center"|"right"|"full_width"},"media":{"role":"background"|"hero"|"inline"|"none","object_fit":string,"notes":string},"spacing":{"gaps_px":number[],"notes":string},"layout":{"mode":string,"notes":string},"role_notes":[{"role":string,"notes":string}],"color_notes":string,"look_summary":string,"interaction_summary":string,"confidence":number,"evidence_refs":string[]}
 Rules:
 - Use ONLY provided CSS/recipe/geometry evidence; do not invent unseen UI, copy, or brand claims.
-- category: best of hero|nav|feature|content|commerce|conversion|form|social_proof for THIS section. Refine when tall/full-bleed above-fold media is a hero, not a logo wall.
+- category: best of hero|nav|feature|content|commerce|conversion|form|social_proof for THIS section. Use hero ONLY for the primary above-fold full-bleed band (typically one per page). Model tiles, mid-page lifestyle photos, and promo cards are feature or content — never hero.
 - look_summary: 3-5 sentences. Cover (1) overall composition & band, (2) media/background treatment with concrete CSS cues, (3) typography hierarchy (sizes/weights/align if present), (4) CTA/interaction placement, (5) spacing/shadow/overlay specifics. Unique to THIS section — never paste page_style_labels wholesale.
 - stack_summary: reading-order role chain with short treatments (e.g. "full-bleed media_large cover → left heading 48px → underlined CTA").
 - role_notes: one short note per important role with measured values (font-size, color, box w/h, object-fit, box-shadow).

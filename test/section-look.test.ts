@@ -77,6 +77,57 @@ test("selectSectionsForLook skips giant body page wrappers", () => {
   assert.ok(picked.some((section) => section.section_id === "hero"));
 });
 
+test("selectSectionsForLook hard-caps heroes to one and keeps other categories", () => {
+  const sections = [
+    sampleSection({
+      section_id: "hero_a",
+      category: "hero",
+      signature: "media",
+      confidence: 0.92,
+      recipe: [{ kind: "role", role: "media", node_id: "m1", box: { x: 0, y: 0, width: 1440, height: 800 } }]
+    }),
+    sampleSection({
+      section_id: "hero_b",
+      category: "hero",
+      signature: "media",
+      confidence: 0.9,
+      recipe: [{ kind: "role", role: "media", node_id: "m2", box: { x: 0, y: 40, width: 1440, height: 700 } }]
+    }),
+    sampleSection({
+      section_id: "hero_c",
+      category: "hero",
+      signature: "media",
+      confidence: 0.88,
+      recipe: [{ kind: "role", role: "media", node_id: "m3", box: { x: 0, y: 80, width: 1440, height: 600 } }]
+    }),
+    sampleSection({
+      section_id: "grid",
+      category: "feature",
+      signature: "media>heading",
+      confidence: 0.7,
+      recipe: [
+        { kind: "role", role: "media", node_id: "mg", box: { x: 40, y: 1200, width: 400, height: 300 } },
+        { kind: "role", role: "heading", node_id: "hg", box: { x: 40, y: 1520, width: 200, height: 32 } }
+      ]
+    }),
+    sampleSection({
+      section_id: "story",
+      category: "content",
+      signature: "heading>body",
+      confidence: 0.68,
+      recipe: [
+        { kind: "role", role: "heading", node_id: "hs", box: { x: 0, y: 2200, width: 400, height: 40 } },
+        { kind: "role", role: "body", node_id: "bs", box: { x: 0, y: 2260, width: 600, height: 80 } }
+      ]
+    })
+  ];
+  const picked = selectSectionsForLook(sections, 8);
+  const heroes = picked.filter((section) => section.category === "hero");
+  assert.equal(heroes.length, 1);
+  assert.ok(picked.some((section) => section.section_id === "grid"));
+  assert.ok(picked.some((section) => section.section_id === "story"));
+});
+
 test("parseSectionLookResponse demotes thin social_proof without cues", () => {
   const raw = JSON.stringify({
     section_id: "sec_body",
@@ -133,27 +184,32 @@ test("selectSectionsForLook diversifies categories and signatures", () => {
       category: "social_proof",
       signature: "media",
       confidence: 0.9,
-      recipe: [{ kind: "role", role: "media", node_id: "n1", box: { x: 0, y: 0, width: 10, height: 10 } }]
+      recipe: [{ kind: "role", role: "media", node_id: "n1", box: { x: 0, y: 800, width: 10, height: 10 } }]
     }),
     sampleSection({
       section_id: "m2",
       category: "social_proof",
       signature: "media",
       confidence: 0.89,
-      recipe: [{ kind: "role", role: "media", node_id: "n2", box: { x: 0, y: 0, width: 10, height: 10 } }]
+      recipe: [{ kind: "role", role: "media", node_id: "n2", box: { x: 0, y: 820, width: 10, height: 10 } }]
     }),
     sampleSection({
       section_id: "m3",
       category: "social_proof",
       signature: "media",
       confidence: 0.88,
-      recipe: [{ kind: "role", role: "media", node_id: "n3", box: { x: 0, y: 0, width: 10, height: 10 } }]
+      recipe: [{ kind: "role", role: "media", node_id: "n3", box: { x: 0, y: 840, width: 10, height: 10 } }]
     }),
     sampleSection({
       section_id: "h1",
       category: "hero",
       signature: "media>heading>cta",
-      confidence: 0.7
+      confidence: 0.7,
+      recipe: [
+        { kind: "role", role: "media", node_id: "hm", box: { x: 0, y: 0, width: 1440, height: 700 } },
+        { kind: "role", role: "heading", node_id: "hh", box: { x: 40, y: 200, width: 400, height: 48 } },
+        { kind: "role", role: "cta", node_id: "hc", box: { x: 40, y: 280, width: 160, height: 40 } }
+      ]
     }),
     sampleSection({
       section_id: "f1",
@@ -161,8 +217,8 @@ test("selectSectionsForLook diversifies categories and signatures", () => {
       signature: "heading>list",
       confidence: 0.75,
       recipe: [
-        { kind: "role", role: "heading", node_id: "nh", box: { x: 0, y: 0, width: 10, height: 10 } },
-        { kind: "role", role: "list", node_id: "nl", box: { x: 0, y: 20, width: 10, height: 10 } }
+        { kind: "role", role: "heading", node_id: "nh", box: { x: 0, y: 1400, width: 10, height: 10 } },
+        { kind: "role", role: "list", node_id: "nl", box: { x: 0, y: 1440, width: 10, height: 10 } }
       ]
     })
   ];

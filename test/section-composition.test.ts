@@ -65,6 +65,74 @@ test("tall above-fold media-only section is hero not social_proof logo_marquee",
   assert.notEqual(band.category, "social_proof");
 });
 
+test("near-top model-card media tiles are feature not hero", () => {
+  const nodes = [
+    { node_id: "main", parent_node_id: null, node_type: "element", tag: "main", rendered: true },
+    { node_id: "card", parent_node_id: "main", node_type: "element", tag: "section", rendered: true },
+    { node_id: "img", parent_node_id: "card", node_type: "element", tag: "img", rendered: true }
+  ];
+  const boxes = [
+    { node_id: "main", bbox: { x: 0, y: 0, width: 1440, height: 2400 } },
+    // Tile-sized card just under the hero — typical Porsche model grid cell
+    { node_id: "card", bbox: { x: 40, y: 120, width: 420, height: 360 } },
+    { node_id: "img", bbox: { x: 40, y: 120, width: 420, height: 360 } }
+  ];
+  const sections = deriveViewportSectionCompositions({
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop",
+    viewport_height: 900,
+    nodes,
+    boxes,
+    styles: []
+  });
+  const card = sections.find((section) => section.root_node_id === "card") ?? sections[0]!;
+  assert.equal(card.root_node_id, "card");
+  assert.equal(card.category, "feature");
+  assert.notEqual(card.category, "hero");
+});
+
+test("prefers nested section bands over giant main wrappers", () => {
+  const nodes = [
+    { node_id: "main", parent_node_id: null, node_type: "element", tag: "main", rendered: true },
+    { node_id: "hero", parent_node_id: "main", node_type: "element", tag: "section", rendered: true },
+    { node_id: "hero_img", parent_node_id: "hero", node_type: "element", tag: "img", rendered: true },
+    { node_id: "grid", parent_node_id: "main", node_type: "element", tag: "section", rendered: true },
+    { node_id: "card_a", parent_node_id: "grid", node_type: "element", tag: "article", rendered: true },
+    { node_id: "img_a", parent_node_id: "card_a", node_type: "element", tag: "img", rendered: true },
+    { node_id: "card_b", parent_node_id: "grid", node_type: "element", tag: "article", rendered: true },
+    { node_id: "img_b", parent_node_id: "card_b", node_type: "element", tag: "img", rendered: true },
+    { node_id: "story", parent_node_id: "main", node_type: "element", tag: "section", rendered: true },
+    { node_id: "h2", parent_node_id: "story", node_type: "element", tag: "h2", rendered: true, text: "Entdecken" },
+    { node_id: "p", parent_node_id: "story", node_type: "element", tag: "p", rendered: true, text: "Lifestyle editorial copy about new products." }
+  ];
+  const boxes = [
+    { node_id: "main", bbox: { x: 0, y: 0, width: 1440, height: 3200 } },
+    { node_id: "hero", bbox: { x: 0, y: 0, width: 1440, height: 900 } },
+    { node_id: "hero_img", bbox: { x: 0, y: 0, width: 1440, height: 900 } },
+    { node_id: "grid", bbox: { x: 40, y: 980, width: 1360, height: 800 } },
+    { node_id: "card_a", bbox: { x: 40, y: 1000, width: 420, height: 360 } },
+    { node_id: "img_a", bbox: { x: 40, y: 1000, width: 420, height: 360 } },
+    { node_id: "card_b", bbox: { x: 500, y: 1000, width: 420, height: 360 } },
+    { node_id: "img_b", bbox: { x: 500, y: 1000, width: 420, height: 360 } },
+    { node_id: "story", bbox: { x: 0, y: 1900, width: 1440, height: 420 } },
+    { node_id: "h2", bbox: { x: 40, y: 1920, width: 400, height: 40 } },
+    { node_id: "p", bbox: { x: 40, y: 1980, width: 600, height: 120 } }
+  ];
+  const sections = deriveViewportSectionCompositions({
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop",
+    viewport_height: 900,
+    nodes,
+    boxes,
+    styles: []
+  });
+  assert.ok(!sections.some((section) => section.root_node_id === "main"));
+  assert.ok(sections.some((section) => section.root_node_id === "hero" && section.category === "hero"));
+  assert.ok(sections.filter((section) => section.category === "hero").length <= 1);
+  assert.ok(sections.some((section) => section.root_node_id === "story" && section.category === "content"));
+  assert.ok(sections.length >= 3);
+});
+
 test("cookie consent dialog text classifies as cookie_consent not commerce", () => {
   const nodes = [
     { node_id: "main", parent_node_id: null, node_type: "element", tag: "main", rendered: true },

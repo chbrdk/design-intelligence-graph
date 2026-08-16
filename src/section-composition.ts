@@ -153,8 +153,26 @@ function detectSectionRoots(
       return b.box.height - a.box.height;
     });
 
+  function isPageShell(node: MatchableNode, box: BBox): boolean {
+    const tag = (node.tag ?? "").toLowerCase();
+    if (tag !== "main" && tag !== "div") return false;
+    // Giant document wrappers swallow every nested section if selected first.
+    return box.height >= Math.max(1600, viewportHeight * 1.8);
+  }
+
+  const semanticBands = ranked.filter(
+    ({ node, box }) =>
+      (node.tag === "section" ||
+        node.tag === "article" ||
+        node.tag === "header" ||
+        node.tag === "footer") &&
+      !isPageShell(node, box)
+  );
+  const preferSemantic = semanticBands.length >= 1;
+
   const selected: MatchableNode[] = [];
   for (const { node, box } of ranked) {
+    if (preferSemantic && isPageShell(node, box)) continue;
     const nestedInsideSelected = selected.some((other) => {
       const otherBox = boxes.get(other.node_id);
       if (!otherBox) return false;
@@ -357,6 +375,8 @@ function hintScore(signature: string, hint: string[]): number {
 function classifySection(input: {
   root: MatchableNode;
   box: BBox;
+  /** Largest media role box when present — avoids page wrappers looking like full-bleed heroes. */
+  mediaBox?: BBox | null;
   signature: string;
   text_signals: string[];
   viewportHeight: number;
@@ -365,6 +385,9 @@ function classifySection(input: {
 }): { taxonomy_id: string; category: string; confidence: number; method: string } {
   const tag = (input.root.tag ?? "").toLowerCase();
   const textBlob = input.text_signals.join(" ").toLowerCase();
+  const mediaBox = input.mediaBox ?? input.box;
+  /** True above-fold only — 0.45 was too deep and pulled model-card grids into "hero". */
+  const aboveFold = input.box.y <= Math.max(64, input.viewportHeight * 0.32);
   const nearTop = input.box.y <= Math.max(80, input.viewportHeight * 0.45);
   const hasMedia = /(^|>)media(>|$)/.test(input.signature);
   const hasHeading = input.signature.includes("heading");
@@ -376,7 +399,12 @@ function classifySection(input: {
   const mediaOnly =
     roles.length > 0 && roles.every((role) => role === "media" || role === "media_large");
   const tallMedia =
-    hasMedia && input.box.height >= Math.max(260, input.viewportHeight * 0.32);
+    hasMedia && mediaBox.height >= Math.max(260, input.viewportHeight * 0.32);
+  /** Full-bleed band vs tile/card in a model grid (Porsche-style). */
+  const fullBleedMedia =
+    hasMedia &&
+    mediaBox.width >= Math.max(880, input.viewportHeight * 0.92) &&
+    mediaBox.height >= Math.max(320, input.viewportHeight * 0.42);
   const socialProofText = /testimonial|review|customer|kunde|quote|partner logo|trusted by|as seen/.test(
     textBlob
   );
@@ -418,8 +446,8 @@ function classifySection(input: {
       method: "cookie_consent_text_heuristic"
     };
   }
-  // Full-bleed / tall media above the fold is hero even when overlay text was not measured as heading.
-  if (nearTop && tallMedia && !socialProofText) {
+  // Full-bleed above-fold media = hero. Card tiles / half-width media stay features.
+  if (aboveFold && fullBleedMedia && !socialProofText) {
     const taxonomy_id =
       hasHeading && hasCta
         ? hasMedia && input.signature.startsWith("media")
@@ -437,7 +465,7 @@ function classifySection(input: {
       method: hasHeading || hasCta ? "hero_position_heuristic" : "hero_tall_media_heuristic"
     };
   }
-  if (nearTop && hasHeading && (hasMedia || hasCta)) {
+  if (aboveFold && hasHeading && (fullBleedMedia || (hasMedia && hasCta))) {
     const taxonomy_id = hasMedia && input.signature.startsWith("media")
       ? "dig:section.hero_media_above"
       : hasMedia
@@ -450,6 +478,15 @@ function classifySection(input: {
       category: "hero",
       confidence: 0.86,
       method: "hero_position_heuristic"
+    };
+  }
+  // Near-top media cards (model tiles, promo chips) — not heroes.
+  if (nearTop && tallMedia && !fullBleedMedia && !socialProofText) {
+    return {
+      taxonomy_id: hasHeading || hasCta ? "dig:section.feature_spotlight" : "dig:section.feature_grid",
+      category: "feature",
+      confidence: 0.74,
+      method: "near_top_media_card_heuristic"
     };
   }
   if (hasMedia && hasHeading && hasCta) {
@@ -485,6 +522,15 @@ function classifySection(input: {
       method: "heading_cta_heuristic"
     };
   }
+  // Editorial / story bands — prefer content over weak catalog matches (user_count, hero_typographic, …).
+  if (hasHeading && input.signature.includes("body") && !hasMedia && !hasCta && !hasForm) {
+    return {
+      taxonomy_id: "dig:section.content_block",
+      category: "content",
+      confidence: 0.7,
+      method: "heading_body_heuristic"
+    };
+  }
 
   const catalog = getCatalogEntries().filter((entry) => entry.entity_type === "section" || entry.entity_type === "pattern");
   let best: { entry: CatalogEntry; score: number } | null = null;
@@ -508,6 +554,8 @@ function classifySection(input: {
     }
     const score = Math.max(...hints.map((hint) => hintScore(input.signature, hint)));
     if (score < 0.66) continue;
+    // Catalog heroes (e.g. hero_typographic = heading>body) must not win mid-page editorials.
+    if (entry.category === "hero" && !aboveFold) continue;
     if (!best || score > best.score) best = { entry, score };
   }
   if (best) {
@@ -548,9 +596,18 @@ export function deriveViewportSectionCompositions(input: {
     const box = boxes.get(root.node_id);
     if (!box) continue;
     const { recipe, signature, text_signals } = buildRecipe(root, children, boxes, styles);
+    const mediaBox = recipe.reduce<BBox | null>((best, step) => {
+      if (step.kind !== "role") return best;
+      if (step.role !== "media" && step.role !== "media_large") return best;
+      if (!best) return step.box;
+      const bestArea = best.width * best.height;
+      const nextArea = step.box.width * step.box.height;
+      return nextArea > bestArea ? step.box : best;
+    }, null);
     const classified = classifySection({
       root,
       box,
+      mediaBox,
       signature,
       text_signals,
       viewportHeight: input.viewport_height,
