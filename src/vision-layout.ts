@@ -220,18 +220,20 @@ export async function buildVisionLayoutTiles(
   const sourceBytes = await readFile(imagePath);
   const base = sharp(sourceBytes, { failOn: "none" }).rotate();
   const meta = await base.metadata();
-  const width = meta.width ?? 1;
-  const height = meta.height ?? 1;
+  const width = Math.max(1, meta.width ?? 1);
 
-  const resized =
-    width > maxWidth
-      ? base.clone().resize({ width: maxWidth, withoutEnlargement: true })
-      : base.clone();
-  const resizedMeta = await resized.metadata();
-  const rw = resizedMeta.width ?? width;
-  const rh = resizedMeta.height ?? height;
+  // Materialize resize first — sharp.metadata() ignores pending ops, so extract
+  // must use post-resize pixel dimensions (otherwise: extract_area bad extract area).
+  const prepared = await (width > maxWidth
+    ? base.clone().resize({ width: maxWidth, withoutEnlargement: true })
+    : base.clone()
+  )
+    .jpeg({ quality: 72, mozjpeg: true })
+    .toBuffer({ resolveWithObject: true });
+  const whole = prepared.data;
+  const rw = Math.max(1, prepared.info.width ?? 1);
+  const rh = Math.max(1, prepared.info.height ?? 1);
 
-  const whole = await resized.clone().jpeg({ quality: 72, mozjpeg: true }).toBuffer();
   if (whole.length <= maxBytes && rh <= targetTileHeight * 1.25) {
     return {
       tiles: [{ id: "full", top: 0, height: rh, fullHeight: rh, bytes: whole, mime: "image/jpeg" }],
@@ -248,23 +250,56 @@ export async function buildVisionLayoutTiles(
   let index = 0;
   while (top < rh) {
     const tileHeight = Math.min(targetTileHeight, rh - top);
-    const tileBuf = await resized
-      .clone()
-      .extract({ left: 0, top, width: rw, height: tileHeight })
+    if (tileHeight < 1 || top + tileHeight > rh + 1) break;
+    const left = 0;
+    const extractWidth = rw;
+    const extractHeight = Math.min(tileHeight, rh - top);
+    const tileBuf = await sharp(whole, { failOn: "none" })
+      .extract({ left, top, width: extractWidth, height: extractHeight })
       .jpeg({ quality: 70, mozjpeg: true })
       .toBuffer();
     tiles.push({
       id: `tile_${index + 1}`,
       top,
-      height: tileHeight,
+      height: extractHeight,
       fullHeight: rh,
       bytes: tileBuf,
       mime: "image/jpeg"
     });
     index += 1;
-    if (top + tileHeight >= rh) break;
+    if (top + extractHeight >= rh) break;
     top += stride;
-    if (tiles.length >= 4) break;
+    if (tiles.length >= 4) {
+      // Cover remaining page with a final tile from the bottom if we hit the cap early.
+      if (top < rh) {
+        const restTop = Math.max(0, rh - targetTileHeight);
+        if (restTop > top - stride) {
+          const restHeight = rh - restTop;
+          const restBuf = await sharp(whole, { failOn: "none" })
+            .extract({ left: 0, top: restTop, width: rw, height: restHeight })
+            .jpeg({ quality: 70, mozjpeg: true })
+            .toBuffer();
+          tiles.push({
+            id: `tile_${index + 1}`,
+            top: restTop,
+            height: restHeight,
+            fullHeight: rh,
+            bytes: restBuf,
+            mime: "image/jpeg"
+          });
+        }
+      }
+      break;
+    }
+  }
+  if (!tiles.length) {
+    // Fallback: send the whole downscaled JPEG even if oversized for the model.
+    return {
+      tiles: [{ id: "full", top: 0, height: rh, fullHeight: rh, bytes: whole, mime: "image/jpeg" }],
+      width: rw,
+      height: rh,
+      sourceBytes
+    };
   }
   return { tiles, width: rw, height: rh, sourceBytes };
 }
@@ -301,12 +336,15 @@ export async function emitVisionBandCrops(input: {
     const top = Math.floor(band.box.y * ih);
     const width = Math.max(1, Math.ceil(band.box.width * iw));
     const height = Math.max(1, Math.ceil(band.box.height * ih));
+    const leftClamped = Math.max(0, Math.min(left, Math.max(0, iw - 1)));
+    const topClamped = Math.max(0, Math.min(top, Math.max(0, ih - 1)));
     const bbox_px = {
-      left: Math.max(0, Math.min(left, Math.max(0, iw - 1))),
-      top: Math.max(0, Math.min(top, Math.max(0, ih - 1))),
-      width: Math.max(1, Math.min(width, iw - left)),
-      height: Math.max(1, Math.min(height, ih - top))
+      left: leftClamped,
+      top: topClamped,
+      width: Math.max(1, Math.min(width, iw - leftClamped)),
+      height: Math.max(1, Math.min(height, ih - topClamped))
     };
+    if (bbox_px.width < 1 || bbox_px.height < 1) continue;
     const relative = `viewports/desktop/sections/vision_${band.id}.webp`;
     const outPath = resolve(input.packageRoot, relative);
     await mkdir(dirname(outPath), { recursive: true });

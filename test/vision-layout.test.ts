@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { mkdtemp } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import sharp from "sharp";
 import {
+  buildVisionLayoutTiles,
   mapBandsFromTile,
   mergeVisionLayoutBands,
   normalizeVisionBox,
@@ -168,4 +173,24 @@ test("visionBandsToSectionLooks attaches crop evidence", () => {
   assert.equal(looks[0]!.section_id, "band_1");
   assert.equal(looks[0]!.category, "hero");
   assert.ok(looks[0]!.evidence_refs.includes("viewports/desktop/sections/vision_band_1.webp"));
+});
+
+test("buildVisionLayoutTiles resizes wide images before extract", async () => {
+  const root = await mkdtemp(join(tmpdir(), "dig-vision-tiles-"));
+  const imagePath = join(root, "tall.jpg");
+  await sharp({
+    create: { width: 1920, height: 5000, channels: 3, background: { r: 20, g: 20, b: 30 } }
+  })
+    .jpeg()
+    .toFile(imagePath);
+
+  const built = await buildVisionLayoutTiles(imagePath, {
+    maxBytes: 200_000,
+    maxWidth: 1280,
+    targetTileHeight: 1600
+  });
+  assert.ok(built.width <= 1280);
+  assert.ok(built.tiles.length >= 2);
+  assert.ok(built.tiles.every((tile) => tile.bytes.length > 0));
+  assert.equal(built.tiles[0]?.fullHeight, built.height);
 });
