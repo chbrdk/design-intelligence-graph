@@ -7,6 +7,7 @@ import {
   assembleReferencePromptPack,
   fetchAnalysisDetail,
   fetchDesignReferences,
+  fetchEnrichmentJobs,
   fetchLibraryScreens,
   fetchLibrarySections,
   fetchPageFlows,
@@ -14,6 +15,7 @@ import {
   islandMediaUrl,
   searchLibrary,
   type DesignReferenceHit,
+  type EnrichmentJob,
   type LibraryAnalysisDetail,
   type LibraryScreen,
   type LibrarySearchHit,
@@ -43,6 +45,7 @@ function LibraryPageInner() {
     Array<{ section_label?: string; signature?: string | null }>
   >([])
   const [analysisPending, setAnalysisPending] = useState(false)
+  const [enrichmentHint, setEnrichmentHint] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   function applyHash(next: LibraryHashState) {
@@ -97,34 +100,65 @@ function LibraryPageInner() {
     setSelected(screen)
     setAnalysis(null)
     setPageNarrative([])
+    setEnrichmentHint(null)
     setAnalysisPending(true)
+    setError(null)
 
-    try {
-      setPageNarrative((await fetchPageFlows(screen.capture_run_id)).steps)
-    } catch {
-      setPageNarrative([])
+    const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms))
+    const loadNarrative = async () => {
+      try {
+        setPageNarrative((await fetchPageFlows(screen.capture_run_id)).steps)
+      } catch {
+        setPageNarrative([])
+      }
     }
+    void loadNarrative()
 
-    const maxAttempts = 6
-    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    const deadline = Date.now() + 8 * 60 * 1000
+    while (Date.now() < deadline) {
+      let job: EnrichmentJob | undefined
+      try {
+        const jobs = await fetchEnrichmentJobs()
+        job = jobs.find((item) => item.capture_run_id === screen.capture_run_id)
+        if (job) {
+          setEnrichmentHint(`${job.status}: ${job.message}${job.error ? ` (${job.error})` : ''}`)
+        }
+      } catch {
+        /* enrichment list optional */
+      }
+
+      if (job?.status === 'failed' || job?.status === 'skipped') {
+        setAnalysisPending(false)
+        setError(job.error || job.message || `Enrichment ${job.status}`)
+        return
+      }
+
       try {
         const detail = await fetchAnalysisDetail(screen.capture_run_id)
         setAnalysis(detail)
         setAnalysisPending(false)
+        if (job?.message) setEnrichmentHint(job.message)
+        await loadNarrative()
         return
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err)
         const missing = /analysis_not_found|404|failed \(404\)/i.test(message)
-        if (!missing || attempt === maxAttempts - 1) {
+        if (!missing) {
           setAnalysis(null)
           setAnalysisPending(false)
-          if (!missing) setError(message)
+          setError(message)
           return
         }
-        await new Promise((resolve) => window.setTimeout(resolve, 2000))
+        // Still enriching or reindexing — keep waiting while job is active / unknown.
+        if (job && job.status !== 'queued' && job.status !== 'running' && job.status !== 'complete') {
+          setAnalysisPending(false)
+          return
+        }
       }
+      await sleep(3000)
     }
     setAnalysisPending(false)
+    setEnrichmentHint((prev) => prev ?? 'Timed out waiting for enrichment')
   }
 
   async function onSearch() {
@@ -430,6 +464,7 @@ function LibraryPageInner() {
                         ? 'Waiting for enrichment / analysis…'
                         : 'No analysis summary yet.')}
                   </Text>
+                  {enrichmentHint ? <Text role="meta">{enrichmentHint}</Text> : null}
                   {analysis?.package?.vision?.status ? (
                     <Text role="meta">Vision: {analysis.package.vision.status}</Text>
                   ) : null}
@@ -450,7 +485,9 @@ function LibraryPageInner() {
                     </ol>
                   ) : (
                     <Text role="hint">
-                      {analysisPending ? 'Loading page narrative…' : 'No page narrative steps yet.'}
+                      {analysisPending
+                        ? 'Page narrative appears after enrichment finishes…'
+                        : 'No page narrative steps yet.'}
                     </Text>
                   )}
                 </>

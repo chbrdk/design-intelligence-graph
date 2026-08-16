@@ -11,7 +11,14 @@ test("persistEnrichmentJob and claimNextEnrichmentJob use SQL against injectable
       queries.push(sql.replace(/\s+/g, " ").trim());
       if (/FOR UPDATE SKIP LOCKED/i.test(sql)) {
         const queued = rows.find((row) => row.status === "queued");
-        return { rows: queued ? [queued] : [] };
+        const staleRunning = rows.find(
+          (row) =>
+            row.status === "running" &&
+            typeof row.updated_at === "string" &&
+            new Date(String(row.updated_at)).getTime() < Date.now() - 60_000
+        );
+        const pick = queued ?? staleRunning;
+        return { rows: pick ? [pick] : [] };
       }
       if (/INSERT INTO enrichment_jobs/i.test(sql)) {
         const job = {
@@ -62,4 +69,47 @@ test("persistEnrichmentJob and claimNextEnrichmentJob use SQL against injectable
   assert.equal(claimed.enrichment_job_id, "enr_test");
   assert.equal(claimed.status, "running");
   assert.ok(queries.some((sql) => /SKIP LOCKED/i.test(sql)));
+  assert.ok(queries.some((sql) => /status = 'running' AND updated_at </i.test(sql)));
+});
+
+test("claimNextEnrichmentJob reclaims stale running rows", async () => {
+  const client = {
+    async query(sql: string, params?: unknown[]) {
+      const normalized = sql.replace(/\s+/g, " ").trim();
+      if (normalized === "BEGIN" || normalized === "COMMIT" || normalized === "ROLLBACK") {
+        return { rows: [] };
+      }
+      if (normalized.startsWith("SELECT * FROM enrichment_jobs")) {
+        assert.ok(String(params?.[0] ?? "").length > 0, "expects staleBefore timestamp");
+        assert.match(normalized, /status = 'running' AND updated_at </);
+        return {
+          rows: [
+            {
+              enrichment_job_id: "enr_stale",
+              capture_run_id: "cap_x",
+              package_path: "/data/captures/x",
+              status: "running",
+              attempts: 1,
+              max_attempts: 3,
+              created_at: "2026-08-16T18:00:00.000Z",
+              updated_at: "2026-08-16T18:00:01.000Z",
+              started_at: "2026-08-16T18:00:01.000Z"
+            }
+          ]
+        };
+      }
+      if (normalized.startsWith("UPDATE enrichment_jobs")) {
+        assert.equal(params?.[2], true, "wasStale flag");
+        return { rows: [] };
+      }
+      throw new Error(`unexpected sql: ${normalized}`);
+    }
+  };
+
+  const claimed = await claimNextEnrichmentJob(client as never, { staleAfterMs: 60_000 });
+  assert.ok(claimed);
+  assert.equal(claimed.enrichment_job_id, "enr_stale");
+  assert.equal(claimed.status, "running");
+  assert.equal(claimed.attempts, 2);
+  assert.match(claimed.message, /Reclaimed stale/);
 });

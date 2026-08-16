@@ -147,8 +147,17 @@ export class EnrichmentQueue {
       job.started_at = nowFn().toISOString();
     }
     job.message = "Running staged LLM enrichment";
+    // Heartbeat so other workers can reclaim if this process dies mid-LLM.
     job.updated_at = nowFn().toISOString();
     await (this.options.persist ?? persistEnrichmentJob)(job).catch(() => undefined);
+
+    const heartbeat = setInterval(() => {
+      const current = this.jobs.get(jobId);
+      if (!current || current.status !== "running") return;
+      current.updated_at = nowFn().toISOString();
+      void (this.options.persist ?? persistEnrichmentJob)(current).catch(() => undefined);
+    }, 30_000);
+    heartbeat.unref?.();
 
     const analyzeFn = this.options.analyzeFn ?? applyLlmDesignAnalysis;
     const reindexFn = this.options.reindexFn ?? indexCapturePackageToDatabase;
@@ -222,6 +231,8 @@ export class EnrichmentQueue {
         job.completed_at = job.updated_at;
       }
       await (this.options.persist ?? persistEnrichmentJob)(job).catch(() => undefined);
+    } finally {
+      clearInterval(heartbeat);
     }
   }
 }

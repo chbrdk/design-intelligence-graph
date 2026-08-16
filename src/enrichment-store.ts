@@ -90,19 +90,27 @@ export async function persistEnrichmentJob(
   return true;
 }
 
-/** Claim next queued job for a worker (Postgres). Returns null when DB empty/unavailable. */
+/** Claim next queued job for a worker (Postgres). Returns null when DB empty/unavailable.
+ * Also reclaims `running` jobs whose heartbeat is stale (process crash / hung LLM). */
 export async function claimNextEnrichmentJob(
-  client: Queryable | null = getPool()
+  client: Queryable | null = getPool(),
+  options: { staleAfterMs?: number } = {}
 ): Promise<EnrichmentJobRecord | null> {
   if (!client) return null;
+  const staleAfterMs = options.staleAfterMs ?? 4 * 60 * 1000;
+  const staleBefore = new Date(Date.now() - staleAfterMs).toISOString();
   await client.query("BEGIN");
   try {
     const result = await client.query(
       `SELECT * FROM enrichment_jobs
        WHERE status = 'queued'
-       ORDER BY created_at ASC
+          OR (status = 'running' AND updated_at < $1::timestamptz)
+       ORDER BY
+         CASE WHEN status = 'queued' THEN 0 ELSE 1 END ASC,
+         created_at ASC
        FOR UPDATE SKIP LOCKED
-       LIMIT 1`
+       LIMIT 1`,
+      [staleBefore]
     );
     const row = result.rows[0];
     if (!row) {
@@ -110,16 +118,29 @@ export async function claimNextEnrichmentJob(
       return null;
     }
     const now = new Date().toISOString();
+    const wasStale = String(row.status) === "running";
     await client.query(
       `UPDATE enrichment_jobs
-       SET status = 'running', attempts = attempts + 1, started_at = COALESCE(started_at, $2::timestamptz), updated_at = $2::timestamptz
+       SET status = 'running',
+           attempts = attempts + 1,
+           started_at = CASE WHEN $3::boolean THEN $2::timestamptz ELSE COALESCE(started_at, $2::timestamptz) END,
+           updated_at = $2::timestamptz,
+           error = CASE WHEN $3::boolean THEN COALESCE(error, 'reclaimed_stale_running') ELSE error END
        WHERE enrichment_job_id = $1`,
-      [row.enrichment_job_id, now]
+      [row.enrichment_job_id, now, wasStale]
     );
     await client.query("COMMIT");
-    const claimed = rowToJob({ ...row, status: "running", started_at: row.started_at ?? now, updated_at: now });
+    const claimed = rowToJob({
+      ...row,
+      status: "running",
+      started_at: wasStale ? now : (row.started_at ?? now),
+      updated_at: now,
+      ...(wasStale ? { error: row.error ?? "reclaimed_stale_running" } : {})
+    });
     claimed.attempts = Number(row.attempts ?? 0) + 1;
-    claimed.message = "Running staged LLM enrichment";
+    claimed.message = wasStale
+      ? "Reclaimed stale enrichment; running staged LLM enrichment"
+      : "Running staged LLM enrichment";
     return claimed;
   } catch (error) {
     await client.query("ROLLBACK");
