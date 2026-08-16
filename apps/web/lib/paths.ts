@@ -1,4 +1,4 @@
-/** Central path and shell configuration for DIG Next island — never hardcode URLs in call sites. */
+/** Central path and shell configuration for SPIRION Next island — never hardcode URLs in call sites. */
 
 export const paths = {
   railInsetRem: 1,
@@ -6,24 +6,29 @@ export const paths = {
   railWidthRem: 4.25,
   mainGutterRem: 2.5,
   railDockEdge: 'left' as const,
-  railDockStorageKey: 'dig.v1.railDock',
+  railDockStorageKey: 'spirion.v1.railDock',
   brandCornerRadiusPx: 32,
-  brandLabel: 'DIG',
-  productId: 'dig' as const,
+  /** User-facing product name (Plexon sibling to CHECKION / AUDION / BRANDION). */
+  brandLabel: 'SPIRION',
+  /** Plexon Collection capability id (lowercase, matches sibling product ids). */
+  productId: 'spirion' as const,
+  /** Legacy capability id — keep until Plexon catalog migrates bindings. */
+  legacyProductId: 'dig' as const,
   devPort: 3010,
-  defaultDisplayName: 'DIG',
-  displayNameStorageKey: 'dig.v1.displayName',
-  themeStorageKey: 'dig.v1.theme',
-  localeStorageKey: 'dig.v1.locale',
+  defaultDisplayName: 'SPIRION',
+  displayNameStorageKey: 'spirion.v1.displayName',
+  themeStorageKey: 'spirion.v1.theme',
+  localeStorageKey: 'spirion.v1.locale',
   defaultTheme: 'msqdx-dark' as const,
   defaultLocale: 'en' as const,
   themeChoices: ['msqdx', 'msqdx-dark', 'msqdx-v2', 'msqdx-v2-dark'] as const,
   localeChoices: ['en', 'de'] as const,
   federationContract: '2026-05-plexon-federation-v3' as const,
   federationMode: 'dummy' as const,
-  authDevFallbackSecret: 'dig-local-dev-auth-secret-min-32-chars!!',
+  authDevFallbackSecret: 'spirion-local-dev-auth-secret-min-32-chars!!',
   envPlexonBase: 'NEXT_PLEXON_BASE_URL',
   envPlexonPublicUrl: 'NEXT_PUBLIC_PLEXON_URL',
+  /** Env names kept as DIG_* for Coolify/ops continuity (see knowledge/spirion-rename.md). */
   envDigPublicUrl: 'NEXT_PUBLIC_DIG_URL',
   envDigApiUrl: 'DIG_API_URL',
   envPlexonServiceSecret: 'PLEXON_SERVICE_SECRET',
@@ -34,7 +39,7 @@ export const paths = {
   envFederationMode: 'DIG_FEDERATION_MODE',
   pathAssistantEmbed: '/assistant/embed',
   pathAssistantExpand: '/assistant',
-  /** Browser calls go through Next proxy → DIG Node API. */
+  /** Browser calls go through Next proxy → capture/library Node API. */
   digProxyBase: '/api/dig',
   digApiJobs: '/api/jobs',
   digApiLibrary: '/api/library',
@@ -53,6 +58,7 @@ export const paths = {
   defaultDigApiUrl: 'http://127.0.0.1:8787',
   msqdxUiSibling: '../../../msqdx-ui',
   bindingTicket: 'knowledge/plexon-dig-binding-ticket.md',
+  renameDoc: 'knowledge/spirion-rename.md',
   platformDoc: 'docs/DIG-013-plexon-app.md',
   routes: {
     home: '/',
@@ -67,11 +73,12 @@ export const paths = {
     apiAuthNextAuth: '/api/auth',
     apiHealth: '/api/health',
   },
-  /** Luxury-auto rebuild mock from DIG capture brief (not production marketing). */
+  /** Luxury-auto rebuild mock from capture brief (not production marketing). */
   rebuildDemo: {
     brand: 'Porsche',
     headline: 'Flachbau RS.',
-    support: 'Cinematic full-bleed hero, dark scrim, one clear action — rebuilt from measured DIG evidence.',
+    support:
+      'Cinematic full-bleed hero, dark scrim, one clear action — rebuilt from measured SPIRION evidence.',
     primaryCta: 'Alle anzeigen',
     secondaryCta: 'Konfigurieren',
     heroImage: '/rebuild/hero-night-car.png',
@@ -87,7 +94,7 @@ export function withPlatformProject(
 ): string {
   const id = platformProjectId?.trim()
   if (!id) return href
-  const url = new URL(href, 'http://dig.local')
+  const url = new URL(href, 'http://spirion.local')
   url.searchParams.set(paths.platformProjectQueryParam, id)
   return `${url.pathname}${url.search}`
 }

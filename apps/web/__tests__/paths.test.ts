@@ -5,11 +5,14 @@ import { describe, it } from 'vitest'
 import { paths } from '../lib/paths'
 import { ASSISTANT_EMBED_PRODUCT } from '../lib/platform-assistant-paths'
 
-describe('DIG island paths contract', () => {
-  it('uses dig product id and federation contract', () => {
-    assert.equal(paths.productId, 'dig')
+describe('SPIRION island paths contract', () => {
+  it('uses spirion product id, brand, and federation contract', () => {
+    assert.equal(paths.productId, 'spirion')
+    assert.equal(paths.brandLabel, 'SPIRION')
+    assert.equal(paths.defaultDisplayName, 'SPIRION')
+    assert.equal(paths.legacyProductId, 'dig')
     assert.equal(paths.federationContract, '2026-05-plexon-federation-v3')
-    assert.equal(ASSISTANT_EMBED_PRODUCT, 'dig')
+    assert.equal(ASSISTANT_EMBED_PRODUCT, 'spirion')
     assert.equal(paths.routes.capture, '/capture')
     assert.equal(paths.routes.projects, '/projects')
     assert.equal(paths.digProxyBase, '/api/dig')
@@ -24,12 +27,14 @@ describe('DIG island paths contract', () => {
     assert.match(client, /ChatOverlay/)
   })
 
-  it('binding ticket is documented in repo knowledge', () => {
+  it('binding ticket and rename doc are documented', () => {
     const ticket = readFileSync(
       resolve(__dirname, '../../../knowledge/plexon-dig-binding-ticket.md'),
       'utf8',
     )
-    assert.match(ticket, /productId.*dig/s)
-    assert.match(ticket, /dig-project-origin/)
+    assert.match(ticket, /productId.*spirion/s)
+    const rename = readFileSync(resolve(__dirname, '../../../knowledge/spirion-rename.md'), 'utf8')
+    assert.match(rename, /SPIRION/)
+    assert.match(rename, /legacy/i)
   })
 })

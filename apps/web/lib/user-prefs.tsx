@@ -58,16 +58,23 @@ export function UserPrefsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const nextTheme = (() => {
-      const raw = readStored(paths.themeStorageKey)
+      const raw = readStored(paths.themeStorageKey) ?? readStored('dig.v1.theme')
       if (raw && (paths.themeChoices as readonly string[]).includes(raw)) return raw as UiThemeId
       return paths.defaultTheme
     })()
     const nextLocale = (() => {
-      const raw = readStored(paths.localeStorageKey)
+      const raw = readStored(paths.localeStorageKey) ?? readStored('dig.v1.locale')
       if (raw && (paths.localeChoices as readonly string[]).includes(raw)) return raw as UiLocaleId
       return paths.defaultLocale
     })()
-    const nextName = readStored(paths.displayNameStorageKey)?.trim() || paths.defaultDisplayName
+    const storedName =
+      readStored(paths.displayNameStorageKey)?.trim() ||
+      readStored('dig.v1.displayName')?.trim() ||
+      ''
+    const nextName =
+      !storedName || storedName === 'DIG' || storedName === 'Design Intelligence'
+        ? paths.defaultDisplayName
+        : storedName
     setThemeState(nextTheme)
     setLocaleState(nextLocale)
     setDisplayNameState(nextName)

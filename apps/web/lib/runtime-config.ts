@@ -12,7 +12,7 @@ export function digPublicUrl(): string {
   return process.env[paths.envDigPublicUrl]?.trim() || `http://localhost:${paths.devPort}`
 }
 
-/** Upstream DIG capture/library Node API (not the Next island). */
+/** Upstream SPIRION capture/library Node API (not the Next island). */
 export function digApiBaseUrl(): string {
   return process.env[paths.envDigApiUrl]?.trim().replace(/\/$/, '') || paths.defaultDigApiUrl
 }

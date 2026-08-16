@@ -260,10 +260,10 @@ export function App() {
     <div className="shell">
       <div className="atmosphere" aria-hidden="true" />
       <main className="composition">
-        <p className="brand">DIG</p>
+        <p className="brand">SPIRION</p>
         <h1 className="headline">Capture a design surface.</h1>
         <p className="lede">
-          Enter a public URL. DIG measures viewports, derives section recipes, and indexes a browsable library.
+          Enter a public URL. SPIRION measures viewports, derives section recipes, and indexes a browsable library.
         </p>
 
         <form className="capture-form" onSubmit={onSubmit}>

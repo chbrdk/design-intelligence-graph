@@ -1,6 +1,8 @@
-# DIG web island (`apps/web`)
+# SPIRION web island (`apps/web`)
 
 Next.js App Router island on **`@msqdx/ui`** (sibling [`chbrdk/msqdx-ui`](https://github.com/chbrdk/msqdx-ui)), matching CHECKION / Plexon AppShell + Plexon auth.
+
+Product brand: **SPIRION** (formerly DIG). See `knowledge/spirion-rename.md`.
 
 ## Prerequisites
 
@@ -9,7 +11,7 @@ Next.js App Router island on **`@msqdx/ui`** (sibling [`chbrdk/msqdx-ui`](https:
 gh repo clone chbrdk/msqdx-ui ../msqdx-ui -- --depth 1
 cd ../msqdx-ui && pnpm install && pnpm --filter @msqdx/ui-tokens build
 
-# DIG island
+# SPIRION island
 cd ../design-intelligence-graph
 npm run island:install
 ```
@@ -24,7 +26,7 @@ ln -sfn "$(pwd)/apps/web/node_modules" ../msqdx-ui/node_modules
 ## Dev
 
 ```bash
-# Terminal A — DIG capture/library API
+# Terminal A — capture/library API
 npm run serve:api
 
 # Terminal B — Next island (:3010)

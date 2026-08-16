@@ -90,7 +90,7 @@ function CaptureBody() {
   return (
     <AppShell
       title="Capture"
-      description="Enter a public URL. DIG measures viewports, derives section recipes, and indexes a browsable library."
+      description={`Enter a public URL. ${paths.brandLabel} measures viewports, derives section recipes, and indexes a browsable library.`}
       status={
         <TopStatus
           level={statusLevel}

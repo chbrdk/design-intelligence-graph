@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Alert, Button, Panel, Text } from '../lib/msqdx-ui'
 import { fetchEnrichmentJobs, type EnrichmentJob } from '../lib/dig-api'
+import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
 
 export function EnrichmentPageClient() {
@@ -26,7 +27,8 @@ export function EnrichmentPageClient() {
   }, [])
 
   return (
-    <AppShell title="Enrichment" description="Async DIG-009 enrichment jobs for captured runs.">
+    <AppShell title="Enrichment" description={`Async enrichment jobs for ${paths.brandLabel} capture runs.`}>
+
       {error ? <Alert tone="error">{error}</Alert> : null}
       <Panel className="dig-panel">
         <Button type="button" variant="subtle" onClick={() => void refresh()}>

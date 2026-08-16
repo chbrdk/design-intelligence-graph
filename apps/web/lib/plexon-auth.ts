@@ -4,6 +4,7 @@ import {
   isPlexonAuthConfigured,
 } from './runtime-config'
 import { getPlexonContractHeaders } from './plexon-contract'
+import { paths } from './paths'
 
 export { isPlexonAuthConfigured, getPlexonAuthUrl, getPlexonServiceSecret }
 
@@ -30,7 +31,7 @@ export async function validateCredentialsWithPlexon(
     const data = (await res.json()) as { user?: PlexonAuthUser }
     return data?.user ?? null
   } catch (e) {
-    console.error('[DIG] Plexon auth error:', e)
+    console.error(`[${paths.brandLabel}] Plexon auth error:`, e)
     return null
   }
 }

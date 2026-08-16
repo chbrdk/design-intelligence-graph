@@ -9,8 +9,9 @@ import {
   getProjectByPlatformId,
   upsertByPlatformProjectId,
 } from '@/lib/dig-project-store'
+import { paths } from '@/lib/paths'
 
-/** Dashboard BFF: DIG summary for a Collection capability mirror. */
+/** Dashboard BFF: SPIRION summary for a Collection capability mirror. */
 export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> },
@@ -47,7 +48,7 @@ export async function GET(
   })
 }
 
-/** Plexon → DIG project upsert (Collection binding external id = dig project id). */
+/** Plexon → SPIRION project upsert (Collection binding external id = spirion project id). */
 export async function PUT(
   request: Request,
   context: { params: Promise<{ id: string }> },
@@ -102,6 +103,6 @@ export async function PUT(
     externalProjectId: project.id,
     projectId: project.id,
     platformProjectId,
-    details: 'DIG project mirror upserted.',
+    details: `${paths.brandLabel} project mirror upserted.`,
   })
 }

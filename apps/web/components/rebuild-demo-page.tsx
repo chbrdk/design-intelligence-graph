@@ -94,13 +94,13 @@ export function RebuildDemoPage() {
 
       <footer className="rebuild-foot">
         <p>
-          DIG rebuild mock from capture <code>{demo.captureRunId}</code> · brief{' '}
+          {paths.brandLabel} rebuild mock from capture <code>{demo.captureRunId}</code> · brief{' '}
           <code>{demo.briefPath}</code>
         </p>
         <p>
           <Link href={paths.routes.analyses}>Zurück zu Analyses</Link>
           {' · '}
-          <Link href={paths.routes.home}>DIG Home</Link>
+          <Link href={paths.routes.home}>{paths.brandLabel} Home</Link>
         </p>
       </footer>
     </div>

@@ -1,7 +1,7 @@
-# DIG ↔ Plexon platform (ops + identity)
+# SPIRION ↔ Plexon platform (ops + identity)
 
-**Updated:** 2026-08-15  
-**Specs:** [`docs/DIG-013-plexon-app.md`](../docs/DIG-013-plexon-app.md) · [ADR-013](../architecture/ADR-013-plexon-capability.md)
+**Updated:** 2026-08-16  
+**Specs:** [`docs/DIG-013-plexon-app.md`](../docs/DIG-013-plexon-app.md) · [ADR-013](../architecture/ADR-013-plexon-capability.md) · [`spirion-rename.md`](spirion-rename.md)
 
 ## Live staging peers
 
@@ -10,7 +10,7 @@
 | **Plexon** | https://plexon-v3.projects-a.plygrnd.tech |
 | **CHECKION v3** | https://checkion-v3.projects-a.plygrnd.tech ([Sign in via Plexon](https://checkion-v3.projects-a.plygrnd.tech/)) |
 | **CHECKION MCP** | https://checkion-v3-mcp.projects-a.plygrnd.tech |
-| **DIG (proposed)** | https://dig.projects-a.plygrnd.tech |
+| **SPIRION (staging FQDN still dig.*)** | https://dig.projects-a.plygrnd.tech |
 
 Paths SoT: [`paths.json`](paths.json) → `plexon`, `checkionV3`.
 
@@ -22,19 +22,19 @@ Plexon Collection (one project)
   ├── binding audion    → journey / explore
   ├── binding brandion  → brand
   ├── binding creation  → compositions
-  └── binding dig       → capture, DesignReference, generate   ← us
+  └── binding spirion   → capture, DesignReference, generate   ← us (legacy id: dig)
 ```
 
-User never “creates a DIG project type” — they open the Design Intelligence capability on a Collection.
+User never “creates a SPIRION project type” — they open the SPIRION capability on a Collection.
 
 ## Auth copy
 
 - Humans: Plexon account (same as CHECKION staging Sign-in).  
-- Machines: DIG API token + CHECKION API token for peer calls.  
+- Machines: DIG API token + CHECKION API token for peer calls (env names legacy).  
 
-## DIG local today
+## SPIRION local today
 
-- **Product UI:** Next island `apps/web` on `@msqdx/ui` (`npm run island:dev`, port `plexon.islandDevPort`).  
+- **Product UI:** Next island `apps/web` on `@msqdx/ui` (`npm run island:dev`, port `plexon.islandDevPort`). Brand: SPIRION.  
 - **API:** Node `web-server` on :8787 (`DIG_API_URL`); island proxies `/api/dig/*`.  
 - **Legacy:** Vite SPA under `web/` — demos only.  
 - `DIG_FEDERATION_MODE=dummy` (default): open middleware when Plexon auth env unset.

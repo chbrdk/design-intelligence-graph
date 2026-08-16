@@ -7,8 +7,8 @@ import './globals.css'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'DIG — Design Intelligence',
-  description: 'Design Intelligence Graph — Plexon Collection capability',
+  title: paths.brandLabel,
+  description: `${paths.brandLabel} — design graph capability on Plexon`,
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
