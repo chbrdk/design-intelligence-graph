@@ -1,5 +1,5 @@
-# Vision layout bands (superseded)
+# Vision layout bands
 
-**Updated:** 2026-08-16 — see [`vision-desktop-pipeline.md`](vision-desktop-pipeline.md) for the current desktop A∥B→crops→C flow.
+**Updated:** 2026-08-16 — post-merge **`refineVisionLayoutBands`** (gap snap, top chrome, micro merge). See [`vision-layout-band-refine.md`](vision-layout-band-refine.md).
 
-`derived/vision-layout.json` remains the section-band artifact; page catalog is `derived/vision-page.json`.
+`derived/vision-layout.json` remains the section-band artifact; page catalog is `derived/vision-page.json`. Desktop flow: [`vision-desktop-pipeline.md`](vision-desktop-pipeline.md).

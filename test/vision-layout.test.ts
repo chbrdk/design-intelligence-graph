@@ -10,10 +10,15 @@ import {
   mergeVisionLayoutBands,
   normalizeVisionBox,
   parseVisionLayoutResponse,
+  refineVisionLayoutBands,
+  renumberVisionBands,
+  sanitizeVisionLayoutNotes,
   shouldPreferVisionLooks,
-  visionBandsToSectionLooks
+  visionBandsToSectionLooks,
+  VISION_BAND_MIN_HEIGHT
 } from "../src/vision-layout.js";
 import type { SectionLookDescription } from "../src/section-look.js";
+import type { VisionLayoutBand } from "../src/vision-layout.js";
 
 test("normalizeVisionBox forces full-width bands and rejects tiny heights", () => {
   assert.equal(normalizeVisionBox({ x: 0, y: 0, width: 1, height: 0.02 }), null);
@@ -177,8 +182,7 @@ test("visionBandsToSectionLooks attaches crop evidence", () => {
   assert.ok(!looks[0]!.look_summary.includes("Page notes"));
 });
 
-test("renumberVisionBands uses band_1..n", async () => {
-  const { renumberVisionBands } = await import("../src/vision-layout.js");
+test("renumberVisionBands uses band_1..n", () => {
   const out = renumberVisionBands([
     {
       id: "tile_1_a",
@@ -199,6 +203,95 @@ test("renumberVisionBands uses band_1..n", async () => {
     out.map((band) => band.id),
     ["band_1", "band_2"]
   );
+});
+
+test("sanitizeVisionLayoutNotes drops tile capture prose", () => {
+  assert.equal(
+    sanitizeVisionLayoutNotes(
+      "The tile captures the bottom of a content section with a green background and the complete site footer."
+    ),
+    ""
+  );
+  assert.equal(sanitizeVisionLayoutNotes("High-contrast marketing stacks"), "High-contrast marketing stacks");
+});
+
+test("refineVisionLayoutBands snaps ticker gap, pulls nav into hero, merges micro footer", () => {
+  // Geometry mirrors msqpartners.com cap_6c74829b… (normalized).
+  const raw: VisionLayoutBand[] = [
+    {
+      id: "b1",
+      label: "Hero Section",
+      category: "hero",
+      box: { x: 0, y: 0.0246, width: 1, height: 0.1446 },
+      confidence: 0.98
+    },
+    {
+      id: "b2",
+      label: "Intro Copy & CTA",
+      category: "content",
+      box: { x: 0, y: 0.1693, width: 1, height: 0.0708 },
+      confidence: 0.92
+    },
+    {
+      id: "b3",
+      label: "News Ticker",
+      category: "other",
+      box: { x: 0, y: 0.2400, width: 1, height: 0.0185 },
+      confidence: 0.9
+    },
+    {
+      id: "b4",
+      label: "Why MSQ",
+      category: "feature",
+      box: { x: 0, y: 0.2708, width: 1, height: 0.1385 },
+      confidence: 0.95
+    },
+    {
+      id: "b5",
+      label: "Our Work",
+      category: "content",
+      box: { x: 0, y: 0.4093, width: 1, height: 0.1693 },
+      confidence: 0.98
+    },
+    {
+      id: "b8",
+      label: "Footer Navigation",
+      category: "footer",
+      box: { x: 0, y: 0.8687, width: 1, height: 0.1219 },
+      confidence: 1
+    },
+    {
+      id: "b9",
+      label: "Footer Legal",
+      category: "footer",
+      box: { x: 0, y: 0.9906, width: 1, height: 0.0094 },
+      confidence: 1
+    }
+  ];
+
+  const refined = renumberVisionBands(refineVisionLayoutBands(raw));
+  assert.equal(refined[0]!.box.y, 0);
+  assert.ok(refined[0]!.box.height > 0.16);
+
+  const ticker = refined.find((band) => /ticker/i.test(band.label));
+  assert.ok(ticker, "ticker band retained");
+  // Gap before Why MSQ (~0.012) must be absorbed so VL sees the blue bar.
+  const why = refined.find((band) => /why msq/i.test(band.label));
+  assert.ok(why);
+  const tickerBottom = ticker!.box.y + ticker!.box.height;
+  assert.ok(Math.abs(tickerBottom - why!.box.y) < 0.001, `expected closed gap, got ${tickerBottom} vs ${why!.box.y}`);
+  assert.ok(ticker!.box.height >= VISION_BAND_MIN_HEIGHT - 1e-9);
+
+  assert.ok(!refined.some((band) => /legal/i.test(band.label)));
+  const footer = refined.find((band) => band.category === "footer");
+  assert.ok(footer);
+  assert.ok(footer!.box.y + footer!.box.height >= 0.999);
+
+  for (const band of refined) {
+    assert.equal(band.box.x, 0);
+    assert.equal(band.box.width, 1);
+    assert.ok(band.box.height > 0);
+  }
 });
 
 test("buildVisionLayoutTiles resizes wide images before extract", async () => {

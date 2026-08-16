@@ -24,7 +24,9 @@ import {
   mapBandsFromTile,
   mergeVisionLayoutBands,
   parseVisionLayoutResponse,
+  refineVisionLayoutBands,
   renumberVisionBands,
+  sanitizeVisionLayoutNotes,
   VISION_LAYOUT_VERSION,
   visionLayoutMaxBands,
   writeVisionLayoutDocument,
@@ -688,7 +690,10 @@ export async function runVisionLayoutAnalysis(
       allBands.push(...mapped);
     }
 
-    const bands = renumberVisionBands(mergeVisionLayoutBands(allBands, maxBands));
+    const bands = renumberVisionBands(
+      refineVisionLayoutBands(mergeVisionLayoutBands(allBands, maxBands))
+    );
+    const cleanedNotes = sanitizeVisionLayoutNotes(notes);
     const document: VisionLayoutDocument = {
       schema_version: "0.1.0",
       vision_layout_version: VISION_LAYOUT_VERSION,
@@ -696,7 +701,7 @@ export async function runVisionLayoutAnalysis(
       source_screenshot: shot.relative,
       image_width: width,
       image_height: height,
-      ...(notes ? { notes } : {}),
+      ...(cleanedNotes ? { notes: cleanedNotes } : {}),
       bands,
       model: lastModel,
       status: "complete"
@@ -728,7 +733,7 @@ export async function runVisionLayoutAnalysis(
       model: lastModel,
       document,
       bands,
-      ...(notes ? { notes } : {}),
+      ...(cleanedNotes ? { notes: cleanedNotes } : {}),
       tile_count: tiles.length,
       raw_sha256: `sha256:${createHash("sha256").update(joined).digest("hex")}`,
       cost: totalCost
