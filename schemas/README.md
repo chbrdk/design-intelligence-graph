@@ -12,8 +12,8 @@ Machine-readable JSON Schemas live here and are versioned independently.
 - `knowledge-graph.schema.json` defines the portable DIG-006 node, edge, and immutable artifact-lineage index.
 - `mcp-tools.schema.json` names the stable DIG-007 MCP retrieval-tool contract.
 - `layout-spec.schema.json` defines the evidence-linked DIG-008 generated layout specification.
-- `flow-candidates.schema.json` defines DIG-011 Phase A transition candidates (spec; producer deferred).
-- `flow-edges.schema.json` defines DIG-011 Phase B measured flow edges (spec; producer deferred).
+- `flow-candidates.schema.json` defines DIG-011 Phase A transition candidates (`src/flow-candidates.ts`).
+- `flow-edges.schema.json` defines DIG-011 Phase B measured flow edges (`src/flow-edges.ts`).
 - `flow-graph.schema.json` defines the assembled DIG-011 Flow artifact (spec; producer deferred).
 - `mcp-flow-tools.schema.json` names planned DIG-011 MCP tools (`dig_flow_search|get|neighbors`).
 - `flow-library-list.schema.json` / `flow-library-detail.schema.json` — planned Library list/detail envelopes.
