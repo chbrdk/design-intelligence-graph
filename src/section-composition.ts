@@ -155,9 +155,9 @@ function detectSectionRoots(
 
   function isPageShell(node: MatchableNode, box: BBox): boolean {
     const tag = (node.tag ?? "").toLowerCase();
-    if (tag !== "main" && tag !== "div") return false;
     // Giant document wrappers swallow every nested section if selected first.
-    return box.height >= Math.max(1600, viewportHeight * 1.8);
+    if (box.height < Math.max(1600, viewportHeight * 1.8)) return false;
+    return tag === "main" || tag === "div" || tag === "section" || tag === "article";
   }
 
   const semanticBands = ranked.filter(
@@ -408,6 +408,10 @@ function classifySection(input: {
   const socialProofText = /testimonial|review|customer|kunde|quote|partner logo|trusted by|as seen/.test(
     textBlob
   );
+  const commerceText =
+    /cart|checkout|inventory|in stock|out of stock|add to (cart|bag)|kaufen|warenkorb|preis|price|€|\$|buy now|shop now/.test(
+      textBlob
+    );
 
   if (tag === "header" || (hasNav && nearTop && input.box.height < 160)) {
     return { taxonomy_id: "dig:section.global_nav", category: "nav", confidence: 0.9, method: "header_nav_heuristic" };
@@ -551,6 +555,13 @@ function classifySection(input: {
       !socialProofText
     ) {
       continue;
+    }
+    // ["body"] alone matches Opel-style empty recipe bands as inventory_status/loading/quote.
+    const onlyBareBody = hints.every((hint) => hint.length === 1 && hint[0] === "body");
+    if (onlyBareBody && (input.signature === "body" || input.signature === "unknown")) {
+      if (entry.category === "commerce" && !commerceText) continue;
+      if (entry.category === "feedback") continue;
+      if (entry.category === "social_proof" && !socialProofText) continue;
     }
     const score = Math.max(...hints.map((hint) => hintScore(input.signature, hint)));
     if (score < 0.66) continue;

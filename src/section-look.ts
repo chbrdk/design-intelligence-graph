@@ -179,6 +179,10 @@ export function selectSectionsForLook(
     const roleCount = section.signature.split(">").filter(Boolean).length;
     if (roleCount >= 3) score += 0.45;
     if (roleCount === 1 && (section.signature === "body" || section.signature === "unknown")) score -= 0.5;
+    // Thin chrome / cookie strips — keep budget for real bands.
+    const height = sectionHeight(section);
+    if (height > 0 && height < 120) score -= 1.2;
+    if (height >= 2800) score -= 1.5;
     if (isPageWrapper(section)) score -= 2;
     if (isConsentNoise(section)) score -= 3;
     // Prefer desktop for crops + look consistency across viewports.

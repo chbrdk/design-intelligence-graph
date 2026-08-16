@@ -65,6 +65,30 @@ test("tall above-fold media-only section is hero not social_proof logo_marquee",
   assert.notEqual(band.category, "social_proof");
 });
 
+test("bare body bands are content not inventory commerce", () => {
+  const nodes = [
+    { node_id: "band", parent_node_id: null, node_type: "element", tag: "section", rendered: true, text: "Models" },
+    { node_id: "p", parent_node_id: "band", node_type: "element", tag: "p", rendered: true, text: "Discover the range." }
+  ];
+  const boxes = [
+    { node_id: "band", bbox: { x: 0, y: 900, width: 1440, height: 420 } },
+    { node_id: "p", bbox: { x: 40, y: 940, width: 600, height: 80 } }
+  ];
+  const sections = deriveViewportSectionCompositions({
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop",
+    viewport_height: 900,
+    nodes,
+    boxes,
+    styles: []
+  });
+  const band = sections.find((section) => section.root_node_id === "band") ?? sections[0]!;
+  assert.equal(band.signature, "body");
+  assert.equal(band.category, "content");
+  assert.notEqual(band.category, "commerce");
+  assert.notEqual(band.taxonomy_id, "dig:section.inventory_status");
+});
+
 test("near-top model-card media tiles are feature not hero", () => {
   const nodes = [
     { node_id: "main", parent_node_id: null, node_type: "element", tag: "main", rendered: true },

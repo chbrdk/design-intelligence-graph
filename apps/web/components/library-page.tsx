@@ -9,6 +9,7 @@ import {
   fetchDesignReferences,
   fetchLibraryScreens,
   fetchLibrarySections,
+  fetchPageFlows,
   generateFromReferences,
   islandMediaUrl,
   searchLibrary,
@@ -38,6 +39,10 @@ function LibraryPageInner() {
   const [intent, setIntent] = useState('hero marketing section')
   const [packPreview, setPackPreview] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<LibraryAnalysisDetail | null>(null)
+  const [pageNarrative, setPageNarrative] = useState<
+    Array<{ section_label?: string; signature?: string | null }>
+  >([])
+  const [analysisPending, setAnalysisPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   function applyHash(next: LibraryHashState) {
@@ -90,11 +95,36 @@ function LibraryPageInner() {
 
   async function openScreen(screen: LibraryScreen) {
     setSelected(screen)
+    setAnalysis(null)
+    setPageNarrative([])
+    setAnalysisPending(true)
+
     try {
-      setAnalysis(await fetchAnalysisDetail(screen.capture_run_id))
+      setPageNarrative((await fetchPageFlows(screen.capture_run_id)).steps)
     } catch {
-      setAnalysis(null)
+      setPageNarrative([])
     }
+
+    const maxAttempts = 6
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+      try {
+        const detail = await fetchAnalysisDetail(screen.capture_run_id)
+        setAnalysis(detail)
+        setAnalysisPending(false)
+        return
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
+        const missing = /analysis_not_found|404|failed \(404\)/i.test(message)
+        if (!missing || attempt === maxAttempts - 1) {
+          setAnalysis(null)
+          setAnalysisPending(false)
+          if (!missing) setError(message)
+          return
+        }
+        await new Promise((resolve) => window.setTimeout(resolve, 2000))
+      }
+    }
+    setAnalysisPending(false)
   }
 
   async function onSearch() {
@@ -395,7 +425,10 @@ function LibraryPageInner() {
                   <Text role="headline">{selected.title || selected.name}</Text>
                   <Text role="meta">{selected.canonical_url}</Text>
                   <Text role="body">
-                    {analysis?.analysis.design_summary ?? 'No analysis summary yet.'}
+                    {analysis?.analysis.design_summary ??
+                      (analysisPending
+                        ? 'Waiting for enrichment / analysis…'
+                        : 'No analysis summary yet.')}
                   </Text>
                   {analysis?.package?.vision?.status ? (
                     <Text role="meta">Vision: {analysis.package.vision.status}</Text>
@@ -404,6 +437,22 @@ function LibraryPageInner() {
                   <Text role="hint">
                     Within-page section order from LLM — not a multi-screen Flow.
                   </Text>
+                  {pageNarrative.length ? (
+                    <ol className="dig-list">
+                      {pageNarrative.map((step, index) => (
+                        <li key={`${step.section_label ?? 'step'}-${index}`}>
+                          <strong>{step.section_label ?? `Step ${index + 1}`}</strong>
+                          {step.signature ? (
+                            <Text role="meta">{step.signature}</Text>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <Text role="hint">
+                      {analysisPending ? 'Loading page narrative…' : 'No page narrative steps yet.'}
+                    </Text>
+                  )}
                 </>
               ) : (
                 <Text role="hint">Select a screen.</Text>
@@ -437,8 +486,9 @@ function LibraryPageInner() {
                 {selected && !sectionLooks.length ? (
                   <li>
                     <Text role="hint">
-                      No section_look yet for this capture (sparse pages fall back to screen-level
-                      DesignReference only).
+                      {analysisPending
+                        ? 'Section look still enriching…'
+                        : 'No section_look yet for this capture (sparse pages fall back to screen-level DesignReference only).'}
                     </Text>
                   </li>
                 ) : null}
