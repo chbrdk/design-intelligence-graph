@@ -352,16 +352,31 @@ async function extractOpenPanel(page: Page): Promise<{
 
     function collectLinks(roots: ParentNode[]): Array<{ text: string; href: string | null }> {
       const links: Array<{ text: string; href: string | null }> = [];
+      const seen = new Set<string>();
       for (const root of roots) {
         for (const el of deepElements(root)) {
-          const tag = el.tagName;
-          if (tag !== "A" && tag !== "BUTTON" && el.getAttribute("role") !== "menuitem") continue;
           const rect = el.getBoundingClientRect();
           if (rect.width < 4 || rect.height < 4) continue;
+          const tag = el.tagName;
+          const role = (el.getAttribute("role") || "").toLowerCase();
+          const interactive =
+            tag === "A" ||
+            tag === "BUTTON" ||
+            role === "menuitem" ||
+            role === "link" ||
+            role === "button" ||
+            tag.startsWith("PHN-") ||
+            tag.startsWith("P-");
+          if (!interactive) continue;
           const text = ((el as HTMLElement).innerText || el.getAttribute("aria-label") || "")
             .replace(/\s+/g, " ")
             .trim();
           if (!text || text.length > 80) continue;
+          // Prefer short IA labels (single line nav items), skip giant host blobs.
+          if (text.split(" ").length > 8) continue;
+          const key = text.toLowerCase();
+          if (seen.has(key)) continue;
+          seen.add(key);
           const href = el instanceof HTMLAnchorElement ? el.getAttribute("href") : null;
           links.push({ text: text.slice(0, 80), href });
           if (links.length >= 40) return links;
@@ -507,16 +522,45 @@ export async function captureChromeStates(
         warnings.push(`chrome_target_not_unique:${candidate.kind}:${count}`);
         continue;
       }
-      if (candidate.trigger === "hover") {
-        await locator.hover({ timeout: 2500 }).catch(async () => {
-          await locator.hover({ timeout: 2500, force: true });
-        });
-      } else {
-        await locator.click({ timeout: 2500 }).catch(async () => {
-          await locator.click({ timeout: 2500, force: true });
-        });
-      }
-      await sleep(650);
+      // Prefer a real click (web components often ignore force:true). Fall back to composed DOM click.
+      const openWithClick = async () => {
+        if (candidate.trigger === "hover") {
+          await locator.hover({ timeout: 2500 });
+          return;
+        }
+        try {
+          await locator.click({ timeout: 2500 });
+        } catch {
+          await page.evaluate((sel) => {
+            const stack: Array<ParentNode | Element> = [document.documentElement];
+            let el: HTMLElement | null = null;
+            while (stack.length) {
+              const node = stack.pop();
+              if (!node) continue;
+              if (node instanceof Element) {
+                if (node.matches(sel)) {
+                  el = node as HTMLElement;
+                  break;
+                }
+                if (node.shadowRoot) stack.push(node.shadowRoot);
+              }
+              const children = "children" in node ? [...node.children] : [];
+              for (const child of children) stack.push(child);
+            }
+            if (!el) return;
+            el.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true, cancelable: true }));
+            el.click();
+          }, candidate.selector);
+        }
+      };
+      await openWithClick();
+      await sleep(800);
+      // Wait briefly for dialog/drawer IA to appear (Porsche Menü → Modelle).
+      await page
+        .getByText(/Modelle|Models|Shop|Händler|Account|Anmelden|Search|Suche/i)
+        .first()
+        .waitFor({ state: "visible", timeout: 2000 })
+        .catch(() => undefined);
       const panel = await extractOpenPanel(page);
       const open_labels = preferNewChromeLabels(baseline.open_labels, panel.open_labels);
       const open_links = panel.open_links.filter((item) => open_labels.includes(item.text));

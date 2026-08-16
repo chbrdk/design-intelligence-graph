@@ -574,10 +574,7 @@ export async function dismissCookieBanner(page: CookieDismissPage): Promise<{ at
   try {
     await page.evaluate(() => {
       for (const el of document.querySelectorAll("uc-layer, uc-layer2, #usercentrics-root")) {
-        const node = el as HTMLElement;
-        node.style.setProperty("display", "none", "important");
-        node.style.setProperty("pointer-events", "none", "important");
-        node.setAttribute("aria-hidden", "true");
+        el.remove();
       }
     });
   } catch {
