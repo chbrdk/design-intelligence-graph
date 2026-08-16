@@ -10,6 +10,7 @@ import { matchLogicalElements, type MatchableNode, type ViewportNodeSet } from "
 import { deriveResponsiveTransformations, type MeasuredBox, type MeasuredStyle, type ResponsiveViewportEvidence } from "./responsive.js";
 import { attachNetworkRecorder } from "./network.js";
 import { captureSafeStates } from "./states.js";
+import { captureChromeStates } from "./chrome-states.js";
 import { captureScrollEvidence } from "./scroll.js";
 import { summarizeMotion, type MotionEvidenceRecord } from "./motion.js";
 import { captureFrameEvidence } from "./frames.js";
@@ -231,6 +232,19 @@ async function captureViewport(
       }, null, 2),
       "application/json"
     );
+
+    try {
+      await dismissCookieBanner(page);
+      const chromeCapture = await captureChromeStates(page, packageRoot, prefix);
+      warnings.push(...chromeCapture.warnings);
+      artifacts.chrome_states = chromeCapture.artifact;
+      if (chromeCapture.records.length) {
+        warnings.push(`chrome_states_captured:${chromeCapture.records.map((item) => item.kind).join(",")}`);
+      }
+    } catch (error: unknown) {
+      warnings.push(`chrome_states_failed:${error instanceof Error ? error.message : String(error)}`);
+    }
+
     const scrollCapture = await captureScrollEvidence(
       page,
       sanitizedNodes,
@@ -629,7 +643,8 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
       "sanitized_stored_urls_and_sensitive_form_values",
       "paused_css_animations_for_stabilized_screenshot",
       "disabled_css_transitions_for_stabilized_screenshot",
-      "cookie_banner_dismiss_heuristic"
+      "cookie_banner_dismiss_heuristic",
+      "chrome_states_open_restore"
     ],
     errors
   };

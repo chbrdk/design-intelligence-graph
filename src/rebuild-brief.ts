@@ -15,6 +15,11 @@ export function buildRebuildBriefMarkdown(input: {
   captureRunId: string;
   url: string;
   llm: LlmDesignAnalysis;
+  chromeStates?: Array<{
+    kind: string;
+    label: string;
+    open_labels?: string[];
+  }>;
 }): string {
   const llm = input.llm;
   const sections = llm.mobbin?.section_descriptions ?? [];
@@ -47,6 +52,15 @@ export function buildRebuildBriefMarkdown(input: {
     `- Flow: ${[...new Set(sections.map((item) => item.category).filter(Boolean))].join(" → ") || "—"}`
   );
   lines.push("");
+  if (input.chromeStates?.length) {
+    lines.push("## Chrome IA (open states)");
+    lines.push("");
+    for (const state of input.chromeStates.slice(0, 6)) {
+      const labels = (state.open_labels ?? []).slice(0, 10).join(", ") || "—";
+      lines.push(`- **${state.kind}** (${state.label}): ${labels}`);
+    }
+    lines.push("");
+  }
   lines.push("## Hero / media bands");
   lines.push("");
   for (const section of (heroes.length ? heroes : sections).slice(0, 5)) {
@@ -71,6 +85,7 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push("2. Prefer full-bleed photography with dark scrim; avoid card grids in the hero.");
   lines.push("3. Reuse measured signatures as stack recipes; do not invent off-evidence chrome.");
   lines.push("4. Skip cookie/CMP chrome.");
+  lines.push("5. Prefer measured chrome IA labels when rebuilding nav/search/cart.");
   lines.push("");
   return `${lines.join("\n")}\n`;
 }
@@ -80,10 +95,20 @@ export async function emitRebuildBriefForPackage(
   llm: LlmDesignAnalysis
 ): Promise<{ path: string; artifact: ArtifactReference }> {
   const manifest = JSON.parse(await readFile(resolve(packageRoot, "manifest.json"), "utf8")) as CaptureManifest;
+  let chromeStates: Array<{ kind: string; label: string; open_labels?: string[] }> = [];
+  try {
+    const chromeDoc = JSON.parse(
+      await readFile(resolve(packageRoot, "derived/chrome-states.json"), "utf8")
+    ) as { states?: Array<{ kind: string; label: string; open_labels?: string[] }> };
+    chromeStates = chromeDoc.states ?? [];
+  } catch {
+    /* optional */
+  }
   const body = buildRebuildBriefMarkdown({
     captureRunId: manifest.capture_run_id,
     url: manifest.canonical_url,
-    llm
+    llm,
+    chromeStates
   });
   const artifact = await writeArtifact(packageRoot, REBUILD_BRIEF_RELATIVE_PATH, body, "text/markdown; charset=utf-8");
   const updated: CaptureManifest = {

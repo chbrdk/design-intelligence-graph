@@ -39,6 +39,11 @@ export interface DigPaths {
     webpQuality?: number;
     [key: string]: unknown;
   };
+  chromeStates?: {
+    maxOpens?: number;
+    doc?: string;
+    kinds?: string[];
+  };
   database?: {
     composeService: string;
     image: string;

@@ -163,12 +163,28 @@
     "doc": "knowledge/cookie-consent-dismiss.md",
     "source": "checkion/lib/cookie-banner-dismiss.ts"
   },
+  "chromeStates": {
+    "maxOpens": 4,
+    "doc": "knowledge/chrome-states.md",
+    "kinds": [
+      "nav_menu",
+      "mobile_nav",
+      "search_overlay",
+      "account_drawer",
+      "cart_drawer",
+      "lang_switcher",
+      "filter_drawer",
+      "tab_panel",
+      "accordion"
+    ]
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",
     "examplePorsche": "knowledge/porsche-germany-rebuild-brief.md",
     "islandRoute": "/rebuild",
-    "heroImage": "apps/web/public/rebuild/hero-night-car.png"
+    "heroImage": "apps/web/public/rebuild/hero-night-car.png",
+    "nextCaptureDoc": "knowledge/stronger-design-capture.md"
   },
   "taxonomy": {
     "sectionComponentCatalog": "knowledge/section-component-catalog.json",
