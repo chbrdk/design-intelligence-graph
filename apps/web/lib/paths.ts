@@ -55,8 +55,20 @@ export const paths = {
     enrichment: '/enrichment',
     analyses: '/analyses',
     settings: '/settings',
+    rebuild: '/rebuild',
     apiAuthNextAuth: '/api/auth',
     apiHealth: '/api/health',
+  },
+  /** Luxury-auto rebuild mock from DIG capture brief (not production marketing). */
+  rebuildDemo: {
+    brand: 'Porsche',
+    headline: 'Flachbau RS.',
+    support: 'Cinematic full-bleed hero, dark scrim, one clear action — rebuilt from measured DIG evidence.',
+    primaryCta: 'Alle anzeigen',
+    secondaryCta: 'Konfigurieren',
+    heroImage: '/rebuild/hero-night-car.png',
+    briefPath: 'knowledge/porsche-germany-rebuild-brief.md',
+    captureRunId: 'cap_3f48fbb23e074fd6ae68540760f01b92',
   },
 } as const
 

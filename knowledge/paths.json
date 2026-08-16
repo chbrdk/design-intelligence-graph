@@ -166,7 +166,9 @@
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",
-    "examplePorsche": "knowledge/porsche-germany-rebuild-brief.md"
+    "examplePorsche": "knowledge/porsche-germany-rebuild-brief.md",
+    "islandRoute": "/rebuild",
+    "heroImage": "apps/web/public/rebuild/hero-night-car.png"
   },
   "taxonomy": {
     "sectionComponentCatalog": "knowledge/section-component-catalog.json",

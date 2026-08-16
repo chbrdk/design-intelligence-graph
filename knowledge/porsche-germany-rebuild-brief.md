@@ -37,3 +37,9 @@ This above-fold hero section is defined by a tall, full-bleed media element that
 3. Reuse measured signatures as stack recipes; do not invent off-evidence chrome.
 4. Skip cookie/CMP chrome.
 
+## Island mock
+
+- Route: `/rebuild` (`apps/web/app/rebuild`)
+- Paths: `apps/web/lib/paths.ts` → `rebuildDemo`
+- Hero asset: `apps/web/public/rebuild/hero-night-car.png`
+
