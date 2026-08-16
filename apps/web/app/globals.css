@@ -212,6 +212,92 @@ a {
   margin: 0.5rem 0 0.85rem;
 }
 
+.dig-screen-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dig-screen-detail-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dig-screen-detail-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.9fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .dig-screen-detail-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dig-screen-detail-media,
+.dig-screen-detail-side {
+  min-width: 0;
+}
+
+.dig-screen-detail-frame {
+  position: relative;
+  margin-top: 0.75rem;
+  border-radius: 0.5rem;
+  overflow: auto;
+  max-height: min(78vh, 64rem);
+  background: var(--bg1);
+  border: 1px solid var(--border);
+}
+
+.dig-screen-detail-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dig-section-overlay {
+  position: absolute;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--fg);
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+}
+
+.dig-section-overlay span {
+  display: inline-block;
+  margin: 0.2rem 0.35rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  background: color-mix(in srgb, var(--bg0) 82%, transparent);
+  border-radius: 0.25rem;
+  max-width: calc(100% - 0.5rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dig-section-overlay.is-active,
+.dig-section-overlay:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  z-index: 2;
+}
+
+.dig-section-look-panel {
+  display: grid;
+  gap: 0.65rem;
+}
+
 .dig-section-look-list {
   display: flex;
   flex-direction: column;

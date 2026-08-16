@@ -27,6 +27,18 @@ describe('library hash routing', () => {
     )
   })
 
+  it('parses screen detail hashes', () => {
+    assert.deepEqual(parseLibraryHash('#/library/screens/vpc_opel_desktop'), {
+      view: 'screen_detail',
+      viewportCaptureId: 'vpc_opel_desktop',
+    })
+    assert.equal(
+      formatLibraryHash({ view: 'screen_detail', viewportCaptureId: 'vpc_opel_desktop' }),
+      '#/library/screens/vpc_opel_desktop',
+    )
+    assert.equal(paths.libraryCopy.screenDetailOverlay, 'Section overlay')
+  })
+
   it('requires explicit hotspot choice on branches', () => {
     const steps = [
       {

@@ -70,8 +70,28 @@ export interface LibraryScreen {
   site_domain: string | null
   canonical_url: string
   primary_url?: string | null
-  width: number | null
-  height: number | null
+  settled_url?: string | null
+  full_page_url?: string | null
+  width?: number | null
+  height?: number | null
+  document_width?: number | null
+  document_height?: number | null
+}
+
+export type ScreenHotspot = {
+  section_id: string
+  label: string
+  role: string
+  box: { x: number; y: number; width: number; height: number }
+  normalized: { x: number; y: number; width: number; height: number } | null
+}
+
+export type ScreenDetailSection = {
+  section_id: string
+  category?: string | null
+  signature?: string | null
+  confidence?: number | null
+  root_box?: { x: number; y: number; width: number; height: number } | null
 }
 
 /** Rewrite dig-api media paths so the browser hits the Island proxy. */
@@ -322,13 +342,23 @@ export async function fetchAnalysisDetail(captureRunId: string): Promise<Library
 
 export async function fetchScreenDetail(viewportCaptureId: string): Promise<{
   screen: LibraryScreen
+  hotspots: ScreenHotspot[]
+  sections: ScreenDetailSection[]
 }> {
   const response = await fetch(
     `${BASE}${paths.digApiLibrary}/screens/${encodeURIComponent(viewportCaptureId)}`,
   )
-  const body = await readJson<{ screen: LibraryScreen }>(response)
+  const body = await readJson<{
+    screen: LibraryScreen
+    hotspots?: ScreenHotspot[]
+    sections?: ScreenDetailSection[]
+  }>(response)
   if (!response.ok) throw new Error(body.error ?? `Screen detail failed (${response.status})`)
-  return body
+  return {
+    screen: body.screen,
+    hotspots: body.hotspots ?? [],
+    sections: body.sections ?? [],
+  }
 }
 
 export interface DesignFlowListItem {

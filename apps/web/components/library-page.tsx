@@ -5,18 +5,13 @@ import { useSearchParams } from 'next/navigation'
 import { Alert, Button, Field, Input, Panel, Text } from '../lib/msqdx-ui'
 import {
   assembleReferencePromptPack,
-  fetchAnalysisDetail,
   fetchDesignReferences,
-  fetchEnrichmentJobs,
   fetchLibraryScreens,
   fetchLibrarySections,
-  fetchPageFlows,
   generateFromReferences,
   islandMediaUrl,
   searchLibrary,
   type DesignReferenceHit,
-  type EnrichmentJob,
-  type LibraryAnalysisDetail,
   type LibraryScreen,
   type LibrarySearchHit,
   type LibrarySection,
@@ -25,6 +20,7 @@ import { formatLibraryHash, parseLibraryHash, type LibraryHashState } from '../l
 import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
 import { LibraryFlowsPanel } from './library-flows-panel'
+import { LibraryScreenDetailPanel } from './library-screen-detail'
 
 function LibraryPageInner() {
   const searchParams = useSearchParams()
@@ -36,16 +32,9 @@ function LibraryPageInner() {
   const [searchQuery, setSearchQuery] = useState('')
   const [similarTo, setSimilarTo] = useState('')
   const [searchHits, setSearchHits] = useState<LibrarySearchHit[]>([])
-  const [selected, setSelected] = useState<LibraryScreen | null>(null)
   const [selectedRefs, setSelectedRefs] = useState<string[]>([])
   const [intent, setIntent] = useState('hero marketing section')
   const [packPreview, setPackPreview] = useState<string | null>(null)
-  const [analysis, setAnalysis] = useState<LibraryAnalysisDetail | null>(null)
-  const [pageNarrative, setPageNarrative] = useState<
-    Array<{ section_label?: string; signature?: string | null }>
-  >([])
-  const [analysisPending, setAnalysisPending] = useState(false)
-  const [enrichmentHint, setEnrichmentHint] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   function applyHash(next: LibraryHashState) {
@@ -96,69 +85,8 @@ function LibraryPageInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope drives refresh
   }, [platformProjectId])
 
-  async function openScreen(screen: LibraryScreen) {
-    setSelected(screen)
-    setAnalysis(null)
-    setPageNarrative([])
-    setEnrichmentHint(null)
-    setAnalysisPending(true)
-    setError(null)
-
-    const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms))
-    const loadNarrative = async () => {
-      try {
-        setPageNarrative((await fetchPageFlows(screen.capture_run_id)).steps)
-      } catch {
-        setPageNarrative([])
-      }
-    }
-    void loadNarrative()
-
-    const deadline = Date.now() + 8 * 60 * 1000
-    while (Date.now() < deadline) {
-      let job: EnrichmentJob | undefined
-      try {
-        const jobs = await fetchEnrichmentJobs()
-        job = jobs.find((item) => item.capture_run_id === screen.capture_run_id)
-        if (job) {
-          setEnrichmentHint(`${job.status}: ${job.message}${job.error ? ` (${job.error})` : ''}`)
-        }
-      } catch {
-        /* enrichment list optional */
-      }
-
-      if (job?.status === 'failed' || job?.status === 'skipped') {
-        setAnalysisPending(false)
-        setError(job.error || job.message || `Enrichment ${job.status}`)
-        return
-      }
-
-      try {
-        const detail = await fetchAnalysisDetail(screen.capture_run_id)
-        setAnalysis(detail)
-        setAnalysisPending(false)
-        if (job?.message) setEnrichmentHint(job.message)
-        await loadNarrative()
-        return
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err)
-        const missing = /analysis_not_found|404|failed \(404\)/i.test(message)
-        if (!missing) {
-          setAnalysis(null)
-          setAnalysisPending(false)
-          setError(message)
-          return
-        }
-        // Still enriching or reindexing — keep waiting while job is active / unknown.
-        if (job && job.status !== 'queued' && job.status !== 'running' && job.status !== 'complete') {
-          setAnalysisPending(false)
-          return
-        }
-      }
-      await sleep(3000)
-    }
-    setAnalysisPending(false)
-    setEnrichmentHint((prev) => prev ?? 'Timed out waiting for enrichment')
+  function openScreen(screen: LibraryScreen) {
+    applyHash({ view: 'screen_detail', viewportCaptureId: screen.viewport_capture_id })
   }
 
   async function onSearch() {
@@ -239,8 +167,6 @@ function LibraryPageInner() {
     }
   }
 
-  const selectedMedia = islandMediaUrl(selected?.primary_url)
-  const sectionLooks = analysis?.section_look ?? []
   const mode =
     hashState.view === 'flows' ||
     hashState.view === 'flow_detail' ||
@@ -249,6 +175,8 @@ function LibraryPageInner() {
       : hashState.view === 'sections'
         ? 'sections'
         : 'screens'
+  const screenDetailId =
+    hashState.view === 'screen_detail' ? hashState.viewportCaptureId : null
 
   return (
     <AppShell
@@ -330,7 +258,15 @@ function LibraryPageInner() {
         </Panel>
       ) : null}
 
-      {mode === 'screens' ? (
+      {mode === 'screens' && screenDetailId ? (
+        <LibraryScreenDetailPanel
+          key={screenDetailId}
+          viewportCaptureId={screenDetailId}
+          onBack={() => applyHash({ view: 'screens' })}
+        />
+      ) : null}
+
+      {mode === 'screens' && !screenDetailId ? (
         <>
           <Panel className="dig-panel">
             <div className="dig-row">
@@ -359,7 +295,7 @@ function LibraryPageInner() {
                       className="dig-linkish"
                       onClick={() => {
                         const match = screens.find((s) => s.capture_run_id === hit.capture_run_id)
-                        if (match) void openScreen(match)
+                        if (match) openScreen(match)
                       }}
                     >
                       {hit.label} <Text role="meta">({hit.kind})</Text>
@@ -411,127 +347,36 @@ function LibraryPageInner() {
             ) : null}
           </Panel>
 
-          <div className="dig-split">
-            <Panel className="dig-panel">
-              <Text role="title">Screens</Text>
-              <ul className="dig-screen-grid">
-                {screens.map((screen) => {
-                  const thumb = islandMediaUrl(screen.primary_url)
-                  return (
-                    <li key={screen.viewport_capture_id}>
-                      <button
-                        type="button"
-                        className={`dig-screen-card${selected?.viewport_capture_id === screen.viewport_capture_id ? ' is-active' : ''}`}
-                        onClick={() => void openScreen(screen)}
-                      >
-                        {thumb ? (
-                          // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
-                          <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
-                        ) : (
-                          <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
-                        )}
-                        <strong>{screen.title || screen.name}</strong>
-                        <Text role="meta">
-                          {screen.name} · {screen.site_domain ?? screen.canonical_url}
-                        </Text>
-                      </button>
-                    </li>
-                  )
-                })}
-                {!screens.length ? <li>No screens indexed yet.</li> : null}
-              </ul>
-            </Panel>
-
-            <Panel className="dig-panel">
-              <Text role="title">Detail</Text>
-              {selected ? (
-                <>
-                  {selectedMedia ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={selectedMedia}
-                      alt={selected.title || selected.name}
-                      className="dig-screen-hero"
-                    />
-                  ) : (
-                    <Text role="hint">No screenshot path on this viewport.</Text>
-                  )}
-                  <Text role="headline">{selected.title || selected.name}</Text>
-                  <Text role="meta">{selected.canonical_url}</Text>
-                  <Text role="body">
-                    {analysis?.analysis.design_summary ??
-                      (analysisPending
-                        ? 'Waiting for enrichment / analysis…'
-                        : 'No analysis summary yet.')}
-                  </Text>
-                  {enrichmentHint ? <Text role="meta">{enrichmentHint}</Text> : null}
-                  {analysis?.package?.vision?.status ? (
-                    <Text role="meta">Vision: {analysis.package.vision.status}</Text>
-                  ) : null}
-                  <Text role="title">{paths.libraryCopy.pageNarrativeLabel}</Text>
-                  <Text role="hint">
-                    Within-page section order from LLM — not a multi-screen Flow.
-                  </Text>
-                  {pageNarrative.length ? (
-                    <ol className="dig-list">
-                      {pageNarrative.map((step, index) => (
-                        <li key={`${step.section_label ?? 'step'}-${index}`}>
-                          <strong>{step.section_label ?? `Step ${index + 1}`}</strong>
-                          {step.signature ? (
-                            <Text role="meta">{step.signature}</Text>
-                          ) : null}
-                        </li>
-                      ))}
-                    </ol>
-                  ) : (
-                    <Text role="hint">
-                      {analysisPending
-                        ? 'Page narrative appears after enrichment finishes…'
-                        : 'No page narrative steps yet.'}
-                    </Text>
-                  )}
-                </>
-              ) : (
-                <Text role="hint">Select a screen.</Text>
-              )}
-
-              <Text role="title">Section look</Text>
-              <ul className="dig-list dig-section-look-list">
-                {sectionLooks.map((section) => {
-                  const crop = islandMediaUrl(section.crop_url)
-                  return (
-                    <li
-                      key={section.id ?? `${section.name}-${section.signature}`}
-                      className="dig-section-look-item"
+          <Panel className="dig-panel">
+            <Text role="title">Screens</Text>
+            <Text role="hint">Open a card for full-page screenshot, section overlay, and look accordion.</Text>
+            <ul className="dig-screen-grid">
+              {screens.map((screen) => {
+                const thumb = islandMediaUrl(screen.primary_url)
+                return (
+                  <li key={screen.viewport_capture_id}>
+                    <button
+                      type="button"
+                      className="dig-screen-card"
+                      onClick={() => openScreen(screen)}
                     >
-                      {crop ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={crop} alt="" className="dig-section-look-thumb" loading="lazy" />
-                      ) : null}
-                      <div>
-                        <strong>
-                          {section.category ?? 'section'} · {section.signature ?? section.name}
-                        </strong>
-                        <Text role="body">{section.interpretation ?? '—'}</Text>
-                        {typeof section.confidence === 'number' ? (
-                          <Text role="meta">{(section.confidence * 100).toFixed(0)}% confidence</Text>
-                        ) : null}
-                      </div>
-                    </li>
-                  )
-                })}
-                {selected && !sectionLooks.length ? (
-                  <li>
-                    <Text role="hint">
-                      {analysisPending
-                        ? 'Section look still enriching…'
-                        : 'No section_look yet for this capture (sparse pages fall back to screen-level DesignReference only).'}
-                    </Text>
+                      {thumb ? (
+                        // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
+                        <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
+                      ) : (
+                        <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
+                      )}
+                      <strong>{screen.title || screen.name}</strong>
+                      <Text role="meta">
+                        {screen.name} · {screen.site_domain ?? screen.canonical_url}
+                      </Text>
+                    </button>
                   </li>
-                ) : null}
-              </ul>
-            </Panel>
-          </div>
+                )
+              })}
+              {!screens.length ? <li>No screens indexed yet.</li> : null}
+            </ul>
+          </Panel>
         </>
       ) : null}
     </AppShell>

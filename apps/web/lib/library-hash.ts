@@ -2,6 +2,7 @@
 
 export type LibraryHashState =
   | { view: 'screens' }
+  | { view: 'screen_detail'; viewportCaptureId: string }
   | { view: 'sections' }
   | { view: 'flows' }
   | { view: 'flow_detail'; flowId: string }
@@ -13,6 +14,9 @@ export function parseLibraryHash(hash: string): LibraryHashState {
   const segments = (pathPart || '').split('/').filter(Boolean)
   if (segments[0] !== 'library') return { view: 'screens' }
   if (segments[1] === 'sections') return { view: 'sections' }
+  if (segments[1] === 'screens' && segments[2]) {
+    return { view: 'screen_detail', viewportCaptureId: decodeURIComponent(segments[2]) }
+  }
   if (segments[1] === 'flows') {
     const flowId = segments[2] ? decodeURIComponent(segments[2]) : null
     if (!flowId) return { view: 'flows' }
@@ -28,6 +32,9 @@ export function parseLibraryHash(hash: string): LibraryHashState {
 
 export function formatLibraryHash(state: LibraryHashState): string {
   if (state.view === 'screens') return '#/library/screens'
+  if (state.view === 'screen_detail') {
+    return `#/library/screens/${encodeURIComponent(state.viewportCaptureId)}`
+  }
   if (state.view === 'sections') return '#/library/sections'
   if (state.view === 'flows') return '#/library/flows'
   if (state.view === 'flow_detail') return `#/library/flows/${encodeURIComponent(state.flowId)}`
