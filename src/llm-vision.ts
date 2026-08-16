@@ -268,7 +268,7 @@ export async function runVisionScreenAnalysis(
           ]
         }
       ],
-      { maxTokens: options.maxTokens ?? 500, model: visionModel }
+      { maxTokens: options.maxTokens ?? 2000, model: visionModel, reasoningEffort: "none" as const }
     );
     await cache?.set({
       stage_id: "vision_screen",
@@ -410,7 +410,7 @@ export async function runVisionPageAnalysis(
           ]
         }
       ],
-      { maxTokens: options.maxTokens ?? 1400, model: visionModel }
+      { maxTokens: options.maxTokens ?? 2500, model: visionModel, reasoningEffort: "none" as const }
     );
     await cache?.set({
       stage_id: "vision_page",
@@ -548,7 +548,7 @@ export async function runVisionLayoutAnalysis(
               ]
             }
           ],
-          { maxTokens: options.maxTokens ?? 900, model: visionModel }
+          { maxTokens: options.maxTokens ?? 2000, model: visionModel, reasoningEffort: "none" as const }
         );
         raw = completion.content;
         lastModel = completion.model;
@@ -808,7 +808,7 @@ export async function runVisionSectionAnalysis(
           ]
         }
       ],
-      { maxTokens: options.maxTokens ?? 450, model: visionModel }
+      { maxTokens: options.maxTokens ?? 1200, model: visionModel, reasoningEffort: "none" as const }
     );
     await cache?.set({
       stage_id: "vision_section",

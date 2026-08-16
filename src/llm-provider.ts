@@ -188,10 +188,12 @@ function isRetryableProviderError(error: unknown): boolean {
     message.includes("econnreset") ||
     message.includes("aborted") ||
     message.includes("timeout") ||
+    message.includes("no message content") ||
     message.includes("local llm request failed: 5") ||
     message.includes("local llm request failed: 502") ||
     message.includes("local llm request failed: 503") ||
-    message.includes("local llm request failed: 504")
+    message.includes("local llm request failed: 504") ||
+    message.includes("local llm request failed: 429")
   );
 }
 
@@ -211,6 +213,8 @@ export class OpenAiCompatibleLlmProvider {
       maxTokens?: number;
       model?: string;
       reasoningEffort?: LlmProviderConfig["reasoningEffort"];
+      /** Internal: already retried empty-content once. */
+      _emptyRetry?: boolean;
     } = {}
   ): Promise<LlmCompletion> {
     if (!this.config.enabled) {
@@ -230,11 +234,10 @@ export class OpenAiCompatibleLlmProvider {
         temperature: 0,
         max_tokens: options.maxTokens ?? this.config.stageMaxTokens ?? 1200
       };
-      if (reasoningEffort) {
-        body.reasoning = { effort: reasoningEffort };
-        // Qwen/Alibaba also honor enable_thinking on OpenRouter.
-        body.enable_thinking = reasoningEffort !== "none";
-      }
+      // Always send reasoning=none for VL JSON stages — free VL models often burn the budget on thinking.
+      const effort = reasoningEffort ?? "none";
+      body.reasoning = { effort };
+      body.enable_thinking = effort !== "none";
       const response = await this.request(`${this.config.baseUrl.replace(/\/$/, "")}/chat/completions`, {
         method: "POST",
         headers: {
@@ -264,8 +267,24 @@ export class OpenAiCompatibleLlmProvider {
         }>;
       };
       const choice = data.choices?.[0];
-      const content = normalizeMessageContent(choice?.message?.content);
+      let content = normalizeMessageContent(choice?.message?.content);
+      // Some VL/reasoning models put JSON only in `reasoning` when content is empty.
       if (!content) {
+        const reasoningText = (choice?.message?.reasoning ?? "").trim();
+        if (reasoningText.includes("{") && reasoningText.includes("}")) {
+          content = reasoningText;
+        }
+      }
+      if (!content) {
+        if (!options._emptyRetry) {
+          clearTimeout(timer);
+          return this.complete(messages, {
+            ...options,
+            reasoningEffort: "none",
+            maxTokens: Math.max(options.maxTokens ?? 0, 2800),
+            _emptyRetry: true
+          });
+        }
         const reasoningPreview = (choice?.message?.reasoning ?? "").slice(0, 120);
         throw new Error(
           reasoningPreview
@@ -298,7 +317,12 @@ export class OpenAiCompatibleLlmProvider {
     options: { maxTokens?: number } = {}
   ): Promise<LlmCompletion> {
     const visionModel = this.config.visionModel ?? this.config.model;
-    return this.complete(messages, { ...options, model: visionModel });
+    return this.complete(messages, {
+      ...options,
+      model: visionModel,
+      reasoningEffort: "none",
+      maxTokens: Math.max(options.maxTokens ?? 0, 2000)
+    });
   }
 }
 
@@ -324,7 +348,9 @@ export class FallbackLlmProvider {
       if (!this.fallback || this.primaryConfig.fallbackProvider !== "openrouter" || !isRetryableProviderError(error)) {
         throw error;
       }
-      return this.fallback.complete(messages, options);
+      // Drop explicit model so the fallback provider's configured model/vision model is used.
+      const { model: _model, ...rest } = options;
+      return this.fallback.complete(messages, rest);
     }
   }
 }
@@ -332,12 +358,14 @@ export class FallbackLlmProvider {
 /**
  * Build a completer for an already-resolved config (e.g. enrichment bulk-model override).
  * Preserves local → OpenRouter fallback so callers that pass `config` do not skip it.
+ * When OpenRouter is primary, also fall back to an alternate vision model on empty/429 errors.
  */
 export function createLlmProviderFromConfig(
   config: LlmProviderConfig,
   environment: NodeJS.ProcessEnv = process.env,
   request: typeof fetch = fetch
 ): LlmCompleter {
+  const paths = loadDigPaths();
   const primary = new OpenAiCompatibleLlmProvider(config, request);
   if (config.provider === "local" && config.fallbackProvider === "openrouter") {
     const fallbackConfig = openrouterFallbackConfig(environment, config);
@@ -346,6 +374,27 @@ export function createLlmProviderFromConfig(
     if (config.reasoningEffort) fallbackConfig.reasoningEffort = config.reasoningEffort;
     if (fallbackConfig.apiKey) {
       return new FallbackLlmProvider(primary, new OpenAiCompatibleLlmProvider(fallbackConfig, request), config);
+    }
+  }
+  if (config.provider === "openrouter") {
+    const altVision =
+      environment.DIG_LLM_VISION_FALLBACK_MODEL ??
+      (paths.llm.openrouter as { visionModelFallback?: string } | undefined)?.visionModelFallback ??
+      "";
+    const currentVision = config.visionModel ?? config.model;
+    if (altVision && currentVision && altVision !== currentVision) {
+      const altConfig: LlmProviderConfig = {
+        ...config,
+        model: altVision,
+        visionModel: altVision,
+        reasoningEffort: "none",
+        fallbackProvider: "openrouter"
+      };
+      return new FallbackLlmProvider(
+        primary,
+        new OpenAiCompatibleLlmProvider(altConfig, request),
+        { ...config, fallbackProvider: "openrouter" }
+      );
     }
   }
   return primary;

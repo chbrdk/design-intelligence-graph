@@ -57,7 +57,8 @@
     "openrouter": {
       "baseUrl": "https://openrouter.ai/api/v1",
       "defaultModel": "nvidia/nemotron-3-nano-30b-a3b:free",
-      "visionModel": "nvidia/nemotron-nano-12b-v2-vl:free",
+      "visionModel": "google/gemma-4-31b-it:free",
+      "visionModelFallback": "nvidia/nemotron-nano-12b-v2-vl:free",
       "apiKeyEnv": "OPENROUTER_API_KEY",
       "httpReferer": "https://github.com/design-intelligence-graph",
       "appTitle": "DIG"

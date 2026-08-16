@@ -94,7 +94,7 @@ Do **not** webpack-alias `react` / `react-dom` in `apps/web/next.config.ts`. Tha
 | `DIG_LLM_ASYNC` | `true` |
 | `DIG_LLM_REASONING_EFFORT` | `none` |
 | `DIG_LLM_MODEL` | `nvidia/nemotron-3-nano-30b-a3b:free` |
-| `DIG_LLM_VISION_MODEL` | `nvidia/nemotron-nano-12b-v2-vl:free` |
+| `DIG_LLM_VISION_MODEL` | `google/gemma-4-31b-it:free` (multimodal; Nemotron VL free often returns empty content) |
 | `OPENROUTER_API_KEY` | secret — **required** (not in git) |
 
 After key is set: restart dig-api; next capture should enqueue `/api/enrichment`.
