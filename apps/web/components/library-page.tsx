@@ -324,18 +324,27 @@ function LibraryPageInner() {
           )}
 
           <Text role="title">Section look</Text>
-          <ul className="dig-list">
-            {sectionLooks.map((section) => (
-              <li key={section.id ?? `${section.name}-${section.signature}`}>
-                <strong>
-                  {section.category ?? 'section'} · {section.signature ?? section.name}
-                </strong>
-                <Text role="body">{section.interpretation ?? '—'}</Text>
-                {typeof section.confidence === 'number' ? (
-                  <Text role="meta">{(section.confidence * 100).toFixed(0)}% confidence</Text>
-                ) : null}
-              </li>
-            ))}
+          <ul className="dig-list dig-section-look-list">
+            {sectionLooks.map((section) => {
+              const crop = islandMediaUrl(section.crop_url)
+              return (
+                <li key={section.id ?? `${section.name}-${section.signature}`} className="dig-section-look-item">
+                  {crop ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={crop} alt="" className="dig-section-look-thumb" loading="lazy" />
+                  ) : null}
+                  <div>
+                    <strong>
+                      {section.category ?? 'section'} · {section.signature ?? section.name}
+                    </strong>
+                    <Text role="body">{section.interpretation ?? '—'}</Text>
+                    {typeof section.confidence === 'number' ? (
+                      <Text role="meta">{(section.confidence * 100).toFixed(0)}% confidence</Text>
+                    ) : null}
+                  </div>
+                </li>
+              )
+            })}
             {selected && !sectionLooks.length ? (
               <li>
                 <Text role="hint">

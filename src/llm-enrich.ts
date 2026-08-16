@@ -16,6 +16,7 @@ import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
 import type { NodeStyleMap } from "./section-look.js";
+import { emitSectionCrops } from "./section-crops.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
 
 async function loadNodeStylesFromPackage(
@@ -72,7 +73,7 @@ export async function applyLlmDesignAnalysis(
   const config = options.config ?? localLlmConfig();
   const stageCache = options.stageCache ?? createDefaultStageCache();
   const manifestPath = resolve(packageRoot, "manifest.json");
-  const manifest = JSON.parse(await readFile(manifestPath, "utf8")) as CaptureManifest;
+  let manifest = JSON.parse(await readFile(manifestPath, "utf8")) as CaptureManifest;
   const analysisPath = resolve(packageRoot, manifest.run_artifacts.analysis?.path ?? "derived/analysis-report.json");
   const ontologyPath = resolve(packageRoot, manifest.run_artifacts.ontology?.path ?? "derived/ontology.json");
   const visualPath = resolve(packageRoot, manifest.run_artifacts.visual_language?.path ?? "derived/visual-language.json");
@@ -105,6 +106,28 @@ export async function applyLlmDesignAnalysis(
     sectionClusters = sectionDoc.clusters ?? [];
   } catch {
     /* older packages may lack section compositions */
+  }
+
+  // Deterministic section crops (also refreshes after CHECKION full-page attach).
+  if (sectionCompositions.length) {
+    try {
+      const cropEmit = await emitSectionCrops({
+        packageRoot,
+        viewportCaptures: manifest.viewport_captures,
+        sections: sectionCompositions,
+        viewportName: "desktop"
+      });
+      manifest = {
+        ...manifest,
+        run_artifacts: {
+          ...manifest.run_artifacts,
+          section_crops: cropEmit.artifact
+        }
+      };
+      await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");
+    } catch {
+      /* crop failure must not block enrichment */
+    }
   }
 
   const nodeStyles = await loadNodeStylesFromPackage(packageRoot, manifest, sectionCompositions);

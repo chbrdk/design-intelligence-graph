@@ -7,6 +7,7 @@ import { upsertEmbeddings, type EmbeddingSubject } from "./embeddings.js";
 import type { LlmDesignAnalysis } from "./llm-design.js";
 import type { OntologyEntity, ViewportOntology } from "./ontology.js";
 import type { RecipeStep, SectionCompositionDocument } from "./section-composition.js";
+import { loadSectionCropsDocument } from "./section-crops.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 
 export type Box = { x: number; y: number; width: number; height: number };
@@ -286,6 +287,10 @@ export async function indexCapturePackageToDatabase(
       });
     }
     let llmItemIndex = 0;
+    const sectionCropsDoc = await loadSectionCropsDocument(packageRoot);
+    const cropPaths = new Map(
+      (sectionCropsDoc?.crops ?? []).map((crop) => [crop.section_id, crop.path] as const)
+    );
     for (const pattern of llm.mobbin?.screen_patterns ?? []) {
       llmItemIndex += 1;
       await client.query(
@@ -362,6 +367,7 @@ export async function indexCapturePackageToDatabase(
     }
     for (const description of llm.mobbin?.section_descriptions ?? []) {
       llmItemIndex += 1;
+      const cropPath = cropPaths.get(description.section_id) ?? null;
       await client.query(
         `INSERT INTO llm_items (capture_run_id, kind, name, signature, category, interpretation, confidence, evidence_refs, gaps)
          VALUES ($1,'section_look',$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb)`,
@@ -386,7 +392,8 @@ export async function indexCapturePackageToDatabase(
             spacing: description.spacing ?? null,
             layout: description.layout ?? null,
             role_notes: description.role_notes ?? [],
-            color_notes: description.color_notes ?? null
+            color_notes: description.color_notes ?? null,
+            crop_path: cropPath
           })
         ]
       );

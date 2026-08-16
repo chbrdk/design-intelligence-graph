@@ -402,13 +402,20 @@ export async function handleLibraryApi(
        ORDER BY kind ASC, step_index ASC NULLS LAST, id ASC`,
       [captureRunId]
     );
+    const withCropUrls = items.rows.map((item) => {
+      if (item.kind !== "section_look") return item;
+      const gaps = item.gaps && typeof item.gaps === "object" ? (item.gaps as Record<string, unknown>) : {};
+      const cropPath = typeof gaps.crop_path === "string" ? gaps.crop_path : null;
+      const crop_url = mediaUrl(base, captureRunId, cropPath);
+      return { ...item, crop_path: cropPath, crop_url };
+    });
     const grouped = {
-      screen_patterns: items.rows.filter((item) => item.kind === "screen_pattern"),
-      ui_elements: items.rows.filter((item) => item.kind === "ui_element"),
-      recipe_insights: items.rows.filter((item) => item.kind === "recipe_insight"),
-      page_flow: items.rows.filter((item) => item.kind === "page_flow"),
-      visual_style: items.rows.filter((item) => item.kind === "visual_style"),
-      section_look: items.rows.filter((item) => item.kind === "section_look")
+      screen_patterns: withCropUrls.filter((item) => item.kind === "screen_pattern"),
+      ui_elements: withCropUrls.filter((item) => item.kind === "ui_element"),
+      recipe_insights: withCropUrls.filter((item) => item.kind === "recipe_insight"),
+      page_flow: withCropUrls.filter((item) => item.kind === "page_flow"),
+      visual_style: withCropUrls.filter((item) => item.kind === "visual_style"),
+      section_look: withCropUrls.filter((item) => item.kind === "section_look")
     };
     let packageExtras: Record<string, unknown> | null = null;
     const packagePath = typeof row.package_path === "string" ? row.package_path : null;
@@ -422,12 +429,34 @@ export async function handleLibraryApi(
           hypotheses?: unknown;
           mobbin?: { section_descriptions?: unknown };
         };
+        let section_crops: unknown = null;
+        try {
+          section_crops = JSON.parse(await readFile(resolve(packagePath, "derived/section-crops.json"), "utf8"));
+        } catch {
+          section_crops = null;
+        }
+        // Fill missing crop_urls from package index (pre-LLM crops / older rows).
+        if (section_crops && typeof section_crops === "object") {
+          const crops = (section_crops as { crops?: Array<{ section_id?: string; path?: string }> }).crops ?? [];
+          const byId = new Map(crops.map((crop) => [crop.section_id, crop.path]));
+          grouped.section_look = grouped.section_look.map((item) => {
+            if (item.crop_url) return item;
+            const pathFromPackage = byId.get(String(item.name ?? "")) ?? null;
+            if (!pathFromPackage || typeof pathFromPackage !== "string") return item;
+            return {
+              ...item,
+              crop_path: pathFromPackage,
+              crop_url: mediaUrl(base, captureRunId, pathFromPackage)
+            };
+          });
+        }
         packageExtras = {
           vision: llm.vision ?? null,
           cost: llm.cost ?? null,
           stages: llm.stages ?? null,
           hypotheses: llm.hypotheses ?? null,
-          section_descriptions: llm.mobbin?.section_descriptions ?? null
+          section_descriptions: llm.mobbin?.section_descriptions ?? null,
+          section_crops
         };
       } catch {
         packageExtras = null;

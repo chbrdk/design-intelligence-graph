@@ -147,6 +147,16 @@
     "screenshotFormat": "webp",
     "webpQuality": 80
   },
+  "sectionCrops": {
+    "maxPerViewport": 12,
+    "padPx": 12,
+    "minWidth": 280,
+    "minHeight": 120,
+    "maxHeight": 1600,
+    "maxWrapperHeight": 2800,
+    "webpQuality": 72,
+    "doc": "knowledge/section-crops-next.md"
+  },
   "taxonomy": {
     "sectionComponentCatalog": "knowledge/section-component-catalog.json",
     "ontologyVersion": "0.2.0",

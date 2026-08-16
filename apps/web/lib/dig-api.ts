@@ -118,6 +118,8 @@ export interface SectionLookItem {
   category?: string | null
   interpretation?: string | null
   confidence?: number | null
+  crop_path?: string | null
+  crop_url?: string | null
 }
 
 export interface SectionDescription {

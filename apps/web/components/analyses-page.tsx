@@ -5,6 +5,7 @@ import { Alert, Button, Panel, Text } from '../lib/msqdx-ui'
 import {
   fetchAnalyses,
   fetchAnalysisDetail,
+  islandMediaUrl,
   type LibraryAnalysisDetail,
   type LibraryAnalysisSummary,
 } from '../lib/dig-api'
@@ -70,15 +71,24 @@ export function AnalysesPageClient() {
                 {detail.package?.vision?.status ? ` · vision ${detail.package.vision.status}` : ''}
               </Text>
               <Text role="title">Section look</Text>
-              <ul className="dig-list">
-                {detail.section_look.map((item) => (
-                  <li key={item.id ?? `${item.name}-${item.signature}`}>
-                    <strong>
-                      {item.category ?? item.kind ?? 'section'} · {item.signature ?? item.name}
-                    </strong>
-                    <Text role="body">{item.interpretation ?? '—'}</Text>
-                  </li>
-                ))}
+              <ul className="dig-list dig-section-look-list">
+                {detail.section_look.map((item) => {
+                  const crop = islandMediaUrl(item.crop_url)
+                  return (
+                    <li key={item.id ?? `${item.name}-${item.signature}`} className="dig-section-look-item">
+                      {crop ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={crop} alt="" className="dig-section-look-thumb" loading="lazy" />
+                      ) : null}
+                      <div>
+                        <strong>
+                          {item.category ?? item.kind ?? 'section'} · {item.signature ?? item.name}
+                        </strong>
+                        <Text role="body">{item.interpretation ?? '—'}</Text>
+                      </div>
+                    </li>
+                  )
+                })}
                 {!detail.section_look.length ? <li>No section_look items.</li> : null}
               </ul>
               <Text role="title">Other facets</Text>

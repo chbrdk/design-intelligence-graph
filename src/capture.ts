@@ -24,6 +24,7 @@ import { ONTOLOGY_VERSION, TAXONOMY } from "./taxonomy.js";
 import {
   deriveSectionCompositionsDocument
 } from "./section-composition.js";
+import { emitSectionCrops } from "./section-crops.js";
 import { deriveVisualHypotheses, deriveVisualLanguageViewport, VISUAL_LANGUAGE_VERSION, type VisualViewportEvidence } from "./visual-language.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
@@ -537,6 +538,20 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     JSON.stringify(sectionCompositionDoc, null, 2),
     "application/json"
   );
+  try {
+    const cropEmit = await emitSectionCrops({
+      packageRoot,
+      viewportCaptures: results,
+      sections: sectionCompositionDoc.viewports.flatMap((viewport) => viewport.sections),
+      viewportName: "desktop"
+    });
+    runArtifacts.section_crops = cropEmit.artifact;
+  } catch (error: unknown) {
+    errors.push({
+      code: "section_crops_failed",
+      message: error instanceof Error ? error.message : String(error)
+    });
+  }
   runArtifacts.ontology_catalog = await writeArtifact(
     packageRoot,
     "ontology/catalog.json",
