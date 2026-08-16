@@ -56,9 +56,9 @@
     "fallbackProvider": "openrouter",
     "openrouter": {
       "baseUrl": "https://openrouter.ai/api/v1",
-      "defaultModel": "nvidia/nemotron-3-nano-30b-a3b:free",
-      "visionModel": "google/gemma-4-31b-it:free",
-      "visionModelFallback": "nvidia/nemotron-nano-12b-v2-vl:free",
+      "defaultModel": "qwen/qwen3.7-flash",
+      "visionModel": "qwen/qwen3.7-flash",
+      "visionModelFallback": "qwen/qwen3.6-flash",
       "apiKeyEnv": "OPENROUTER_API_KEY",
       "httpReferer": "https://github.com/design-intelligence-graph",
       "appTitle": "DIG"
@@ -69,30 +69,16 @@
       "reportDir": "tmp/llm-quality-eval",
       "models": [
         {
-          "id": "nvidia/nemotron-3-nano-30b-a3b:free",
-          "label": "Nemotron 3 Nano (text, free)",
-          "tracks": [
-            "text"
-          ]
-        },
-        {
-          "id": "nvidia/nemotron-nano-12b-v2-vl:free",
-          "label": "Nemotron Nano 12B VL (vision, free)",
-          "tracks": [
-            "vision"
-          ]
-        },
-        {
-          "id": "google/gemma-4-26b-a4b-it:free",
-          "label": "Gemma 4 26B A4B (free)",
+          "id": "qwen/qwen3.7-flash",
+          "label": "Qwen3.7 Flash (text + vision)",
           "tracks": [
             "text",
             "vision"
           ]
         },
         {
-          "id": "qwen/qwen3.7-flash",
-          "label": "Qwen3.7 Flash (paid volume)",
+          "id": "google/gemma-4-26b-a4b-it:free",
+          "label": "Gemma 4 26B A4B (free)",
           "tracks": [
             "text",
             "vision"
@@ -123,8 +109,8 @@
         "bulkVision": "qwen/qwen3.7-flash",
         "qualityText": "openai/gpt-5.6-luna",
         "qualityVision": "openai/gpt-5.6-luna",
-        "freeDevText": "nvidia/nemotron-3-nano-30b-a3b:free",
-        "freeDevVision": "nvidia/nemotron-nano-12b-v2-vl:free"
+        "freeDevText": "google/gemma-4-26b-a4b-it:free",
+        "freeDevVision": "google/gemma-4-31b-it:free"
       },
       "bulkReasoningEffort": "none",
       "confidenceEscalateBelow": 0.55,

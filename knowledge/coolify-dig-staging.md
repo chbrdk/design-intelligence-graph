@@ -93,8 +93,9 @@ Do **not** webpack-alias `react` / `react-dom` in `apps/web/next.config.ts`. Tha
 | `DIG_LLM_PROVIDER` | `openrouter` |
 | `DIG_LLM_ASYNC` | `true` |
 | `DIG_LLM_REASONING_EFFORT` | `none` |
-| `DIG_LLM_MODEL` | `nvidia/nemotron-3-nano-30b-a3b:free` |
-| `DIG_LLM_VISION_MODEL` | `google/gemma-4-31b-it:free` (multimodal; Nemotron VL free often returns empty content) |
+| `DIG_LLM_MODEL` | `qwen/qwen3.7-flash` |
+| `DIG_LLM_VISION_MODEL` | `qwen/qwen3.7-flash` (image+video; replaces NVIDIA free VL) |
+| `DIG_LLM_VISION_FALLBACK_MODEL` | `qwen/qwen3.6-flash` |
 | `OPENROUTER_API_KEY` | secret — **required** (not in git) |
 
 After key is set: restart dig-api; next capture should enqueue `/api/enrichment`.
