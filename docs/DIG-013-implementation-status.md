@@ -16,5 +16,5 @@
 | Collection-scoped dig projects | Done (P2 durable) | Postgres dig_projects + capture scope; island proxies to dig-api |
 | Coolify DIG staging | Done | Island + API + Postgres + volumes |
 | Live CHECKION peer via staging token | Partial | Attach exists; harden under Collection ids |
-| Assistant capabilities `dig.*` | Not started | |
+| Assistant capabilities `spirion.*` | Partial | Catalog stubs in plexon-v3; Wave 2 executors later |
 | plexon-v3 binding ticket | Done (spec) | `knowledge/plexon-dig-binding-ticket.md` |
