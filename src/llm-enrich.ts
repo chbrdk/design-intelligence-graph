@@ -18,7 +18,7 @@ import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
 import type { NodeStyleMap } from "./section-look.js";
-import { loadSectionCropsDocument } from "./section-crops.js";
+import { emitSectionCrops, loadSectionCropsDocument } from "./section-crops.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
 import {
   emitVisionBandCrops,

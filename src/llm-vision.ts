@@ -459,7 +459,7 @@ export async function runVisionLayoutAnalysis(
       model: visionModel,
       document: failedDoc,
       bands: [],
-      error: failedDoc.error
+      ...(failedDoc.error ? { error: failedDoc.error } : {})
     };
   }
 }
