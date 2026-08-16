@@ -39,6 +39,18 @@ test("consent noise detects cookie copy", () => {
   );
 });
 
+test("consent noise rejects vision payloads that describe CMP chrome", async () => {
+  const { isConsentOverlayVision } = await import("../src/consent-noise.js");
+  assert.equal(
+    isConsentOverlayVision({
+      visible_text: ["Ihre Cookie Einstellungen"],
+      cta_chrome: "Alle akzeptieren"
+    }),
+    true
+  );
+  assert.equal(isConsentOverlayVision({ visible_text: ["PORSCHE", "Flachbau RS."], cta_chrome: "" }), false);
+});
+
 test("shouldRunSectionVision skips consent overlays", () => {
   const gate = shouldRunSectionVision(
     {

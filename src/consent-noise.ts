@@ -34,3 +34,19 @@ export function isConsentOverlaySection(input: {
   if (blobs.some((blob) => isConsentOverlayText(blob))) return true;
   return false;
 }
+
+/** VL sometimes still sees CMP chrome on CHECKION crops — reject those results. */
+export function isConsentOverlayVision(input: {
+  visible_text?: string[] | null;
+  cta_chrome?: string | null;
+  composition?: string | null;
+  media_subject?: string | null;
+}): boolean {
+  const blobs = [
+    ...(input.visible_text ?? []),
+    input.cta_chrome ?? "",
+    input.composition ?? "",
+    input.media_subject ?? ""
+  ];
+  return blobs.some((blob) => isConsentOverlayText(blob));
+}

@@ -10,7 +10,7 @@ import { usageToStageCost, type StageCostRecord } from "./llm-cost.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import type { SectionCropRecord } from "./section-crops.js";
 import type { SectionLookDescription } from "./section-look.js";
-import { isConsentOverlaySection } from "./consent-noise.js";
+import { isConsentOverlaySection, isConsentOverlayVision } from "./consent-noise.js";
 import type { CaptureManifest } from "./types.js";
 
 export interface LlmVisionResult {
@@ -547,11 +547,33 @@ export async function runGatedSectionVisions(input: {
     )
   );
 
-  const bySection = new Map(results.map((result) => [result.section_id, result]));
+  const filtered: LlmSectionVisionResult[] = results.map((result) => {
+    if (result.status !== "complete") return result;
+    if (
+      !isConsentOverlayVision({
+        ...(result.visible_text ? { visible_text: result.visible_text } : {}),
+        ...(result.cta_chrome ? { cta_chrome: result.cta_chrome } : {}),
+        ...(result.composition ? { composition: result.composition } : {}),
+        ...(result.media_subject ? { media_subject: result.media_subject } : {})
+      })
+    ) {
+      return result;
+    }
+    return {
+      section_id: result.section_id,
+      status: "skipped",
+      ...(result.crop_path ? { crop_path: result.crop_path } : {}),
+      gate_reason: "consent_overlay_vision",
+      error: "vision detected cookie/consent chrome",
+      ...(result.cost ? { cost: result.cost } : {})
+    };
+  });
+
+  const bySection = new Map(filtered.map((result) => [result.section_id, result]));
   const descriptions = input.descriptions.map((description) => {
     const vision = bySection.get(description.section_id);
     return vision ? mergeSectionVisionIntoLook(description, vision) : description;
   });
-  const costs = results.flatMap((result) => (result.cost ? [result.cost] : []));
-  return { results, descriptions, costs };
+  const costs = filtered.flatMap((result) => (result.cost ? [result.cost] : []));
+  return { results: filtered, descriptions, costs };
 }

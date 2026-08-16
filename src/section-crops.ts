@@ -162,9 +162,11 @@ function findViewportSource(
     viewports.find((item) => item.name === "desktop") ??
     viewports[0];
   if (!viewport) return null;
+  // Prefer DIG Playwright full-page (post cookie-dismiss) for crops; CHECKION JPEG is page SoT but may retain CMP chrome.
+  const playwright = viewport.artifacts?.playwright_full_page_screenshot?.path;
   const full = viewport.artifacts?.full_page_screenshot?.path;
   const settled = viewport.artifacts?.viewport_screenshot?.path;
-  const relative = full ?? settled;
+  const relative = playwright ?? full ?? settled;
   if (!relative) return null;
   return {
     absolute: resolve(packageRoot, relative),

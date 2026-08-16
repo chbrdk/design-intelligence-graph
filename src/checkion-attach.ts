@@ -70,6 +70,10 @@ export async function applyCheckionScreenshotToPackage(
       checkion_full_page_screenshot: artifact
     };
     if (replace) {
+      // Keep DIG Playwright full-page for section crops (CHECKION JPEG may still include CMP chrome).
+      if (desktop.artifacts.full_page_screenshot && !desktop.artifacts.playwright_full_page_screenshot) {
+        desktop.artifacts.playwright_full_page_screenshot = desktop.artifacts.full_page_screenshot;
+      }
       desktop.artifacts.full_page_screenshot = artifact;
     }
     if (shot.width && shot.height) {

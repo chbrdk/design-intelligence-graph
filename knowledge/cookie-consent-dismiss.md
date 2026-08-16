@@ -15,11 +15,16 @@ DIG modules:
 - `capture_dimensions.consent_state`: `dismissed_heuristic`
 - Viewport warning: `cookie_banner_dismissed` (or `cookie_dismiss_failed:…`)
 
+## Crops
+
+Section crops prefer `artifacts.playwright_full_page_screenshot` (DIG capture after dismiss). CHECKION JPEG remains page SoT / Library primary but can still include late CMP chrome.
+
 ## Look / vision
 
 - `classifySection` → `dig:section.cookie_consent` / `cookie_consent` when text matches
 - `selectSectionsForLook` skips consent noise
 - `shouldRunSectionVision` returns `consent_overlay` (no VL tokens on CMP chrome)
+- Post-VL: `isConsentOverlayVision` → status `skipped` / `consent_overlay_vision` (no merge into look)
 
 ## Related
 
