@@ -6,6 +6,7 @@ import {
   fetchDesignFlow,
   fetchDesignFlowInteractive,
   fetchDesignFlows,
+  islandMediaUrl,
   type DesignFlowGraph,
   type DesignFlowInteractive,
   type DesignFlowListItem,
@@ -186,16 +187,28 @@ export function LibraryFlowsPanel(props: {
           onKeyDown={() => undefined}
           role="presentation"
         >
-          {currentStep?.primary_url ? (
-            <div className="dig-flow-stage-placeholder">
-              <Text role="meta">{currentStep.primary_url}</Text>
-              <Text role="hint">Pre-captured media path not wired — hotspot graph still works.</Text>
-            </div>
-          ) : (
-            <div className="dig-flow-stage-placeholder">
-              <Text role="hint">No screen media for this step.</Text>
-            </div>
-          )}
+          {(() => {
+            const mediaSrc = islandMediaUrl(currentStep?.image_ref)
+            if (mediaSrc) {
+              return (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={mediaSrc}
+                  alt={`${title} · ${currentStep?.flow_screen_id ?? 'step'}`}
+                  className="dig-flow-stage-image"
+                  onLoad={() => setImageReady(true)}
+                />
+              )
+            }
+            return (
+              <div className="dig-flow-stage-placeholder">
+                <Text role="meta">{currentStep?.primary_url ?? 'No media'}</Text>
+                <Text role="hint">
+                  Pre-captured screenshot missing for this capture — hotspot graph still works.
+                </Text>
+              </div>
+            )
+          })()}
           <div className={`dig-flow-hotspots is-visible`}>
             {currentStep?.hotspots.map((hotspot) => (
               <button

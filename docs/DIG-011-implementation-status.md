@@ -21,10 +21,10 @@
 | Phase A candidate extraction | **Done** | `src/flow-candidates.ts` → `derived/flow-candidates.json`; `knowledge/dig-011-phase-a.md` |
 | Phase B measure / edges | **Done** | `src/flow-edges.ts` — B1/B2/B3-refuse/B4; local sibling href-join on capture; `knowledge/dig-011-phase-b.md` |
 | Phase C detect / LLM stage | **Done** | `src/flow-detect.ts` — C1 L2 + C2 parse/soft-fail; `knowledge/dig-011-phase-c.md` |
-| Phase D assemble / Library / MCP | **Done (file store)** | `src/flow-assemble.ts` + `src/flow-library.ts`; `/page-flows` vs `/flows`; MCP `dig_flow_*`; `knowledge/dig-011-phase-d.md` |
-| Interactive Mode UI | **Done** | `apps/web` Library Flows tab + Interactive (`#/library/flows…`) |
+| Phase D assemble / Library / MCP | **Done (file store + PG schema)** | `src/flow-assemble.ts` + `src/flow-library.ts`; `/page-flows` vs `/flows`; MCP `dig_flow_*`; migration `011_dig011_flows.sql` |
+| Interactive Mode UI | **Done** | `apps/web` Library Flows tab + Interactive (`#/library/flows…`); media via `image_ref` when captures indexed |
 | CHECKION URL seed worker | **Not started** | Spec only |
-| Apply `009` Postgres migration | **Not started** | Draft only |
+| Apply `011` Postgres migration on staging | **Pending ops** | Schema in repo; run `db:migrate` per env |
 
 ## Spec entrypoints
 

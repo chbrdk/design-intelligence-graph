@@ -157,15 +157,82 @@ export async function handleLibraryApi(
   const base = libraryApiPath().replace(/\/$/, "");
   if (!requestUrl.pathname.startsWith(base)) return false;
 
-  if (!client) {
-    sendJson(response, 503, { error: "database_unavailable", message: "Postgres is not configured or not reachable" });
-    return true;
-  }
-
   const path = requestUrl.pathname.slice(base.length) || "/";
 
   if (path === "/references" || path.startsWith("/references/")) {
     if (rejectIfUnauthorized(request, response)) return true;
+  }
+
+  // DIG-011 Library flows: file-backed; no Postgres required (media enrichment optional).
+  if (request.method === "GET" && path === "/flows" && !queryParam(requestUrl, "capture_run_id")) {
+    const {
+      loadFlowLibraryGraphs,
+      listFlowsEnvelope
+    } = await import("./flow-library.js");
+    const graphs = await loadFlowLibraryGraphs();
+    const limitRaw = queryParam(requestUrl, "limit");
+    const limit = limitRaw ? Number(limitRaw) : 20;
+    sendJson(
+      response,
+      200,
+      listFlowsEnvelope(graphs, {
+        flow_action: queryParam(requestUrl, "flow_action"),
+        app_scope_id: queryParam(requestUrl, "app_scope_id"),
+        q: queryParam(requestUrl, "q"),
+        limit: Number.isFinite(limit) ? limit : 20
+      })
+    );
+    return true;
+  }
+
+  const flowInteractive = path.match(/^\/flows\/([^/]+)\/interactive$/);
+  if (request.method === "GET" && flowInteractive) {
+    const flowId = decodeURIComponent(flowInteractive[1] ?? "");
+    const {
+      loadFlowLibraryGraphs,
+      getFlowInteractiveEnvelope,
+      resolveFlowScreenMedia
+    } = await import("./flow-library.js");
+    const graphs = await loadFlowLibraryGraphs();
+    const graph = graphs.find((item) => item.flow_id === flowId);
+    if (!graph) {
+      sendJson(response, 404, { error: "flow_not_found", flow_id: flowId });
+      return true;
+    }
+    const media = client
+      ? await resolveFlowScreenMedia(client, graph.screens)
+      : {};
+    sendJson(response, 200, getFlowInteractiveEnvelope(graph, media));
+    return true;
+  }
+
+  const flowDetail = path.match(/^\/flows\/([^/]+)$/);
+  if (request.method === "GET" && flowDetail) {
+    const flowId = decodeURIComponent(flowDetail[1] ?? "");
+    const {
+      loadFlowLibraryGraphs,
+      getFlowDetailEnvelope,
+      resolveFlowScreenMedia
+    } = await import("./flow-library.js");
+    const graphs = await loadFlowLibraryGraphs();
+    const graph = graphs.find((item) => item.flow_id === flowId);
+    if (!graph) {
+      sendJson(response, 404, { error: "flow_not_found", flow_id: flowId });
+      return true;
+    }
+    const media = client
+      ? await resolveFlowScreenMedia(client, graph.screens)
+      : {};
+    sendJson(response, 200, getFlowDetailEnvelope(graph, media));
+    return true;
+  }
+
+  if (!client) {
+    sendJson(response, 503, {
+      error: "database_unavailable",
+      message: "Postgres is not configured or not reachable"
+    });
+    return true;
   }
 
   if (request.method === "GET" && path === "/captures") {
@@ -346,55 +413,6 @@ export async function handleLibraryApi(
         };
       })
     });
-    return true;
-  }
-
-  if (request.method === "GET" && path === "/flows") {
-    const {
-      loadFlowLibraryGraphs,
-      listFlowsEnvelope
-    } = await import("./flow-library.js");
-    const graphs = await loadFlowLibraryGraphs();
-    const limitRaw = queryParam(requestUrl, "limit");
-    const limit = limitRaw ? Number(limitRaw) : 20;
-    sendJson(
-      response,
-      200,
-      listFlowsEnvelope(graphs, {
-        flow_action: queryParam(requestUrl, "flow_action"),
-        app_scope_id: queryParam(requestUrl, "app_scope_id"),
-        q: queryParam(requestUrl, "q"),
-        limit: Number.isFinite(limit) ? limit : 20
-      })
-    );
-    return true;
-  }
-
-  const flowInteractive = path.match(/^\/flows\/([^/]+)\/interactive$/);
-  if (request.method === "GET" && flowInteractive) {
-    const flowId = decodeURIComponent(flowInteractive[1] ?? "");
-    const { loadFlowLibraryGraphs, getFlowInteractiveEnvelope } = await import("./flow-library.js");
-    const graphs = await loadFlowLibraryGraphs();
-    const graph = graphs.find((item) => item.flow_id === flowId);
-    if (!graph) {
-      sendJson(response, 404, { error: "flow_not_found", flow_id: flowId });
-      return true;
-    }
-    sendJson(response, 200, getFlowInteractiveEnvelope(graph));
-    return true;
-  }
-
-  const flowDetail = path.match(/^\/flows\/([^/]+)$/);
-  if (request.method === "GET" && flowDetail) {
-    const flowId = decodeURIComponent(flowDetail[1] ?? "");
-    const { loadFlowLibraryGraphs, getFlowDetailEnvelope } = await import("./flow-library.js");
-    const graphs = await loadFlowLibraryGraphs();
-    const graph = graphs.find((item) => item.flow_id === flowId);
-    if (!graph) {
-      sendJson(response, 404, { error: "flow_not_found", flow_id: flowId });
-      return true;
-    }
-    sendJson(response, 200, getFlowDetailEnvelope(graph));
     return true;
   }
 

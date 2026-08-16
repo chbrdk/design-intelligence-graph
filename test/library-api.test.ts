@@ -173,6 +173,21 @@ test("library API returns flows with matched sections", async () => {
   assert.equal(body.steps[0]?.matched_section?.section_id, "sec_1");
 });
 
+test("library API lists DIG-011 flows without database", async () => {
+  const mock = mockResponse();
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/flows"),
+    null
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  const body = JSON.parse(mock.body) as { items: unknown[] };
+  assert.ok(Array.isArray(body.items));
+  assert.ok(body.items.length >= 1);
+});
+
 test("library API lists DIG-011 flows and returns detail", async () => {
   const { setFlowLibraryStoreForTests } = await import("../src/flow-library.js");
   const graph = {

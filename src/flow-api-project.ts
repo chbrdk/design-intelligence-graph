@@ -23,6 +23,11 @@ export interface FlowGraphLike {
   }>;
 }
 
+export type FlowScreenMediaMap = Record<
+  string,
+  { image_ref?: string | null; primary_url?: string | null }
+>;
+
 function normalizeHotspotBox(box: {
   x: number;
   y: number;
@@ -99,7 +104,10 @@ export function projectFlowGraphToListItem(graph: FlowGraphLike): {
   };
 }
 
-export function projectFlowGraphToInteractive(graph: FlowGraphLike): {
+export function projectFlowGraphToInteractive(
+  graph: FlowGraphLike,
+  mediaByScreenId: FlowScreenMediaMap = {}
+): {
   schema_version: "0.1.0";
   flow_id: string;
   start_screen_id: string;
@@ -107,7 +115,7 @@ export function projectFlowGraphToInteractive(graph: FlowGraphLike): {
     flow_screen_id: string;
     order: number;
     primary_url: string | null;
-    image_ref: null;
+    image_ref: string | null;
     advance_anywhere: boolean;
     hotspots: Array<{
       edge_id: string;
@@ -130,11 +138,12 @@ export function projectFlowGraphToInteractive(graph: FlowGraphLike): {
         to_screen_id: edge.to_screen_id,
         box: projectHotspotToNormalized(edge.hotspot!)
       }));
+    const media = mediaByScreenId[screen.flow_screen_id];
     return {
       flow_screen_id: screen.flow_screen_id,
       order: screen.order,
-      primary_url: screen.primary_url ?? null,
-      image_ref: null,
+      primary_url: media?.primary_url ?? screen.primary_url ?? null,
+      image_ref: media?.image_ref ?? null,
       advance_anywhere: outbound.length > 0 && hotspots.length === 0,
       hotspots
     };

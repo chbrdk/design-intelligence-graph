@@ -260,6 +260,7 @@
     "flowUiWireframes": "knowledge/dig-011-flows-ui.md",
     "flowApiFixturesDir": "fixtures/flows/api",
     "flowDraftMigration": "db/migrations/draft/009_dig011_flows.sql",
+    "flowMigration": "db/migrations/011_dig011_flows.sql",
     "designReferenceSpec": "docs/DIG-012-design-reference.md",
     "designReferenceKnowledge": "knowledge/design-reference.md",
     "designReferenceFixturesDir": "fixtures/design-references",

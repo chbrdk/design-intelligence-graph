@@ -20,7 +20,7 @@ Do **not** flip until island image includes proxy inject.
 
 ## DIG-011
 
-Phases A–D core + Flows Interactive UI shipped. PG `009` apply + CHECKION seed worker still parked.
+Phases A–D + Flows UI + Interactive media wiring shipped. PG schema `011` in repo — migrate per env. CHECKION seed worker still parked.
 
 ## Verified live (2026-08-15)
 

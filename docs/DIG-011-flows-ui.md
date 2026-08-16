@@ -200,7 +200,7 @@ Phased UI build:
 
 1. Flows list — **done**
 2. Detail — **done**
-3. Interactive Mode — **done** (pre-captured media placeholder until screen media map fills)
+3. Interactive Mode — **done** (screenshots via `image_ref` when captures are indexed; URL placeholder otherwise)
 4. Rename page_flow UI strings + API alias — **done** (`Page narrative` · `/page-flows`)
 
 ## 11. References
