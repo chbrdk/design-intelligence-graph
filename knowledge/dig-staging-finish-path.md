@@ -20,7 +20,7 @@ Do **not** flip until island image includes proxy inject.
 
 ## DIG-011
 
-Still parked (multi-screen flows).
+Phase A (flow candidates) shipped on capture → `derived/flow-candidates.json`. Phases B–D still parked.
 
 ## Verified live (2026-08-15)
 

@@ -30,6 +30,7 @@ import { emitSectionCrops } from "./section-crops.js";
 import { deriveVisualHypotheses, deriveVisualLanguageViewport, VISUAL_LANGUAGE_VERSION, type VisualViewportEvidence } from "./visual-language.js";
 import { emitDesignTokensForPackage } from "./design-tokens.js";
 import { emitStructureSpineForPackage } from "./structure-spine.js";
+import { emitFlowCandidatesForPackage } from "./flow-candidates.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
@@ -578,6 +579,27 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
   } catch (error: unknown) {
     errors.push({
       code: "structure_spine_failed",
+      message: error instanceof Error ? error.message : String(error)
+    });
+  }
+  try {
+    const flowEmit = await emitFlowCandidatesForPackage(packageRoot, {
+      captureRunId: runId,
+      viewports: responsiveEvidence.map((evidence) => {
+        const result = results.find((item) => item.viewport_capture_id === evidence.viewport_capture_id);
+        return {
+          viewport_capture_id: evidence.viewport_capture_id,
+          viewport_name: evidence.viewport_name,
+          page_url: result?.final_url || canonicalUrl,
+          nodes: evidence.nodes,
+          boxes: evidence.boxes
+        };
+      })
+    });
+    if (flowEmit) runArtifacts.flow_candidates = flowEmit.artifact;
+  } catch (error: unknown) {
+    errors.push({
+      code: "flow_candidates_failed",
       message: error instanceof Error ? error.message : String(error)
     });
   }

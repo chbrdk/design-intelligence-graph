@@ -55,6 +55,11 @@ export interface DigPaths {
     maxBands?: number;
     doc?: string;
   };
+  flowCandidates?: {
+    relativePath?: string;
+    maxCandidates?: number;
+    doc?: string;
+  };
   database?: {
     composeService: string;
     image: string;

@@ -1,8 +1,8 @@
 # DIG-011 Implementation Status
 
 **Spec:** [DIG-011 User Flow Graph](DIG-011-user-flow-graph.md)  
-**Updated:** 2026-08-15  
-**Policy:** Spec-driven only until an explicit implementation task — no Phase A–D runtime.
+**Updated:** 2026-08-16  
+**Policy:** Phase A runtime shipped; Phases B–D still deferred until scheduled.
 
 | Requirement | Status | Notes |
 | --- | --- | --- |
@@ -18,7 +18,7 @@
 | Goal challenge (LLM design value) | Done | `knowledge/dig-011-challenge.md` — **prefer section_look/retrieval→gen over Flow runtime** |
 | Draft PG migration (not applied) | Done | `db/migrations/draft/009_dig011_flows.sql` |
 | Catalog loader (vocab only) | Done | `src/flow-actions.ts` — not a flow pipeline |
-| Phase A candidate extraction | **Not started** | Spec only |
+| Phase A candidate extraction | **Done** | `src/flow-candidates.ts` → `derived/flow-candidates.json`; `knowledge/dig-011-phase-a.md` |
 | Phase B measure / edges | **Not started** | Spec only |
 | Phase C detect / LLM stage | **Not started** | Spec only |
 | Phase D assemble / PG / Library / MCP | **Not started** | Spec only |

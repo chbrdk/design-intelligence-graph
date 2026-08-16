@@ -1,9 +1,9 @@
 # DIG-011 Phase A — Recognize flow candidates
 
 **Parent:** [DIG-011 User Flow Graph](DIG-011-user-flow-graph.md)  
-**Status:** Draft v0.1 — specified, **not implemented**  
-**Schema:** [`schemas/flow-candidates.schema.json`](../schemas/flow-candidates.schema.json)  
-**Artifact path (planned):** `derived/flow-candidates.json` per CaptureRun
+**Status:** Draft v0.1 — **Phase A runtime shipped**; phases B–D specified, not implemented  
+**Artifact path:** `derived/flow-candidates.json` (`paths.json` → `flowCandidates`)  
+**Code:** `src/flow-candidates.ts` · knowledge: [`knowledge/dig-011-phase-a.md`](../knowledge/dig-011-phase-a.md)
 
 ## Goal
 
