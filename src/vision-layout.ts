@@ -80,7 +80,7 @@ export function normalizeVisionBox(raw: unknown): VisionLayoutBox | null {
   // Sections are always full-bleed page bands — never card/CTA boxes.
   const x = 0;
   const width = 1;
-  if (height < 0.04) return null;
+  if (height < 0.05) return null;
   if (y + height > 1) height = Math.max(0.04, 1 - y);
   return { x, y, width, height };
 }
@@ -368,19 +368,17 @@ export async function emitVisionBandCrops(input: {
 export function visionBandsToSectionLooks(
   bands: VisionLayoutBand[],
   crops: VisionLayoutCropRecord[],
-  notes?: string
+  _notes?: string
 ): SectionLookDescription[] {
   const cropById = new Map(crops.map((crop) => [crop.band_id, crop]));
   return bands.map((band) => {
     const crop = cropById.get(band.id);
     const stack = `${band.category} band · ${band.label}`;
+    // Do not attach page/tile notes here — they pollute every section look.
     const look = [
       `Vision-detected ${band.category} section labeled "${band.label}".`,
-      `Normalized band y=${band.box.y.toFixed(2)} h=${band.box.height.toFixed(2)}.`,
-      notes ? `Page notes: ${notes}` : ""
-    ]
-      .filter(Boolean)
-      .join(" ");
+      `Full-width band y=${band.box.y.toFixed(2)} h=${band.box.height.toFixed(2)}.`
+    ].join(" ");
     return {
       section_id: band.id,
       signature: band.category === "hero" ? "media" : "vision_band",
@@ -395,6 +393,11 @@ export function visionBandsToSectionLooks(
       }
     } satisfies SectionLookDescription;
   });
+}
+
+/** Stable ids after tile merge: band_1 … band_n top-to-bottom. */
+export function renumberVisionBands(bands: VisionLayoutBand[]): VisionLayoutBand[] {
+  return bands.map((band, index) => ({ ...band, id: `band_${index + 1}` }));
 }
 
 export function shouldPreferVisionLooks(domLooks: SectionLookDescription[]): boolean {

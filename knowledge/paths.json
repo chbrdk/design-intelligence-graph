@@ -154,7 +154,8 @@
   },
   "visionPage": {
     "relativePath": "derived/vision-page.json",
-    "doc": "knowledge/vision-desktop-pipeline.md"
+    "doc": "knowledge/vision-desktop-pipeline.md",
+    "uxRoadmapDoc": "knowledge/vision-ux-checkion-roadmap.md"
   },
   "cookieConsent": {
     "doc": "knowledge/cookie-consent-dismiss.md",

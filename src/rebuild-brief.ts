@@ -73,6 +73,12 @@ export function buildRebuildBriefMarkdown(input: {
     lines.push(`- Type feel: ${page.typography_feel || "—"}`);
     lines.push(`- Media: ${page.media_strategy || "—"}`);
     lines.push(`- Rhythm: ${page.vertical_rhythm || "—"}`);
+    if (page.layout_system) lines.push(`- Layout system: ${page.layout_system}`);
+    if (page.spacing_feel) lines.push(`- Spacing: ${page.spacing_feel}`);
+    if (page.above_fold_job) lines.push(`- Above-fold job: ${page.above_fold_job}`);
+    if (page.ux_flow?.length) lines.push(`- UX flow: ${page.ux_flow.join(" → ")}`);
+    if (page.ux_strengths?.length) lines.push(`- UX strengths: ${page.ux_strengths.join("; ")}`);
+    if (page.ux_risks?.length) lines.push(`- UX risks: ${page.ux_risks.join("; ")}`);
     if (page.rebuild_hints) lines.push(`- Rebuild: ${page.rebuild_hints}`);
     if (page.category_tags?.length) lines.push(`- Tags: ${page.category_tags.join(", ")}`);
     lines.push("");

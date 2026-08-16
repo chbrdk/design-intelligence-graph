@@ -17,7 +17,8 @@ import {
   mergeSectionVisionIntoLook,
   runVisionBandSectionVisions,
   runVisionLayoutAnalysis,
-  runVisionPageAnalysis
+  runVisionPageAnalysis,
+  runVisionPageUxAnalysis
 } from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
@@ -30,6 +31,7 @@ import {
   visionBandsToSectionLooks,
   type VisionLayoutCropRecord
 } from "./vision-layout.js";
+import { designSummaryFromVisionPage } from "./vision-page.js";
 
 async function loadNodeStylesFromPackage(
   packageRoot: string,
@@ -161,10 +163,11 @@ export async function applyLlmDesignAnalysis(
     stageCache,
     persist: true as const
   };
-  const [visionPage, visionLayout] = await Promise.all([
+  const [visionPageInitial, visionLayout] = await Promise.all([
     runVisionPageAnalysis(packageRoot, manifest, visionOpts),
     runVisionLayoutAnalysis(packageRoot, manifest, visionOpts)
   ]);
+  let visionPage = visionPageInitial;
 
   stages.push({
     stage_id: "vision_page",
@@ -238,6 +241,49 @@ export async function applyLlmDesignAnalysis(
     vision_layout: visionLayout,
     vision
   };
+
+  // Small text-only UX/layout call (no second screenshot) — Flash-friendly.
+  if (visionPage.status === "complete" && visionPage.document) {
+    const pageUx = await runVisionPageUxAnalysis(visionPage.document, visionLayout.bands, {
+      config: visionOpts.config,
+      ...(options.provider ? { provider: options.provider } : {}),
+      stageCache,
+      packageRoot,
+      persist: true,
+      maxTokens: 700
+    });
+    stages.push({
+      stage_id: "vision_page_ux",
+      status: pageUx.status,
+      ...(pageUx.raw_sha256 ? { raw_sha256: pageUx.raw_sha256 } : {}),
+      ...(pageUx.error ? { error: pageUx.error } : {}),
+      data: {
+        layout_system: pageUx.document?.layout_system ?? null,
+        spacing_feel: pageUx.document?.spacing_feel ?? null,
+        ux_flow_count: pageUx.document?.ux_flow?.length ?? 0,
+        ...(pageUx.cost
+          ? {
+              prompt_tokens: pageUx.cost.prompt_tokens,
+              completion_tokens: pageUx.cost.completion_tokens,
+              estimated_usd: pageUx.cost.estimated_usd,
+              cache_hit: pageUx.cost.cache_hit
+            }
+          : {})
+      }
+    });
+    if (pageUx.cost) costRecords.push(pageUx.cost);
+    if (pageUx.document) {
+      visionPage = { ...visionPage, document: pageUx.document };
+      llm = { ...llm, vision_page: visionPage };
+    }
+  }
+
+  if (visionPage.document?.status === "complete") {
+    llm = {
+      ...llm,
+      design_summary: designSummaryFromVisionPage(visionPage.document, visionLayout.bands)
+    };
+  }
 
   let visionCropRecords: import("./section-crops.js").SectionCropRecord[] = [];
   let visionBandCrops: VisionLayoutCropRecord[] = [];
@@ -318,11 +364,7 @@ export async function applyLlmDesignAnalysis(
   // Vision-only section inventory (full-width bands); DOM looks stay cleared.
   let visionLooks =
     visionLayout.status === "complete" && visionLayout.bands.length
-      ? visionBandsToSectionLooks(
-          visionLayout.bands,
-          visionBandCrops,
-          visionLayout.notes ?? visionLayout.document?.notes
-        )
+      ? visionBandsToSectionLooks(visionLayout.bands, visionBandCrops)
       : [];
 
   const sectionVisions = await runVisionBandSectionVisions({
@@ -369,16 +411,17 @@ export async function applyLlmDesignAnalysis(
 
   const cost = costRecords.length ? aggregateCosts(costRecords) : llm.cost;
 
-  // Always refresh page summary after vision merges so VL beats inform design_summary
-  // (synthesize runs earlier without section vision).
-  if (llm.mobbin?.section_descriptions?.length) {
-    const synthesizeFailed = stages.some((stage) => stage.stage_id === "synthesize" && stage.status === "failed");
-    const visionBeats = (llm.section_visions ?? []).some((item) => item.status === "complete");
-    if (synthesizeFailed || visionBeats || isSectionEchoSummary(llm.design_summary || "")) {
-      llm = {
-        ...llm,
-        design_summary: pageSummaryFromMobbin(llm.mobbin)
-      };
+  // Prefer vision_page summary; only fall back to mobbin beats if vision page missing.
+  if (!visionPage.document || visionPage.document.status !== "complete") {
+    if (llm.mobbin?.section_descriptions?.length) {
+      const synthesizeFailed = stages.some((stage) => stage.stage_id === "synthesize" && stage.status === "failed");
+      const visionBeats = (llm.section_visions ?? []).some((item) => item.status === "complete");
+      if (synthesizeFailed || visionBeats || isSectionEchoSummary(llm.design_summary || "")) {
+        llm = {
+          ...llm,
+          design_summary: pageSummaryFromMobbin(llm.mobbin)
+        };
+      }
     }
   }
 

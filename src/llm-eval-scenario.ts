@@ -190,24 +190,30 @@ Rules:
 - notes = brief page-wide composition cues (e.g. full-bleed media bands, repeated product modules)
 - confidence in (0,1)`;
 
-/** Run A — rich desktop full-page visual catalog for later LLM rebuild / matching. */
-export const VISION_PAGE_PROMPT = `You are a senior visual design analyst for DIG.
-You see a DESKTOP full-page (or tall) marketing website screenshot. Describe it so another LLM can rebuild and reason about the visual system WITHOUT seeing the image again.
+/** Run A — compact visual catalog (keep small for Flash VL). */
+export const VISION_PAGE_PROMPT = `You catalog the VISUAL SYSTEM of a DESKTOP marketing webpage screenshot for DIG.
 Return ONLY minified JSON (no markdown, no trailing commas):
 {"page_type":string,"overall_atmosphere":string,"color_mood":string,"typography_feel":string,"above_the_fold":string,"vertical_rhythm":string,"media_strategy":string,"notable_modules":string[],"brand_cues":string,"interaction_chrome":string,"category_tags":string[],"rebuild_hints":string,"heading":string,"cta":string,"layout_order":["media"|"heading"|"cta"|"other"],"confidence":number}
 Rules:
-- page_type: short label (e.g. "automotive product landing", "editorial brand home").
-- overall_atmosphere / color_mood / typography_feel: concrete, pixel-grounded (not generic praise).
-- above_the_fold: 2-4 sentences on hero composition, media, type hierarchy, CTA placement.
-- vertical_rhythm: how the page stacks top→bottom (bands, density changes, repeats).
-- media_strategy: photo/video/illustration/product CG usage and framing.
-- notable_modules: up to 8 short labels for distinctive blocks (grids, lifestyle, specs, footer…).
-- brand_cues: logo treatment, wordmarks, signature colors if visible.
-- interaction_chrome: nav, sticky bars, chat, cookie — only if visible; else "".
-- category_tags: up to 8 lowercase tags (hero_media, product_grid, lifestyle, commerce…).
-- rebuild_hints: 2-4 sentences a designer/agent would need to recreate the look.
-- heading / cta / layout_order: hero-level facts for scoring compatibility.
-- confidence in (0,1). Be specific; do not invent unread text.`;
+- Be concrete and pixel-grounded; do not invent unread text.
+- above_the_fold: 2 sentences max. rebuild_hints: 2 sentences max.
+- notable_modules / category_tags: up to 6 items each.
+- heading / cta / layout_order: hero-level facts only.
+- confidence in (0,1).`;
+
+/** Run A2 — whole-page UX/layout (TEXT ONLY; grounded on visual catalog + bands). */
+export const VISION_PAGE_UX_PROMPT = `You are a product UX analyst for DIG. Given a VISUAL CATALOG JSON and FULL-WIDTH SECTION BANDS from the same page, assess whole-page UX and layout.
+Return ONLY minified JSON (no markdown, no trailing commas):
+{"layout_system":string,"spacing_feel":string,"alignment":string,"above_fold_job":string,"ux_flow":string[],"ux_strengths":string[],"ux_risks":string[],"confidence":number}
+Rules:
+- Use ONLY the provided evidence; do not invent sections not listed in bands.
+- layout_system: e.g. full-bleed stacks / split columns / card grid / mixed.
+- spacing_feel: tight|airy|uneven + one short cue.
+- alignment: left|centered|mixed.
+- above_fold_job: one sentence on what the first screen must achieve.
+- ux_flow: 3-6 short beats top→bottom matching the bands.
+- ux_strengths / ux_risks: up to 4 short items each (hierarchy, CTA clarity, clutter, contrast, scroll length).
+- confidence in (0,1).`;
 
 export const VISION_SECTION_PROMPT = `You describe ONE cropped web DESIGN SECTION screenshot for DIG in rich visual detail.
 Return ONLY minified JSON (no markdown, no trailing commas):

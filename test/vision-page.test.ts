@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseVisionPageResponse } from "../src/vision-page.js";
+import {
+  designSummaryFromVisionPage,
+  parseVisionPageResponse,
+  parseVisionPageUxResponse
+} from "../src/vision-page.js";
 
 test("parseVisionPageResponse extracts catalog fields", () => {
   const raw = JSON.stringify({
@@ -36,4 +40,38 @@ test("parseVisionPageResponse tolerates fenced JSON and trailing commas", () => 
   const parsed = parseVisionPageResponse(raw);
   assert.equal(parsed.page_type, "Home");
   assert.equal(parsed.heading, "Hi");
+});
+
+test("parseVisionPageUxResponse and designSummaryFromVisionPage", () => {
+  const ux = parseVisionPageUxResponse(
+    JSON.stringify({
+      layout_system: "full-bleed stacks",
+      spacing_feel: "airy with large type breaks",
+      alignment: "left",
+      above_fold_job: "Announce rebrand equation",
+      ux_flow: ["Hero", "Mission", "Footer"],
+      ux_strengths: ["Clear hierarchy"],
+      ux_risks: ["Long scroll"],
+      confidence: 0.8
+    })
+  );
+  assert.equal(ux.layout_system, "full-bleed stacks");
+  assert.deepEqual(ux.ux_flow, ["Hero", "Mission", "Footer"]);
+  const summary = designSummaryFromVisionPage(
+    {
+      page_type: "agency rebrand",
+      above_the_fold: "Green header and equation card",
+      vertical_rhythm: "Hero to footer stacks",
+      overall_atmosphere: "Bold typographic",
+      color_mood: "Green and white",
+      typography_feel: "Serif display",
+      media_strategy: "Graphic equation + photo",
+      ...ux
+    },
+    [{ label: "Hero", category: "hero" }]
+  );
+  assert.match(summary, /agency rebrand/i);
+  assert.match(summary, /Announce rebrand/i);
+  assert.match(summary, /full-bleed stacks/i);
+  assert.ok(!summary.includes("dark mode"));
 });

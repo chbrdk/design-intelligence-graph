@@ -17,6 +17,7 @@ import type { SectionLookDescription } from "../src/section-look.js";
 
 test("normalizeVisionBox forces full-width bands and rejects tiny heights", () => {
   assert.equal(normalizeVisionBox({ x: 0, y: 0, width: 1, height: 0.02 }), null);
+  assert.equal(normalizeVisionBox({ x: 0, y: 0, width: 1, height: 0.04 }), null);
   const box = normalizeVisionBox({ x: 0.2, y: 0.2, width: 0.4, height: 0.3 });
   assert.ok(box);
   assert.equal(box.x, 0);
@@ -173,6 +174,31 @@ test("visionBandsToSectionLooks attaches crop evidence", () => {
   assert.equal(looks[0]!.section_id, "band_1");
   assert.equal(looks[0]!.category, "hero");
   assert.ok(looks[0]!.evidence_refs.includes("viewports/desktop/sections/vision_band_1.webp"));
+  assert.ok(!looks[0]!.look_summary.includes("Page notes"));
+});
+
+test("renumberVisionBands uses band_1..n", async () => {
+  const { renumberVisionBands } = await import("../src/vision-layout.js");
+  const out = renumberVisionBands([
+    {
+      id: "tile_1_a",
+      label: "Hero",
+      category: "hero",
+      box: { x: 0, y: 0, width: 1, height: 0.2 },
+      confidence: 0.9
+    },
+    {
+      id: "tile_2_b",
+      label: "Footer",
+      category: "footer",
+      box: { x: 0, y: 0.8, width: 1, height: 0.2 },
+      confidence: 0.8
+    }
+  ]);
+  assert.deepEqual(
+    out.map((band) => band.id),
+    ["band_1", "band_2"]
+  );
 });
 
 test("buildVisionLayoutTiles resizes wide images before extract", async () => {

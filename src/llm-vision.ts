@@ -7,7 +7,8 @@ import {
   VISION_SCREEN_PROMPT,
   VISION_SECTION_PROMPT,
   VISION_LAYOUT_PROMPT,
-  VISION_PAGE_PROMPT
+  VISION_PAGE_PROMPT,
+  VISION_PAGE_UX_PROMPT
 } from "./llm-eval-scenario.js";
 import { resolveScalingRoles } from "./llm-routing.js";
 import { evidenceSha256, type LlmStageCache } from "./llm-stage-cache.js";
@@ -23,6 +24,7 @@ import {
   mapBandsFromTile,
   mergeVisionLayoutBands,
   parseVisionLayoutResponse,
+  renumberVisionBands,
   VISION_LAYOUT_VERSION,
   visionLayoutMaxBands,
   writeVisionLayoutDocument,
@@ -30,7 +32,9 @@ import {
   type VisionLayoutBand
 } from "./vision-layout.js";
 import {
+  buildVisionPageUxEvidence,
   parseVisionPageResponse,
+  parseVisionPageUxResponse,
   VISION_PAGE_VERSION,
   writeVisionPageDocument,
   type VisionPageDocument
@@ -462,6 +466,116 @@ export async function runVisionPageAnalysis(
   }
 }
 
+/** Text-only UX/layout pass — small JSON, grounded on visual catalog + bands (no second image). */
+export async function runVisionPageUxAnalysis(
+  page: VisionPageDocument,
+  bands: VisionLayoutBand[],
+  options: {
+    config: LlmProviderConfig;
+    provider?: LlmCompleter;
+    stageCache?: LlmStageCache;
+    maxTokens?: number;
+    packageRoot?: string;
+    persist?: boolean;
+  }
+): Promise<LlmVisionPageResult> {
+  if (!visionEnabled()) {
+    return { status: "skipped", error: "DIG_LLM_VISION=false", document: page };
+  }
+  if (page.status !== "complete") {
+    return { status: "skipped", error: "vision_page not complete", document: page };
+  }
+
+  const textModel = options.config.model;
+  const evidence = buildVisionPageUxEvidence(page, bands);
+  const evidenceKey = evidenceSha256(`vision_page_ux:${evidence}`);
+  const cache = options.stageCache;
+
+  const mergeUx = (ux: ReturnType<typeof parseVisionPageUxResponse>, model: string, cost: StageCostRecord) => {
+    const document: VisionPageDocument = {
+      ...page,
+      layout_system: ux.layout_system,
+      spacing_feel: ux.spacing_feel,
+      alignment: ux.alignment,
+      above_fold_job: ux.above_fold_job,
+      ux_flow: ux.ux_flow,
+      ux_strengths: ux.ux_strengths,
+      ux_risks: ux.ux_risks,
+      confidence: Math.min(page.confidence, ux.confidence),
+      model,
+      generated_at: new Date().toISOString()
+    };
+    return {
+      status: "complete" as const,
+      model,
+      document,
+      cost,
+      raw_sha256: `sha256:${createHash("sha256").update(evidence + ux.layout_system).digest("hex")}`
+    };
+  };
+
+  if (cache) {
+    const hit = await cache.get("vision_page_ux", textModel, evidenceKey);
+    if (hit?.raw_response) {
+      try {
+        const ux = parseVisionPageUxResponse(hit.raw_response);
+        const result = mergeUx(ux, textModel, usageToStageCost("vision_page_ux", textModel, undefined, true));
+        if (options.persist !== false && options.packageRoot && result.document) {
+          await writeVisionPageDocument(options.packageRoot, result.document);
+        }
+        return result;
+      } catch {
+        /* fall through */
+      }
+    }
+  }
+
+  const provider =
+    options.provider ??
+    createLlmProviderFromConfig({
+      ...options.config,
+      model: textModel,
+      reasoningEffort: "none"
+    });
+
+  try {
+    const completion = await provider.complete(
+      [
+        { role: "system", content: VISION_PAGE_UX_PROMPT },
+        {
+          role: "user",
+          content: `Evidence JSON:\n${evidence}\nReturn UX/layout JSON only.`
+        }
+      ],
+      { maxTokens: options.maxTokens ?? 700, model: textModel, reasoningEffort: "none" }
+    );
+    await cache?.set({
+      stage_id: "vision_page_ux",
+      model: textModel,
+      evidence_sha256: evidenceKey,
+      raw_response: completion.content,
+      status: "complete"
+    });
+    const ux = parseVisionPageUxResponse(completion.content);
+    const result = mergeUx(
+      ux,
+      completion.model,
+      usageToStageCost("vision_page_ux", completion.model, completion.usage, false)
+    );
+    if (options.persist !== false && options.packageRoot && result.document) {
+      await writeVisionPageDocument(options.packageRoot, result.document);
+    }
+    return result;
+  } catch (error: unknown) {
+    return {
+      status: "failed",
+      model: textModel,
+      document: page,
+      error: error instanceof Error ? error.message : String(error)
+    };
+  }
+}
+
 export async function runVisionLayoutAnalysis(
   packageRoot: string,
   manifest: CaptureManifest,
@@ -574,7 +688,7 @@ export async function runVisionLayoutAnalysis(
       allBands.push(...mapped);
     }
 
-    const bands = mergeVisionLayoutBands(allBands, maxBands);
+    const bands = renumberVisionBands(mergeVisionLayoutBands(allBands, maxBands));
     const document: VisionLayoutDocument = {
       schema_version: "0.1.0",
       vision_layout_version: VISION_LAYOUT_VERSION,
