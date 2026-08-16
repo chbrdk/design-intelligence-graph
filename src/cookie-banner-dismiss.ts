@@ -152,6 +152,23 @@ export const COOKIE_BANNER_HIDE_CSS = `
     height: 0 !important;
     overflow: hidden !important;
   }
+  /* Usercentrics (Porsche and many EU sites) */
+  #usercentrics-root,
+  uc-layer,
+  uc-layer2,
+  [id^="uc-"],
+  [class^="uc-"],
+  .uc-banner,
+  .uc-overlay,
+  div[data-testid="uc-container"],
+  div[data-testid="uc-banner"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
   /* Tarteaucitron */
   #tarteaucitronAlertBig,
   #tarteaucitronRoot,
@@ -551,6 +568,20 @@ export async function dismissCookieBanner(page: CookieDismissPage): Promise<{ at
     await page.evaluate(getCookieBannerDismissScript());
   } catch (error: unknown) {
     return { attempted: true, error: error instanceof Error ? error.message : String(error) };
+  }
+
+  // Late Usercentrics hosts often keep pointer-events after a soft dismiss click.
+  try {
+    await page.evaluate(() => {
+      for (const el of document.querySelectorAll("uc-layer, uc-layer2, #usercentrics-root")) {
+        const node = el as HTMLElement;
+        node.style.setProperty("display", "none", "important");
+        node.style.setProperty("pointer-events", "none", "important");
+        node.setAttribute("aria-hidden", "true");
+      }
+    });
+  } catch {
+    /* ignore */
   }
 
   if (typeof page.waitForTimeout === "function") {

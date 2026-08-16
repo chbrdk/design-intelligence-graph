@@ -69,6 +69,8 @@ test("shouldRunSectionVision skips consent overlays", () => {
 
 test("cookie dismiss script embeds hide css and accept texts", () => {
   assert.match(COOKIE_BANNER_HIDE_CSS, /onetrust/i);
+  assert.match(COOKIE_BANNER_HIDE_CSS, /uc-layer2/i);
+  assert.match(COOKIE_BANNER_HIDE_CSS, /usercentrics/i);
   const script = getCookieBannerDismissScript();
   assert.match(script, /dig-cookie-banner-hide/);
   assert.match(script, /alle akzeptieren/);

@@ -14,6 +14,7 @@ DIG modules:
 - Intervention: `cookie_banner_dismiss_heuristic`
 - `capture_dimensions.consent_state`: `dismissed_heuristic`
 - Viewport warning: `cookie_banner_dismissed` (or `cookie_dismiss_failed:…`)
+- Usercentrics (`uc-layer` / `uc-layer2` / `#usercentrics-root`) is CSS-hidden and force-disabled so chrome opens (nav Menü) are not pointer-blocked.
 
 ## Crops
 

@@ -473,9 +473,13 @@ export async function captureChromeStates(
         continue;
       }
       if (candidate.trigger === "hover") {
-        await locator.hover({ timeout: 2500 });
+        await locator.hover({ timeout: 2500 }).catch(async () => {
+          await locator.hover({ timeout: 2500, force: true });
+        });
       } else {
-        await locator.click({ timeout: 2500 });
+        await locator.click({ timeout: 2500 }).catch(async () => {
+          await locator.click({ timeout: 2500, force: true });
+        });
       }
       await sleep(650);
       const panel = await extractOpenPanel(page);
