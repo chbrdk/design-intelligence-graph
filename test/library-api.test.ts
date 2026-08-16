@@ -256,6 +256,97 @@ test("library API lists DIG-011 flows and returns detail", async () => {
   }
 });
 
+test("library API screen detail prefers vision_layout hotspots", async () => {
+  const { mkdtemp, writeFile, mkdir } = await import("node:fs/promises");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const root = await mkdtemp(join(tmpdir(), "dig-vision-layout-"));
+  await mkdir(join(root, "derived"), { recursive: true });
+  await writeFile(
+    join(root, "derived/vision-layout.json"),
+    JSON.stringify({
+      schema_version: "0.1.0",
+      vision_layout_version: "0.1.0",
+      generated_at: new Date().toISOString(),
+      source_screenshot: "viewports/desktop/screenshots/full-page.webp",
+      image_width: 1200,
+      image_height: 4000,
+      status: "complete",
+      bands: [
+        {
+          id: "band_hero",
+          label: "Hero",
+          category: "hero",
+          box: { x: 0, y: 0, width: 1, height: 0.2 },
+          confidence: 0.9
+        }
+      ]
+    }),
+    "utf8"
+  );
+
+  const mock = mockResponse();
+  let call = 0;
+  const client = {
+    async query() {
+      call += 1;
+      if (call === 1) {
+        return {
+          rows: [
+            {
+              id: 1,
+              capture_run_id: "cap_vision",
+              viewport_capture_id: "vpc_vision",
+              name: "desktop",
+              status: "complete",
+              width: 1440,
+              height: 900,
+              title: "Vision",
+              settled_screenshot_path: "viewports/desktop/screenshots/settled.webp",
+              full_page_screenshot_path: "viewports/desktop/screenshots/full-page.webp",
+              document_width: 1440,
+              document_height: 5000,
+              canonical_url: "https://example.com/",
+              site_domain: "example.com",
+              package_path: root
+            }
+          ]
+        };
+      }
+      return {
+        rows: [
+          {
+            section_id: "sec_dom",
+            category: "commerce",
+            signature: "body",
+            recipe: [],
+            root_box: { x: 0, y: 0, width: 100, height: 80 },
+            viewport_width: 1440,
+            viewport_height: 900,
+            confidence: 0.5
+          }
+        ]
+      };
+    }
+  };
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/screens/vpc_vision"),
+    client
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  const body = JSON.parse(mock.body) as {
+    hotspots: Array<{ section_id: string; normalized: { y: number; height: number } | null }>;
+    vision_layout: { band_count: number } | null;
+  };
+  assert.equal(body.vision_layout?.band_count, 1);
+  assert.equal(body.hotspots[0]?.section_id, "band_hero");
+  assert.ok(body.hotspots[0]?.normalized);
+  assert.equal(body.hotspots[0]?.normalized?.y, 0);
+});
+
 test("library API screen detail includes hotspots", async () => {
   const mock = mockResponse();
   let call = 0;

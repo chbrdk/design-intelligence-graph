@@ -32,6 +32,7 @@ export function LibraryScreenDetailPanel(props: {
 }) {
   const [screen, setScreen] = useState<LibraryScreen | null>(null)
   const [hotspots, setHotspots] = useState<ScreenHotspot[]>([])
+  const [visionNotes, setVisionNotes] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<LibraryAnalysisDetail | null>(null)
   const [pageNarrative, setPageNarrative] = useState<
     Array<{ section_label?: string; signature?: string | null }>
@@ -60,6 +61,7 @@ export function LibraryScreenDetailPanel(props: {
         if (cancelled) return
         setScreen(detail.screen)
         setHotspots(detail.hotspots)
+        setVisionNotes(detail.vision_layout?.notes ?? null)
         runId = detail.screen.capture_run_id
         if (!detail.screen.full_page_url && detail.screen.settled_url) {
           setMediaMode('settled')
@@ -214,6 +216,7 @@ export function LibraryScreenDetailPanel(props: {
         <Panel className="dig-panel dig-screen-detail-media">
           <Text role="headline">{screen?.title || screen?.name || 'Screen'}</Text>
           <Text role="meta">{screen?.canonical_url}</Text>
+          {visionNotes ? <Text role="meta">Vision layout: {visionNotes}</Text> : null}
           {mediaUrl ? (
             <div className="dig-screen-detail-frame">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -222,7 +225,7 @@ export function LibraryScreenDetailPanel(props: {
                 alt={screen?.title || screen?.name || 'Screenshot'}
                 className="dig-screen-detail-image"
               />
-              {showOverlay && mediaMode === 'full_page'
+              {showOverlay && (mediaMode === 'full_page' || overlays.length > 0)
                 ? overlays.map((hotspot) => {
                     const box = hotspot.normalized
                     if (!box) return null

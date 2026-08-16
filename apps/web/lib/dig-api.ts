@@ -344,6 +344,19 @@ export async function fetchScreenDetail(viewportCaptureId: string): Promise<{
   screen: LibraryScreen
   hotspots: ScreenHotspot[]
   sections: ScreenDetailSection[]
+  vision_layout?: {
+    status: string
+    band_count: number
+    notes?: string | null
+    source_screenshot?: string
+    bands?: Array<{
+      id: string
+      label: string
+      category: string
+      box: { x: number; y: number; width: number; height: number }
+      confidence: number
+    }>
+  } | null
 }> {
   const response = await fetch(
     `${BASE}${paths.digApiLibrary}/screens/${encodeURIComponent(viewportCaptureId)}`,
@@ -352,12 +365,26 @@ export async function fetchScreenDetail(viewportCaptureId: string): Promise<{
     screen: LibraryScreen
     hotspots?: ScreenHotspot[]
     sections?: ScreenDetailSection[]
+    vision_layout?: {
+      status: string
+      band_count: number
+      notes?: string | null
+      source_screenshot?: string
+      bands?: Array<{
+        id: string
+        label: string
+        category: string
+        box: { x: number; y: number; width: number; height: number }
+        confidence: number
+      }>
+    } | null
   }>(response)
   if (!response.ok) throw new Error(body.error ?? `Screen detail failed (${response.status})`)
   return {
     screen: body.screen,
     hotspots: body.hotspots ?? [],
     sections: body.sections ?? [],
+    vision_layout: body.vision_layout ?? null,
   }
 }
 

@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import type { LlmCompleter, LlmProviderConfig, LlmTokenUsage } from "./llm-provider.js";
 import { createLlmProviderFromConfig } from "./llm-provider.js";
-import { VISION_SCREEN_PROMPT, VISION_SECTION_PROMPT } from "./llm-eval-scenario.js";
+import { VISION_SCREEN_PROMPT, VISION_SECTION_PROMPT, VISION_LAYOUT_PROMPT } from "./llm-eval-scenario.js";
 import { resolveScalingRoles } from "./llm-routing.js";
 import { evidenceSha256, type LlmStageCache } from "./llm-stage-cache.js";
 import { usageToStageCost, type StageCostRecord } from "./llm-cost.js";
@@ -12,6 +12,18 @@ import type { SectionCropRecord } from "./section-crops.js";
 import type { SectionLookDescription } from "./section-look.js";
 import { isConsentOverlaySection, isConsentOverlayVision } from "./consent-noise.js";
 import type { CaptureManifest } from "./types.js";
+import {
+  buildVisionLayoutTiles,
+  findLayoutScreenshot,
+  mapBandsFromTile,
+  mergeVisionLayoutBands,
+  parseVisionLayoutResponse,
+  VISION_LAYOUT_VERSION,
+  visionLayoutMaxBands,
+  writeVisionLayoutDocument,
+  type VisionLayoutDocument,
+  type VisionLayoutBand
+} from "./vision-layout.js";
 
 export interface LlmVisionResult {
   status: "complete" | "failed" | "skipped";
@@ -43,6 +55,18 @@ export interface LlmSectionVisionResult {
   raw_sha256?: string;
   cost?: StageCostRecord;
 }
+
+export type LlmVisionLayoutResult = {
+  status: "complete" | "failed" | "skipped";
+  model?: string;
+  document?: VisionLayoutDocument;
+  bands: VisionLayoutBand[];
+  notes?: string;
+  error?: string;
+  raw_sha256?: string;
+  cost?: StageCostRecord;
+  tile_count?: number;
+};
 
 function extractJsonObject(raw: string): unknown {
   const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
@@ -253,6 +277,189 @@ export async function runVisionScreenAnalysis(
       status: "failed",
       model: visionModel,
       error: error instanceof Error ? error.message : String(error)
+    };
+  }
+}
+
+export async function runVisionLayoutAnalysis(
+  packageRoot: string,
+  manifest: CaptureManifest,
+  options: {
+    config: LlmProviderConfig;
+    provider?: LlmCompleter;
+    stageCache?: LlmStageCache;
+    maxTokens?: number;
+    persist?: boolean;
+  }
+): Promise<LlmVisionLayoutResult> {
+  if (!visionEnabled()) {
+    return { status: "skipped", bands: [], error: "DIG_LLM_VISION=false" };
+  }
+  const shot = findLayoutScreenshot(packageRoot, manifest);
+  if (!shot) {
+    return { status: "skipped", bands: [], error: "No full-page or settled screenshot artifact" };
+  }
+
+  const visionModel = resolveVisionModel(options.config);
+  const maxBands = visionLayoutMaxBands();
+  let tiles;
+  let width = 1;
+  let height = 1;
+  try {
+    const built = await buildVisionLayoutTiles(shot.absolute, {
+      maxBytes: Math.min(visionMaxBytes(), 2_200_000)
+    });
+    tiles = built.tiles;
+    width = built.width;
+    height = built.height;
+  } catch (error: unknown) {
+    return {
+      status: "failed",
+      bands: [],
+      model: visionModel,
+      error: error instanceof Error ? error.message : String(error)
+    };
+  }
+
+  const provider =
+    options.provider ??
+    createLlmProviderFromConfig({
+      ...options.config,
+      model: visionModel,
+      visionModel
+    });
+  const cache = options.stageCache;
+  const allBands: VisionLayoutBand[] = [];
+  const rawChunks: string[] = [];
+  const costParts: StageCostRecord[] = [];
+  let notes = "";
+  let lastModel = visionModel;
+
+  try {
+    for (const tile of tiles) {
+      const dataUrl = `data:${tile.mime};base64,${tile.bytes.toString("base64")}`;
+      const evidenceKey = evidenceSha256(
+        `vision_layout:${shot.relative}:${tile.id}:${createHash("sha256").update(tile.bytes).digest("hex")}`
+      );
+      let raw: string | null = null;
+      if (cache) {
+        const hit = await cache.get("vision_layout", visionModel, evidenceKey);
+        if (hit?.raw_response) {
+          raw = hit.raw_response;
+          costParts.push(usageToStageCost("vision_layout", visionModel, undefined, true));
+        }
+      }
+      if (!raw) {
+        const completion = await provider.complete(
+          [
+            { role: "system", content: VISION_LAYOUT_PROMPT },
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text:
+                    tiles.length > 1
+                      ? `Segment this vertical TILE (${tile.id}) of a taller marketing page. Return JSON only.`
+                      : "Segment this marketing page screenshot into vertical design bands. Return JSON only."
+                },
+                { type: "image_url", image_url: { url: dataUrl } }
+              ]
+            }
+          ],
+          { maxTokens: options.maxTokens ?? 900, model: visionModel }
+        );
+        raw = completion.content;
+        lastModel = completion.model;
+        costParts.push(usageToStageCost("vision_layout", completion.model, completion.usage, false));
+        await cache?.set({
+          stage_id: "vision_layout",
+          model: visionModel,
+          evidence_sha256: evidenceKey,
+          raw_response: raw,
+          status: "complete"
+        });
+      }
+      rawChunks.push(raw);
+      const parsed = parseVisionLayoutResponse(raw, {
+        maxBands: Math.ceil(maxBands / Math.max(1, tiles.length)) + 2,
+        idPrefix: tile.id
+      });
+      if (parsed.notes) notes = parsed.notes;
+      const mapped =
+        tiles.length === 1 && tile.id === "full"
+          ? parsed.bands
+          : mapBandsFromTile(parsed.bands, tile, tile.id);
+      allBands.push(...mapped);
+    }
+
+    const bands = mergeVisionLayoutBands(allBands, maxBands);
+    const document: VisionLayoutDocument = {
+      schema_version: "0.1.0",
+      vision_layout_version: VISION_LAYOUT_VERSION,
+      generated_at: new Date().toISOString(),
+      source_screenshot: shot.relative,
+      image_width: width,
+      image_height: height,
+      ...(notes ? { notes } : {}),
+      bands,
+      model: lastModel,
+      status: "complete"
+    };
+    if (options.persist !== false) {
+      await writeVisionLayoutDocument(packageRoot, document);
+    }
+    const joined = rawChunks.join("\n---\n");
+    const totalCost = costParts.reduce(
+      (acc, part) => ({
+        stage_id: "vision_layout" as const,
+        model: lastModel,
+        prompt_tokens: (acc.prompt_tokens ?? 0) + (part.prompt_tokens ?? 0),
+        completion_tokens: (acc.completion_tokens ?? 0) + (part.completion_tokens ?? 0),
+        estimated_usd: (acc.estimated_usd ?? 0) + (part.estimated_usd ?? 0),
+        cache_hit: costParts.every((item) => item.cache_hit)
+      }),
+      {
+        stage_id: "vision_layout" as const,
+        model: lastModel,
+        prompt_tokens: 0,
+        completion_tokens: 0,
+        estimated_usd: 0,
+        cache_hit: false
+      }
+    );
+    return {
+      status: "complete",
+      model: lastModel,
+      document,
+      bands,
+      ...(notes ? { notes } : {}),
+      tile_count: tiles.length,
+      raw_sha256: `sha256:${createHash("sha256").update(joined).digest("hex")}`,
+      cost: totalCost
+    };
+  } catch (error: unknown) {
+    const failedDoc: VisionLayoutDocument = {
+      schema_version: "0.1.0",
+      vision_layout_version: VISION_LAYOUT_VERSION,
+      generated_at: new Date().toISOString(),
+      source_screenshot: shot.relative,
+      image_width: width,
+      image_height: height,
+      bands: [],
+      model: visionModel,
+      status: "failed",
+      error: error instanceof Error ? error.message : String(error)
+    };
+    if (options.persist !== false) {
+      await writeVisionLayoutDocument(packageRoot, failedDoc).catch(() => undefined);
+    }
+    return {
+      status: "failed",
+      model: visionModel,
+      document: failedDoc,
+      bands: [],
+      error: failedDoc.error
     };
   }
 }

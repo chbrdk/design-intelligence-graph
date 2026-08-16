@@ -13,13 +13,18 @@ import { localLlmConfig, type LlmCompleter, type LlmProviderConfig } from "./llm
 import type { LlmStageCache } from "./llm-stage-cache.js";
 import { createDefaultStageCache } from "./llm-stage-cache.js";
 import { aggregateCosts } from "./llm-cost.js";
-import { runGatedSectionVisions, runVisionScreenAnalysis } from "./llm-vision.js";
+import { runGatedSectionVisions, runVisionLayoutAnalysis, runVisionScreenAnalysis } from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
 import type { NodeStyleMap } from "./section-look.js";
-import { emitSectionCrops, loadSectionCropsDocument } from "./section-crops.js";
+import { loadSectionCropsDocument } from "./section-crops.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
+import {
+  emitVisionBandCrops,
+  shouldPreferVisionLooks,
+  visionBandsToSectionLooks
+} from "./vision-layout.js";
 
 async function loadNodeStylesFromPackage(
   packageRoot: string,
@@ -150,6 +155,142 @@ export async function applyLlmDesignAnalysis(
 
   const stages = [...(llm.stages ?? [])];
   const costRecords = [...(llm.cost?.by_stage ?? [])];
+
+  // Vision layout bands (screenshot → normalized coordinates) before crop VL / screen VL.
+  const visionLayout = await runVisionLayoutAnalysis(packageRoot, manifest, {
+    config,
+    ...(options.provider ? { provider: options.provider } : {}),
+    stageCache,
+    persist: true
+  });
+  stages.push({
+    stage_id: "vision_layout",
+    status: visionLayout.status,
+    ...(visionLayout.raw_sha256 ? { raw_sha256: visionLayout.raw_sha256 } : {}),
+    ...(visionLayout.error ? { error: visionLayout.error } : {}),
+    data: {
+      band_count: visionLayout.bands.length,
+      tile_count: visionLayout.tile_count ?? 0,
+      ...(visionLayout.cost
+        ? {
+            prompt_tokens: visionLayout.cost.prompt_tokens,
+            completion_tokens: visionLayout.cost.completion_tokens,
+            estimated_usd: visionLayout.cost.estimated_usd,
+            cache_hit: visionLayout.cost.cache_hit
+          }
+        : {})
+    }
+  });
+  if (visionLayout.cost) costRecords.push(visionLayout.cost);
+  llm = { ...llm, vision_layout: visionLayout };
+
+  if (visionLayout.status === "complete" && visionLayout.bands.length && visionLayout.document) {
+    try {
+      const crops = await emitVisionBandCrops({
+        packageRoot,
+        screenshotRelative: visionLayout.document.source_screenshot,
+        imageWidth: visionLayout.document.image_width,
+        imageHeight: visionLayout.document.image_height,
+        bands: visionLayout.bands,
+        maxCrops: Math.min(8, visionLayout.bands.length)
+      });
+      const visionLooks = visionBandsToSectionLooks(
+        visionLayout.bands,
+        crops,
+        visionLayout.notes ?? visionLayout.document.notes
+      );
+      const domLooks = llm.mobbin?.section_descriptions ?? [];
+      if (llm.mobbin && (shouldPreferVisionLooks(domLooks) || !domLooks.length)) {
+        // Prefer vision bands when DOM recipes collapsed to thin body/commerce.
+        const mergedLooks = [
+          ...visionLooks,
+          ...domLooks.filter(
+            (look) => !visionLooks.some((vision) => vision.section_id === look.section_id)
+          )
+        ].slice(0, Math.max(visionLooks.length, 8));
+        llm = {
+          ...llm,
+          mobbin: {
+            ...llm.mobbin,
+            section_descriptions: mergedLooks
+          }
+        };
+      } else if (llm.mobbin && visionLooks.length) {
+        // Attach crop evidence onto matching thin looks by vertical order / keep vision as extras.
+        llm = {
+          ...llm,
+          mobbin: {
+            ...llm.mobbin,
+            section_descriptions: [...domLooks, ...visionLooks].slice(0, 14)
+          }
+        };
+      }
+      // Register vision crops into section-crops doc for UI thumbs when missing.
+      if (crops.length) {
+        const existing = (await loadSectionCropsDocument(packageRoot)) ?? {
+          schema_version: "0.1.0" as const,
+          section_crops_version: "0.1.0" as const,
+          generated_at: new Date().toISOString(),
+          crops: []
+        };
+        const asRecords = crops.map((crop) => {
+          const band = visionLayout.bands.find((item) => item.id === crop.band_id);
+          return {
+            section_id: crop.band_id,
+            viewport_name: "desktop",
+            viewport_capture_id:
+              manifest.viewport_captures.find((item) => item.name === "desktop")?.viewport_capture_id ??
+              manifest.viewport_captures[0]?.viewport_capture_id ??
+              "vpc_desktop",
+            category: band?.category ?? "content",
+            signature: band?.category === "hero" ? "media" : "vision_band",
+            path: crop.path,
+            bbox_css: {
+              x: (crop.bbox_px.left / Math.max(1, visionLayout.document!.image_width)) *
+                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.width ??
+                  visionLayout.document!.image_width),
+              y: (crop.bbox_px.top / Math.max(1, visionLayout.document!.image_height)) *
+                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.height ??
+                  visionLayout.document!.image_height),
+              width:
+                (crop.bbox_px.width / Math.max(1, visionLayout.document!.image_width)) *
+                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.width ??
+                  visionLayout.document!.image_width),
+              height:
+                (crop.bbox_px.height / Math.max(1, visionLayout.document!.image_height)) *
+                (manifest.viewport_captures.find((item) => item.name === "desktop")?.document?.height ??
+                  visionLayout.document!.image_height)
+            },
+            bbox_px: crop.bbox_px,
+            source_screenshot: visionLayout.document!.source_screenshot,
+            bytes: crop.bytes,
+            sha256: crop.sha256,
+            reason: "vision_layout_band"
+          };
+        });
+        const byId = new Map(existing.crops.map((crop) => [crop.section_id, crop]));
+        for (const crop of asRecords) byId.set(crop.section_id, crop);
+        await writeArtifact(
+          packageRoot,
+          "derived/section-crops.json",
+          JSON.stringify(
+            {
+              ...existing,
+              generated_at: new Date().toISOString(),
+              crops: [...byId.values()]
+            },
+            null,
+            2
+          ),
+          "application/json"
+        );
+      }
+    } catch (error: unknown) {
+      process.stderr.write(
+        `vision_layout crops/looks skipped: ${error instanceof Error ? error.message : String(error)}\n`
+      );
+    }
+  }
 
   // Wave D.2 — gated VL on section crops (after text section_look).
   const cropsDoc = await loadSectionCropsDocument(packageRoot);

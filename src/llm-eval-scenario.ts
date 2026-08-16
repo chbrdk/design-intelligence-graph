@@ -201,3 +201,16 @@ Rules:
 - cta_chrome: button/link styling if present, else "".
 - composition: 1-2 sentences on layout inside the crop (alignment, stack, negative space).
 - confidence in (0,1).`;
+
+export const VISION_LAYOUT_PROMPT = `You segment a marketing webpage screenshot into vertical DESIGN SECTIONS for DIG.
+The image may be a full page (tall) or one viewport, or a vertical TILE of a taller page.
+Return ONLY minified JSON (no markdown, no trailing commas):
+{"bands":[{"id":string,"label":string,"category":"hero"|"nav"|"feature"|"content"|"commerce"|"conversion"|"social_proof"|"footer"|"other","box":{"x":number,"y":number,"width":number,"height":number},"confidence":number}],"notes":string}
+Rules:
+- box is NORMALIZED to THIS image (0-1). Prefer full-width bands (x≈0, width≈1).
+- Top-to-bottom order; cover the main story (hero, product grid, lifestyle, editorial, footer).
+- Max 8 bands in this image. At most ONE hero. Skip cookie/CMP consent dialogs and chat widgets.
+- label = short human name (e.g. "Hero", "Model grid", "Lifestyle").
+- category = best fit for the band.
+- confidence in (0,1).
+- notes = one sentence on overall page rhythm.`;

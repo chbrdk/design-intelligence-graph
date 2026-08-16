@@ -11,6 +11,7 @@ import { libraryApiPath } from "./runtime-paths.js";
 import { rejectIfUnauthorized } from "./api-auth.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
+import { loadVisionLayoutDocument } from "./vision-layout.js";
 
 type Box = { x: number; y: number; width: number; height: number };
 
@@ -442,13 +443,34 @@ export async function handleLibraryApi(
         return Math.max(max, box.y + box.height);
       }, Number(row.height) || 0);
     }
-    const hotspots = sections.rows.flatMap((section) =>
+    const domHotspots = sections.rows.flatMap((section) =>
       buildHotspotsFromSection({
         ...section,
         document_width: docW,
         document_height: docH
       })
     );
+    let visionLayout: Awaited<ReturnType<typeof loadVisionLayoutDocument>> = null;
+    const packagePath = typeof row.package_path === "string" ? row.package_path : null;
+    if (packagePath) {
+      visionLayout = await loadVisionLayoutDocument(packagePath).catch(() => null);
+    }
+    const visionHotspots =
+      visionLayout?.status === "complete" && visionLayout.bands.length
+        ? visionLayout.bands.map((band) => ({
+            section_id: band.id,
+            label: `${band.category} · ${band.label}`,
+            role: "section",
+            box: {
+              x: band.box.x * (docW || visionLayout!.image_width || 1),
+              y: band.box.y * (docH || visionLayout!.image_height || 1),
+              width: band.box.width * (docW || visionLayout!.image_width || 1),
+              height: band.box.height * (docH || visionLayout!.image_height || 1)
+            },
+            normalized: band.box
+          }))
+        : [];
+    const hotspots = visionHotspots.length ? visionHotspots : domHotspots;
     sendJson(response, 200, {
       screen: {
         ...row,
@@ -457,7 +479,16 @@ export async function handleLibraryApi(
         ...screenMediaUrls(base, captureRunId, row)
       },
       hotspots,
-      sections: sections.rows
+      sections: sections.rows,
+      vision_layout: visionLayout
+        ? {
+            status: visionLayout.status,
+            band_count: visionLayout.bands.length,
+            notes: visionLayout.notes ?? null,
+            source_screenshot: visionLayout.source_screenshot,
+            bands: visionLayout.bands
+          }
+        : null
     });
     return true;
   }

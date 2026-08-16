@@ -16,6 +16,7 @@ export type LlmStageId =
   | "visual_style"
   | "section_look"
   | "synthesize"
+  | "vision_layout"
   | "vision_section"
   | "vision_screen"
   | "flow_actions";
@@ -31,6 +32,7 @@ export const CANONICAL_STAGE_ORDER: LlmStageId[] = [
   ...PARALLEL_TEXT_STAGES,
   "section_look",
   "synthesize",
+  "vision_layout",
   "vision_section",
   "vision_screen"
 ];
