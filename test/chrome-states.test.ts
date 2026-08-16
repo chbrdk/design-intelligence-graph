@@ -10,9 +10,12 @@ import { buildRebuildBriefMarkdown } from "../src/rebuild-brief.js";
 test("classifyChromeTrigger maps nav/search/cart/account siblings", () => {
   assert.equal(classifyChromeTrigger({ text: "Modelle", role: "button", expanded: "false" }), "nav_menu");
   assert.equal(classifyChromeTrigger({ text: "Menu", role: "button", ariaLabel: "Open menu" }), "mobile_nav");
+  assert.equal(classifyChromeTrigger({ text: "Menü", tag: "button", haspopup: "dialog" }), "mobile_nav");
+  assert.equal(classifyChromeTrigger({ text: "", ariaLabel: "open the my porsche menu", tag: "button" }), "account_drawer");
   assert.equal(classifyChromeTrigger({ text: "Suche", ariaLabel: "Search" }), "search_overlay");
   assert.equal(classifyChromeTrigger({ text: "Warenkorb" }), "cart_drawer");
   assert.equal(classifyChromeTrigger({ text: "Anmelden" }), "account_drawer");
+  assert.equal(classifyChromeTrigger({ text: "Land oder Region ändern" }), "lang_switcher");
   assert.equal(classifyChromeTrigger({ text: "Deutschland", ariaLabel: "Language" }), "lang_switcher");
   assert.equal(classifyChromeTrigger({ text: "Filter" }), "filter_drawer");
   assert.equal(classifyChromeTrigger({ text: "FAQ", tag: "summary" }), "accordion");

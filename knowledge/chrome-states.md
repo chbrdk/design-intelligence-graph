@@ -43,6 +43,10 @@ Config: `paths.json` → `chromeStates.maxOpens` / `DIG_CHROME_STATES_MAX`.
 - Restore before continuing capture
 - Soft-fail never blocks package
 
+## Shadow DOM
+
+Sites like Porsche keep chrome in open shadow trees (`phn-header` → burger / account / region). Discovery **walks open shadow roots**, stamps `data-dig-chrome-id`, and falls back to Playwright `getByRole` by accessible name (`Menü`, `Land oder Region ändern`).
+
 ## Rebuild brief
 
 `rebuild-brief` includes a **Chrome IA** section when `derived/chrome-states.json` exists.
