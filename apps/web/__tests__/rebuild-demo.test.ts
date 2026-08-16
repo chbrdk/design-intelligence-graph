@@ -14,6 +14,11 @@ describe('rebuild demo', () => {
     assert.ok(paths.rebuildDemo.captureRunId.startsWith('cap_'))
   })
 
+  it('middleware allows rebuild without login', () => {
+    const mw = readFileSync(resolve(__dirname, '../middleware.ts'), 'utf8')
+    assert.match(mw, /paths\.routes\.rebuild/)
+  })
+
   it('ships hero asset and brief knowledge file', () => {
     const hero = resolve(__dirname, '../public/rebuild/hero-night-car.png')
     const brief = resolve(__dirname, '../../../knowledge/porsche-germany-rebuild-brief.md')

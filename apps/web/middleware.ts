@@ -10,6 +10,7 @@ const gated = auth((req) => {
   const hasBearer = authHeader.startsWith('bearer ')
   const isPublic =
     pathname === paths.routes.login ||
+    pathname === paths.routes.rebuild ||
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/health') ||
     pathname.startsWith('/api/dig') ||
