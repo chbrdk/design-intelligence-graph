@@ -149,28 +149,25 @@ export function LibraryScreenDetailPanel(props: {
       : islandMediaUrl(screen?.settled_url ?? screen?.primary_url)
 
   const accordionItems = useMemo(() => {
-    const fromLooks = sectionLooks.map((item, index) => {
-      const id = String(item.name ?? item.id ?? `look-${index}`)
+    // Vision full-width bands only — never DOM CTA/heading fragments.
+    if (!overlays.length) return []
+    return overlays.map((hotspot) => {
+      const look = sectionLooks.find(
+        (item) => String(item.name ?? item.id ?? '') === hotspot.section_id
+      )
       return {
-        id,
-        title: `${item.category ?? 'section'} · ${item.signature ?? item.name ?? id}`,
-        preview: (item.interpretation ?? '').slice(0, 120) || undefined,
-        panel: <SectionLookPanel item={item} />,
+        id: hotspot.section_id,
+        title: hotspot.label || hotspot.section_id,
+        preview: (look?.interpretation ?? '').slice(0, 120) || undefined,
+        panel: look ? (
+          <SectionLookPanel item={look} />
+        ) : (
+          <Text role="body">
+            Full-width vision band. Detail analysis appears after section VL.
+          </Text>
+        ),
       }
     })
-    if (fromLooks.length) return fromLooks
-
-    return overlays.map((hotspot) => ({
-      id: hotspot.section_id,
-      title: hotspot.label || hotspot.section_id,
-      preview: hotspot.role,
-      panel: (
-        <Text role="body">
-          Measured band {Math.round(hotspot.box.width)}×{Math.round(hotspot.box.height)} at y=
-          {Math.round(hotspot.box.y)}. Section look text appears after enrichment.
-        </Text>
-      ),
-    }))
   }, [sectionLooks, overlays])
 
   function selectSection(sectionId: string) {

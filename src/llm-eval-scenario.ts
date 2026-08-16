@@ -222,15 +222,17 @@ Rules:
 - composition: 2-3 sentences on layout inside the crop (alignment, stack, negative space, type scale).
 - confidence in (0,1).`;
 
-export const VISION_LAYOUT_PROMPT = `You segment a marketing webpage screenshot into vertical DESIGN SECTIONS for DIG.
+export const VISION_LAYOUT_PROMPT = `You segment a marketing webpage screenshot into FULL-WIDTH vertical PAGE SECTIONS for DIG.
 The image may be a full page (tall) or one viewport, or a vertical TILE of a taller page.
 Return ONLY minified JSON (no markdown, no trailing commas):
-{"bands":[{"id":string,"label":string,"category":"hero"|"nav"|"feature"|"content"|"commerce"|"conversion"|"social_proof"|"footer"|"other","box":{"x":number,"y":number,"width":number,"height":number},"confidence":number}],"notes":string}
+{"bands":[{"id":string,"label":string,"category":"hero"|"nav"|"feature"|"content"|"commerce"|"conversion"|"social_proof"|"footer"|"other","box":{"x":0,"y":number,"width":1,"height":number},"confidence":number}],"notes":string}
 Rules:
-- box is NORMALIZED to THIS image (0-1). Prefer full-width bands (x≈0, width≈1).
-- Top-to-bottom order; cover the main story (hero, product grid, lifestyle, editorial, footer).
-- Max 8 bands in this image. At most ONE hero. Skip cookie/CMP consent dialogs and chat widgets.
-- label = short human name (e.g. "Hero", "Model grid", "Lifestyle").
+- EVERY band MUST be a full-bleed horizontal strip of the page: box.x MUST be 0 and box.width MUST be 1. Never crop left/right.
+- Do NOT mark buttons, CTAs, cards, columns, logos, or text blocks as their own bands — those are details inside a band (analyzed later).
+- A band = one major page region stacked top→bottom (nav, hero, intro copy, case-study row, insights row, CTA banner, footer).
+- Top-to-bottom order; cover the page story without tiny fragments. Prefer 4–8 bands. At most ONE hero.
+- Skip cookie/CMP dialogs and chat widgets.
+- label = short human name for the WHOLE band (e.g. "Hero", "Case studies", "Insights", "Footer").
 - category = best fit for the band.
 - confidence in (0,1).
 - notes = one sentence on overall page rhythm.`;

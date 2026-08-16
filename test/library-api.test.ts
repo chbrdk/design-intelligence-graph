@@ -347,7 +347,7 @@ test("library API screen detail prefers vision_layout hotspots", async () => {
   assert.equal(body.hotspots[0]?.normalized?.y, 0);
 });
 
-test("library API screen detail includes hotspots", async () => {
+test("library API screen detail uses vision hotspots only (no DOM fallback)", async () => {
   const mock = mockResponse();
   let call = 0;
   const client = {
@@ -371,25 +371,12 @@ test("library API screen detail includes hotspots", async () => {
               document_height: 5000,
               canonical_url: "https://example.com/",
               site_domain: "example.com",
-              package_path: "/tmp/pkg"
+              package_path: "/tmp/pkg-missing-vision"
             }
           ]
         };
       }
-      return {
-        rows: [
-          {
-            section_id: "sec_1",
-            category: "hero",
-            signature: "media>heading",
-            recipe: [{ kind: "role", role: "cta", box: { x: 10, y: 10, width: 40, height: 20 } }],
-            root_box: { x: 0, y: 0, width: 100, height: 80 },
-            viewport_width: 1440,
-            viewport_height: 900,
-            confidence: 0.9
-          }
-        ]
-      };
+      return { rows: [] };
     }
   };
   const handled = await handleLibraryApi(
@@ -404,7 +391,7 @@ test("library API screen detail includes hotspots", async () => {
     hotspots: unknown[];
     screen: { settled_url: string; full_page_url: string; primary_url: string };
   };
-  assert.ok(body.hotspots.length >= 2);
+  assert.equal(body.hotspots.length, 0);
   assert.match(body.screen.settled_url, /settled\.webp/);
   assert.match(body.screen.full_page_url, /full-page\.webp/);
   assert.match(body.screen.primary_url, /full-page\.webp/);

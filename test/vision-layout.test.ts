@@ -15,12 +15,12 @@ import {
 } from "../src/vision-layout.js";
 import type { SectionLookDescription } from "../src/section-look.js";
 
-test("normalizeVisionBox clamps and rejects tiny heights", () => {
+test("normalizeVisionBox forces full-width bands and rejects tiny heights", () => {
   assert.equal(normalizeVisionBox({ x: 0, y: 0, width: 1, height: 0.02 }), null);
-  const box = normalizeVisionBox({ x: -0.1, y: 0.2, width: 1.5, height: 0.3 });
+  const box = normalizeVisionBox({ x: 0.2, y: 0.2, width: 0.4, height: 0.3 });
   assert.ok(box);
   assert.equal(box.x, 0);
-  assert.ok(box.width <= 1);
+  assert.equal(box.width, 1);
   assert.equal(box.y, 0.2);
 });
 

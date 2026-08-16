@@ -162,7 +162,8 @@
   "visionLayout": {
     "relativePath": "derived/vision-layout.json",
     "maxBands": 12,
-    "doc": "knowledge/vision-desktop-pipeline.md"
+    "doc": "knowledge/vision-desktop-pipeline.md",
+    "visionOnlyFullWidthDoc": "knowledge/vision-only-fullwidth-sections.md"
   },
   "visionPage": {
     "relativePath": "derived/vision-page.json",

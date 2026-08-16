@@ -75,12 +75,12 @@ function clamp01(value: number): number {
 export function normalizeVisionBox(raw: unknown): VisionLayoutBox | null {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
   const record = raw as Record<string, unknown>;
-  const x = clamp01(Number(record.x));
   const y = clamp01(Number(record.y));
-  let width = clamp01(Number(record.width));
   let height = clamp01(Number(record.height));
-  if (width <= 0.02 || height < 0.04) return null;
-  if (x + width > 1) width = Math.max(0.02, 1 - x);
+  // Sections are always full-bleed page bands — never card/CTA boxes.
+  const x = 0;
+  const width = 1;
+  if (height < 0.04) return null;
   if (y + height > 1) height = Math.max(0.04, 1 - y);
   return { x, y, width, height };
 }
@@ -160,9 +160,9 @@ export function mapBandsFromTile(
       ...band,
       id: `${idPrefix}_${band.id || index + 1}`,
       box: {
-        x: band.box.x,
+        x: 0,
         y: clamp01(absTop / tile.fullHeight),
-        width: band.box.width,
+        width: 1,
         height: clamp01(absHeight / tile.fullHeight)
       }
     };

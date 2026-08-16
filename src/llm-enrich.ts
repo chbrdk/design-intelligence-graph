@@ -21,9 +21,9 @@ import {
 } from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
-import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
+import type { SectionComposition } from "./section-composition.js";
 import type { NodeStyleMap } from "./section-look.js";
-import { emitSectionCrops, loadSectionCropsDocument } from "./section-crops.js";
+import { loadSectionCropsDocument } from "./section-crops.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
 import {
   emitVisionBandCrops,
@@ -108,37 +108,15 @@ export async function applyLlmDesignAnalysis(
   const logicalDoc = JSON.parse(await readFile(logicalPath, "utf8")) as { logical_element_count?: number; logical_elements?: unknown[] };
   const responsiveDoc = JSON.parse(await readFile(responsivePath, "utf8")) as { transformations?: unknown[] };
   let sectionCompositions: SectionComposition[] = [];
-  let sectionClusters: SectionCompositionCluster[] = [];
   let sectionDocFull: import("./section-composition.js").SectionCompositionDocument | null = null;
   try {
     sectionDocFull = JSON.parse(await readFile(sectionPath, "utf8")) as import("./section-composition.js").SectionCompositionDocument;
     sectionCompositions = sectionDocFull.viewports?.flatMap((viewport) => viewport.sections ?? []) ?? [];
-    sectionClusters = sectionDocFull.clusters ?? [];
   } catch {
     /* older packages may lack section compositions */
   }
 
-  // Deterministic section crops (also refreshes after CHECKION full-page attach).
-  if (sectionCompositions.length) {
-    try {
-      const cropEmit = await emitSectionCrops({
-        packageRoot,
-        viewportCaptures: manifest.viewport_captures,
-        sections: sectionCompositions,
-        viewportName: "desktop"
-      });
-      manifest = {
-        ...manifest,
-        run_artifacts: {
-          ...manifest.run_artifacts,
-          section_crops: cropEmit.artifact
-        }
-      };
-      await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");
-    } catch {
-      /* crop failure must not block enrichment */
-    }
-  }
+  // Deterministic DOM section crops skipped — section inventory is vision-only (full-width bands).
 
   const nodeStyles = await loadNodeStylesFromPackage(packageRoot, manifest, sectionCompositions);
 
@@ -151,19 +129,34 @@ export async function applyLlmDesignAnalysis(
       visual_hypotheses: visualDoc.hypotheses ?? [],
       logical_element_count: logicalDoc.logical_element_count ?? logicalDoc.logical_elements?.length ?? 0,
       transformation_count: responsiveDoc.transformations?.length ?? 0,
-      section_compositions: sectionCompositions,
-      section_clusters: sectionClusters,
+      // Do not feed DOM sections into LLM section_look — vision bands are SoT.
+      section_compositions: [],
+      section_clusters: [],
       node_styles: nodeStyles
     },
     { ...options, stageCache }
   );
 
-  const stages = [...(llm.stages ?? [])];
+  // Drop any DOM-derived section looks; visual sections come only from vision_layout.
+  if (llm.mobbin) {
+    llm = {
+      ...llm,
+      mobbin: {
+        ...llm.mobbin,
+        section_descriptions: []
+      }
+    };
+  }
+
+  const stages = [...(llm.stages ?? [])].filter((stage) => stage.stage_id !== "section_look");
   const costRecords = [...(llm.cost?.by_stage ?? [])];
 
-  // Desktop vision pipeline: A page catalog ∥ B section bands → crops → C section detail.
+  const visionTimeoutMs = Math.max(
+    config.timeoutMs,
+    Number(process.env.DIG_LLM_VISION_TIMEOUT_MS ?? 300_000)
+  );
   const visionOpts = {
-    config,
+    config: { ...config, timeoutMs: visionTimeoutMs },
     ...(options.provider ? { provider: options.provider } : {}),
     stageCache,
     persist: true as const
@@ -322,11 +315,21 @@ export async function applyLlmDesignAnalysis(
     }
   }
 
+  // Vision-only section inventory (full-width bands); DOM looks stay cleared.
+  let visionLooks =
+    visionLayout.status === "complete" && visionLayout.bands.length
+      ? visionBandsToSectionLooks(
+          visionLayout.bands,
+          visionBandCrops,
+          visionLayout.notes ?? visionLayout.document?.notes
+        )
+      : [];
+
   const sectionVisions = await runVisionBandSectionVisions({
     packageRoot,
     crops: visionCropRecords,
     bands: visionLayout.bands,
-    config,
+    config: { ...config, timeoutMs: visionTimeoutMs },
     ...(options.provider ? { provider: options.provider } : {}),
     stageCache,
     maxSections: 8
@@ -346,32 +349,22 @@ export async function applyLlmDesignAnalysis(
     });
     costRecords.push(...sectionVisions.costs);
 
-    const visionLooks = visionBandsToSectionLooks(
-      visionLayout.bands,
-      visionBandCrops,
-      visionLayout.notes ?? visionLayout.document?.notes
-    );
     const byVision = new Map(sectionVisions.results.map((item) => [item.section_id, item]));
-    const enrichedLooks = visionLooks.map((look) => {
+    visionLooks = visionLooks.map((look) => {
       const detail = byVision.get(look.section_id);
       return detail ? mergeSectionVisionIntoLook(look, detail) : look;
     });
-    const domLooks = llm.mobbin?.section_descriptions ?? [];
-    if (llm.mobbin && enrichedLooks.length) {
-      llm = {
-        ...llm,
-        mobbin: {
-          ...llm.mobbin,
-          section_descriptions: [
-            ...enrichedLooks,
-            ...domLooks.filter((look) => !enrichedLooks.some((vision) => vision.section_id === look.section_id))
-          ]
-        },
-        section_visions: sectionVisions.results
-      };
-    } else {
-      llm = { ...llm, section_visions: sectionVisions.results };
-    }
+    llm = { ...llm, section_visions: sectionVisions.results };
+  }
+
+  if (llm.mobbin && visionLooks.length) {
+    llm = {
+      ...llm,
+      mobbin: {
+        ...llm.mobbin,
+        section_descriptions: visionLooks
+      }
+    };
   }
 
   const cost = costRecords.length ? aggregateCosts(costRecords) : llm.cost;

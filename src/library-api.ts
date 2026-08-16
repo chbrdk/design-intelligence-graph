@@ -421,13 +421,6 @@ export async function handleLibraryApi(
       return true;
     }
     const captureRunId = String(row.capture_run_id ?? "");
-    const sections = await client.query(
-      `SELECT section_id, category, signature, recipe, root_box, viewport_width, viewport_height, confidence
-       FROM sections
-       WHERE capture_run_id = $1 AND (viewport_capture_id = $2 OR viewport_name = $3)
-       ORDER BY id ASC`,
-      [captureRunId, viewportCaptureId, row.name]
-    );
     const docW =
       typeof row.document_width === "number"
         ? row.document_width
@@ -435,27 +428,16 @@ export async function handleLibraryApi(
     let docH =
       typeof row.document_height === "number"
         ? row.document_height
-        : Number(row.document_height) || null;
-    if (!docH || !Number.isFinite(docH)) {
-      docH = sections.rows.reduce((max, section) => {
-        const box = asBox(section.root_box);
-        if (!box) return max;
-        return Math.max(max, box.y + box.height);
-      }, Number(row.height) || 0);
-    }
-    const domHotspots = sections.rows.flatMap((section) =>
-      buildHotspotsFromSection({
-        ...section,
-        document_width: docW,
-        document_height: docH
-      })
-    );
+        : Number(row.document_height) || Number(row.height) || null;
     let visionLayout: Awaited<ReturnType<typeof loadVisionLayoutDocument>> = null;
     const packagePath = typeof row.package_path === "string" ? row.package_path : null;
     if (packagePath) {
       visionLayout = await loadVisionLayoutDocument(packagePath).catch(() => null);
     }
-    const visionHotspots =
+    if ((!docH || !Number.isFinite(docH)) && visionLayout?.image_height) {
+      docH = visionLayout.image_height;
+    }
+    const hotspots =
       visionLayout?.status === "complete" && visionLayout.bands.length
         ? visionLayout.bands.map((band) => ({
             section_id: band.id,
@@ -470,7 +452,6 @@ export async function handleLibraryApi(
             normalized: band.box
           }))
         : [];
-    const hotspots = visionHotspots.length ? visionHotspots : domHotspots;
     sendJson(response, 200, {
       screen: {
         ...row,
@@ -479,14 +460,15 @@ export async function handleLibraryApi(
         ...screenMediaUrls(base, captureRunId, row)
       },
       hotspots,
-      sections: sections.rows,
+      sections: [],
       vision_layout: visionLayout
         ? {
             status: visionLayout.status,
             band_count: visionLayout.bands.length,
             notes: visionLayout.notes ?? null,
             source_screenshot: visionLayout.source_screenshot,
-            bands: visionLayout.bands
+            bands: visionLayout.bands,
+            ...(visionLayout.error ? { error: visionLayout.error } : {})
           }
         : null
     });

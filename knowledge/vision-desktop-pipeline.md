@@ -2,13 +2,13 @@
 
 ## Goal
 
-Simple desktop visual understanding for later LLMs:
+Simple desktop visual understanding for later LLMs — **vision only**, no DOM overlays:
 
 1. One full-page **desktop** screenshot
 2. **Run A** — rich page visual catalog (`vision_page`)
-3. **Run B** — section bands with normalized boxes (`vision_layout`) — parallel with A
+3. **Run B** — **full-width** section bands (`vision_layout`) — parallel with A
 4. Crop bands from the shot
-5. **Run C** — detailed VL per crop (`vision_section`, max 8, ungated)
+5. **Run C** — detailed VL per crop (`vision_section`, max 8) including CTAs/cards inside the band
 
 DOM/text stages still run; they do **not** gate crops or overlays. Vision bands are SoT for Library overlays.
 
