@@ -23,10 +23,9 @@ Paths come from [`paths.json`](paths.json):
 1. **Pipeline status** — capture job timeline; shows `enrichment_job_id` when async LLM is queued
 2. **Enrichment** — queue status, models, tokens, estimated USD; link to analysis
 3. **Analyses** — design summary, patterns, UI elements, recipes, visual style, page flow, vision/cost
-4. **Library** — Screens / Sections / **Flows (planned DIG-011)**; screen detail keeps page narrative (`page_flow`) separate from multi-screen Flows
+4. **Library** — Screens / Sections / **Flows** (DIG-011 list/detail/Interactive); screen detail keeps **Page narrative** (`page_flow`) separate from multi-screen Flows
 
-Flows UI IA: [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md) · wireframes [`dig-011-flows-ui.md`](dig-011-flows-ui.md). **Not implemented** until Phase D HTTP (or fixture-mock flag).
-
+Flows UI: [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md) · `#/library/flows`
 ## Local
 
 ```bash

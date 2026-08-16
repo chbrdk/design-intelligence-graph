@@ -330,3 +330,107 @@ export async function fetchScreenDetail(viewportCaptureId: string): Promise<{
   if (!response.ok) throw new Error(body.error ?? `Screen detail failed (${response.status})`)
   return body
 }
+
+export interface DesignFlowListItem {
+  flow_id: string
+  app_scope_id: string
+  title: string | null
+  flow_action_ids: string[]
+  screen_count: number
+  edge_count: number
+  preview_screen_id: string | null
+  preview_url: string | null
+}
+
+export interface DesignFlowGraph {
+  flow_id: string
+  app_scope_id: string
+  title?: string
+  flow_actions?: Array<{ taxonomy_id: string; confidence?: number; method?: string }>
+  screens: Array<{
+    flow_screen_id: string
+    order: number
+    capture_run_id: string
+    primary_url?: string | null
+    checkion_scan_id?: string | null
+  }>
+  edges: Array<{
+    edge_id: string
+    from_screen_id: string
+    to_screen_id: string
+    method?: string
+    activation?: string
+    hotspot?: { x: number; y: number; width: number; height: number; space: string }
+  }>
+}
+
+export interface DesignFlowInteractive {
+  schema_version: '0.1.0'
+  flow_id: string
+  start_screen_id: string
+  steps: Array<{
+    flow_screen_id: string
+    order: number
+    primary_url: string | null
+    image_ref: string | null
+    advance_anywhere: boolean
+    hotspots: Array<{
+      edge_id: string
+      to_screen_id: string
+      box: { x: number; y: number; width: number; height: number; space: 'normalized' }
+    }>
+  }>
+}
+
+export async function fetchDesignFlows(opts?: {
+  flow_action?: string
+  app_scope_id?: string
+  q?: string
+  limit?: number
+}): Promise<DesignFlowListItem[]> {
+  const params = new URLSearchParams()
+  if (opts?.flow_action) params.set('flow_action', opts.flow_action)
+  if (opts?.app_scope_id) params.set('app_scope_id', opts.app_scope_id)
+  if (opts?.q) params.set('q', opts.q)
+  if (opts?.limit) params.set('limit', String(opts.limit))
+  const qs = params.toString()
+  const response = await fetch(`${BASE}${paths.digApiLibraryFlows}${qs ? `?${qs}` : ''}`)
+  const body = await readJson<{ items?: DesignFlowListItem[] }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Flows list failed (${response.status})`)
+  return body.items ?? []
+}
+
+export async function fetchDesignFlow(flowId: string): Promise<{ flow: DesignFlowGraph }> {
+  const response = await fetch(
+    `${BASE}${paths.digApiLibraryFlows}/${encodeURIComponent(flowId)}`,
+  )
+  const body = await readJson<{ flow?: DesignFlowGraph }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Flow detail failed (${response.status})`)
+  if (!body.flow) throw new Error('Flow detail missing flow')
+  return { flow: body.flow }
+}
+
+export async function fetchDesignFlowInteractive(flowId: string): Promise<DesignFlowInteractive> {
+  const response = await fetch(
+    `${BASE}${paths.digApiLibraryFlows}/${encodeURIComponent(flowId)}/interactive`,
+  )
+  const body = await readJson<DesignFlowInteractive>(response)
+  if (!response.ok) throw new Error(body.error ?? `Flow interactive failed (${response.status})`)
+  return body
+}
+
+/** Within-page section narrative (not DIG-011 multi-screen Flows). */
+export async function fetchPageFlows(captureRunId: string): Promise<{
+  capture_run_id: string
+  steps: Array<{ section_label?: string; signature?: string | null; matched_section?: unknown }>
+}> {
+  const response = await fetch(
+    `${BASE}${paths.digApiLibraryPageFlows}?capture_run_id=${encodeURIComponent(captureRunId)}`,
+  )
+  const body = await readJson<{
+    capture_run_id: string
+    steps?: Array<{ section_label?: string; signature?: string | null; matched_section?: unknown }>
+  }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Page narrative failed (${response.status})`)
+  return { capture_run_id: body.capture_run_id, steps: body.steps ?? [] }
+}

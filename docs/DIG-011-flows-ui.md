@@ -1,8 +1,8 @@
 # DIG-011 — Flows Library UI & Interactive Mode (IA)
 
-**Status:** Draft v0.1 — **specified, not implemented**  
+**Status:** Draft v0.1 — **Library Flows + Interactive Mode UI shipped** (`apps/web`)  
 **API:** [DIG-011-library-api.md](DIG-011-library-api.md)  
-**Fixtures:** `fixtures/flows/api/` · **Visual tokens:** reuse existing `web/src/styles.css` DIG shell  
+**Fixtures:** `fixtures/flows/api/` · **Visual tokens:** `apps/web/app/globals.css` DIG shell  
 **Companion:** [`knowledge/dig-011-flows-ui.md`](../knowledge/dig-011-flows-ui.md)
 
 ## 1. Goal
@@ -194,14 +194,14 @@ Contract tests already validate these payloads. UI implementation MUST consume t
 
 ## 10. Implementation policy
 
-**Do not build React panels until Phase D list/detail/interactive HTTP exists** (or an explicit UI-mock flag loading fixtures only). This document is the IA contract.
+Phase D HTTP exists — React Library Flows panels are in `apps/web` (`library-page` mode switch + `library-flows-panel`).
 
-Phased UI build when unblocked:
+Phased UI build:
 
-1. Flows list (fixture or API)  
-2. Detail  
-3. Interactive Mode  
-4. Rename page_flow UI strings + API alias  
+1. Flows list — **done**
+2. Detail — **done**
+3. Interactive Mode — **done** (pre-captured media placeholder until screen media map fills)
+4. Rename page_flow UI strings + API alias — **done** (`Page narrative` · `/page-flows`)
 
 ## 11. References
 

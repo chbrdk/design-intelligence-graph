@@ -1,7 +1,7 @@
 # DIG-011 Flows UI — wireframes & states
 
 **Spec:** [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md)  
-**Updated:** 2026-08-15 · Spec only
+**Updated:** 2026-08-16 · Runtime UI in `apps/web` (Screens / Sections / Flows + Interactive)
 
 ## Library mode switch
 

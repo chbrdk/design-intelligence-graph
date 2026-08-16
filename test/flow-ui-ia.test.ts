@@ -35,10 +35,11 @@ test("UI IA manifest references existing fixtures and API paths", () => {
   assert.equal(paths.api?.libraryPath, "/api/library");
 });
 
-test("flows UI spec forbids implementing before Phase D HTTP", async () => {
+test("flows UI spec documents Interactive Mode after Phase D HTTP", async () => {
   const spec = await import("node:fs/promises").then((fs) => fs.readFile("docs/DIG-011-flows-ui.md", "utf8"));
-  assert.match(spec, /Do not build React panels until Phase D/i);
-  assert.match(spec, /Page narrative/i);
   assert.match(spec, /Interactive Mode/i);
+  assert.match(spec, /Page narrative/i);
   assert.match(spec, /CHECKION/);
+  assert.match(spec, /Phase D HTTP exists/i);
+  assert.match(spec, /library-flows-panel/i);
 });

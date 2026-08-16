@@ -22,7 +22,7 @@
 | Phase B measure / edges | **Done** | `src/flow-edges.ts` — B1/B2/B3-refuse/B4; local sibling href-join on capture; `knowledge/dig-011-phase-b.md` |
 | Phase C detect / LLM stage | **Done** | `src/flow-detect.ts` — C1 L2 + C2 parse/soft-fail; `knowledge/dig-011-phase-c.md` |
 | Phase D assemble / Library / MCP | **Done (file store)** | `src/flow-assemble.ts` + `src/flow-library.ts`; `/page-flows` vs `/flows`; MCP `dig_flow_*`; `knowledge/dig-011-phase-d.md` |
-| Interactive Mode UI | **Not started** | Spec only |
+| Interactive Mode UI | **Done** | `apps/web` Library Flows tab + Interactive (`#/library/flows…`) |
 | CHECKION URL seed worker | **Not started** | Spec only |
 | Apply `009` Postgres migration | **Not started** | Draft only |
 
