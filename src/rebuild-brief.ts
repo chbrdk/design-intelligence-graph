@@ -6,6 +6,10 @@
 import { writeArtifact } from "./io.js";
 import type { LlmDesignAnalysis } from "./llm-design.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
+import {
+  formatDesignTokensBriefSection,
+  type DesignTokensDocument
+} from "./design-tokens.js";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -20,6 +24,7 @@ export function buildRebuildBriefMarkdown(input: {
     label: string;
     open_labels?: string[];
   }>;
+  designTokens?: DesignTokensDocument | null;
 }): string {
   const llm = input.llm;
   const sections = llm.mobbin?.section_descriptions ?? [];
@@ -32,6 +37,10 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push("");
   lines.push(`Capture: \`${input.captureRunId}\` · generated ${new Date().toISOString()}`);
   lines.push("");
+  if (input.designTokens) {
+    lines.push(formatDesignTokensBriefSection(input.designTokens).trimEnd());
+    lines.push("");
+  }
   lines.push("## Page reading");
   lines.push("");
   lines.push(llm.design_summary?.trim() || "_No design_summary_");
@@ -86,6 +95,7 @@ export function buildRebuildBriefMarkdown(input: {
   lines.push("3. Reuse measured signatures as stack recipes; do not invent off-evidence chrome.");
   lines.push("4. Skip cookie/CMP chrome.");
   lines.push("5. Prefer measured chrome IA labels when rebuilding nav/search/cart.");
+  lines.push("6. Prefer measured design tokens for fonts/colors/radii/CTA; refuse invented brand chrome when tokens exist.");
   lines.push("");
   return `${lines.join("\n")}\n`;
 }
@@ -104,11 +114,20 @@ export async function emitRebuildBriefForPackage(
   } catch {
     /* optional */
   }
+  let designTokens: DesignTokensDocument | null = null;
+  try {
+    designTokens = JSON.parse(
+      await readFile(resolve(packageRoot, "derived/design-tokens.json"), "utf8")
+    ) as DesignTokensDocument;
+  } catch {
+    /* optional */
+  }
   const body = buildRebuildBriefMarkdown({
     captureRunId: manifest.capture_run_id,
     url: manifest.canonical_url,
     llm,
-    chromeStates
+    chromeStates,
+    designTokens
   });
   const artifact = await writeArtifact(packageRoot, REBUILD_BRIEF_RELATIVE_PATH, body, "text/markdown; charset=utf-8");
   const updated: CaptureManifest = {

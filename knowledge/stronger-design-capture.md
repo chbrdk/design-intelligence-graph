@@ -34,17 +34,9 @@ Parked siblings: sticky-on-scroll header, carousel next, video playing.
 
 See `src/chrome-states.ts`. Next: optional LLM `chrome_ia` stage + Library thumbs.
 
-### 2. Design token pack (visual language → usable)
+### 2. Design token pack (visual language → usable) — **DONE (capture path)**
 
-Emit `derived/design-tokens.json` (and brief section) from measured evidence:
-
-- Colors: top N fills/text from visual-language (hex + role guess: bg/ink/accent)
-- Type: family + 3–5 sizes/weights from hero + body + CTA
-- Shape: border-radius histogram (12/24px Porsche signal)
-- Motion: prefers-reduced-motion + any measured transition durations
-- Chrome recipes: primary CTA (fill/outline), scrim (gradient stops if inferred from vision)
-
-Feed tokens into rebuild brief **before** freeform prose.
+See [`design-tokens.md`](design-tokens.md) / `src/design-tokens.ts`. Emits `derived/design-tokens.json` + brief section.
 
 ### 3. Structure spine (not more essays)
 
@@ -79,7 +71,7 @@ Agent should refuse to invent fonts/colors when tokens present.
 ## Suggested order
 
 1. Chrome open-state capture — **DONE**  
-2. Token pack + brief schema  
+2. Token pack + brief schema — **DONE**  
 3. Re-synthesize **after** vision_section  
 4. Light related-URL captures from chrome links  
 5. DIG-011 flows when Collection multi-screen is boring  

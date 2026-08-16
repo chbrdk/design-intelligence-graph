@@ -44,6 +44,12 @@ export interface DigPaths {
     doc?: string;
     kinds?: string[];
   };
+  designTokens?: {
+    relativePath?: string;
+    maxColors?: number;
+    maxTypeStyles?: number;
+    doc?: string;
+  };
   database?: {
     composeService: string;
     image: string;

@@ -28,6 +28,7 @@ import {
 } from "./section-composition.js";
 import { emitSectionCrops } from "./section-crops.js";
 import { deriveVisualHypotheses, deriveVisualLanguageViewport, VISUAL_LANGUAGE_VERSION, type VisualViewportEvidence } from "./visual-language.js";
+import { emitDesignTokensForPackage } from "./design-tokens.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
@@ -526,6 +527,15 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     }, null, 2),
     "application/json"
   );
+  try {
+    const tokenEmit = await emitDesignTokensForPackage(packageRoot, visualLanguageViewports);
+    if (tokenEmit) runArtifacts.design_tokens = tokenEmit.artifact;
+  } catch (error: unknown) {
+    errors.push({
+      code: "design_tokens_failed",
+      message: error instanceof Error ? error.message : String(error)
+    });
+  }
   const viewportOntologies = attachLogicalElements(responsiveEvidence.map((evidence) => {
     const result = results.find((candidate) => candidate.viewport_capture_id === evidence.viewport_capture_id)!;
     return deriveViewportOntology({

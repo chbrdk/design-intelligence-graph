@@ -178,6 +178,13 @@
       "accordion"
     ]
   },
+  "designTokens": {
+    "relativePath": "derived/design-tokens.json",
+    "maxColors": 8,
+    "maxTypeStyles": 5,
+    "doc": "knowledge/design-tokens.md",
+    "dtcgFormat": "https://www.designtokens.org/tr/2025.10/"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",

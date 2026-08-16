@@ -11,6 +11,7 @@ Porsche enrichment: `synthesize` failed with truncated JSON (`Expected ',' or ']
 3. Editorial `pageSummaryFromMobbin` (vision beats, no CSS echo); detect soft echo
 4. After section/page vision: refresh `design_summary` when synthesize failed or echo
 5. `derived/rebuild-brief.md` via `src/rebuild-brief.ts` during enrich
+6. `derived/design-tokens.json` from visual-language (capture-time); brief leads with **Design tokens (measured)** — see `knowledge/design-tokens.md`
 
 ## Smoke
 
