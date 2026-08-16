@@ -128,18 +128,9 @@ export function selectSectionsForCrops(
   sections: SectionComposition[],
   maxSections = sectionCropSettings().maxPerViewport
 ): SectionComposition[] {
+  // Keep crop set aligned with look selection (desktop-biased), then geometry-gate.
   const preferred = selectSectionsForLook(sections, Math.max(maxSections, sectionLookMaxSections()));
   const croppable = preferred.filter((section) => isCroppableSection(section).ok);
-  if (croppable.length >= Math.min(maxSections, 3)) return croppable.slice(0, maxSections);
-  // Fill from remaining scored sections if look selection was too strict.
-  const seen = new Set(croppable.map((section) => section.section_id));
-  for (const section of sections) {
-    if (seen.has(section.section_id)) continue;
-    if (!isCroppableSection(section).ok) continue;
-    croppable.push(section);
-    seen.add(section.section_id);
-    if (croppable.length >= maxSections) break;
-  }
   return croppable.slice(0, maxSections);
 }
 

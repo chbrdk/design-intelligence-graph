@@ -169,6 +169,10 @@ export function selectSectionsForLook(
     if (roleCount >= 3) score += 0.45;
     if (roleCount === 1 && (section.signature === "body" || section.signature === "unknown")) score -= 0.5;
     if (isPageWrapper(section)) score -= 2;
+    // Prefer desktop for crops + look consistency across viewports.
+    if (section.viewport_name === "desktop") score += 1.2;
+    else if (section.viewport_name === "tablet") score += 0.2;
+    else if (section.viewport_name === "mobile") score -= 0.3;
     return { section, score, index, skip: isPageWrapper(section) };
   });
   scored.sort((a, b) => b.score - a.score || a.index - b.index);

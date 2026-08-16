@@ -437,11 +437,19 @@ export async function handleLibraryApi(
         }
         // Fill missing crop_urls from package index (pre-LLM crops / older rows).
         if (section_crops && typeof section_crops === "object") {
-          const crops = (section_crops as { crops?: Array<{ section_id?: string; path?: string }> }).crops ?? [];
+          const crops = (section_crops as { crops?: Array<{ section_id?: string; path?: string; signature?: string; category?: string }> }).crops ?? [];
           const byId = new Map(crops.map((crop) => [crop.section_id, crop.path]));
+          const bySig = new Map(
+            crops
+              .filter((crop) => crop.signature)
+              .map((crop) => [`${crop.category ?? ""}|${crop.signature}`, crop.path])
+          );
           grouped.section_look = grouped.section_look.map((item) => {
             if (item.crop_url) return item;
-            const pathFromPackage = byId.get(String(item.name ?? "")) ?? null;
+            const pathFromPackage =
+              byId.get(String(item.name ?? "")) ??
+              bySig.get(`${item.category ?? ""}|${item.signature ?? ""}`) ??
+              null;
             if (!pathFromPackage || typeof pathFromPackage !== "string") return item;
             return {
               ...item,
