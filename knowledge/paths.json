@@ -112,6 +112,7 @@
       "callsPerCaptureEstimate": {
         "textStages": 5,
         "sectionLookMax": 14,
+        "sectionVisionMax": 4,
         "visionPerViewport": 1,
         "flowActions": 1,
         "optionalHotspotFlow": 2
@@ -130,6 +131,7 @@
       "sectionLookMaxSections": 14,
       "sectionLookMaxTokens": 1200,
       "visionMaxBytes": 2500000,
+      "sectionVisionMaxPerCapture": 4,
       "doc": "knowledge/llm-scaling-mobbin.md"
     }
   },

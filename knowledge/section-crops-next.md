@@ -57,8 +57,10 @@ derive sections (L2 geometry)
    - `src/section-crops.ts` → `viewports/{vp}/sections/{section_id}.webp` + `derived/section-crops.json`
    - Wired in capture + enrich; `crop_path` on `llm_items.gaps`; Library/Analyses thumbs via `crop_url`
 2. **Library UI thumbs** per section_look row — **DONE** (Island Library + Analyses)
-3. **Gated `vision_section`** stage (reuse `llm-vision` loader/size caps)
-4. Merge vision notes into `look_summary` / `role_notes` when text confidence low
+3. **Gated `vision_section`** stage (reuse `llm-vision` loader/size caps) — **DONE 2026-08-16**
+   - Gate: thin signature / low confidence / high-value category (+ crop present); cap `sectionVisionMaxPerCapture` (default 4)
+   - Merge into `look_summary` + `role_notes`; store on `llm.section_visions` and `llm_items.gaps.vision_section`
+4. Merge vision notes into `look_summary` / `role_notes` when text confidence low — **DONE** (always merge when VL completes)
 5. Emit `media_ref.kind=section_crop` on DesignReferences
 
 Do **not** block on DIG-011 flows for this.

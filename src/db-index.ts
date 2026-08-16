@@ -291,6 +291,24 @@ export async function indexCapturePackageToDatabase(
     const cropPaths = new Map(
       (sectionCropsDoc?.crops ?? []).map((crop) => [crop.section_id, crop.path] as const)
     );
+    const sectionVisionById = new Map(
+      (llm.section_visions ?? [])
+        .filter((item) => item.status === "complete")
+        .map((item) => [
+          item.section_id,
+          {
+            media_subject: item.media_subject ?? null,
+            atmosphere: item.atmosphere ?? null,
+            overlay: item.overlay ?? null,
+            cta_chrome: item.cta_chrome ?? null,
+            composition: item.composition ?? null,
+            visible_text: item.visible_text ?? [],
+            confidence: item.confidence ?? null,
+            gate_reason: item.gate_reason ?? null,
+            crop_path: item.crop_path ?? null
+          }
+        ] as const)
+    );
     for (const pattern of llm.mobbin?.screen_patterns ?? []) {
       llmItemIndex += 1;
       await client.query(
@@ -393,7 +411,8 @@ export async function indexCapturePackageToDatabase(
             layout: description.layout ?? null,
             role_notes: description.role_notes ?? [],
             color_notes: description.color_notes ?? null,
-            crop_path: cropPath
+            crop_path: cropPath,
+            vision_section: sectionVisionById.get(description.section_id) ?? null
           })
         ]
       );

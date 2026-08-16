@@ -11,12 +11,12 @@ import { localLlmConfig, type LlmCompleter, type LlmProviderConfig } from "./llm
 import type { LlmStageCache } from "./llm-stage-cache.js";
 import { createDefaultStageCache } from "./llm-stage-cache.js";
 import { aggregateCosts } from "./llm-cost.js";
-import { runVisionScreenAnalysis } from "./llm-vision.js";
+import { runGatedSectionVisions, runVisionScreenAnalysis } from "./llm-vision.js";
 import type { ViewportOntology } from "./ontology.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 import type { SectionComposition, SectionCompositionCluster } from "./section-composition.js";
 import type { NodeStyleMap } from "./section-look.js";
-import { emitSectionCrops } from "./section-crops.js";
+import { emitSectionCrops, loadSectionCropsDocument } from "./section-crops.js";
 import type { VisualHypothesis, VisualLanguageViewport } from "./visual-language.js";
 
 async function loadNodeStylesFromPackage(
@@ -148,12 +148,50 @@ export async function applyLlmDesignAnalysis(
     { ...options, stageCache }
   );
 
+  const stages = [...(llm.stages ?? [])];
+  const costRecords = [...(llm.cost?.by_stage ?? [])];
+
+  // Wave D.2 — gated VL on section crops (after text section_look).
+  const cropsDoc = await loadSectionCropsDocument(packageRoot);
+  const sectionVisions = await runGatedSectionVisions({
+    packageRoot,
+    descriptions: llm.mobbin?.section_descriptions ?? [],
+    crops: cropsDoc?.crops ?? [],
+    config,
+    ...(options.provider ? { provider: options.provider } : {}),
+    stageCache
+  });
+  if (sectionVisions.results.length) {
+    const complete = sectionVisions.results.filter((item) => item.status === "complete").length;
+    const failed = sectionVisions.results.filter((item) => item.status === "failed").length;
+    stages.push({
+      stage_id: "vision_section",
+      status: complete ? "complete" : failed ? "failed" : "skipped",
+      data: {
+        attempted: sectionVisions.results.length,
+        complete,
+        failed,
+        skipped: sectionVisions.results.filter((item) => item.status === "skipped").length
+      }
+    });
+    costRecords.push(...sectionVisions.costs);
+    if (llm.mobbin) {
+      llm = {
+        ...llm,
+        mobbin: {
+          ...llm.mobbin,
+          section_descriptions: sectionVisions.descriptions
+        },
+        section_visions: sectionVisions.results
+      };
+    }
+  }
+
   const vision = await runVisionScreenAnalysis(packageRoot, manifest, {
     config,
     ...(options.provider ? { provider: options.provider } : {}),
     stageCache
   });
-  const stages = [...(llm.stages ?? [])];
   if (vision.status === "complete") {
     stages.push({
       stage_id: "vision_screen",
@@ -180,9 +218,8 @@ export async function applyLlmDesignAnalysis(
       ...(vision.error ? { error: vision.error } : {})
     });
   }
-  const cost = vision.cost
-    ? aggregateCosts([...(llm.cost?.by_stage ?? []), vision.cost])
-    : llm.cost;
+  if (vision.cost) costRecords.push(vision.cost);
+  const cost = costRecords.length ? aggregateCosts(costRecords) : llm.cost;
   llm = {
     ...llm,
     vision,

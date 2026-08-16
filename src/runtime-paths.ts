@@ -110,6 +110,7 @@ export interface DigPaths {
       sectionLookMaxSections?: number;
       sectionLookMaxTokens?: number;
       visionMaxBytes?: number;
+      sectionVisionMaxPerCapture?: number;
       doc?: string;
     };
   };

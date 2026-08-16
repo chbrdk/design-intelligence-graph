@@ -188,3 +188,16 @@ Rules:
 - layout_order = top-to-bottom order of the main hero blocks
 - notes = brief page-wide composition cues (e.g. full-bleed media bands, repeated product modules)
 - confidence in (0,1)`;
+
+export const VISION_SECTION_PROMPT = `You describe ONE cropped web DESIGN SECTION screenshot for DIG.
+Return ONLY minified JSON (no markdown, no trailing commas):
+{"visible_text":string[],"media_subject":string,"atmosphere":string,"overlay":string,"cta_chrome":string,"composition":string,"confidence":number}
+Rules:
+- Use ONLY what is visible in THIS crop; do not invent off-crop UI.
+- visible_text: up to 6 short strings actually readable in the crop (headlines, CTAs, labels).
+- media_subject: what the image/video shows (car, product, people, abstract, none).
+- atmosphere: lighting/contrast/mood tied to pixels (e.g. dark scrim over night photo).
+- overlay: gradient/scrim/none and where it sits.
+- cta_chrome: button/link styling if present, else "".
+- composition: 1-2 sentences on layout inside the crop (alignment, stack, negative space).
+- confidence in (0,1).`;
