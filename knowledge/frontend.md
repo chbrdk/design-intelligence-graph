@@ -11,6 +11,7 @@ URL entry plus live status for **detection** (capture), **ingestion** (verify + 
 Paths come from [`paths.json`](paths.json):
 
 - `POST /api/jobs` `{ "url": "https://…" }` → `202` job snapshot
+- `POST /api/jobs/batch` `{ "catalog": "automotive-oem-50" }` → queue many URLs (`knowledge/capture-batch.md`)
 - `GET /api/jobs/:id` → snapshot
 - `GET /api/jobs/:id/events` → SSE `event: job`
 - `GET /api/enrichment` → enrichment jobs (memory + Postgres)

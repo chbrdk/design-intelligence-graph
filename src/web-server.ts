@@ -4,6 +4,8 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { extname, join, normalize, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { JobRunner, publicJobView, type JobEvent } from "./job-runner.js";
+import { captureJobsConfig, catalogUrls, loadCaptureCatalog } from "./capture-catalog.js";
+import { rejectIfDestructiveUnauthorized } from "./api-auth.js";
 import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
 import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-store.js";
 import { handleLibraryApi } from "./library-api.js";
@@ -162,6 +164,53 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
             : null;
       const job = runner.startJob(body.url, { platformProjectId, digProjectId });
       sendJson(response, 202, publicJobView(job));
+    } catch (error: unknown) {
+      sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
+    }
+    return true;
+  }
+
+  const jobsBatchPath = `${paths.api.jobsPath.replace(/\/$/, "")}${captureJobsConfig().batchPath}`;
+  if (request.method === "POST" && url.pathname === jobsBatchPath) {
+    if (rejectIfDestructiveUnauthorized(request, response)) return true;
+    try {
+      const body = (await readJson(request)) as {
+        catalog?: unknown;
+        urls?: unknown;
+        platformProjectId?: unknown;
+        platform_project_id?: unknown;
+      };
+      const cfg = captureJobsConfig();
+      let urls: string[] = [];
+      let catalogId: string | null = null;
+      if (typeof body.catalog === "string" && body.catalog.trim()) {
+        catalogId = body.catalog.trim();
+        urls = catalogUrls(loadCaptureCatalog(catalogId));
+      } else if (Array.isArray(body.urls)) {
+        urls = body.urls.filter((item): item is string => typeof item === "string" && Boolean(item.trim()));
+      }
+      if (!urls.length) {
+        sendJson(response, 400, { error: "catalog or urls required" });
+        return true;
+      }
+      if (urls.length > cfg.maxBatch) {
+        sendJson(response, 400, { error: "batch_too_large", max: cfg.maxBatch, count: urls.length });
+        return true;
+      }
+      const platformProjectId =
+        typeof body.platformProjectId === "string"
+          ? body.platformProjectId
+          : typeof body.platform_project_id === "string"
+            ? body.platform_project_id
+            : null;
+      const jobs = runner.startJobs(urls, { platformProjectId });
+      sendJson(response, 202, {
+        ok: true,
+        catalog: catalogId,
+        queued: jobs.length,
+        max_concurrent: cfg.maxConcurrent,
+        jobs: jobs.map(publicJobView)
+      });
     } catch (error: unknown) {
       sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
     }

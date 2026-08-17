@@ -6,6 +6,7 @@ import { asyncEnrichmentEnabled, type EnrichmentQueue } from "./enrichment-queue
 import { applyLlmDesignAnalysis } from "./llm-enrich.js";
 import { localLlmConfig } from "./llm-provider.js";
 import { captureNavConfig, inferCaptureLocale } from "./capture-nav.js";
+import { captureJobsConfig } from "./capture-catalog.js";
 import { capturesDirectory, indexesDirectory } from "./runtime-paths.js";
 import { indexCapturePackage } from "./storage.js";
 import { indexCapturePackageToDatabase } from "./db-index.js";
@@ -72,6 +73,8 @@ export interface JobRunnerOptions {
   enrichmentQueue?: EnrichmentQueue;
   /** When true (default if DIG_LLM_ASYNC), enqueue enrichment instead of blocking. */
   asyncEnrichment?: boolean;
+  /** How many Playwright captures may run at once (Coolify: 1). */
+  maxConcurrent?: number;
 }
 
 const DETECTION_STAGES: JobStage[] = ["queued", "capturing", "analyzing"];
@@ -111,11 +114,14 @@ export class JobRunner {
   private readonly jobs = new Map<string, JobRecord>();
   private readonly listeners = new Map<string, Set<Listener>>();
   private readonly options: Required<Pick<JobRunnerOptions, "timeoutMs" | "settleMs">> & JobRunnerOptions;
+  private readonly pending: string[] = [];
+  private running = 0;
 
   constructor(options: JobRunnerOptions = {}) {
     this.options = {
       timeoutMs: options.timeoutMs ?? captureNavConfig().jobTimeoutMs,
       settleMs: options.settleMs ?? 500,
+      maxConcurrent: options.maxConcurrent ?? captureJobsConfig().maxConcurrent,
       ...options
     };
   }
@@ -156,8 +162,30 @@ export class JobRunner {
     };
     this.jobs.set(job.job_id, job);
     this.emit(job, { stage: "queued", message: "Waiting to start detection" });
-    void this.run(job.job_id);
+    this.pending.push(job.job_id);
+    this.pump();
     return job;
+  }
+
+  startJobs(rawUrls: string[], options: StartJobOptions = {}): JobRecord[] {
+    return rawUrls.map((rawUrl) => this.startJob(rawUrl, options));
+  }
+
+  private maxConcurrent(): number {
+    return Math.max(1, this.options.maxConcurrent ?? 1);
+  }
+
+  private pump(): void {
+    const cap = this.maxConcurrent();
+    while (this.running < cap && this.pending.length) {
+      const jobId = this.pending.shift();
+      if (!jobId) break;
+      this.running += 1;
+      void this.run(jobId).finally(() => {
+        this.running -= 1;
+        this.pump();
+      });
+    }
   }
 
   private emit(job: JobRecord, partial: Omit<JobEvent, "job_id" | "at"> & { at?: string }): JobEvent {

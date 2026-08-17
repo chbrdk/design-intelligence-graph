@@ -226,6 +226,14 @@
     "path": "/reset",
     "confirm": "reset-library"
   },
+  "captureJobs": {
+    "doc": "knowledge/capture-batch.md",
+    "maxConcurrent": 1,
+    "batchPath": "/batch",
+    "catalogsDir": "knowledge/catalogs",
+    "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",
+    "maxBatch": 50
+  },
   "mcpLibraryTools": {
     "screenSearch": "dig_screen_search",
     "capturePromptPack": "dig_capture_prompt_pack",

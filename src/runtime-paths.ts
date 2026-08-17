@@ -93,6 +93,14 @@ export interface DigPaths {
     path?: string;
     confirm?: string;
   };
+  captureJobs?: {
+    doc?: string;
+    maxConcurrent?: number;
+    batchPath?: string;
+    catalogsDir?: string;
+    automotiveOem50?: string;
+    maxBatch?: number;
+  };
   mcpLibraryTools?: {
     screenSearch?: string;
     capturePromptPack?: string;
