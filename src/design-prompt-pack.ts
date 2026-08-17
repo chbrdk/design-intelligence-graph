@@ -6,8 +6,8 @@ import type { DesignReferenceRecord } from "./design-reference-emit.js";
 import type { DesignReferencePack } from "./design-reference-library.js";
 import { validateAgainstSchema } from "./flow-schema-validate.js";
 import {
-  buildLookContract,
   lookContractRules,
+  resolveLookContract,
   type CompactLookTokens,
   type LookContract
 } from "./look-contract.js";
@@ -161,15 +161,14 @@ export function assembleDesignPromptPack(input: {
 
   const primary = refs[0]!;
   const compactTokens = primary.tokens as CompactLookTokens | undefined;
-  const look_contract =
-    input.look_contract ??
-    buildLookContract({
-      tokens: input.tokens ?? null,
-      compact_tokens: compactTokens ?? null,
-      spacing_feel: input.spacing_feel ?? null,
-      layout: input.layout ?? primary.composition.stack_summary,
-      style: input.style ?? compactTokens?.style_labels?.[0] ?? null
-    });
+  const look_contract = resolveLookContract({
+    look_contract: input.look_contract ?? null,
+    tokens: input.tokens ?? null,
+    compact_tokens: compactTokens ?? null,
+    spacing_feel: input.spacing_feel ?? null,
+    layout: input.layout ?? primary.composition.stack_summary,
+    style: input.style ?? compactTokens?.style_labels?.[0] ?? null
+  });
 
   const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
   const rules = [

@@ -66,4 +66,6 @@ test("look_conditioned path uses pack signature when graph present", () => {
   assert.equal(spec.intent, "look_conditioned_structural_synthesis");
   assert.equal(spec.provenance.seed, "graph");
   assert.equal(spec.blocks[0]?.source_node_ids[0], "ont_media");
+  assert.equal(spec.look_contract?.colors.accent, "#0071e3");
+  assert.ok(spec.constraints.some((line) => line.includes("glassmorphism")));
 });

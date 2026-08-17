@@ -24,8 +24,12 @@ test("blank-canvas look_conditioned layout from aurora pack", () => {
   );
   assert.equal(spec.token_hints?.colors?.accent, "#0071e3");
   assert.equal(spec.token_hints?.shape?.radius, "18px");
+  assert.equal(spec.look_contract?.colors.accent, "#0071e3");
+  assert.equal(spec.provenance.look_contract_used, true);
+  assert.ok(spec.provenance.methods.includes("look_contract_token_hints"));
   assert.ok(spec.constraints.some((c) => /scrim/i.test(c)));
   assert.ok(spec.constraints.some((c) => /full-bleed/i.test(c)));
+  assert.ok(spec.constraints.some((c) => c.includes("glassmorphism")));
   assert.ok(spec.provenance.reference_ids?.includes("ref_aurora_hero"));
   assert.ok(!JSON.stringify(spec).includes("Aurora Phone"));
   assert.ok(!JSON.stringify(spec).includes("Learn more"));
@@ -54,4 +58,35 @@ test("layout_hints proposed_signature overrides when roles map", () => {
   assert.equal(spec.provenance.layout_hints_used, true);
   assert.ok(spec.constraints.some((c) => c.startsWith("hint:keep quiet")));
   assert.ok(spec.constraints.some((c) => c.includes("multi-CTA")));
+});
+
+test("look_contract measured colors beat layout_hints token_hints", () => {
+  const aurora = JSON.parse(readFileSync(join(FIX, "aurora-hero.reference.json"), "utf8")) as DesignReferenceRecord;
+  const pack = {
+    schema_version: "0.1.0" as const,
+    intent: "hero",
+    references: [aurora],
+    synthesis_mode: "look_conditioned" as const,
+    constraints: { forbid_source_copy: true as const }
+  };
+  const spec = deriveLookConditionedLayout({
+    pack,
+    look_contract: {
+      schema_version: "0.1.0",
+      look_contract_version: "0.1.0",
+      colors: { bg: "#141414", ink: "#ffffff", accent: "#00e5ff" },
+      typography: { display: "GT America 64px / 700", body: null },
+      radius_px: 0,
+      cta_chrome: "outline",
+      density: "tight",
+      avoid: ["glassmorphism / frosted-blur panels"]
+    },
+    layout_hints: {
+      token_hints: { colors: { accent: "#7c3aed", extra: "#abcdef" } }
+    }
+  });
+  assert.equal(spec.token_hints?.colors?.accent, "#00e5ff");
+  assert.equal(spec.token_hints?.colors?.extra, "#abcdef");
+  assert.equal(spec.token_hints?.shape?.cta_chrome, "outline");
+  assert.equal(spec.generation_version, "0.3.0");
 });

@@ -9,6 +9,8 @@ import {
   type LookConditionedLayoutSpec
 } from "./look-conditioned-generation.js";
 import type { DesignReferencePack } from "./design-reference-library.js";
+import type { DesignTokensDocument } from "./design-tokens.js";
+import type { LookContract } from "./look-contract.js";
 
 export const LAYOUT_GENERATION_VERSION = "0.1.0";
 export { LOOK_CONDITIONED_GENERATION_VERSION, deriveLookConditionedLayout };
@@ -23,6 +25,7 @@ export interface LayoutSpecification {
   breakpoints: Array<{ name: string; min_width: number }>;
   tokens: { typography_slots: string[]; color_slots: string[]; shape_slots: string[] };
   token_hints?: LookConditionedLayoutSpec["token_hints"];
+  look_contract?: LookContract;
   blocks: Array<{
     block_id: string;
     kind: string;
@@ -36,6 +39,7 @@ export interface LayoutSpecification {
     seed?: "blank_canvas" | "graph";
     reference_ids?: string[];
     layout_hints_used?: boolean;
+    look_contract_used?: boolean;
   };
   constraints: string[];
 }
@@ -92,9 +96,24 @@ export function deriveLayoutFromReferencePack(input: {
   pack: DesignReferencePack;
   graph?: KnowledgeGraph | null;
   layout_hints?: LayoutHints | null;
+  look_contract?: LookContract | null;
+  tokens?: DesignTokensDocument | null;
+  layout?: string | null;
+  style?: string | null;
+  spacing_feel?: string | null;
   root?: string;
 }): LayoutSpecification {
-  return deriveLookConditionedLayout(input) as LayoutSpecification;
+  return deriveLookConditionedLayout({
+    pack: input.pack,
+    graph: input.graph ?? null,
+    layout_hints: input.layout_hints ?? null,
+    look_contract: input.look_contract ?? null,
+    tokens: input.tokens ?? null,
+    layout: input.layout ?? null,
+    style: input.style ?? null,
+    spacing_feel: input.spacing_feel ?? null,
+    ...(input.root !== undefined ? { root: input.root } : {})
+  }) as LayoutSpecification;
 }
 
 export async function generateLayoutSpecification(

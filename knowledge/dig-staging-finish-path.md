@@ -27,4 +27,4 @@ Phases A–D + Flows UI + Interactive media + CHECKION seed worker shipped. Stag
 - `DIG_FEDERATION_MODE=live` on dig-api + island
 - Island proxy injects Bearer → `/api/library/references?platformProjectId=…` 200
 - `POST …/references/reindex` → emitted/indexed screen ref for example.com
-- `POST …/references/generate` → layout `generation_version` `0.2.0`
+- `POST …/references/generate` → layout `generation_version` `0.3.0` + `look_contract`

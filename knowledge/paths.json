@@ -187,7 +187,9 @@
     "version": "0.1.0",
     "doc": "knowledge/look-contract.md",
     "sourceTokensRelativePath": "derived/design-tokens.json",
-    "facetsVersion": "0.3.0"
+    "facetsVersion": "0.3.0",
+    "generateConstraintCap": 20,
+    "generationVersion": "0.3.0"
   },
   "structureSpine": {
     "relativePath": "derived/structure-spine.json",

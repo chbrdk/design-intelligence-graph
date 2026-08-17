@@ -8,8 +8,19 @@ import { sha256 } from "./io.js";
 import type { DesignReferenceRecord } from "./design-reference-emit.js";
 import type { DesignReferencePack } from "./design-reference-library.js";
 import type { KnowledgeGraph } from "./storage.js";
+import type { DesignTokensDocument } from "./design-tokens.js";
+import {
+  lookContractGenerateConstraints,
+  resolveLookContract,
+  tokenHintsFromLookContract,
+  type CompactLookTokens,
+  type LookContract,
+  type LookTokenHints
+} from "./look-contract.js";
+import { loadDigPaths } from "./runtime-paths.js";
 
-export const LOOK_CONDITIONED_GENERATION_VERSION = "0.2.0";
+export const LOOK_CONDITIONED_GENERATION_VERSION = "0.3.0";
+export const LOOK_CONDITIONED_CONSTRAINT_CAP_DEFAULT = 20;
 
 export type LayoutHints = {
   primary_reference_id?: string;
@@ -34,6 +45,7 @@ export type LookConditionedLayoutSpec = {
     typography?: Record<string, string>;
     shape?: Record<string, string>;
   } | undefined;
+  look_contract?: LookContract;
   blocks: Array<{
     block_id: string;
     kind: string;
@@ -47,6 +59,7 @@ export type LookConditionedLayoutSpec = {
     seed?: "blank_canvas" | "graph";
     reference_ids?: string[];
     layout_hints_used?: boolean;
+    look_contract_used?: boolean;
   };
   constraints: string[];
 };
@@ -68,6 +81,11 @@ export function loadLookConditionedMapping(root = process.cwd()): MappingDoc {
   ) as MappingDoc;
   cachedMapping = raw;
   return raw;
+}
+
+function constraintCap(): number {
+  const n = loadDigPaths().lookContract?.generateConstraintCap;
+  return typeof n === "number" && Number.isFinite(n) && n > 0 ? n : LOOK_CONDITIONED_CONSTRAINT_CAP_DEFAULT;
 }
 
 function getPath(obj: unknown, path: string): unknown {
@@ -94,40 +112,107 @@ function constraintsFromLook(ref: DesignReferenceRecord, mapping: MappingDoc): s
   return out;
 }
 
-function tokenHintsFromReference(ref: DesignReferenceRecord): LookConditionedLayoutSpec["token_hints"] {
+function tokenHintsFromReference(ref: DesignReferenceRecord): LookTokenHints {
   const colors = (ref.tokens as { colors?: Array<{ hex: string; roles?: string[] }> } | undefined)?.colors ?? [];
   const typography =
     (ref.tokens as { typography?: Array<{ role?: string; family?: string; size?: string; weight?: string }> } | undefined)
       ?.typography ?? [];
   const radii = (ref.tokens as { radii?: string[] } | undefined)?.radii ?? [];
-  const hints: NonNullable<LookConditionedLayoutSpec["token_hints"]> = { colors: {}, typography: {}, shape: {} };
+  const hints: LookTokenHints = { colors: {}, typography: {}, shape: {} };
   for (const color of colors) {
     const roles = color.roles ?? [];
-    if (roles.includes("accent") || roles.includes("cta")) hints.colors!.accent = color.hex;
-    if (roles.includes("foreground")) hints.colors!.foreground = color.hex;
-    if (roles.includes("background")) hints.colors!.background = color.hex;
+    if (roles.includes("accent") || roles.includes("cta")) hints.colors.accent = color.hex;
+    if (roles.includes("foreground")) hints.colors.foreground = color.hex;
+    if (roles.includes("background")) hints.colors.background = color.hex;
   }
   for (const row of typography) {
     if (row.role === "display" || row.role === "heading" || row.role === "title") {
-      hints.typography!.heading = [row.family, row.weight, row.size].filter(Boolean).join(" ");
+      hints.typography.heading = [row.family, row.weight, row.size].filter(Boolean).join(" ");
     }
   }
-  if (radii[0]) hints.shape!.radius = radii[0];
+  if (radii[0]) hints.shape.radius = radii[0];
   return hints;
+}
+
+function mergeHintBag(base: LookTokenHints, overlay: LookTokenHints, mode: "overwrite" | "fill"): LookTokenHints {
+  const mergeObj = (left: Record<string, string>, right: Record<string, string>): Record<string, string> => {
+    const out = { ...left };
+    for (const [key, value] of Object.entries(right)) {
+      if (!value) continue;
+      if (mode === "overwrite" || !out[key]) out[key] = value;
+    }
+    return out;
+  };
+  return {
+    colors: mergeObj(base.colors, overlay.colors),
+    typography: mergeObj(base.typography, overlay.typography),
+    shape: mergeObj(base.shape, overlay.shape)
+  };
+}
+
+function hintsFromLayoutHints(raw: Record<string, unknown> | undefined): LookTokenHints {
+  const empty: LookTokenHints = { colors: {}, typography: {}, shape: {} };
+  if (!raw) return empty;
+  const nestedColors = raw.colors;
+  const nestedType = raw.typography;
+  const nestedShape = raw.shape;
+  if (nestedColors && typeof nestedColors === "object" && !Array.isArray(nestedColors)) {
+    empty.colors = Object.fromEntries(
+      Object.entries(nestedColors as Record<string, unknown>).filter(
+        (entry): entry is [string, string] => typeof entry[1] === "string" && Boolean(entry[1])
+      )
+    );
+  } else {
+    if (typeof raw.accent === "string") empty.colors.accent = raw.accent;
+    if (typeof raw.foreground === "string") empty.colors.foreground = raw.foreground;
+    if (typeof raw.background === "string") empty.colors.background = raw.background;
+  }
+  if (nestedType && typeof nestedType === "object" && !Array.isArray(nestedType)) {
+    empty.typography = Object.fromEntries(
+      Object.entries(nestedType as Record<string, unknown>).filter(
+        (entry): entry is [string, string] => typeof entry[1] === "string" && Boolean(entry[1])
+      )
+    );
+  }
+  if (nestedShape && typeof nestedShape === "object" && !Array.isArray(nestedShape)) {
+    empty.shape = Object.fromEntries(
+      Object.entries(nestedShape as Record<string, unknown>).filter(
+        (entry): entry is [string, string] => typeof entry[1] === "string" && Boolean(entry[1])
+      )
+    );
+  } else if (typeof raw.radius === "string") {
+    empty.shape.radius = raw.radius;
+  }
+  return empty;
 }
 
 export function deriveLookConditionedLayout(input: {
   pack: DesignReferencePack;
   graph?: KnowledgeGraph | null | undefined;
   layout_hints?: LayoutHints | null | undefined;
+  look_contract?: LookContract | null;
+  tokens?: DesignTokensDocument | null;
+  layout?: string | null;
+  style?: string | null;
+  spacing_feel?: string | null;
   root?: string | undefined;
 }): LookConditionedLayoutSpec {
   const mapping = loadLookConditionedMapping(input.root);
   const primary = input.pack.references[0];
   if (!primary) throw new Error("DesignReferencePack requires at least one reference");
 
+  const compactTokens = primary.tokens as CompactLookTokens | undefined;
+  const look_contract = resolveLookContract({
+    look_contract: input.look_contract ?? null,
+    tokens: input.tokens ?? null,
+    compact_tokens: compactTokens ?? null,
+    spacing_feel: input.spacing_feel ?? null,
+    layout: input.layout ?? primary.composition.stack_summary,
+    style: input.style ?? compactTokens?.style_labels?.[0] ?? null
+  });
+
   let signature = primary.composition.signature;
-  const methods = ["look_conditioned_block_plan", "token_hints_from_reference"];
+  const methods = ["look_conditioned_block_plan", "token_hints_from_reference", "look_contract_token_hints"];
   if (input.layout_hints?.proposed_signature) {
     const roles = input.layout_hints.proposed_signature.split(">").map((r) => r.trim()).filter(Boolean);
     if (roles.every((role) => Boolean(mapping.role_to_taxonomy[role]))) {
@@ -163,15 +248,19 @@ export function deriveLookConditionedLayout(input: {
     };
   });
 
-  let token_hints = tokenHintsFromReference(primary);
+  let token_hints = mergeHintBag(
+    tokenHintsFromReference(primary),
+    tokenHintsFromLookContract(look_contract),
+    "overwrite"
+  );
   if (input.layout_hints?.token_hints && typeof input.layout_hints.token_hints === "object") {
-    const hintColors = (input.layout_hints.token_hints as { colors?: Record<string, string> }).colors;
-    if (hintColors) token_hints = { ...token_hints, colors: { ...token_hints?.colors, ...hintColors } };
+    token_hints = mergeHintBag(token_hints, hintsFromLayoutHints(input.layout_hints.token_hints), "fill");
   }
 
   const constraints = new Set<string>([
     "No source text or asset bytes are copied",
     "Look cues are structural/feel hints, not L1 measurements of the target",
+    ...lookContractGenerateConstraints(look_contract),
     ...constraintsFromLook(primary, mapping)
   ]);
   for (const line of input.layout_hints?.look_directives ?? []) constraints.add(`hint:${line}`);
@@ -200,14 +289,16 @@ export function deriveLookConditionedLayout(input: {
       shape_slots: ["radius", "border", "shadow"]
     },
     token_hints,
+    look_contract,
     blocks,
     provenance: {
       graph_lineage_count: graph?.lineage.length ?? 0,
       methods,
       seed,
       reference_ids,
-      layout_hints_used: Boolean(input.layout_hints)
+      layout_hints_used: Boolean(input.layout_hints),
+      look_contract_used: true
     },
-    constraints: [...constraints].slice(0, 12)
+    constraints: [...constraints].slice(0, constraintCap())
   };
 }

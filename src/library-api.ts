@@ -46,6 +46,24 @@ async function readJsonBody(request: IncomingMessage): Promise<Record<string, un
   }
 }
 
+async function loadTokensForCaptureRun(
+  client: Queryable,
+  captureRunId: string | undefined
+): Promise<DesignTokensDocument | null> {
+  if (!captureRunId) return null;
+  try {
+    const capture = await client.query(
+      "SELECT package_path FROM captures WHERE capture_run_id = $1 LIMIT 1",
+      [captureRunId]
+    );
+    const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
+    if (!packagePath) return null;
+    return await loadDesignTokensDocument(packagePath);
+  } catch {
+    return null;
+  }
+}
+
 function asBox(value: unknown): Box | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const record = value as Record<string, unknown>;
@@ -978,16 +996,9 @@ export async function handleLibraryApi(
           ? body.output_contract
           : "layout_hints_json";
       const look_contract = asLookContract(body.look_contract);
-      let tokens: DesignTokensDocument | null = null;
-      const captureRunId = pack.references[0]?.capture_run_id;
-      if (captureRunId && !look_contract) {
-        const capture = await client.query(
-          "SELECT package_path FROM captures WHERE capture_run_id = $1 LIMIT 1",
-          [captureRunId]
-        );
-        const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
-        if (packagePath) tokens = await loadDesignTokensDocument(packagePath).catch(() => null);
-      }
+      const tokens = look_contract
+        ? null
+        : await loadTokensForCaptureRun(client, pack.references[0]?.capture_run_id);
       const promptPack = assembleDesignPromptPack({
         brief,
         pack,
@@ -1033,7 +1044,20 @@ export async function handleLibraryApi(
         body.layout_hints && typeof body.layout_hints === "object"
           ? (body.layout_hints as import("./layout-generation.js").LayoutHints)
           : null;
-      const specification = deriveLayoutFromReferencePack({ pack, layout_hints, graph: null });
+      const look_contract = asLookContract(body.look_contract);
+      const tokens = look_contract
+        ? null
+        : await loadTokensForCaptureRun(client, pack.references[0]?.capture_run_id);
+      const specification = deriveLayoutFromReferencePack({
+        pack,
+        layout_hints,
+        graph: null,
+        ...(look_contract ? { look_contract } : {}),
+        tokens,
+        layout: typeof body.layout === "string" ? body.layout : null,
+        style: typeof body.style === "string" ? body.style : null,
+        spacing_feel: typeof body.spacing_feel === "string" ? body.spacing_feel : null
+      });
       sendJson(response, 200, { pack, specification });
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);

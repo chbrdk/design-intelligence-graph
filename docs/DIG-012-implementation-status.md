@@ -20,6 +20,6 @@
 | Emit `derived/design-references.jsonl` | Done (Wave 1 dummy) | `src/design-reference-emit.ts`; hooked from enrich + db-index |
 | Library/MCP reference APIs | Done (Wave 2) | `GET/POST /api/library/references*`; MCP `dig_reference_*`; Collection filter + live gate |
 | Prompt-pack runtime assembler | Done (Wave 3) | `src/design-prompt-pack.ts`; `POST /api/library/references/prompt-pack` |
-| DIG-008 look_conditioned runtime | Done (Wave 4) | `src/look-conditioned-generation.ts`; `generation_version` `0.2.0` |
+| DIG-008 look_conditioned runtime | Done (Wave 4 + look-contract bind) | `src/look-conditioned-generation.ts`; `generation_version` `0.3.0` |
 | DesignReference embeddings (`similar_to`) | Done (hashing) | `src/design-reference-embeddings.ts`; sidecar + PG `subject_kind=design_reference` |
 | `eval:design-reference` runner | Done | `npm run eval:design-reference` (R1/R2/R4 + E1) |

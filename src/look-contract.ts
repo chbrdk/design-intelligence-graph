@@ -229,6 +229,57 @@ export function lookContractHasMeasuredTokens(contract: LookContract): boolean {
   return Boolean(contract.colors.bg || contract.colors.ink || contract.colors.accent || contract.typography.display);
 }
 
+export function resolveLookContract(input: {
+  look_contract?: LookContract | null;
+  tokens?: DesignTokensDocument | null;
+  compact_tokens?: CompactLookTokens | null;
+  spacing_feel?: string | null;
+  layout?: string | null;
+  style?: string | null;
+}): LookContract {
+  if (input.look_contract) return input.look_contract;
+  return buildLookContract({
+    tokens: input.tokens ?? null,
+    compact_tokens: input.compact_tokens ?? null,
+    spacing_feel: input.spacing_feel ?? null,
+    layout: input.layout ?? null,
+    style: input.style ?? null
+  });
+}
+
+export type LookTokenHints = {
+  colors: Record<string, string>;
+  typography: Record<string, string>;
+  shape: Record<string, string>;
+};
+
+/** Map look_contract into DIG-008 token_hints slots (bg→background, ink→foreground). */
+export function tokenHintsFromLookContract(contract: LookContract): LookTokenHints {
+  const colors: Record<string, string> = {};
+  if (contract.colors.bg) colors.background = contract.colors.bg;
+  if (contract.colors.ink) colors.foreground = contract.colors.ink;
+  if (contract.colors.accent) colors.accent = contract.colors.accent;
+  const typography: Record<string, string> = {};
+  if (contract.typography.display) typography.heading = contract.typography.display;
+  if (contract.typography.body) typography.body = contract.typography.body;
+  const shape: Record<string, string> = {};
+  if (contract.radius_px != null) shape.radius = `${contract.radius_px}px`;
+  if (contract.cta_chrome) shape.cta_chrome = contract.cta_chrome;
+  if (contract.density) shape.density = contract.density;
+  return { colors, typography, shape };
+}
+
+export function lookContractGenerateConstraints(contract: LookContract): string[] {
+  const out = [...lookContractRules(contract)];
+  if (contract.density) {
+    out.push(`Spacing density is ${contract.density}; do not even out into generic card padding.`);
+  }
+  for (const item of contract.avoid) {
+    out.push(`avoid:${item}`);
+  }
+  return out;
+}
+
 export function lookContractRules(contract: LookContract): string[] {
   const rules = [
     "Obey look_contract.avoid — these tropes are forbidden (no glassmorphism, no generic AI gradients).",

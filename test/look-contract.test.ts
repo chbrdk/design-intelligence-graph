@@ -6,7 +6,8 @@ import {
   asLookContract,
   buildLookContract,
   lookContractHasMeasuredTokens,
-  lookContractRules
+  lookContractRules,
+  tokenHintsFromLookContract
 } from "../src/look-contract.js";
 
 const measured: DesignTokensDocument = {
@@ -106,4 +107,16 @@ test("asLookContract accepts API body objects", () => {
   assert.equal(parsed?.colors.bg, "#111");
   assert.equal(parsed?.cta_chrome, "fill");
   assert.equal(asLookContract({ brief: "nope" }), null);
+});
+
+test("tokenHintsFromLookContract maps roles onto layout-spec slots", () => {
+  const contract = buildLookContract({ tokens: measured, spacing_feel: "tight" });
+  const hints = tokenHintsFromLookContract(contract);
+  assert.equal(hints.colors.background, "#0a0a0a");
+  assert.equal(hints.colors.foreground, "#f5f5f5");
+  assert.equal(hints.colors.accent, "#00e5ff");
+  assert.equal(hints.typography.heading, "GT America 64px / 700");
+  assert.equal(hints.shape.radius, "0px");
+  assert.equal(hints.shape.cta_chrome, "outline");
+  assert.equal(hints.shape.density, "tight");
 });

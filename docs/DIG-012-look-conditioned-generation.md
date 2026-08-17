@@ -1,8 +1,9 @@
 # DIG-012 — Look-conditioned DIG-008 generation (Wave 4)
 
-**Status:** v0.1 — **implemented** (`src/look-conditioned-generation.ts`, `generation_version` `0.2.0`)  
+**Status:** v0.3 — **implemented** (`src/look-conditioned-generation.ts`, `generation_version` `0.3.0`)  
 **Parent:** [DIG-012](DIG-012-design-reference.md) · Upstream generator: [DIG-008](DIG-008-layout-generation.md)  
 **Mapping table:** [`fixtures/design-references/look-conditioned-mapping.json`](../fixtures/design-references/look-conditioned-mapping.json)  
+**Look contract:** [`knowledge/look-contract.md`](../knowledge/look-contract.md)  
 **Example output delta:** [`fixtures/design-references/aurora-layout-hints.expected.json`](../fixtures/design-references/aurora-layout-hints.expected.json)
 
 ## Goal
@@ -16,7 +17,7 @@ Define how a `DesignReferencePack` (and optional LLM `layout_hints`) **biases** 
 | `evidence_based_structural_synthesis` | DIG-008 today — graph only |
 | `look_conditioned_structural_synthesis` | Graph **or blank seed** + DesignReferencePack (+ optional layout_hints) |
 
-`generation_version` bumps to `0.2.0` when look-conditioned ships (schema additive).
+`generation_version` `0.3.0` when look-contract binds token_hints (schema additive; `0.2.0` still valid for older specs).
 
 ## Inputs
 
@@ -38,16 +39,18 @@ Apply in order. Mapping fixture encodes the tables; code MUST NOT hardcode synon
 
 ### B2 — Token slot fills
 
-From primary reference `tokens`:
+From primary reference `tokens`, then **overwrite** with `look_contract` (measured hex/type/radius/CTA/density). Compact reference fills gaps only.
 
-| Reference token | Layout-spec slot |
-|-----------------|------------------|
-| colors role accent/cta | `color_slots` keep name `accent`; record **hint value** in new optional `token_hints.colors.accent` |
-| colors foreground/background | `token_hints.colors.foreground/background` |
-| typography role display/heading | `token_hints.typography.heading` |
-| radii[0] | `token_hints.shape.radius` |
+| Source | Layout-spec slot |
+|--------|------------------|
+| look_contract.colors.accent / compact accent/cta | `token_hints.colors.accent` |
+| look_contract.colors.ink / compact foreground | `token_hints.colors.foreground` |
+| look_contract.colors.bg / compact background | `token_hints.colors.background` |
+| look_contract.typography.display | `token_hints.typography.heading` |
+| look_contract.radius_px | `token_hints.shape.radius` |
+| look_contract.cta_chrome / density | `token_hints.shape.cta_chrome` / `density` |
 
-DIG-008 v0.1 only emits slot **names**. Wave 4 ADDS optional `token_hints` object (values are hints for renderers/LLMs, not claimed L1 measurements of the target).
+DIG-008 v0.1 only emits slot **names**. Wave 4 ADDS optional `token_hints`; `0.3.0` attaches `look_contract` on the spec.
 
 ### B3 — Look directives → constraints
 
@@ -61,14 +64,14 @@ Map look fields to **constraint strings** (not CSS):
 | shadows.targets includes cta | `Soft elevation on primary CTA` |
 | media.role background | `Media as full-bleed background, not inline thumbnail` |
 
-Merge unique constraints; cap at 12.
+Merge unique constraints; cap at `lookContract.generateConstraintCap` (20). Look-contract rules + `avoid:` lines are inserted **before** mapping cues so they are not sliced off.
 
 ### B4 — layout_hints override (bounded)
 
 If `layout_hints` present:
 
 1. `proposed_signature` overrides B1 signature **only if** every role is in the mapping table.  
-2. `token_hints` merge over B2 (hints win).  
+2. `token_hints` **fill empty slots only** — measured `look_contract` colors/type/radius/CTA win.  
 3. `look_directives` / `avoid` append to constraints (prefix `hint:`).  
 4. Record `methods` += `layout_hints_merge` and list `cited_reference_ids`.
 
@@ -77,9 +80,10 @@ If `layout_hints` present:
 ```json
 "provenance": {
   "graph_lineage_count": 0,
-  "methods": ["look_conditioned_block_plan", "token_hints_from_reference"],
+  "methods": ["look_conditioned_block_plan", "token_hints_from_reference", "look_contract_token_hints"],
   "reference_ids": ["ref_aurora_hero"],
   "layout_hints_used": true,
+  "look_contract_used": true,
   "seed": "blank_canvas"
 }
 ```

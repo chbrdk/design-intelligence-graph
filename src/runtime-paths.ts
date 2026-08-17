@@ -55,6 +55,8 @@ export interface DigPaths {
     doc?: string;
     sourceTokensRelativePath?: string;
     facetsVersion?: string;
+    generateConstraintCap?: number;
+    generationVersion?: string;
   };
   structureSpine?: {
     relativePath?: string;
