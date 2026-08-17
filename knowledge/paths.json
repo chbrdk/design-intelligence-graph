@@ -123,6 +123,13 @@
       "doc": "knowledge/llm-scaling-mobbin.md"
     }
   },
+  "captureNav": {
+    "doc": "knowledge/capture-access-denied.md",
+    "challengeWaitMs": 45000,
+    "maxRetries": 3,
+    "retryBaseMs": 3000,
+    "jobTimeoutMs": 60000
+  },
   "captureLimits": {
     "maxHtmlBytes": 8000000,
     "omitStylesheetCssText": true,

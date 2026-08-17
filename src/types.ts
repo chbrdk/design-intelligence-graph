@@ -34,7 +34,7 @@ export interface ArtifactReference {
 }
 
 export interface BrowserDetails {
-  engine: "chromium";
+  engine: "chromium" | "firefox";
   version: string;
   user_agent: string;
   locale: string;

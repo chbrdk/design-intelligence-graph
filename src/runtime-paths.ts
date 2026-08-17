@@ -34,6 +34,13 @@ export interface DigPaths {
     containerCapturesDir: string;
     containerIndexesDir: string;
   };
+  captureNav?: {
+    doc?: string;
+    challengeWaitMs?: number;
+    maxRetries?: number;
+    retryBaseMs?: number;
+    jobTimeoutMs?: number;
+  };
   captureLimits?: {
     maxHtmlBytes?: number;
     screenshotFormat?: string;

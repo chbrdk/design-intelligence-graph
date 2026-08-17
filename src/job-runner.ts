@@ -5,6 +5,7 @@ import { CANONICAL_VIEWPORTS } from "./config.js";
 import { asyncEnrichmentEnabled, type EnrichmentQueue } from "./enrichment-queue.js";
 import { applyLlmDesignAnalysis } from "./llm-enrich.js";
 import { localLlmConfig } from "./llm-provider.js";
+import { captureNavConfig, inferCaptureLocale } from "./capture-nav.js";
 import { capturesDirectory, indexesDirectory } from "./runtime-paths.js";
 import { indexCapturePackage } from "./storage.js";
 import { indexCapturePackageToDatabase } from "./db-index.js";
@@ -113,7 +114,7 @@ export class JobRunner {
 
   constructor(options: JobRunnerOptions = {}) {
     this.options = {
-      timeoutMs: options.timeoutMs ?? 15_000,
+      timeoutMs: options.timeoutMs ?? captureNavConfig().jobTimeoutMs,
       settleMs: options.settleMs ?? 500,
       ...options
     };
@@ -200,15 +201,12 @@ export class JobRunner {
         viewports: CANONICAL_VIEWPORTS,
         timeoutMs: this.options.timeoutMs,
         settleMs: this.options.settleMs,
-        locale: "en-US",
+        locale: inferCaptureLocale(job.url, "Europe/Berlin"),
         timezoneId: "Europe/Berlin",
         colorScheme: "light",
         reducedMotion: "no-preference",
         headed: false
       });
-      if (captureResult.manifest.status === "failed") {
-        throw new Error(captureResult.manifest.errors.map((item) => item.message).join("; ") || "Capture failed");
-      }
       this.emit(job, {
         stage: "capturing",
         message: `Detection ${captureResult.manifest.status}`,
@@ -259,6 +257,13 @@ export class JobRunner {
         });
       }
 
+      if (captureResult.manifest.status === "failed") {
+        throw new Error(captureResult.manifest.errors.map((item) => item.message).join("; ") || "Capture failed");
+      }
+      if (captureResult.manifest.status === "blocked" && !checkion.attached) {
+        throw new Error("Capture blocked by site access control (WAF / Access Denied)");
+      }
+
       const llmConfig = localLlmConfig();
       let llmStatus = "skipped";
       let llmHypothesisCount = 0;
@@ -268,7 +273,13 @@ export class JobRunner {
       const useAsync =
         this.options.asyncEnrichment ?? asyncEnrichmentEnabled(process.env, llmConfig.enabled);
 
-      if (llmConfig.enabled && useAsync && this.options.enrichmentQueue) {
+      if (captureResult.manifest.status === "blocked") {
+        llmStatus = "skipped";
+        this.emit(job, {
+          stage: "analyzing",
+          message: "LLM skipped — DIG capture was access-blocked; CHECKION screenshot attached"
+        });
+      } else if (llmConfig.enabled && useAsync && this.options.enrichmentQueue) {
         const enqueued = this.options.enrichmentQueue.enqueue({
           package_path: captureResult.packageRoot,
           capture_run_id: captureResult.manifest.capture_run_id,

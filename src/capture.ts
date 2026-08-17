@@ -1,4 +1,4 @@
-import { chromium, type Browser, type BrowserContext, type Page } from "playwright";
+import { chromium, firefox, type Browser, type BrowserContext, type Page } from "playwright";
 import { dismissCookieBanner } from "./cookie-banner-dismiss.js";
 import { resolve } from "node:path";
 import { captureBrowserSnapshot } from "./browser-snapshot.js";
@@ -35,6 +35,7 @@ import { emitLocalHrefJoinForPackage } from "./flow-edges.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
+import { acceptLanguageForLocale, gotoWithNavGuard } from "./capture-nav.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
 
 interface RuntimeEvidence {
@@ -143,6 +144,9 @@ async function captureViewport(
     timezoneId: options.timezoneId,
     colorScheme: options.colorScheme,
     reducedMotion: options.reducedMotion,
+    extraHTTPHeaders: {
+      "Accept-Language": acceptLanguageForLocale(options.locale)
+    },
     hasTouch: false,
     isMobile: false
   });
@@ -151,9 +155,51 @@ async function captureViewport(
   const runtime = attachRuntimeEvidence(page);
   const network = attachNetworkRecorder(page);
   try {
-    const response = await page.goto(options.url, { waitUntil: "domcontentloaded", timeout: options.timeoutMs });
+    const nav = await gotoWithNavGuard(page, options.url, options.timeoutMs);
+    warnings.push(...nav.warnings);
+    const response = nav.response;
     if (!response) warnings.push("navigation_response_unavailable");
-    if (response && !response.ok()) warnings.push(`navigation_http_${response.status()}`);
+
+    if (nav.blocked) {
+      const shot = screenshotSettings();
+      const wallShot = await page.screenshot(screenshotOptions(false)).catch(() => Buffer.from(""));
+      if (wallShot.length) {
+        artifacts.viewport_screenshot = await writeArtifact(
+          packageRoot,
+          `${prefix}/screenshots/settled${shot.extension}`,
+          wallShot,
+          shot.mediaType
+        );
+      }
+      const title = await page.title().catch(() => "");
+      return {
+        canonicalUrl: sanitizeStoredUrl(page.url() || options.url),
+        userAgent: await page.evaluate(() => navigator.userAgent).catch(() => "unknown"),
+        nodes: [],
+        boxes: [],
+        styles: [],
+        assets: [],
+        fonts: [],
+        motion: [],
+        result: {
+          viewport_capture_id: viewportId,
+          name: viewport.name,
+          viewport: { width: viewport.width, height: viewport.height, device_scale_factor: viewport.deviceScaleFactor },
+          document: { width: 0, height: 0 },
+          final_url: sanitizeStoredUrl(page.url() || options.url),
+          title,
+          started_at: startedAt,
+          completed_at: new Date().toISOString(),
+          status: "blocked",
+          node_count: 0,
+          visible_node_count: 0,
+          text_line_count: 0,
+          artifacts,
+          warnings,
+          quality: evaluateQuality(ZERO_QUALITY_METRICS)
+        }
+      };
+    }
     const settled = await stabilizePage(page, options.settleMs, options.timeoutMs);
     if (!settled) warnings.push("stabilization_timeout");
     try {
@@ -404,7 +450,11 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
   const packageRoot = resolve(options.outputDirectory, `${safeDirectoryName(requestedUrl)}_${timestamp}_${runId.slice(-8)}`);
   await ensureDirectory(packageRoot);
 
-  const browser = await chromium.launch({ headless: !options.headed });
+  const browser = await chromium.launch({
+    headless: !options.headed,
+    args: ["--disable-blink-features=AutomationControlled"]
+  });
+  let firefoxBrowser: Browser | undefined;
   const results: ViewportResult[] = [];
   const viewportNodeSets: ViewportNodeSet[] = [];
   const responsiveEvidence: ResponsiveViewportEvidence[] = [];
@@ -415,10 +465,29 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
   try {
     for (const viewport of options.viewports) {
       try {
-        const captured = await captureViewport(browser, options, viewport, packageRoot);
+        let captured = await captureViewport(browser, options, viewport, packageRoot);
+        if (captured.result.status === "blocked") {
+          try {
+            firefoxBrowser ??= await firefox.launch({
+              headless: !options.headed
+            });
+            const retry = await captureViewport(firefoxBrowser, options, viewport, packageRoot);
+            if (retry.result.status !== "blocked") {
+              retry.result.warnings.push("engine_fallback_firefox");
+              captured = retry;
+            } else {
+              captured.result.warnings.push("engine_fallback_firefox_blocked");
+            }
+          } catch (error: unknown) {
+            captured.result.warnings.push(
+              `firefox_fallback_unavailable:${error instanceof Error ? error.message : String(error)}`
+            );
+          }
+        }
         results.push(captured.result);
         canonicalUrl = captured.canonicalUrl;
         userAgent = captured.userAgent;
+        if (captured.result.status === "blocked") continue;
         viewportNodeSets.push({
           viewport_capture_id: captured.result.viewport_capture_id,
           viewport_name: captured.result.name,
@@ -455,11 +524,19 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     }
   } finally {
     await browser.close();
+    await firefoxBrowser?.close().catch(() => undefined);
   }
 
   const completeCount = results.filter((result) => result.status === "complete").length;
   const successfulCount = results.filter((result) => result.status === "complete" || result.status === "partial").length;
-  const status = completeCount === results.length ? "complete" : successfulCount > 0 ? "partial" : "failed";
+  const blockedAll = results.length > 0 && results.every((result) => result.status === "blocked");
+  const status = blockedAll
+    ? "blocked"
+    : completeCount === results.length
+      ? "complete"
+      : successfulCount > 0
+        ? "partial"
+        : "failed";
   const logicalElements = matchLogicalElements(viewportNodeSets);
   const runArtifacts: CaptureManifest["run_artifacts"] = {};
   runArtifacts.logical_elements = await writeArtifact(
@@ -690,7 +767,10 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
       "paused_css_animations_for_stabilized_screenshot",
       "disabled_css_transitions_for_stabilized_screenshot",
       "cookie_banner_dismiss_heuristic",
-      "chrome_states_open_restore"
+      "chrome_states_open_restore",
+      "nav_guard_challenge_wait",
+      "accept_language_from_locale",
+      "automation_controlled_disabled"
     ],
     errors
   };

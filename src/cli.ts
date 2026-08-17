@@ -2,6 +2,7 @@
 import { parseArgs } from "node:util";
 import { resolve } from "node:path";
 import { capture } from "./capture.js";
+import { inferCaptureLocale } from "./capture-nav.js";
 import { CANONICAL_VIEWPORTS } from "./config.js";
 
 const HELP = `dig-capture <url> [options]
@@ -12,7 +13,7 @@ Options:
   -o, --output <directory>  Output parent directory (default: ./captures)
       --timeout <ms>        Navigation and stabilization timeout (default: 15000)
       --settle <ms>         Required DOM quiet window (default: 500)
-      --locale <locale>     Browser locale (default: en-US)
+      --locale <locale>     Browser locale (default: inferred from host / Europe timezone)
       --timezone <zone>     IANA timezone (default: Europe/Berlin)
       --dark                Capture dark color scheme
       --reduced-motion      Prefer reduced motion
@@ -27,7 +28,7 @@ async function main(): Promise<void> {
       output: { type: "string", short: "o", default: "captures" },
       timeout: { type: "string", default: "15000" },
       settle: { type: "string", default: "500" },
-      locale: { type: "string", default: "en-US" },
+      locale: { type: "string" },
       timezone: { type: "string", default: "Europe/Berlin" },
       dark: { type: "boolean", default: false },
       "reduced-motion": { type: "boolean", default: false },
@@ -53,14 +54,14 @@ async function main(): Promise<void> {
     viewports: CANONICAL_VIEWPORTS,
     timeoutMs,
     settleMs,
-    locale: values.locale,
-    timezoneId: values.timezone,
+    locale: values.locale ?? inferCaptureLocale(url, values.timezone ?? "Europe/Berlin"),
+    timezoneId: values.timezone ?? "Europe/Berlin",
     colorScheme: values.dark ? "dark" : "light",
     reducedMotion: values["reduced-motion"] ? "reduce" : "no-preference",
     headed: values.headed
   });
   process.stdout.write(`Capture ${result.manifest.status}: ${result.packageRoot}\n`);
-  if (result.manifest.status === "failed") process.exitCode = 1;
+  if (result.manifest.status === "failed" || result.manifest.status === "blocked") process.exitCode = 1;
 }
 
 main().catch((error: unknown) => {
