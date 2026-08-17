@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { catalogUrls, loadCaptureCatalog } from "../src/capture-catalog.js";
+import { catalogUrls, captureJobsConfig, loadCaptureCatalog } from "../src/capture-catalog.js";
 
 test("automotive-oem-50 catalog has 50 unique https manufacturer urls", () => {
   const catalog = loadCaptureCatalog("automotive-oem-50");
@@ -13,4 +13,8 @@ test("automotive-oem-50 catalog has 50 unique https manufacturer urls", () => {
   }
   assert.ok(urls.some((url) => url.includes("toyota")));
   assert.ok(urls.some((url) => url.includes("audi")));
+});
+
+test("captureJobsConfig reads maxConcurrent 3 from paths.json", () => {
+  assert.equal(captureJobsConfig().maxConcurrent, 3);
 });

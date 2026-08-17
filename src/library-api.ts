@@ -19,6 +19,7 @@ import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-to
 import { asLookContract } from "./look-contract.js";
 import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
+import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 
 type Box = { x: number; y: number; width: number; height: number };
@@ -183,7 +184,7 @@ function screenMediaUrls(
   row: { settled_screenshot_path?: unknown; full_page_screenshot_path?: unknown }
 ): { settled_url: string | null; full_page_url: string | null; primary_url: string | null } {
   const settledPath = typeof row.settled_screenshot_path === "string" ? row.settled_screenshot_path : null;
-  const fullPath = typeof row.full_page_screenshot_path === "string" ? row.full_page_screenshot_path : null;
+  const fullPath = libraryCardScreenshotPath(row);
   const settled_url = mediaUrl(base, captureRunId, settledPath);
   const full_page_url = mediaUrl(base, captureRunId, fullPath);
   return {

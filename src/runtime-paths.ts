@@ -62,6 +62,16 @@ export interface DigPaths {
     webpQuality?: number;
     [key: string]: unknown;
   };
+  cookieConsent?: {
+    doc?: string;
+    source?: string;
+    retries?: number;
+    retryDelayMs?: number;
+    postDismissWaitMs?: number;
+    checkionFullPageSuffix?: string;
+    playwrightFullPageStem?: string;
+    iframeUrlPattern?: string;
+  };
   chromeStates?: {
     maxOpens?: number;
     doc?: string;
@@ -347,6 +357,28 @@ export function mcpHttpClientEnabled(environment: NodeJS.ProcessEnv = process.en
   const envName = loadDigPaths(root).cursorMcp?.httpClientEnv ?? "DIG_MCP_HTTP_CLIENT";
   const value = environment[envName]?.trim();
   return value === "1" || value === "true";
+}
+
+export function cookieConsentConfig(root = process.cwd()): {
+  retries: number;
+  retryDelayMs: number;
+  postDismissWaitMs: number;
+  checkionFullPageSuffix: string;
+  playwrightFullPageStem: string;
+  iframeUrlPattern: string;
+} {
+  const cfg = loadDigPaths(root).cookieConsent;
+  const retries = Number(cfg?.retries);
+  const retryDelayMs = Number(cfg?.retryDelayMs);
+  const postDismissWaitMs = Number(cfg?.postDismissWaitMs);
+  return {
+    retries: Number.isFinite(retries) ? Math.max(0, Math.round(retries)) : 3,
+    retryDelayMs: Number.isFinite(retryDelayMs) ? Math.max(0, Math.round(retryDelayMs)) : 800,
+    postDismissWaitMs: Number.isFinite(postDismissWaitMs) ? Math.max(0, Math.round(postDismissWaitMs)) : 400,
+    checkionFullPageSuffix: cfg?.checkionFullPageSuffix ?? "checkion-full-page.jpg",
+    playwrightFullPageStem: cfg?.playwrightFullPageStem ?? "full-page",
+    iframeUrlPattern: cfg?.iframeUrlPattern ?? "privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw"
+  };
 }
 
 export function applyCursorMcpDefaults(root = process.cwd(), environment: NodeJS.ProcessEnv = process.env): string {

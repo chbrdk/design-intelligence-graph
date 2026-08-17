@@ -11,7 +11,7 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.embeddings?.dims, 384);
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");
-  assert.equal(paths.captureJobs?.maxConcurrent, 1);
+  assert.equal(paths.captureJobs?.maxConcurrent, 3);
   assert.equal(paths.captureJobs?.automotiveOem50, "knowledge/catalogs/automotive-oem-50.json");
   assert.equal(screenshotSettings().mediaType, "image/webp");
   assert.match(databaseUrl({ DIG_IN_CONTAINER: "0" }) ?? "", /postgres:\/\//);

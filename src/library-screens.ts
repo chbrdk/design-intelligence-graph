@@ -16,6 +16,7 @@ import {
   type ScreenFacetFilter,
   type ScreenFacetSummary
 } from "./design-facets.js";
+import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 import { captureNavConfig } from "./capture-nav.js";
 
@@ -156,6 +157,7 @@ export async function listLibraryScreens(
       site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
       canonical_url: String(row.canonical_url ?? ""),
       package_path: packagePath,
+      full_page_screenshot_path: libraryCardScreenshotPath(row),
       design_facets
     });
   }

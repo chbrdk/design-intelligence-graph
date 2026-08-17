@@ -334,3 +334,92 @@ test("JobRunner runs at most one capture at a time", async () => {
     else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
   }
 });
+
+test("JobRunner runs three captures in parallel when maxConcurrent is 3", async () => {
+  const previousLlm = process.env.DIG_LLM_ENABLED;
+  const previousCheckion = process.env.DIG_CHECKION_SCREENSHOTS;
+  process.env.DIG_LLM_ENABLED = "false";
+  process.env.DIG_CHECKION_SCREENSHOTS = "0";
+  const capturesDir = await mkdtemp(join(tmpdir(), "dig-job-conc3-"));
+  const indexesDir = await mkdtemp(join(tmpdir(), "dig-job-conc3-idx-"));
+  let inFlight = 0;
+  let peak = 0;
+  let seq = 0;
+  let release: () => void = () => undefined;
+  const gate = new Promise<void>((resolveGate) => {
+    release = resolveGate;
+  });
+  const runner = new JobRunner({
+    capturesDir,
+    indexesDir,
+    maxConcurrent: 3,
+    asyncEnrichment: false,
+    captureFn: async () => {
+      inFlight += 1;
+      peak = Math.max(peak, inFlight);
+      seq += 1;
+      const runId = `cap_c3_${seq}`;
+      await gate;
+      inFlight -= 1;
+      return {
+        packageRoot: join(capturesDir, runId),
+        manifest: {
+          status: "complete",
+          capture_run_id: runId,
+          errors: [],
+          viewport_captures: [{ name: "desktop" }]
+        } as never
+      };
+    },
+    verifyFn: async () => ({
+      valid: true,
+      package_root: join(capturesDir, "pkg"),
+      capture_run_id: "cap_c3",
+      checked_artifacts: 1,
+      issues: []
+    }),
+    indexFn: async () => ({
+      indexRoot: join(indexesDir, "cap_c3"),
+      graph: { nodes: [], edges: [] } as never
+    })
+  });
+  try {
+    const jobs = ["one", "two", "three", "four"].map((host) => runner.startJob(`https://${host}.example/`));
+    await new Promise((resolveWait) => setTimeout(resolveWait, 40));
+    const stages = jobs.map((job) => runner.getJob(job.job_id)?.stage);
+    assert.equal(stages.filter((stage) => stage === "capturing").length, 3);
+    assert.equal(stages.filter((stage) => stage === "queued").length, 1);
+    assert.equal(peak, 3);
+    release();
+    await Promise.all(
+      jobs.map(
+        (job) =>
+          new Promise<void>((resolveDone, reject) => {
+            const current = runner.getJob(job.job_id);
+            if (current?.stage === "complete") {
+              resolveDone();
+              return;
+            }
+            if (current?.stage === "failed") {
+              reject(new Error(current.error ?? "failed"));
+              return;
+            }
+            const stop = runner.subscribe(job.job_id, (event) => {
+              if (event.stage === "complete" || event.stage === "failed") {
+                stop();
+                if (event.stage === "failed") reject(new Error(event.error ?? "failed"));
+                else resolveDone();
+              }
+            });
+          })
+      )
+    );
+    assert.equal(peak, 3);
+    assert.ok(jobs.every((job) => runner.getJob(job.job_id)?.stage === "complete"));
+  } finally {
+    if (previousLlm === undefined) delete process.env.DIG_LLM_ENABLED;
+    else process.env.DIG_LLM_ENABLED = previousLlm;
+    if (previousCheckion === undefined) delete process.env.DIG_CHECKION_SCREENSHOTS;
+    else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
+  }
+});

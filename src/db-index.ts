@@ -8,6 +8,7 @@ import type { LlmDesignAnalysis } from "./llm-design.js";
 import type { OntologyEntity, ViewportOntology } from "./ontology.js";
 import type { RecipeStep, SectionCompositionDocument } from "./section-composition.js";
 import { loadSectionCropsDocument } from "./section-crops.js";
+import { libraryFullPageScreenshotPath } from "./library-screenshot.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
 
 export type Box = { x: number; y: number; width: number; height: number };
@@ -191,7 +192,7 @@ export async function indexCapturePackageToDatabase(
         viewport.node_count,
         viewport.title,
         viewport.artifacts.viewport_screenshot?.path ?? null,
-        viewport.artifacts.full_page_screenshot?.path ?? null,
+        libraryFullPageScreenshotPath(viewport.artifacts),
         viewport.document?.width ?? null,
         viewport.document?.height ?? null
       ]

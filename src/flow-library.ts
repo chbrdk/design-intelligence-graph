@@ -14,6 +14,7 @@ import {
 import type { FlowGraphDocument } from "./flow-assemble.js";
 import { listFlowActions } from "./flow-actions.js";
 import { resolveRepoRoot } from "./repo-root.js";
+import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadDigPaths, indexesDirectory, libraryApiPath } from "./runtime-paths.js";
 import type { Queryable } from "./db.js";
 
@@ -245,7 +246,7 @@ export async function resolveFlowScreenMedia(
 
   for (const screen of screens) {
     const shot = bestByCapture.get(screen.capture_run_id);
-    const relative = shot?.full_page_screenshot_path || shot?.settled_screenshot_path || null;
+    const relative = libraryCardScreenshotPath(shot ?? {});
     map[screen.flow_screen_id] = {
       image_ref: mediaApiUrl(screen.capture_run_id, relative),
       primary_url: screen.primary_url ?? null

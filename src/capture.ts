@@ -1,5 +1,5 @@
 import { chromium, firefox, type Browser, type BrowserContext, type Page } from "playwright";
-import { dismissCookieBanner } from "./cookie-banner-dismiss.js";
+import { dismissCookieBanner, registerCookieBannerHideOnNewDocument } from "./cookie-banner-dismiss.js";
 import { resolve } from "node:path";
 import { captureBrowserSnapshot } from "./browser-snapshot.js";
 import { VERSION } from "./config.js";
@@ -147,6 +147,7 @@ async function captureViewport(
     engine: engine === "firefox" ? "firefox" : "chromium",
     browserVersion: browser.version()
   }));
+  await registerCookieBannerHideOnNewDocument(context);
   const page = await context.newPage();
   await installPerformanceObservers(page);
   const runtime = attachRuntimeEvidence(page);
@@ -282,7 +283,7 @@ async function captureViewport(
     );
 
     try {
-      await dismissCookieBanner(page);
+      await dismissCookieBanner(page, { retries: 0 });
       const chromeCapture = await captureChromeStates(page, packageRoot, prefix);
       warnings.push(...chromeCapture.warnings);
       artifacts.chrome_states = chromeCapture.artifact;
@@ -315,7 +316,7 @@ async function captureViewport(
       "application/json"
     );
     await pauseAnimations(page);
-    await dismissCookieBanner(page);
+    await dismissCookieBanner(page, { retries: 0 });
     const stabilizedScreenshot = await page.screenshot(screenshotOptions(false));
 
     artifacts.source_html = await writeArtifact(packageRoot, `${prefix}/html/source.html`, sourceHtml, "text/html; charset=utf-8");

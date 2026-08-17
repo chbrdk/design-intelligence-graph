@@ -4,6 +4,8 @@
  * Call after navigation / scroll-settle and before screenshots.
  */
 
+import { cookieConsentConfig } from "./runtime-paths.js";
+
 /* eslint-disable max-len */
 
 /** CSS-Selektoren für Cookie-/Consent-Banner-Container (display:none). */
@@ -209,6 +211,74 @@ export const COOKIE_BANNER_HIDE_CSS = `
     height: 0 !important;
     overflow: hidden !important;
   }
+  /* Sourcepoint (Hyundai, Stellantis and many OEM homepages; ids/classes get numeric suffixes) */
+  [id^="sp_message_container"],
+  [id^="sp_message_id"],
+  [class^="sp_message_container"],
+  [class^="sp_veil"],
+  .sp-message-open,
+  iframe[id^="sp_message_iframe"],
+  iframe[src*="privacy-mgmt.com"],
+  iframe[src*="sourcepoint.mgr"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+  }
+  html.sp-message-open,
+  body.sp-message-open {
+    overflow: auto !important;
+    height: auto !important;
+  }
+  /* Google Funding Choices */
+  .fc-consent-root,
+  #fc-consent-root {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+  }
+  /* Borlabs Cookie */
+  #BorlabsCookieBox,
+  .BorlabsCookie,
+  [id^="BorlabsCookie"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Consentmanager.net */
+  #cmpbox,
+  #cmpbox2,
+  .cmpbox,
+  #cmpwrapper {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* CookieFirst / Osano */
+  #cookiefirst-root,
+  .cookiefirst-root,
+  .osano-cm-window,
+  .osano-cm-dialog {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
   /* Generic patterns (broad) */
   [id*="cookie" i][id*="banner" i],
   [id*="cookie" i][id*="consent" i],
@@ -265,6 +335,16 @@ export const ACCEPT_BUTTON_SELECTORS = [
   '.didomi-button-highlight',
   '[data-didomi-continue="true"]',
   '.didomi-button-standard',
+  '#didomi-notice-agree-button',
+  '.sp_choice_type_11',
+  '[class^="sp_choice_type_11"]',
+  '[class*="sp_choice_type_ACCEPT_ALL"]',
+  '.fc-cta-consent',
+  'button.fc-cta-consent',
+  '#cmpwelcomebtnyes',
+  '.cmptxt_btn_yes',
+  '.osano-cm-accept-all',
+  '[data-cookiefirst-action="accept"]',
   '.axeptio_btn_accept',
   '.axeptio_cta_accept',
   '#axeptio_btn_accept',
@@ -296,6 +376,28 @@ export const ACCEPT_BUTTON_SELECTORS = [
   '#consent-accept',
   '.gdpr-accept',
   '#gdpr-accept',
+  '#usercentrics-root button[data-testid="uc-accept-all-button"]',
+];
+
+/** Open-shadow CMP hosts — CSS cannot pierce shadow roots for clicks. */
+export const SHADOW_DOM_ACCEPT_TARGETS: ReadonlyArray<{ host: string; button: string }> = [
+  { host: "#usercentrics-root", button: 'button[data-testid="uc-accept-all-button"]' },
+  { host: "#usercentrics-root", button: 'button[data-testid="uc-save-button"]' },
+  { host: ".fc-consent-root", button: ".fc-cta-consent" },
+  { host: ".fc-consent-root", button: "button.fc-cta-consent" }
+];
+
+const LATE_CMP_HOST_SELECTORS = [
+  "#usercentrics-root",
+  ".fc-consent-root",
+  "#onetrust-consent-sdk",
+  "#CybotCookiebotDialog",
+  "#didomi-host",
+  "#cmpbox",
+  "#BorlabsCookieBox",
+  '[id^="sp_message_container"]',
+  '[class^="sp_message_container"]',
+  '[class^="sp_veil"]'
 ];
 
 /**
@@ -481,47 +583,138 @@ export const ACCEPT_BUTTON_TEXTS: string[] = [
   'אישור',
 ];
 
+const HIDE_STYLE_ID = "dig-cookie-banner-hide";
+
+function cookieIframeUrlPattern(): RegExp {
+  try {
+    return new RegExp(cookieConsentConfig().iframeUrlPattern, "i");
+  } catch {
+    return /privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw/i;
+  }
+}
+
 /**
- * Erzeugt ein Skript, das im Browser-Kontext läuft (z. B. pa11y beforeScript):
+ * Inject hide CSS before the first paint (Playwright `addInitScript` or Puppeteer `evaluateOnNewDocument`).
+ * MutationObserver covers late CMP hosts that paint after navigation.
+ */
+export async function registerCookieBannerHideOnNewDocument(target: {
+  addInitScript?: (fn: (payload: { css: string; styleId: string; hosts: string[] }) => void, payload: { css: string; styleId: string; hosts: string[] }) => Promise<unknown>;
+  evaluateOnNewDocument?: (fn: (payload: { css: string; styleId: string; hosts: string[] }) => void, payload: { css: string; styleId: string; hosts: string[] }) => Promise<unknown>;
+}): Promise<void> {
+  const payload = {
+    css: COOKIE_BANNER_HIDE_CSS.replace(/\s+/g, " ").trim(),
+    styleId: HIDE_STYLE_ID,
+    hosts: [...LATE_CMP_HOST_SELECTORS]
+  };
+  const inject = (init: { css: string; styleId: string; hosts: string[] }) => {
+    const w = window as Window & { __digCookieBannerHideWired?: boolean };
+    if (w.__digCookieBannerHideWired) return;
+    w.__digCookieBannerHideWired = true;
+
+    function injectHide() {
+      try {
+        if (!document.getElementById(init.styleId)) {
+          const style = document.createElement("style");
+          style.id = init.styleId;
+          style.textContent = init.css;
+          (document.head || document.documentElement).appendChild(style);
+        }
+        for (const selector of init.hosts) {
+          const nodes = document.querySelectorAll(selector);
+          for (let i = 0; i < nodes.length; i++) {
+            const el = nodes[i] as HTMLElement;
+            el.style.setProperty("display", "none", "important");
+            el.style.setProperty("pointer-events", "none", "important");
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+
+    injectHide();
+    try {
+      const observer = new MutationObserver(injectHide);
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    } catch {
+      /* ignore */
+    }
+  };
+
+  if (typeof target.addInitScript === "function") {
+    await target.addInitScript(inject, payload);
+    return;
+  }
+  if (typeof target.evaluateOnNewDocument === "function") {
+    await target.evaluateOnNewDocument(inject, payload);
+  }
+}
+
+/**
+ * Erzeugt ein Skript, das im Browser-Kontext läuft:
  * 1) Injiziert CSS zum Ausblenden aller bekannten Cookie-Banner.
- * 2) Versucht, bekannte Akzeptieren-Buttons per Selektor zu klicken.
- * 3) Sucht Buttons/Links nach Text (mehrsprachig) und klickt sie.
+ * 2) Klickt Accept in offenen Shadow Roots (Usercentrics / Funding Choices).
+ * 3) Versucht, bekannte Akzeptieren-Buttons per Selektor zu klicken.
+ * 4) Sucht Buttons/Links nach Text (mehrsprachig) und klickt sie.
+ *
+ * `offsetParent === null` is true for `position:fixed` banners — do not use it as a visibility check.
  */
 export function getCookieBannerDismissScript(): string {
-  const css = COOKIE_BANNER_HIDE_CSS.replace(/\s+/g, ' ').trim();
+  const css = COOKIE_BANNER_HIDE_CSS.replace(/\s+/g, " ").trim();
   const selectorsJson = JSON.stringify(ACCEPT_BUTTON_SELECTORS);
   const textsJson = JSON.stringify(ACCEPT_BUTTON_TEXTS);
+  const shadowTargetsJson = JSON.stringify(SHADOW_DOM_ACCEPT_TARGETS);
 
   return `
 (function() {
   try {
-    var style = document.createElement('style');
-    style.id = 'dig-cookie-banner-hide';
-    style.textContent = ${JSON.stringify(css)};
-    if (!document.getElementById('dig-cookie-banner-hide')) {
+    if (!document.getElementById('${HIDE_STYLE_ID}')) {
+      var style = document.createElement('style');
+      style.id = '${HIDE_STYLE_ID}';
+      style.textContent = ${JSON.stringify(css)};
       (document.head || document.documentElement).appendChild(style);
     }
   } catch (e) {}
+
+  var shadowTargets = ${shadowTargetsJson};
+  function clickIfVisible(el) {
+    if (!el) return false;
+    var rect = el.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return false;
+    try {
+      var computed = window.getComputedStyle(el);
+      if (computed.display === 'none' || computed.visibility === 'hidden' || Number(computed.opacity) === 0) return false;
+    } catch (err) {}
+    try {
+      el.click();
+      return true;
+    } catch (err) { return false; }
+  }
+  function clickInOpenShadow(hostSelector, innerSelector) {
+    try {
+      var host = document.querySelector(hostSelector);
+      if (!host || !host.shadowRoot) return false;
+      var nodes = host.shadowRoot.querySelectorAll(innerSelector);
+      for (var s = 0; s < nodes.length; s++) {
+        if (clickIfVisible(nodes[s])) return true;
+      }
+    } catch (err) {}
+    return false;
+  }
+  for (var st = 0; st < shadowTargets.length; st++) {
+    if (clickInOpenShadow(shadowTargets[st].host, shadowTargets[st].button)) break;
+  }
 
   var selectors = ${selectorsJson};
   var acceptTexts = ${textsJson};
   function norm(t) {
     return (t || '').replace(/\\s+/g, ' ').trim().toLowerCase();
   }
-  function clickIfVisible(el) {
-    if (!el || el.offsetParent === null) return false;
-    var rect = el.getBoundingClientRect();
-    if (rect.width < 2 || rect.height < 2) return false;
-    try {
-      el.click();
-      return true;
-    } catch (err) { return false; }
-  }
   for (var i = 0; i < selectors.length; i++) {
     try {
-      var nodes = document.querySelectorAll(selectors[i]);
-      for (var j = 0; j < nodes.length; j++) {
-        if (clickIfVisible(nodes[j])) break;
+      var found = document.querySelectorAll(selectors[i]);
+      for (var j = 0; j < found.length; j++) {
+        if (clickIfVisible(found[j])) break;
       }
     } catch (err) {}
   }
@@ -547,44 +740,94 @@ export function getCookieBannerDismissScript(): string {
 `;
 }
 
-type CookieDismissPage = {
+type CookieDismissFrame = {
+  url: () => string;
+  evaluate: (pageFunction: string | (() => unknown)) => Promise<unknown>;
+};
+
+export type CookieDismissPage = {
   addStyleTag: (opts: { content: string }) => Promise<unknown>;
   evaluate: (pageFunction: string | (() => unknown)) => Promise<unknown>;
   waitForTimeout?: (ms: number) => Promise<void>;
+  frames?: () => CookieDismissFrame[];
 };
+
+export type CookieDismissOptions = {
+  retries?: number;
+  retryDelayMs?: number;
+  postDismissWaitMs?: number;
+};
+
+async function sleepOnPage(page: CookieDismissPage, ms: number): Promise<void> {
+  if (ms <= 0) return;
+  if (typeof page.waitForTimeout === "function") {
+    await page.waitForTimeout(ms);
+    return;
+  }
+  await new Promise((r) => setTimeout(r, ms));
+}
 
 /**
  * Playwright/Puppeteer: hide known CMP chrome and click Accept when present.
  * Safe to call multiple times (late-loading banners after scroll).
+ * Retries cover async CMP loaders (Sourcepoint iframe, Usercentrics shadow).
  */
-export async function dismissCookieBanner(page: CookieDismissPage): Promise<{ attempted: true; error?: string }> {
-  try {
-    await page.addStyleTag({ content: COOKIE_BANNER_HIDE_CSS });
-  } catch (error: unknown) {
-    return { attempted: true, error: error instanceof Error ? error.message : String(error) };
-  }
+export async function dismissCookieBanner(
+  page: CookieDismissPage,
+  options: CookieDismissOptions = {}
+): Promise<{ attempted: true; error?: string }> {
+  const cfg = cookieConsentConfig();
+  const retries = options.retries ?? cfg.retries;
+  const retryDelayMs = options.retryDelayMs ?? cfg.retryDelayMs;
+  const postDismissWaitMs = options.postDismissWaitMs ?? cfg.postDismissWaitMs;
+  const iframePattern = cookieIframeUrlPattern();
+  let lastError: string | undefined;
 
-  try {
-    await page.evaluate(getCookieBannerDismissScript());
-  } catch (error: unknown) {
-    return { attempted: true, error: error instanceof Error ? error.message : String(error) };
-  }
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      await page.addStyleTag({ content: COOKIE_BANNER_HIDE_CSS });
+    } catch (error: unknown) {
+      lastError = error instanceof Error ? error.message : String(error);
+    }
 
-  // Late Usercentrics hosts often keep pointer-events after a soft dismiss click.
-  try {
-    await page.evaluate(() => {
-      for (const el of document.querySelectorAll("uc-layer, uc-layer2, #usercentrics-root")) {
-        el.remove();
+    try {
+      await page.evaluate(getCookieBannerDismissScript());
+    } catch (error: unknown) {
+      lastError = error instanceof Error ? error.message : String(error);
+    }
+
+    const frames = typeof page.frames === "function" ? page.frames() : [];
+    for (const frame of frames) {
+      let frameUrl = "";
+      try {
+        frameUrl = frame.url();
+      } catch {
+        continue;
       }
-    });
-  } catch {
-    /* ignore */
+      if (!iframePattern.test(frameUrl)) continue;
+      try {
+        await frame.evaluate(getCookieBannerDismissScript());
+      } catch {
+        /* cross-origin or detached */
+      }
+    }
+
+    try {
+      await page.evaluate(() => {
+        const hosts = document.querySelectorAll(
+          "uc-layer, uc-layer2, #usercentrics-root, [id^=\"sp_message_container\"], [class^=\"sp_message_container\"], [class^=\"sp_veil\"], iframe[src*=\"privacy-mgmt\"]"
+        );
+        for (const el of hosts) el.remove();
+      });
+    } catch {
+      /* ignore */
+    }
+
+    if (attempt < retries) {
+      await sleepOnPage(page, retryDelayMs);
+    }
   }
 
-  if (typeof page.waitForTimeout === "function") {
-    await page.waitForTimeout(400);
-  } else {
-    await new Promise((r) => setTimeout(r, 400));
-  }
-  return { attempted: true };
+  await sleepOnPage(page, postDismissWaitMs);
+  return lastError ? { attempted: true, error: lastError } : { attempted: true };
 }

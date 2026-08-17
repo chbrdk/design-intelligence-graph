@@ -62,6 +62,28 @@ test("resolveFlowScreenMedia prefers desktop full-page screenshot", async () => 
   assert.match(media.fs_a!.image_ref || "", /capture_run_id=run_a/);
 });
 
+test("resolveFlowScreenMedia swaps CHECKION JPEG for dismissed DIG shot", async () => {
+  const client = {
+    async query() {
+      return {
+        rows: [
+          {
+            capture_run_id: "run_cmp",
+            name: "desktop",
+            settled_screenshot_path: "viewports/desktop/screenshots/settled.webp",
+            full_page_screenshot_path: "viewports/desktop/screenshots/checkion-full-page.jpg"
+          }
+        ] as Record<string, unknown>[]
+      };
+    }
+  };
+  const media = await resolveFlowScreenMedia(client, [
+    { flow_screen_id: "fs_cmp", capture_run_id: "run_cmp", primary_url: "https://www.stellantis.com/" }
+  ]);
+  assert.match(media.fs_cmp!.image_ref || "", /full-page\.webp/);
+  assert.doesNotMatch(media.fs_cmp!.image_ref || "", /checkion-full-page/);
+});
+
 test("indexFlowGraph writes JSON under indexes/flows", async () => {
   const dir = await mkdtemp(join(tmpdir(), "dig-flow-index-"));
   const previous = process.env.DIG_INDEXES_DIR;

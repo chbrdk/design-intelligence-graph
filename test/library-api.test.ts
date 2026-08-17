@@ -397,6 +397,48 @@ test("library API screen detail uses vision hotspots only (no DOM fallback)", as
   assert.match(body.screen.primary_url, /full-page\.webp/);
 });
 
+test("library API screen detail prefers DIG full-page over CHECKION JPEG", async () => {
+  const mock = mockResponse();
+  const client = {
+    async query() {
+      return {
+        rows: [
+          {
+            id: 1,
+            capture_run_id: "cap_cmp",
+            viewport_capture_id: "vpc_cmp",
+            name: "desktop",
+            status: "complete",
+            width: 1440,
+            height: 900,
+            title: "OEM",
+            settled_screenshot_path: "viewports/desktop/screenshots/settled.webp",
+            full_page_screenshot_path: "viewports/desktop/screenshots/checkion-full-page.jpg",
+            document_width: 1440,
+            document_height: 5000,
+            canonical_url: "https://www.hyundai.com/",
+            site_domain: "www.hyundai.com",
+            package_path: "/tmp/pkg-hyundai"
+          }
+        ]
+      };
+    }
+  };
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/screens/vpc_cmp"),
+    client
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  const body = JSON.parse(mock.body) as {
+    screen: { full_page_url: string; primary_url: string };
+  };
+  assert.match(body.screen.full_page_url, /full-page\.webp/);
+  assert.doesNotMatch(body.screen.primary_url, /checkion-full-page/);
+});
+
 test("library API creates collections", async () => {
   const mock = mockResponse();
   const statements: string[] = [];
