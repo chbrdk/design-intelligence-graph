@@ -183,6 +183,12 @@
     "doc": "knowledge/design-tokens.md",
     "dtcgFormat": "https://www.designtokens.org/tr/2025.10/"
   },
+  "lookContract": {
+    "version": "0.1.0",
+    "doc": "knowledge/look-contract.md",
+    "sourceTokensRelativePath": "derived/design-tokens.json",
+    "facetsVersion": "0.3.0"
+  },
   "structureSpine": {
     "relativePath": "derived/structure-spine.json",
     "maxBands": 12,

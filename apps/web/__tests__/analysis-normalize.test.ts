@@ -36,6 +36,16 @@ describe('analysis detail normalization', () => {
           section_categories: ['hero', 'footer'],
           modules: ['hero_banner'],
           confidence: 0.85,
+          look_contract: {
+            schema_version: '0.1.0',
+            look_contract_version: '0.1.0',
+            colors: { bg: '#050505', ink: '#f5f5f5', accent: '#00e5ff' },
+            typography: { display: 'GT America 64px / 700', body: null },
+            radius_px: 0,
+            cta_chrome: 'outline',
+            density: 'tight',
+            avoid: ['glassmorphism / frosted-blur panels', 'card grid in the hero'],
+          },
         },
         vision_page: { page_type: 'marketing_agency_landing_page' },
       },
@@ -44,5 +54,7 @@ describe('analysis detail normalization', () => {
     assert.deepEqual(detail.package?.design_facets?.industry_tags, ['marketing_agency'])
     assert.equal(detail.package?.design_facets?.layout, 'full-bleed stacks')
     assert.equal(detail.package?.vision_page?.page_type, 'marketing_agency_landing_page')
+    assert.equal(detail.package?.design_facets?.look_contract?.colors.accent, '#00e5ff')
+    assert.equal(detail.package?.design_facets?.look_contract?.cta_chrome, 'outline')
   })
 })

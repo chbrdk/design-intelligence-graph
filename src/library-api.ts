@@ -12,6 +12,8 @@ import { rejectIfUnauthorized } from "./api-auth.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
 import { buildDesignFacets } from "./design-facets.js";
+import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-tokens.js";
+import { asLookContract } from "./look-contract.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 
@@ -626,6 +628,7 @@ export async function handleLibraryApi(
         }
         const visionPage = await loadVisionPageDocument(packagePath).catch(() => null);
         const visionLayout = await loadVisionLayoutDocument(packagePath).catch(() => null);
+        const tokens = await loadDesignTokensDocument(packagePath).catch(() => null);
         const screenPatternLabels = grouped.screen_patterns
           .map((item) => String((item as { name?: unknown }).name ?? "").trim())
           .filter(Boolean);
@@ -636,7 +639,8 @@ export async function handleLibraryApi(
           vision_page: visionPage,
           bands: visionLayout?.bands ?? [],
           screen_pattern_labels: screenPatternLabels,
-          visual_style_labels: visualStyleLabels
+          visual_style_labels: visualStyleLabels,
+          tokens
         });
         packageExtras = {
           vision: llm.vision ?? null,
@@ -973,7 +977,27 @@ export async function handleLibraryApi(
         body.output_contract === "prose_brief" || body.output_contract === "both"
           ? body.output_contract
           : "layout_hints_json";
-      const promptPack = assembleDesignPromptPack({ brief, pack, output_contract });
+      const look_contract = asLookContract(body.look_contract);
+      let tokens: DesignTokensDocument | null = null;
+      const captureRunId = pack.references[0]?.capture_run_id;
+      if (captureRunId && !look_contract) {
+        const capture = await client.query(
+          "SELECT package_path FROM captures WHERE capture_run_id = $1 LIMIT 1",
+          [captureRunId]
+        );
+        const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
+        if (packagePath) tokens = await loadDesignTokensDocument(packagePath).catch(() => null);
+      }
+      const promptPack = assembleDesignPromptPack({
+        brief,
+        pack,
+        output_contract,
+        ...(look_contract ? { look_contract } : {}),
+        tokens,
+        layout: typeof body.layout === "string" ? body.layout : null,
+        style: typeof body.style === "string" ? body.style : null,
+        spacing_feel: typeof body.spacing_feel === "string" ? body.spacing_feel : null
+      });
       sendJson(response, 200, promptPack);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);

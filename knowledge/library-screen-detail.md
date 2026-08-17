@@ -7,7 +7,7 @@
 Clicking a Library screen card opens `#/library/screens/{viewport_capture_id}`:
 
 1. Toolbar (back, viewport/full page, overlay)
-2. **Design profile** (`ScreenInsightStrip`) — page type, style, layout, color, typography, industry + section chips
+2. **Design profile** (`ScreenInsightStrip`) — page type, style, layout, color, typography, industry + section chips, look-contract swatches / CTA / density / Avoid
 3. Split:
    - Left: screenshot + vision band overlays
    - Right: collapsible summary, page narrative, section accordion
@@ -21,3 +21,4 @@ Vision layout notes are under **Notes**, not in the hero.
 - `apps/web/lib/library-hash.ts` (`screen_detail`)
 - `apps/web/lib/dig-api.ts` (`design_facets` on analysis package)
 - Facet contract: [`design-facets.md`](design-facets.md)
+- Look contract: [`look-contract.md`](look-contract.md)

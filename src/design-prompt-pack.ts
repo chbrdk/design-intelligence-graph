@@ -5,6 +5,13 @@
 import type { DesignReferenceRecord } from "./design-reference-emit.js";
 import type { DesignReferencePack } from "./design-reference-library.js";
 import { validateAgainstSchema } from "./flow-schema-validate.js";
+import {
+  buildLookContract,
+  lookContractRules,
+  type CompactLookTokens,
+  type LookContract
+} from "./look-contract.js";
+import type { DesignTokensDocument } from "./design-tokens.js";
 
 export const DESIGN_PROMPT_PACK_SCHEMA_VERSION = "0.1.0" as const;
 export const PROMPT_PACK_MAX_BYTES = 12_000;
@@ -45,6 +52,7 @@ export type DesignPromptPack = {
   references: CompactReference[];
   ask: string;
   output_contract: PromptOutputContract;
+  look_contract?: LookContract;
 };
 
 export const HARD_RULES: string[] = [
@@ -52,7 +60,8 @@ export const HARD_RULES: string[] = [
   "Do not invent measured geometry; treat gaps/roles as structural hints.",
   "Prefer primary reference (index 0) for look; secondary refs only for contrast or missing roles.",
   "Cite reference_ids in the output when making look claims.",
-  "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens)."
+  "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens).",
+  "If look_contract is present, it outranks vibe adjectives in the brief."
 ];
 
 function truncate(text: string, max: number): string {
@@ -127,26 +136,47 @@ export function compactDesignReference(ref: DesignReferenceRecord): CompactRefer
 
 function buildAsk(contract: PromptOutputContract, primaryId: string): string {
   if (contract === "prose_brief") {
-    return `Write a ≤200-word creative direction citing ${primaryId}. Do not copy source marketing copy.`;
+    return `Write a ≤200-word creative direction citing ${primaryId}. Follow look_contract. Do not copy source marketing copy.`;
   }
   if (contract === "both") {
-    return `Return layout_hints_json first (DIG-012 contract), then a ≤80-word prose rationale. Cite ${primaryId}.`;
+    return `Return layout_hints_json first (DIG-012 contract), then a ≤80-word prose rationale. Cite ${primaryId}. Obey look_contract.avoid.`;
   }
-  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Do not include source marketing copy.`;
+  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.`;
 }
 
 export function assembleDesignPromptPack(input: {
   brief: string;
   pack: DesignReferencePack;
   output_contract?: PromptOutputContract;
+  look_contract?: LookContract | null;
+  tokens?: DesignTokensDocument | null;
+  layout?: string | null;
+  style?: string | null;
+  spacing_feel?: string | null;
 }): DesignPromptPack {
   const brief = input.brief.trim();
   if (!brief) throw new Error("brief required");
   const refs = input.pack.references.slice(0, 8);
   if (!refs.length) throw new Error("pack.references required");
 
+  const primary = refs[0]!;
+  const compactTokens = primary.tokens as CompactLookTokens | undefined;
+  const look_contract =
+    input.look_contract ??
+    buildLookContract({
+      tokens: input.tokens ?? null,
+      compact_tokens: compactTokens ?? null,
+      spacing_feel: input.spacing_feel ?? null,
+      layout: input.layout ?? primary.composition.stack_summary,
+      style: input.style ?? compactTokens?.style_labels?.[0] ?? null
+    });
+
   const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
-  const rules = [...HARD_RULES, ...(forbid ? ["forbid_source_copy is absolute for this pack."] : [])];
+  const rules = [
+    ...HARD_RULES,
+    ...lookContractRules(look_contract),
+    ...(forbid ? ["forbid_source_copy is absolute for this pack."] : [])
+  ];
   const contract = input.output_contract ?? "layout_hints_json";
   const primaryId = refs[0]!.reference_id;
 
@@ -158,7 +188,8 @@ export function assembleDesignPromptPack(input: {
     rules,
     references: compacted,
     ask: buildAsk(contract, primaryId),
-    output_contract: contract
+    output_contract: contract,
+    look_contract
   };
 
   // Drop page-level noise already omitted; if still over budget, shrink look summaries.

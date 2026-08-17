@@ -1,7 +1,7 @@
 'use client'
 
 import { Text } from '../lib/msqdx-ui'
-import type { DesignFacets } from '../lib/dig-api'
+import type { DesignFacets, LookContract } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 
 function humanizeFacet(value: string): string {
@@ -35,6 +35,41 @@ function ChipRow({ label, values }: { label: string; values: string[] }) {
   )
 }
 
+function ColorSwatches({ contract }: { contract: LookContract }) {
+  const items = [
+    { key: 'bg', hex: contract.colors.bg },
+    { key: 'ink', hex: contract.colors.ink },
+    { key: 'accent', hex: contract.colors.accent },
+  ].filter((item): item is { key: string; hex: string } => Boolean(item.hex))
+  if (!items.length) return null
+  return (
+    <div className="dig-screen-insight-swatches" aria-label={paths.libraryCopy.screenInsightLook}>
+      {items.map((item) => (
+        <span key={item.key} className="dig-screen-insight-swatch">
+          <i style={{ background: item.hex }} aria-hidden />
+          <span>
+            {item.key} {item.hex}
+          </span>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+export function lookContractHasUiSignal(contract: LookContract | null | undefined): boolean {
+  if (!contract) return false
+  return Boolean(
+    contract.colors.bg ||
+      contract.colors.ink ||
+      contract.colors.accent ||
+      contract.typography.display ||
+      contract.typography.body ||
+      contract.radius_px != null ||
+      contract.cta_chrome ||
+      contract.density,
+  )
+}
+
 export function designFacetsHaveUiSignal(facets: DesignFacets | null | undefined): boolean {
   if (!facets) return false
   return Boolean(
@@ -45,7 +80,8 @@ export function designFacetsHaveUiSignal(facets: DesignFacets | null | undefined
       facets.typography ||
       facets.above_fold_job ||
       facets.industry_tags.length ||
-      facets.section_categories.length,
+      facets.section_categories.length ||
+      lookContractHasUiSignal(facets.look_contract),
   )
 }
 
@@ -58,6 +94,7 @@ export function ScreenInsightStrip(props: {
 }) {
   const copy = paths.libraryCopy
   const hasSignal = designFacetsHaveUiSignal(props.facets)
+  const contract = props.facets?.look_contract ?? null
 
   return (
     <section className="dig-screen-insight" aria-label={copy.screenInsightTitle}>
@@ -83,9 +120,23 @@ export function ScreenInsightStrip(props: {
             <Metric label={copy.screenInsightColor} value={props.facets.color_mood} />
             <Metric label={copy.screenInsightTypography} value={props.facets.typography} />
             <Metric label={copy.screenInsightAboveFold} value={props.facets.above_fold_job} />
+            <Metric
+              label={copy.screenInsightCta}
+              value={contract?.cta_chrome ? contract.cta_chrome : null}
+            />
+            <Metric
+              label={copy.screenInsightDensity}
+              value={contract?.density ? contract.density : null}
+            />
+            <Metric
+              label={copy.screenInsightRadius}
+              value={contract?.radius_px != null ? `${contract.radius_px}px` : null}
+            />
           </dl>
+          {contract ? <ColorSwatches contract={contract} /> : null}
           <ChipRow label={copy.screenInsightIndustry} values={props.facets.industry_tags} />
           <ChipRow label={copy.screenInsightSections} values={props.facets.section_categories} />
+          <ChipRow label={copy.screenInsightAvoid} values={contract?.avoid ?? []} />
         </>
       ) : null}
 

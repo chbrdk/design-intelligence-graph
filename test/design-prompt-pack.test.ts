@@ -35,6 +35,11 @@ test("assembles aurora prompt pack under budget with hard rules", () => {
   }
   assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
   assert.ok(!JSON.stringify(prompt.references).includes("Aurora Phone"));
+  assert.equal(prompt.look_contract?.colors.accent, "#0071e3");
+  assert.equal(prompt.look_contract?.radius_px, 18);
+  assert.ok(prompt.rules.some((line) => line.includes("glassmorphism")));
+  assert.ok(prompt.rules.some((line) => line.includes("#0071e3")));
+  assert.ok(prompt.ask.includes("look_contract"));
 });
 
 test("compact reference drops page_context and keeps look cues", () => {

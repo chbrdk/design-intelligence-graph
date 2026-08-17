@@ -22,6 +22,7 @@ DesignPromptPack {
   references: CompactReference[]        // ≤8, already size-bounded
   ask: string                           // structured output instruction
   output_contract: "layout_hints_json" | "prose_brief" | "both"
+  look_contract?: LookContract          // measured hex/type/radius/CTA + avoid[]
 }
 ```
 
@@ -34,7 +35,8 @@ DesignPromptPack {
 3. Prefer primary reference (index 0) for look; secondary refs only for contrast or missing roles.  
 4. Cite `reference_id`s in the output when making look claims.  
 5. Separate **structure** (signature, roles, taxonomy) from **feel** (look_summary, tokens).  
-6. If `forbid_source_copy` is true on the pack, treat it as absolute.
+6. If `forbid_source_copy` is true on the pack, treat it as absolute.  
+7. If `look_contract` is present, it outranks vibe adjectives; obey `look_contract.avoid` and measured colors/type/radius/CTA (no glassmorphic defaults).
 
 ## Templates
 

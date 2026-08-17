@@ -5,8 +5,10 @@
 
 import type { VisionLayoutBand } from "./vision-layout.js";
 import type { VisionPageDocument } from "./vision-page.js";
+import type { DesignTokensDocument } from "./design-tokens.js";
+import { buildLookContract, type LookContract } from "./look-contract.js";
 
-export const DESIGN_FACETS_VERSION = "0.2.0" as const;
+export const DESIGN_FACETS_VERSION = "0.3.0" as const;
 
 export const INDUSTRY_VOCAB = [
   "automotive",
@@ -69,6 +71,7 @@ export type DesignFacets = {
   section_categories: string[];
   modules: string[];
   confidence: number | null;
+  look_contract: LookContract | null;
 };
 
 function clean(value: unknown, max = 120): string | null {
@@ -213,6 +216,7 @@ export type DesignFacetsInput = {
   bands?: Array<Pick<VisionLayoutBand, "category" | "label">> | null;
   screen_pattern_labels?: string[] | null;
   visual_style_labels?: string[] | null;
+  tokens?: DesignTokensDocument | null;
 };
 
 /** Build searchable / scannable facets from package + indexed labels. */
@@ -253,6 +257,13 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
       ? Math.max(0, Math.min(1, page.confidence))
       : null;
 
+  const look_contract = buildLookContract({
+    tokens: input.tokens ?? null,
+    spacing_feel: page?.spacing_feel ?? null,
+    layout,
+    style
+  });
+
   return {
     schema_version: "0.1.0",
     facets_version: DESIGN_FACETS_VERSION,
@@ -265,7 +276,8 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
     above_fold_job: aboveFold,
     section_categories: sectionCategories,
     modules,
-    confidence
+    confidence,
+    look_contract
   };
 }
 
@@ -278,6 +290,7 @@ export function designFacetsHaveSignal(facets: DesignFacets): boolean {
       facets.typography ||
       facets.industry_tags.length ||
       facets.section_categories.length ||
-      facets.above_fold_job
+      facets.above_fold_job ||
+      Boolean(facets.look_contract?.colors.bg)
   );
 }

@@ -3,6 +3,8 @@
  * Emits DIG roles + DTCG-shaped tokens (Format Module 2025.10-aligned primitives).
  */
 
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { writeArtifact } from "./io.js";
 import type { VisualLanguageViewport } from "./visual-language.js";
 import type { ArtifactReference } from "./types.js";
@@ -384,6 +386,19 @@ export function formatDesignTokensBriefSection(tokens: DesignTokensDocument): st
   lines.push(`- Scrim: ${tokens.recipes.scrim.style} (${tokens.recipes.scrim.stops.join(" → ")})`);
   lines.push("");
   return lines.join("\n");
+}
+
+export async function loadDesignTokensDocument(
+  packageRoot: string
+): Promise<DesignTokensDocument | null> {
+  const relative = loadDigPaths().designTokens?.relativePath ?? DESIGN_TOKENS_RELATIVE_PATH;
+  try {
+    const raw = JSON.parse(await readFile(resolve(packageRoot, relative), "utf8")) as DesignTokensDocument;
+    if (!raw || raw.schema_version !== "0.1.0" || !raw.roles) return null;
+    return raw;
+  } catch {
+    return null;
+  }
 }
 
 export async function emitDesignTokensForPackage(

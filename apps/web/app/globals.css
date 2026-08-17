@@ -304,6 +304,30 @@ a {
   background: var(--bg1);
 }
 
+.dig-screen-insight-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.85rem;
+}
+
+.dig-screen-insight-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+}
+
+.dig-screen-insight-swatch i {
+  display: block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 0.2rem;
+  border: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+
 .dig-screen-insight-more,
 .dig-screen-summary {
   margin: 0;

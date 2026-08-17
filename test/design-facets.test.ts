@@ -57,6 +57,9 @@ test("buildDesignFacets from MSQ-like vision_page and bands", () => {
   assert.deepEqual(facets.section_categories, ["hero", "content", "feature", "footer"]);
   assert.equal(facets.confidence, 0.85);
   assert.equal(designFacetsHaveSignal(facets), true);
+  assert.equal(facets.facets_version, "0.3.0");
+  assert.ok(facets.look_contract?.avoid.some((item) => item.includes("glassmorphism")));
+  assert.ok(facets.look_contract?.avoid.includes("card grid in the hero"));
 });
 
 test("buildDesignFacets falls back to vertical_rhythm and visual_style", () => {
@@ -71,6 +74,45 @@ test("buildDesignFacets falls back to vertical_rhythm and visual_style", () => {
   assert.equal(facets.layout, "card grid");
   assert.equal(facets.industry_tags.includes("finance"), true);
   assert.equal(facets.style, null);
+});
+
+test("buildDesignFacets attaches measured look_contract from tokens", () => {
+  const facets = buildDesignFacets({
+    vision_page: {
+      page_type: "marketing_agency_landing_page",
+      overall_atmosphere: "high-energy",
+      layout_system: "full-bleed stacks",
+      spacing_feel: "uneven cinematic gaps"
+    },
+    tokens: {
+      schema_version: "0.1.0",
+      design_tokens_version: "0.1.0",
+      generated_at: "2026-08-17T00:00:00.000Z",
+      source: {
+        viewport_name: "desktop",
+        viewport_capture_id: "vpc",
+        visual_language_path: "derived/visual-language.json"
+      },
+      roles: {
+        colors: [
+          { hex: "#050505", hex_rgb: "#050505", role: "bg", occurrences: 1, source_roles: ["background"] }
+        ],
+        typography: [],
+        radii: [{ role: "md", value_px: 2, occurrences: 1 }],
+        motion: { animated: false, properties: [], runtime_instances: 0 }
+      },
+      recipes: {
+        primary_cta: { style: "outline", fill: null, ink: "#fff", radius_px: 2, notes: "" },
+        scrim: { style: "none", stops: [], notes: "" },
+        surface: { bg: "#050505", ink: "#fff", notes: "" }
+      },
+      dtcg: {}
+    }
+  });
+  assert.equal(facets.look_contract?.colors.bg, "#050505");
+  assert.equal(facets.look_contract?.cta_chrome, "outline");
+  assert.equal(facets.look_contract?.density, "uneven");
+  assert.equal(designFacetsHaveSignal(facets), true);
 });
 
 test("designFacetsHaveSignal false when empty", () => {

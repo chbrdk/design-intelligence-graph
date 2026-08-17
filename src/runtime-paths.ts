@@ -50,6 +50,12 @@ export interface DigPaths {
     maxTypeStyles?: number;
     doc?: string;
   };
+  lookContract?: {
+    version?: string;
+    doc?: string;
+    sourceTokensRelativePath?: string;
+    facetsVersion?: string;
+  };
   structureSpine?: {
     relativePath?: string;
     maxBands?: number;

@@ -152,6 +152,17 @@ export interface SectionDescription {
   confidence?: number
 }
 
+export interface LookContract {
+  schema_version?: string
+  look_contract_version?: string
+  colors: { bg: string | null; ink: string | null; accent: string | null }
+  typography: { display: string | null; body: string | null }
+  radius_px: number | null
+  cta_chrome: 'fill' | 'outline' | 'ghost' | null
+  density: 'tight' | 'airy' | 'uneven' | null
+  avoid: string[]
+}
+
 /** Stable facets for screen profile + future inspiration search. */
 export interface DesignFacets {
   schema_version?: string
@@ -166,6 +177,7 @@ export interface DesignFacets {
   section_categories: string[]
   modules: string[]
   confidence: number | null
+  look_contract: LookContract | null
 }
 
 export interface VisionPageSummary {
@@ -213,6 +225,42 @@ function asStringArray(value: unknown): string[] {
   return value.map(String).map((item) => item.trim()).filter(Boolean)
 }
 
+function asNullableString(value: unknown): string | null {
+  return typeof value === 'string' && value.trim() ? value : null
+}
+
+function normalizeLookContract(raw: unknown): LookContract | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
+  const record = raw as Record<string, unknown>
+  const colorsRaw = record.colors && typeof record.colors === 'object' && !Array.isArray(record.colors)
+    ? (record.colors as Record<string, unknown>)
+    : {}
+  const typeRaw =
+    record.typography && typeof record.typography === 'object' && !Array.isArray(record.typography)
+      ? (record.typography as Record<string, unknown>)
+      : {}
+  const chrome = record.cta_chrome
+  const density = record.density
+  return {
+    schema_version: typeof record.schema_version === 'string' ? record.schema_version : undefined,
+    look_contract_version:
+      typeof record.look_contract_version === 'string' ? record.look_contract_version : undefined,
+    colors: {
+      bg: asNullableString(colorsRaw.bg),
+      ink: asNullableString(colorsRaw.ink),
+      accent: asNullableString(colorsRaw.accent),
+    },
+    typography: {
+      display: asNullableString(typeRaw.display),
+      body: asNullableString(typeRaw.body),
+    },
+    radius_px: typeof record.radius_px === 'number' && Number.isFinite(record.radius_px) ? record.radius_px : null,
+    cta_chrome: chrome === 'fill' || chrome === 'outline' || chrome === 'ghost' ? chrome : null,
+    density: density === 'tight' || density === 'airy' || density === 'uneven' ? density : null,
+    avoid: asStringArray(record.avoid),
+  }
+}
+
 function normalizeDesignFacets(raw: unknown): DesignFacets | null {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
   const record = raw as Record<string, unknown>
@@ -229,6 +277,7 @@ function normalizeDesignFacets(raw: unknown): DesignFacets | null {
     section_categories: asStringArray(record.section_categories),
     modules: asStringArray(record.modules),
     confidence: typeof record.confidence === 'number' ? record.confidence : null,
+    look_contract: normalizeLookContract(record.look_contract),
   }
 }
 

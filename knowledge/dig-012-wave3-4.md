@@ -6,7 +6,8 @@
 - Runtime: `src/design-prompt-pack.ts` (`assembleDesignPromptPack`, `compactDesignReference`)
 - Library API: `POST /api/library/references/prompt-pack`
 - Eval R2 reuses assembler via `assemblePromptPackEnvelope` re-export
-- Tests: `test/design-prompt-pack.test.ts`
+- Tests: `test/design-prompt-pack.test.ts`, `test/look-contract.test.ts`
+- Look contract (`0.1.0`) is attached to every pack from measured tokens or compact reference colors; see [`knowledge/look-contract.md`](../knowledge/look-contract.md)
 
 ### Wave 4 — look_conditioned generation
 - Runtime: `src/look-conditioned-generation.ts` (mapping SoT: `fixtures/design-references/look-conditioned-mapping.json`)

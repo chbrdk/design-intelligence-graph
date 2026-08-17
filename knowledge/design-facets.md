@@ -2,7 +2,8 @@
 
 **Date:** 2026-08-17  
 **Code:** [`src/design-facets.ts`](../src/design-facets.ts) · API `package.design_facets` on `GET /api/library/analyses/:capture_run_id`  
-**Version:** `0.2.0`
+**Version:** `0.3.0`  
+**Look contract:** [`look-contract.md`](look-contract.md)
 
 ## Shape
 
@@ -17,5 +18,6 @@
 | `above_fold_job` | One line |
 | `section_categories` | Unique vision band categories |
 | `modules` | `notable_modules` only (not campaign names) |
+| `look_contract` | Measured colors/type/radius/CTA + `avoid[]` (from `derived/design-tokens.json` when present) |
 
 Campaign / content noise (`cannes lions`, `sustainability`, `hero`, `ticker`) is dropped. Screen-pattern labels like `Marketing Home` map to `marketing_agency`.

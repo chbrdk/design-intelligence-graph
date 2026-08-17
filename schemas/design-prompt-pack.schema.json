@@ -22,6 +22,33 @@
     "ask": { "type": "string", "minLength": 1 },
     "output_contract": {
       "enum": ["layout_hints_json", "prose_brief", "both"]
+    },
+    "look_contract": {
+      "type": "object",
+      "description": "Hard measured look constraints (colors, type, radius, CTA, avoid).",
+      "properties": {
+        "schema_version": { "const": "0.1.0" },
+        "look_contract_version": { "type": "string" },
+        "colors": {
+          "type": "object",
+          "properties": {
+            "bg": { "type": ["string", "null"] },
+            "ink": { "type": ["string", "null"] },
+            "accent": { "type": ["string", "null"] }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "properties": {
+            "display": { "type": ["string", "null"] },
+            "body": { "type": ["string", "null"] }
+          }
+        },
+        "radius_px": { "type": ["number", "null"] },
+        "cta_chrome": { "type": ["string", "null"] },
+        "density": { "type": ["string", "null"] },
+        "avoid": { "type": "array", "items": { "type": "string" } }
+      }
     }
   }
 }

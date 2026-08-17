@@ -1,7 +1,16 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'vitest'
-import { designFacetsHaveUiSignal } from '../components/screen-insight-strip'
-import type { DesignFacets } from '../lib/dig-api'
+import { designFacetsHaveUiSignal, lookContractHasUiSignal } from '../components/screen-insight-strip'
+import type { DesignFacets, LookContract } from '../lib/dig-api'
+
+const emptyContract: LookContract = {
+  colors: { bg: null, ink: null, accent: null },
+  typography: { display: null, body: null },
+  radius_px: null,
+  cta_chrome: null,
+  density: null,
+  avoid: ['glassmorphism / frosted-blur panels'],
+}
 
 const empty: DesignFacets = {
   page_type: null,
@@ -14,6 +23,7 @@ const empty: DesignFacets = {
   section_categories: [],
   modules: [],
   confidence: null,
+  look_contract: emptyContract,
 }
 
 describe('ScreenInsightStrip helpers', () => {
@@ -26,6 +36,18 @@ describe('ScreenInsightStrip helpers', () => {
     )
     assert.equal(
       designFacetsHaveUiSignal({ ...empty, section_categories: ['hero'] }),
+      true,
+    )
+    assert.equal(lookContractHasUiSignal(emptyContract), false)
+    assert.equal(
+      lookContractHasUiSignal({ ...emptyContract, colors: { bg: '#111', ink: null, accent: null } }),
+      true,
+    )
+    assert.equal(
+      designFacetsHaveUiSignal({
+        ...empty,
+        look_contract: { ...emptyContract, cta_chrome: 'outline' },
+      }),
       true,
     )
   })
