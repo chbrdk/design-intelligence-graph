@@ -53,7 +53,9 @@ test("listLibraryScreens scopes platformProjectId in SQL", async () => {
   };
   await listLibraryScreens(client, { platformProjectId: "pp_1" });
   assert.match(sql, /c\.platform_project_id = \$1/);
+  assert.match(sql, /v\.status IN \(\$2, \$3\)/);
   assert.equal(values[0], "pp_1");
+  assert.deepEqual(values.slice(1, 3), ["complete", "partial"]);
 });
 
 test("publicLibraryScreenHit omits package_path", () => {

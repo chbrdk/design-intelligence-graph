@@ -49,14 +49,22 @@ export function captureNavConfig(root = process.cwd()): {
   maxRetries: number;
   retryBaseMs: number;
   jobTimeoutMs: number;
+  firefoxFallbackViewport: string;
+  libraryListedStatuses: string[];
 } {
   const cfg = loadDigPaths(root).captureNav;
   return {
     challengeWaitMs: cfg?.challengeWaitMs ?? 45_000,
     maxRetries: cfg?.maxRetries ?? 2,
     retryBaseMs: cfg?.retryBaseMs ?? 1_000,
-    jobTimeoutMs: cfg?.jobTimeoutMs ?? 60_000
+    jobTimeoutMs: cfg?.jobTimeoutMs ?? 60_000,
+    firefoxFallbackViewport: cfg?.firefoxFallbackViewport ?? "desktop",
+    libraryListedStatuses: cfg?.libraryListedStatuses ?? ["complete", "partial"]
   };
+}
+
+export function shouldUseFirefoxFallback(viewportName: string, root = process.cwd()): boolean {
+  return viewportName === captureNavConfig(root).firefoxFallbackViewport;
 }
 
 /** Locale coherent with hostname + capture timezone (Coolify is EU). */

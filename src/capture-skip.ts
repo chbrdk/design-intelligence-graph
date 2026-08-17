@@ -1,5 +1,5 @@
 /**
- * After the first viewport stays Access-Denied, do not burn minutes on tablet/mobile.
+ * Helpers for WAF-blocked viewports (empty node files, verify stubs).
  */
 import { createId } from "./io.js";
 import type { ViewportDefinition, ViewportResult } from "./types.js";

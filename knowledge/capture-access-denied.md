@@ -25,9 +25,10 @@ Typical causes on Coolify:
 | Headers | `Accept-Language` matches locale |
 | Chromium | `--disable-blink-features=AutomationControlled` (recorded intervention) |
 | Navigate | CHECKION-style retries + wait for JS challenge (not a CAPTCHA solver) |
-| Firefox | One engine fallback on the **first** blocked viewport only |
+| Firefox | Engine fallback on **desktop only** (library primary) — do not spend it on tablet |
 | Honesty | Viewport/run status `blocked` if the wall remains — do **not** treat it as the site |
-| Remaining viewports | After the first viewport stays blocked, tablet/mobile are stubbed `skipped_after_site_block` (no extra Chromium/Firefox loops) |
+| Remaining viewports | Always attempt every viewport. Skipping desktop after a tablet block hid Tesla behind an Access Denied stub |
+| Library | List only `complete`/`partial` viewports (`captureNav.libraryListedStatuses`) so blocked Access Denied cards are not the Tesla thumbnail |
 | CHECKION | Attach with `waitForCompletion: false` + poll ≤ 45s and HTTP fetch ≤ 20s (`checkionV3.attachPollTimeoutMs` / `attachFetchTimeoutMs`). Timeout is a **soft skip** unless `DIG_CHECKION_STRICT=1` |
 
 Not in this slice: residential proxies, captcha farms, stealth forks (Patchright), login bypass.
@@ -47,3 +48,11 @@ If Tesla/Audi still deny the Coolify IP after retries, the job fails with `Captu
 `job_20260817120252_7846e1d2` (after hang fix): capture finished in ~2.5 min as `partial`, then verify failed with `nodes_artifact_missing:tablet/desktop` (skipped blocked viewports had no `nodes.jsonl`) plus the same duplicate ontology ids.
 
 Fixes: write empty `nodes.jsonl` for blocked/skipped/failed viewports; verify does not require DOM artifacts when status is `blocked`/`failed`; ontology `add()` and `uniquifyOntologyViewports()` drop/rekey duplicate ids before the package is written.
+
+## Desktop Access Denied while mobile works (2026-08-17)
+
+Latest Tesla `cap_8d64dd2699c2467983c18a183b194517`: **mobile** captured the real homepage (`Electric Cars, Solar & Clean Energy | Tesla`); tablet hit Access Denied; desktop was **stubbed never-run** because skip-remaining fired after tablet. Library sorts `desktop` first, so the Tesla card was Access Denied.
+
+Firefox had already been used on tablet, so desktop never got the engine fallback.
+
+Change: try every viewport; Firefox only for `captureNav.firefoxFallbackViewport` (`desktop`); library omits `blocked` viewports. Tesla desktop may still be Akamai-banned on desktop UA — then the library shows the working mobile capture instead of the wall.

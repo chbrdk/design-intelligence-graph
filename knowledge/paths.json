@@ -128,7 +128,9 @@
     "challengeWaitMs": 45000,
     "maxRetries": 2,
     "retryBaseMs": 1000,
-    "jobTimeoutMs": 60000
+    "jobTimeoutMs": 60000,
+    "firefoxFallbackViewport": "desktop",
+    "libraryListedStatuses": ["complete", "partial"]
   },
   "captureLimits": {
     "maxHtmlBytes": 8000000,

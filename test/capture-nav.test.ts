@@ -5,7 +5,8 @@ import {
   captureNavConfig,
   detectNavBarrierFromDocument,
   inferCaptureLocale,
-  isRetryableHttpStatus
+  isRetryableHttpStatus,
+  shouldUseFirefoxFallback
 } from "../src/capture-nav.js";
 
 test("inferCaptureLocale matches host and Europe timezone", () => {
@@ -70,4 +71,12 @@ test("captureNavConfig reads paths.json", () => {
   assert.equal(cfg.maxRetries, 2);
   assert.equal(cfg.retryBaseMs, 1_000);
   assert.equal(cfg.jobTimeoutMs, 60_000);
+  assert.equal(cfg.firefoxFallbackViewport, "desktop");
+  assert.deepEqual(cfg.libraryListedStatuses, ["complete", "partial"]);
+});
+
+test("shouldUseFirefoxFallback is desktop only", () => {
+  assert.equal(shouldUseFirefoxFallback("desktop"), true);
+  assert.equal(shouldUseFirefoxFallback("tablet"), false);
+  assert.equal(shouldUseFirefoxFallback("mobile"), false);
 });

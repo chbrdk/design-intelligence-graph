@@ -40,6 +40,8 @@ export interface DigPaths {
     maxRetries?: number;
     retryBaseMs?: number;
     jobTimeoutMs?: number;
+    firefoxFallbackViewport?: string;
+    libraryListedStatuses?: string[];
   };
   captureLimits?: {
     maxHtmlBytes?: number;

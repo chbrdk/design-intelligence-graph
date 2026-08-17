@@ -17,6 +17,7 @@ import {
   type ScreenFacetSummary
 } from "./design-facets.js";
 import { loadVisionPageDocument } from "./vision-page.js";
+import { captureNavConfig } from "./capture-nav.js";
 
 export type LibraryScreenListOpts = ScreenFacetFilter & {
   platformProjectId?: string | null | undefined;
@@ -112,6 +113,12 @@ export async function listLibraryScreens(
     values.push(opts.platformProjectId.trim());
     clauses.push(`c.platform_project_id = $${values.length}`);
   }
+  const listedStatuses = captureNavConfig().libraryListedStatuses;
+  const statusPlaceholders = listedStatuses.map((status) => {
+    values.push(status);
+    return `$${values.length}`;
+  });
+  clauses.push(`(v.status IS NULL OR v.status IN (${statusPlaceholders.join(", ")}))`);
   const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
   values.push(limit);
   const result = await client.query(
