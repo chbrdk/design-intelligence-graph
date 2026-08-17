@@ -2,8 +2,15 @@
 
 **Date:** 2026-08-17  
 **Code:** [`src/design-facets.ts`](../src/design-facets.ts) · API `package.design_facets` on `GET /api/library/analyses/:capture_run_id`  
+**List/search:** `GET /api/library/screens?style=&layout=&industry=` (query keys in `knowledge/paths.json` → `libraryScreenFacets`)  
 **Version:** `0.3.0`  
 **Look contract:** [`look-contract.md`](look-contract.md)
+
+## Library browse
+
+Screen cards carry a compact `design_facets` summary (`page_type`, `style`, `layout`, `industry_tags`) derived from `derived/vision-page.json` at list time. Filters AND across dimensions. Screens without a vision page drop out once any filter is set.
+
+Response also returns `facet_filters` (closed vocabs) and `facets_version` so the Island chip row does not hardcode labels.
 
 ## Shape
 

@@ -294,3 +294,63 @@ export function designFacetsHaveSignal(facets: DesignFacets): boolean {
       Boolean(facets.look_contract?.colors.bg)
   );
 }
+
+/** Compact labels for Library screen cards + GET /screens filters. */
+export type ScreenFacetSummary = {
+  page_type: string | null;
+  style: string | null;
+  layout: string | null;
+  industry_tags: string[];
+};
+
+export type ScreenFacetFilter = {
+  style?: string | null;
+  layout?: string | null;
+  industry?: string | null;
+};
+
+export function summarizeDesignFacets(facets: DesignFacets): ScreenFacetSummary {
+  return {
+    page_type: facets.page_type,
+    style: facets.style,
+    layout: facets.layout,
+    industry_tags: [...facets.industry_tags]
+  };
+}
+
+export function designFacetFilterCatalog(): {
+  style: Array<(typeof STYLE_VOCAB)[number]>;
+  layout: Array<(typeof LAYOUT_VOCAB)[number]>;
+  industry: Array<(typeof INDUSTRY_VOCAB)[number]>;
+} {
+  return {
+    style: [...STYLE_VOCAB],
+    layout: [...LAYOUT_VOCAB],
+    industry: [...INDUSTRY_VOCAB]
+  };
+}
+
+export function normalizeFacetFilterValue(
+  value: string | null | undefined,
+  vocab: readonly string[]
+): string | null {
+  const trimmed = value?.trim() || null;
+  if (!trimmed) return null;
+  return vocab.includes(trimmed) ? trimmed : null;
+}
+
+/** AND across dimensions. Screens without facets drop out once any filter is set. */
+export function screenFacetsMatch(
+  summary: ScreenFacetSummary | null | undefined,
+  filter: ScreenFacetFilter
+): boolean {
+  const style = filter.style?.trim() || null;
+  const layout = filter.layout?.trim() || null;
+  const industry = filter.industry?.trim() || null;
+  if (!style && !layout && !industry) return true;
+  if (!summary) return false;
+  if (style && summary.style !== style) return false;
+  if (layout && summary.layout !== layout) return false;
+  if (industry && !summary.industry_tags.includes(industry)) return false;
+  return true;
+}

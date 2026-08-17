@@ -79,9 +79,22 @@ export const paths = {
     screenPromptPackCopied: 'Prompt pack copied',
     screenPromptPackFailed: 'Could not copy prompt pack',
     screenPromptPackBrief: 'Rebuild this captured screen. Obey look_contract; do not invent glassmorphic defaults.',
+    screenFacetStyle: 'Style',
+    screenFacetLayout: 'Layout',
+    screenFacetIndustry: 'Industry',
+    screenFacetAll: 'All',
+    screenFacetEmpty: 'No screens match these facets.',
+    screenGridHint:
+      'Filter by style, layout, and industry. Open a card for full-page screenshot, overlay, and look contract.',
   },
   apiPlatformProvisioningProjects: '/api/platform/provisioning/projects',
   platformProjectQueryParam: 'platformProjectId',
+  /** Query keys for GET /api/library/screens facet filters — keep in sync with knowledge/paths.json libraryScreenFacets. */
+  libraryFacetQuery: {
+    style: 'style',
+    layout: 'layout',
+    industry: 'industry',
+  },
   defaultDigApiUrl: 'http://127.0.0.1:8787',
   msqdxUiSibling: '../../../msqdx-ui',
   bindingTicket: 'knowledge/plexon-dig-binding-ticket.md',

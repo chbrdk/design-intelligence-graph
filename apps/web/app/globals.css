@@ -185,6 +185,18 @@ a {
   border-color: var(--accent);
 }
 
+.dig-screen-facet-filters {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.dig-screen-card-facets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 .dig-screen-thumb {
   width: 100%;
   aspect-ratio: 4 / 3;

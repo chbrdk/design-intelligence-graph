@@ -2,11 +2,17 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   buildDesignFacets,
+  designFacetFilterCatalog,
   designFacetsHaveSignal,
+  normalizeFacetFilterValue,
   normalizeIndustryTags,
   normalizeLayoutLabel,
-  normalizeStyleLabel
+  normalizeStyleLabel,
+  screenFacetsMatch,
+  STYLE_VOCAB,
+  summarizeDesignFacets
 } from "../src/design-facets.js";
+import { libraryScreenFacetQueryKeys } from "../src/runtime-paths.js";
 
 test("normalizeIndustryTags keeps sector labels and drops campaign noise", () => {
   assert.deepEqual(
@@ -122,4 +128,30 @@ test("designFacetsHaveSignal false when empty", () => {
     ),
     false
   );
+});
+
+test("screenFacetsMatch ANDs style layout industry and drops unfaceted rows", () => {
+  const summary = summarizeDesignFacets(
+    buildDesignFacets({
+      vision_page: {
+        overall_atmosphere: "high-energy_corporate",
+        layout_system: "full-bleed stacks",
+        category_tags: ["media"]
+      }
+    })
+  );
+  assert.equal(screenFacetsMatch(summary, {}), true);
+  assert.equal(screenFacetsMatch(summary, { style: "high-energy" }), true);
+  assert.equal(screenFacetsMatch(summary, { layout: "full-bleed stacks", industry: "media" }), true);
+  assert.equal(screenFacetsMatch(summary, { style: "minimal" }), false);
+  assert.equal(screenFacetsMatch(null, { style: "high-energy" }), false);
+  assert.equal(screenFacetsMatch(null, {}), true);
+  assert.equal(normalizeFacetFilterValue("high-energy", STYLE_VOCAB), "high-energy");
+  assert.equal(normalizeFacetFilterValue("nope", STYLE_VOCAB), null);
+  assert.ok(designFacetFilterCatalog().style.includes("high-energy"));
+  assert.deepEqual(libraryScreenFacetQueryKeys(), {
+    style: "style",
+    layout: "layout",
+    industry: "industry"
+  });
 });

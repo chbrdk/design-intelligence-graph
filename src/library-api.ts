@@ -7,11 +7,22 @@ import type { Queryable } from "./db.js";
 import { getPool } from "./db.js";
 import { searchEmbeddings } from "./embeddings.js";
 import { buildFigmaExport } from "./figma-export.js";
-import { libraryApiPath } from "./runtime-paths.js";
+import { libraryApiPath, libraryScreenFacetQueryKeys } from "./runtime-paths.js";
 import { rejectIfUnauthorized } from "./api-auth.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
-import { buildDesignFacets } from "./design-facets.js";
+import {
+  buildDesignFacets,
+  DESIGN_FACETS_VERSION,
+  INDUSTRY_VOCAB,
+  LAYOUT_VOCAB,
+  STYLE_VOCAB,
+  designFacetFilterCatalog,
+  normalizeFacetFilterValue,
+  screenFacetsMatch,
+  summarizeDesignFacets,
+  type ScreenFacetSummary
+} from "./design-facets.js";
 import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-tokens.js";
 import { asLookContract } from "./look-contract.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
@@ -44,6 +55,22 @@ async function readJsonBody(request: IncomingMessage): Promise<Record<string, un
   } catch {
     return {};
   }
+}
+
+async function compactFacetsForPackage(
+  packagePath: string | null,
+  cache: Map<string, ScreenFacetSummary | null>
+): Promise<ScreenFacetSummary | null> {
+  if (!packagePath) return null;
+  if (cache.has(packagePath)) return cache.get(packagePath) ?? null;
+  const visionPage = await loadVisionPageDocument(packagePath).catch(() => null);
+  if (!visionPage) {
+    cache.set(packagePath, null);
+    return null;
+  }
+  const summary = summarizeDesignFacets(buildDesignFacets({ vision_page: visionPage }));
+  cache.set(packagePath, summary);
+  return summary;
 }
 
 async function loadTokensForCaptureRun(
@@ -494,6 +521,12 @@ export async function handleLibraryApi(
   }
 
   if (request.method === "GET" && path === "/screens") {
+    const facetKeys = libraryScreenFacetQueryKeys();
+    const filter = {
+      style: normalizeFacetFilterValue(queryParam(requestUrl, facetKeys.style), STYLE_VOCAB),
+      layout: normalizeFacetFilterValue(queryParam(requestUrl, facetKeys.layout), LAYOUT_VOCAB),
+      industry: normalizeFacetFilterValue(queryParam(requestUrl, facetKeys.industry), INDUSTRY_VOCAB)
+    };
     const result = await client.query(
       `SELECT v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
               v.document_width, v.document_height,
@@ -504,14 +537,31 @@ export async function handleLibraryApi(
        ORDER BY c.indexed_at DESC, v.name
        LIMIT 200`
     );
+    const facetCache = new Map<string, ScreenFacetSummary | null>();
+    const uniquePackages = [
+      ...new Set(
+        result.rows
+          .map((row) => (typeof row.package_path === "string" ? row.package_path : ""))
+          .filter(Boolean)
+      )
+    ];
+    await Promise.all(uniquePackages.map((pkg) => compactFacetsForPackage(pkg, facetCache)));
+    const screens = [];
+    for (const row of result.rows) {
+      const packagePath = typeof row.package_path === "string" ? row.package_path : null;
+      const design_facets = packagePath ? (facetCache.get(packagePath) ?? null) : null;
+      if (!screenFacetsMatch(design_facets, filter)) continue;
+      const captureRunId = String(row.capture_run_id ?? "");
+      screens.push({
+        ...row,
+        ...screenMediaUrls(base, captureRunId, row),
+        design_facets
+      });
+    }
     sendJson(response, 200, {
-      screens: result.rows.map((row) => {
-        const captureRunId = String(row.capture_run_id ?? "");
-        return {
-          ...row,
-          ...screenMediaUrls(base, captureRunId, row)
-        };
-      })
+      screens,
+      facet_filters: designFacetFilterCatalog(),
+      facets_version: DESIGN_FACETS_VERSION
     });
     return true;
   }

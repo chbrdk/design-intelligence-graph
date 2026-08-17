@@ -630,3 +630,139 @@ test("library API analysis detail groups items", async () => {
   assert.equal(body.items.page_flow.length, 1);
   assert.equal(body.items.section_look.length, 1);
 });
+
+test("library API attaches compact facets and filters GET /screens", async () => {
+  const { mkdtemp, writeFile, mkdir } = await import("node:fs/promises");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+
+  async function writeVisionPage(
+    root: string,
+    page: { atmosphere: string; layout: string; tags: string[]; pageType: string }
+  ) {
+    await mkdir(join(root, "derived"), { recursive: true });
+    await writeFile(
+      join(root, "derived/vision-page.json"),
+      JSON.stringify({
+        schema_version: "0.1.0",
+        vision_page_version: "0.1.0",
+        generated_at: new Date().toISOString(),
+        source_screenshot: "viewports/desktop/screenshots/full-page.webp",
+        page_type: page.pageType,
+        overall_atmosphere: page.atmosphere,
+        color_mood: "dark",
+        typography_feel: "sans",
+        above_the_fold: "hero",
+        vertical_rhythm: page.layout,
+        layout_system: page.layout,
+        media_strategy: "photo",
+        notable_modules: [],
+        brand_cues: "",
+        interaction_chrome: "",
+        category_tags: page.tags,
+        status: "complete"
+      }),
+      "utf8"
+    );
+  }
+
+  const energyRoot = await mkdtemp(join(tmpdir(), "dig-facet-energy-"));
+  const gridRoot = await mkdtemp(join(tmpdir(), "dig-facet-grid-"));
+  await writeVisionPage(energyRoot, {
+    atmosphere: "high-energy_corporate",
+    layout: "full-bleed stacks",
+    tags: ["media"],
+    pageType: "marketing_agency_landing_page"
+  });
+  await writeVisionPage(gridRoot, {
+    atmosphere: "minimal",
+    layout: "card grid",
+    tags: ["finance"],
+    pageType: "finance_home"
+  });
+
+  const rows = [
+    {
+      id: 1,
+      capture_run_id: "cap_energy",
+      viewport_capture_id: "vpc_energy",
+      name: "desktop",
+      status: "complete",
+      width: 1440,
+      height: 900,
+      title: "Energy",
+      settled_screenshot_path: "viewports/desktop/screenshots/settled.webp",
+      full_page_screenshot_path: "viewports/desktop/screenshots/full-page.webp",
+      canonical_url: "https://energy.example/",
+      site_domain: "energy.example",
+      package_path: energyRoot
+    },
+    {
+      id: 2,
+      capture_run_id: "cap_grid",
+      viewport_capture_id: "vpc_grid",
+      name: "desktop",
+      status: "complete",
+      width: 1440,
+      height: 900,
+      title: "Grid",
+      settled_screenshot_path: "viewports/desktop/screenshots/settled.webp",
+      full_page_screenshot_path: "viewports/desktop/screenshots/full-page.webp",
+      canonical_url: "https://grid.example/",
+      site_domain: "grid.example",
+      package_path: gridRoot
+    }
+  ];
+  const client = {
+    async query() {
+      return { rows };
+    }
+  };
+
+  const listed = mockResponse();
+  const listedOk = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    listed.response,
+    new URL("http://127.0.0.1/api/library/screens"),
+    client
+  );
+  assert.equal(listedOk, true);
+  assert.equal(listed.statusCode, 200);
+  const listedBody = JSON.parse(listed.body) as {
+    screens: Array<{ viewport_capture_id: string; design_facets: { style: string; layout: string } }>;
+    facet_filters: { style: string[] };
+  };
+  assert.equal(listedBody.screens.length, 2);
+  assert.equal(
+    listedBody.screens.find((row) => row.viewport_capture_id === "vpc_energy")?.design_facets.style,
+    "high-energy"
+  );
+  assert.ok(listedBody.facet_filters.style.includes("high-energy"));
+
+  const filtered = mockResponse();
+  const filteredOk = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    filtered.response,
+    new URL("http://127.0.0.1/api/library/screens?style=high-energy&layout=full-bleed%20stacks"),
+    client
+  );
+  assert.equal(filteredOk, true);
+  const filteredBody = JSON.parse(filtered.body) as { screens: Array<{ viewport_capture_id: string }> };
+  assert.deepEqual(
+    filteredBody.screens.map((row) => row.viewport_capture_id),
+    ["vpc_energy"]
+  );
+
+  const industry = mockResponse();
+  await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    industry.response,
+    new URL("http://127.0.0.1/api/library/screens?industry=finance"),
+    client
+  );
+  const industryBody = JSON.parse(industry.body) as { screens: Array<{ viewport_capture_id: string }> };
+  assert.deepEqual(
+    industryBody.screens.map((row) => row.viewport_capture_id),
+    ["vpc_grid"]
+  );
+});

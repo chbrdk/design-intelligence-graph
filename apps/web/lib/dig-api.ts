@@ -62,6 +62,25 @@ export async function fetchEnrichmentJobs(): Promise<EnrichmentJob[]> {
   return body.jobs ?? []
 }
 
+export type ScreenFacetSummary = {
+  page_type: string | null
+  style: string | null
+  layout: string | null
+  industry_tags: string[]
+}
+
+export type LibraryFacetFilters = {
+  style: string[]
+  layout: string[]
+  industry: string[]
+}
+
+export const EMPTY_LIBRARY_FACET_FILTERS: LibraryFacetFilters = {
+  style: [],
+  layout: [],
+  industry: [],
+}
+
 export interface LibraryScreen {
   capture_run_id: string
   viewport_capture_id: string
@@ -76,6 +95,27 @@ export interface LibraryScreen {
   height?: number | null
   document_width?: number | null
   document_height?: number | null
+  design_facets?: ScreenFacetSummary | null
+}
+
+export type LibraryScreensQuery = {
+  platformProjectId?: string | null
+  style?: string | null
+  layout?: string | null
+  industry?: string | null
+}
+
+export function facetChipLabel(value: string): string {
+  return value.replace(/_/g, ' ')
+}
+
+export function buildLibraryScreensSearchParams(opts?: LibraryScreensQuery): URLSearchParams {
+  const params = new URLSearchParams()
+  if (opts?.platformProjectId) params.set(paths.platformProjectQueryParam, opts.platformProjectId)
+  if (opts?.style?.trim()) params.set(paths.libraryFacetQuery.style, opts.style.trim())
+  if (opts?.layout?.trim()) params.set(paths.libraryFacetQuery.layout, opts.layout.trim())
+  if (opts?.industry?.trim()) params.set(paths.libraryFacetQuery.industry, opts.industry.trim())
+  return params
 }
 
 export type ScreenHotspot = {
@@ -335,16 +375,32 @@ export function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryA
   }
 }
 
-export async function fetchLibraryScreens(opts?: {
-  platformProjectId?: string | null
-}): Promise<LibraryScreen[]> {
-  const params = new URLSearchParams()
-  if (opts?.platformProjectId) params.set(paths.platformProjectQueryParam, opts.platformProjectId)
-  const qs = params.toString()
+export async function fetchLibraryScreensPage(
+  opts?: LibraryScreensQuery,
+): Promise<{ screens: LibraryScreen[]; facet_filters: LibraryFacetFilters }> {
+  const qs = buildLibraryScreensSearchParams(opts).toString()
   const response = await fetch(`${BASE}${paths.digApiLibrary}/screens${qs ? `?${qs}` : ''}`)
-  const body = await readJson<{ screens?: LibraryScreen[] }>(response)
+  const body = await readJson<{
+    screens?: LibraryScreen[]
+    facet_filters?: LibraryFacetFilters
+    error?: string
+  }>(response)
   if (!response.ok) throw new Error(body.error ?? `Screens failed (${response.status})`)
-  return body.screens ?? []
+  return {
+    screens: body.screens ?? [],
+    facet_filters: {
+      style: Array.isArray(body.facet_filters?.style) ? body.facet_filters.style.map(String) : [],
+      layout: Array.isArray(body.facet_filters?.layout) ? body.facet_filters.layout.map(String) : [],
+      industry: Array.isArray(body.facet_filters?.industry)
+        ? body.facet_filters.industry.map(String)
+        : [],
+    },
+  }
+}
+
+export async function fetchLibraryScreens(opts?: LibraryScreensQuery): Promise<LibraryScreen[]> {
+  const page = await fetchLibraryScreensPage(opts)
+  return page.screens
 }
 
 export async function fetchLibrarySections(opts?: {

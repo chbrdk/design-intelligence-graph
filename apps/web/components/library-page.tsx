@@ -1,17 +1,20 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { Alert, Button, Field, Input, Panel, Text } from '../lib/msqdx-ui'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Alert, Button, Chip, Field, FilterRow, Input, Panel, Text } from '../lib/msqdx-ui'
 import {
   assembleReferencePromptPack,
+  EMPTY_LIBRARY_FACET_FILTERS,
+  facetChipLabel,
   fetchDesignReferences,
-  fetchLibraryScreens,
+  fetchLibraryScreensPage,
   fetchLibrarySections,
   generateFromReferences,
   islandMediaUrl,
   searchLibrary,
   type DesignReferenceHit,
+  type LibraryFacetFilters,
   type LibraryScreen,
   type LibrarySearchHit,
   type LibrarySection,
@@ -22,11 +25,48 @@ import { AppShell } from './app-shell'
 import { LibraryFlowsPanel } from './library-flows-panel'
 import { LibraryScreenDetailPanel } from './library-screen-detail'
 
+function FacetChipRow({
+  label,
+  values,
+  selected,
+  onSelect,
+}: {
+  label: string
+  values: string[]
+  selected: string | null
+  onSelect: (value: string | null) => void
+}) {
+  if (!values.length) return null
+  return (
+    <FilterRow variant="toolbar" label={label}>
+      <Chip size="sm" selected={!selected} onClick={() => onSelect(null)}>
+        {paths.libraryCopy.screenFacetAll}
+      </Chip>
+      {values.map((value) => (
+        <Chip
+          key={value}
+          size="sm"
+          selected={selected === value}
+          onClick={() => onSelect(selected === value ? null : value)}
+        >
+          {facetChipLabel(value)}
+        </Chip>
+      ))}
+    </FilterRow>
+  )
+}
+
 function LibraryPageInner() {
+  const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
   const platformProjectId = searchParams.get(paths.platformProjectQueryParam)?.trim() || null
+  const facetStyle = searchParams.get(paths.libraryFacetQuery.style)?.trim() || null
+  const facetLayout = searchParams.get(paths.libraryFacetQuery.layout)?.trim() || null
+  const facetIndustry = searchParams.get(paths.libraryFacetQuery.industry)?.trim() || null
   const [hashState, setHashState] = useState<LibraryHashState>({ view: 'screens' })
   const [screens, setScreens] = useState<LibraryScreen[]>([])
+  const [facetFilters, setFacetFilters] = useState<LibraryFacetFilters>(EMPTY_LIBRARY_FACET_FILTERS)
   const [sections, setSections] = useState<LibrarySection[]>([])
   const [references, setReferences] = useState<DesignReferenceHit[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -45,6 +85,15 @@ function LibraryPageInner() {
     }
   }
 
+  function setFacetParam(key: keyof typeof paths.libraryFacetQuery, value: string | null) {
+    const next = new URLSearchParams(searchParams.toString())
+    const param = paths.libraryFacetQuery[key]
+    if (value?.trim()) next.set(param, value.trim())
+    else next.delete(param)
+    const qs = next.toString()
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+  }
+
   useEffect(() => {
     const sync = () => setHashState(parseLibraryHash(window.location.hash || '#/library/screens'))
     sync()
@@ -56,7 +105,14 @@ function LibraryPageInner() {
     setError(null)
     const scope = { platformProjectId }
     try {
-      setScreens(await fetchLibraryScreens(scope))
+      const page = await fetchLibraryScreensPage({
+        ...scope,
+        style: facetStyle,
+        layout: facetLayout,
+        industry: facetIndustry,
+      })
+      setScreens(page.screens)
+      setFacetFilters(page.facet_filters)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setScreens([])
@@ -82,8 +138,8 @@ function LibraryPageInner() {
 
   useEffect(() => {
     void refresh()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope drives refresh
-  }, [platformProjectId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope and facet query drive refresh
+  }, [platformProjectId, facetStyle, facetLayout, facetIndustry])
 
   function openScreen(screen: LibraryScreen) {
     applyHash({ view: 'screen_detail', viewportCaptureId: screen.viewport_capture_id })
@@ -350,10 +406,35 @@ function LibraryPageInner() {
 
           <Panel className="dig-panel">
             <Text role="title">Screens</Text>
-            <Text role="hint">Open a card for full-page screenshot, section overlay, and look accordion.</Text>
+            <Text role="hint">{paths.libraryCopy.screenGridHint}</Text>
+            <div className="dig-screen-facet-filters">
+              <FacetChipRow
+                label={paths.libraryCopy.screenFacetStyle}
+                values={facetFilters.style}
+                selected={facetStyle}
+                onSelect={(value) => setFacetParam('style', value)}
+              />
+              <FacetChipRow
+                label={paths.libraryCopy.screenFacetLayout}
+                values={facetFilters.layout}
+                selected={facetLayout}
+                onSelect={(value) => setFacetParam('layout', value)}
+              />
+              <FacetChipRow
+                label={paths.libraryCopy.screenFacetIndustry}
+                values={facetFilters.industry}
+                selected={facetIndustry}
+                onSelect={(value) => setFacetParam('industry', value)}
+              />
+            </div>
             <ul className="dig-screen-grid">
               {screens.map((screen) => {
                 const thumb = islandMediaUrl(screen.primary_url)
+                const chips = [
+                  screen.design_facets?.style,
+                  screen.design_facets?.layout,
+                  screen.design_facets?.industry_tags?.[0],
+                ].filter((value): value is string => Boolean(value))
                 return (
                   <li key={screen.viewport_capture_id}>
                     <button
@@ -371,11 +452,26 @@ function LibraryPageInner() {
                       <Text role="meta">
                         {screen.name} · {screen.site_domain ?? screen.canonical_url}
                       </Text>
+                      {chips.length ? (
+                        <span className="dig-screen-card-facets">
+                          {chips.map((chip) => (
+                            <Chip key={chip} static={true} size="sm">
+                              {facetChipLabel(chip)}
+                            </Chip>
+                          ))}
+                        </span>
+                      ) : null}
                     </button>
                   </li>
                 )
               })}
-              {!screens.length ? <li>No screens indexed yet.</li> : null}
+              {!screens.length ? (
+                <li>
+                  {facetStyle || facetLayout || facetIndustry
+                    ? paths.libraryCopy.screenFacetEmpty
+                    : 'No screens indexed yet.'}
+                </li>
+              ) : null}
             </ul>
           </Panel>
         </>

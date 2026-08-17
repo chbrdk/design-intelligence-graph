@@ -192,6 +192,12 @@
     "generationVersion": "0.3.0",
     "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack"
   },
+  "libraryScreenFacets": {
+    "queryStyle": "style",
+    "queryLayout": "layout",
+    "queryIndustry": "industry",
+    "doc": "knowledge/design-facets.md"
+  },
   "structureSpine": {
     "relativePath": "derived/structure-spine.json",
     "maxBands": 12,

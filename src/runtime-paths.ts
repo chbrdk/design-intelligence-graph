@@ -59,6 +59,12 @@ export interface DigPaths {
     generationVersion?: string;
     capturePromptPackPath?: string;
   };
+  libraryScreenFacets?: {
+    queryStyle?: string;
+    queryLayout?: string;
+    queryIndustry?: string;
+    doc?: string;
+  };
   structureSpine?: {
     relativePath?: string;
     maxBands?: number;
@@ -214,4 +220,17 @@ export function databaseUrl(environment: NodeJS.ProcessEnv = process.env, root =
 
 export function libraryApiPath(): string {
   return loadDigPaths().api.libraryPath ?? "/api/library";
+}
+
+export function libraryScreenFacetQueryKeys(root = process.cwd()): {
+  style: string;
+  layout: string;
+  industry: string;
+} {
+  const cfg = loadDigPaths(root).libraryScreenFacets;
+  return {
+    style: cfg?.queryStyle ?? "style",
+    layout: cfg?.queryLayout ?? "layout",
+    industry: cfg?.queryIndustry ?? "industry"
+  };
 }
