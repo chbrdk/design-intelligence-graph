@@ -50,6 +50,9 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 | `CHECKION_PROJECT_ID` | optional; pin DIG project id (e.g. staging `proj-msuphtrb`) |
 | `DIG_API_TOKEN` | Machine Bearer for live `/api/library/references*` (set on dig-api; activate with `DIG_FEDERATION_MODE=live`) |
 | `CHECKION_API_TOKEN` | Bearer from CHECKION Settings (secret; required for live scans). **Set on dig-api** (2026-08-15). |
+| `PINTEREST_CLIENT_ID` | Pinterest app id for board import OAuth (`knowledge/pinterest-board-import.md`) |
+| `PINTEREST_CLIENT_SECRET` | Pinterest app secret (dig-api only) |
+| `PINTEREST_REDIRECT_URI` | optional; default `{digFqdn}/api/pinterest/callback` |
 
 
 ## Storage / DB

@@ -617,3 +617,31 @@ a {
     animation: none;
   }
 }
+
+.dig-legal {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  line-height: 1.55;
+}
+
+.dig-legal-kicker {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.dig-legal h1 {
+  font-size: 1.75rem;
+  margin: 0.35rem 0 1rem;
+}
+
+.dig-legal h2 {
+  font-size: 1.1rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.dig-legal a {
+  color: var(--accent, #c4a574);
+}

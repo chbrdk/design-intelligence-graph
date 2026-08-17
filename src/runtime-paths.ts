@@ -27,6 +27,7 @@ export interface DigPaths {
     libraryPath?: string;
     enrichmentPath?: string;
     mcpPath?: string;
+    pinterestPath?: string;
   };
   runtime: {
     capturesDir: string;
@@ -130,6 +131,26 @@ export interface DigPaths {
     automotiveOem50?: string;
     crossIndustry100?: string;
     maxBatch?: number;
+  };
+  pinterest?: {
+    doc?: string;
+    apiBase?: string;
+    oauthAuthorize?: string;
+    oauthToken?: string;
+    pinUrlTemplate?: string;
+    oauthScopes?: string[];
+    clientIdEnv?: string;
+    clientSecretEnv?: string;
+    redirectUriEnv?: string;
+    islandCallbackPath?: string;
+    tokenFile?: string;
+    pageSize?: number;
+    maxPinsPerImport?: number;
+    viewportName?: string;
+    imageHostSuffixes?: string[];
+    privacyPath?: string;
+    website?: string;
+    submissionDoc?: string;
   };
   mcpLibraryTools?: {
     screenSearch?: string;
@@ -397,6 +418,46 @@ export function cookieConsentConfig(root = process.cwd()): {
     checkionFullPageSuffix: cfg?.checkionFullPageSuffix ?? "checkion-full-page.jpg",
     playwrightFullPageStem: cfg?.playwrightFullPageStem ?? "full-page",
     iframeUrlPattern: cfg?.iframeUrlPattern ?? "privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw"
+  };
+}
+
+export function pinterestConfig(root = process.cwd()): {
+  apiBase: string;
+  oauthAuthorize: string;
+  oauthToken: string;
+  pinUrlTemplate: string;
+  oauthScopes: string[];
+  clientIdEnv: string;
+  clientSecretEnv: string;
+  redirectUriEnv: string;
+  islandCallbackPath: string;
+  tokenFile: string;
+  pageSize: number;
+  maxPinsPerImport: number;
+  viewportName: string;
+  imageHostSuffixes: string[];
+  apiPrefix: string;
+} {
+  const paths = loadDigPaths(root);
+  const cfg = paths.pinterest;
+  const pageSize = Number(cfg?.pageSize);
+  const maxPins = Number(cfg?.maxPinsPerImport);
+  return {
+    apiBase: (cfg?.apiBase ?? "https://api.pinterest.com/v5").replace(/\/$/, ""),
+    oauthAuthorize: cfg?.oauthAuthorize ?? "https://www.pinterest.com/oauth/",
+    oauthToken: cfg?.oauthToken ?? "https://api.pinterest.com/v5/oauth/token",
+    pinUrlTemplate: cfg?.pinUrlTemplate ?? "https://www.pinterest.com/pin/{pin_id}/",
+    oauthScopes: cfg?.oauthScopes?.length ? cfg.oauthScopes : ["boards:read", "pins:read", "user_accounts:read"],
+    clientIdEnv: cfg?.clientIdEnv ?? "PINTEREST_CLIENT_ID",
+    clientSecretEnv: cfg?.clientSecretEnv ?? "PINTEREST_CLIENT_SECRET",
+    redirectUriEnv: cfg?.redirectUriEnv ?? "PINTEREST_REDIRECT_URI",
+    islandCallbackPath: cfg?.islandCallbackPath ?? "/api/pinterest/callback",
+    tokenFile: cfg?.tokenFile ?? "pinterest-oauth.json",
+    pageSize: Number.isFinite(pageSize) ? Math.min(250, Math.max(1, Math.round(pageSize))) : 25,
+    maxPinsPerImport: Number.isFinite(maxPins) ? Math.min(100, Math.max(1, Math.round(maxPins))) : 40,
+    viewportName: cfg?.viewportName ?? "desktop",
+    imageHostSuffixes: cfg?.imageHostSuffixes?.length ? cfg.imageHostSuffixes : ["pinimg.com", "pinterest.com"],
+    apiPrefix: paths.api.pinterestPath ?? "/api/pinterest"
   };
 }
 

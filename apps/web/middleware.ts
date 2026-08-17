@@ -11,9 +11,11 @@ const gated = auth((req) => {
   const isPublic =
     pathname === paths.routes.login ||
     pathname === paths.routes.rebuild ||
+    pathname === paths.routes.privacy ||
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/health') ||
     pathname.startsWith('/api/dig') ||
+    pathname.startsWith('/api/pinterest') ||
     pathname.startsWith('/api/platform/provisioning') ||
     pathname.startsWith('/_next') ||
     pathname === '/favicon.ico' ||

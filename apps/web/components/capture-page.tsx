@@ -6,9 +6,15 @@ import { Alert, Button, Field, Input, Panel, Text, TopStatus } from '../lib/msqd
 import {
   fetchEnrichmentJobs,
   fetchJob,
+  fetchPinterestAuthorizeUrl,
+  fetchPinterestBoards,
+  fetchPinterestStatus,
+  importPinterestBoard,
   startJob,
   subscribeJobEvents,
   type EnrichmentJob,
+  type PinterestBoard,
+  type PinterestStatus,
 } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 import { STAGE_ORDER, stageLabel, stagePhase, type JobEvent, type JobSnapshot, type JobStage } from '../lib/stages'
@@ -19,12 +25,18 @@ const ACTIVE: JobStage[] = ['queued', 'capturing', 'analyzing', 'verifying', 'in
 function CaptureBody() {
   const search = useSearchParams()
   const platformProjectId = search.get(paths.platformProjectQueryParam)?.trim() || null
+  const pinterestFlag = search.get('pinterest')?.trim() || null
   const [url, setUrl] = useState('https://example.com')
   const [job, setJob] = useState<JobSnapshot | null>(null)
   const [events, setEvents] = useState<JobEvent[]>([])
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [enrichmentJobs, setEnrichmentJobs] = useState<EnrichmentJob[]>([])
+  const [pinterest, setPinterest] = useState<PinterestStatus | null>(null)
+  const [boards, setBoards] = useState<PinterestBoard[]>([])
+  const [boardId, setBoardId] = useState('')
+  const [importing, setImporting] = useState(false)
+  const [importMessage, setImportMessage] = useState<string | null>(null)
 
   useEffect(() => {
     if (!job || !ACTIVE.includes(job.stage)) return
@@ -49,6 +61,22 @@ function CaptureBody() {
       )
     })
   }, [job?.job_id, job?.stage])
+
+  useEffect(() => {
+    if (pinterestFlag === 'error') {
+      setError('Pinterest OAuth failed. Check the Pinterest app redirect URI and try Connect again.')
+    }
+    void fetchPinterestStatus()
+      .then(async (status) => {
+        setPinterest(status)
+        if (status.connected) {
+          const nextBoards = await fetchPinterestBoards().catch(() => [])
+          setBoards(nextBoards)
+          setBoardId((current) => current || nextBoards[0]?.id || '')
+        }
+      })
+      .catch(() => setPinterest({ configured: false, connected: false, username: null }))
+  }, [pinterestFlag])
 
   useEffect(() => {
     if (!job?.result?.enrichment_job_id) return
@@ -126,6 +154,76 @@ function CaptureBody() {
           </Button>
         </form>
         {error ? <Alert tone="error">{error}</Alert> : null}
+      </Panel>
+
+      <Panel className="dig-panel">
+        <Text role="title">{paths.libraryCopy.pinterestTitle}</Text>
+        <Text role="hint">{paths.libraryCopy.pinterestHint}</Text>
+        {pinterest && !pinterest.configured ? (
+          <Alert tone="info">{paths.libraryCopy.pinterestNotConfigured}</Alert>
+        ) : null}
+        {pinterest?.connected ? (
+          <Text role="meta">
+            {paths.libraryCopy.pinterestConnected}
+            {pinterest.username ? ` · ${pinterest.username}` : ''}
+          </Text>
+        ) : (
+          <Button
+            type="button"
+            variant="subtle"
+            disabled={!pinterest?.configured}
+            onClick={() => {
+              void fetchPinterestAuthorizeUrl()
+                .then((authorizeUrl) => {
+                  window.location.assign(authorizeUrl)
+                })
+                .catch((err: unknown) => setError(err instanceof Error ? err.message : String(err)))
+            }}
+          >
+            {paths.libraryCopy.pinterestConnect}
+          </Button>
+        )}
+        {pinterest?.connected ? (
+          <div className="dig-stack" style={{ marginTop: '0.75rem' }}>
+            <Field label="Board">
+              <select
+                className="ds-input"
+                value={boardId}
+                onChange={(event) => setBoardId(event.target.value)}
+              >
+                {boards.map((board) => (
+                  <option key={board.id} value={board.id}>
+                    {board.name}
+                    {typeof board.pin_count === 'number' ? ` (${board.pin_count})` : ''}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            {!boards.length ? <Text role="meta">{paths.libraryCopy.pinterestEmptyBoards}</Text> : null}
+            <Button
+              type="button"
+              disabled={!boardId || importing}
+              onClick={() => {
+                setImporting(true)
+                setImportMessage(null)
+                void importPinterestBoard(boardId, { platformProjectId })
+                  .then((result) => {
+                    setImportMessage(
+                      `Queued ${result.queued} pins` +
+                        (result.skipped_without_image
+                          ? `, skipped ${result.skipped_without_image} without images`
+                          : ''),
+                    )
+                  })
+                  .catch((err: unknown) => setError(err instanceof Error ? err.message : String(err)))
+                  .finally(() => setImporting(false))
+              }}
+            >
+              {importing ? paths.libraryCopy.pinterestImporting : paths.libraryCopy.pinterestImport}
+            </Button>
+            {importMessage ? <Text role="meta">{importMessage}</Text> : null}
+          </div>
+        ) : null}
       </Panel>
 
       <Panel className="dig-panel" aria-live="polite">

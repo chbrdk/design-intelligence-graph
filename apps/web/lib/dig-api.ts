@@ -769,3 +769,58 @@ export async function fetchPageFlows(captureRunId: string): Promise<{
   if (!response.ok) throw new Error(body.error ?? `Page narrative failed (${response.status})`)
   return { capture_run_id: body.capture_run_id, steps: body.steps ?? [] }
 }
+
+export type PinterestStatus = {
+  configured: boolean
+  connected: boolean
+  username: string | null
+  redirect_uri?: string
+  max_pins?: number
+}
+
+export type PinterestBoard = {
+  id: string
+  name: string
+  pin_count?: number
+  privacy?: string
+}
+
+export async function fetchPinterestStatus(): Promise<PinterestStatus> {
+  const response = await fetch(`${BASE}${paths.digApiPinterest}${paths.pinterest.statusPath}`)
+  const body = await readJson<PinterestStatus>(response)
+  if (!response.ok) throw new Error(body.error ?? `Pinterest status failed (${response.status})`)
+  return body
+}
+
+export async function fetchPinterestAuthorizeUrl(): Promise<string> {
+  const response = await fetch(`${BASE}${paths.digApiPinterest}${paths.pinterest.oauthStartPath}`)
+  const body = await readJson<{ authorize_url?: string }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Pinterest OAuth start failed (${response.status})`)
+  if (!body.authorize_url) throw new Error('Pinterest authorize URL missing')
+  return body.authorize_url
+}
+
+export async function fetchPinterestBoards(): Promise<PinterestBoard[]> {
+  const response = await fetch(`${BASE}${paths.digApiPinterest}${paths.pinterest.boardsPath}`)
+  const body = await readJson<{ boards?: PinterestBoard[] }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Pinterest boards failed (${response.status})`)
+  return body.boards ?? []
+}
+
+export async function importPinterestBoard(
+  boardId: string,
+  opts?: { platformProjectId?: string | null; limit?: number },
+): Promise<{ queued: number; skipped_without_image: number }> {
+  const response = await fetch(`${BASE}${paths.digApiPinterest}${paths.pinterest.importPath}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      board_id: boardId,
+      ...(opts?.platformProjectId ? { platformProjectId: opts.platformProjectId } : {}),
+      ...(typeof opts?.limit === 'number' ? { limit: opts.limit } : {}),
+    }),
+  })
+  const body = await readJson<{ queued?: number; skipped_without_image?: number }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Pinterest import failed (${response.status})`)
+  return { queued: body.queued ?? 0, skipped_without_image: body.skipped_without_image ?? 0 }
+}

@@ -28,7 +28,8 @@
     "jobsPath": "/api/jobs",
     "libraryPath": "/api/library",
     "enrichmentPath": "/api/enrichment",
-    "mcpPath": "/mcp"
+    "mcpPath": "/mcp",
+    "pinterestPath": "/api/pinterest"
   },
   "runtime": {
     "capturesDir": "captures",
@@ -259,6 +260,26 @@
     "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",
     "crossIndustry100": "knowledge/catalogs/cross-industry-100.json",
     "maxBatch": 100
+  },
+  "pinterest": {
+    "doc": "knowledge/pinterest-board-import.md",
+    "apiBase": "https://api.pinterest.com/v5",
+    "oauthAuthorize": "https://www.pinterest.com/oauth/",
+    "oauthToken": "https://api.pinterest.com/v5/oauth/token",
+    "pinUrlTemplate": "https://www.pinterest.com/pin/{pin_id}/",
+    "oauthScopes": ["boards:read", "pins:read", "user_accounts:read"],
+    "clientIdEnv": "PINTEREST_CLIENT_ID",
+    "clientSecretEnv": "PINTEREST_CLIENT_SECRET",
+    "redirectUriEnv": "PINTEREST_REDIRECT_URI",
+    "islandCallbackPath": "/api/pinterest/callback",
+    "tokenFile": "pinterest-oauth.json",
+    "pageSize": 25,
+    "maxPinsPerImport": 40,
+    "viewportName": "desktop",
+    "imageHostSuffixes": ["pinimg.com", "pinterest.com"],
+    "privacyPath": "/privacy",
+    "website": "https://spirion.projects-a.plygrnd.tech",
+    "submissionDoc": "knowledge/pinterest-app-submission.md"
   },
   "mcpLibraryTools": {
     "screenSearch": "dig_screen_search",

@@ -12,6 +12,8 @@ import { capturesDirectory, indexesDirectory } from "./runtime-paths.js";
 import { indexCapturePackage } from "./storage.js";
 import { indexCapturePackageToDatabase } from "./db-index.js";
 import { verifyCapturePackage } from "./verify.js";
+import { downloadPinImage, type PinterestPin } from "./pinterest-client.js";
+import { ingestPinterestPinPackage } from "./pinterest-package.js";
 
 export type JobStage = "queued" | "capturing" | "analyzing" | "verifying" | "indexing" | "complete" | "failed";
 
@@ -54,11 +56,20 @@ export interface JobRecord {
   platform_project_id?: string | null;
   /** Local dig_projects.id when known. */
   dig_project_id?: string | null;
+  ingest_source?: "web" | "pinterest";
+  pinterest_pin?: PinterestPinIngest;
 }
 
 export type StartJobOptions = {
   platformProjectId?: string | null;
   digProjectId?: string | null;
+};
+
+export type PinterestPinIngest = {
+  pin_id: string;
+  image_url: string;
+  title: string;
+  board_id?: string | null;
 };
 
 export interface JobRunnerOptions {
@@ -172,6 +183,35 @@ export class JobRunner {
     return rawUrls.map((rawUrl) => this.startJob(rawUrl, options));
   }
 
+  startPinterestJobs(pins: PinterestPinIngest[], options: StartJobOptions = {}): JobRecord[] {
+    return pins.map((pin) => this.startPinterestJob(pin, options));
+  }
+
+  startPinterestJob(pin: PinterestPinIngest, options: StartJobOptions = {}): JobRecord {
+    const now = (this.options.now ?? (() => new Date()))().toISOString();
+    const platformProjectId = options.platformProjectId?.trim() || null;
+    const digProjectId = options.digProjectId?.trim() || null;
+    const url = pin.image_url;
+    const job: JobRecord = {
+      job_id: createJobId(this.options.now),
+      url,
+      stage: "queued",
+      message: "Pinterest pin queued",
+      created_at: now,
+      updated_at: now,
+      events: [],
+      ingest_source: "pinterest",
+      pinterest_pin: pin,
+      ...(platformProjectId ? { platform_project_id: platformProjectId } : {}),
+      ...(digProjectId ? { dig_project_id: digProjectId } : {})
+    };
+    this.jobs.set(job.job_id, job);
+    this.emit(job, { stage: "queued", message: `Waiting to ingest pin ${pin.pin_id}` });
+    this.pending.push(job.job_id);
+    this.pump();
+    return job;
+  }
+
   private maxConcurrent(): number {
     return Math.max(1, this.options.maxConcurrent ?? 1);
   }
@@ -219,23 +259,45 @@ export class JobRunner {
     const indexesDir = this.options.indexesDir ?? indexesDirectory();
 
     try {
+      const isPinterest = job.ingest_source === "pinterest" && job.pinterest_pin;
       this.emit(job, {
         stage: "capturing",
-        message: `Detecting layout evidence across ${CANONICAL_VIEWPORTS.length} viewports`,
-        progress: { current: 0, total: CANONICAL_VIEWPORTS.length, label: "viewports" }
+        message: isPinterest
+          ? `Downloading Pinterest pin ${job.pinterest_pin!.pin_id}`
+          : `Detecting layout evidence across ${CANONICAL_VIEWPORTS.length} viewports`,
+        progress: { current: 0, total: isPinterest ? 1 : CANONICAL_VIEWPORTS.length, label: isPinterest ? "pin" : "viewports" }
       });
-      const captureResult = await captureFn({
-        url: job.url,
-        outputDirectory: capturesDir,
-        viewports: CANONICAL_VIEWPORTS,
-        timeoutMs: this.options.timeoutMs,
-        settleMs: this.options.settleMs,
-        locale: inferCaptureLocale(job.url, "Europe/Berlin"),
-        timezoneId: "Europe/Berlin",
-        colorScheme: "light",
-        reducedMotion: "no-preference",
-        headed: false
-      });
+      let captureResult: { packageRoot: string; manifest: import("./types.js").CaptureManifest };
+      if (isPinterest && job.pinterest_pin) {
+        const image = await downloadPinImage(job.pinterest_pin.image_url);
+        const pin: PinterestPin = {
+          id: job.pinterest_pin.pin_id,
+          title: job.pinterest_pin.title,
+          description: "",
+          link: null,
+          board_id: job.pinterest_pin.board_id ?? null,
+          image: { url: job.pinterest_pin.image_url, width: 1, height: 1 }
+        };
+        captureResult = await ingestPinterestPinPackage({
+          pin,
+          image,
+          outputDirectory: capturesDir,
+          ...(job.pinterest_pin.board_id ? { boardId: job.pinterest_pin.board_id } : {})
+        });
+      } else {
+        captureResult = await captureFn({
+          url: job.url,
+          outputDirectory: capturesDir,
+          viewports: CANONICAL_VIEWPORTS,
+          timeoutMs: this.options.timeoutMs,
+          settleMs: this.options.settleMs,
+          locale: inferCaptureLocale(job.url, "Europe/Berlin"),
+          timezoneId: "Europe/Berlin",
+          colorScheme: "light",
+          reducedMotion: "no-preference",
+          headed: false
+        });
+      }
       this.emit(job, {
         stage: "capturing",
         message: `Detection ${captureResult.manifest.status}`,
@@ -253,16 +315,20 @@ export class JobRunner {
 
       this.emit(job, {
         stage: "capturing",
-        message: "Capturing full-page screenshot via CHECKION"
+        message: isPinterest ? "Skipping CHECKION for Pinterest pin ingest" : "Capturing full-page screenshot via CHECKION"
       });
       let checkion: Awaited<ReturnType<typeof attachCheckionScreenshotIfConfigured>>;
-      try {
-        checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
-      } catch (checkionError: unknown) {
-        checkion = {
-          attached: false,
-          skipped: checkionError instanceof Error ? checkionError.message : String(checkionError)
-        };
+      if (isPinterest) {
+        checkion = { attached: false, skipped: "pinterest_ingest" };
+      } else {
+        try {
+          checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
+        } catch (checkionError: unknown) {
+          checkion = {
+            attached: false,
+            skipped: checkionError instanceof Error ? checkionError.message : String(checkionError)
+          };
+        }
       }
       if (checkion.attached) {
         this.emit(job, {
@@ -487,6 +553,7 @@ export function publicJobView(job: JobRecord): Omit<JobRecord, "events"> & { eve
   };
   if (job.platform_project_id) view.platform_project_id = job.platform_project_id;
   if (job.dig_project_id) view.dig_project_id = job.dig_project_id;
+  if (job.ingest_source) view.ingest_source = job.ingest_source;
   if (job.result) view.result = job.result;
   if (job.error) view.error = job.error;
   if (latest) view.latest_event = latest;
