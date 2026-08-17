@@ -88,6 +88,11 @@ export interface DigPaths {
     queryIndustry?: string;
     doc?: string;
   };
+  libraryReset?: {
+    doc?: string;
+    path?: string;
+    confirm?: string;
+  };
   mcpLibraryTools?: {
     screenSearch?: string;
     capturePromptPack?: string;

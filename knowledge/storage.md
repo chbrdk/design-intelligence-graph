@@ -45,6 +45,7 @@ Base: `api.libraryPath` (`/api/library`)
 - `GET /nodes?taxonomy_id=&q=` — ontology design nodes
 - `GET /export/figma?capture_run_id=` — see [`figma-export.md`](figma-export.md)
 - `GET/POST /collections`, `GET /collections/:id`, `POST|DELETE /collections/:id/captures`
+- `POST /reset` — authenticated wipe (`knowledge/library-reset.md`)
 - `GET /ui-elements`
 - `GET /media?capture_run_id=&path=`
 

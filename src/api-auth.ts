@@ -78,6 +78,27 @@ export function sendUnauthorized(
   response.end(payload);
 }
 
+/** Wipe/reset always requires a machine token, even in dummy federation mode. */
+export function assertDestructiveAuth(
+  request: IncomingMessage,
+  environment: NodeJS.ProcessEnv = process.env,
+  root = process.cwd()
+): MachineAuthResult {
+  return assertMachineAuth(request, { ...environment, DIG_FEDERATION_MODE: "live" }, root);
+}
+
+export function rejectIfDestructiveUnauthorized(
+  request: IncomingMessage,
+  response: ServerResponse,
+  environment: NodeJS.ProcessEnv = process.env,
+  root = process.cwd()
+): boolean {
+  const result = assertDestructiveAuth(request, environment, root);
+  if (result.ok) return false;
+  sendUnauthorized(response, result);
+  return true;
+}
+
 /** Gate live library/reference/generate routes; returns true if response already sent. */
 export function rejectIfUnauthorized(
   request: IncomingMessage,

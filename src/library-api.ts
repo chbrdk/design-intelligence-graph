@@ -8,7 +8,8 @@ import { getPool } from "./db.js";
 import { searchEmbeddings } from "./embeddings.js";
 import { buildFigmaExport } from "./figma-export.js";
 import { libraryApiPath, libraryScreenFacetQueryKeys } from "./runtime-paths.js";
-import { rejectIfUnauthorized } from "./api-auth.js";
+import { rejectIfDestructiveUnauthorized, rejectIfUnauthorized } from "./api-auth.js";
+import { libraryResetConfig, resetLibraryCatalog } from "./library-reset.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
 import { buildDesignFacets } from "./design-facets.js";
@@ -202,6 +203,34 @@ export async function handleLibraryApi(
   if (!requestUrl.pathname.startsWith(base)) return false;
 
   const path = requestUrl.pathname.slice(base.length) || "/";
+  const resetPath = libraryResetConfig().path;
+
+  if (request.method === "POST" && path === resetPath) {
+    if (rejectIfDestructiveUnauthorized(request, response)) return true;
+    const body = await readJsonBody(request);
+    const confirm = typeof body.confirm === "string" ? body.confirm.trim() : "";
+    if (confirm !== libraryResetConfig().confirm) {
+      sendJson(response, 400, { error: "confirm_required", confirm: libraryResetConfig().confirm });
+      return true;
+    }
+    if (!client) {
+      sendJson(response, 503, {
+        error: "database_unavailable",
+        message: "Postgres is not configured or not reachable"
+      });
+      return true;
+    }
+    try {
+      const result = await resetLibraryCatalog(client);
+      sendJson(response, 200, { ok: true, ...result });
+    } catch (error: unknown) {
+      sendJson(response, 500, {
+        error: "library_reset_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
 
   if (path === "/references" || path.startsWith("/references/")) {
     if (rejectIfUnauthorized(request, response)) return true;

@@ -766,3 +766,43 @@ test("library API attaches compact facets and filters GET /screens", async () =>
     ["vpc_grid"]
   );
 });
+
+test("library reset rejects missing auth and wrong confirm", async () => {
+  const prevToken = process.env.DIG_API_TOKEN;
+  process.env.DIG_API_TOKEN = "dig_secret_test";
+  try {
+    const noAuth = mockResponse();
+    await handleLibraryApi(
+      {
+        method: "POST",
+        headers: {},
+        async *[Symbol.asyncIterator]() {
+          yield Buffer.from("{}");
+        }
+      } as unknown as IncomingMessage,
+      noAuth.response,
+      new URL("http://127.0.0.1/api/library/reset"),
+      { async query() { return { rows: [] }; } }
+    );
+    assert.equal(noAuth.statusCode, 401);
+
+    const badConfirm = mockResponse();
+    await handleLibraryApi(
+      {
+        method: "POST",
+        headers: { authorization: "Bearer dig_secret_test" },
+        async *[Symbol.asyncIterator]() {
+          yield Buffer.from(JSON.stringify({ confirm: "nope" }));
+        }
+      } as unknown as IncomingMessage,
+      badConfirm.response,
+      new URL("http://127.0.0.1/api/library/reset"),
+      { async query() { return { rows: [] }; } }
+    );
+    assert.equal(badConfirm.statusCode, 400);
+    assert.match(badConfirm.body, /confirm_required/);
+  } finally {
+    if (prevToken === undefined) delete process.env.DIG_API_TOKEN;
+    else process.env.DIG_API_TOKEN = prevToken;
+  }
+});

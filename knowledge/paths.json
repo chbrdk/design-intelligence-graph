@@ -221,6 +221,11 @@
     "queryIndustry": "industry",
     "doc": "knowledge/design-facets.md"
   },
+  "libraryReset": {
+    "doc": "knowledge/library-reset.md",
+    "path": "/reset",
+    "confirm": "reset-library"
+  },
   "mcpLibraryTools": {
     "screenSearch": "dig_screen_search",
     "capturePromptPack": "dig_capture_prompt_pack",

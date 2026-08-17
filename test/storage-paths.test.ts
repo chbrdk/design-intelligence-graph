@@ -10,6 +10,7 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.database?.image, "pgvector/pgvector:0.8.6-pg18-trixie");
   assert.equal(paths.embeddings?.dims, 384);
   assert.equal(paths.api.libraryPath, "/api/library");
+  assert.equal(paths.libraryReset?.confirm, "reset-library");
   assert.equal(screenshotSettings().mediaType, "image/webp");
   assert.match(databaseUrl({ DIG_IN_CONTAINER: "0" }) ?? "", /postgres:\/\//);
   assert.match(databaseUrl({ DIG_IN_CONTAINER: "1" }) ?? "", /@db:5432/);
