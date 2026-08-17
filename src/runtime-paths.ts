@@ -183,6 +183,24 @@ export interface DigPaths {
       doc?: string;
     };
   };
+  plexon?: {
+    digApiUrlEnv?: string;
+    spirionApiUrlEnv?: string;
+    digApiTokenEnv?: string;
+    defaultDigApiUrl?: string;
+    platformProjectQueryParam?: string;
+  };
+  coolify?: {
+    digApiFqdn?: string;
+    digFqdn?: string;
+  };
+  cursorMcp?: {
+    serverName?: string;
+    configPath?: string;
+    graphRelativePath?: string;
+    preferStagingApi?: boolean;
+    doc?: string;
+  };
 }
 
 let cached: DigPaths | undefined;
@@ -257,4 +275,22 @@ export function mcpLibraryToolNames(root = process.cwd()): {
     screenSearch: cfg?.screenSearch ?? "dig_screen_search",
     capturePromptPack: cfg?.capturePromptPack ?? "dig_capture_prompt_pack"
   };
+}
+
+export function digApiBaseUrl(root = process.cwd(), environment: NodeJS.ProcessEnv = process.env): string | null {
+  const paths = loadDigPaths(root);
+  const envName = paths.plexon?.digApiUrlEnv ?? "DIG_API_URL";
+  const altName = paths.plexon?.spirionApiUrlEnv ?? "SPIRION_API_URL";
+  const fromEnv = environment[envName]?.trim() || environment[altName]?.trim();
+  if (fromEnv) return fromEnv.replace(/\/$/, "");
+  return null;
+}
+
+export function applyCursorMcpDefaults(root = process.cwd(), environment: NodeJS.ProcessEnv = process.env): string {
+  const paths = loadDigPaths(root);
+  const envName = paths.plexon?.digApiUrlEnv ?? "DIG_API_URL";
+  if (!environment[envName]?.trim() && paths.cursorMcp?.preferStagingApi && paths.coolify?.digApiFqdn) {
+    environment[envName] = paths.coolify.digApiFqdn;
+  }
+  return resolve(root, paths.cursorMcp?.graphRelativePath ?? "fixtures/mcp/empty-graph.json");
 }

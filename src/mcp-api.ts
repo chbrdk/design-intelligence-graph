@@ -36,6 +36,18 @@ const FLOW_TOOL_NAMES = new Set<McpToolName>([
   "dig_flow_neighbors"
 ]);
 
+export function emptyKnowledgeGraph(): KnowledgeGraph {
+  return {
+    schema_version: "0.1.0",
+    storage_model_version: "0.1.0",
+    source_capture_run_id: "cap_mcp_empty",
+    indexed_at: "2026-01-01T00:00:00.000Z",
+    nodes: [],
+    edges: [],
+    lineage: []
+  };
+}
+
 export async function loadKnowledgeGraph(path: string): Promise<KnowledgeGraph> {
   const graph = JSON.parse(await readFile(path, "utf8")) as KnowledgeGraph;
   if (graph.storage_model_version !== "0.1.0" || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) throw new Error("Unsupported or invalid DIG knowledge graph");
@@ -324,6 +336,12 @@ export async function callDigLibraryTool(
   name: Extract<McpToolName, "dig_screen_search" | "dig_capture_prompt_pack">,
   args: Record<string, unknown>
 ): Promise<unknown> {
+  const { digApiBaseUrl } = await import("./runtime-paths.js");
+  const apiBase = digApiBaseUrl();
+  if (apiBase) {
+    const { callDigLibraryToolHttp } = await import("./mcp-library-http.js");
+    return callDigLibraryToolHttp(name, args, apiBase);
+  }
   const platformProjectId =
     typeof args.platformProjectId === "string"
       ? args.platformProjectId
@@ -389,4 +407,63 @@ export async function callDigFlowTool(
   return neighbors;
 }
 
-export function toolResult(value: unknown) { return { content: [{ type: "text", text: JSON.stringify(value, null, 2) }] }; }
+export function toolResult(value: unknown) {
+  return { content: [{ type: "text", text: JSON.stringify(value, null, 2) }] };
+}
+
+export type McpJsonRpcRequest = {
+  id?: string | number | null;
+  method?: string;
+  params?: Record<string, unknown>;
+};
+
+export async function handleMcpMessage(
+  graph: KnowledgeGraph,
+  request: McpJsonRpcRequest
+): Promise<{ jsonrpc: "2.0"; id: string | number | null; result?: unknown; error?: { code: number; message: string } } | null> {
+  const id = request.id ?? null;
+  const method = request.method ?? "";
+  if (method.startsWith("notifications/")) return null;
+  try {
+    let result: unknown;
+    if (method === "initialize") {
+      result = {
+        protocolVersion: "2024-11-05",
+        capabilities: { tools: {} },
+        serverInfo: { name: "design-intelligence-graph", version: "0.1.0" }
+      };
+    } else if (method === "ping") {
+      result = {};
+    } else if (method === "tools/list") {
+      result = { tools: listDigTools() };
+    } else if (method === "tools/call") {
+      const params = request.params ?? {};
+      const name = String(params.name) as McpToolName;
+      const args = (params.arguments ?? {}) as Record<string, unknown>;
+      if (
+        name === "dig_reference_search" ||
+        name === "dig_reference_get" ||
+        name === "dig_reference_pack" ||
+        name === "dig_reference_prompt_pack" ||
+        name === "dig_generate"
+      ) {
+        result = toolResult(await callDigReferenceTool(name, args));
+      } else if (name === "dig_screen_search" || name === "dig_capture_prompt_pack") {
+        result = toolResult(await callDigLibraryTool(name, args));
+      } else if (name === "dig_flow_search" || name === "dig_flow_get" || name === "dig_flow_neighbors") {
+        result = toolResult(await callDigFlowTool(name, args));
+      } else {
+        result = toolResult(callDigTool(graph, name, args));
+      }
+    } else {
+      throw new Error(`Unsupported method: ${method}`);
+    }
+    return { jsonrpc: "2.0", id, result };
+  } catch (error) {
+    return {
+      jsonrpc: "2.0",
+      id,
+      error: { code: -32603, message: error instanceof Error ? error.message : String(error) }
+    };
+  }
+}

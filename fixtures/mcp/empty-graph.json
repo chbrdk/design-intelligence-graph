@@ -1,0 +1,9 @@
+{
+  "schema_version": "0.1.0",
+  "storage_model_version": "0.1.0",
+  "source_capture_run_id": "cap_mcp_empty",
+  "indexed_at": "2026-01-01T00:00:00.000Z",
+  "nodes": [],
+  "edges": [],
+  "lineage": []
+}

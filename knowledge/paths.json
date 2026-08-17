@@ -205,6 +205,13 @@
     "listLimit": 200,
     "doc": "knowledge/mcp-library-loop.md"
   },
+  "cursorMcp": {
+    "serverName": "spirion",
+    "configPath": ".cursor/mcp.json",
+    "graphRelativePath": "fixtures/mcp/empty-graph.json",
+    "preferStagingApi": true,
+    "doc": "knowledge/mcp-library-loop.md"
+  },
   "structureSpine": {
     "relativePath": "derived/structure-spine.json",
     "maxBands": 12,

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "spirion": {
+      "command": "node",
+      "args": ["--import", "tsx", "${workspaceFolder}/scripts/dig-mcp-cursor.ts"],
+      "cwd": "${workspaceFolder}"
+    }
+  }
+}
