@@ -112,6 +112,8 @@ export interface DigPaths {
     doc?: string;
     path?: string;
     confirm?: string;
+    deleteCapturesPath?: string;
+    deleteCapturesConfirm?: string;
   };
   captureJobs?: {
     doc?: string;

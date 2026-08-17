@@ -18,7 +18,25 @@ Content-Type: application/json
 
 `confirm` must match `libraryReset.confirm`. Auth is required **even when** `DIG_FEDERATION_MODE=dummy` (`assertDestructiveAuth`). `x-service-secret` also works.
 
-## What it deletes
+## Selective delete (keep other catalogs)
+
+```
+POST /api/library/captures/delete
+Authorization: Bearer $DIG_API_TOKEN
+Content-Type: application/json
+
+{
+  "confirm": "delete-captures",
+  "urls": ["https://www.amazon.com/", "https://www.apple.com/"]
+}
+```
+
+Deletes matching `captures` rows (CASCADE viewports/sections/LLM/…) and removes the related package/index directories. Automotive OEM captures are untouched when only cross-industry URLs are listed.
+
+`confirm` must match `libraryReset.deleteCapturesConfirm`.
+
+## What full reset deletes
+
 
 | Store | Action |
 |-------|--------|

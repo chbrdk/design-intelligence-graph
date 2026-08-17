@@ -240,7 +240,9 @@
   "libraryReset": {
     "doc": "knowledge/library-reset.md",
     "path": "/reset",
-    "confirm": "reset-library"
+    "confirm": "reset-library",
+    "deleteCapturesPath": "/captures/delete",
+    "deleteCapturesConfirm": "delete-captures"
   },
   "captureJobs": {
     "doc": "knowledge/capture-batch.md",

@@ -848,3 +848,50 @@ test("library reset rejects missing auth and wrong confirm", async () => {
     else process.env.DIG_API_TOKEN = prevToken;
   }
 });
+
+test("library captures delete removes matching urls with confirm", async () => {
+  const prevToken = process.env.DIG_API_TOKEN;
+  process.env.DIG_API_TOKEN = "dig_secret_test";
+  const statements: string[] = [];
+  const client = {
+    async query(sql: string, values?: unknown[]) {
+      statements.push(String(sql).replace(/\s+/g, " ").trim());
+      if (sql.includes("SELECT capture_run_id, package_path")) {
+        return {
+          rows: [
+            {
+              capture_run_id: "cap_amz",
+              package_path: "/data/captures/pkg_amz",
+              requested_url: "https://www.amazon.com/",
+              canonical_url: "https://www.amazon.com/"
+            }
+          ]
+        };
+      }
+      return { rows: [] };
+    }
+  };
+  try {
+    const mock = mockResponse();
+    await handleLibraryApi(
+      {
+        method: "POST",
+        headers: { authorization: "Bearer dig_secret_test" },
+        async *[Symbol.asyncIterator]() {
+          yield Buffer.from(
+            JSON.stringify({ confirm: "delete-captures", urls: ["https://www.amazon.com/"] })
+          );
+        }
+      } as unknown as IncomingMessage,
+      mock.response,
+      new URL("http://127.0.0.1/api/library/captures/delete"),
+      client
+    );
+    assert.equal(mock.statusCode, 200);
+    assert.match(mock.body, /"captures_deleted":1/);
+    assert.ok(statements.some((sql) => /DELETE FROM captures/i.test(sql)));
+  } finally {
+    if (prevToken === undefined) delete process.env.DIG_API_TOKEN;
+    else process.env.DIG_API_TOKEN = prevToken;
+  }
+});
