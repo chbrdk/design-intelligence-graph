@@ -22,6 +22,12 @@ dig-api followed/received CHECKION **HTML login shell** instead of JSON (auth/re
 - Local: `npm run smoke:checkion-peer` (token + staging)
 - Re-run capture on dig UI after dig-api redeploy
 
+## Hang on CHECKION waitForCompletion (2026-08-17)
+
+`job_20260817114623_b8a46617` stayed at “Capturing full-page screenshot via CHECKION” after DIG capture already wrote a package. `waitForCompletion: true` blocked the HTTP POST with no abort; poll default was 5 minutes.
+
+Fix in `src/checkion-client.ts`: start scan async, poll ≤ 45s, abort each fetch at 20s. Attach remains soft-fail. In-memory hung jobs cannot be cancelled — wait out the old poll or restart dig-api.
+
 
 ## Deploy lag (2026-08-15 evening)
 

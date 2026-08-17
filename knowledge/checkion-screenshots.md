@@ -7,7 +7,7 @@ DIG uses **CHECKION v3** for complete-page screenshots. Playwright `settled` / `
 ## Flow
 
 1. DIG Playwright capture (DOM/CSS/ontology) runs as today.
-2. Job runner calls CHECKION `POST /api/scans` → poll → `GET …/screenshot`.
+2. Job runner calls CHECKION `POST /api/scans` (`waitForCompletion: false`) → poll until complete or `attachPollTimeoutMs` (45s) → `GET …/screenshot`. Each HTTP call uses `AbortSignal.timeout(attachFetchTimeoutMs)` (20s).
 3. JPEG written to `viewports/desktop/screenshots/checkion-full-page.jpg` and set as `artifacts.full_page_screenshot`.
 4. Manifest `document.width/height` updated from JPEG SOF dims when present.
 5. Library `primary_url` / vision follow `full_page_screenshot`.
@@ -21,6 +21,8 @@ DIG uses **CHECKION v3** for complete-page screenshots. Playwright `settled` / `
 | `CHECKION_PROJECT_ID` | Optional; else auto-create/find project `DIG` |
 | `DIG_CHECKION_SCREENSHOTS` | `1` (default) try CHECKION attach; `0` skip |
 | `DIG_CHECKION_STRICT` | `1` fail DIG job if CHECKION attach errors; default soft-skip and keep Playwright full-page |
+| `CHECKION_POLL_TIMEOUT_MS` | Override poll budget (default `checkionV3.attachPollTimeoutMs` = 45000) |
+| `CHECKION_FETCH_TIMEOUT_MS` | Override per-request abort (default `checkionV3.attachFetchTimeoutMs` = 20000) |
 
 ## Local CHECKION
 

@@ -341,7 +341,7 @@ export class JobRunner {
       this.emit(job, { stage: "verifying", message: "Verifying capture package integrity" });
       const verification = await verifyFn(captureResult.packageRoot);
       if (!verification.valid) {
-        throw new Error(verification.issues.map((issue) => issue.message).join("; ") || "Verification failed");
+        throw new Error(formatJobIssueList(verification.issues));
       }
       this.emit(job, {
         stage: "verifying",
@@ -430,6 +430,19 @@ export class JobRunner {
       this.emit(job, { stage: "failed", message: "Job failed", error: message });
     }
   }
+}
+
+/** Keep job.error readable when verify dumps dozens of duplicate ontology ids. */
+export function formatJobIssueList(
+  issues: Array<{ code?: string; message?: string }>,
+  max = 8
+): string {
+  if (!issues.length) return "Verification failed";
+  const parts = issues.slice(0, max).map((issue) =>
+    [issue.code, issue.message].filter(Boolean).join(":")
+  );
+  const extra = issues.length > max ? ` (+${issues.length - max} more)` : "";
+  return `${parts.join("; ")}${extra}`;
 }
 
 export function publicJobView(job: JobRecord): Omit<JobRecord, "events"> & { event_count: number; latest_event?: JobEvent } {

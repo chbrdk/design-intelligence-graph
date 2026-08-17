@@ -47,6 +47,35 @@ test("links ontology entities to logical elements across viewports", () => {
   assert.ok(linked?.entities.some((entity) => entity.source_node_id === "cta" && entity.logical_element_id === "lel_cta"));
 });
 
+test("ontology entity ids stay unique across viewports", () => {
+  const boxes = nodes.map((node, index) => ({
+    node_id: node.node_id,
+    bbox: { x: 0, y: index * 20, width: 300, height: 20 }
+  }));
+  const mobile = deriveViewportOntology({
+    viewport_capture_id: "vpc_mobile",
+    viewport_name: "mobile",
+    viewport_height: 800,
+    title: "Example",
+    nodes,
+    boxes,
+    styles: []
+  });
+  const desktop = deriveViewportOntology({
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop",
+    viewport_height: 900,
+    title: "Example",
+    nodes,
+    boxes,
+    styles: []
+  });
+  const ids = [...mobile.entities, ...desktop.entities].map((entity) => entity.ontology_entity_id);
+  assert.equal(ids.length, new Set(ids).size);
+  const relIds = [...mobile.relationships, ...desktop.relationships].map((rel) => rel.relationship_id);
+  assert.equal(relIds.length, new Set(relIds).size);
+});
+
 test("uses only registered taxonomy identifiers", () => {
   const ontology = deriveViewportOntology({
     viewport_capture_id: "vpc_mobile", viewport_name: "mobile", viewport_height: 800, title: "Example",

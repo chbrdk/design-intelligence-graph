@@ -53,8 +53,8 @@ export function captureNavConfig(root = process.cwd()): {
   const cfg = loadDigPaths(root).captureNav;
   return {
     challengeWaitMs: cfg?.challengeWaitMs ?? 45_000,
-    maxRetries: cfg?.maxRetries ?? 3,
-    retryBaseMs: cfg?.retryBaseMs ?? 3_000,
+    maxRetries: cfg?.maxRetries ?? 2,
+    retryBaseMs: cfg?.retryBaseMs ?? 1_000,
     jobTimeoutMs: cfg?.jobTimeoutMs ?? 60_000
   };
 }

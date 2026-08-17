@@ -16,6 +16,8 @@ export interface CheckionV3Paths {
   projectIdEnv?: string;
   defaultProjectName?: string;
   defaultProjectDomain?: string;
+  attachPollTimeoutMs?: number;
+  attachFetchTimeoutMs?: number;
 }
 
 export interface CheckionConfig {
@@ -24,6 +26,7 @@ export interface CheckionConfig {
   projectId: string | null;
   pollIntervalMs: number;
   pollTimeoutMs: number;
+  fetchTimeoutMs: number;
   required: boolean;
 }
 
@@ -107,7 +110,10 @@ export function checkionConfig(environment: NodeJS.ProcessEnv = process.env, roo
     token: environment[apiTokenEnv]?.trim() || null,
     projectId: environment[projectIdEnv]?.trim() || null,
     pollIntervalMs: Number(environment.CHECKION_POLL_INTERVAL_MS ?? 2000) || 2000,
-    pollTimeoutMs: Number(environment.CHECKION_POLL_TIMEOUT_MS ?? 300_000) || 300_000,
+    pollTimeoutMs:
+      Number(environment.CHECKION_POLL_TIMEOUT_MS ?? paths.attachPollTimeoutMs ?? 45_000) || 45_000,
+    fetchTimeoutMs:
+      Number(environment.CHECKION_FETCH_TIMEOUT_MS ?? paths.attachFetchTimeoutMs ?? 20_000) || 20_000,
     required
   };
 }
@@ -158,7 +164,8 @@ async function checkionFetchJson<T>(
   };
   let response: Response;
   try {
-    response = await fetch(url, { ...init, headers, redirect: "manual" });
+    const signal = init.signal ?? AbortSignal.timeout(config.fetchTimeoutMs);
+    response = await fetch(url, { ...init, headers, redirect: "manual", signal });
   } catch (error: unknown) {
     throw new CheckionClientError(
       `CHECKION request failed: ${error instanceof Error ? error.message : String(error)}`
@@ -334,7 +341,11 @@ export async function downloadCheckionScreenshot(
   const url = `${config.baseUrl}/api/scans/${encodeURIComponent(scanId)}/screenshot`;
   let response: Response;
   try {
-    response = await fetch(url, { headers: authHeaders(config), redirect: "manual" });
+    response = await fetch(url, {
+      headers: authHeaders(config),
+      redirect: "manual",
+      signal: AbortSignal.timeout(config.fetchTimeoutMs)
+    });
   } catch (error: unknown) {
     throw new CheckionClientError(
       `CHECKION screenshot download failed: ${error instanceof Error ? error.message : String(error)}`
@@ -376,7 +387,7 @@ export async function captureCheckionFullPage(
 ): Promise<CheckionScreenshot & { projectId: string }> {
   const projectId = await ensureCheckionProjectId(config, root);
   const created = await startCheckionScan(
-    { projectId, url: targetUrl, mode: "single", waitForCompletion: true },
+    { projectId, url: targetUrl, mode: "single", waitForCompletion: false },
     config
   );
   const completed =

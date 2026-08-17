@@ -103,6 +103,7 @@ test("attach soft-fails by default when CHECKION API returns HTML", async () => 
       projectId: "proj_test",
       pollIntervalMs: 100,
       pollTimeoutMs: 500,
+      fetchTimeoutMs: 1_000,
       required: true
     },
     process.cwd(),

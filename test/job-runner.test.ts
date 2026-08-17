@@ -6,12 +6,90 @@ import { join, resolve } from "node:path";
 import test from "node:test";
 import {
   createJobId,
+  formatJobIssueList,
   isDetectionStage,
   isIngestionStage,
   JobRunner,
   normalizeCaptureUrl,
   publicJobView
 } from "../src/job-runner.js";
+
+test("formatJobIssueList caps duplicate ontology ids in job.error", () => {
+  const issues = Array.from({ length: 20 }, (_, index) => ({
+    code: "duplicate_ontology_entity_id",
+    message: `ont_${index}`
+  }));
+  const text = formatJobIssueList(issues);
+  assert.match(text, /^duplicate_ontology_entity_id:ont_0;/);
+  assert.match(text, /\(\+12 more\)$/);
+  assert.equal(text.includes("ont_19"), false);
+});
+
+test("JobRunner verify failure stores a capped error instead of hanging the UI", async () => {
+  const previousLlm = process.env.DIG_LLM_ENABLED;
+  const previousCheckion = process.env.DIG_CHECKION_SCREENSHOTS;
+  process.env.DIG_LLM_ENABLED = "false";
+  process.env.DIG_CHECKION_SCREENSHOTS = "0";
+  const capturesDir = await mkdtemp(join(tmpdir(), "dig-job-verify-"));
+  const indexesDir = await mkdtemp(join(tmpdir(), "dig-job-verify-idx-"));
+  const runner = new JobRunner({
+    capturesDir,
+    indexesDir,
+    asyncEnrichment: false,
+    captureFn: async () => ({
+      packageRoot: join(capturesDir, "pkg"),
+      manifest: {
+        status: "partial",
+        capture_run_id: "cap_verify_fail",
+        errors: [],
+        viewport_captures: [{ name: "desktop" }]
+      } as never
+    }),
+    verifyFn: async () => ({
+      valid: false,
+      package_root: join(capturesDir, "pkg"),
+      capture_run_id: "cap_verify_fail",
+      checked_artifacts: 4,
+      issues: [
+        { code: "duplicate_ontology_entity_id", path: "derived/ontology.json", message: "ont_aaa" },
+        { code: "duplicate_ontology_entity_id", path: "derived/ontology.json", message: "ont_bbb" }
+      ]
+    }),
+    indexFn: async () => {
+      throw new Error("index must not run after verify failure");
+    }
+  });
+  try {
+    const job = runner.startJob("https://tesla.com/");
+    await new Promise<void>((resolveDone, reject) => {
+      const seen = runner.getJob(job.job_id)?.events.map((event) => event.stage) ?? [];
+      if (seen.includes("failed")) {
+        resolveDone();
+        return;
+      }
+      if (seen.includes("complete")) {
+        reject(new Error("expected verify failure"));
+        return;
+      }
+      const stop = runner.subscribe(job.job_id, (event) => {
+        if (event.stage === "complete" || event.stage === "failed") {
+          stop();
+          if (event.stage === "complete") reject(new Error("expected verify failure"));
+          else resolveDone();
+        }
+      });
+    });
+    const view = publicJobView(runner.getJob(job.job_id)!);
+    assert.equal(view.stage, "failed");
+    assert.match(view.error ?? "", /duplicate_ontology_entity_id:ont_aaa/);
+    assert.match(view.error ?? "", /ont_bbb/);
+  } finally {
+    if (previousLlm === undefined) delete process.env.DIG_LLM_ENABLED;
+    else process.env.DIG_LLM_ENABLED = previousLlm;
+    if (previousCheckion === undefined) delete process.env.DIG_CHECKION_SCREENSHOTS;
+    else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
+  }
+});
 
 test("normalizeCaptureUrl accepts http(s) and rejects other schemes", () => {
   assert.equal(normalizeCaptureUrl("example.com/path"), "https://example.com/path");

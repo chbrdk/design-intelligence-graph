@@ -36,6 +36,7 @@ import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
 import { acceptLanguageForLocale, gotoWithNavGuard } from "./capture-nav.js";
+import { stubSkippedBlockedViewport } from "./capture-skip.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
 
 interface RuntimeEvidence {
@@ -462,11 +463,18 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
   const errors: CaptureManifest["errors"] = [];
   let canonicalUrl = options.url;
   let userAgent = "unknown";
+  let firefoxTried = false;
+  let skipRemainingBlocked: ViewportResult | null = null;
   try {
     for (const viewport of options.viewports) {
       try {
+        if (skipRemainingBlocked) {
+          results.push(stubSkippedBlockedViewport(viewport, skipRemainingBlocked));
+          continue;
+        }
         let captured = await captureViewport(browser, options, viewport, packageRoot);
-        if (captured.result.status === "blocked") {
+        if (captured.result.status === "blocked" && !firefoxTried) {
+          firefoxTried = true;
           try {
             firefoxBrowser ??= await firefox.launch({
               headless: !options.headed
@@ -487,7 +495,10 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
         results.push(captured.result);
         canonicalUrl = captured.canonicalUrl;
         userAgent = captured.userAgent;
-        if (captured.result.status === "blocked") continue;
+        if (captured.result.status === "blocked") {
+          skipRemainingBlocked = captured.result;
+          continue;
+        }
         viewportNodeSets.push({
           viewport_capture_id: captured.result.viewport_capture_id,
           viewport_name: captured.result.name,

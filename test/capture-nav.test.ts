@@ -67,6 +67,7 @@ test("retryable HTTP statuses include 403", () => {
 test("captureNavConfig reads paths.json", () => {
   const cfg = captureNavConfig();
   assert.equal(cfg.challengeWaitMs, 45_000);
-  assert.equal(cfg.maxRetries, 3);
+  assert.equal(cfg.maxRetries, 2);
+  assert.equal(cfg.retryBaseMs, 1_000);
   assert.equal(cfg.jobTimeoutMs, 60_000);
 });

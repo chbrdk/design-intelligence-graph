@@ -126,8 +126,8 @@
   "captureNav": {
     "doc": "knowledge/capture-access-denied.md",
     "challengeWaitMs": 45000,
-    "maxRetries": 3,
-    "retryBaseMs": 3000,
+    "maxRetries": 2,
+    "retryBaseMs": 1000,
     "jobTimeoutMs": 60000
   },
   "captureLimits": {
@@ -402,6 +402,8 @@
     "defaultProjectDomain": "design-intelligence-graph.local",
     "screenshotsRequiredEnv": "DIG_CHECKION_SCREENSHOTS",
     "screenshotsStrictEnv": "DIG_CHECKION_STRICT",
+    "attachPollTimeoutMs": 45000,
+    "attachFetchTimeoutMs": 20000,
     "attachFailureDoc": "knowledge/checkion-attach-job-failure.md"
   },
   "plexon": {
