@@ -279,6 +279,121 @@ export const COOKIE_BANNER_HIDE_CSS = `
     height: 0 !important;
     overflow: hidden !important;
   }
+  /* CookieConsent v3 / vanilla-cookieconsent (common on EU industrials) */
+  #cc-main,
+  #cm,
+  .cm__container,
+  .cm-wrapper {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+  }
+  /* Iubenda */
+  #iubenda-cs-banner,
+  .iubenda-cs-container,
+  .iubenda-cs-overlay,
+  iframe[src*="iubenda.com"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Klaro */
+  .klaro,
+  .cookie-modal,
+  #klaro,
+  .klaro .cm-modal {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Civic Cookie Control */
+  #ccc,
+  #ccc-overlay,
+  .ccc-overlay,
+  .ccc-module {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Cookie Information */
+  #coiOverlay,
+  #coiConsentBanner,
+  #cookie-information-template-wrapper {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Cookie Script */
+  .cookiescript_main,
+  #cookiescript_injected,
+  .cookiescript_overlay {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* HubSpot cookie banner */
+  #hs-eu-cookie-confirmation,
+  .hs-cookie-notification-position-bottom,
+  #hs-banner-parent {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Shopify privacy banner */
+  #shopify-pc__banner,
+  .shopify-pc__banner,
+  #shopify-pc-banner {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Tealium / Evidon */
+  #_evidon_banner,
+  .evidon-banner,
+  #tealium-privacy {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  iframe[src*="trustarc.com"],
+  iframe[src*="truste.com"],
+  iframe[src*="cookiebot.com"],
+  iframe[src*="consentcdn.cookiebot.com"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
   /* Generic patterns (broad) */
   [id*="cookie" i][id*="banner" i],
   [id*="cookie" i][id*="consent" i],
@@ -345,6 +460,18 @@ export const ACCEPT_BUTTON_SELECTORS = [
   '.cmptxt_btn_yes',
   '.osano-cm-accept-all',
   '[data-cookiefirst-action="accept"]',
+  '#c-p-bn',
+  '.cm__btn--accept',
+  '.cm__btn[data-role="all"]',
+  '.iubenda-cs-accept-btn',
+  'button.iubenda-cs-accept-btn',
+  '.klaro .cm-btn-success',
+  '.cm-btn-accept',
+  '#ccc-recommended-settings',
+  '#ccc-notify-accept',
+  '#coiAccept',
+  '#hs-eu-confirmation-button',
+  '.shopify-pc__banner__btn-accept',
   '.axeptio_btn_accept',
   '.axeptio_cta_accept',
   '#axeptio_btn_accept',
@@ -384,7 +511,9 @@ export const SHADOW_DOM_ACCEPT_TARGETS: ReadonlyArray<{ host: string; button: st
   { host: "#usercentrics-root", button: 'button[data-testid="uc-accept-all-button"]' },
   { host: "#usercentrics-root", button: 'button[data-testid="uc-save-button"]' },
   { host: ".fc-consent-root", button: ".fc-cta-consent" },
-  { host: ".fc-consent-root", button: "button.fc-cta-consent" }
+  { host: ".fc-consent-root", button: "button.fc-cta-consent" },
+  { host: "#cc-main", button: "#c-p-bn" },
+  { host: "#cc-main", button: ".cm__btn--accept" }
 ];
 
 const LATE_CMP_HOST_SELECTORS = [
@@ -397,7 +526,14 @@ const LATE_CMP_HOST_SELECTORS = [
   "#BorlabsCookieBox",
   '[id^="sp_message_container"]',
   '[class^="sp_message_container"]',
-  '[class^="sp_veil"]'
+  '[class^="sp_veil"]',
+  "#cc-main",
+  "#iubenda-cs-banner",
+  ".klaro",
+  "#hs-eu-cookie-confirmation",
+  "#shopify-pc__banner",
+  "#coiOverlay",
+  "#cookiescript_injected"
 ];
 
 /**
@@ -589,7 +725,7 @@ function cookieIframeUrlPattern(): RegExp {
   try {
     return new RegExp(cookieConsentConfig().iframeUrlPattern, "i");
   } catch {
-    return /privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw/i;
+    return /privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw|iubenda|cookiebot|trustarc|evidon|cookieinformation|klaro|cookiescript|hs-scripts|zaraz/i;
   }
 }
 

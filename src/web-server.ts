@@ -5,6 +5,9 @@ import { extname, join, normalize, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { JobRunner, publicJobView, type JobEvent } from "./job-runner.js";
 import { captureJobsConfig, catalogUrls, loadCaptureCatalog } from "./capture-catalog.js";
+import { captureIdentityKey, filterExistingCaptureUrls } from "./capture-identity.js";
+import { getPool } from "./db.js";
+import { listIndexedCaptureUrlKeys } from "./library-reset.js";
 import { rejectIfDestructiveUnauthorized } from "./api-auth.js";
 import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
 import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-store.js";
@@ -179,6 +182,8 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
       const body = (await readJson(request)) as {
         catalog?: unknown;
         urls?: unknown;
+        skip_existing?: unknown;
+        skipExisting?: unknown;
         platformProjectId?: unknown;
         platform_project_id?: unknown;
       };
@@ -199,17 +204,40 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         sendJson(response, 400, { error: "batch_too_large", max: cfg.maxBatch, count: urls.length });
         return true;
       }
+      const skipExisting = body.skip_existing !== false && body.skipExisting !== false;
+      const existingKeys = new Set<string>();
+      if (skipExisting) {
+        const pool = getPool();
+        if (pool) {
+          try {
+            const indexed = await listIndexedCaptureUrlKeys(pool);
+            for (const key of indexed) existingKeys.add(key);
+          } catch {
+            /* queue anyway if library lookup fails */
+          }
+        }
+        for (const job of runner.listJobs()) {
+          const key = captureIdentityKey(job.url);
+          if (key) existingKeys.add(key);
+        }
+      }
+      const filtered = skipExisting
+        ? filterExistingCaptureUrls(urls, existingKeys)
+        : filterExistingCaptureUrls(urls, []);
       const platformProjectId =
         typeof body.platformProjectId === "string"
           ? body.platformProjectId
           : typeof body.platform_project_id === "string"
             ? body.platform_project_id
             : null;
-      const jobs = runner.startJobs(urls, { platformProjectId });
+      const jobs = filtered.urls.length ? runner.startJobs(filtered.urls, { platformProjectId }) : [];
       sendJson(response, 202, {
         ok: true,
         catalog: catalogId,
         queued: jobs.length,
+        skipped_existing: filtered.skippedExisting,
+        skipped_duplicate: filtered.skippedDuplicate,
+        skip_existing: skipExisting,
         max_concurrent: cfg.maxConcurrent,
         jobs: jobs.map(publicJobView)
       });

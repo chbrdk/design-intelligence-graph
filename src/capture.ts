@@ -35,6 +35,7 @@ import { emitLocalHrefJoinForPackage } from "./flow-edges.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { captureSettleConfig } from "./capture-settle.js";
+import { cookieConsentConfig } from "./runtime-paths.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
 import { captureBrowserContextOptions, gotoWithNavGuard, shouldUseFirefoxFallback } from "./capture-nav.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
@@ -243,6 +244,8 @@ async function captureViewport(
     if (renderedHtmlBound.truncated) warnings.push("rendered_html_truncated");
     const sourceHtml = sourceHtmlBound.value;
     const renderedHtml = renderedHtmlBound.value;
+    const preShot = await dismissCookieBanner(page, { retries: cookieConsentConfig().preScreenshotRetries });
+    if (preShot.error) warnings.push(`cookie_pre_screenshot_failed:${preShot.error}`);
     const settledScreenshot = await page.screenshot(screenshotOptions(false));
     const fullPageScreenshot = await page.screenshot(screenshotOptions(true));
     const snapshot = await captureBrowserSnapshot(page);

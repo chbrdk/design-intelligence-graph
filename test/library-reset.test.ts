@@ -19,9 +19,9 @@ test("libraryResetConfig reads paths.json confirm phrase", () => {
   assert.equal(cfg.deleteCapturesConfirm, "delete-captures");
 });
 
-test("normalizeCaptureUrlKeys strips trailing slashes and hashes", () => {
-  assert.deepEqual(normalizeCaptureUrlKeys(["https://www.amazon.com/", "https://www.amazon.com/#x"]), [
-    "https://www.amazon.com/"
+test("normalizeCaptureUrlKeys collapses www, trailing slash, and hash", () => {
+  assert.deepEqual(normalizeCaptureUrlKeys(["https://www.amazon.com/", "https://amazon.com/#x"]), [
+    "amazon.com"
   ]);
 });
 

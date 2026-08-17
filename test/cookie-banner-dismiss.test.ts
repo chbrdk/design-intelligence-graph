@@ -15,11 +15,16 @@ test("hide CSS covers Sourcepoint, Funding Choices, and consentmanager", () => {
   assert.match(COOKIE_BANNER_HIDE_CSS, /fc-consent-root/);
   assert.match(COOKIE_BANNER_HIDE_CSS, /#cmpbox/);
   assert.match(COOKIE_BANNER_HIDE_CSS, /BorlabsCookie/);
+  assert.match(COOKIE_BANNER_HIDE_CSS, /#cc-main/);
+  assert.match(COOKIE_BANNER_HIDE_CSS, /iubenda/);
+  assert.match(COOKIE_BANNER_HIDE_CSS, /#hs-eu-cookie-confirmation/);
 });
 
 test("accept selectors include Sourcepoint choice types and Didomi notice", () => {
   assert.ok(ACCEPT_BUTTON_SELECTORS.some((selector) => selector.includes("sp_choice_type_11")));
   assert.ok(ACCEPT_BUTTON_SELECTORS.includes("#didomi-notice-agree-button"));
+  assert.ok(ACCEPT_BUTTON_SELECTORS.includes("#c-p-bn"));
+  assert.ok(ACCEPT_BUTTON_SELECTORS.includes("#hs-eu-confirmation-button"));
   assert.ok(SHADOW_DOM_ACCEPT_TARGETS.some((target) => target.host === "#usercentrics-root"));
 });
 

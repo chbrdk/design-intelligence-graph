@@ -23,8 +23,9 @@ Two stacked failures, common on OEM homepages (Hyundai, Stellantis, …):
 
 - `context.addInitScript` injects hide CSS + MutationObserver **before** navigation (CMP cannot paint first).
 - After scroll-settle: dismiss with retries (`cookieConsent.retries` / `retryDelayMs`).
+- Immediately before screenshots: a second dismiss (`cookieConsent.preScreenshotRetries`) because late CMPs often reappear after HTML capture.
 - Later chrome/stabilize passes use `retries: 0`.
-- Sourcepoint, Funding Choices, Borlabs, Consentmanager, CookieFirst, Osano in hide CSS.
+- Sourcepoint, Funding Choices, Borlabs, Consentmanager, CookieFirst, Osano, CookieConsent v3 (`#cc-main`), Iubenda, Klaro, Civic, Cookie Information, Cookie Script, HubSpot, Shopify privacy, Tealium/Evidon, TrustArc/Cookiebot iframes in hide CSS.
 - Accept click uses `getComputedStyle` + box size (not `offsetParent`).
 - Open shadow: Usercentrics + Funding Choices.
 - CMP iframes matching `cookieConsent.iframeUrlPattern` also run the dismiss script.

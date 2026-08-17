@@ -1,0 +1,8010 @@
+{
+  "id": "engineering-manufacturing-1000",
+  "title": "1000 worldwide engineering and manufacturing public homepages",
+  "source": "Curated 2026 mix of industrial automation, machinery, EPC, aerospace, chemicals, metals, semiconductors, auto suppliers, medical devices, building materials, energy equipment, and related engineering firms. Excludes automotive-oem-50 and cross-industry-100 hosts.",
+  "sourceUrl": "https://en.wikipedia.org/wiki/List_of_largest_manufacturing_companies_by_revenue",
+  "year": 2026,
+  "updated": "2026-08-17",
+  "entries": [
+    {
+      "rank": 1,
+      "id": "abb",
+      "name": "ABB",
+      "group": "Industrial automation",
+      "country": "CH",
+      "url": "https://global.abb/"
+    },
+    {
+      "rank": 2,
+      "id": "schneider-electric",
+      "name": "Schneider Electric",
+      "group": "Industrial automation",
+      "country": "FR",
+      "url": "https://www.se.com/"
+    },
+    {
+      "rank": 3,
+      "id": "emerson",
+      "name": "Emerson",
+      "group": "Industrial automation",
+      "country": "US",
+      "url": "https://www.emerson.com/"
+    },
+    {
+      "rank": 4,
+      "id": "rockwell-automation",
+      "name": "Rockwell Automation",
+      "group": "Industrial automation",
+      "country": "US",
+      "url": "https://www.rockwellautomation.com/"
+    },
+    {
+      "rank": 5,
+      "id": "honeywell",
+      "name": "Honeywell",
+      "group": "Industrial automation",
+      "country": "US",
+      "url": "https://www.honeywell.com/"
+    },
+    {
+      "rank": 6,
+      "id": "yokogawa",
+      "name": "Yokogawa",
+      "group": "Industrial automation",
+      "country": "JP",
+      "url": "https://www.yokogawa.com/"
+    },
+    {
+      "rank": 7,
+      "id": "omron",
+      "name": "Omron",
+      "group": "Industrial automation",
+      "country": "JP",
+      "url": "https://www.omron.com/"
+    },
+    {
+      "rank": 8,
+      "id": "fanuc",
+      "name": "Fanuc",
+      "group": "Robotics",
+      "country": "JP",
+      "url": "https://www.fanuc.com/"
+    },
+    {
+      "rank": 9,
+      "id": "yaskawa",
+      "name": "Yaskawa",
+      "group": "Robotics",
+      "country": "JP",
+      "url": "https://www.yaskawa.com/"
+    },
+    {
+      "rank": 10,
+      "id": "keyence",
+      "name": "Keyence",
+      "group": "Industrial sensors",
+      "country": "JP",
+      "url": "https://www.keyence.com/"
+    },
+    {
+      "rank": 11,
+      "id": "mitsubishi-electric",
+      "name": "Mitsubishi Electric",
+      "group": "Electrical equipment",
+      "country": "JP",
+      "url": "https://www.mitsubishielectric.com/"
+    },
+    {
+      "rank": 12,
+      "id": "hitachi",
+      "name": "Hitachi",
+      "group": "Engineering conglomerate",
+      "country": "JP",
+      "url": "https://www.hitachi.com/"
+    },
+    {
+      "rank": 13,
+      "id": "panasonic",
+      "name": "Panasonic",
+      "group": "Electronics manufacturing",
+      "country": "JP",
+      "url": "https://www.panasonic.com/"
+    },
+    {
+      "rank": 14,
+      "id": "toshiba",
+      "name": "Toshiba",
+      "group": "Electrical equipment",
+      "country": "JP",
+      "url": "https://www.global.toshiba/"
+    },
+    {
+      "rank": 15,
+      "id": "fuji-electric",
+      "name": "Fuji Electric",
+      "group": "Electrical equipment",
+      "country": "JP",
+      "url": "https://www.fujielectric.com/"
+    },
+    {
+      "rank": 16,
+      "id": "eaton",
+      "name": "Eaton",
+      "group": "Electrical equipment",
+      "country": "IE",
+      "url": "https://www.eaton.com/"
+    },
+    {
+      "rank": 17,
+      "id": "legrand",
+      "name": "Legrand",
+      "group": "Electrical equipment",
+      "country": "FR",
+      "url": "https://www.legrand.com/"
+    },
+    {
+      "rank": 18,
+      "id": "siemens-energy",
+      "name": "Siemens Energy",
+      "group": "Energy equipment",
+      "country": "DE",
+      "url": "https://www.siemens-energy.com/"
+    },
+    {
+      "rank": 19,
+      "id": "ge-vernova",
+      "name": "GE Vernova",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.gevernova.com/"
+    },
+    {
+      "rank": 20,
+      "id": "weg",
+      "name": "WEG",
+      "group": "Electrical equipment",
+      "country": "BR",
+      "url": "https://www.weg.net/"
+    },
+    {
+      "rank": 21,
+      "id": "nidec",
+      "name": "Nidec",
+      "group": "Motors",
+      "country": "JP",
+      "url": "https://www.nidec.com/"
+    },
+    {
+      "rank": 22,
+      "id": "regal-rexnord",
+      "name": "Regal Rexnord",
+      "group": "Motors / power transmission",
+      "country": "US",
+      "url": "https://www.regalrexnord.com/"
+    },
+    {
+      "rank": 23,
+      "id": "danfoss",
+      "name": "Danfoss",
+      "group": "Drives / climate",
+      "country": "DK",
+      "url": "https://www.danfoss.com/"
+    },
+    {
+      "rank": 24,
+      "id": "beckhoff",
+      "name": "Beckhoff",
+      "group": "Industrial automation",
+      "country": "DE",
+      "url": "https://www.beckhoff.com/"
+    },
+    {
+      "rank": 25,
+      "id": "phoenix-contact",
+      "name": "Phoenix Contact",
+      "group": "Industrial automation",
+      "country": "DE",
+      "url": "https://www.phoenixcontact.com/"
+    },
+    {
+      "rank": 26,
+      "id": "weidmuller",
+      "name": "Weidmuller",
+      "group": "Industrial automation",
+      "country": "DE",
+      "url": "https://www.weidmueller.com/"
+    },
+    {
+      "rank": 27,
+      "id": "wago",
+      "name": "Wago",
+      "group": "Industrial automation",
+      "country": "DE",
+      "url": "https://www.wago.com/"
+    },
+    {
+      "rank": 28,
+      "id": "pilz",
+      "name": "Pilz",
+      "group": "Industrial safety",
+      "country": "DE",
+      "url": "https://www.pilz.com/"
+    },
+    {
+      "rank": 29,
+      "id": "sick",
+      "name": "Sick",
+      "group": "Industrial sensors",
+      "country": "DE",
+      "url": "https://www.sick.com/"
+    },
+    {
+      "rank": 30,
+      "id": "ifm",
+      "name": "Ifm",
+      "group": "Industrial sensors",
+      "country": "DE",
+      "url": "https://www.ifm.com/"
+    },
+    {
+      "rank": 31,
+      "id": "balluff",
+      "name": "Balluff",
+      "group": "Industrial sensors",
+      "country": "DE",
+      "url": "https://www.balluff.com/"
+    },
+    {
+      "rank": 32,
+      "id": "pepperlfuchs",
+      "name": "Pepperl+Fuchs",
+      "group": "Industrial sensors",
+      "country": "DE",
+      "url": "https://www.pepperl-fuchs.com/"
+    },
+    {
+      "rank": 33,
+      "id": "turck",
+      "name": "Turck",
+      "group": "Industrial sensors",
+      "country": "DE",
+      "url": "https://www.turck.com/"
+    },
+    {
+      "rank": 34,
+      "id": "endresshauser",
+      "name": "Endress+Hauser",
+      "group": "Process instrumentation",
+      "country": "CH",
+      "url": "https://www.endress.com/"
+    },
+    {
+      "rank": 35,
+      "id": "krohne",
+      "name": "Krohne",
+      "group": "Process instrumentation",
+      "country": "DE",
+      "url": "https://krohne.com/"
+    },
+    {
+      "rank": 36,
+      "id": "vega",
+      "name": "VEGA",
+      "group": "Process instrumentation",
+      "country": "DE",
+      "url": "https://www.vega.com/"
+    },
+    {
+      "rank": 37,
+      "id": "abb-robotics",
+      "name": "ABB Robotics",
+      "group": "Robotics",
+      "country": "CH",
+      "url": "https://new.abb.com/products/robotics"
+    },
+    {
+      "rank": 38,
+      "id": "kuka",
+      "name": "Kuka",
+      "group": "Robotics",
+      "country": "DE",
+      "url": "https://www.kuka.com/"
+    },
+    {
+      "rank": 39,
+      "id": "universal-robots",
+      "name": "Universal Robots",
+      "group": "Robotics",
+      "country": "DK",
+      "url": "https://www.universal-robots.com/"
+    },
+    {
+      "rank": 40,
+      "id": "staubli",
+      "name": "Staubli",
+      "group": "Robotics",
+      "country": "CH",
+      "url": "https://www.staubli.com/"
+    },
+    {
+      "rank": 41,
+      "id": "comau",
+      "name": "Comau",
+      "group": "Robotics",
+      "country": "IT",
+      "url": "https://www.comau.com/"
+    },
+    {
+      "rank": 42,
+      "id": "nachi",
+      "name": "Nachi",
+      "group": "Robotics",
+      "country": "JP",
+      "url": "https://www.nachi-fujikoshi.com/"
+    },
+    {
+      "rank": 43,
+      "id": "durr",
+      "name": "Durr",
+      "group": "Industrial systems",
+      "country": "DE",
+      "url": "https://www.durr.com/"
+    },
+    {
+      "rank": 44,
+      "id": "durr-megtec",
+      "name": "Durr Megtec",
+      "group": "Industrial systems",
+      "country": "DE",
+      "url": "https://www.durr.com/en/products/environmental-technology"
+    },
+    {
+      "rank": 45,
+      "id": "asm",
+      "name": "ASM",
+      "group": "Semiconductor equipment",
+      "country": "NL",
+      "url": "https://www.asm.com/"
+    },
+    {
+      "rank": 46,
+      "id": "asml",
+      "name": "ASML",
+      "group": "Semiconductor equipment",
+      "country": "NL",
+      "url": "https://www.asml.com/"
+    },
+    {
+      "rank": 47,
+      "id": "applied-materials",
+      "name": "Applied Materials",
+      "group": "Semiconductor equipment",
+      "country": "US",
+      "url": "https://www.appliedmaterials.com/"
+    },
+    {
+      "rank": 48,
+      "id": "lam-research",
+      "name": "Lam Research",
+      "group": "Semiconductor equipment",
+      "country": "US",
+      "url": "https://www.lamresearch.com/"
+    },
+    {
+      "rank": 49,
+      "id": "kla",
+      "name": "KLA",
+      "group": "Semiconductor equipment",
+      "country": "US",
+      "url": "https://www.kla.com/"
+    },
+    {
+      "rank": 50,
+      "id": "tokyo-electron",
+      "name": "Tokyo Electron",
+      "group": "Semiconductor equipment",
+      "country": "JP",
+      "url": "https://www.tel.com/"
+    },
+    {
+      "rank": 51,
+      "id": "screen-holdings",
+      "name": "Screen Holdings",
+      "group": "Semiconductor equipment",
+      "country": "JP",
+      "url": "https://www.screen.co.jp/"
+    },
+    {
+      "rank": 52,
+      "id": "advantest",
+      "name": "Advantest",
+      "group": "Semiconductor test",
+      "country": "JP",
+      "url": "https://www.advantest.com/"
+    },
+    {
+      "rank": 53,
+      "id": "teradyne",
+      "name": "Teradyne",
+      "group": "Semiconductor test",
+      "country": "US",
+      "url": "https://www.teradyne.com/"
+    },
+    {
+      "rank": 54,
+      "id": "asmi",
+      "name": "ASMI",
+      "group": "Semiconductor equipment",
+      "country": "NL",
+      "url": "https://www.asm.com/en"
+    },
+    {
+      "rank": 55,
+      "id": "disco",
+      "name": "Disco",
+      "group": "Semiconductor equipment",
+      "country": "JP",
+      "url": "https://www.disco.co.jp/"
+    },
+    {
+      "rank": 56,
+      "id": "be-semiconductor",
+      "name": "BE Semiconductor",
+      "group": "Semiconductor equipment",
+      "country": "NL",
+      "url": "https://www.besi.com/"
+    },
+    {
+      "rank": 57,
+      "id": "onto-innovation",
+      "name": "Onto Innovation",
+      "group": "Semiconductor equipment",
+      "country": "US",
+      "url": "https://ontoinnovation.com/"
+    },
+    {
+      "rank": 58,
+      "id": "formfactor",
+      "name": "FormFactor",
+      "group": "Semiconductor test",
+      "country": "US",
+      "url": "https://www.formfactor.com/"
+    },
+    {
+      "rank": 59,
+      "id": "entegris",
+      "name": "Entegris",
+      "group": "Semiconductor materials",
+      "country": "US",
+      "url": "https://www.entegris.com/"
+    },
+    {
+      "rank": 60,
+      "id": "mks-instruments",
+      "name": "MKS Instruments",
+      "group": "Process equipment",
+      "country": "US",
+      "url": "https://www.mks.com/"
+    },
+    {
+      "rank": 61,
+      "id": "edwards-vacuum",
+      "name": "Edwards Vacuum",
+      "group": "Vacuum equipment",
+      "country": "GB",
+      "url": "https://www.edwardsvacuum.com/"
+    },
+    {
+      "rank": 62,
+      "id": "pfeiffer-vacuum",
+      "name": "Pfeiffer Vacuum",
+      "group": "Vacuum equipment",
+      "country": "DE",
+      "url": "https://www.pfeiffer-vacuum.com/"
+    },
+    {
+      "rank": 63,
+      "id": "atlas-copco",
+      "name": "Atlas Copco",
+      "group": "Compressors / vacuum",
+      "country": "SE",
+      "url": "https://www.atlascopco.com/"
+    },
+    {
+      "rank": 64,
+      "id": "ingersoll-rand",
+      "name": "Ingersoll Rand",
+      "group": "Compressors",
+      "country": "US",
+      "url": "https://www.irco.com/"
+    },
+    {
+      "rank": 65,
+      "id": "kaeser",
+      "name": "Kaeser",
+      "group": "Compressors",
+      "country": "DE",
+      "url": "https://www.kaeser.com/"
+    },
+    {
+      "rank": 66,
+      "id": "sullair",
+      "name": "Sullair",
+      "group": "Compressors",
+      "country": "US",
+      "url": "https://www.sullair.com/"
+    },
+    {
+      "rank": 67,
+      "id": "gardner-denver",
+      "name": "Gardner Denver",
+      "group": "Compressors",
+      "country": "US",
+      "url": "https://www.gardnerdenver.com/"
+    },
+    {
+      "rank": 68,
+      "id": "grundfos",
+      "name": "Grundfos",
+      "group": "Pumps",
+      "country": "DK",
+      "url": "https://www.grundfos.com/"
+    },
+    {
+      "rank": 69,
+      "id": "xylem",
+      "name": "Xylem",
+      "group": "Pumps / water",
+      "country": "US",
+      "url": "https://www.xylem.com/"
+    },
+    {
+      "rank": 70,
+      "id": "ksb",
+      "name": "KSB",
+      "group": "Pumps",
+      "country": "DE",
+      "url": "https://www.ksb.com/"
+    },
+    {
+      "rank": 71,
+      "id": "flowserve",
+      "name": "Flowserve",
+      "group": "Pumps / valves",
+      "country": "US",
+      "url": "https://www.flowserve.com/"
+    },
+    {
+      "rank": 72,
+      "id": "sulzer",
+      "name": "Sulzer",
+      "group": "Pumps",
+      "country": "CH",
+      "url": "https://www.sulzer.com/"
+    },
+    {
+      "rank": 73,
+      "id": "w\u00e4rtsil\u00e4",
+      "name": "W\u00e4rtsil\u00e4",
+      "group": "Marine / energy equipment",
+      "country": "FI",
+      "url": "https://www.wartsila.com/"
+    },
+    {
+      "rank": 74,
+      "id": "man-energy-solutions",
+      "name": "MAN Energy Solutions",
+      "group": "Marine / energy equipment",
+      "country": "DE",
+      "url": "https://www.man-es.com/"
+    },
+    {
+      "rank": 75,
+      "id": "rollsroyce-power-systems",
+      "name": "Rolls-Royce Power Systems",
+      "group": "Power systems",
+      "country": "DE",
+      "url": "https://www.rrpowersystems.com/"
+    },
+    {
+      "rank": 76,
+      "id": "cummins",
+      "name": "Cummins",
+      "group": "Engines",
+      "country": "US",
+      "url": "https://www.cummins.com/"
+    },
+    {
+      "rank": 77,
+      "id": "caterpillar",
+      "name": "Caterpillar",
+      "group": "Construction equipment",
+      "country": "US",
+      "url": "https://www.caterpillar.com/"
+    },
+    {
+      "rank": 78,
+      "id": "komatsu",
+      "name": "Komatsu",
+      "group": "Construction equipment",
+      "country": "JP",
+      "url": "https://www.komatsu.com/"
+    },
+    {
+      "rank": 79,
+      "id": "hitachi-construction",
+      "name": "Hitachi Construction",
+      "group": "Construction equipment",
+      "country": "JP",
+      "url": "https://www.hitachicm.com/"
+    },
+    {
+      "rank": 80,
+      "id": "volvo-construction-equipment",
+      "name": "Volvo Construction Equipment",
+      "group": "Construction equipment",
+      "country": "SE",
+      "url": "https://www.volvoce.com/"
+    },
+    {
+      "rank": 81,
+      "id": "john-deere",
+      "name": "John Deere",
+      "group": "Agricultural equipment",
+      "country": "US",
+      "url": "https://www.deere.com/"
+    },
+    {
+      "rank": 82,
+      "id": "cnh-industrial",
+      "name": "CNH Industrial",
+      "group": "Agricultural equipment",
+      "country": "GB",
+      "url": "https://www.cnh.com/"
+    },
+    {
+      "rank": 83,
+      "id": "agco",
+      "name": "AGCO",
+      "group": "Agricultural equipment",
+      "country": "US",
+      "url": "https://www.agcocorp.com/"
+    },
+    {
+      "rank": 84,
+      "id": "kubota",
+      "name": "Kubota",
+      "group": "Agricultural equipment",
+      "country": "JP",
+      "url": "https://www.kubota.com/"
+    },
+    {
+      "rank": 85,
+      "id": "claas",
+      "name": "Claas",
+      "group": "Agricultural equipment",
+      "country": "DE",
+      "url": "https://www.claas.com/"
+    },
+    {
+      "rank": 86,
+      "id": "jcb",
+      "name": "JCB",
+      "group": "Construction equipment",
+      "country": "GB",
+      "url": "https://www.jcb.com/"
+    },
+    {
+      "rank": 87,
+      "id": "liebherr",
+      "name": "Liebherr",
+      "group": "Construction equipment",
+      "country": "CH",
+      "url": "https://www.liebherr.com/"
+    },
+    {
+      "rank": 88,
+      "id": "doosan-bobcat",
+      "name": "Doosan Bobcat",
+      "group": "Construction equipment",
+      "country": "KR",
+      "url": "https://www.bobcat.com/"
+    },
+    {
+      "rank": 89,
+      "id": "sany",
+      "name": "Sany",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.sanyglobal.com/"
+    },
+    {
+      "rank": 90,
+      "id": "xcmg",
+      "name": "XCMG",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.xcmg.com/"
+    },
+    {
+      "rank": 91,
+      "id": "zoomlion",
+      "name": "Zoomlion",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://en.zoomlion.com/"
+    },
+    {
+      "rank": 92,
+      "id": "liugong",
+      "name": "Liugong",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.liugong.com/"
+    },
+    {
+      "rank": 93,
+      "id": "terex",
+      "name": "Terex",
+      "group": "Construction equipment",
+      "country": "US",
+      "url": "https://www.terex.com/"
+    },
+    {
+      "rank": 94,
+      "id": "oshkosh",
+      "name": "Oshkosh",
+      "group": "Specialty vehicles",
+      "country": "US",
+      "url": "https://www.oshkoshcorp.com/"
+    },
+    {
+      "rank": 95,
+      "id": "paccar",
+      "name": "PACCAR",
+      "group": "Trucks",
+      "country": "US",
+      "url": "https://www.paccar.com/"
+    },
+    {
+      "rank": 96,
+      "id": "daimler-truck",
+      "name": "Daimler Truck",
+      "group": "Trucks",
+      "country": "DE",
+      "url": "https://www.daimlertruck.com/"
+    },
+    {
+      "rank": 97,
+      "id": "volvo-trucks",
+      "name": "Volvo Trucks",
+      "group": "Trucks",
+      "country": "SE",
+      "url": "https://www.volvotrucks.com/"
+    },
+    {
+      "rank": 98,
+      "id": "scania",
+      "name": "Scania",
+      "group": "Trucks",
+      "country": "SE",
+      "url": "https://www.scania.com/"
+    },
+    {
+      "rank": 99,
+      "id": "man-truck",
+      "name": "MAN Truck",
+      "group": "Trucks",
+      "country": "DE",
+      "url": "https://www.man.eu/"
+    },
+    {
+      "rank": 100,
+      "id": "iveco",
+      "name": "Iveco",
+      "group": "Trucks",
+      "country": "IT",
+      "url": "https://www.iveco.com/"
+    },
+    {
+      "rank": 101,
+      "id": "navistar",
+      "name": "Navistar",
+      "group": "Trucks",
+      "country": "US",
+      "url": "https://www.navistar.com/"
+    },
+    {
+      "rank": 102,
+      "id": "hino",
+      "name": "Hino",
+      "group": "Trucks",
+      "country": "JP",
+      "url": "https://www.hino-global.com/"
+    },
+    {
+      "rank": 103,
+      "id": "isuzu-trucks",
+      "name": "Isuzu Trucks",
+      "group": "Trucks",
+      "country": "JP",
+      "url": "https://www.isuzu.co.jp/"
+    },
+    {
+      "rank": 104,
+      "id": "fuso",
+      "name": "Fuso",
+      "group": "Trucks",
+      "country": "JP",
+      "url": "https://www.mitsubishi-fuso.com/"
+    },
+    {
+      "rank": 105,
+      "id": "sandvik",
+      "name": "Sandvik",
+      "group": "Mining equipment",
+      "country": "SE",
+      "url": "https://www.home.sandvik/"
+    },
+    {
+      "rank": 106,
+      "id": "epiroc",
+      "name": "Epiroc",
+      "group": "Mining equipment",
+      "country": "SE",
+      "url": "https://www.epiroc.com/"
+    },
+    {
+      "rank": 107,
+      "id": "metso",
+      "name": "Metso",
+      "group": "Mining equipment",
+      "country": "FI",
+      "url": "https://www.metso.com/"
+    },
+    {
+      "rank": 108,
+      "id": "flsmidth",
+      "name": "FLSmidth",
+      "group": "Mining / cement equipment",
+      "country": "DK",
+      "url": "https://www.flsmidth.com/"
+    },
+    {
+      "rank": 109,
+      "id": "weir",
+      "name": "Weir",
+      "group": "Mining equipment",
+      "country": "GB",
+      "url": "https://www.global.weir/"
+    },
+    {
+      "rank": 110,
+      "id": "outotec",
+      "name": "Outotec",
+      "group": "Mining equipment",
+      "country": "FI",
+      "url": "https://www.mogroup.com/"
+    },
+    {
+      "rank": 111,
+      "id": "joy-global",
+      "name": "Joy Global",
+      "group": "Mining equipment",
+      "country": "US",
+      "url": "https://www.komatsu.com/en/products/mining/"
+    },
+    {
+      "rank": 112,
+      "id": "bucyrus",
+      "name": "Bucyrus",
+      "group": "Mining equipment",
+      "country": "US",
+      "url": "https://www.cat.com/en_US/products/new/equipment/surface-mining.html"
+    },
+    {
+      "rank": 113,
+      "id": "normet",
+      "name": "Normet",
+      "group": "Mining equipment",
+      "country": "FI",
+      "url": "https://www.normet.com/"
+    },
+    {
+      "rank": 114,
+      "id": "boart-longyear",
+      "name": "Boart Longyear",
+      "group": "Mining equipment",
+      "country": "US",
+      "url": "https://www.boartlongyear.com/"
+    },
+    {
+      "rank": 115,
+      "id": "bechtel",
+      "name": "Bechtel",
+      "group": "Engineering construction",
+      "country": "US",
+      "url": "https://www.bechtel.com/"
+    },
+    {
+      "rank": 116,
+      "id": "fluor",
+      "name": "Fluor",
+      "group": "Engineering construction",
+      "country": "US",
+      "url": "https://www.fluor.com/"
+    },
+    {
+      "rank": 117,
+      "id": "jacobs",
+      "name": "Jacobs",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.jacobs.com/"
+    },
+    {
+      "rank": 118,
+      "id": "aecom",
+      "name": "AECOM",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://aecom.com/"
+    },
+    {
+      "rank": 119,
+      "id": "wsp",
+      "name": "WSP",
+      "group": "Engineering",
+      "country": "CA",
+      "url": "https://www.wsp.com/"
+    },
+    {
+      "rank": 120,
+      "id": "arcadis",
+      "name": "Arcadis",
+      "group": "Engineering",
+      "country": "NL",
+      "url": "https://www.arcadis.com/"
+    },
+    {
+      "rank": 121,
+      "id": "atkinsrealis",
+      "name": "AtkinsRealis",
+      "group": "Engineering",
+      "country": "CA",
+      "url": "https://www.atkinsrealis.com/"
+    },
+    {
+      "rank": 122,
+      "id": "stantec",
+      "name": "Stantec",
+      "group": "Engineering",
+      "country": "CA",
+      "url": "https://www.stantec.com/"
+    },
+    {
+      "rank": 123,
+      "id": "tetra-tech",
+      "name": "Tetra Tech",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.tetratech.com/"
+    },
+    {
+      "rank": 124,
+      "id": "wood",
+      "name": "Wood",
+      "group": "Engineering",
+      "country": "GB",
+      "url": "https://www.woodplc.com/"
+    },
+    {
+      "rank": 125,
+      "id": "worley",
+      "name": "Worley",
+      "group": "Engineering",
+      "country": "AU",
+      "url": "https://www.worley.com/"
+    },
+    {
+      "rank": 126,
+      "id": "kbr",
+      "name": "KBR",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.kbr.com/"
+    },
+    {
+      "rank": 127,
+      "id": "technip-energies",
+      "name": "Technip Energies",
+      "group": "Engineering",
+      "country": "FR",
+      "url": "https://www.ten.com/"
+    },
+    {
+      "rank": 128,
+      "id": "saipem",
+      "name": "Saipem",
+      "group": "Engineering",
+      "country": "IT",
+      "url": "https://www.saipem.com/"
+    },
+    {
+      "rank": 129,
+      "id": "mcdermott",
+      "name": "McDermott",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.mcdermott.com/"
+    },
+    {
+      "rank": 130,
+      "id": "aker-solutions",
+      "name": "Aker Solutions",
+      "group": "Engineering",
+      "country": "NO",
+      "url": "https://www.akersolutions.com/"
+    },
+    {
+      "rank": 131,
+      "id": "subsea7",
+      "name": "Subsea7",
+      "group": "Engineering",
+      "country": "GB",
+      "url": "https://www.subsea7.com/"
+    },
+    {
+      "rank": 132,
+      "id": "technipfmc",
+      "name": "TechnipFMC",
+      "group": "Energy equipment",
+      "country": "GB",
+      "url": "https://www.technipfmc.com/"
+    },
+    {
+      "rank": 133,
+      "id": "schlumberger",
+      "name": "Schlumberger",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.slb.com/"
+    },
+    {
+      "rank": 134,
+      "id": "halliburton",
+      "name": "Halliburton",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.halliburton.com/"
+    },
+    {
+      "rank": 135,
+      "id": "baker-hughes",
+      "name": "Baker Hughes",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.bakerhughes.com/"
+    },
+    {
+      "rank": 136,
+      "id": "nov",
+      "name": "NOV",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.nov.com/"
+    },
+    {
+      "rank": 137,
+      "id": "weatherford",
+      "name": "Weatherford",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.weatherford.com/"
+    },
+    {
+      "rank": 138,
+      "id": "vinci",
+      "name": "Vinci",
+      "group": "Construction",
+      "country": "FR",
+      "url": "https://www.vinci.com/"
+    },
+    {
+      "rank": 139,
+      "id": "acs",
+      "name": "ACS",
+      "group": "Construction",
+      "country": "ES",
+      "url": "https://www.grupoacs.com/"
+    },
+    {
+      "rank": 140,
+      "id": "hochtief",
+      "name": "Hochtief",
+      "group": "Construction",
+      "country": "DE",
+      "url": "https://www.hochtief.com/"
+    },
+    {
+      "rank": 141,
+      "id": "bouygues-construction",
+      "name": "Bouygues Construction",
+      "group": "Construction",
+      "country": "FR",
+      "url": "https://www.bouygues-construction.com/"
+    },
+    {
+      "rank": 142,
+      "id": "strabag",
+      "name": "Strabag",
+      "group": "Construction",
+      "country": "AT",
+      "url": "https://www.strabag.com/"
+    },
+    {
+      "rank": 143,
+      "id": "skanska",
+      "name": "Skanska",
+      "group": "Construction",
+      "country": "SE",
+      "url": "https://www.skanska.com/"
+    },
+    {
+      "rank": 144,
+      "id": "bam",
+      "name": "BAM",
+      "group": "Construction",
+      "country": "NL",
+      "url": "https://www.bam.com/"
+    },
+    {
+      "rank": 145,
+      "id": "ferrovial",
+      "name": "Ferrovial",
+      "group": "Construction",
+      "country": "ES",
+      "url": "https://www.ferrovial.com/"
+    },
+    {
+      "rank": 146,
+      "id": "fcc",
+      "name": "FCC",
+      "group": "Construction",
+      "country": "ES",
+      "url": "https://www.fcc.es/"
+    },
+    {
+      "rank": 147,
+      "id": "acciona",
+      "name": "Acciona",
+      "group": "Construction / energy",
+      "country": "ES",
+      "url": "https://www.acciona.com/"
+    },
+    {
+      "rank": 148,
+      "id": "eiffage",
+      "name": "Eiffage",
+      "group": "Construction",
+      "country": "FR",
+      "url": "https://www.eiffage.com/"
+    },
+    {
+      "rank": 149,
+      "id": "webuild",
+      "name": "Webuild",
+      "group": "Construction",
+      "country": "IT",
+      "url": "https://www.webuildgroup.com/"
+    },
+    {
+      "rank": 150,
+      "id": "salini",
+      "name": "Salini",
+      "group": "Construction",
+      "country": "IT",
+      "url": "https://www.webuildgroup.com/en"
+    },
+    {
+      "rank": 151,
+      "id": "china-state-construction",
+      "name": "China State Construction",
+      "group": "Construction",
+      "country": "CN",
+      "url": "https://www.cscec.com/"
+    },
+    {
+      "rank": 152,
+      "id": "china-railway-group",
+      "name": "China Railway Group",
+      "group": "Engineering construction",
+      "country": "CN",
+      "url": "https://www.crec.com.cn/"
+    },
+    {
+      "rank": 153,
+      "id": "china-railway-construction",
+      "name": "China Railway Construction",
+      "group": "Engineering construction",
+      "country": "CN",
+      "url": "https://www.crcc.cn/"
+    },
+    {
+      "rank": 154,
+      "id": "china-communications-construction",
+      "name": "China Communications Construction",
+      "group": "Engineering construction",
+      "country": "CN",
+      "url": "https://en.ccccltd.cn/"
+    },
+    {
+      "rank": 155,
+      "id": "powerchina",
+      "name": "PowerChina",
+      "group": "Engineering construction",
+      "country": "CN",
+      "url": "https://en.powerchina.cn/"
+    },
+    {
+      "rank": 156,
+      "id": "sinohydro",
+      "name": "Sinohydro",
+      "group": "Engineering construction",
+      "country": "CN",
+      "url": "https://www.powerchina.cn/"
+    },
+    {
+      "rank": 157,
+      "id": "samsung-c-t",
+      "name": "Samsung C&T",
+      "group": "Engineering construction",
+      "country": "KR",
+      "url": "https://www.samsungcnt.com/"
+    },
+    {
+      "rank": 158,
+      "id": "hyundai-e-c",
+      "name": "Hyundai E&C",
+      "group": "Engineering construction",
+      "country": "KR",
+      "url": "https://www.hdec.kr/"
+    },
+    {
+      "rank": 159,
+      "id": "daewoo-e-c",
+      "name": "Daewoo E&C",
+      "group": "Engineering construction",
+      "country": "KR",
+      "url": "https://www.daewooenc.com/"
+    },
+    {
+      "rank": 160,
+      "id": "gs-e-c",
+      "name": "GS E&C",
+      "group": "Engineering construction",
+      "country": "KR",
+      "url": "https://www.gsenc.com/"
+    },
+    {
+      "rank": 161,
+      "id": "kajima",
+      "name": "Kajima",
+      "group": "Construction",
+      "country": "JP",
+      "url": "https://www.kajima.co.jp/"
+    },
+    {
+      "rank": 162,
+      "id": "shimizu",
+      "name": "Shimizu",
+      "group": "Construction",
+      "country": "JP",
+      "url": "https://www.shimz.co.jp/"
+    },
+    {
+      "rank": 163,
+      "id": "taisei",
+      "name": "Taisei",
+      "group": "Construction",
+      "country": "JP",
+      "url": "https://www.taisei.co.jp/"
+    },
+    {
+      "rank": 164,
+      "id": "obayashi",
+      "name": "Obayashi",
+      "group": "Construction",
+      "country": "JP",
+      "url": "https://www.obayashi.co.jp/"
+    },
+    {
+      "rank": 165,
+      "id": "takenaka",
+      "name": "Takenaka",
+      "group": "Construction",
+      "country": "JP",
+      "url": "https://www.takenaka.co.jp/"
+    },
+    {
+      "rank": 166,
+      "id": "lendlease",
+      "name": "Lendlease",
+      "group": "Construction",
+      "country": "AU",
+      "url": "https://www.lendlease.com/"
+    },
+    {
+      "rank": 167,
+      "id": "turner-construction",
+      "name": "Turner Construction",
+      "group": "Construction",
+      "country": "US",
+      "url": "https://www.turnerconstruction.com/"
+    },
+    {
+      "rank": 168,
+      "id": "pcl",
+      "name": "PCL",
+      "group": "Construction",
+      "country": "CA",
+      "url": "https://www.pcl.com/"
+    },
+    {
+      "rank": 169,
+      "id": "kiewit",
+      "name": "Kiewit",
+      "group": "Construction",
+      "country": "US",
+      "url": "https://www.kiewit.com/"
+    },
+    {
+      "rank": 170,
+      "id": "walsh-group",
+      "name": "Walsh Group",
+      "group": "Construction",
+      "country": "US",
+      "url": "https://www.walshgroup.com/"
+    },
+    {
+      "rank": 171,
+      "id": "clark-construction",
+      "name": "Clark Construction",
+      "group": "Construction",
+      "country": "US",
+      "url": "https://www.clarkconstruction.com/"
+    },
+    {
+      "rank": 172,
+      "id": "whitingturner",
+      "name": "Whiting-Turner",
+      "group": "Construction",
+      "country": "US",
+      "url": "https://www.whiting-turner.com/"
+    },
+    {
+      "rank": 173,
+      "id": "suffolk",
+      "name": "Suffolk",
+      "group": "Construction",
+      "country": "US",
+      "url": "https://www.suffolk.com/"
+    },
+    {
+      "rank": 174,
+      "id": "balfour-beatty",
+      "name": "Balfour Beatty",
+      "group": "Construction",
+      "country": "GB",
+      "url": "https://www.balfourbeatty.com/"
+    },
+    {
+      "rank": 175,
+      "id": "laing-o-rourke",
+      "name": "Laing O'Rourke",
+      "group": "Construction",
+      "country": "GB",
+      "url": "https://www.laingorourke.com/"
+    },
+    {
+      "rank": 176,
+      "id": "costain",
+      "name": "Costain",
+      "group": "Engineering construction",
+      "country": "GB",
+      "url": "https://www.costain.com/"
+    },
+    {
+      "rank": 177,
+      "id": "mott-macdonald",
+      "name": "Mott MacDonald",
+      "group": "Engineering",
+      "country": "GB",
+      "url": "https://www.mottmac.com/"
+    },
+    {
+      "rank": 178,
+      "id": "arup",
+      "name": "Arup",
+      "group": "Engineering",
+      "country": "GB",
+      "url": "https://www.arup.com/"
+    },
+    {
+      "rank": 179,
+      "id": "aurecon",
+      "name": "Aurecon",
+      "group": "Engineering",
+      "country": "AU",
+      "url": "https://www.aurecongroup.com/"
+    },
+    {
+      "rank": 180,
+      "id": "ramboll",
+      "name": "Ramboll",
+      "group": "Engineering",
+      "country": "DK",
+      "url": "https://www.ramboll.com/"
+    },
+    {
+      "rank": 181,
+      "id": "sweco",
+      "name": "Sweco",
+      "group": "Engineering",
+      "country": "SE",
+      "url": "https://www.sweco.se/"
+    },
+    {
+      "rank": 182,
+      "id": "cowi",
+      "name": "COWI",
+      "group": "Engineering",
+      "country": "DK",
+      "url": "https://www.cowi.com/"
+    },
+    {
+      "rank": 183,
+      "id": "tylin",
+      "name": "TYLin",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.tylin.com/"
+    },
+    {
+      "rank": 184,
+      "id": "hntb",
+      "name": "HNTB",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.hntb.com/"
+    },
+    {
+      "rank": 185,
+      "id": "hdr",
+      "name": "HDR",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.hdrinc.com/"
+    },
+    {
+      "rank": 186,
+      "id": "ghd",
+      "name": "GHD",
+      "group": "Engineering",
+      "country": "AU",
+      "url": "https://www.ghd.com/"
+    },
+    {
+      "rank": 187,
+      "id": "smec",
+      "name": "SMEC",
+      "group": "Engineering",
+      "country": "AU",
+      "url": "https://www.smec.com/"
+    },
+    {
+      "rank": 188,
+      "id": "snclavalin",
+      "name": "SNC-Lavalin",
+      "group": "Engineering",
+      "country": "CA",
+      "url": "https://www.snclavalin.com/"
+    },
+    {
+      "rank": 189,
+      "id": "boeing",
+      "name": "Boeing",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.boeing.com/"
+    },
+    {
+      "rank": 190,
+      "id": "airbus",
+      "name": "Airbus",
+      "group": "Aerospace",
+      "country": "FR",
+      "url": "https://www.airbus.com/"
+    },
+    {
+      "rank": 191,
+      "id": "lockheed-martin",
+      "name": "Lockheed Martin",
+      "group": "Aerospace defense",
+      "country": "US",
+      "url": "https://www.lockheedmartin.com/"
+    },
+    {
+      "rank": 192,
+      "id": "rtx",
+      "name": "RTX",
+      "group": "Aerospace defense",
+      "country": "US",
+      "url": "https://www.rtx.com/"
+    },
+    {
+      "rank": 193,
+      "id": "northrop-grumman",
+      "name": "Northrop Grumman",
+      "group": "Aerospace defense",
+      "country": "US",
+      "url": "https://www.northropgrumman.com/"
+    },
+    {
+      "rank": 194,
+      "id": "general-dynamics",
+      "name": "General Dynamics",
+      "group": "Aerospace defense",
+      "country": "US",
+      "url": "https://www.gd.com/"
+    },
+    {
+      "rank": 195,
+      "id": "bae-systems",
+      "name": "BAE Systems",
+      "group": "Aerospace defense",
+      "country": "GB",
+      "url": "https://www.baesystems.com/"
+    },
+    {
+      "rank": 196,
+      "id": "thales",
+      "name": "Thales",
+      "group": "Aerospace defense",
+      "country": "FR",
+      "url": "https://www.thalesgroup.com/"
+    },
+    {
+      "rank": 197,
+      "id": "leonardo",
+      "name": "Leonardo",
+      "group": "Aerospace defense",
+      "country": "IT",
+      "url": "https://www.leonardo.com/"
+    },
+    {
+      "rank": 198,
+      "id": "safran",
+      "name": "Safran",
+      "group": "Aerospace",
+      "country": "FR",
+      "url": "https://www.safran-group.com/"
+    },
+    {
+      "rank": 199,
+      "id": "rollsroyce",
+      "name": "Rolls-Royce",
+      "group": "Aerospace",
+      "country": "GB",
+      "url": "https://www.rolls-royce.com/"
+    },
+    {
+      "rank": 200,
+      "id": "dassault-aviation",
+      "name": "Dassault Aviation",
+      "group": "Aerospace",
+      "country": "FR",
+      "url": "https://www.dassault-aviation.com/"
+    },
+    {
+      "rank": 201,
+      "id": "embraer",
+      "name": "Embraer",
+      "group": "Aerospace",
+      "country": "BR",
+      "url": "https://embraer.com/"
+    },
+    {
+      "rank": 202,
+      "id": "bombardier",
+      "name": "Bombardier",
+      "group": "Aerospace",
+      "country": "CA",
+      "url": "https://bombardier.com/"
+    },
+    {
+      "rank": 203,
+      "id": "spirit-aerosystems",
+      "name": "Spirit AeroSystems",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.spiritaero.com/"
+    },
+    {
+      "rank": 204,
+      "id": "howmet",
+      "name": "Howmet",
+      "group": "Aerospace materials",
+      "country": "US",
+      "url": "https://www.howmet.com/"
+    },
+    {
+      "rank": 205,
+      "id": "hexcel",
+      "name": "Hexcel",
+      "group": "Aerospace materials",
+      "country": "US",
+      "url": "https://www.hexcel.com/"
+    },
+    {
+      "rank": 206,
+      "id": "collins-aerospace",
+      "name": "Collins Aerospace",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.collinsaerospace.com/"
+    },
+    {
+      "rank": 207,
+      "id": "pratt-whitney",
+      "name": "Pratt & Whitney",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.prattwhitney.com/"
+    },
+    {
+      "rank": 208,
+      "id": "ge-aerospace",
+      "name": "GE Aerospace",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.geaerospace.com/"
+    },
+    {
+      "rank": 209,
+      "id": "mtu-aero-engines",
+      "name": "MTU Aero Engines",
+      "group": "Aerospace",
+      "country": "DE",
+      "url": "https://www.mtu.de/"
+    },
+    {
+      "rank": 210,
+      "id": "gkn-aerospace",
+      "name": "GKN Aerospace",
+      "group": "Aerospace",
+      "country": "GB",
+      "url": "https://www.gknaerospace.com/"
+    },
+    {
+      "rank": 211,
+      "id": "latecoere",
+      "name": "Latecoere",
+      "group": "Aerospace",
+      "country": "FR",
+      "url": "https://www.latecoere.aero/"
+    },
+    {
+      "rank": 212,
+      "id": "triumph-group",
+      "name": "Triumph Group",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.triumphgroup.com/"
+    },
+    {
+      "rank": 213,
+      "id": "textron",
+      "name": "Textron",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.textron.com/"
+    },
+    {
+      "rank": 214,
+      "id": "bell-textron",
+      "name": "Bell Textron",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.bellflight.com/"
+    },
+    {
+      "rank": 215,
+      "id": "sikorsky",
+      "name": "Sikorsky",
+      "group": "Aerospace",
+      "country": "US",
+      "url": "https://www.lockheedmartin.com/en-us/capabilities/sikorsky.html"
+    },
+    {
+      "rank": 216,
+      "id": "kawasaki-heavy-industries",
+      "name": "Kawasaki Heavy Industries",
+      "group": "Engineering / aerospace",
+      "country": "JP",
+      "url": "https://global.kawasaki.com/"
+    },
+    {
+      "rank": 217,
+      "id": "mitsubishi-heavy-industries",
+      "name": "Mitsubishi Heavy Industries",
+      "group": "Engineering / aerospace",
+      "country": "JP",
+      "url": "https://www.mhi.com/"
+    },
+    {
+      "rank": 218,
+      "id": "ihi",
+      "name": "IHI",
+      "group": "Engineering / aerospace",
+      "country": "JP",
+      "url": "https://www.ihi.co.jp/"
+    },
+    {
+      "rank": 219,
+      "id": "hanwha-aerospace",
+      "name": "Hanwha Aerospace",
+      "group": "Aerospace",
+      "country": "KR",
+      "url": "https://www.hanwhaaerospace.com/"
+    },
+    {
+      "rank": 220,
+      "id": "korea-aerospace-industries",
+      "name": "Korea Aerospace Industries",
+      "group": "Aerospace",
+      "country": "KR",
+      "url": "https://www.koreaaero.com/"
+    },
+    {
+      "rank": 221,
+      "id": "avic",
+      "name": "AVIC",
+      "group": "Aerospace",
+      "country": "CN",
+      "url": "https://www.avic.com/"
+    },
+    {
+      "rank": 222,
+      "id": "comac",
+      "name": "COMAC",
+      "group": "Aerospace",
+      "country": "CN",
+      "url": "https://english.comac.cc/"
+    },
+    {
+      "rank": 223,
+      "id": "hindustan-aeronautics",
+      "name": "Hindustan Aeronautics",
+      "group": "Aerospace",
+      "country": "IN",
+      "url": "https://hal-india.co.in/"
+    },
+    {
+      "rank": 224,
+      "id": "l3harris",
+      "name": "L3Harris",
+      "group": "Aerospace defense",
+      "country": "US",
+      "url": "https://www.l3harris.com/"
+    },
+    {
+      "rank": 225,
+      "id": "huntington-ingalls",
+      "name": "Huntington Ingalls",
+      "group": "Shipbuilding",
+      "country": "US",
+      "url": "https://hii.com/"
+    },
+    {
+      "rank": 226,
+      "id": "fincantieri",
+      "name": "Fincantieri",
+      "group": "Shipbuilding",
+      "country": "IT",
+      "url": "https://www.fincantieri.com/"
+    },
+    {
+      "rank": 227,
+      "id": "huntington",
+      "name": "Huntington",
+      "group": "Shipbuilding",
+      "country": "US",
+      "url": "https://hii.com/what-we-do/divisions/newport-news-shipbuilding/"
+    },
+    {
+      "rank": 228,
+      "id": "navantia",
+      "name": "Navantia",
+      "group": "Shipbuilding",
+      "country": "ES",
+      "url": "https://www.navantia.es/"
+    },
+    {
+      "rank": 229,
+      "id": "naval-group",
+      "name": "Naval Group",
+      "group": "Shipbuilding",
+      "country": "FR",
+      "url": "https://www.naval-group.com/"
+    },
+    {
+      "rank": 230,
+      "id": "tkms",
+      "name": "TKMS",
+      "group": "Shipbuilding",
+      "country": "DE",
+      "url": "https://www.thyssenkrupp-marinesystems.com/"
+    },
+    {
+      "rank": 231,
+      "id": "damen",
+      "name": "Damen",
+      "group": "Shipbuilding",
+      "country": "NL",
+      "url": "https://www.damen.com/"
+    },
+    {
+      "rank": 232,
+      "id": "meyer-werft",
+      "name": "Meyer Werft",
+      "group": "Shipbuilding",
+      "country": "DE",
+      "url": "https://www.meyerwerft.de/"
+    },
+    {
+      "rank": 233,
+      "id": "hyundai-heavy-industries",
+      "name": "Hyundai Heavy Industries",
+      "group": "Shipbuilding",
+      "country": "KR",
+      "url": "https://www.hhi.co.kr/"
+    },
+    {
+      "rank": 234,
+      "id": "samsung-heavy-industries",
+      "name": "Samsung Heavy Industries",
+      "group": "Shipbuilding",
+      "country": "KR",
+      "url": "https://www.samsungshi.com/"
+    },
+    {
+      "rank": 235,
+      "id": "daewoo-shipbuilding",
+      "name": "Daewoo Shipbuilding",
+      "group": "Shipbuilding",
+      "country": "KR",
+      "url": "https://www.hanwhaocean.com/"
+    },
+    {
+      "rank": 236,
+      "id": "imabari-shipbuilding",
+      "name": "Imabari Shipbuilding",
+      "group": "Shipbuilding",
+      "country": "JP",
+      "url": "https://www.imazo.co.jp/"
+    },
+    {
+      "rank": 237,
+      "id": "cssc",
+      "name": "CSSC",
+      "group": "Shipbuilding",
+      "country": "CN",
+      "url": "https://www.cssc.net.cn/"
+    },
+    {
+      "rank": 238,
+      "id": "china-shipbuilding",
+      "name": "China Shipbuilding",
+      "group": "Shipbuilding",
+      "country": "CN",
+      "url": "https://www.csic.com.cn/"
+    },
+    {
+      "rank": 239,
+      "id": "basf",
+      "name": "BASF",
+      "group": "Chemicals",
+      "country": "DE",
+      "url": "https://www.basf.com/"
+    },
+    {
+      "rank": 240,
+      "id": "dow",
+      "name": "Dow",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.dow.com/"
+    },
+    {
+      "rank": 241,
+      "id": "dupont",
+      "name": "DuPont",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.dupont.com/"
+    },
+    {
+      "rank": 242,
+      "id": "lyondellbasell",
+      "name": "LyondellBasell",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.lyondellbasell.com/"
+    },
+    {
+      "rank": 243,
+      "id": "sabic",
+      "name": "SABIC",
+      "group": "Chemicals",
+      "country": "SA",
+      "url": "https://www.sabic.com/"
+    },
+    {
+      "rank": 244,
+      "id": "covestro",
+      "name": "Covestro",
+      "group": "Chemicals",
+      "country": "DE",
+      "url": "https://www.covestro.com/"
+    },
+    {
+      "rank": 245,
+      "id": "evonik",
+      "name": "Evonik",
+      "group": "Chemicals",
+      "country": "DE",
+      "url": "https://www.evonik.com/"
+    },
+    {
+      "rank": 246,
+      "id": "lanxess",
+      "name": "Lanxess",
+      "group": "Chemicals",
+      "country": "DE",
+      "url": "https://lanxess.com/"
+    },
+    {
+      "rank": 247,
+      "id": "wacker-chemie",
+      "name": "Wacker Chemie",
+      "group": "Chemicals",
+      "country": "DE",
+      "url": "https://www.wacker.com/"
+    },
+    {
+      "rank": 248,
+      "id": "solvay",
+      "name": "Solvay",
+      "group": "Chemicals",
+      "country": "BE",
+      "url": "https://www.solvay.com/"
+    },
+    {
+      "rank": 249,
+      "id": "arkema",
+      "name": "Arkema",
+      "group": "Chemicals",
+      "country": "FR",
+      "url": "https://www.arkema.com/"
+    },
+    {
+      "rank": 250,
+      "id": "clariant",
+      "name": "Clariant",
+      "group": "Chemicals",
+      "country": "CH",
+      "url": "https://www.clariant.com/"
+    },
+    {
+      "rank": 251,
+      "id": "dsmfirmenich",
+      "name": "DSM-Firmenich",
+      "group": "Chemicals",
+      "country": "NL",
+      "url": "https://www.dsm-firmenich.com/"
+    },
+    {
+      "rank": 252,
+      "id": "akzonobel",
+      "name": "AkzoNobel",
+      "group": "Chemicals / coatings",
+      "country": "NL",
+      "url": "https://www.akzonobel.com/"
+    },
+    {
+      "rank": 253,
+      "id": "ppg",
+      "name": "PPG",
+      "group": "Coatings",
+      "country": "US",
+      "url": "https://www.ppg.com/"
+    },
+    {
+      "rank": 254,
+      "id": "sherwinwilliams",
+      "name": "Sherwin-Williams",
+      "group": "Coatings",
+      "country": "US",
+      "url": "https://www.sherwin-williams.com/"
+    },
+    {
+      "rank": 255,
+      "id": "axalta",
+      "name": "Axalta",
+      "group": "Coatings",
+      "country": "US",
+      "url": "https://www.axalta.com/"
+    },
+    {
+      "rank": 256,
+      "id": "nippon-paint",
+      "name": "Nippon Paint",
+      "group": "Coatings",
+      "country": "JP",
+      "url": "https://www.nipponpaint-holdings.com/"
+    },
+    {
+      "rank": 257,
+      "id": "kansai-paint",
+      "name": "Kansai Paint",
+      "group": "Coatings",
+      "country": "JP",
+      "url": "https://www.kansai.co.jp/"
+    },
+    {
+      "rank": 258,
+      "id": "air-liquide",
+      "name": "Air Liquide",
+      "group": "Industrial gases",
+      "country": "FR",
+      "url": "https://www.airliquide.com/"
+    },
+    {
+      "rank": 259,
+      "id": "linde",
+      "name": "Linde",
+      "group": "Industrial gases",
+      "country": "IE",
+      "url": "https://www.linde.com/"
+    },
+    {
+      "rank": 260,
+      "id": "air-products",
+      "name": "Air Products",
+      "group": "Industrial gases",
+      "country": "US",
+      "url": "https://www.airproducts.com/"
+    },
+    {
+      "rank": 261,
+      "id": "messer",
+      "name": "Messer",
+      "group": "Industrial gases",
+      "country": "DE",
+      "url": "https://www.messergroup.com/"
+    },
+    {
+      "rank": 262,
+      "id": "chemours",
+      "name": "Chemours",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.chemours.com/"
+    },
+    {
+      "rank": 263,
+      "id": "celanese",
+      "name": "Celanese",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.celanese.com/"
+    },
+    {
+      "rank": 264,
+      "id": "eastman",
+      "name": "Eastman",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.eastman.com/"
+    },
+    {
+      "rank": 265,
+      "id": "huntsman",
+      "name": "Huntsman",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.huntsman.com/"
+    },
+    {
+      "rank": 266,
+      "id": "westlake",
+      "name": "Westlake",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://www.westlake.com/"
+    },
+    {
+      "rank": 267,
+      "id": "olin",
+      "name": "Olin",
+      "group": "Chemicals",
+      "country": "US",
+      "url": "https://olin.com/"
+    },
+    {
+      "rank": 268,
+      "id": "mosaic",
+      "name": "Mosaic",
+      "group": "Fertilizers",
+      "country": "US",
+      "url": "https://www.mosaicco.com/"
+    },
+    {
+      "rank": 269,
+      "id": "cf-industries",
+      "name": "CF Industries",
+      "group": "Fertilizers",
+      "country": "US",
+      "url": "https://www.cfindustries.com/"
+    },
+    {
+      "rank": 270,
+      "id": "nutrien",
+      "name": "Nutrien",
+      "group": "Fertilizers",
+      "country": "CA",
+      "url": "https://www.nutrien.com/"
+    },
+    {
+      "rank": 271,
+      "id": "yara",
+      "name": "Yara",
+      "group": "Fertilizers",
+      "country": "NO",
+      "url": "https://www.yara.com/"
+    },
+    {
+      "rank": 272,
+      "id": "icl",
+      "name": "ICL",
+      "group": "Fertilizers",
+      "country": "IL",
+      "url": "https://www.icl-group.com/"
+    },
+    {
+      "rank": 273,
+      "id": "sinochem",
+      "name": "Sinochem",
+      "group": "Chemicals",
+      "country": "CN",
+      "url": "https://www.sinochem.com/"
+    },
+    {
+      "rank": 274,
+      "id": "chemchina",
+      "name": "ChemChina",
+      "group": "Chemicals",
+      "country": "CN",
+      "url": "https://www.chemchina.com/"
+    },
+    {
+      "rank": 275,
+      "id": "wanhua",
+      "name": "Wanhua",
+      "group": "Chemicals",
+      "country": "CN",
+      "url": "https://www.whchem.com/"
+    },
+    {
+      "rank": 276,
+      "id": "hengli-petrochemical",
+      "name": "Hengli Petrochemical",
+      "group": "Chemicals",
+      "country": "CN",
+      "url": "https://www.hengli.com/"
+    },
+    {
+      "rank": 277,
+      "id": "rongsheng-petrochemical",
+      "name": "Rongsheng Petrochemical",
+      "group": "Chemicals",
+      "country": "CN",
+      "url": "https://www.rzpec.com/"
+    },
+    {
+      "rank": 278,
+      "id": "formosa-plastics",
+      "name": "Formosa Plastics",
+      "group": "Chemicals",
+      "country": "TW",
+      "url": "https://www.fpc.com.tw/"
+    },
+    {
+      "rank": 279,
+      "id": "nan-ya-plastics",
+      "name": "Nan Ya Plastics",
+      "group": "Chemicals",
+      "country": "TW",
+      "url": "https://www.npc.com.tw/"
+    },
+    {
+      "rank": 280,
+      "id": "lg-chem",
+      "name": "LG Chem",
+      "group": "Chemicals",
+      "country": "KR",
+      "url": "https://www.lgchem.com/"
+    },
+    {
+      "rank": 281,
+      "id": "lotte-chemical",
+      "name": "Lotte Chemical",
+      "group": "Chemicals",
+      "country": "KR",
+      "url": "https://www.lottechem.com/"
+    },
+    {
+      "rank": 282,
+      "id": "hanwha-solutions",
+      "name": "Hanwha Solutions",
+      "group": "Chemicals",
+      "country": "KR",
+      "url": "https://www.hanwhasolutions.com/"
+    },
+    {
+      "rank": 283,
+      "id": "mitsui-chemicals",
+      "name": "Mitsui Chemicals",
+      "group": "Chemicals",
+      "country": "JP",
+      "url": "https://jp.mitsuichemicals.com/"
+    },
+    {
+      "rank": 284,
+      "id": "sumitomo-chemical",
+      "name": "Sumitomo Chemical",
+      "group": "Chemicals",
+      "country": "JP",
+      "url": "https://www.sumitomo-chem.co.jp/"
+    },
+    {
+      "rank": 285,
+      "id": "asahi-kasei",
+      "name": "Asahi Kasei",
+      "group": "Chemicals",
+      "country": "JP",
+      "url": "https://www.asahi-kasei.com/"
+    },
+    {
+      "rank": 286,
+      "id": "toray",
+      "name": "Toray",
+      "group": "Materials",
+      "country": "JP",
+      "url": "https://www.toray.com/"
+    },
+    {
+      "rank": 287,
+      "id": "teijin",
+      "name": "Teijin",
+      "group": "Materials",
+      "country": "JP",
+      "url": "https://www.teijin.com/"
+    },
+    {
+      "rank": 288,
+      "id": "mitsubishi-chemical",
+      "name": "Mitsubishi Chemical",
+      "group": "Chemicals",
+      "country": "JP",
+      "url": "https://www.mcgc.com/"
+    },
+    {
+      "rank": 289,
+      "id": "shinetsu",
+      "name": "Shin-Etsu",
+      "group": "Chemicals / materials",
+      "country": "JP",
+      "url": "https://www.shinetsu.co.jp/"
+    },
+    {
+      "rank": 290,
+      "id": "dic",
+      "name": "DIC",
+      "group": "Chemicals",
+      "country": "JP",
+      "url": "https://www.dic-global.com/"
+    },
+    {
+      "rank": 291,
+      "id": "ube",
+      "name": "Ube",
+      "group": "Chemicals",
+      "country": "JP",
+      "url": "https://www.ube.com/"
+    },
+    {
+      "rank": 292,
+      "id": "reliance-industries",
+      "name": "Reliance Industries",
+      "group": "Chemicals / energy",
+      "country": "IN",
+      "url": "https://www.ril.com/"
+    },
+    {
+      "rank": 293,
+      "id": "braskem",
+      "name": "Braskem",
+      "group": "Chemicals",
+      "country": "BR",
+      "url": "https://www.braskem.com/"
+    },
+    {
+      "rank": 294,
+      "id": "orbia",
+      "name": "Orbia",
+      "group": "Chemicals",
+      "country": "MX",
+      "url": "https://www.orbia.com/"
+    },
+    {
+      "rank": 295,
+      "id": "alpek",
+      "name": "Alpek",
+      "group": "Chemicals",
+      "country": "MX",
+      "url": "https://www.alpek.com/"
+    },
+    {
+      "rank": 296,
+      "id": "sasol",
+      "name": "Sasol",
+      "group": "Chemicals",
+      "country": "ZA",
+      "url": "https://www.sasol.com/"
+    },
+    {
+      "rank": 297,
+      "id": "sibur",
+      "name": "Sibur",
+      "group": "Chemicals",
+      "country": "RU",
+      "url": "https://www.sibur.ru/"
+    },
+    {
+      "rank": 298,
+      "id": "petronas-chemicals",
+      "name": "Petronas Chemicals",
+      "group": "Chemicals",
+      "country": "MY",
+      "url": "https://www.petronas.com/pcg"
+    },
+    {
+      "rank": 299,
+      "id": "ptt-global-chemical",
+      "name": "PTT Global Chemical",
+      "group": "Chemicals",
+      "country": "TH",
+      "url": "https://www.pttgcgroup.com/"
+    },
+    {
+      "rank": 300,
+      "id": "indorama",
+      "name": "Indorama",
+      "group": "Chemicals",
+      "country": "TH",
+      "url": "https://www.indoramaventures.com/"
+    },
+    {
+      "rank": 301,
+      "id": "borealis",
+      "name": "Borealis",
+      "group": "Chemicals",
+      "country": "AT",
+      "url": "https://www.borealisgroup.com/"
+    },
+    {
+      "rank": 302,
+      "id": "ineos",
+      "name": "Ineos",
+      "group": "Chemicals",
+      "country": "GB",
+      "url": "https://www.ineos.com/"
+    },
+    {
+      "rank": 303,
+      "id": "johnson-matthey",
+      "name": "Johnson Matthey",
+      "group": "Chemicals / catalysis",
+      "country": "GB",
+      "url": "https://matthey.com/"
+    },
+    {
+      "rank": 304,
+      "id": "croda",
+      "name": "Croda",
+      "group": "Specialty chemicals",
+      "country": "GB",
+      "url": "https://www.croda.com/"
+    },
+    {
+      "rank": 305,
+      "id": "elementis",
+      "name": "Elementis",
+      "group": "Specialty chemicals",
+      "country": "GB",
+      "url": "https://www.elementis.com/"
+    },
+    {
+      "rank": 306,
+      "id": "synthomer",
+      "name": "Synthomer",
+      "group": "Specialty chemicals",
+      "country": "GB",
+      "url": "https://www.synthomer.com/"
+    },
+    {
+      "rank": 307,
+      "id": "victrex",
+      "name": "Victrex",
+      "group": "Specialty chemicals",
+      "country": "GB",
+      "url": "https://www.victrex.com/"
+    },
+    {
+      "rank": 308,
+      "id": "sika",
+      "name": "Sika",
+      "group": "Construction chemicals",
+      "country": "CH",
+      "url": "https://www.sika.com/"
+    },
+    {
+      "rank": 309,
+      "id": "mapei",
+      "name": "Mapei",
+      "group": "Construction chemicals",
+      "country": "IT",
+      "url": "https://www.mapei.com/"
+    },
+    {
+      "rank": 310,
+      "id": "rpm-international",
+      "name": "RPM International",
+      "group": "Coatings",
+      "country": "US",
+      "url": "https://www.rpminc.com/"
+    },
+    {
+      "rank": 311,
+      "id": "hb-fuller",
+      "name": "HB Fuller",
+      "group": "Adhesives",
+      "country": "US",
+      "url": "https://www.hbfuller.com/"
+    },
+    {
+      "rank": 312,
+      "id": "henkel-adhesives",
+      "name": "Henkel Adhesives",
+      "group": "Adhesives",
+      "country": "DE",
+      "url": "https://www.henkel-adhesives.com/"
+    },
+    {
+      "rank": 313,
+      "id": "3m",
+      "name": "3M",
+      "group": "Industrial materials",
+      "country": "US",
+      "url": "https://www.3m.com/"
+    },
+    {
+      "rank": 314,
+      "id": "avery-dennison",
+      "name": "Avery Dennison",
+      "group": "Materials",
+      "country": "US",
+      "url": "https://www.averydennison.com/"
+    },
+    {
+      "rank": 315,
+      "id": "berry-global",
+      "name": "Berry Global",
+      "group": "Packaging manufacturing",
+      "country": "US",
+      "url": "https://www.berryglobal.com/"
+    },
+    {
+      "rank": 316,
+      "id": "amcor",
+      "name": "Amcor",
+      "group": "Packaging manufacturing",
+      "country": "CH",
+      "url": "https://www.amcor.com/"
+    },
+    {
+      "rank": 317,
+      "id": "sealed-air",
+      "name": "Sealed Air",
+      "group": "Packaging manufacturing",
+      "country": "US",
+      "url": "https://www.sealedair.com/"
+    },
+    {
+      "rank": 318,
+      "id": "international-paper",
+      "name": "International Paper",
+      "group": "Packaging manufacturing",
+      "country": "US",
+      "url": "https://www.internationalpaper.com/"
+    },
+    {
+      "rank": 319,
+      "id": "westrock",
+      "name": "WestRock",
+      "group": "Packaging manufacturing",
+      "country": "US",
+      "url": "https://www.westrock.com/"
+    },
+    {
+      "rank": 320,
+      "id": "smurfit-kappa",
+      "name": "Smurfit Kappa",
+      "group": "Packaging manufacturing",
+      "country": "IE",
+      "url": "https://www.smurfitkappa.com/"
+    },
+    {
+      "rank": 321,
+      "id": "mondi",
+      "name": "Mondi",
+      "group": "Packaging manufacturing",
+      "country": "GB",
+      "url": "https://www.mondigroup.com/"
+    },
+    {
+      "rank": 322,
+      "id": "ds-smith",
+      "name": "DS Smith",
+      "group": "Packaging manufacturing",
+      "country": "GB",
+      "url": "https://www.dssmith.com/"
+    },
+    {
+      "rank": 323,
+      "id": "stora-enso",
+      "name": "Stora Enso",
+      "group": "Materials",
+      "country": "FI",
+      "url": "https://www.storaenso.com/"
+    },
+    {
+      "rank": 324,
+      "id": "upm",
+      "name": "UPM",
+      "group": "Materials",
+      "country": "FI",
+      "url": "https://www.upm.com/"
+    },
+    {
+      "rank": 325,
+      "id": "sappi",
+      "name": "Sappi",
+      "group": "Materials",
+      "country": "ZA",
+      "url": "https://www.sappi.com/"
+    },
+    {
+      "rank": 326,
+      "id": "arcelormittal",
+      "name": "ArcelorMittal",
+      "group": "Steel",
+      "country": "LU",
+      "url": "https://corporate.arcelormittal.com/"
+    },
+    {
+      "rank": 327,
+      "id": "nippon-steel",
+      "name": "Nippon Steel",
+      "group": "Steel",
+      "country": "JP",
+      "url": "https://www.nipponsteel.com/"
+    },
+    {
+      "rank": 328,
+      "id": "posco",
+      "name": "POSCO",
+      "group": "Steel",
+      "country": "KR",
+      "url": "https://www.posco.com/"
+    },
+    {
+      "rank": 329,
+      "id": "nucor",
+      "name": "Nucor",
+      "group": "Steel",
+      "country": "US",
+      "url": "https://www.nucor.com/"
+    },
+    {
+      "rank": 330,
+      "id": "steel-dynamics",
+      "name": "Steel Dynamics",
+      "group": "Steel",
+      "country": "US",
+      "url": "https://www.steeldynamics.com/"
+    },
+    {
+      "rank": 331,
+      "id": "clevelandcliffs",
+      "name": "Cleveland-Cliffs",
+      "group": "Steel",
+      "country": "US",
+      "url": "https://www.clevelandcliffs.com/"
+    },
+    {
+      "rank": 332,
+      "id": "us-steel",
+      "name": "US Steel",
+      "group": "Steel",
+      "country": "US",
+      "url": "https://www.ussteel.com/"
+    },
+    {
+      "rank": 333,
+      "id": "thyssenkrupp",
+      "name": "Thyssenkrupp",
+      "group": "Steel / engineering",
+      "country": "DE",
+      "url": "https://www.thyssenkrupp.com/"
+    },
+    {
+      "rank": 334,
+      "id": "voestalpine",
+      "name": "Voestalpine",
+      "group": "Steel",
+      "country": "AT",
+      "url": "https://www.voestalpine.com/"
+    },
+    {
+      "rank": 335,
+      "id": "salzgitter",
+      "name": "Salzgitter",
+      "group": "Steel",
+      "country": "DE",
+      "url": "https://www.salzgitter-ag.com/"
+    },
+    {
+      "rank": 336,
+      "id": "tata-steel",
+      "name": "Tata Steel",
+      "group": "Steel",
+      "country": "IN",
+      "url": "https://www.tatasteel.com/"
+    },
+    {
+      "rank": 337,
+      "id": "jsw-steel",
+      "name": "JSW Steel",
+      "group": "Steel",
+      "country": "IN",
+      "url": "https://www.jsw.in/"
+    },
+    {
+      "rank": 338,
+      "id": "jindal-steel",
+      "name": "Jindal Steel",
+      "group": "Steel",
+      "country": "IN",
+      "url": "https://www.jindalsteel.com/"
+    },
+    {
+      "rank": 339,
+      "id": "baosteel",
+      "name": "Baosteel",
+      "group": "Steel",
+      "country": "CN",
+      "url": "https://www.baosteel.com/"
+    },
+    {
+      "rank": 340,
+      "id": "china-baowu",
+      "name": "China Baowu",
+      "group": "Steel",
+      "country": "CN",
+      "url": "https://www.baowugroup.com/"
+    },
+    {
+      "rank": 341,
+      "id": "hbis",
+      "name": "HBIS",
+      "group": "Steel",
+      "country": "CN",
+      "url": "https://www.hbisco.com/"
+    },
+    {
+      "rank": 342,
+      "id": "ansteel",
+      "name": "Ansteel",
+      "group": "Steel",
+      "country": "CN",
+      "url": "https://en.ansteel.cn/"
+    },
+    {
+      "rank": 343,
+      "id": "shougang",
+      "name": "Shougang",
+      "group": "Steel",
+      "country": "CN",
+      "url": "https://www.shougang.com.cn/"
+    },
+    {
+      "rank": 344,
+      "id": "jfe-steel",
+      "name": "JFE Steel",
+      "group": "Steel",
+      "country": "JP",
+      "url": "https://www.jfe-steel.co.jp/"
+    },
+    {
+      "rank": 345,
+      "id": "kobe-steel",
+      "name": "Kobe Steel",
+      "group": "Steel",
+      "country": "JP",
+      "url": "https://www.kobelco.co.jp/"
+    },
+    {
+      "rank": 346,
+      "id": "hyundai-steel",
+      "name": "Hyundai Steel",
+      "group": "Steel",
+      "country": "KR",
+      "url": "https://www.hyundai-steel.com/"
+    },
+    {
+      "rank": 347,
+      "id": "gerdau",
+      "name": "Gerdau",
+      "group": "Steel",
+      "country": "BR",
+      "url": "https://www2.gerdau.com/"
+    },
+    {
+      "rank": 348,
+      "id": "csn",
+      "name": "CSN",
+      "group": "Steel",
+      "country": "BR",
+      "url": "https://www.csn.com.br/"
+    },
+    {
+      "rank": 349,
+      "id": "ternium",
+      "name": "Ternium",
+      "group": "Steel",
+      "country": "LU",
+      "url": "https://www.ternium.com/"
+    },
+    {
+      "rank": 350,
+      "id": "ssab",
+      "name": "SSAB",
+      "group": "Steel",
+      "country": "SE",
+      "url": "https://www.ssab.com/"
+    },
+    {
+      "rank": 351,
+      "id": "outokumpu",
+      "name": "Outokumpu",
+      "group": "Steel",
+      "country": "FI",
+      "url": "https://www.outokumpu.com/"
+    },
+    {
+      "rank": 352,
+      "id": "aperam",
+      "name": "Aperam",
+      "group": "Steel",
+      "country": "LU",
+      "url": "https://www.aperam.com/"
+    },
+    {
+      "rank": 353,
+      "id": "acerinox",
+      "name": "Acerinox",
+      "group": "Steel",
+      "country": "ES",
+      "url": "https://www.acerinox.com/"
+    },
+    {
+      "rank": 354,
+      "id": "bluescope",
+      "name": "BlueScope",
+      "group": "Steel",
+      "country": "AU",
+      "url": "https://www.bluescope.com/"
+    },
+    {
+      "rank": 355,
+      "id": "liberty-steel",
+      "name": "Liberty Steel",
+      "group": "Steel",
+      "country": "GB",
+      "url": "https://libertysteelgroup.com/"
+    },
+    {
+      "rank": 356,
+      "id": "evraz",
+      "name": "EVRAZ",
+      "group": "Steel",
+      "country": "GB",
+      "url": "https://www.evraz.com/"
+    },
+    {
+      "rank": 357,
+      "id": "severstal",
+      "name": "Severstal",
+      "group": "Steel",
+      "country": "RU",
+      "url": "https://www.severstal.com/"
+    },
+    {
+      "rank": 358,
+      "id": "nlmk",
+      "name": "NLMK",
+      "group": "Steel",
+      "country": "RU",
+      "url": "https://nlmk.com/"
+    },
+    {
+      "rank": 359,
+      "id": "mmk",
+      "name": "MMK",
+      "group": "Steel",
+      "country": "RU",
+      "url": "https://mmk.ru/"
+    },
+    {
+      "rank": 360,
+      "id": "alcoa",
+      "name": "Alcoa",
+      "group": "Aluminium",
+      "country": "US",
+      "url": "https://www.alcoa.com/"
+    },
+    {
+      "rank": 361,
+      "id": "norsk-hydro",
+      "name": "Norsk Hydro",
+      "group": "Aluminium",
+      "country": "NO",
+      "url": "https://www.hydro.com/"
+    },
+    {
+      "rank": 362,
+      "id": "rio-tinto-aluminium",
+      "name": "Rio Tinto Aluminium",
+      "group": "Aluminium",
+      "country": "AU",
+      "url": "https://www.riotinto.com/"
+    },
+    {
+      "rank": 363,
+      "id": "rusal",
+      "name": "Rusal",
+      "group": "Aluminium",
+      "country": "RU",
+      "url": "https://rusal.ru/"
+    },
+    {
+      "rank": 364,
+      "id": "chalco",
+      "name": "Chalco",
+      "group": "Aluminium",
+      "country": "CN",
+      "url": "https://www.chalco.com.cn/"
+    },
+    {
+      "rank": 365,
+      "id": "hindalco",
+      "name": "Hindalco",
+      "group": "Aluminium",
+      "country": "IN",
+      "url": "https://www.hindalco.com/"
+    },
+    {
+      "rank": 366,
+      "id": "vedanta",
+      "name": "Vedanta",
+      "group": "Metals",
+      "country": "IN",
+      "url": "https://www.vedantaresources.com/"
+    },
+    {
+      "rank": 367,
+      "id": "novelis",
+      "name": "Novelis",
+      "group": "Aluminium",
+      "country": "US",
+      "url": "https://www.novelis.com/"
+    },
+    {
+      "rank": 368,
+      "id": "constellium",
+      "name": "Constellium",
+      "group": "Aluminium",
+      "country": "FR",
+      "url": "https://www.constellium.com/"
+    },
+    {
+      "rank": 369,
+      "id": "kaiser-aluminum",
+      "name": "Kaiser Aluminum",
+      "group": "Aluminium",
+      "country": "US",
+      "url": "https://www.kaiseraluminum.com/"
+    },
+    {
+      "rank": 370,
+      "id": "freeportmcmoran",
+      "name": "Freeport-McMoRan",
+      "group": "Copper",
+      "country": "US",
+      "url": "https://www.fcx.com/"
+    },
+    {
+      "rank": 371,
+      "id": "southern-copper",
+      "name": "Southern Copper",
+      "group": "Copper",
+      "country": "US",
+      "url": "https://www.southerncoppercorp.com/"
+    },
+    {
+      "rank": 372,
+      "id": "codelco",
+      "name": "Codelco",
+      "group": "Copper",
+      "country": "CL",
+      "url": "https://www.codelco.com/"
+    },
+    {
+      "rank": 373,
+      "id": "antofagasta",
+      "name": "Antofagasta",
+      "group": "Copper",
+      "country": "GB",
+      "url": "https://www.antofagasta.co.uk/"
+    },
+    {
+      "rank": 374,
+      "id": "first-quantum",
+      "name": "First Quantum",
+      "group": "Copper",
+      "country": "CA",
+      "url": "https://www.first-quantum.com/"
+    },
+    {
+      "rank": 375,
+      "id": "jiangxi-copper",
+      "name": "Jiangxi Copper",
+      "group": "Copper",
+      "country": "CN",
+      "url": "https://www.jxcc.com/"
+    },
+    {
+      "rank": 376,
+      "id": "tongling",
+      "name": "Tongling",
+      "group": "Copper",
+      "country": "CN",
+      "url": "https://www.tlys.cn/"
+    },
+    {
+      "rank": 377,
+      "id": "aurubis",
+      "name": "Aurubis",
+      "group": "Copper",
+      "country": "DE",
+      "url": "https://www.aurubis.com/"
+    },
+    {
+      "rank": 378,
+      "id": "boliden",
+      "name": "Boliden",
+      "group": "Metals",
+      "country": "SE",
+      "url": "https://www.boliden.com/"
+    },
+    {
+      "rank": 379,
+      "id": "glencore",
+      "name": "Glencore",
+      "group": "Metals",
+      "country": "CH",
+      "url": "https://www.glencore.com/"
+    },
+    {
+      "rank": 380,
+      "id": "bhp",
+      "name": "BHP",
+      "group": "Metals / mining",
+      "country": "AU",
+      "url": "https://www.bhp.com/"
+    },
+    {
+      "rank": 381,
+      "id": "vale",
+      "name": "Vale",
+      "group": "Metals / mining",
+      "country": "BR",
+      "url": "https://vale.com/"
+    },
+    {
+      "rank": 382,
+      "id": "anglo-american",
+      "name": "Anglo American",
+      "group": "Metals / mining",
+      "country": "GB",
+      "url": "https://www.angloamerican.com/"
+    },
+    {
+      "rank": 383,
+      "id": "teck",
+      "name": "Teck",
+      "group": "Metals / mining",
+      "country": "CA",
+      "url": "https://www.teck.com/"
+    },
+    {
+      "rank": 384,
+      "id": "south32",
+      "name": "South32",
+      "group": "Metals / mining",
+      "country": "AU",
+      "url": "https://www.south32.net/"
+    },
+    {
+      "rank": 385,
+      "id": "fortescue",
+      "name": "Fortescue",
+      "group": "Metals / mining",
+      "country": "AU",
+      "url": "https://www.fortescue.com/"
+    },
+    {
+      "rank": 386,
+      "id": "newmont",
+      "name": "Newmont",
+      "group": "Metals / mining",
+      "country": "US",
+      "url": "https://www.newmont.com/"
+    },
+    {
+      "rank": 387,
+      "id": "barrick",
+      "name": "Barrick",
+      "group": "Metals / mining",
+      "country": "CA",
+      "url": "https://www.barrick.com/"
+    },
+    {
+      "rank": 388,
+      "id": "agnico-eagle",
+      "name": "Agnico Eagle",
+      "group": "Metals / mining",
+      "country": "CA",
+      "url": "https://www.agnicoeagle.com/"
+    },
+    {
+      "rank": 389,
+      "id": "wheaton-precious",
+      "name": "Wheaton Precious",
+      "group": "Metals",
+      "country": "CA",
+      "url": "https://www.wheatonpm.com/"
+    },
+    {
+      "rank": 390,
+      "id": "nippon-light-metal",
+      "name": "Nippon Light Metal",
+      "group": "Aluminium",
+      "country": "JP",
+      "url": "https://www.nikkeikinholdings.com/"
+    },
+    {
+      "rank": 391,
+      "id": "uacj",
+      "name": "UACJ",
+      "group": "Aluminium",
+      "country": "JP",
+      "url": "https://www.uacj.co.jp/"
+    },
+    {
+      "rank": 392,
+      "id": "kobe-aluminum",
+      "name": "Kobe Aluminum",
+      "group": "Aluminium",
+      "country": "JP",
+      "url": "https://www.kobelco.co.jp/english/products/aluminum/"
+    },
+    {
+      "rank": 393,
+      "id": "tsmc",
+      "name": "TSMC",
+      "group": "Semiconductors",
+      "country": "TW",
+      "url": "https://www.tsmc.com/"
+    },
+    {
+      "rank": 394,
+      "id": "samsung-electronics",
+      "name": "Samsung Electronics",
+      "group": "Electronics manufacturing",
+      "country": "KR",
+      "url": "https://www.samsung.com/semiconductor/"
+    },
+    {
+      "rank": 395,
+      "id": "intel",
+      "name": "Intel",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.intel.com/"
+    },
+    {
+      "rank": 396,
+      "id": "amd",
+      "name": "AMD",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.amd.com/"
+    },
+    {
+      "rank": 397,
+      "id": "qualcomm",
+      "name": "Qualcomm",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.qualcomm.com/"
+    },
+    {
+      "rank": 398,
+      "id": "broadcom",
+      "name": "Broadcom",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.broadcom.com/"
+    },
+    {
+      "rank": 399,
+      "id": "sk-hynix",
+      "name": "SK Hynix",
+      "group": "Semiconductors",
+      "country": "KR",
+      "url": "https://www.skhynix.com/"
+    },
+    {
+      "rank": 400,
+      "id": "micron",
+      "name": "Micron",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.micron.com/"
+    },
+    {
+      "rank": 401,
+      "id": "infineon",
+      "name": "Infineon",
+      "group": "Semiconductors",
+      "country": "DE",
+      "url": "https://www.infineon.com/"
+    },
+    {
+      "rank": 402,
+      "id": "stmicroelectronics",
+      "name": "STMicroelectronics",
+      "group": "Semiconductors",
+      "country": "CH",
+      "url": "https://www.st.com/"
+    },
+    {
+      "rank": 403,
+      "id": "nxp",
+      "name": "NXP",
+      "group": "Semiconductors",
+      "country": "NL",
+      "url": "https://www.nxp.com/"
+    },
+    {
+      "rank": 404,
+      "id": "analog-devices",
+      "name": "Analog Devices",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.analog.com/"
+    },
+    {
+      "rank": 405,
+      "id": "texas-instruments",
+      "name": "Texas Instruments",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.ti.com/"
+    },
+    {
+      "rank": 406,
+      "id": "on-semiconductor",
+      "name": "ON Semiconductor",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.onsemi.com/"
+    },
+    {
+      "rank": 407,
+      "id": "microchip",
+      "name": "Microchip",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.microchip.com/"
+    },
+    {
+      "rank": 408,
+      "id": "renesas",
+      "name": "Renesas",
+      "group": "Semiconductors",
+      "country": "JP",
+      "url": "https://www.renesas.com/"
+    },
+    {
+      "rank": 409,
+      "id": "rohm",
+      "name": "Rohm",
+      "group": "Semiconductors",
+      "country": "JP",
+      "url": "https://www.rohm.com/"
+    },
+    {
+      "rank": 410,
+      "id": "toshiba-semiconductor",
+      "name": "Toshiba Semiconductor",
+      "group": "Semiconductors",
+      "country": "JP",
+      "url": "https://toshiba.semicon-storage.com/"
+    },
+    {
+      "rank": 411,
+      "id": "sony-semiconductor",
+      "name": "Sony Semiconductor",
+      "group": "Semiconductors",
+      "country": "JP",
+      "url": "https://www.sony-semicon.com/"
+    },
+    {
+      "rank": 412,
+      "id": "umc",
+      "name": "UMC",
+      "group": "Semiconductors",
+      "country": "TW",
+      "url": "https://www.umc.com/"
+    },
+    {
+      "rank": 413,
+      "id": "globalfoundries",
+      "name": "GlobalFoundries",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://gf.com/"
+    },
+    {
+      "rank": 414,
+      "id": "smic",
+      "name": "SMIC",
+      "group": "Semiconductors",
+      "country": "CN",
+      "url": "https://www.smics.com/"
+    },
+    {
+      "rank": 415,
+      "id": "tower-semiconductor",
+      "name": "Tower Semiconductor",
+      "group": "Semiconductors",
+      "country": "IL",
+      "url": "https://towersemi.com/"
+    },
+    {
+      "rank": 416,
+      "id": "vishay",
+      "name": "Vishay",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.vishay.com/"
+    },
+    {
+      "rank": 417,
+      "id": "qorvo",
+      "name": "Qorvo",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.qorvo.com/"
+    },
+    {
+      "rank": 418,
+      "id": "skyworks",
+      "name": "Skyworks",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.skyworksinc.com/"
+    },
+    {
+      "rank": 419,
+      "id": "marvell",
+      "name": "Marvell",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.marvell.com/"
+    },
+    {
+      "rank": 420,
+      "id": "monolithic-power",
+      "name": "Monolithic Power",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.monolithicpower.com/"
+    },
+    {
+      "rank": 421,
+      "id": "wolfspeed",
+      "name": "Wolfspeed",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.wolfspeed.com/"
+    },
+    {
+      "rank": 422,
+      "id": "navitas",
+      "name": "Navitas",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://navitassemi.com/"
+    },
+    {
+      "rank": 423,
+      "id": "power-integrations",
+      "name": "Power Integrations",
+      "group": "Semiconductors",
+      "country": "US",
+      "url": "https://www.power.com/"
+    },
+    {
+      "rank": 424,
+      "id": "foxconn",
+      "name": "Foxconn",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.foxconn.com/"
+    },
+    {
+      "rank": 425,
+      "id": "pegatron",
+      "name": "Pegatron",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.pegatroncorp.com/"
+    },
+    {
+      "rank": 426,
+      "id": "quanta-computer",
+      "name": "Quanta Computer",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.quantatw.com/"
+    },
+    {
+      "rank": 427,
+      "id": "compal",
+      "name": "Compal",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.compal.com/"
+    },
+    {
+      "rank": 428,
+      "id": "wistron",
+      "name": "Wistron",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.wistron.com/"
+    },
+    {
+      "rank": 429,
+      "id": "inventec",
+      "name": "Inventec",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.inventec.com/"
+    },
+    {
+      "rank": 430,
+      "id": "jabil",
+      "name": "Jabil",
+      "group": "Electronics manufacturing",
+      "country": "US",
+      "url": "https://www.jabil.com/"
+    },
+    {
+      "rank": 431,
+      "id": "flex",
+      "name": "Flex",
+      "group": "Electronics manufacturing",
+      "country": "SG",
+      "url": "https://flex.com/"
+    },
+    {
+      "rank": 432,
+      "id": "sanmina",
+      "name": "Sanmina",
+      "group": "Electronics manufacturing",
+      "country": "US",
+      "url": "https://www.sanmina.com/"
+    },
+    {
+      "rank": 433,
+      "id": "celestica",
+      "name": "Celestica",
+      "group": "Electronics manufacturing",
+      "country": "CA",
+      "url": "https://www.celestica.com/"
+    },
+    {
+      "rank": 434,
+      "id": "benchmark-electronics",
+      "name": "Benchmark Electronics",
+      "group": "Electronics manufacturing",
+      "country": "US",
+      "url": "https://www.bench.com/"
+    },
+    {
+      "rank": 435,
+      "id": "plexus",
+      "name": "Plexus",
+      "group": "Electronics manufacturing",
+      "country": "US",
+      "url": "https://www.plexus.com/"
+    },
+    {
+      "rank": 436,
+      "id": "kimball-electronics",
+      "name": "Kimball Electronics",
+      "group": "Electronics manufacturing",
+      "country": "US",
+      "url": "https://www.kimballelectronics.com/"
+    },
+    {
+      "rank": 437,
+      "id": "hon-hai",
+      "name": "Hon Hai",
+      "group": "Electronics manufacturing",
+      "country": "TW",
+      "url": "https://www.honhai.com/"
+    },
+    {
+      "rank": 438,
+      "id": "byd-electronic",
+      "name": "BYD Electronic",
+      "group": "Electronics manufacturing",
+      "country": "CN",
+      "url": "https://www.byd.com/en/electronics"
+    },
+    {
+      "rank": 439,
+      "id": "luxshare",
+      "name": "Luxshare",
+      "group": "Electronics manufacturing",
+      "country": "CN",
+      "url": "https://www.luxshare-ict.com/"
+    },
+    {
+      "rank": 440,
+      "id": "goertek",
+      "name": "Goertek",
+      "group": "Electronics manufacturing",
+      "country": "CN",
+      "url": "https://www.goertek.com/"
+    },
+    {
+      "rank": 441,
+      "id": "boe",
+      "name": "BOE",
+      "group": "Display manufacturing",
+      "country": "CN",
+      "url": "https://www.boe.com/"
+    },
+    {
+      "rank": 442,
+      "id": "csot",
+      "name": "CSOT",
+      "group": "Display manufacturing",
+      "country": "CN",
+      "url": "https://www.tianma.cn/"
+    },
+    {
+      "rank": 443,
+      "id": "lg-display",
+      "name": "LG Display",
+      "group": "Display manufacturing",
+      "country": "KR",
+      "url": "https://www.lgdisplay.com/"
+    },
+    {
+      "rank": 444,
+      "id": "samsung-display",
+      "name": "Samsung Display",
+      "group": "Display manufacturing",
+      "country": "KR",
+      "url": "https://www.samsungdisplay.com/"
+    },
+    {
+      "rank": 445,
+      "id": "auo",
+      "name": "AUO",
+      "group": "Display manufacturing",
+      "country": "TW",
+      "url": "https://www.auo.com/"
+    },
+    {
+      "rank": 446,
+      "id": "innolux",
+      "name": "Innolux",
+      "group": "Display manufacturing",
+      "country": "TW",
+      "url": "https://www.innolux.com/"
+    },
+    {
+      "rank": 447,
+      "id": "corning",
+      "name": "Corning",
+      "group": "Materials / glass",
+      "country": "US",
+      "url": "https://www.corning.com/"
+    },
+    {
+      "rank": 448,
+      "id": "agc",
+      "name": "AGC",
+      "group": "Materials / glass",
+      "country": "JP",
+      "url": "https://www.agc.com/"
+    },
+    {
+      "rank": 449,
+      "id": "nsg",
+      "name": "NSG",
+      "group": "Materials / glass",
+      "country": "JP",
+      "url": "https://www.nsg.com/"
+    },
+    {
+      "rank": 450,
+      "id": "saintgobain",
+      "name": "Saint-Gobain",
+      "group": "Building materials",
+      "country": "FR",
+      "url": "https://www.saint-gobain.com/"
+    },
+    {
+      "rank": 451,
+      "id": "holcim",
+      "name": "Holcim",
+      "group": "Building materials",
+      "country": "CH",
+      "url": "https://www.holcim.com/"
+    },
+    {
+      "rank": 452,
+      "id": "heidelberg-materials",
+      "name": "Heidelberg Materials",
+      "group": "Building materials",
+      "country": "DE",
+      "url": "https://www.heidelbergmaterials.com/"
+    },
+    {
+      "rank": 453,
+      "id": "crh",
+      "name": "CRH",
+      "group": "Building materials",
+      "country": "IE",
+      "url": "https://www.crh.com/"
+    },
+    {
+      "rank": 454,
+      "id": "cemex",
+      "name": "Cemex",
+      "group": "Building materials",
+      "country": "MX",
+      "url": "https://www.cemex.com/"
+    },
+    {
+      "rank": 455,
+      "id": "vulcan-materials",
+      "name": "Vulcan Materials",
+      "group": "Building materials",
+      "country": "US",
+      "url": "https://www.vulcanmaterials.com/"
+    },
+    {
+      "rank": 456,
+      "id": "martin-marietta",
+      "name": "Martin Marietta",
+      "group": "Building materials",
+      "country": "US",
+      "url": "https://www.martinmarietta.com/"
+    },
+    {
+      "rank": 457,
+      "id": "knauf",
+      "name": "Knauf",
+      "group": "Building materials",
+      "country": "DE",
+      "url": "https://www.knauf.com/"
+    },
+    {
+      "rank": 458,
+      "id": "usg",
+      "name": "USG",
+      "group": "Building materials",
+      "country": "US",
+      "url": "https://www.usg.com/"
+    },
+    {
+      "rank": 459,
+      "id": "james-hardie",
+      "name": "James Hardie",
+      "group": "Building materials",
+      "country": "IE",
+      "url": "https://www.jameshardie.com/"
+    },
+    {
+      "rank": 460,
+      "id": "owens-corning",
+      "name": "Owens Corning",
+      "group": "Building materials",
+      "country": "US",
+      "url": "https://www.owenscorning.com/"
+    },
+    {
+      "rank": 461,
+      "id": "rockwool",
+      "name": "Rockwool",
+      "group": "Building materials",
+      "country": "DK",
+      "url": "https://www.rockwool.com/"
+    },
+    {
+      "rank": 462,
+      "id": "kingspan",
+      "name": "Kingspan",
+      "group": "Building materials",
+      "country": "IE",
+      "url": "https://www.kingspan.com/"
+    },
+    {
+      "rank": 463,
+      "id": "armstrong-world",
+      "name": "Armstrong World",
+      "group": "Building materials",
+      "country": "US",
+      "url": "https://www.armstrongceilings.com/"
+    },
+    {
+      "rank": 464,
+      "id": "mohawk-industries",
+      "name": "Mohawk Industries",
+      "group": "Building materials",
+      "country": "US",
+      "url": "https://www.mohawkind.com/"
+    },
+    {
+      "rank": 465,
+      "id": "tarkett",
+      "name": "Tarkett",
+      "group": "Building materials",
+      "country": "FR",
+      "url": "https://www.tarkett.com/"
+    },
+    {
+      "rank": 466,
+      "id": "forbo",
+      "name": "Forbo",
+      "group": "Building materials",
+      "country": "CH",
+      "url": "https://www.forbo.com/"
+    },
+    {
+      "rank": 467,
+      "id": "wienerberger",
+      "name": "Wienerberger",
+      "group": "Building materials",
+      "country": "AT",
+      "url": "https://www.wienerberger.com/"
+    },
+    {
+      "rank": 468,
+      "id": "imerys",
+      "name": "Imerys",
+      "group": "Industrial minerals",
+      "country": "FR",
+      "url": "https://www.imerys.com/"
+    },
+    {
+      "rank": 469,
+      "id": "sibelco",
+      "name": "Sibelco",
+      "group": "Industrial minerals",
+      "country": "BE",
+      "url": "https://www.sibelco.com/"
+    },
+    {
+      "rank": 470,
+      "id": "rhi-magnesita",
+      "name": "RHI Magnesita",
+      "group": "Refractories",
+      "country": "AT",
+      "url": "https://www.rhimagnesita.com/"
+    },
+    {
+      "rank": 471,
+      "id": "vesuvius",
+      "name": "Vesuvius",
+      "group": "Refractories",
+      "country": "GB",
+      "url": "https://www.vesuvius.com/"
+    },
+    {
+      "rank": 472,
+      "id": "continental",
+      "name": "Continental",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.continental.com/"
+    },
+    {
+      "rank": 473,
+      "id": "zf",
+      "name": "ZF",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.zf.com/"
+    },
+    {
+      "rank": 474,
+      "id": "magna",
+      "name": "Magna",
+      "group": "Auto supplier",
+      "country": "CA",
+      "url": "https://www.magna.com/"
+    },
+    {
+      "rank": 475,
+      "id": "denso",
+      "name": "Denso",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://www.denso.com/"
+    },
+    {
+      "rank": 476,
+      "id": "aisin",
+      "name": "Aisin",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://www.aisin.com/"
+    },
+    {
+      "rank": 477,
+      "id": "hyundai-mobis",
+      "name": "Hyundai Mobis",
+      "group": "Auto supplier",
+      "country": "KR",
+      "url": "https://www.mobis.com/"
+    },
+    {
+      "rank": 478,
+      "id": "valeo",
+      "name": "Valeo",
+      "group": "Auto supplier",
+      "country": "FR",
+      "url": "https://www.valeo.com/"
+    },
+    {
+      "rank": 479,
+      "id": "forvia",
+      "name": "Forvia",
+      "group": "Auto supplier",
+      "country": "FR",
+      "url": "https://www.forvia.com/"
+    },
+    {
+      "rank": 480,
+      "id": "aptiv",
+      "name": "Aptiv",
+      "group": "Auto supplier",
+      "country": "IE",
+      "url": "https://www.aptiv.com/"
+    },
+    {
+      "rank": 481,
+      "id": "borgwarner",
+      "name": "BorgWarner",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.borgwarner.com/"
+    },
+    {
+      "rank": 482,
+      "id": "lear",
+      "name": "Lear",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.lear.com/"
+    },
+    {
+      "rank": 483,
+      "id": "adient",
+      "name": "Adient",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.adient.com/"
+    },
+    {
+      "rank": 484,
+      "id": "autoliv",
+      "name": "Autoliv",
+      "group": "Auto supplier",
+      "country": "SE",
+      "url": "https://www.autoliv.com/"
+    },
+    {
+      "rank": 485,
+      "id": "veoneer",
+      "name": "Veoneer",
+      "group": "Auto supplier",
+      "country": "SE",
+      "url": "https://www.veoneer.com/"
+    },
+    {
+      "rank": 486,
+      "id": "hella",
+      "name": "Hella",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.hella.com/"
+    },
+    {
+      "rank": 487,
+      "id": "mahle",
+      "name": "Mahle",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.mahle.com/"
+    },
+    {
+      "rank": 488,
+      "id": "schaeffler",
+      "name": "Schaeffler",
+      "group": "Auto supplier / bearings",
+      "country": "DE",
+      "url": "https://www.schaeffler.com/"
+    },
+    {
+      "rank": 489,
+      "id": "skf",
+      "name": "SKF",
+      "group": "Bearings",
+      "country": "SE",
+      "url": "https://www.skf.com/"
+    },
+    {
+      "rank": 490,
+      "id": "nsk",
+      "name": "NSK",
+      "group": "Bearings",
+      "country": "JP",
+      "url": "https://www.nsk.com/"
+    },
+    {
+      "rank": 491,
+      "id": "ntn",
+      "name": "NTN",
+      "group": "Bearings",
+      "country": "JP",
+      "url": "https://www.ntnglobal.com/"
+    },
+    {
+      "rank": 492,
+      "id": "timken",
+      "name": "Timken",
+      "group": "Bearings",
+      "country": "US",
+      "url": "https://www.timken.com/"
+    },
+    {
+      "rank": 493,
+      "id": "jtekt",
+      "name": "JTEKT",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://www.jtekt.co.jp/"
+    },
+    {
+      "rank": 494,
+      "id": "sumitomo-electric",
+      "name": "Sumitomo Electric",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://sumitomoelectric.com/"
+    },
+    {
+      "rank": 495,
+      "id": "yazaki",
+      "name": "Yazaki",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://www.yazaki-group.com/"
+    },
+    {
+      "rank": 496,
+      "id": "sumitomo-wiring",
+      "name": "Sumitomo Wiring",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://www.sws.co.jp/"
+    },
+    {
+      "rank": 497,
+      "id": "aptiv-connection",
+      "name": "Aptiv Connection",
+      "group": "Auto supplier",
+      "country": "IE",
+      "url": "https://www.aptiv.com/en/solutions/connection-systems"
+    },
+    {
+      "rank": 498,
+      "id": "te-connectivity",
+      "name": "TE Connectivity",
+      "group": "Connectors",
+      "country": "CH",
+      "url": "https://www.te.com/"
+    },
+    {
+      "rank": 499,
+      "id": "amphenol",
+      "name": "Amphenol",
+      "group": "Connectors",
+      "country": "US",
+      "url": "https://www.amphenol.com/"
+    },
+    {
+      "rank": 500,
+      "id": "molex",
+      "name": "Molex",
+      "group": "Connectors",
+      "country": "US",
+      "url": "https://www.molex.com/"
+    },
+    {
+      "rank": 501,
+      "id": "hirose",
+      "name": "Hirose",
+      "group": "Connectors",
+      "country": "JP",
+      "url": "https://www.hirose.com/"
+    },
+    {
+      "rank": 502,
+      "id": "jae",
+      "name": "JAE",
+      "group": "Connectors",
+      "country": "JP",
+      "url": "https://www.jae.com/"
+    },
+    {
+      "rank": 503,
+      "id": "yazaki-north-america",
+      "name": "Yazaki North America",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.yazaki-na.com/"
+    },
+    {
+      "rank": 504,
+      "id": "bosch-mobility",
+      "name": "Bosch Mobility",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.bosch-mobility.com/"
+    },
+    {
+      "rank": 505,
+      "id": "continental-automotive",
+      "name": "Continental Automotive",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.continental-automotive.com/"
+    },
+    {
+      "rank": 506,
+      "id": "michelin",
+      "name": "Michelin",
+      "group": "Tires",
+      "country": "FR",
+      "url": "https://www.michelin.com/"
+    },
+    {
+      "rank": 507,
+      "id": "bridgestone",
+      "name": "Bridgestone",
+      "group": "Tires",
+      "country": "JP",
+      "url": "https://www.bridgestone.com/"
+    },
+    {
+      "rank": 508,
+      "id": "goodyear",
+      "name": "Goodyear",
+      "group": "Tires",
+      "country": "US",
+      "url": "https://www.goodyear.com/"
+    },
+    {
+      "rank": 509,
+      "id": "pirelli",
+      "name": "Pirelli",
+      "group": "Tires",
+      "country": "IT",
+      "url": "https://www.pirelli.com/"
+    },
+    {
+      "rank": 510,
+      "id": "hankook",
+      "name": "Hankook",
+      "group": "Tires",
+      "country": "KR",
+      "url": "https://www.hankooktire.com/"
+    },
+    {
+      "rank": 511,
+      "id": "yokohama-rubber",
+      "name": "Yokohama Rubber",
+      "group": "Tires",
+      "country": "JP",
+      "url": "https://www.y-yokohama.com/"
+    },
+    {
+      "rank": 512,
+      "id": "sumitomo-rubber",
+      "name": "Sumitomo Rubber",
+      "group": "Tires",
+      "country": "JP",
+      "url": "https://www.srigroup.co.jp/"
+    },
+    {
+      "rank": 513,
+      "id": "toyo-tires",
+      "name": "Toyo Tires",
+      "group": "Tires",
+      "country": "JP",
+      "url": "https://www.toyotires.com/"
+    },
+    {
+      "rank": 514,
+      "id": "cooper-tire",
+      "name": "Cooper Tire",
+      "group": "Tires",
+      "country": "US",
+      "url": "https://www.coopertire.com/"
+    },
+    {
+      "rank": 515,
+      "id": "nokian-tyres",
+      "name": "Nokian Tyres",
+      "group": "Tires",
+      "country": "FI",
+      "url": "https://www.nokiantyres.com/"
+    },
+    {
+      "rank": 516,
+      "id": "apollo-tyres",
+      "name": "Apollo Tyres",
+      "group": "Tires",
+      "country": "IN",
+      "url": "https://www.apollotyres.com/"
+    },
+    {
+      "rank": 517,
+      "id": "mrf",
+      "name": "MRF",
+      "group": "Tires",
+      "country": "IN",
+      "url": "https://www.mrftyres.com/"
+    },
+    {
+      "rank": 518,
+      "id": "giti-tire",
+      "name": "Giti Tire",
+      "group": "Tires",
+      "country": "SG",
+      "url": "https://www.giti.com/"
+    },
+    {
+      "rank": 519,
+      "id": "sailun",
+      "name": "Sailun",
+      "group": "Tires",
+      "country": "CN",
+      "url": "https://www.sailuntire.com/"
+    },
+    {
+      "rank": 520,
+      "id": "zhongce-rubber",
+      "name": "Zhongce Rubber",
+      "group": "Tires",
+      "country": "CN",
+      "url": "https://www.zc-rubber.com/"
+    },
+    {
+      "rank": 521,
+      "id": "maxxis",
+      "name": "Maxxis",
+      "group": "Tires",
+      "country": "TW",
+      "url": "https://www.maxxis.com/"
+    },
+    {
+      "rank": 522,
+      "id": "brembo",
+      "name": "Brembo",
+      "group": "Auto supplier",
+      "country": "IT",
+      "url": "https://www.brembo.com/"
+    },
+    {
+      "rank": 523,
+      "id": "tenneco",
+      "name": "Tenneco",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.tenneco.com/"
+    },
+    {
+      "rank": 524,
+      "id": "dana",
+      "name": "Dana",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.dana.com/"
+    },
+    {
+      "rank": 525,
+      "id": "american-axle",
+      "name": "American Axle",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.aam.com/"
+    },
+    {
+      "rank": 526,
+      "id": "gentex",
+      "name": "Gentex",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.gentex.com/"
+    },
+    {
+      "rank": 527,
+      "id": "visteon",
+      "name": "Visteon",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.visteon.com/"
+    },
+    {
+      "rank": 528,
+      "id": "harman",
+      "name": "Harman",
+      "group": "Auto supplier",
+      "country": "US",
+      "url": "https://www.harman.com/"
+    },
+    {
+      "rank": 529,
+      "id": "panasonic-automotive",
+      "name": "Panasonic Automotive",
+      "group": "Auto supplier",
+      "country": "JP",
+      "url": "https://automotive.panasonic.com/"
+    },
+    {
+      "rank": 530,
+      "id": "lg-magna",
+      "name": "LG Magna",
+      "group": "Auto supplier",
+      "country": "KR",
+      "url": "https://www.lgmagna.com/"
+    },
+    {
+      "rank": 531,
+      "id": "samsung-sdi",
+      "name": "Samsung SDI",
+      "group": "Batteries",
+      "country": "KR",
+      "url": "https://www.samsungsdi.com/"
+    },
+    {
+      "rank": 532,
+      "id": "lg-energy-solution",
+      "name": "LG Energy Solution",
+      "group": "Batteries",
+      "country": "KR",
+      "url": "https://www.lgensol.com/"
+    },
+    {
+      "rank": 533,
+      "id": "catl",
+      "name": "CATL",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://www.catl.com/"
+    },
+    {
+      "rank": 534,
+      "id": "byd-battery",
+      "name": "BYD Battery",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://www.byd.com/en/energy"
+    },
+    {
+      "rank": 535,
+      "id": "panasonic-energy",
+      "name": "Panasonic Energy",
+      "group": "Batteries",
+      "country": "JP",
+      "url": "https://www.panasonic.com/global/energy/"
+    },
+    {
+      "rank": 536,
+      "id": "sk-on",
+      "name": "SK On",
+      "group": "Batteries",
+      "country": "KR",
+      "url": "https://sk-on.com/"
+    },
+    {
+      "rank": 537,
+      "id": "northvolt",
+      "name": "Northvolt",
+      "group": "Batteries",
+      "country": "SE",
+      "url": "https://northvolt.com/"
+    },
+    {
+      "rank": 538,
+      "id": "quantumscape",
+      "name": "QuantumScape",
+      "group": "Batteries",
+      "country": "US",
+      "url": "https://www.quantumscape.com/"
+    },
+    {
+      "rank": 539,
+      "id": "solid-power",
+      "name": "Solid Power",
+      "group": "Batteries",
+      "country": "US",
+      "url": "https://www.solidpowerbattery.com/"
+    },
+    {
+      "rank": 540,
+      "id": "envision-aesc",
+      "name": "Envision AESC",
+      "group": "Batteries",
+      "country": "JP",
+      "url": "https://www.envision-aesc.com/"
+    },
+    {
+      "rank": 541,
+      "id": "gotion",
+      "name": "Gotion",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://www.gotion.com/"
+    },
+    {
+      "rank": 542,
+      "id": "eve-energy",
+      "name": "EVE Energy",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://www.evebattery.com/"
+    },
+    {
+      "rank": 543,
+      "id": "calb",
+      "name": "CALB",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://en.calb-tech.com/"
+    },
+    {
+      "rank": 544,
+      "id": "svolt",
+      "name": "SVOLT",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://www.svolt.cn/"
+    },
+    {
+      "rank": 545,
+      "id": "farasis",
+      "name": "Farasis",
+      "group": "Batteries",
+      "country": "CN",
+      "url": "https://www.farasis.com/"
+    },
+    {
+      "rank": 546,
+      "id": "freudenberg",
+      "name": "Freudenberg",
+      "group": "Auto supplier / materials",
+      "country": "DE",
+      "url": "https://www.freudenberg.com/"
+    },
+    {
+      "rank": 547,
+      "id": "elringklinger",
+      "name": "ElringKlinger",
+      "group": "Auto supplier",
+      "country": "DE",
+      "url": "https://www.elringklinger.com/"
+    },
+    {
+      "rank": 548,
+      "id": "rheinmetall",
+      "name": "Rheinmetall",
+      "group": "Auto supplier / defense",
+      "country": "DE",
+      "url": "https://www.rheinmetall.com/"
+    },
+    {
+      "rank": 549,
+      "id": "knorrbremse",
+      "name": "Knorr-Bremse",
+      "group": "Rail / truck systems",
+      "country": "DE",
+      "url": "https://www.knorr-bremse.com/"
+    },
+    {
+      "rank": 550,
+      "id": "wabtec",
+      "name": "Wabtec",
+      "group": "Rail equipment",
+      "country": "US",
+      "url": "https://www.wabteccorp.com/"
+    },
+    {
+      "rank": 551,
+      "id": "alstom",
+      "name": "Alstom",
+      "group": "Rail equipment",
+      "country": "FR",
+      "url": "https://www.alstom.com/"
+    },
+    {
+      "rank": 552,
+      "id": "siemens-mobility",
+      "name": "Siemens Mobility",
+      "group": "Rail equipment",
+      "country": "DE",
+      "url": "https://www.mobility.siemens.com/"
+    },
+    {
+      "rank": 553,
+      "id": "crrc",
+      "name": "CRRC",
+      "group": "Rail equipment",
+      "country": "CN",
+      "url": "https://www.crrcgc.cc/"
+    },
+    {
+      "rank": 554,
+      "id": "stadler",
+      "name": "Stadler",
+      "group": "Rail equipment",
+      "country": "CH",
+      "url": "https://www.stadlerrail.com/"
+    },
+    {
+      "rank": 555,
+      "id": "caf",
+      "name": "CAF",
+      "group": "Rail equipment",
+      "country": "ES",
+      "url": "https://www.caf.net/"
+    },
+    {
+      "rank": 556,
+      "id": "hitachi-rail",
+      "name": "Hitachi Rail",
+      "group": "Rail equipment",
+      "country": "JP",
+      "url": "https://www.hitachirail.com/"
+    },
+    {
+      "rank": 557,
+      "id": "kawasaki-rail",
+      "name": "Kawasaki Rail",
+      "group": "Rail equipment",
+      "country": "JP",
+      "url": "https://global.kawasaki.com/en/mobility/rail/"
+    },
+    {
+      "rank": 558,
+      "id": "talgo",
+      "name": "Talgo",
+      "group": "Rail equipment",
+      "country": "ES",
+      "url": "https://www.talgo.com/"
+    },
+    {
+      "rank": 559,
+      "id": "pesa",
+      "name": "Pesa",
+      "group": "Rail equipment",
+      "country": "PL",
+      "url": "https://pesa.pl/"
+    },
+    {
+      "rank": 560,
+      "id": "skoda-transportation",
+      "name": "Skoda Transportation",
+      "group": "Rail equipment",
+      "country": "CZ",
+      "url": "https://www.skodagroup.com/"
+    },
+    {
+      "rank": 561,
+      "id": "stadler-us",
+      "name": "Stadler US",
+      "group": "Rail equipment",
+      "country": "US",
+      "url": "https://www.stadlerrail.com/en/stadler-us/"
+    },
+    {
+      "rank": 562,
+      "id": "medtronic",
+      "name": "Medtronic",
+      "group": "Medical devices",
+      "country": "IE",
+      "url": "https://www.medtronic.com/"
+    },
+    {
+      "rank": 563,
+      "id": "abbott",
+      "name": "Abbott",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.abbott.com/"
+    },
+    {
+      "rank": 564,
+      "id": "stryker",
+      "name": "Stryker",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.stryker.com/"
+    },
+    {
+      "rank": 565,
+      "id": "boston-scientific",
+      "name": "Boston Scientific",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.bostonscientific.com/"
+    },
+    {
+      "rank": 566,
+      "id": "zimmer-biomet",
+      "name": "Zimmer Biomet",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.zimmerbiomet.com/"
+    },
+    {
+      "rank": 567,
+      "id": "smithnephew",
+      "name": "Smith+Nephew",
+      "group": "Medical devices",
+      "country": "GB",
+      "url": "https://www.smith-nephew.com/"
+    },
+    {
+      "rank": 568,
+      "id": "edwards-lifesciences",
+      "name": "Edwards Lifesciences",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.edwards.com/"
+    },
+    {
+      "rank": 569,
+      "id": "intuitive-surgical",
+      "name": "Intuitive Surgical",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.intuitive.com/"
+    },
+    {
+      "rank": 570,
+      "id": "siemens-healthineers",
+      "name": "Siemens Healthineers",
+      "group": "Medical devices",
+      "country": "DE",
+      "url": "https://www.siemens-healthineers.com/"
+    },
+    {
+      "rank": 571,
+      "id": "ge-healthcare",
+      "name": "GE HealthCare",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.gehealthcare.com/"
+    },
+    {
+      "rank": 572,
+      "id": "philips-healthcare",
+      "name": "Philips Healthcare",
+      "group": "Medical devices",
+      "country": "NL",
+      "url": "https://www.philips.com/healthcare"
+    },
+    {
+      "rank": 573,
+      "id": "canon-medical",
+      "name": "Canon Medical",
+      "group": "Medical devices",
+      "country": "JP",
+      "url": "https://global.medical.canon/"
+    },
+    {
+      "rank": 574,
+      "id": "fujifilm-healthcare",
+      "name": "Fujifilm Healthcare",
+      "group": "Medical devices",
+      "country": "JP",
+      "url": "https://www.fujifilm.com/us/en/healthcare"
+    },
+    {
+      "rank": 575,
+      "id": "olympus",
+      "name": "Olympus",
+      "group": "Medical devices",
+      "country": "JP",
+      "url": "https://www.olympus-global.com/"
+    },
+    {
+      "rank": 576,
+      "id": "terumo",
+      "name": "Terumo",
+      "group": "Medical devices",
+      "country": "JP",
+      "url": "https://www.terumo.com/"
+    },
+    {
+      "rank": 577,
+      "id": "nipro",
+      "name": "Nipro",
+      "group": "Medical devices",
+      "country": "JP",
+      "url": "https://www.nipro.co.jp/"
+    },
+    {
+      "rank": 578,
+      "id": "sysmex",
+      "name": "Sysmex",
+      "group": "Medical devices",
+      "country": "JP",
+      "url": "https://www.sysmex.com/"
+    },
+    {
+      "rank": 579,
+      "id": "hologic",
+      "name": "Hologic",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.hologic.com/"
+    },
+    {
+      "rank": 580,
+      "id": "resmed",
+      "name": "ResMed",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.resmed.com/"
+    },
+    {
+      "rank": 581,
+      "id": "baxter",
+      "name": "Baxter",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.baxter.com/"
+    },
+    {
+      "rank": 582,
+      "id": "becton-dickinson",
+      "name": "Becton Dickinson",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.bd.com/"
+    },
+    {
+      "rank": 583,
+      "id": "cardinal-health",
+      "name": "Cardinal Health",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.cardinalhealth.com/"
+    },
+    {
+      "rank": 584,
+      "id": "owens-minor",
+      "name": "Owens & Minor",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.owens-minor.com/"
+    },
+    {
+      "rank": 585,
+      "id": "teleflex",
+      "name": "Teleflex",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.teleflex.com/"
+    },
+    {
+      "rank": 586,
+      "id": "icu-medical",
+      "name": "ICU Medical",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.icumed.com/"
+    },
+    {
+      "rank": 587,
+      "id": "getinge",
+      "name": "Getinge",
+      "group": "Medical devices",
+      "country": "SE",
+      "url": "https://www.getinge.com/"
+    },
+    {
+      "rank": 588,
+      "id": "elekta",
+      "name": "Elekta",
+      "group": "Medical devices",
+      "country": "SE",
+      "url": "https://www.elekta.com/"
+    },
+    {
+      "rank": 589,
+      "id": "drager",
+      "name": "Drager",
+      "group": "Medical devices",
+      "country": "DE",
+      "url": "https://www.draeger.com/"
+    },
+    {
+      "rank": 590,
+      "id": "b-braun",
+      "name": "B. Braun",
+      "group": "Medical devices",
+      "country": "DE",
+      "url": "https://www.bbraun.com/"
+    },
+    {
+      "rank": 591,
+      "id": "fresenius-medical-care",
+      "name": "Fresenius Medical Care",
+      "group": "Medical devices",
+      "country": "DE",
+      "url": "https://www.freseniusmedicalcare.com/"
+    },
+    {
+      "rank": 592,
+      "id": "carl-zeiss-meditec",
+      "name": "Carl Zeiss Meditec",
+      "group": "Medical devices",
+      "country": "DE",
+      "url": "https://www.zeiss.com/meditec"
+    },
+    {
+      "rank": 593,
+      "id": "alcon",
+      "name": "Alcon",
+      "group": "Medical devices",
+      "country": "CH",
+      "url": "https://www.alcon.com/"
+    },
+    {
+      "rank": 594,
+      "id": "sonova",
+      "name": "Sonova",
+      "group": "Medical devices",
+      "country": "CH",
+      "url": "https://www.sonova.com/"
+    },
+    {
+      "rank": 595,
+      "id": "demant",
+      "name": "Demant",
+      "group": "Medical devices",
+      "country": "DK",
+      "url": "https://www.demant.com/"
+    },
+    {
+      "rank": 596,
+      "id": "ws-audiology",
+      "name": "WS Audiology",
+      "group": "Medical devices",
+      "country": "DK",
+      "url": "https://www.wsa.com/"
+    },
+    {
+      "rank": 597,
+      "id": "coloplast",
+      "name": "Coloplast",
+      "group": "Medical devices",
+      "country": "DK",
+      "url": "https://www.coloplast.com/"
+    },
+    {
+      "rank": 598,
+      "id": "ambu",
+      "name": "Ambu",
+      "group": "Medical devices",
+      "country": "DK",
+      "url": "https://www.ambu.com/"
+    },
+    {
+      "rank": 599,
+      "id": "straumann",
+      "name": "Straumann",
+      "group": "Medical devices",
+      "country": "CH",
+      "url": "https://www.straumann.com/"
+    },
+    {
+      "rank": 600,
+      "id": "dentsply-sirona",
+      "name": "Dentsply Sirona",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.dentsplysirona.com/"
+    },
+    {
+      "rank": 601,
+      "id": "align-technology",
+      "name": "Align Technology",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.aligntech.com/"
+    },
+    {
+      "rank": 602,
+      "id": "envista",
+      "name": "Envista",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.envistaco.com/"
+    },
+    {
+      "rank": 603,
+      "id": "coopercompanies",
+      "name": "CooperCompanies",
+      "group": "Medical devices",
+      "country": "US",
+      "url": "https://www.coopercos.com/"
+    },
+    {
+      "rank": 604,
+      "id": "biorad",
+      "name": "Bio-Rad",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.bio-rad.com/"
+    },
+    {
+      "rank": 605,
+      "id": "thermo-fisher-scientific",
+      "name": "Thermo Fisher Scientific",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.thermofisher.com/"
+    },
+    {
+      "rank": 606,
+      "id": "danaher",
+      "name": "Danaher",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.danaher.com/"
+    },
+    {
+      "rank": 607,
+      "id": "agilent",
+      "name": "Agilent",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.agilent.com/"
+    },
+    {
+      "rank": 608,
+      "id": "waters",
+      "name": "Waters",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.waters.com/"
+    },
+    {
+      "rank": 609,
+      "id": "perkinelmer",
+      "name": "PerkinElmer",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.perkinelmer.com/"
+    },
+    {
+      "rank": 610,
+      "id": "bruker",
+      "name": "Bruker",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.bruker.com/"
+    },
+    {
+      "rank": 611,
+      "id": "illumina",
+      "name": "Illumina",
+      "group": "Life science instruments",
+      "country": "US",
+      "url": "https://www.illumina.com/"
+    },
+    {
+      "rank": 612,
+      "id": "qiagen",
+      "name": "Qiagen",
+      "group": "Life science instruments",
+      "country": "NL",
+      "url": "https://www.qiagen.com/"
+    },
+    {
+      "rank": 613,
+      "id": "sartorius",
+      "name": "Sartorius",
+      "group": "Life science equipment",
+      "country": "DE",
+      "url": "https://www.sartorius.com/"
+    },
+    {
+      "rank": 614,
+      "id": "merck-kgaa",
+      "name": "Merck KGaA",
+      "group": "Life science / chemicals",
+      "country": "DE",
+      "url": "https://www.merckgroup.com/"
+    },
+    {
+      "rank": 615,
+      "id": "milliporesigma",
+      "name": "MilliporeSigma",
+      "group": "Life science",
+      "country": "US",
+      "url": "https://www.sigmaaldrich.com/"
+    },
+    {
+      "rank": 616,
+      "id": "eppendorf",
+      "name": "Eppendorf",
+      "group": "Life science equipment",
+      "country": "DE",
+      "url": "https://www.eppendorf.com/"
+    },
+    {
+      "rank": 617,
+      "id": "tecan",
+      "name": "Tecan",
+      "group": "Life science instruments",
+      "country": "CH",
+      "url": "https://www.tecan.com/"
+    },
+    {
+      "rank": 618,
+      "id": "mettler-toledo",
+      "name": "Mettler Toledo",
+      "group": "Precision instruments",
+      "country": "US",
+      "url": "https://www.mt.com/"
+    },
+    {
+      "rank": 619,
+      "id": "sartorius-stedim",
+      "name": "Sartorius Stedim",
+      "group": "Life science equipment",
+      "country": "FR",
+      "url": "https://www.sartorius.com/en/products/bioprocess-solutions"
+    },
+    {
+      "rank": 620,
+      "id": "keysight",
+      "name": "Keysight",
+      "group": "Test and measurement",
+      "country": "US",
+      "url": "https://www.keysight.com/"
+    },
+    {
+      "rank": 621,
+      "id": "rohde-schwarz",
+      "name": "Rohde & Schwarz",
+      "group": "Test and measurement",
+      "country": "DE",
+      "url": "https://www.rohde-schwarz.com/"
+    },
+    {
+      "rank": 622,
+      "id": "national-instruments",
+      "name": "National Instruments",
+      "group": "Test and measurement",
+      "country": "US",
+      "url": "https://www.ni.com/"
+    },
+    {
+      "rank": 623,
+      "id": "tektronix",
+      "name": "Tektronix",
+      "group": "Test and measurement",
+      "country": "US",
+      "url": "https://www.tek.com/"
+    },
+    {
+      "rank": 624,
+      "id": "fluke",
+      "name": "Fluke",
+      "group": "Test and measurement",
+      "country": "US",
+      "url": "https://www.fluke.com/"
+    },
+    {
+      "rank": 625,
+      "id": "anritsu",
+      "name": "Anritsu",
+      "group": "Test and measurement",
+      "country": "JP",
+      "url": "https://www.anritsu.com/"
+    },
+    {
+      "rank": 626,
+      "id": "yokogawa-test",
+      "name": "Yokogawa Test",
+      "group": "Test and measurement",
+      "country": "JP",
+      "url": "https://tmi.yokogawa.com/"
+    },
+    {
+      "rank": 627,
+      "id": "hioki",
+      "name": "Hioki",
+      "group": "Test and measurement",
+      "country": "JP",
+      "url": "https://www.hioki.com/"
+    },
+    {
+      "rank": 628,
+      "id": "keithley",
+      "name": "Keithley",
+      "group": "Test and measurement",
+      "country": "US",
+      "url": "https://www.tek.com/en/products/keithley"
+    },
+    {
+      "rank": 629,
+      "id": "ametek",
+      "name": "AMETEK",
+      "group": "Test and measurement",
+      "country": "US",
+      "url": "https://www.ametek.com/"
+    },
+    {
+      "rank": 630,
+      "id": "fortive",
+      "name": "Fortive",
+      "group": "Industrial technology",
+      "country": "US",
+      "url": "https://www.fortive.com/"
+    },
+    {
+      "rank": 631,
+      "id": "roper-technologies",
+      "name": "Roper Technologies",
+      "group": "Industrial technology",
+      "country": "US",
+      "url": "https://www.ropertech.com/"
+    },
+    {
+      "rank": 632,
+      "id": "teledyne",
+      "name": "Teledyne",
+      "group": "Industrial technology",
+      "country": "US",
+      "url": "https://www.teledyne.com/"
+    },
+    {
+      "rank": 633,
+      "id": "hexagon",
+      "name": "Hexagon",
+      "group": "Metrology",
+      "country": "SE",
+      "url": "https://hexagon.com/"
+    },
+    {
+      "rank": 634,
+      "id": "zeiss-industrial",
+      "name": "Zeiss Industrial",
+      "group": "Metrology",
+      "country": "DE",
+      "url": "https://www.zeiss.com/metrology"
+    },
+    {
+      "rank": 635,
+      "id": "mitutoyo",
+      "name": "Mitutoyo",
+      "group": "Metrology",
+      "country": "JP",
+      "url": "https://www.mitutoyo.com/"
+    },
+    {
+      "rank": 636,
+      "id": "renishaw",
+      "name": "Renishaw",
+      "group": "Metrology",
+      "country": "GB",
+      "url": "https://www.renishaw.com/"
+    },
+    {
+      "rank": 637,
+      "id": "faro",
+      "name": "Faro",
+      "group": "Metrology",
+      "country": "US",
+      "url": "https://www.faro.com/"
+    },
+    {
+      "rank": 638,
+      "id": "creaform",
+      "name": "Creaform",
+      "group": "Metrology",
+      "country": "CA",
+      "url": "https://www.creaform3d.com/"
+    },
+    {
+      "rank": 639,
+      "id": "gom",
+      "name": "GOM",
+      "group": "Metrology",
+      "country": "DE",
+      "url": "https://www.gom.com/"
+    },
+    {
+      "rank": 640,
+      "id": "nikon-metrology",
+      "name": "Nikon Metrology",
+      "group": "Metrology",
+      "country": "JP",
+      "url": "https://www.nikon.com/business/industrial-metrology/"
+    },
+    {
+      "rank": 641,
+      "id": "olympus-ims",
+      "name": "Olympus IMS",
+      "group": "NDT",
+      "country": "JP",
+      "url": "https://www.olympus-ims.com/"
+    },
+    {
+      "rank": 642,
+      "id": "waygate",
+      "name": "Waygate",
+      "group": "NDT",
+      "country": "US",
+      "url": "https://www.bakerhughes.com/waygate-technologies"
+    },
+    {
+      "rank": 643,
+      "id": "zetec",
+      "name": "Zetec",
+      "group": "NDT",
+      "country": "US",
+      "url": "https://www.zetec.com/"
+    },
+    {
+      "rank": 644,
+      "id": "eddyfi",
+      "name": "Eddyfi",
+      "group": "NDT",
+      "country": "CA",
+      "url": "https://www.eddyfi.com/"
+    },
+    {
+      "rank": 645,
+      "id": "sonatest",
+      "name": "Sonatest",
+      "group": "NDT",
+      "country": "GB",
+      "url": "https://sonatest.com/"
+    },
+    {
+      "rank": 646,
+      "id": "stanley-black-decker",
+      "name": "Stanley Black & Decker",
+      "group": "Tools",
+      "country": "US",
+      "url": "https://www.stanleyblackanddecker.com/"
+    },
+    {
+      "rank": 647,
+      "id": "techtronic",
+      "name": "Techtronic",
+      "group": "Tools",
+      "country": "HK",
+      "url": "https://www.ttigroup.com/"
+    },
+    {
+      "rank": 648,
+      "id": "bosch-power-tools",
+      "name": "Bosch Power Tools",
+      "group": "Tools",
+      "country": "DE",
+      "url": "https://www.bosch-professional.com/"
+    },
+    {
+      "rank": 649,
+      "id": "makita",
+      "name": "Makita",
+      "group": "Tools",
+      "country": "JP",
+      "url": "https://www.makita.com/"
+    },
+    {
+      "rank": 650,
+      "id": "hilti",
+      "name": "Hilti",
+      "group": "Tools",
+      "country": "LI",
+      "url": "https://www.hilti.com/"
+    },
+    {
+      "rank": 651,
+      "id": "festool",
+      "name": "Festool",
+      "group": "Tools",
+      "country": "DE",
+      "url": "https://www.festool.com/"
+    },
+    {
+      "rank": 652,
+      "id": "snapon",
+      "name": "Snap-on",
+      "group": "Tools",
+      "country": "US",
+      "url": "https://www.snapon.com/"
+    },
+    {
+      "rank": 653,
+      "id": "apex-tool-group",
+      "name": "Apex Tool Group",
+      "group": "Tools",
+      "country": "US",
+      "url": "https://www.apextoolgroup.com/"
+    },
+    {
+      "rank": 654,
+      "id": "ingersoll-rand-tools",
+      "name": "Ingersoll Rand Tools",
+      "group": "Tools",
+      "country": "US",
+      "url": "https://www.irtools.com/"
+    },
+    {
+      "rank": 655,
+      "id": "atlas-copco-tools",
+      "name": "Atlas Copco Tools",
+      "group": "Tools",
+      "country": "SE",
+      "url": "https://www.atlascopco.com/en-uk/itba"
+    },
+    {
+      "rank": 656,
+      "id": "desoutter",
+      "name": "Desoutter",
+      "group": "Tools",
+      "country": "FR",
+      "url": "https://www.desouttertools.com/"
+    },
+    {
+      "rank": 657,
+      "id": "chicago-pneumatic",
+      "name": "Chicago Pneumatic",
+      "group": "Tools",
+      "country": "US",
+      "url": "https://www.cp.com/"
+    },
+    {
+      "rank": 658,
+      "id": "lincoln-electric",
+      "name": "Lincoln Electric",
+      "group": "Welding equipment",
+      "country": "US",
+      "url": "https://www.lincolnelectric.com/"
+    },
+    {
+      "rank": 659,
+      "id": "esab",
+      "name": "ESAB",
+      "group": "Welding equipment",
+      "country": "SE",
+      "url": "https://www.esab.com/"
+    },
+    {
+      "rank": 660,
+      "id": "fronius",
+      "name": "Fronius",
+      "group": "Welding equipment",
+      "country": "AT",
+      "url": "https://www.fronius.com/"
+    },
+    {
+      "rank": 661,
+      "id": "kemppi",
+      "name": "Kemppi",
+      "group": "Welding equipment",
+      "country": "FI",
+      "url": "https://www.kemppi.com/"
+    },
+    {
+      "rank": 662,
+      "id": "miller-electric",
+      "name": "Miller Electric",
+      "group": "Welding equipment",
+      "country": "US",
+      "url": "https://www.millerwelds.com/"
+    },
+    {
+      "rank": 663,
+      "id": "hypertherm",
+      "name": "Hypertherm",
+      "group": "Cutting equipment",
+      "country": "US",
+      "url": "https://www.hypertherm.com/"
+    },
+    {
+      "rank": 664,
+      "id": "trumpf",
+      "name": "Trumpf",
+      "group": "Machine tools / lasers",
+      "country": "DE",
+      "url": "https://www.trumpf.com/"
+    },
+    {
+      "rank": 665,
+      "id": "dmg-mori",
+      "name": "DMG Mori",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://www.dmgmori.com/"
+    },
+    {
+      "rank": 666,
+      "id": "mazak",
+      "name": "Mazak",
+      "group": "Machine tools",
+      "country": "JP",
+      "url": "https://www.mazak.com/"
+    },
+    {
+      "rank": 667,
+      "id": "okuma",
+      "name": "Okuma",
+      "group": "Machine tools",
+      "country": "JP",
+      "url": "https://www.okuma.com/"
+    },
+    {
+      "rank": 668,
+      "id": "makino",
+      "name": "Makino",
+      "group": "Machine tools",
+      "country": "JP",
+      "url": "https://www.makino.com/"
+    },
+    {
+      "rank": 669,
+      "id": "haas-automation",
+      "name": "Haas Automation",
+      "group": "Machine tools",
+      "country": "US",
+      "url": "https://www.haascnc.com/"
+    },
+    {
+      "rank": 670,
+      "id": "doosan-machine-tools",
+      "name": "Doosan Machine Tools",
+      "group": "Machine tools",
+      "country": "KR",
+      "url": "https://www.dn-solutions.com/"
+    },
+    {
+      "rank": 671,
+      "id": "hurco",
+      "name": "Hurco",
+      "group": "Machine tools",
+      "country": "US",
+      "url": "https://www.hurco.com/"
+    },
+    {
+      "rank": 672,
+      "id": "gf-machining",
+      "name": "GF Machining",
+      "group": "Machine tools",
+      "country": "CH",
+      "url": "https://www.gfms.com/"
+    },
+    {
+      "rank": 673,
+      "id": "schuler",
+      "name": "Schuler",
+      "group": "Presses",
+      "country": "DE",
+      "url": "https://www.schulergroup.com/"
+    },
+    {
+      "rank": 674,
+      "id": "aida",
+      "name": "Aida",
+      "group": "Presses",
+      "country": "JP",
+      "url": "https://www.aida.co.jp/"
+    },
+    {
+      "rank": 675,
+      "id": "komatsu-industries",
+      "name": "Komatsu Industries",
+      "group": "Presses",
+      "country": "JP",
+      "url": "https://www.komatsuna.co.jp/"
+    },
+    {
+      "rank": 676,
+      "id": "amada",
+      "name": "Amada",
+      "group": "Machine tools",
+      "country": "JP",
+      "url": "https://www.amada.co.jp/"
+    },
+    {
+      "rank": 677,
+      "id": "bystronic",
+      "name": "Bystronic",
+      "group": "Machine tools",
+      "country": "CH",
+      "url": "https://www.bystronic.com/"
+    },
+    {
+      "rank": 678,
+      "id": "salvagnini",
+      "name": "Salvagnini",
+      "group": "Machine tools",
+      "country": "IT",
+      "url": "https://www.salvagnini.com/"
+    },
+    {
+      "rank": 679,
+      "id": "prima-power",
+      "name": "Prima Power",
+      "group": "Machine tools",
+      "country": "IT",
+      "url": "https://www.primapower.com/"
+    },
+    {
+      "rank": 680,
+      "id": "blm-group",
+      "name": "BLM Group",
+      "group": "Machine tools",
+      "country": "IT",
+      "url": "https://www.blmgroup.com/"
+    },
+    {
+      "rank": 681,
+      "id": "indexwerke",
+      "name": "Index-Werke",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://www.index-werke.de/"
+    },
+    {
+      "rank": 682,
+      "id": "gildemeister",
+      "name": "Gildemeister",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://de.dmgmori.com/"
+    },
+    {
+      "rank": 683,
+      "id": "emag",
+      "name": "Emag",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://www.emag.com/"
+    },
+    {
+      "rank": 684,
+      "id": "chiron",
+      "name": "Chiron",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://chiron-group.com/"
+    },
+    {
+      "rank": 685,
+      "id": "hermle",
+      "name": "Hermle",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://www.hermle.de/"
+    },
+    {
+      "rank": 686,
+      "id": "grob",
+      "name": "Grob",
+      "group": "Machine tools",
+      "country": "DE",
+      "url": "https://www.grobgroup.com/"
+    },
+    {
+      "rank": 687,
+      "id": "starrag",
+      "name": "Starrag",
+      "group": "Machine tools",
+      "country": "CH",
+      "url": "https://www.starrag.com/"
+    },
+    {
+      "rank": 688,
+      "id": "united-grinding",
+      "name": "United Grinding",
+      "group": "Machine tools",
+      "country": "CH",
+      "url": "https://www.grinding.ch/"
+    },
+    {
+      "rank": 689,
+      "id": "studer",
+      "name": "Studer",
+      "group": "Machine tools",
+      "country": "CH",
+      "url": "https://www.studer.com/"
+    },
+    {
+      "rank": 690,
+      "id": "hardinge",
+      "name": "Hardinge",
+      "group": "Machine tools",
+      "country": "US",
+      "url": "https://www.hardinge.com/"
+    },
+    {
+      "rank": 691,
+      "id": "fives",
+      "name": "Fives",
+      "group": "Industrial engineering",
+      "country": "FR",
+      "url": "https://www.fivesgroup.com/"
+    },
+    {
+      "rank": 692,
+      "id": "andritz",
+      "name": "Andritz",
+      "group": "Industrial equipment",
+      "country": "AT",
+      "url": "https://www.andritz.com/"
+    },
+    {
+      "rank": 693,
+      "id": "voith",
+      "name": "Voith",
+      "group": "Industrial equipment",
+      "country": "DE",
+      "url": "https://voith.com/"
+    },
+    {
+      "rank": 694,
+      "id": "sms-group",
+      "name": "SMS group",
+      "group": "Metals equipment",
+      "country": "DE",
+      "url": "https://www.sms-group.com/"
+    },
+    {
+      "rank": 695,
+      "id": "danieli",
+      "name": "Danieli",
+      "group": "Metals equipment",
+      "country": "IT",
+      "url": "https://www.danieli.com/"
+    },
+    {
+      "rank": 696,
+      "id": "primetals",
+      "name": "Primetals",
+      "group": "Metals equipment",
+      "country": "GB",
+      "url": "https://www.primetals.com/"
+    },
+    {
+      "rank": 697,
+      "id": "tenova",
+      "name": "Tenova",
+      "group": "Metals equipment",
+      "country": "IT",
+      "url": "https://www.tenova.com/"
+    },
+    {
+      "rank": 698,
+      "id": "paul-wurth",
+      "name": "Paul Wurth",
+      "group": "Metals equipment",
+      "country": "LU",
+      "url": "https://www.paulwurth.com/"
+    },
+    {
+      "rank": 699,
+      "id": "outotec-minerals",
+      "name": "Outotec Minerals",
+      "group": "Process equipment",
+      "country": "FI",
+      "url": "https://www.mogroup.com/portfolio/"
+    },
+    {
+      "rank": 700,
+      "id": "alfa-laval",
+      "name": "Alfa Laval",
+      "group": "Process equipment",
+      "country": "SE",
+      "url": "https://www.alfalaval.com/"
+    },
+    {
+      "rank": 701,
+      "id": "gea",
+      "name": "GEA",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.gea.com/"
+    },
+    {
+      "rank": 702,
+      "id": "spx-flow",
+      "name": "SPX FLOW",
+      "group": "Process equipment",
+      "country": "US",
+      "url": "https://www.spxflow.com/"
+    },
+    {
+      "rank": 703,
+      "id": "tetra-pak",
+      "name": "Tetra Pak",
+      "group": "Process equipment",
+      "country": "SE",
+      "url": "https://www.tetrapak.com/"
+    },
+    {
+      "rank": 704,
+      "id": "krones",
+      "name": "Krones",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.krones.com/"
+    },
+    {
+      "rank": 705,
+      "id": "sidel",
+      "name": "Sidel",
+      "group": "Process equipment",
+      "country": "FR",
+      "url": "https://www.sidel.com/"
+    },
+    {
+      "rank": 706,
+      "id": "khs",
+      "name": "KHS",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.khs.com/"
+    },
+    {
+      "rank": 707,
+      "id": "bosch-packaging",
+      "name": "Bosch Packaging",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.syntegon.com/"
+    },
+    {
+      "rank": 708,
+      "id": "syntegon",
+      "name": "Syntegon",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.syntegon.com/en"
+    },
+    {
+      "rank": 709,
+      "id": "ima-group",
+      "name": "IMA Group",
+      "group": "Process equipment",
+      "country": "IT",
+      "url": "https://ima.it/"
+    },
+    {
+      "rank": 710,
+      "id": "marchesini",
+      "name": "Marchesini",
+      "group": "Process equipment",
+      "country": "IT",
+      "url": "https://www.marchesini.com/"
+    },
+    {
+      "rank": 711,
+      "id": "optima",
+      "name": "Optima",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.optima-packaging.com/"
+    },
+    {
+      "rank": 712,
+      "id": "multivac",
+      "name": "Multivac",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.multivac.com/"
+    },
+    {
+      "rank": 713,
+      "id": "ishida",
+      "name": "Ishida",
+      "group": "Process equipment",
+      "country": "JP",
+      "url": "https://www.ishida.com/"
+    },
+    {
+      "rank": 714,
+      "id": "yamato-scale",
+      "name": "Yamato Scale",
+      "group": "Process equipment",
+      "country": "JP",
+      "url": "https://www.yamato-scale.co.jp/"
+    },
+    {
+      "rank": 715,
+      "id": "marel",
+      "name": "Marel",
+      "group": "Process equipment",
+      "country": "IS",
+      "url": "https://marel.com/"
+    },
+    {
+      "rank": 716,
+      "id": "jbt",
+      "name": "JBT",
+      "group": "Process equipment",
+      "country": "US",
+      "url": "https://www.jbtc.com/"
+    },
+    {
+      "rank": 717,
+      "id": "heat-and-control",
+      "name": "Heat and Control",
+      "group": "Process equipment",
+      "country": "US",
+      "url": "https://www.heatandcontrol.com/"
+    },
+    {
+      "rank": 718,
+      "id": "buhler",
+      "name": "Buhler",
+      "group": "Process equipment",
+      "country": "CH",
+      "url": "https://www.buhlergroup.com/"
+    },
+    {
+      "rank": 719,
+      "id": "hosokawa",
+      "name": "Hosokawa",
+      "group": "Process equipment",
+      "country": "JP",
+      "url": "https://www.hosokawa.com/"
+    },
+    {
+      "rank": 720,
+      "id": "glatt",
+      "name": "Glatt",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.glatt.com/"
+    },
+    {
+      "rank": 721,
+      "id": "iwk",
+      "name": "IWK",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.iwk.de/"
+    },
+    {
+      "rank": 722,
+      "id": "uhlmann",
+      "name": "Uhlmann",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.uhlmann.de/"
+    },
+    {
+      "rank": 723,
+      "id": "romaco",
+      "name": "Romaco",
+      "group": "Process equipment",
+      "country": "DE",
+      "url": "https://www.romaco.com/"
+    },
+    {
+      "rank": 724,
+      "id": "bosch-rexroth",
+      "name": "Bosch Rexroth",
+      "group": "Hydraulics / motion",
+      "country": "DE",
+      "url": "https://www.boschrexroth.com/"
+    },
+    {
+      "rank": 725,
+      "id": "parker-hannifin",
+      "name": "Parker Hannifin",
+      "group": "Motion / fluid",
+      "country": "US",
+      "url": "https://www.parker.com/"
+    },
+    {
+      "rank": 726,
+      "id": "eaton-hydraulics",
+      "name": "Eaton Hydraulics",
+      "group": "Hydraulics",
+      "country": "US",
+      "url": "https://www.eaton.com/us/en-us/products/hydraulics.html"
+    },
+    {
+      "rank": 727,
+      "id": "danfoss-power-solutions",
+      "name": "Danfoss Power Solutions",
+      "group": "Hydraulics",
+      "country": "DK",
+      "url": "https://www.danfoss.com/en/about-danfoss/our-businesses/power-solutions/"
+    },
+    {
+      "rank": 728,
+      "id": "moog",
+      "name": "Moog",
+      "group": "Motion control",
+      "country": "US",
+      "url": "https://www.moog.com/"
+    },
+    {
+      "rank": 729,
+      "id": "hawe",
+      "name": "Hawe",
+      "group": "Hydraulics",
+      "country": "DE",
+      "url": "https://www.hawe.com/"
+    },
+    {
+      "rank": 730,
+      "id": "bucher-hydraulics",
+      "name": "Bucher Hydraulics",
+      "group": "Hydraulics",
+      "country": "CH",
+      "url": "https://www.bucherhydraulics.com/"
+    },
+    {
+      "rank": 731,
+      "id": "kawasaki-hydraulics",
+      "name": "Kawasaki Hydraulics",
+      "group": "Hydraulics",
+      "country": "JP",
+      "url": "https://kpm-hydraulics.com/"
+    },
+    {
+      "rank": 732,
+      "id": "yuken",
+      "name": "Yuken",
+      "group": "Hydraulics",
+      "country": "JP",
+      "url": "https://www.yuken.co.jp/"
+    },
+    {
+      "rank": 733,
+      "id": "sun-hydraulics",
+      "name": "Sun Hydraulics",
+      "group": "Hydraulics",
+      "country": "US",
+      "url": "https://www.sunhydraulics.com/"
+    },
+    {
+      "rank": 734,
+      "id": "husky-injection",
+      "name": "Husky Injection",
+      "group": "Plastics equipment",
+      "country": "CA",
+      "url": "https://www.husky.co/"
+    },
+    {
+      "rank": 735,
+      "id": "engel",
+      "name": "Engel",
+      "group": "Plastics equipment",
+      "country": "AT",
+      "url": "https://www.engelglobal.com/"
+    },
+    {
+      "rank": 736,
+      "id": "kraussmaffei",
+      "name": "KraussMaffei",
+      "group": "Plastics equipment",
+      "country": "DE",
+      "url": "https://www.kraussmaffei.com/"
+    },
+    {
+      "rank": 737,
+      "id": "arburg",
+      "name": "Arburg",
+      "group": "Plastics equipment",
+      "country": "DE",
+      "url": "https://www.arburg.com/"
+    },
+    {
+      "rank": 738,
+      "id": "sumitomo-demag",
+      "name": "Sumitomo Demag",
+      "group": "Plastics equipment",
+      "country": "DE",
+      "url": "https://www.sumitomo-shi-demag.eu/"
+    },
+    {
+      "rank": 739,
+      "id": "milacron",
+      "name": "Milacron",
+      "group": "Plastics equipment",
+      "country": "US",
+      "url": "https://www.milacron.com/"
+    },
+    {
+      "rank": 740,
+      "id": "negri-bossi",
+      "name": "Negri Bossi",
+      "group": "Plastics equipment",
+      "country": "IT",
+      "url": "https://www.negribossi.com/"
+    },
+    {
+      "rank": 741,
+      "id": "wittmann-battenfeld",
+      "name": "Wittmann Battenfeld",
+      "group": "Plastics equipment",
+      "country": "AT",
+      "url": "https://www.wittmann-group.com/"
+    },
+    {
+      "rank": 742,
+      "id": "haitian",
+      "name": "Haitian",
+      "group": "Plastics equipment",
+      "country": "CN",
+      "url": "https://www.haitian.com/"
+    },
+    {
+      "rank": 743,
+      "id": "chen-hsong",
+      "name": "Chen Hsong",
+      "group": "Plastics equipment",
+      "country": "HK",
+      "url": "https://www.chenhsong.com/"
+    },
+    {
+      "rank": 744,
+      "id": "jsw-plastics",
+      "name": "JSW Plastics",
+      "group": "Plastics equipment",
+      "country": "JP",
+      "url": "https://www.jsw.co.jp/"
+    },
+    {
+      "rank": 745,
+      "id": "toshiba-machine",
+      "name": "Toshiba Machine",
+      "group": "Plastics equipment",
+      "country": "JP",
+      "url": "https://www.shibaura-machine.co.jp/"
+    },
+    {
+      "rank": 746,
+      "id": "shibaura-machine",
+      "name": "Shibaura Machine",
+      "group": "Machine tools",
+      "country": "JP",
+      "url": "https://www.shibaura-machine.co.jp/en/"
+    },
+    {
+      "rank": 747,
+      "id": "nissei",
+      "name": "Nissei",
+      "group": "Plastics equipment",
+      "country": "JP",
+      "url": "https://www.nisseijushi.co.jp/"
+    },
+    {
+      "rank": 748,
+      "id": "fanuc-roboshot",
+      "name": "Fanuc Roboshot",
+      "group": "Plastics equipment",
+      "country": "JP",
+      "url": "https://www.fanuc.co.jp/"
+    },
+    {
+      "rank": 749,
+      "id": "carrier",
+      "name": "Carrier",
+      "group": "HVAC",
+      "country": "US",
+      "url": "https://www.carrier.com/"
+    },
+    {
+      "rank": 750,
+      "id": "trane-technologies",
+      "name": "Trane Technologies",
+      "group": "HVAC",
+      "country": "IE",
+      "url": "https://www.tranetechnologies.com/"
+    },
+    {
+      "rank": 751,
+      "id": "johnson-controls",
+      "name": "Johnson Controls",
+      "group": "Building systems",
+      "country": "IE",
+      "url": "https://www.johnsoncontrols.com/"
+    },
+    {
+      "rank": 752,
+      "id": "daikin",
+      "name": "Daikin",
+      "group": "HVAC",
+      "country": "JP",
+      "url": "https://www.daikin.com/"
+    },
+    {
+      "rank": 753,
+      "id": "mitsubishi-electric-hvac",
+      "name": "Mitsubishi Electric HVAC",
+      "group": "HVAC",
+      "country": "JP",
+      "url": "https://www.mitsubishielectric.com/en/products/air/"
+    },
+    {
+      "rank": 754,
+      "id": "lg-hvac",
+      "name": "LG HVAC",
+      "group": "HVAC",
+      "country": "KR",
+      "url": "https://www.lghvac.com/"
+    },
+    {
+      "rank": 755,
+      "id": "samsung-hvac",
+      "name": "Samsung HVAC",
+      "group": "HVAC",
+      "country": "KR",
+      "url": "https://www.samsunghvac.com/"
+    },
+    {
+      "rank": 756,
+      "id": "gree",
+      "name": "Gree",
+      "group": "HVAC",
+      "country": "CN",
+      "url": "https://global.gree.com/"
+    },
+    {
+      "rank": 757,
+      "id": "midea",
+      "name": "Midea",
+      "group": "HVAC / appliances",
+      "country": "CN",
+      "url": "https://www.midea.com/"
+    },
+    {
+      "rank": 758,
+      "id": "haier",
+      "name": "Haier",
+      "group": "Appliances manufacturing",
+      "country": "CN",
+      "url": "https://www.haier.com/"
+    },
+    {
+      "rank": 759,
+      "id": "whirlpool",
+      "name": "Whirlpool",
+      "group": "Appliances manufacturing",
+      "country": "US",
+      "url": "https://www.whirlpoolcorp.com/"
+    },
+    {
+      "rank": 760,
+      "id": "electrolux",
+      "name": "Electrolux",
+      "group": "Appliances manufacturing",
+      "country": "SE",
+      "url": "https://www.electroluxgroup.com/"
+    },
+    {
+      "rank": 761,
+      "id": "bsh",
+      "name": "BSH",
+      "group": "Appliances manufacturing",
+      "country": "DE",
+      "url": "https://www.bsh-group.com/"
+    },
+    {
+      "rank": 762,
+      "id": "miele",
+      "name": "Miele",
+      "group": "Appliances manufacturing",
+      "country": "DE",
+      "url": "https://www.miele.com/"
+    },
+    {
+      "rank": 763,
+      "id": "vaillant",
+      "name": "Vaillant",
+      "group": "HVAC",
+      "country": "DE",
+      "url": "https://www.vaillant-group.com/"
+    },
+    {
+      "rank": 764,
+      "id": "viessmann",
+      "name": "Viessmann",
+      "group": "HVAC",
+      "country": "DE",
+      "url": "https://www.viessmann.com/"
+    },
+    {
+      "rank": 765,
+      "id": "bosch-thermotechnology",
+      "name": "Bosch Thermotechnology",
+      "group": "HVAC",
+      "country": "DE",
+      "url": "https://www.bosch-thermotechnology.com/"
+    },
+    {
+      "rank": 766,
+      "id": "uponor",
+      "name": "Uponor",
+      "group": "Building systems",
+      "country": "FI",
+      "url": "https://www.uponor.com/"
+    },
+    {
+      "rank": 767,
+      "id": "geberit",
+      "name": "Geberit",
+      "group": "Building systems",
+      "country": "CH",
+      "url": "https://www.geberit.com/"
+    },
+    {
+      "rank": 768,
+      "id": "grohe",
+      "name": "Grohe",
+      "group": "Building systems",
+      "country": "DE",
+      "url": "https://www.grohe.com/"
+    },
+    {
+      "rank": 769,
+      "id": "hansgrohe",
+      "name": "Hansgrohe",
+      "group": "Building systems",
+      "country": "DE",
+      "url": "https://www.hansgrohe.com/"
+    },
+    {
+      "rank": 770,
+      "id": "toto",
+      "name": "Toto",
+      "group": "Building systems",
+      "country": "JP",
+      "url": "https://jp.toto.com/"
+    },
+    {
+      "rank": 771,
+      "id": "kohler",
+      "name": "Kohler",
+      "group": "Building systems",
+      "country": "US",
+      "url": "https://www.kohler.com/"
+    },
+    {
+      "rank": 772,
+      "id": "american-standard",
+      "name": "American Standard",
+      "group": "Building systems",
+      "country": "US",
+      "url": "https://www.americanstandard.com/"
+    },
+    {
+      "rank": 773,
+      "id": "lixil",
+      "name": "Lixil",
+      "group": "Building systems",
+      "country": "JP",
+      "url": "https://www.lixil.com/"
+    },
+    {
+      "rank": 774,
+      "id": "assa-abloy",
+      "name": "Assa Abloy",
+      "group": "Building systems",
+      "country": "SE",
+      "url": "https://www.assaabloy.com/"
+    },
+    {
+      "rank": 775,
+      "id": "dormakaba",
+      "name": "Dormakaba",
+      "group": "Building systems",
+      "country": "CH",
+      "url": "https://www.dormakaba.com/"
+    },
+    {
+      "rank": 776,
+      "id": "allegion",
+      "name": "Allegion",
+      "group": "Building systems",
+      "country": "IE",
+      "url": "https://www.allegion.com/"
+    },
+    {
+      "rank": 777,
+      "id": "schindler",
+      "name": "Schindler",
+      "group": "Elevators",
+      "country": "CH",
+      "url": "https://www.schindler.com/"
+    },
+    {
+      "rank": 778,
+      "id": "otis",
+      "name": "Otis",
+      "group": "Elevators",
+      "country": "US",
+      "url": "https://www.otis.com/"
+    },
+    {
+      "rank": 779,
+      "id": "kone",
+      "name": "Kone",
+      "group": "Elevators",
+      "country": "FI",
+      "url": "https://www.kone.com/"
+    },
+    {
+      "rank": 780,
+      "id": "thyssenkrupp-elevator",
+      "name": "thyssenkrupp Elevator",
+      "group": "Elevators",
+      "country": "DE",
+      "url": "https://www.tkelevator.com/"
+    },
+    {
+      "rank": 781,
+      "id": "mitsubishi-electric-elevators",
+      "name": "Mitsubishi Electric Elevators",
+      "group": "Elevators",
+      "country": "JP",
+      "url": "https://www.mitsubishielectric.com/elevator/"
+    },
+    {
+      "rank": 782,
+      "id": "fujitec",
+      "name": "Fujitec",
+      "group": "Elevators",
+      "country": "JP",
+      "url": "https://www.fujitec.com/"
+    },
+    {
+      "rank": 783,
+      "id": "hitachi-elevators",
+      "name": "Hitachi Elevators",
+      "group": "Elevators",
+      "country": "JP",
+      "url": "https://www.hitachi.com/businesses/elevator/"
+    },
+    {
+      "rank": 784,
+      "id": "hyundai-elevator",
+      "name": "Hyundai Elevator",
+      "group": "Elevators",
+      "country": "KR",
+      "url": "https://hyundaielevator.com/"
+    },
+    {
+      "rank": 785,
+      "id": "vestas",
+      "name": "Vestas",
+      "group": "Wind equipment",
+      "country": "DK",
+      "url": "https://www.vestas.com/"
+    },
+    {
+      "rank": 786,
+      "id": "siemens-gamesa",
+      "name": "Siemens Gamesa",
+      "group": "Wind equipment",
+      "country": "ES",
+      "url": "https://www.siemensgamesa.com/"
+    },
+    {
+      "rank": 787,
+      "id": "ge-renewable",
+      "name": "GE Renewable",
+      "group": "Wind equipment",
+      "country": "US",
+      "url": "https://www.gevernova.com/wind"
+    },
+    {
+      "rank": 788,
+      "id": "nordex",
+      "name": "Nordex",
+      "group": "Wind equipment",
+      "country": "DE",
+      "url": "https://www.nordex-online.com/"
+    },
+    {
+      "rank": 789,
+      "id": "enercon",
+      "name": "Enercon",
+      "group": "Wind equipment",
+      "country": "DE",
+      "url": "https://www.enercon.de/"
+    },
+    {
+      "rank": 790,
+      "id": "goldwind",
+      "name": "Goldwind",
+      "group": "Wind equipment",
+      "country": "CN",
+      "url": "https://www.goldwind.com/"
+    },
+    {
+      "rank": 791,
+      "id": "envision-energy",
+      "name": "Envision Energy",
+      "group": "Wind equipment",
+      "country": "CN",
+      "url": "https://www.envision-group.com/"
+    },
+    {
+      "rank": 792,
+      "id": "mingyang",
+      "name": "Mingyang",
+      "group": "Wind equipment",
+      "country": "CN",
+      "url": "https://www.mywind.com.cn/"
+    },
+    {
+      "rank": 793,
+      "id": "shanghai-electric",
+      "name": "Shanghai Electric",
+      "group": "Energy equipment",
+      "country": "CN",
+      "url": "https://www.shanghai-electric.com/"
+    },
+    {
+      "rank": 794,
+      "id": "dongfang-electric",
+      "name": "Dongfang Electric",
+      "group": "Energy equipment",
+      "country": "CN",
+      "url": "https://www.dec-ltd.cn/"
+    },
+    {
+      "rank": 795,
+      "id": "harbin-electric",
+      "name": "Harbin Electric",
+      "group": "Energy equipment",
+      "country": "CN",
+      "url": "https://www.harbin-electric.com/"
+    },
+    {
+      "rank": 796,
+      "id": "doosan-enerbility",
+      "name": "Doosan Enerbility",
+      "group": "Energy equipment",
+      "country": "KR",
+      "url": "https://www.doosanenerbility.com/"
+    },
+    {
+      "rank": 797,
+      "id": "mitsubishi-power",
+      "name": "Mitsubishi Power",
+      "group": "Energy equipment",
+      "country": "JP",
+      "url": "https://power.mhi.com/"
+    },
+    {
+      "rank": 798,
+      "id": "ansaldo-energia",
+      "name": "Ansaldo Energia",
+      "group": "Energy equipment",
+      "country": "IT",
+      "url": "https://www.ansaldoenergia.com/"
+    },
+    {
+      "rank": 799,
+      "id": "first-solar",
+      "name": "First Solar",
+      "group": "Solar manufacturing",
+      "country": "US",
+      "url": "https://www.firstsolar.com/"
+    },
+    {
+      "rank": 800,
+      "id": "jinkosolar",
+      "name": "JinkoSolar",
+      "group": "Solar manufacturing",
+      "country": "CN",
+      "url": "https://www.jinkosolar.com/"
+    },
+    {
+      "rank": 801,
+      "id": "trina-solar",
+      "name": "Trina Solar",
+      "group": "Solar manufacturing",
+      "country": "CN",
+      "url": "https://www.trinasolar.com/"
+    },
+    {
+      "rank": 802,
+      "id": "ja-solar",
+      "name": "JA Solar",
+      "group": "Solar manufacturing",
+      "country": "CN",
+      "url": "https://www.jasolar.com/"
+    },
+    {
+      "rank": 803,
+      "id": "longi",
+      "name": "Longi",
+      "group": "Solar manufacturing",
+      "country": "CN",
+      "url": "https://www.longi.com/"
+    },
+    {
+      "rank": 804,
+      "id": "canadian-solar",
+      "name": "Canadian Solar",
+      "group": "Solar manufacturing",
+      "country": "CA",
+      "url": "https://www.canadiansolar.com/"
+    },
+    {
+      "rank": 805,
+      "id": "hanwha-qcells",
+      "name": "Hanwha Qcells",
+      "group": "Solar manufacturing",
+      "country": "KR",
+      "url": "https://qcells.com/"
+    },
+    {
+      "rank": 806,
+      "id": "sunpower",
+      "name": "SunPower",
+      "group": "Solar manufacturing",
+      "country": "US",
+      "url": "https://us.sunpower.com/"
+    },
+    {
+      "rank": 807,
+      "id": "maxeon",
+      "name": "Maxeon",
+      "group": "Solar manufacturing",
+      "country": "SG",
+      "url": "https://www.maxeon.com/"
+    },
+    {
+      "rank": 808,
+      "id": "rec-group",
+      "name": "REC Group",
+      "group": "Solar manufacturing",
+      "country": "NO",
+      "url": "https://www.recgroup.com/"
+    },
+    {
+      "rank": 809,
+      "id": "meyer-burger",
+      "name": "Meyer Burger",
+      "group": "Solar manufacturing",
+      "country": "CH",
+      "url": "https://www.meyerburger.com/"
+    },
+    {
+      "rank": 810,
+      "id": "sma",
+      "name": "SMA",
+      "group": "Solar inverters",
+      "country": "DE",
+      "url": "https://www.sma.de/"
+    },
+    {
+      "rank": 811,
+      "id": "fronius-solar",
+      "name": "Fronius Solar",
+      "group": "Solar inverters",
+      "country": "AT",
+      "url": "https://www.fronius.com/en/solar-energy"
+    },
+    {
+      "rank": 812,
+      "id": "solaredge",
+      "name": "SolarEdge",
+      "group": "Solar inverters",
+      "country": "IL",
+      "url": "https://www.solaredge.com/"
+    },
+    {
+      "rank": 813,
+      "id": "enphase",
+      "name": "Enphase",
+      "group": "Solar inverters",
+      "country": "US",
+      "url": "https://enphase.com/"
+    },
+    {
+      "rank": 814,
+      "id": "huawei-digital-power",
+      "name": "Huawei Digital Power",
+      "group": "Power electronics",
+      "country": "CN",
+      "url": "https://digitalpower.huawei.com/"
+    },
+    {
+      "rank": 815,
+      "id": "sungrow",
+      "name": "Sungrow",
+      "group": "Solar inverters",
+      "country": "CN",
+      "url": "https://en.sungrowpower.com/"
+    },
+    {
+      "rank": 816,
+      "id": "goodwe",
+      "name": "GoodWe",
+      "group": "Solar inverters",
+      "country": "CN",
+      "url": "https://www.goodwe.com/"
+    },
+    {
+      "rank": 817,
+      "id": "growatt",
+      "name": "Growatt",
+      "group": "Solar inverters",
+      "country": "CN",
+      "url": "https://en.growatt.com/"
+    },
+    {
+      "rank": 818,
+      "id": "abb-electrification",
+      "name": "ABB Electrification",
+      "group": "Electrification",
+      "country": "CH",
+      "url": "https://new.abb.com/low-voltage"
+    },
+    {
+      "rank": 819,
+      "id": "schneider-energy",
+      "name": "Schneider Energy",
+      "group": "Electrification",
+      "country": "FR",
+      "url": "https://www.se.com/ww/en/work/solutions/for-business/electric-utilities/"
+    },
+    {
+      "rank": 820,
+      "id": "eaton-power",
+      "name": "Eaton Power",
+      "group": "Electrification",
+      "country": "IE",
+      "url": "https://www.eaton.com/us/en-us/products/electrical-circuit-protection.html"
+    },
+    {
+      "rank": 821,
+      "id": "vertiv",
+      "name": "Vertiv",
+      "group": "Power / cooling",
+      "country": "US",
+      "url": "https://www.vertiv.com/"
+    },
+    {
+      "rank": 822,
+      "id": "eaton-data-center",
+      "name": "Eaton Data Center",
+      "group": "Power",
+      "country": "US",
+      "url": "https://www.eaton.com/us/en-us/products/backup-power-ups-surge-it-power-distribution.html"
+    },
+    {
+      "rank": 823,
+      "id": "schneider-data-center",
+      "name": "Schneider Data Center",
+      "group": "Power",
+      "country": "FR",
+      "url": "https://www.se.com/ww/en/work/solutions/for-business/data-centers-and-networks/"
+    },
+    {
+      "rank": 824,
+      "id": "nvent",
+      "name": "nVent",
+      "group": "Electrical enclosures",
+      "country": "GB",
+      "url": "https://www.nvent.com/"
+    },
+    {
+      "rank": 825,
+      "id": "rittal",
+      "name": "Rittal",
+      "group": "Electrical enclosures",
+      "country": "DE",
+      "url": "https://www.rittal.com/"
+    },
+    {
+      "rank": 826,
+      "id": "hammond",
+      "name": "Hammond",
+      "group": "Electrical enclosures",
+      "country": "CA",
+      "url": "https://www.hammfg.com/"
+    },
+    {
+      "rank": 827,
+      "id": "hoffman",
+      "name": "Hoffman",
+      "group": "Electrical enclosures",
+      "country": "US",
+      "url": "https://hoffman.nvent.com/"
+    },
+    {
+      "rank": 828,
+      "id": "legrand-data-center",
+      "name": "Legrand Data Center",
+      "group": "Electrification",
+      "country": "FR",
+      "url": "https://www.legrand.com/ecatalogue"
+    },
+    {
+      "rank": 829,
+      "id": "prysmian",
+      "name": "Prysmian",
+      "group": "Cables",
+      "country": "IT",
+      "url": "https://www.prysmiangroup.com/"
+    },
+    {
+      "rank": 830,
+      "id": "nexans",
+      "name": "Nexans",
+      "group": "Cables",
+      "country": "FR",
+      "url": "https://www.nexans.com/"
+    },
+    {
+      "rank": 831,
+      "id": "southwire",
+      "name": "Southwire",
+      "group": "Cables",
+      "country": "US",
+      "url": "https://www.southwire.com/"
+    },
+    {
+      "rank": 832,
+      "id": "nkt",
+      "name": "NKT",
+      "group": "Cables",
+      "country": "DK",
+      "url": "https://www.nkt.com/"
+    },
+    {
+      "rank": 833,
+      "id": "ls-cable",
+      "name": "LS Cable",
+      "group": "Cables",
+      "country": "KR",
+      "url": "https://www.lscns.com/"
+    },
+    {
+      "rank": 834,
+      "id": "furukawa-electric",
+      "name": "Furukawa Electric",
+      "group": "Cables",
+      "country": "JP",
+      "url": "https://www.furukawa.co.jp/"
+    },
+    {
+      "rank": 835,
+      "id": "sumitomo-electric-cable",
+      "name": "Sumitomo Electric Cable",
+      "group": "Cables",
+      "country": "JP",
+      "url": "https://sumitomoelectric.com/products/optical-fiber"
+    },
+    {
+      "rank": 836,
+      "id": "belden",
+      "name": "Belden",
+      "group": "Cables",
+      "country": "US",
+      "url": "https://www.belden.com/"
+    },
+    {
+      "rank": 837,
+      "id": "commscope",
+      "name": "CommScope",
+      "group": "Cables / connectivity",
+      "country": "US",
+      "url": "https://www.commscope.com/"
+    },
+    {
+      "rank": 838,
+      "id": "corning-optical",
+      "name": "Corning Optical",
+      "group": "Optical fiber",
+      "country": "US",
+      "url": "https://www.corning.com/optical-communications"
+    },
+    {
+      "rank": 839,
+      "id": "yofc",
+      "name": "YOFC",
+      "group": "Optical fiber",
+      "country": "CN",
+      "url": "https://en.yofc.com/"
+    },
+    {
+      "rank": 840,
+      "id": "hengtong",
+      "name": "Hengtong",
+      "group": "Cables",
+      "country": "CN",
+      "url": "https://www.hengtonggroup.com/"
+    },
+    {
+      "rank": 841,
+      "id": "ztt",
+      "name": "ZTT",
+      "group": "Cables",
+      "country": "CN",
+      "url": "https://www.zttcable.com/"
+    },
+    {
+      "rank": 842,
+      "id": "3m-science",
+      "name": "3M Science",
+      "group": "Industrial materials",
+      "country": "US",
+      "url": "https://www.3m.com/3M/en_US/company-us/"
+    },
+    {
+      "rank": 843,
+      "id": "illinois-tool-works",
+      "name": "Illinois Tool Works",
+      "group": "Industrial manufacturing",
+      "country": "US",
+      "url": "https://www.itw.com/"
+    },
+    {
+      "rank": 844,
+      "id": "dover",
+      "name": "Dover",
+      "group": "Industrial manufacturing",
+      "country": "US",
+      "url": "https://www.dovercorporation.com/"
+    },
+    {
+      "rank": 845,
+      "id": "ingersoll-rand-industrial",
+      "name": "Ingersoll Rand Industrial",
+      "group": "Industrial manufacturing",
+      "country": "US",
+      "url": "https://www.irco.com/en-us/"
+    },
+    {
+      "rank": 846,
+      "id": "pentair",
+      "name": "Pentair",
+      "group": "Industrial / water",
+      "country": "GB",
+      "url": "https://www.pentair.com/"
+    },
+    {
+      "rank": 847,
+      "id": "itt",
+      "name": "ITT",
+      "group": "Industrial manufacturing",
+      "country": "US",
+      "url": "https://www.itt.com/"
+    },
+    {
+      "rank": 848,
+      "id": "idex",
+      "name": "IDEX",
+      "group": "Industrial manufacturing",
+      "country": "US",
+      "url": "https://www.idexcorp.com/"
+    },
+    {
+      "rank": 849,
+      "id": "graco",
+      "name": "Graco",
+      "group": "Industrial equipment",
+      "country": "US",
+      "url": "https://www.graco.com/"
+    },
+    {
+      "rank": 850,
+      "id": "nordson",
+      "name": "Nordson",
+      "group": "Industrial equipment",
+      "country": "US",
+      "url": "https://www.nordson.com/"
+    },
+    {
+      "rank": 851,
+      "id": "donaldson",
+      "name": "Donaldson",
+      "group": "Filtration",
+      "country": "US",
+      "url": "https://www.donaldson.com/"
+    },
+    {
+      "rank": 852,
+      "id": "parker-filtration",
+      "name": "Parker Filtration",
+      "group": "Filtration",
+      "country": "US",
+      "url": "https://www.parker.com/us/en/divisions/filtration-group.html"
+    },
+    {
+      "rank": 853,
+      "id": "mannhummel",
+      "name": "Mann+Hummel",
+      "group": "Filtration",
+      "country": "DE",
+      "url": "https://www.mann-hummel.com/"
+    },
+    {
+      "rank": 854,
+      "id": "freudenberg-filtration",
+      "name": "Freudenberg Filtration",
+      "group": "Filtration",
+      "country": "DE",
+      "url": "https://www.freudenberg-filter.com/"
+    },
+    {
+      "rank": 855,
+      "id": "camfil",
+      "name": "Camfil",
+      "group": "Filtration",
+      "country": "SE",
+      "url": "https://www.camfil.com/"
+    },
+    {
+      "rank": 856,
+      "id": "aaf",
+      "name": "AAF",
+      "group": "Filtration",
+      "country": "US",
+      "url": "https://www.aafintl.com/"
+    },
+    {
+      "rank": 857,
+      "id": "pall",
+      "name": "Pall",
+      "group": "Filtration",
+      "country": "US",
+      "url": "https://www.pall.com/"
+    },
+    {
+      "rank": 858,
+      "id": "porvair",
+      "name": "Porvair",
+      "group": "Filtration",
+      "country": "GB",
+      "url": "https://www.porvair.com/"
+    },
+    {
+      "rank": 859,
+      "id": "cummins-filtration",
+      "name": "Cummins Filtration",
+      "group": "Filtration",
+      "country": "US",
+      "url": "https://www.cumminsfiltration.com/"
+    },
+    {
+      "rank": 860,
+      "id": "fleetguard",
+      "name": "Fleetguard",
+      "group": "Filtration",
+      "country": "US",
+      "url": "https://www.fleetguard.com/"
+    },
+    {
+      "rank": 861,
+      "id": "mahle-filters",
+      "name": "Mahle Filters",
+      "group": "Filtration",
+      "country": "DE",
+      "url": "https://www.mahle.com/en/products/filtration/"
+    },
+    {
+      "rank": 862,
+      "id": "ufi-filters",
+      "name": "UFI Filters",
+      "group": "Filtration",
+      "country": "IT",
+      "url": "https://www.ufifilters.com/"
+    },
+    {
+      "rank": 863,
+      "id": "sogefi",
+      "name": "Sogefi",
+      "group": "Auto supplier",
+      "country": "IT",
+      "url": "https://www.sogefigroup.com/"
+    },
+    {
+      "rank": 864,
+      "id": "brembo-brakes",
+      "name": "Brembo Brakes",
+      "group": "Auto supplier",
+      "country": "IT",
+      "url": "https://www.brembo.com/en"
+    },
+    {
+      "rank": 865,
+      "id": "magneti-marelli",
+      "name": "Magneti Marelli",
+      "group": "Auto supplier",
+      "country": "IT",
+      "url": "https://www.marelli.com/"
+    },
+    {
+      "rank": 866,
+      "id": "marelli",
+      "name": "Marelli",
+      "group": "Auto supplier",
+      "country": "IT",
+      "url": "https://www.marelli.com/en"
+    },
+    {
+      "rank": 867,
+      "id": "iveco-group",
+      "name": "Iveco Group",
+      "group": "Trucks",
+      "country": "IT",
+      "url": "https://www.ivecogroup.com/"
+    },
+    {
+      "rank": 868,
+      "id": "cnh",
+      "name": "CNH",
+      "group": "Agricultural equipment",
+      "country": "NL",
+      "url": "https://www.cnhindustrial.com/"
+    },
+    {
+      "rank": 869,
+      "id": "new-holland",
+      "name": "New Holland",
+      "group": "Agricultural equipment",
+      "country": "IT",
+      "url": "https://agriculture.newholland.com/"
+    },
+    {
+      "rank": 870,
+      "id": "case-ih",
+      "name": "Case IH",
+      "group": "Agricultural equipment",
+      "country": "US",
+      "url": "https://www.caseih.com/"
+    },
+    {
+      "rank": 871,
+      "id": "fendt",
+      "name": "Fendt",
+      "group": "Agricultural equipment",
+      "country": "DE",
+      "url": "https://www.fendt.com/"
+    },
+    {
+      "rank": 872,
+      "id": "massey-ferguson",
+      "name": "Massey Ferguson",
+      "group": "Agricultural equipment",
+      "country": "US",
+      "url": "https://www.masseyferguson.com/"
+    },
+    {
+      "rank": 873,
+      "id": "valtra",
+      "name": "Valtra",
+      "group": "Agricultural equipment",
+      "country": "FI",
+      "url": "https://www.valtra.com/"
+    },
+    {
+      "rank": 874,
+      "id": "same-deutzfahr",
+      "name": "Same Deutz-Fahr",
+      "group": "Agricultural equipment",
+      "country": "IT",
+      "url": "https://www.sdfgroup.com/"
+    },
+    {
+      "rank": 875,
+      "id": "mahindra-tractors",
+      "name": "Mahindra Tractors",
+      "group": "Agricultural equipment",
+      "country": "IN",
+      "url": "https://www.mahindra.com/"
+    },
+    {
+      "rank": 876,
+      "id": "tafe",
+      "name": "TAFE",
+      "group": "Agricultural equipment",
+      "country": "IN",
+      "url": "https://www.tafe.com/"
+    },
+    {
+      "rank": 877,
+      "id": "escorts-kubota",
+      "name": "Escorts Kubota",
+      "group": "Agricultural equipment",
+      "country": "IN",
+      "url": "https://www.escortsgroup.com/"
+    },
+    {
+      "rank": 878,
+      "id": "yanmar",
+      "name": "Yanmar",
+      "group": "Engines / equipment",
+      "country": "JP",
+      "url": "https://www.yanmar.com/"
+    },
+    {
+      "rank": 879,
+      "id": "kubota-engines",
+      "name": "Kubota Engines",
+      "group": "Engines",
+      "country": "JP",
+      "url": "https://www.kubotaengine.com/"
+    },
+    {
+      "rank": 880,
+      "id": "perkins",
+      "name": "Perkins",
+      "group": "Engines",
+      "country": "GB",
+      "url": "https://www.perkins.com/"
+    },
+    {
+      "rank": 881,
+      "id": "mtu",
+      "name": "MTU",
+      "group": "Engines",
+      "country": "DE",
+      "url": "https://www.mtu-solutions.com/"
+    },
+    {
+      "rank": 882,
+      "id": "deutz",
+      "name": "Deutz",
+      "group": "Engines",
+      "country": "DE",
+      "url": "https://www.deutz.com/"
+    },
+    {
+      "rank": 883,
+      "id": "weichai",
+      "name": "Weichai",
+      "group": "Engines",
+      "country": "CN",
+      "url": "https://en.weichai.com/"
+    },
+    {
+      "rank": 884,
+      "id": "yuchai",
+      "name": "Yuchai",
+      "group": "Engines",
+      "country": "CN",
+      "url": "https://www.yuchai.com/"
+    },
+    {
+      "rank": 885,
+      "id": "cummins-power",
+      "name": "Cummins Power",
+      "group": "Power systems",
+      "country": "US",
+      "url": "https://www.cummins.com/generators"
+    },
+    {
+      "rank": 886,
+      "id": "kohler-power",
+      "name": "Kohler Power",
+      "group": "Power systems",
+      "country": "US",
+      "url": "https://www.kohlerpower.com/"
+    },
+    {
+      "rank": 887,
+      "id": "generac",
+      "name": "Generac",
+      "group": "Power systems",
+      "country": "US",
+      "url": "https://www.generac.com/"
+    },
+    {
+      "rank": 888,
+      "id": "caterpillar-power",
+      "name": "Caterpillar Power",
+      "group": "Power systems",
+      "country": "US",
+      "url": "https://www.cat.com/en_US/products/new/power-systems.html"
+    },
+    {
+      "rank": 889,
+      "id": "mitsubishi-engines",
+      "name": "Mitsubishi Engines",
+      "group": "Engines",
+      "country": "JP",
+      "url": "https://www.mhi.com/products/power/engine"
+    },
+    {
+      "rank": 890,
+      "id": "hyundai-heavy-engines",
+      "name": "Hyundai Heavy Engines",
+      "group": "Engines",
+      "country": "KR",
+      "url": "https://engine.hyundai-fivem.com/"
+    },
+    {
+      "rank": 891,
+      "id": "man-engines",
+      "name": "MAN Engines",
+      "group": "Engines",
+      "country": "DE",
+      "url": "https://www.man-engines.com/"
+    },
+    {
+      "rank": 892,
+      "id": "volvo-penta",
+      "name": "Volvo Penta",
+      "group": "Engines",
+      "country": "SE",
+      "url": "https://www.volvopenta.com/"
+    },
+    {
+      "rank": 893,
+      "id": "scania-engines",
+      "name": "Scania Engines",
+      "group": "Engines",
+      "country": "SE",
+      "url": "https://www.scania.com/group/en/home/products-and-services/engines.html"
+    },
+    {
+      "rank": 894,
+      "id": "ihi-aero",
+      "name": "IHI Aero",
+      "group": "Aerospace",
+      "country": "JP",
+      "url": "https://www.ihi.co.jp/en/products/aeroengine/"
+    },
+    {
+      "rank": 895,
+      "id": "kawasaki-gas-turbine",
+      "name": "Kawasaki Gas Turbine",
+      "group": "Energy equipment",
+      "country": "JP",
+      "url": "https://global.kawasaki.com/en/energy/"
+    },
+    {
+      "rank": 896,
+      "id": "solar-turbines",
+      "name": "Solar Turbines",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.solarturbines.com/"
+    },
+    {
+      "rank": 897,
+      "id": "capstone-green-energy",
+      "name": "Capstone Green Energy",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.capstonegreenenergy.com/"
+    },
+    {
+      "rank": 898,
+      "id": "bloom-energy",
+      "name": "Bloom Energy",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.bloomenergy.com/"
+    },
+    {
+      "rank": 899,
+      "id": "fuelcell-energy",
+      "name": "FuelCell Energy",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.fuelcellenergy.com/"
+    },
+    {
+      "rank": 900,
+      "id": "ballard",
+      "name": "Ballard",
+      "group": "Energy equipment",
+      "country": "CA",
+      "url": "https://www.ballard.com/"
+    },
+    {
+      "rank": 901,
+      "id": "plug-power",
+      "name": "Plug Power",
+      "group": "Energy equipment",
+      "country": "US",
+      "url": "https://www.plugpower.com/"
+    },
+    {
+      "rank": 902,
+      "id": "nel-hydrogen",
+      "name": "Nel Hydrogen",
+      "group": "Energy equipment",
+      "country": "NO",
+      "url": "https://nelhydrogen.com/"
+    },
+    {
+      "rank": 903,
+      "id": "itm-power",
+      "name": "ITM Power",
+      "group": "Energy equipment",
+      "country": "GB",
+      "url": "https://itm-power.com/"
+    },
+    {
+      "rank": 904,
+      "id": "mcphy",
+      "name": "McPhy",
+      "group": "Energy equipment",
+      "country": "FR",
+      "url": "https://mcphy.com/"
+    },
+    {
+      "rank": 905,
+      "id": "thyssenkrupp-nucera",
+      "name": "Thyssenkrupp Nucera",
+      "group": "Energy equipment",
+      "country": "DE",
+      "url": "https://www.thyssenkrupp-nucera.com/"
+    },
+    {
+      "rank": 906,
+      "id": "john-cockerill",
+      "name": "John Cockerill",
+      "group": "Engineering",
+      "country": "BE",
+      "url": "https://johncockerill.com/"
+    },
+    {
+      "rank": 907,
+      "id": "cockerill-maintenance",
+      "name": "Cockerill Maintenance",
+      "group": "Engineering",
+      "country": "BE",
+      "url": "https://johncockerill.com/en/energy/"
+    },
+    {
+      "rank": 908,
+      "id": "suez",
+      "name": "Suez",
+      "group": "Water engineering",
+      "country": "FR",
+      "url": "https://www.suez.com/"
+    },
+    {
+      "rank": 909,
+      "id": "veolia-water",
+      "name": "Veolia Water",
+      "group": "Water engineering",
+      "country": "FR",
+      "url": "https://www.veolia.com/"
+    },
+    {
+      "rank": 910,
+      "id": "xylem-water",
+      "name": "Xylem Water",
+      "group": "Water equipment",
+      "country": "US",
+      "url": "https://www.xylem.com/en-us/"
+    },
+    {
+      "rank": 911,
+      "id": "evoqua",
+      "name": "Evoqua",
+      "group": "Water equipment",
+      "country": "US",
+      "url": "https://www.evoqua.com/"
+    },
+    {
+      "rank": 912,
+      "id": "kurita",
+      "name": "Kurita",
+      "group": "Water treatment",
+      "country": "JP",
+      "url": "https://www.kurita.co.jp/"
+    },
+    {
+      "rank": 913,
+      "id": "nalco-water",
+      "name": "Nalco Water",
+      "group": "Water treatment",
+      "country": "US",
+      "url": "https://www.ecolab.com/nalco-water"
+    },
+    {
+      "rank": 914,
+      "id": "ecolab",
+      "name": "Ecolab",
+      "group": "Water treatment",
+      "country": "US",
+      "url": "https://www.ecolab.com/"
+    },
+    {
+      "rank": 915,
+      "id": "suez-water",
+      "name": "Suez Water",
+      "group": "Water engineering",
+      "country": "FR",
+      "url": "https://www.suez.com/en/water"
+    },
+    {
+      "rank": 916,
+      "id": "aquatech",
+      "name": "Aquatech",
+      "group": "Water engineering",
+      "country": "US",
+      "url": "https://www.aquatech.com/"
+    },
+    {
+      "rank": 917,
+      "id": "ide-technologies",
+      "name": "IDE Technologies",
+      "group": "Water engineering",
+      "country": "IL",
+      "url": "https://www.ide-tech.com/"
+    },
+    {
+      "rank": 918,
+      "id": "doosan-water",
+      "name": "Doosan Water",
+      "group": "Water engineering",
+      "country": "KR",
+      "url": "https://www.doosanenerbility.com/en/business/water"
+    },
+    {
+      "rank": 919,
+      "id": "hyflux",
+      "name": "Hyflux",
+      "group": "Water engineering",
+      "country": "SG",
+      "url": "https://www.hyflux.com/"
+    },
+    {
+      "rank": 920,
+      "id": "acciona-agua",
+      "name": "Acciona Agua",
+      "group": "Water engineering",
+      "country": "ES",
+      "url": "https://www.acciona.com/solutions/water/"
+    },
+    {
+      "rank": 921,
+      "id": "abengoa",
+      "name": "Abengoa",
+      "group": "Engineering",
+      "country": "ES",
+      "url": "https://www.abengoa.com/"
+    },
+    {
+      "rank": 922,
+      "id": "sener",
+      "name": "Sener",
+      "group": "Engineering",
+      "country": "ES",
+      "url": "https://www.group.sener/"
+    },
+    {
+      "rank": 923,
+      "id": "tecnicas-reunidas",
+      "name": "Tecnicas Reunidas",
+      "group": "Engineering",
+      "country": "ES",
+      "url": "https://www.tecnicasreunidas.es/"
+    },
+    {
+      "rank": 924,
+      "id": "maire-tecnimont",
+      "name": "Maire Tecnimont",
+      "group": "Engineering",
+      "country": "IT",
+      "url": "https://www.mairetecnimont.com/"
+    },
+    {
+      "rank": 925,
+      "id": "tecnimont",
+      "name": "Tecnimont",
+      "group": "Engineering",
+      "country": "IT",
+      "url": "https://www.mairetecnimont.com/en"
+    },
+    {
+      "rank": 926,
+      "id": "jgc",
+      "name": "JGC",
+      "group": "Engineering",
+      "country": "JP",
+      "url": "https://www.jgc.com/"
+    },
+    {
+      "rank": 927,
+      "id": "chiyoda",
+      "name": "Chiyoda",
+      "group": "Engineering",
+      "country": "JP",
+      "url": "https://www.chiyodacorp.com/"
+    },
+    {
+      "rank": 928,
+      "id": "toyo-engineering",
+      "name": "Toyo Engineering",
+      "group": "Engineering",
+      "country": "JP",
+      "url": "https://www.toyo-eng.com/"
+    },
+    {
+      "rank": 929,
+      "id": "ctci",
+      "name": "CTCI",
+      "group": "Engineering",
+      "country": "TW",
+      "url": "https://www.ctci.com/"
+    },
+    {
+      "rank": 930,
+      "id": "petrofac",
+      "name": "Petrofac",
+      "group": "Engineering",
+      "country": "GB",
+      "url": "https://www.petrofac.com/"
+    },
+    {
+      "rank": 931,
+      "id": "amec-foster-wheeler",
+      "name": "Amec Foster Wheeler",
+      "group": "Engineering",
+      "country": "GB",
+      "url": "https://www.woodplc.com/who-we-are"
+    },
+    {
+      "rank": 932,
+      "id": "kiewit-engineering",
+      "name": "Kiewit Engineering",
+      "group": "Engineering construction",
+      "country": "US",
+      "url": "https://www.kiewit.com/expertise/engineering/"
+    },
+    {
+      "rank": 933,
+      "id": "burns-mcdonnell",
+      "name": "Burns & McDonnell",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.burnsmcd.com/"
+    },
+    {
+      "rank": 934,
+      "id": "black-veatch",
+      "name": "Black & Veatch",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.bv.com/"
+    },
+    {
+      "rank": 935,
+      "id": "parsons",
+      "name": "Parsons",
+      "group": "Engineering",
+      "country": "US",
+      "url": "https://www.parsons.com/"
+    },
+    {
+      "rank": 936,
+      "id": "leidos",
+      "name": "Leidos",
+      "group": "Engineering / defense",
+      "country": "US",
+      "url": "https://www.leidos.com/"
+    },
+    {
+      "rank": 937,
+      "id": "saic",
+      "name": "SAIC",
+      "group": "Engineering / defense",
+      "country": "US",
+      "url": "https://www.saic.com/"
+    },
+    {
+      "rank": 938,
+      "id": "booz-allen",
+      "name": "Booz Allen",
+      "group": "Engineering / defense",
+      "country": "US",
+      "url": "https://www.boozallen.com/"
+    },
+    {
+      "rank": 939,
+      "id": "huntington-ingalls-engineering",
+      "name": "Huntington Ingalls Engineering",
+      "group": "Shipbuilding",
+      "country": "US",
+      "url": "https://hii.com/what-we-do/"
+    },
+    {
+      "rank": 940,
+      "id": "austal",
+      "name": "Austal",
+      "group": "Shipbuilding",
+      "country": "AU",
+      "url": "https://www.austal.com/"
+    },
+    {
+      "rank": 941,
+      "id": "babcock-international",
+      "name": "Babcock International",
+      "group": "Engineering / defense",
+      "country": "GB",
+      "url": "https://www.babcockinternational.com/"
+    },
+    {
+      "rank": 942,
+      "id": "qinetiq",
+      "name": "QinetiQ",
+      "group": "Engineering / defense",
+      "country": "GB",
+      "url": "https://www.qinetiq.com/"
+    },
+    {
+      "rank": 943,
+      "id": "saab",
+      "name": "Saab",
+      "group": "Aerospace defense",
+      "country": "SE",
+      "url": "https://www.saab.com/"
+    },
+    {
+      "rank": 944,
+      "id": "kongsberg",
+      "name": "Kongsberg",
+      "group": "Aerospace defense",
+      "country": "NO",
+      "url": "https://www.kongsberg.com/"
+    },
+    {
+      "rank": 945,
+      "id": "patria",
+      "name": "Patria",
+      "group": "Aerospace defense",
+      "country": "FI",
+      "url": "https://www.patria.fi/"
+    },
+    {
+      "rank": 946,
+      "id": "nammo",
+      "name": "Nammo",
+      "group": "Defense manufacturing",
+      "country": "NO",
+      "url": "https://www.nammo.com/"
+    },
+    {
+      "rank": 947,
+      "id": "diehl-defence",
+      "name": "Diehl Defence",
+      "group": "Defense manufacturing",
+      "country": "DE",
+      "url": "https://www.diehl.com/defence/"
+    },
+    {
+      "rank": 948,
+      "id": "mbda",
+      "name": "MBDA",
+      "group": "Defense manufacturing",
+      "country": "FR",
+      "url": "https://www.mbda-systems.com/"
+    },
+    {
+      "rank": 949,
+      "id": "rafael",
+      "name": "Rafael",
+      "group": "Defense manufacturing",
+      "country": "IL",
+      "url": "https://www.rafael.co.il/"
+    },
+    {
+      "rank": 950,
+      "id": "elbit",
+      "name": "Elbit",
+      "group": "Defense manufacturing",
+      "country": "IL",
+      "url": "https://elbitsystems.com/"
+    },
+    {
+      "rank": 951,
+      "id": "iai",
+      "name": "IAI",
+      "group": "Aerospace defense",
+      "country": "IL",
+      "url": "https://www.iai.co.il/"
+    },
+    {
+      "rank": 952,
+      "id": "aselsan",
+      "name": "Aselsan",
+      "group": "Defense manufacturing",
+      "country": "TR",
+      "url": "https://www.aselsan.com/"
+    },
+    {
+      "rank": 953,
+      "id": "turkish-aerospace",
+      "name": "Turkish Aerospace",
+      "group": "Aerospace",
+      "country": "TR",
+      "url": "https://www.tusas.com/"
+    },
+    {
+      "rank": 954,
+      "id": "roketsan",
+      "name": "Roketsan",
+      "group": "Defense manufacturing",
+      "country": "TR",
+      "url": "https://www.roketsan.com.tr/"
+    },
+    {
+      "rank": 955,
+      "id": "hindustan-shipyard",
+      "name": "Hindustan Shipyard",
+      "group": "Shipbuilding",
+      "country": "IN",
+      "url": "https://www.hslvizag.in/"
+    },
+    {
+      "rank": 956,
+      "id": "mazagon-dock",
+      "name": "Mazagon Dock",
+      "group": "Shipbuilding",
+      "country": "IN",
+      "url": "https://mazagondock.in/"
+    },
+    {
+      "rank": 957,
+      "id": "cochin-shipyard",
+      "name": "Cochin Shipyard",
+      "group": "Shipbuilding",
+      "country": "IN",
+      "url": "https://cochinshipyard.in/"
+    },
+    {
+      "rank": 958,
+      "id": "garden-reach",
+      "name": "Garden Reach",
+      "group": "Shipbuilding",
+      "country": "IN",
+      "url": "https://grse.in/"
+    },
+    {
+      "rank": 959,
+      "id": "larsen-toubro",
+      "name": "Larsen & Toubro",
+      "group": "Engineering manufacturing",
+      "country": "IN",
+      "url": "https://www.larsentoubro.com/"
+    },
+    {
+      "rank": 960,
+      "id": "bhel",
+      "name": "BHEL",
+      "group": "Energy equipment",
+      "country": "IN",
+      "url": "https://www.bhel.com/"
+    },
+    {
+      "rank": 961,
+      "id": "bharat-forge",
+      "name": "Bharat Forge",
+      "group": "Forging",
+      "country": "IN",
+      "url": "https://www.bharatforge.com/"
+    },
+    {
+      "rank": 962,
+      "id": "thermax",
+      "name": "Thermax",
+      "group": "Energy equipment",
+      "country": "IN",
+      "url": "https://www.thermaxglobal.com/"
+    },
+    {
+      "rank": 963,
+      "id": "kirloskar",
+      "name": "Kirloskar",
+      "group": "Engines / pumps",
+      "country": "IN",
+      "url": "https://www.kirloskarpumps.com/"
+    },
+    {
+      "rank": 964,
+      "id": "cummins-india",
+      "name": "Cummins India",
+      "group": "Engines",
+      "country": "IN",
+      "url": "https://www.cummins.com/en/in"
+    },
+    {
+      "rank": 965,
+      "id": "ashok-leyland",
+      "name": "Ashok Leyland",
+      "group": "Trucks",
+      "country": "IN",
+      "url": "https://www.ashokleyland.com/"
+    },
+    {
+      "rank": 966,
+      "id": "eicher",
+      "name": "Eicher",
+      "group": "Trucks",
+      "country": "IN",
+      "url": "https://www.eicher.in/"
+    },
+    {
+      "rank": 967,
+      "id": "force-motors",
+      "name": "Force Motors",
+      "group": "Vehicles manufacturing",
+      "country": "IN",
+      "url": "https://www.forcemotors.com/"
+    },
+    {
+      "rank": 968,
+      "id": "tvs-motor",
+      "name": "TVS Motor",
+      "group": "Vehicles manufacturing",
+      "country": "IN",
+      "url": "https://www.tvsmotor.com/"
+    },
+    {
+      "rank": 969,
+      "id": "bajaj-auto",
+      "name": "Bajaj Auto",
+      "group": "Vehicles manufacturing",
+      "country": "IN",
+      "url": "https://www.bajajauto.com/"
+    },
+    {
+      "rank": 970,
+      "id": "hero-motocorp",
+      "name": "Hero MotoCorp",
+      "group": "Vehicles manufacturing",
+      "country": "IN",
+      "url": "https://www.heromotocorp.com/"
+    },
+    {
+      "rank": 971,
+      "id": "mahindra-cie",
+      "name": "Mahindra CIE",
+      "group": "Auto supplier",
+      "country": "IN",
+      "url": "https://www.mahindracie.com/"
+    },
+    {
+      "rank": 972,
+      "id": "motherson",
+      "name": "Motherson",
+      "group": "Auto supplier",
+      "country": "IN",
+      "url": "https://www.motherson.com/"
+    },
+    {
+      "rank": 973,
+      "id": "bharat-electronics",
+      "name": "Bharat Electronics",
+      "group": "Defense electronics",
+      "country": "IN",
+      "url": "https://bel-india.in/"
+    },
+    {
+      "rank": 974,
+      "id": "godrej-aerospace",
+      "name": "Godrej Aerospace",
+      "group": "Aerospace",
+      "country": "IN",
+      "url": "https://www.godrej.com/godrej-enterprises/aerospace"
+    },
+    {
+      "rank": 975,
+      "id": "tata-advanced-systems",
+      "name": "Tata Advanced Systems",
+      "group": "Aerospace",
+      "country": "IN",
+      "url": "https://www.tataadvancedsystems.com/"
+    },
+    {
+      "rank": 976,
+      "id": "adani-defence",
+      "name": "Adani Defence",
+      "group": "Defense manufacturing",
+      "country": "IN",
+      "url": "https://www.adanidefence.com/"
+    },
+    {
+      "rank": 977,
+      "id": "kalyani-strategic",
+      "name": "Kalyani Strategic",
+      "group": "Defense manufacturing",
+      "country": "IN",
+      "url": "https://www.kalyanistrategicsystems.com/"
+    },
+    {
+      "rank": 978,
+      "id": "petronas",
+      "name": "Petronas",
+      "group": "Energy / engineering",
+      "country": "MY",
+      "url": "https://www.petronas.com/"
+    },
+    {
+      "rank": 979,
+      "id": "sime-darby",
+      "name": "Sime Darby",
+      "group": "Industrial",
+      "country": "MY",
+      "url": "https://www.simedarby.com/"
+    },
+    {
+      "rank": 980,
+      "id": "umw",
+      "name": "UMW",
+      "group": "Industrial",
+      "country": "MY",
+      "url": "https://www.umw.com.my/"
+    },
+    {
+      "rank": 981,
+      "id": "sembcorp-marine",
+      "name": "Sembcorp Marine",
+      "group": "Shipbuilding",
+      "country": "SG",
+      "url": "https://www.seatrium.com/"
+    },
+    {
+      "rank": 982,
+      "id": "keppel",
+      "name": "Keppel",
+      "group": "Engineering",
+      "country": "SG",
+      "url": "https://www.keppel.com/"
+    },
+    {
+      "rank": 983,
+      "id": "sembcorp",
+      "name": "Sembcorp",
+      "group": "Energy engineering",
+      "country": "SG",
+      "url": "https://www.sembcorp.com/"
+    },
+    {
+      "rank": 984,
+      "id": "yangzijiang",
+      "name": "Yangzijiang",
+      "group": "Shipbuilding",
+      "country": "CN",
+      "url": "https://www.yzjship.com/"
+    },
+    {
+      "rank": 985,
+      "id": "cosco-shipping-heavy",
+      "name": "COSCO Shipping Heavy",
+      "group": "Shipbuilding",
+      "country": "CN",
+      "url": "https://en.coscoshipping.com/"
+    },
+    {
+      "rank": 986,
+      "id": "cimc",
+      "name": "CIMC",
+      "group": "Manufacturing",
+      "country": "CN",
+      "url": "https://www.cimc.com/"
+    },
+    {
+      "rank": 987,
+      "id": "sany-heavy",
+      "name": "Sany Heavy",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.sanyglobal.com/product/"
+    },
+    {
+      "rank": 988,
+      "id": "xcmg-global",
+      "name": "XCMG Global",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.xcmg.com/en-us"
+    },
+    {
+      "rank": 989,
+      "id": "lonking",
+      "name": "Lonking",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.lonking.cn/"
+    },
+    {
+      "rank": 990,
+      "id": "shantui",
+      "name": "Shantui",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.shantui.com/"
+    },
+    {
+      "rank": 991,
+      "id": "sdlg",
+      "name": "SDLG",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://www.sdlg.com/"
+    },
+    {
+      "rank": 992,
+      "id": "liugong-global",
+      "name": "LiuGong Global",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://en.liugong.com/"
+    },
+    {
+      "rank": 993,
+      "id": "sunward",
+      "name": "Sunward",
+      "group": "Construction equipment",
+      "country": "CN",
+      "url": "https://en.sunward.com.cn/"
+    },
+    {
+      "rank": 994,
+      "id": "sany-renewable",
+      "name": "Sany Renewable",
+      "group": "Wind equipment",
+      "country": "CN",
+      "url": "https://www.sanyglobal.com/product/wind-power/"
+    },
+    {
+      "rank": 995,
+      "id": "goldwind-international",
+      "name": "Goldwind International",
+      "group": "Wind equipment",
+      "country": "CN",
+      "url": "https://www.goldwind.com/en"
+    },
+    {
+      "rank": 996,
+      "id": "mingyang-smart",
+      "name": "Mingyang Smart",
+      "group": "Wind equipment",
+      "country": "CN",
+      "url": "https://www.myse.com.cn/"
+    },
+    {
+      "rank": 997,
+      "id": "crrc-zhuzhou",
+      "name": "CRRC Zhuzhou",
+      "group": "Rail equipment",
+      "country": "CN",
+      "url": "https://www.crrcgc.cc/en"
+    },
+    {
+      "rank": 998,
+      "id": "crrc-qingdao",
+      "name": "CRRC Qingdao",
+      "group": "Rail equipment",
+      "country": "CN",
+      "url": "https://www.crrcgc.cc/sfgfen"
+    },
+    {
+      "rank": 999,
+      "id": "nari",
+      "name": "NARI",
+      "group": "Power equipment",
+      "country": "CN",
+      "url": "https://www.naritech.cn/"
+    },
+    {
+      "rank": 1000,
+      "id": "xj-electric",
+      "name": "XJ Electric",
+      "group": "Power equipment",
+      "country": "CN",
+      "url": "https://en.xj.cee-group.cn/"
+    }
+  ]
+}

@@ -9,9 +9,11 @@ import { cookieConsentConfig } from "../src/runtime-paths.js";
 
 test("cookieConsentConfig reads retries and Sourcepoint iframe pattern from paths.json", () => {
   const cfg = cookieConsentConfig();
-  assert.equal(cfg.retries, 3);
+  assert.equal(cfg.retries, 5);
+  assert.equal(cfg.preScreenshotRetries, 2);
   assert.equal(cfg.checkionFullPageSuffix, "checkion-full-page.jpg");
   assert.match(cfg.iframeUrlPattern, /privacy-mgmt/);
+  assert.match(cfg.iframeUrlPattern, /iubenda/);
 });
 
 test("playwrightFullPagePathBesideCheckion swaps CHECKION JPEG for DIG webp", () => {

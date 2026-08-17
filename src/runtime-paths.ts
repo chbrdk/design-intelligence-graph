@@ -81,6 +81,7 @@ export interface DigPaths {
     checkionFullPageSuffix?: string;
     playwrightFullPageStem?: string;
     iframeUrlPattern?: string;
+    preScreenshotRetries?: number;
   };
   chromeStates?: {
     maxOpens?: number;
@@ -130,6 +131,7 @@ export interface DigPaths {
     catalogsDir?: string;
     automotiveOem50?: string;
     crossIndustry100?: string;
+    engineeringManufacturing1000?: string;
     maxBatch?: number;
   };
   pinterest?: {
@@ -406,18 +408,23 @@ export function cookieConsentConfig(root = process.cwd()): {
   checkionFullPageSuffix: string;
   playwrightFullPageStem: string;
   iframeUrlPattern: string;
+  preScreenshotRetries: number;
 } {
   const cfg = loadDigPaths(root).cookieConsent;
   const retries = Number(cfg?.retries);
   const retryDelayMs = Number(cfg?.retryDelayMs);
   const postDismissWaitMs = Number(cfg?.postDismissWaitMs);
+  const preScreenshotRetries = Number(cfg?.preScreenshotRetries);
   return {
-    retries: Number.isFinite(retries) ? Math.max(0, Math.round(retries)) : 3,
-    retryDelayMs: Number.isFinite(retryDelayMs) ? Math.max(0, Math.round(retryDelayMs)) : 800,
-    postDismissWaitMs: Number.isFinite(postDismissWaitMs) ? Math.max(0, Math.round(postDismissWaitMs)) : 400,
+    retries: Number.isFinite(retries) ? Math.max(0, Math.round(retries)) : 5,
+    retryDelayMs: Number.isFinite(retryDelayMs) ? Math.max(0, Math.round(retryDelayMs)) : 1000,
+    postDismissWaitMs: Number.isFinite(postDismissWaitMs) ? Math.max(0, Math.round(postDismissWaitMs)) : 800,
     checkionFullPageSuffix: cfg?.checkionFullPageSuffix ?? "checkion-full-page.jpg",
     playwrightFullPageStem: cfg?.playwrightFullPageStem ?? "full-page",
-    iframeUrlPattern: cfg?.iframeUrlPattern ?? "privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw"
+    iframeUrlPattern:
+      cfg?.iframeUrlPattern ??
+      "privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw|iubenda|cookiebot|trustarc|evidon|cookieinformation|klaro|cookiescript|hs-scripts|zaraz",
+    preScreenshotRetries: Number.isFinite(preScreenshotRetries) ? Math.max(0, Math.round(preScreenshotRetries)) : 2
   };
 }
 

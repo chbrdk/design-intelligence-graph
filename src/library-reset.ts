@@ -4,6 +4,7 @@
  */
 import { basename, resolve } from "node:path";
 import { readdir, rm } from "node:fs/promises";
+import { captureIdentityKey } from "./capture-identity.js";
 import type { Queryable } from "./db.js";
 import { capturesDirectory, indexesDirectory, loadDigPaths } from "./runtime-paths.js";
 
@@ -71,26 +72,30 @@ async function countRows(client: Queryable, sql: string): Promise<number> {
   return Number.isFinite(n) ? n : 0;
 }
 
-function normalizeCaptureUrlKey(raw: string): string {
-  try {
-    const url = new URL(raw.trim());
-    url.hash = "";
-    let path = url.pathname || "/";
-    if (path.length > 1 && path.endsWith("/")) path = path.slice(0, -1);
-    url.pathname = path || "/";
-    return url.toString();
-  } catch {
-    return raw.trim().replace(/\/+$/, "") || raw.trim();
-  }
+export function normalizeCaptureUrlKey(raw: string): string {
+  return captureIdentityKey(raw);
 }
 
 export function normalizeCaptureUrlKeys(urls: string[]): string[] {
   const keys = new Set<string>();
   for (const raw of urls) {
     if (typeof raw !== "string" || !raw.trim()) continue;
-    keys.add(normalizeCaptureUrlKey(raw));
+    const key = captureIdentityKey(raw);
+    if (key) keys.add(key);
   }
   return [...keys];
+}
+
+export async function listIndexedCaptureUrlKeys(client: Queryable): Promise<Set<string>> {
+  const all = await client.query(`SELECT requested_url, canonical_url FROM captures`);
+  const keys = new Set<string>();
+  for (const row of all.rows as Array<{ requested_url?: string; canonical_url?: string }>) {
+    for (const raw of [row.requested_url, row.canonical_url]) {
+      const key = captureIdentityKey(String(raw ?? ""));
+      if (key) keys.add(key);
+    }
+  }
+  return keys;
 }
 
 /**

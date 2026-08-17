@@ -193,12 +193,13 @@
   "cookieConsent": {
     "doc": "knowledge/cookie-consent-dismiss.md",
     "source": "checkion/lib/cookie-banner-dismiss.ts",
-    "retries": 3,
-    "retryDelayMs": 800,
-    "postDismissWaitMs": 400,
+    "retries": 5,
+    "retryDelayMs": 1000,
+    "postDismissWaitMs": 800,
+    "preScreenshotRetries": 2,
     "checkionFullPageSuffix": "checkion-full-page.jpg",
     "playwrightFullPageStem": "full-page",
-    "iframeUrlPattern": "privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw"
+    "iframeUrlPattern": "privacy-mgmt|sourcepoint|sp-prod|consentmanager|usercentrics|onetrust|cookielaw|iubenda|cookiebot|trustarc|evidon|cookieinformation|klaro|cookiescript|hs-scripts|zaraz"
   },
   "chromeStates": {
     "maxOpens": 4,
@@ -259,7 +260,8 @@
     "catalogsDir": "knowledge/catalogs",
     "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",
     "crossIndustry100": "knowledge/catalogs/cross-industry-100.json",
-    "maxBatch": 100
+    "engineeringManufacturing1000": "knowledge/catalogs/engineering-manufacturing-1000.json",
+    "maxBatch": 1000
   },
   "pinterest": {
     "doc": "knowledge/pinterest-board-import.md",
