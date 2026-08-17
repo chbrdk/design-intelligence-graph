@@ -56,6 +56,15 @@ export interface DigPaths {
       win32?: string;
     };
   };
+  captureSettle?: {
+    doc?: string;
+    settleMs?: number;
+    initialWaitMs?: number;
+    postScrollQuietMs?: number;
+    scrollStepPx?: number;
+    scrollMaxPx?: number;
+    scrollPauseMs?: number;
+  };
   captureLimits?: {
     maxHtmlBytes?: number;
     screenshotFormat?: string;

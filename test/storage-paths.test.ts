@@ -15,6 +15,8 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.captureJobs?.maxBatch, 100);
   assert.equal(paths.captureJobs?.automotiveOem50, "knowledge/catalogs/automotive-oem-50.json");
   assert.equal(paths.captureJobs?.crossIndustry100, "knowledge/catalogs/cross-industry-100.json");
+  assert.equal(paths.captureSettle?.initialWaitMs, 2500);
+  assert.equal(paths.captureSettle?.settleMs, 2500);
   assert.equal(screenshotSettings().mediaType, "image/webp");
   assert.match(databaseUrl({ DIG_IN_CONTAINER: "0" }) ?? "", /postgres:\/\//);
   assert.match(databaseUrl({ DIG_IN_CONTAINER: "1" }) ?? "", /@db:5432/);

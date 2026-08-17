@@ -145,6 +145,15 @@
       "win32": "\"Windows\""
     }
   },
+  "captureSettle": {
+    "doc": "knowledge/capture-settle.md",
+    "settleMs": 2500,
+    "initialWaitMs": 2500,
+    "postScrollQuietMs": 1500,
+    "scrollStepPx": 100,
+    "scrollMaxPx": 8000,
+    "scrollPauseMs": 80
+  },
   "captureLimits": {
     "maxHtmlBytes": 8000000,
     "omitStylesheetCssText": true,

@@ -2,8 +2,11 @@
 import { parseArgs } from "node:util";
 import { resolve } from "node:path";
 import { capture } from "./capture.js";
+import { captureSettleConfig } from "./capture-settle.js";
 import { inferCaptureLocale } from "./capture-nav.js";
 import { CANONICAL_VIEWPORTS } from "./config.js";
+
+const DEFAULT_SETTLE_MS = String(captureSettleConfig().settleMs);
 
 const HELP = `dig-capture <url> [options]
 
@@ -12,7 +15,7 @@ Create a DIG-001 minimum viable canonical capture package.
 Options:
   -o, --output <directory>  Output parent directory (default: ./captures)
       --timeout <ms>        Navigation and stabilization timeout (default: 15000)
-      --settle <ms>         Required DOM quiet window (default: 500)
+      --settle <ms>         Required DOM quiet window (default: ${DEFAULT_SETTLE_MS})
       --locale <locale>     Browser locale (default: inferred from host / Europe timezone)
       --timezone <zone>     IANA timezone (default: Europe/Berlin)
       --dark                Capture dark color scheme
@@ -27,7 +30,7 @@ async function main(): Promise<void> {
     options: {
       output: { type: "string", short: "o", default: "captures" },
       timeout: { type: "string", default: "15000" },
-      settle: { type: "string", default: "500" },
+      settle: { type: "string", default: DEFAULT_SETTLE_MS },
       locale: { type: "string" },
       timezone: { type: "string", default: "Europe/Berlin" },
       dark: { type: "boolean", default: false },

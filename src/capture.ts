@@ -34,6 +34,7 @@ import { emitFlowCandidatesForPackage } from "./flow-candidates.js";
 import { emitLocalHrefJoinForPackage } from "./flow-edges.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
+import { captureSettleConfig } from "./capture-settle.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
 import { captureBrowserContextOptions, gotoWithNavGuard, shouldUseFirefoxFallback } from "./capture-nav.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
@@ -199,15 +200,25 @@ async function captureViewport(
         }
       };
     }
+    const settle = captureSettleConfig();
+    if (settle.initialWaitMs > 0) {
+      await page.waitForTimeout(settle.initialWaitMs);
+      warnings.push(`initial_wait_ms:${settle.initialWaitMs}`);
+    }
     const settled = await stabilizePage(page, options.settleMs, options.timeoutMs);
     if (!settled) warnings.push("stabilization_timeout");
     try {
-      const scrollSettle = await scrollSettlePage(page);
+      const scrollSettle = await scrollSettlePage(page, {
+        stepPx: settle.scrollStepPx,
+        maxPx: settle.scrollMaxPx,
+        pauseMs: settle.scrollPauseMs
+      });
       if (scrollSettle.scrolled_px > 0) {
         warnings.push(`scroll_settle_px:${scrollSettle.scrolled_px}`);
       }
-      // Brief quiet window after lazy loads.
-      const postScrollQuiet = await stabilizePage(page, Math.min(options.settleMs, 400), Math.min(options.timeoutMs, 5000));
+      // Quiet window after lazy loads (config; no longer hard-capped at 400ms).
+      const postQuiet = Math.min(settle.postScrollQuietMs, options.timeoutMs);
+      const postScrollQuiet = await stabilizePage(page, postQuiet, Math.min(options.timeoutMs, Math.max(postQuiet * 4, 5000)));
       if (!postScrollQuiet) warnings.push("post_scroll_settle_timeout");
     } catch (error) {
       warnings.push(`scroll_settle_failed:${error instanceof Error ? error.message : String(error)}`);

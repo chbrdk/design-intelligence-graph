@@ -7,6 +7,7 @@ import { applyLlmDesignAnalysis } from "./llm-enrich.js";
 import { localLlmConfig } from "./llm-provider.js";
 import { captureNavConfig, inferCaptureLocale } from "./capture-nav.js";
 import { captureJobsConfig } from "./capture-catalog.js";
+import { captureSettleConfig } from "./capture-settle.js";
 import { capturesDirectory, indexesDirectory } from "./runtime-paths.js";
 import { indexCapturePackage } from "./storage.js";
 import { indexCapturePackageToDatabase } from "./db-index.js";
@@ -120,7 +121,7 @@ export class JobRunner {
   constructor(options: JobRunnerOptions = {}) {
     this.options = {
       timeoutMs: options.timeoutMs ?? captureNavConfig().jobTimeoutMs,
-      settleMs: options.settleMs ?? 500,
+      settleMs: options.settleMs ?? captureSettleConfig().settleMs,
       maxConcurrent: options.maxConcurrent ?? captureJobsConfig().maxConcurrent,
       ...options
     };
