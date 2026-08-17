@@ -197,8 +197,10 @@ Return ONLY minified JSON (no markdown, no trailing commas):
 Rules:
 - Be concrete and pixel-grounded; do not invent unread text.
 - above_the_fold: 2 sentences max. rebuild_hints: 2 sentences max.
-- notable_modules / category_tags: up to 6 items each.
+- notable_modules: up to 6 visual modules (hero, ticker, card grid…).
+- category_tags: 1–3 INDUSTRY/SECTOR labels only (automotive, finance, marketing_agency, luxury, ecommerce, media, tech, healthcare, travel, food, fashion, real_estate, nonprofit, other). Never campaign names, awards, or page modules.
 - heading / cta / layout_order: hero-level facts only.
+- overall_atmosphere: short style token (minimal, editorial, high-energy, luxury-dark, corporate, playful).
 - confidence in (0,1).`;
 
 /** Run A2 — whole-page UX/layout (TEXT ONLY; grounded on visual catalog + bands). */

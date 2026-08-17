@@ -5,6 +5,8 @@ import {
   parseVisionPageResponse,
   parseVisionPageUxResponse
 } from "../src/vision-page.js";
+import { runVisionPageUxAnalysis } from "../src/llm-vision.js";
+import type { VisionPageDocument } from "../src/vision-page.js";
 
 test("parseVisionPageResponse extracts catalog fields", () => {
   const raw = JSON.stringify({
@@ -75,3 +77,70 @@ test("parseVisionPageUxResponse and designSummaryFromVisionPage", () => {
   assert.match(summary, /full-bleed stacks/i);
   assert.ok(!summary.includes("dark mode"));
 });
+
+test("runVisionPageUxAnalysis retries after empty/invalid JSON then succeeds", async () => {
+  const page: VisionPageDocument = {
+    schema_version: "0.1.0",
+    vision_page_version: "0.1.0",
+    generated_at: "2026-08-17T00:00:00.000Z",
+    source_screenshot: "viewports/desktop/screenshots/full-page.webp",
+    page_type: "marketing_agency_landing_page",
+    overall_atmosphere: "high-energy",
+    color_mood: "blue",
+    typography_feel: "sans",
+    above_the_fold: "Hero headline",
+    vertical_rhythm: "stacks",
+    media_strategy: "photo",
+    notable_modules: ["hero"],
+    brand_cues: "logo",
+    interaction_chrome: "nav",
+    category_tags: ["marketing_agency"],
+    rebuild_hints: "keep hero",
+    heading: "We create brand momentum",
+    cta: "About us",
+    layout_order: ["media", "heading", "cta"],
+    confidence: 0.8,
+    status: "complete"
+  };
+  let calls = 0;
+  const result = await runVisionPageUxAnalysis(
+    page,
+    [{ id: "band_1", label: "Hero", category: "hero", box: { x: 0, y: 0, width: 1, height: 0.2 }, confidence: 0.9 }],
+    {
+      persist: false,
+      config: {
+        enabled: true,
+        provider: "openrouter",
+        baseUrl: "http://local",
+        model: "qwen/qwen3.7-flash",
+        timeoutMs: 1000,
+        reasoningEffort: "none"
+      },
+      provider: {
+        async complete() {
+          calls += 1;
+          if (calls === 1) return { content: "not json", model: "qwen/qwen3.7-flash", finish_reason: "stop" };
+          return {
+            content: JSON.stringify({
+              layout_system: "full-bleed stacks",
+              spacing_feel: "airy with color dividers",
+              alignment: "mixed",
+              above_fold_job: "Establish brand identity",
+              ux_flow: ["Hero", "Intro", "Footer"],
+              ux_strengths: ["Clear hierarchy"],
+              ux_risks: ["Long scroll"],
+              confidence: 0.8
+            }),
+            model: "qwen/qwen3.7-flash",
+            finish_reason: "stop"
+          };
+        }
+      }
+    }
+  );
+  assert.equal(calls, 2);
+  assert.equal(result.status, "complete");
+  assert.equal(result.document?.layout_system, "full-bleed stacks");
+  assert.equal(result.document?.above_fold_job, "Establish brand identity");
+});
+

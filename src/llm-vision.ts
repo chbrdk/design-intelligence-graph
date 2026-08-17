@@ -540,34 +540,56 @@ export async function runVisionPageUxAnalysis(
       reasoningEffort: "none"
     });
 
+  const messages = [
+    { role: "system" as const, content: VISION_PAGE_UX_PROMPT },
+    {
+      role: "user" as const,
+      content: `Evidence JSON:\n${evidence}\nReturn UX/layout JSON only.`
+    }
+  ];
+
+  const runOnce = async (maxTokens: number) => {
+    const completion = await provider.complete(messages, {
+      maxTokens,
+      model: textModel,
+      reasoningEffort: "none"
+    });
+    const ux = parseVisionPageUxResponse(completion.content);
+    if (!ux.layout_system.trim() && !ux.above_fold_job.trim()) {
+      throw new Error("vision_page_ux JSON missing layout_system and above_fold_job");
+    }
+    return {
+      completion,
+      result: mergeUx(
+        ux,
+        completion.model,
+        usageToStageCost("vision_page_ux", completion.model, completion.usage, false)
+      )
+    };
+  };
+
   try {
-    const completion = await provider.complete(
-      [
-        { role: "system", content: VISION_PAGE_UX_PROMPT },
-        {
-          role: "user",
-          content: `Evidence JSON:\n${evidence}\nReturn UX/layout JSON only.`
-        }
-      ],
-      { maxTokens: options.maxTokens ?? 700, model: textModel, reasoningEffort: "none" }
-    );
+    let packed;
+    try {
+      packed = await runOnce(options.maxTokens ?? 900);
+    } catch (firstError: unknown) {
+      try {
+        packed = await runOnce(Math.max(options.maxTokens ?? 900, 1400));
+      } catch {
+        throw firstError;
+      }
+    }
     await cache?.set({
       stage_id: "vision_page_ux",
       model: textModel,
       evidence_sha256: evidenceKey,
-      raw_response: completion.content,
+      raw_response: packed.completion.content,
       status: "complete"
     });
-    const ux = parseVisionPageUxResponse(completion.content);
-    const result = mergeUx(
-      ux,
-      completion.model,
-      usageToStageCost("vision_page_ux", completion.model, completion.usage, false)
-    );
-    if (options.persist !== false && options.packageRoot && result.document) {
-      await writeVisionPageDocument(options.packageRoot, result.document);
+    if (options.persist !== false && options.packageRoot && packed.result.document) {
+      await writeVisionPageDocument(options.packageRoot, packed.result.document);
     }
-    return result;
+    return packed.result;
   } catch (error: unknown) {
     return {
       status: "failed",

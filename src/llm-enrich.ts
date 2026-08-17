@@ -250,7 +250,7 @@ export async function applyLlmDesignAnalysis(
       stageCache,
       packageRoot,
       persist: true,
-      maxTokens: 700
+      maxTokens: 900
     });
     stages.push({
       stage_id: "vision_page_ux",

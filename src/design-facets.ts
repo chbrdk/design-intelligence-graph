@@ -6,7 +6,55 @@
 import type { VisionLayoutBand } from "./vision-layout.js";
 import type { VisionPageDocument } from "./vision-page.js";
 
-export const DESIGN_FACETS_VERSION = "0.1.0" as const;
+export const DESIGN_FACETS_VERSION = "0.2.0" as const;
+
+export const INDUSTRY_VOCAB = [
+  "automotive",
+  "finance",
+  "marketing_agency",
+  "luxury",
+  "ecommerce",
+  "media",
+  "tech",
+  "healthcare",
+  "travel",
+  "food",
+  "fashion",
+  "real_estate",
+  "nonprofit",
+  "other"
+] as const;
+
+export const STYLE_VOCAB = [
+  "minimal",
+  "editorial",
+  "high-energy",
+  "luxury-dark",
+  "corporate",
+  "playful",
+  "brutalist",
+  "photographic"
+] as const;
+
+export const LAYOUT_VOCAB = [
+  "full-bleed stacks",
+  "split columns",
+  "card grid",
+  "single column",
+  "mixed"
+] as const;
+
+const LAYOUT_ALIASES: Record<string, (typeof LAYOUT_VOCAB)[number]> = {
+  "full bleed": "full-bleed stacks",
+  "full-bleed": "full-bleed stacks",
+  "full width": "full-bleed stacks",
+  stacks: "full-bleed stacks",
+  split: "split columns",
+  "two column": "split columns",
+  grid: "card grid",
+  cards: "card grid",
+  "single-column": "single column"
+};
 
 export type DesignFacets = {
   schema_version: "0.1.0";
@@ -30,6 +78,10 @@ function clean(value: unknown, max = 120): string | null {
   return trimmed.length <= max ? trimmed : `${trimmed.slice(0, max - 1).trimEnd()}…`;
 }
 
+function slug(value: string): string {
+  return value.toLowerCase().replace(/[_|/-]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
 function uniqueStrings(values: string[], max: number): string[] {
   const seen = new Set<string>();
   const out: string[] = [];
@@ -43,6 +95,119 @@ function uniqueStrings(values: string[], max: number): string[] {
   return out;
 }
 
+function matchVocab(raw: string | null | undefined, vocab: readonly string[]): string | null {
+  if (!raw) return null;
+  const hay = slug(raw);
+  for (const token of vocab) {
+    const needle = slug(token);
+    if (hay === needle) return token;
+  }
+  // Prefer longer tokens so "card grid" beats "grid" fragments in prose.
+  const ranked = [...vocab].sort((a, b) => slug(b).length - slug(a).length);
+  for (const token of ranked) {
+    const needle = slug(token);
+    if (needle.length < 4) continue;
+    if (hay.includes(needle)) return token;
+  }
+  return null;
+}
+
+const INDUSTRY_ALIASES: Record<string, (typeof INDUSTRY_VOCAB)[number]> = {
+  agency: "marketing_agency",
+  "marketing agency": "marketing_agency",
+  "marketing home": "marketing_agency",
+  advertising: "marketing_agency",
+  creative: "marketing_agency",
+  auto: "automotive",
+  car: "automotive",
+  bank: "finance",
+  insurance: "finance",
+  fintech: "finance",
+  shop: "ecommerce",
+  retail: "ecommerce",
+  commerce: "ecommerce",
+  news: "media",
+  publishing: "media",
+  software: "tech",
+  saas: "tech",
+  technology: "tech",
+  "ai technology": "tech",
+  hospital: "healthcare",
+  medical: "healthcare",
+  hotel: "travel",
+  airline: "travel",
+  restaurant: "food",
+  grocery: "food",
+  apparel: "fashion",
+  clothing: "fashion",
+  property: "real_estate",
+  housing: "real_estate",
+  charity: "nonprofit",
+  ngo: "nonprofit"
+};
+
+const CONTENT_NOISE = [
+  "cannes",
+  "lions",
+  "sustainability",
+  "b corp",
+  "bcorp",
+  "hero",
+  "ticker",
+  "carousel",
+  "footer",
+  "nav",
+  "cta",
+  "grid",
+  "card"
+];
+
+export function normalizeIndustryTags(raw: string[]): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const item of raw) {
+    const hay = slug(item);
+    if (!hay) continue;
+    if (CONTENT_NOISE.some((noise) => hay.includes(noise))) continue;
+    const alias = INDUSTRY_ALIASES[hay];
+    const matched = alias ?? matchVocab(item, INDUSTRY_VOCAB);
+    if (!matched) continue;
+    if (seen.has(matched)) continue;
+    seen.add(matched);
+    out.push(matched);
+    if (out.length >= 3) break;
+  }
+  return out;
+}
+
+export function normalizeStyleLabel(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const hay = slug(raw);
+  if (hay.includes("luxury") || (hay.includes("dark") && hay.includes("premium"))) return "luxury-dark";
+  if (hay.includes("high energy") || hay.includes("high-energy")) return "high-energy";
+  if (hay.includes("editorial")) return "editorial";
+  if (hay.includes("minimal")) return "minimal";
+  if (hay.includes("playful")) return "playful";
+  if (hay.includes("brutal")) return "brutalist";
+  if (hay.includes("photo")) return "photographic";
+  if (hay.includes("corporate")) return "corporate";
+  return matchVocab(raw, STYLE_VOCAB);
+}
+
+export function normalizeLayoutLabel(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const hay = slug(raw);
+  const aliasHit = Object.entries(LAYOUT_ALIASES).find(([alias]) => hay.includes(alias));
+  if (aliasHit) return aliasHit[1];
+  return matchVocab(raw, LAYOUT_VOCAB);
+}
+
+export function normalizePageType(raw: string | null | undefined): string | null {
+  const cleaned = clean(raw, 48);
+  if (!cleaned) return null;
+  return slug(cleaned).replace(/\s+/g, "_").slice(0, 48);
+}
+
 export type DesignFacetsInput = {
   vision_page?: Partial<VisionPageDocument> | null;
   bands?: Array<Pick<VisionLayoutBand, "category" | "label">> | null;
@@ -53,24 +218,23 @@ export type DesignFacetsInput = {
 /** Build searchable / scannable facets from package + indexed labels. */
 export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
   const page = input.vision_page ?? null;
-  const pageType = clean(page?.page_type, 80);
-  const style = clean(page?.overall_atmosphere, 80);
+  const pageType = normalizePageType(page?.page_type);
+  const style =
+    normalizeStyleLabel(page?.overall_atmosphere) ??
+    normalizeStyleLabel((input.visual_style_labels ?? []).find((item) => item.trim()) ?? null);
   const layout =
-    clean(page?.layout_system, 80) ??
-    clean(page?.vertical_rhythm, 100) ??
-    null;
-  const color = clean(page?.color_mood, 80);
-  const typography = clean(page?.typography_feel, 80);
+    normalizeLayoutLabel(page?.layout_system) ??
+    normalizeLayoutLabel(page?.vertical_rhythm);
+  const color = clean(page?.color_mood, 48);
+  const typography = clean(page?.typography_feel, 40);
   const aboveFold =
-    clean(page?.above_fold_job, 160) ?? clean(page?.above_the_fold, 160);
+    clean(page?.above_fold_job, 120) ?? clean(page?.above_the_fold, 120);
 
-  const industry = uniqueStrings(
-    [
-      ...(Array.isArray(page?.category_tags) ? page!.category_tags!.map(String) : []),
-      ...(input.screen_pattern_labels ?? []).map(String)
-    ],
-    8
-  );
+  const industry = normalizeIndustryTags([
+    ...(Array.isArray(page?.category_tags) ? page!.category_tags!.map(String) : []),
+    page?.page_type ?? "",
+    ...(input.screen_pattern_labels ?? []).map(String)
+  ]);
 
   const sectionCategories = uniqueStrings(
     (input.bands ?? [])
@@ -80,30 +244,21 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
   );
 
   const modules = uniqueStrings(
-    [
-      ...(Array.isArray(page?.notable_modules) ? page!.notable_modules!.map(String) : []),
-      ...(input.bands ?? []).map((band) => String(band.label ?? "").trim())
-    ],
-    10
+    Array.isArray(page?.notable_modules) ? page!.notable_modules!.map(String) : [],
+    6
   );
 
-  // Prefer vision confidence; style labels from DOM path are secondary only for tags.
   const confidence =
     typeof page?.confidence === "number" && Number.isFinite(page.confidence)
       ? Math.max(0, Math.min(1, page.confidence))
       : null;
-
-  // If vision style missing, fall back to first visual_style label.
-  const styleFallback =
-    style ??
-    clean((input.visual_style_labels ?? []).map(String).find((item) => item.trim()) ?? null, 80);
 
   return {
     schema_version: "0.1.0",
     facets_version: DESIGN_FACETS_VERSION,
     page_type: pageType,
     industry_tags: industry,
-    style: styleFallback,
+    style,
     layout,
     color_mood: color,
     typography,

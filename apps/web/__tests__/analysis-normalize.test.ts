@@ -27,8 +27,8 @@ describe('analysis detail normalization', () => {
           schema_version: '0.1.0',
           facets_version: '0.1.0',
           page_type: 'marketing_agency_landing_page',
-          industry_tags: ['creative', 'media'],
-          style: 'high-energy_corporate',
+          industry_tags: ['marketing_agency'],
+          style: 'high-energy',
           layout: 'full-bleed stacks',
           color_mood: 'electric_blue',
           typography: 'bold_sans',
@@ -41,7 +41,7 @@ describe('analysis detail normalization', () => {
       },
     })
     assert.equal(detail.package?.design_facets?.page_type, 'marketing_agency_landing_page')
-    assert.deepEqual(detail.package?.design_facets?.industry_tags, ['creative', 'media'])
+    assert.deepEqual(detail.package?.design_facets?.industry_tags, ['marketing_agency'])
     assert.equal(detail.package?.design_facets?.layout, 'full-bleed stacks')
     assert.equal(detail.package?.vision_page?.page_type, 'marketing_agency_landing_page')
   })
