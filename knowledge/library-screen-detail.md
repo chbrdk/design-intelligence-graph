@@ -6,9 +6,10 @@
 
 Library **Screens** grid:
 
-1. Chip filters for **Style**, **Layout**, **Industry** (`?style=&layout=&industry=` — keys in `knowledge/paths.json` `libraryScreenFacets`)
-2. Cards show compact facet chips (style, layout, first industry)
-3. Clicking a card opens `#/library/screens/{viewport_capture_id}`:
+1. Desktop cards only (tablet/mobile live on `#/library/devices` — `knowledge/library-screen-gallery.md`)
+2. Chip filters for **Style**, **Layout**, **Industry** (`?style=&layout=&industry=` — keys in `knowledge/paths.json` `libraryScreenFacets`)
+3. Cards show compact facet chips (style, layout, first industry)
+4. Clicking a card opens `#/library/screens/{viewport_capture_id}`:
 
    1. Toolbar (back, viewport/full page, overlay, **Copy prompt pack**)
    2. **Design profile** (`ScreenInsightStrip`) — page type, style, layout, color, typography, industry + section chips, look-contract swatches / CTA / density / Avoid

@@ -39,6 +39,25 @@ describe('library hash routing', () => {
     assert.equal(paths.libraryCopy.screenDetailOverlay, 'Section overlay')
   })
 
+  it('parses devices gallery hashes and viewport chips', () => {
+    assert.deepEqual(parseLibraryHash('#/library/devices'), { view: 'devices', viewport: 'all' })
+    assert.deepEqual(parseLibraryHash('#/library/devices?viewport=tablet'), {
+      view: 'devices',
+      viewport: 'tablet',
+    })
+    assert.deepEqual(parseLibraryHash('#/library/devices?viewport=mobile'), {
+      view: 'devices',
+      viewport: 'mobile',
+    })
+    assert.equal(formatLibraryHash({ view: 'devices' }), '#/library/devices')
+    assert.equal(
+      formatLibraryHash({ view: 'devices', viewport: 'tablet' }),
+      '#/library/devices?viewport=tablet',
+    )
+    assert.equal(formatLibraryHash({ view: 'devices', viewport: 'all' }), '#/library/devices')
+    assert.equal(paths.libraryCopy.devicesLabel, 'Devices')
+  })
+
   it('requires explicit hotspot choice on branches', () => {
     const steps = [
       {
@@ -71,7 +90,7 @@ describe('flow action filter options', () => {
     const options = listFlowActionFilterOptions()
     assert.ok(options.every((item) => item.id !== 'dig:flow.unknown'))
     assert.equal(labelForFlowAction('dig:flow.logging_in'), 'Logging in')
-    assert.deepEqual(paths.libraryModes, ['screens', 'sections', 'flows'])
+    assert.deepEqual(paths.libraryModes, ['screens', 'devices', 'sections', 'flows'])
     assert.equal(paths.digApiLibraryFlows, '/api/library/flows')
     assert.equal(paths.digApiLibraryPageFlows, '/api/library/page-flows')
     assert.equal(paths.libraryCopy.pageNarrativeLabel, 'Page narrative')

@@ -214,6 +214,18 @@ a {
   font-size: 0.75rem;
 }
 
+.dig-screen-grid--devices {
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+}
+
+.dig-screen-card[data-viewport='tablet'] .dig-screen-thumb {
+  aspect-ratio: 3 / 4;
+}
+
+.dig-screen-card[data-viewport='mobile'] .dig-screen-thumb {
+  aspect-ratio: 9 / 16;
+}
+
 .dig-screen-hero {
   width: 100%;
   max-height: 28rem;

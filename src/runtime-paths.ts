@@ -108,6 +108,13 @@ export interface DigPaths {
     pollMs?: number;
     doc?: string;
   };
+  libraryScreenGallery?: {
+    doc?: string;
+    primaryViewport?: string;
+    deviceViewports?: string[];
+    devicesQueryParam?: string;
+    devicesAllValue?: string;
+  };
   libraryReset?: {
     doc?: string;
     path?: string;

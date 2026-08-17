@@ -20,6 +20,13 @@ import {
   type LibrarySection,
 } from '../lib/dig-api'
 import { formatLibraryHash, parseLibraryHash, type LibraryHashState } from '../lib/library-hash'
+import {
+  filterDeviceGalleryScreens,
+  filterPrimaryGalleryScreens,
+  isDeviceGalleryViewport,
+  preferredScreenForCapture,
+  type DeviceGalleryFilter,
+} from '../lib/library-screen-gallery'
 import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
 import { LibraryFlowsPanel } from './library-flows-panel'
@@ -53,6 +60,68 @@ function FacetChipRow({
         </Chip>
       ))}
     </FilterRow>
+  )
+}
+
+function libraryModeLabel(item: (typeof paths.libraryModes)[number]): string {
+  if (item === 'flows') return paths.libraryCopy.flowsLabel
+  if (item === 'devices') return paths.libraryCopy.devicesLabel
+  return item[0]!.toUpperCase() + item.slice(1)
+}
+
+function ScreenCardGrid({
+  screens,
+  empty,
+  variant = 'desktop',
+  onOpen,
+}: {
+  screens: LibraryScreen[]
+  empty: string
+  variant?: 'desktop' | 'devices'
+  onOpen: (screen: LibraryScreen) => void
+}) {
+  return (
+    <ul className={`dig-screen-grid${variant === 'devices' ? ' dig-screen-grid--devices' : ''}`}>
+      {screens.map((screen) => {
+        const thumb = islandMediaUrl(screen.primary_url)
+        const chips = [
+          screen.design_facets?.style,
+          screen.design_facets?.layout,
+          screen.design_facets?.industry_tags?.[0],
+        ].filter((value): value is string => Boolean(value))
+        return (
+          <li key={screen.viewport_capture_id}>
+            <button
+              type="button"
+              className="dig-screen-card"
+              data-viewport={screen.name}
+              onClick={() => onOpen(screen)}
+            >
+              {thumb ? (
+                // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
+                <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
+              ) : (
+                <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
+              )}
+              <strong>{screen.title || screen.name}</strong>
+              <Text role="meta">
+                {screen.name} · {screen.site_domain ?? screen.canonical_url}
+              </Text>
+              {chips.length ? (
+                <span className="dig-screen-card-facets">
+                  {chips.map((chip) => (
+                    <Chip key={chip} static={true} size="sm">
+                      {facetChipLabel(chip)}
+                    </Chip>
+                  ))}
+                </span>
+              ) : null}
+            </button>
+          </li>
+        )
+      })}
+      {!screens.length ? <li>{empty}</li> : null}
+    </ul>
   )
 }
 
@@ -232,9 +301,19 @@ function LibraryPageInner() {
       ? 'flows'
       : hashState.view === 'sections'
         ? 'sections'
-        : 'screens'
+        : hashState.view === 'devices'
+          ? 'devices'
+          : 'screens'
   const screenDetailId =
     hashState.view === 'screen_detail' ? hashState.viewportCaptureId : null
+  const detailScreen = screenDetailId
+    ? screens.find((screen) => screen.viewport_capture_id === screenDetailId)
+    : undefined
+  const deviceViewport: DeviceGalleryFilter =
+    hashState.view === 'devices' ? hashState.viewport ?? 'all' : 'all'
+  const desktopScreens = filterPrimaryGalleryScreens(screens)
+  const deviceScreens = filterDeviceGalleryScreens(screens, deviceViewport)
+  const deviceCount = filterDeviceGalleryScreens(screens).length
 
   return (
     <AppShell
@@ -269,11 +348,13 @@ function LibraryPageInner() {
                   ? { view: 'flows' }
                   : item === 'sections'
                     ? { view: 'sections' }
-                    : { view: 'screens' },
+                    : item === 'devices'
+                      ? { view: 'devices' }
+                      : { view: 'screens' },
               )
             }
           >
-            {item === 'flows' ? paths.libraryCopy.flowsLabel : item[0]!.toUpperCase() + item.slice(1)}
+            {libraryModeLabel(item)}
           </button>
         ))}
       </div>
@@ -321,7 +402,13 @@ function LibraryPageInner() {
           key={screenDetailId}
           viewportCaptureId={screenDetailId}
           platformProjectId={platformProjectId}
-          onBack={() => applyHash({ view: 'screens' })}
+          onBack={() =>
+            applyHash(
+              detailScreen && isDeviceGalleryViewport(detailScreen.name)
+                ? { view: 'devices' }
+                : { view: 'screens' },
+            )
+          }
         />
       ) : null}
 
@@ -353,7 +440,7 @@ function LibraryPageInner() {
                       type="button"
                       className="dig-linkish"
                       onClick={() => {
-                        const match = screens.find((s) => s.capture_run_id === hit.capture_run_id)
+                        const match = preferredScreenForCapture(screens, hit.capture_run_id)
                         if (match) openScreen(match)
                       }}
                     >
@@ -429,54 +516,74 @@ function LibraryPageInner() {
                 onSelect={(value) => setFacetParam('industry', value)}
               />
             </div>
-            <ul className="dig-screen-grid">
-              {screens.map((screen) => {
-                const thumb = islandMediaUrl(screen.primary_url)
-                const chips = [
-                  screen.design_facets?.style,
-                  screen.design_facets?.layout,
-                  screen.design_facets?.industry_tags?.[0],
-                ].filter((value): value is string => Boolean(value))
-                return (
-                  <li key={screen.viewport_capture_id}>
-                    <button
-                      type="button"
-                      className="dig-screen-card"
-                      onClick={() => openScreen(screen)}
-                    >
-                      {thumb ? (
-                        // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
-                        <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
-                      ) : (
-                        <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
-                      )}
-                      <strong>{screen.title || screen.name}</strong>
-                      <Text role="meta">
-                        {screen.name} · {screen.site_domain ?? screen.canonical_url}
-                      </Text>
-                      {chips.length ? (
-                        <span className="dig-screen-card-facets">
-                          {chips.map((chip) => (
-                            <Chip key={chip} static={true} size="sm">
-                              {facetChipLabel(chip)}
-                            </Chip>
-                          ))}
-                        </span>
-                      ) : null}
-                    </button>
-                  </li>
-                )
-              })}
-              {!screens.length ? (
-                <li>
-                  {facetStyle || facetLayout || facetIndustry
-                    ? paths.libraryCopy.screenFacetEmpty
-                    : 'No screens indexed yet.'}
-                </li>
-              ) : null}
-            </ul>
+            <ScreenCardGrid
+              screens={desktopScreens}
+              variant="desktop"
+              onOpen={openScreen}
+              empty={
+                facetStyle || facetLayout || facetIndustry
+                  ? paths.libraryCopy.screenFacetEmpty
+                  : 'No desktop screens indexed yet.'
+              }
+            />
+          </Panel>
+
+          <Panel className="dig-panel" id="library-devices">
+            <Text role="title">{paths.libraryCopy.devicesTitle}</Text>
+            <Text role="hint">{paths.libraryCopy.devicesHint}</Text>
+            <div className="dig-row">
+              <Button type="button" variant="subtle" onClick={() => applyHash({ view: 'devices' })}>
+                {paths.libraryCopy.devicesOpen}
+              </Button>
+              <Text role="meta">{deviceCount} tablet/mobile screens</Text>
+            </div>
           </Panel>
         </>
+      ) : null}
+
+      {mode === 'devices' ? (
+        <Panel className="dig-panel">
+          <div className="dig-row">
+            <Button type="button" variant="subtle" onClick={() => applyHash({ view: 'screens' })}>
+              {paths.libraryCopy.devicesBack}
+            </Button>
+          </div>
+          <Text role="title">{paths.libraryCopy.devicesTitle}</Text>
+          <Text role="hint">{paths.libraryCopy.devicesHint}</Text>
+          <FilterRow variant="toolbar" label="Viewport">
+            <Chip
+              size="sm"
+              selected={deviceViewport === 'all'}
+              onClick={() => applyHash({ view: 'devices' })}
+            >
+              {paths.libraryCopy.devicesAll}
+            </Chip>
+            <Chip
+              size="sm"
+              selected={deviceViewport === 'tablet'}
+              onClick={() => applyHash({ view: 'devices', viewport: 'tablet' })}
+            >
+              {paths.libraryCopy.devicesTablet}
+            </Chip>
+            <Chip
+              size="sm"
+              selected={deviceViewport === 'mobile'}
+              onClick={() => applyHash({ view: 'devices', viewport: 'mobile' })}
+            >
+              {paths.libraryCopy.devicesMobile}
+            </Chip>
+          </FilterRow>
+          <ScreenCardGrid
+            screens={deviceScreens}
+            variant="devices"
+            onOpen={openScreen}
+            empty={
+              facetStyle || facetLayout || facetIndustry
+                ? paths.libraryCopy.screenFacetEmpty
+                : paths.libraryCopy.devicesEmpty
+            }
+          />
+        </Panel>
       ) : null}
     </AppShell>
   )

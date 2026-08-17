@@ -47,9 +47,19 @@ export const paths = {
   digApiLibraryPageFlows: '/api/library/page-flows',
   digApiLibraryReferences: '/api/library/references',
   digApiEnrichment: '/api/enrichment',
-  libraryModes: ['screens', 'sections', 'flows'] as const,
+  libraryModes: ['screens', 'devices', 'sections', 'flows'] as const,
   libraryCopy: {
     flowsLabel: 'Flows',
+    devicesLabel: 'Devices',
+    devicesTitle: 'Tablet & mobile',
+    devicesHint:
+      'Same captures as the desktop gallery, filtered to tablet and mobile. Choose a viewport or show both.',
+    devicesAll: 'All',
+    devicesTablet: 'Tablet',
+    devicesMobile: 'Mobile',
+    devicesEmpty: 'No tablet or mobile screens indexed yet.',
+    devicesOpen: 'Open tablet & mobile',
+    devicesBack: 'Back to desktop gallery',
     pageNarrativeLabel: 'Page narrative',
     flowsSupport: 'Multi-screen design journeys indexed from captures',
     screenDetailBack: 'Back to screens',
@@ -86,7 +96,14 @@ export const paths = {
     screenFacetAll: 'All',
     screenFacetEmpty: 'No screens match these facets.',
     screenGridHint:
-      'Filter by style, layout, and industry. Open a card for full-page screenshot, overlay, and look contract.',
+      'Desktop captures only. Filter by style, layout, and industry. Open a card for full-page screenshot, overlay, and look contract.',
+  },
+  /** Keep in sync with knowledge/paths.json libraryScreenGallery. */
+  libraryScreenGallery: {
+    primaryViewport: 'desktop',
+    deviceViewports: ['tablet', 'mobile'] as const,
+    devicesQueryParam: 'viewport',
+    devicesAllValue: 'all',
   },
   apiPlatformProvisioningProjects: '/api/platform/provisioning/projects',
   platformProjectQueryParam: 'platformProjectId',

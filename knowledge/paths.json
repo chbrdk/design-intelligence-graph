@@ -237,6 +237,13 @@
     "pollMs": 15000,
     "doc": "knowledge/design-facets.md"
   },
+  "libraryScreenGallery": {
+    "doc": "knowledge/library-screen-gallery.md",
+    "primaryViewport": "desktop",
+    "deviceViewports": ["tablet", "mobile"],
+    "devicesQueryParam": "viewport",
+    "devicesAllValue": "all"
+  },
   "libraryReset": {
     "doc": "knowledge/library-reset.md",
     "path": "/reset",

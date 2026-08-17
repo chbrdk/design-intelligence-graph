@@ -1,8 +1,12 @@
 /** DIG-011 Library hash routing helpers (client-only). */
 
+import { parseDeviceGalleryFilter, type DeviceGalleryFilter } from './library-screen-gallery'
+import { paths } from './paths'
+
 export type LibraryHashState =
   | { view: 'screens' }
   | { view: 'screen_detail'; viewportCaptureId: string }
+  | { view: 'devices'; viewport?: DeviceGalleryFilter }
   | { view: 'sections' }
   | { view: 'flows' }
   | { view: 'flow_detail'; flowId: string }
@@ -14,6 +18,13 @@ export function parseLibraryHash(hash: string): LibraryHashState {
   const segments = (pathPart || '').split('/').filter(Boolean)
   if (segments[0] !== 'library') return { view: 'screens' }
   if (segments[1] === 'sections') return { view: 'sections' }
+  if (segments[1] === 'devices') {
+    const params = new URLSearchParams(queryPart || '')
+    const viewport = parseDeviceGalleryFilter(
+      params.get(paths.libraryScreenGallery.devicesQueryParam),
+    )
+    return { view: 'devices', viewport }
+  }
   if (segments[1] === 'screens' && segments[2]) {
     return { view: 'screen_detail', viewportCaptureId: decodeURIComponent(segments[2]) }
   }
@@ -32,6 +43,15 @@ export function parseLibraryHash(hash: string): LibraryHashState {
 
 export function formatLibraryHash(state: LibraryHashState): string {
   if (state.view === 'screens') return '#/library/screens'
+  if (state.view === 'devices') {
+    const param = paths.libraryScreenGallery.devicesQueryParam
+    const all = paths.libraryScreenGallery.devicesAllValue
+    const viewport =
+      state.viewport && state.viewport !== all
+        ? `?${param}=${encodeURIComponent(state.viewport)}`
+        : ''
+    return `#/library/devices${viewport}`
+  }
   if (state.view === 'screen_detail') {
     return `#/library/screens/${encodeURIComponent(state.viewportCaptureId)}`
   }
