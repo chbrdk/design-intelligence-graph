@@ -16,7 +16,7 @@ Stdio (local CLI):
 npm run mcp -- indexes/<capture-run-id>/graph.json
 ```
 
-Streamable HTTP (Coolify dig-api, what Cursor uses): `POST {coolify.digApiFqdn}/mcp` — see [`knowledge/mcp-library-loop.md`](../knowledge/mcp-library-loop.md).
+Streamable HTTP (Coolify dig-api, what Cursor uses): `POST {coolify.digApiFqdn}/mcp` — see [`knowledge/mcp-library-loop.md`](../knowledge/mcp-library-loop.md) and [`knowledge/mcp-spirion.md`](../knowledge/mcp-spirion.md).
 
 ## Tools
 
@@ -25,6 +25,8 @@ Streamable HTTP (Coolify dig-api, what Cursor uses): `POST {coolify.digApiFqdn}/
 - `dig_neighbors` — direct bounded graph traversal, optionally by edge type.
 - `dig_compare` — type/property differences and shared direct neighbors.
 - `dig_recommend` — deterministic candidates with the same taxonomy ID, otherwise node type.
+
+Product BFF tools use prefix `spirion.*` (jobs, enrichment, library, generate) and keep the `dig_*` library/reference/flow names as aliases.
 
 Every result retains graph node IDs and source capture-run identity. Recommendations are not AI-ranked and make their strategy explicit.
 

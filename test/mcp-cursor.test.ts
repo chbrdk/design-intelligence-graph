@@ -152,7 +152,7 @@ test("handleMcpHttp initialize and tools/list over POST JSON", async () => {
   assert.equal(init.statusCode, 200);
   const initBody = JSON.parse(init.body) as { result: { protocolVersion: string; serverInfo: { name: string } } };
   assert.equal(initBody.result.protocolVersion, "2025-11-25");
-  assert.equal(initBody.result.serverInfo.name, "design-intelligence-graph");
+  assert.equal(initBody.result.serverInfo.name, "spirion");
 
   const note = mockResponse();
   await handleMcpHttp(
@@ -170,6 +170,8 @@ test("handleMcpHttp initialize and tools/list over POST JSON", async () => {
   );
   const tools = (JSON.parse(listed.body) as { result: { tools: Array<{ name: string }> } }).result.tools;
   assert.ok(tools.some((tool) => tool.name === "dig_screen_search"));
+  assert.ok(tools.some((tool) => tool.name === "spirion.health"));
+  assert.ok(tools.some((tool) => tool.name === "spirion.job_start"));
 
   const get = mockResponse();
   await handleMcpHttp(mockRequest("GET"), get.response, new URL("http://127.0.0.1/mcp"));

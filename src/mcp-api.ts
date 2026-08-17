@@ -1,6 +1,14 @@
 import { readFile } from "node:fs/promises";
 import type { KnowledgeEdge, KnowledgeGraph, KnowledgeNode } from "./storage.js";
 import { searchKnowledgeGraph } from "./storage.js";
+import {
+  callSpirionTool,
+  isSpirionToolName,
+  listSpirionTools,
+  SPIRION_DIG_ALIASES,
+  type SpirionToolName
+} from "./mcp-spirion.js";
+import { loadDigPaths } from "./runtime-paths.js";
 
 export const MCP_API_VERSION = "0.1.0";
 export type McpToolName =
@@ -60,6 +68,7 @@ const limited = <T>(items: T[], limit: unknown) => items.slice(0, typeof limit =
 
 export function listDigTools() {
   return [
+    ...listSpirionTools(),
     { name: "dig_search", description: "Search DIG graph nodes by deterministic substring match.", inputSchema: { type: "object", required: ["query"], properties: { query: { type: "string" }, limit: { type: "number" }, type: { type: "string" } } } },
     { name: "dig_inspect", description: "Inspect a graph node with directly incident edges.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" } } } },
     { name: "dig_neighbors", description: "Retrieve typed graph neighbors to a bounded depth of one.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" }, edge_type: { type: "string" }, limit: { type: "number" } } } },
@@ -437,7 +446,10 @@ export async function handleMcpMessage(
       result = {
         protocolVersion,
         capabilities: { tools: {} },
-        serverInfo: { name: "design-intelligence-graph", version: "0.1.0" }
+        serverInfo: {
+          name: loadDigPaths().cursorMcp?.serverName ?? loadDigPaths().mcpSpirion?.serverName ?? "spirion",
+          version: "0.1.0"
+        }
       };
     } else if (method === "ping") {
       result = {};
@@ -445,9 +457,13 @@ export async function handleMcpMessage(
       result = { tools: listDigTools() };
     } else if (method === "tools/call") {
       const params = request.params ?? {};
-      const name = String(params.name) as McpToolName;
+      const requestedName = String(params.name);
       const args = (params.arguments ?? {}) as Record<string, unknown>;
-      if (
+      const alias = SPIRION_DIG_ALIASES[requestedName];
+      const name = (alias ?? requestedName) as McpToolName;
+      if (isSpirionToolName(requestedName) && !alias) {
+        result = toolResult(await callSpirionTool(requestedName as SpirionToolName, args));
+      } else if (
         name === "dig_reference_search" ||
         name === "dig_reference_get" ||
         name === "dig_reference_pack" ||

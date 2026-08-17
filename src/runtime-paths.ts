@@ -73,6 +73,13 @@ export interface DigPaths {
     listLimit?: number;
     doc?: string;
   };
+  mcpSpirion?: {
+    prefix?: string;
+    serverName?: string;
+    doc?: string;
+    schema?: string;
+    tools?: string[];
+  };
   structureSpine?: {
     relativePath?: string;
     maxBands?: number;

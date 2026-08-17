@@ -28,6 +28,8 @@ Cursor talks to **Coolify dig-api**, not a local Node process.
 
 Remote URL: `coolify.digApiFqdn` + `cursorMcp.httpPath` (`/mcp`) — committed in `.cursor/mcp.json`.
 
+Product BFF tools (`spirion.job_start`, library, generate, …): [`mcp-spirion.md`](mcp-spirion.md).
+
 After deploy: Cursor Settings → Tools & MCP → refresh **spirion**. Test:
 
 ```text
@@ -39,6 +41,4 @@ Stdio (`npm run mcp`) remains for local CLI. The old launcher `scripts/dig-mcp-c
 
 ## Not in this slice
 
-Dense embeddings, screenshot embeddings, and Cursor skill wrappers stay parked.
-
-**Next (CHECKION-parity):** wrap the rest of SPIRION as MCP tools — capture/jobs, enrichment, library/analyses, prefix `spirion.*`, Bearer like CHECKION. This deploy only hosts Streamable HTTP `/mcp` for the current design-agent tools.
+Dense embeddings, screenshot embeddings, Cursor skill wrappers, and a separate CHECKION-style `mcp-server/` Coolify app stay parked.

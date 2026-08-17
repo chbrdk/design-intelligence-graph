@@ -206,6 +206,32 @@
     "listLimit": 200,
     "doc": "knowledge/mcp-library-loop.md"
   },
+  "mcpSpirion": {
+    "prefix": "spirion.",
+    "serverName": "spirion",
+    "doc": "knowledge/mcp-spirion.md",
+    "schema": "schemas/mcp-spirion-tools.schema.json",
+    "tools": [
+      "health",
+      "jobs_list",
+      "job_start",
+      "job_get",
+      "enrichment_list",
+      "enrichment_get",
+      "captures_list",
+      "analyses_list",
+      "analysis_get",
+      "screens_search",
+      "capture_prompt_pack",
+      "references_search",
+      "reference_get",
+      "reference_pack",
+      "generate",
+      "flows_search",
+      "flow_get",
+      "flow_neighbors"
+    ]
+  },
   "cursorMcp": {
     "serverName": "spirion",
     "configPath": ".cursor/mcp.json",
@@ -295,6 +321,7 @@
       "designReferencePack": "schemas/design-reference-pack.schema.json",
       "mcpReferenceTools": "schemas/mcp-reference-tools.schema.json",
       "mcpLibraryTools": "schemas/mcp-library-tools.schema.json",
+      "mcpSpirionTools": "schemas/mcp-spirion-tools.schema.json",
       "designPromptPack": "schemas/design-prompt-pack.schema.json",
       "designLayoutHints": "schemas/design-layout-hints.schema.json"
     },

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/mcp-spirion-tools.schema.json",
+  "title": "SPIRION MCP product tools",
+  "description": "CHECKION-parity BFF tools. Names: knowledge/paths.json mcpSpirion.prefix + tools[].",
+  "type": "object",
+  "required": ["name", "description", "inputSchema"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^spirion\\.[a-z_]+$"
+    },
+    "description": { "type": "string" },
+    "inputSchema": { "type": "object" }
+  }
+}

@@ -12,6 +12,7 @@ import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
 import { loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
 import { setFlowSeedEnqueueCapture } from "./flow-seed.js";
+import { setDigApiRuntime } from "./dig-api-runtime.js";
 
 loadDotEnv();
 const enrichmentQueue = new EnrichmentQueue({ autoStart: true });
@@ -20,6 +21,7 @@ setFlowSeedEnqueueCapture((url) => {
   const job = runner.startJob(url);
   return { job_id: job.job_id };
 });
+setDigApiRuntime({ runner, enrichmentQueue });
 const paths = loadDigPaths();
 const enrichmentPath = paths.api.enrichmentPath ?? "/api/enrichment";
 
