@@ -29,6 +29,7 @@ export function captureJobsConfig(root = process.cwd()): {
   batchPath: string;
   catalogsDir: string;
   automotiveOem50: string;
+  crossIndustry100: string;
   maxBatch: number;
 } {
   const cfg = loadDigPaths(root).captureJobs;
@@ -37,13 +38,15 @@ export function captureJobsConfig(root = process.cwd()): {
     batchPath: cfg?.batchPath ?? "/batch",
     catalogsDir: cfg?.catalogsDir ?? "knowledge/catalogs",
     automotiveOem50: cfg?.automotiveOem50 ?? "knowledge/catalogs/automotive-oem-50.json",
-    maxBatch: cfg?.maxBatch ?? 50
+    crossIndustry100: cfg?.crossIndustry100 ?? "knowledge/catalogs/cross-industry-100.json",
+    maxBatch: cfg?.maxBatch ?? 100
   };
 }
 
 export function resolveCaptureCatalogPath(catalogId: string, root = process.cwd()): string {
   const cfg = captureJobsConfig(root);
   if (catalogId === "automotive-oem-50") return resolve(root, cfg.automotiveOem50);
+  if (catalogId === "cross-industry-100") return resolve(root, cfg.crossIndustry100);
   return resolve(root, cfg.catalogsDir, `${catalogId}.json`);
 }
 

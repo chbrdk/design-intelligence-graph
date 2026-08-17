@@ -239,7 +239,8 @@
     "batchPath": "/batch",
     "catalogsDir": "knowledge/catalogs",
     "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",
-    "maxBatch": 50
+    "crossIndustry100": "knowledge/catalogs/cross-industry-100.json",
+    "maxBatch": 100
   },
   "mcpLibraryTools": {
     "screenSearch": "dig_screen_search",

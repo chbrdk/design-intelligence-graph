@@ -110,6 +110,7 @@ export interface DigPaths {
     batchPath?: string;
     catalogsDir?: string;
     automotiveOem50?: string;
+    crossIndustry100?: string;
     maxBatch?: number;
   };
   mcpLibraryTools?: {
