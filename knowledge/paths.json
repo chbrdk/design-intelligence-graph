@@ -198,6 +198,13 @@
     "queryIndustry": "industry",
     "doc": "knowledge/design-facets.md"
   },
+  "mcpLibraryTools": {
+    "screenSearch": "dig_screen_search",
+    "capturePromptPack": "dig_capture_prompt_pack",
+    "defaultLimit": 20,
+    "listLimit": 200,
+    "doc": "knowledge/mcp-library-loop.md"
+  },
   "structureSpine": {
     "relativePath": "derived/structure-spine.json",
     "maxBands": 12,
@@ -277,6 +284,7 @@
       "designReference": "schemas/design-reference.schema.json",
       "designReferencePack": "schemas/design-reference-pack.schema.json",
       "mcpReferenceTools": "schemas/mcp-reference-tools.schema.json",
+      "mcpLibraryTools": "schemas/mcp-library-tools.schema.json",
       "designPromptPack": "schemas/design-prompt-pack.schema.json",
       "designLayoutHints": "schemas/design-layout-hints.schema.json"
     },

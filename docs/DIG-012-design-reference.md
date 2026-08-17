@@ -106,13 +106,17 @@ Producers MUST truncate, not omit required keys.
 
 | Tool | Role |
 |------|------|
-| `dig_reference_search` | Faceted / substring search over indexed references |
+| `dig_reference_search` | Faceted / substring search over indexed references (`style` / `layout` / `industry` optional) |
 | `dig_reference_get` | Fetch one bundle by id |
 | `dig_reference_pack` | Assemble pack from ids + intent |
+| `dig_screen_search` | Library screens by Style/Layout/Industry |
+| `dig_capture_prompt_pack` | Prompt pack (look_contract + page_rhythm) from one capture |
+
+Screen loop: [`knowledge/mcp-library-loop.md`](../knowledge/mcp-library-loop.md).
 
 These are **higher priority for agent value** than `dig_flow_*` ([challenge](../knowledge/dig-011-challenge.md)).
 
-Tool descriptor schema: [`schemas/mcp-reference-tools.schema.json`](../schemas/mcp-reference-tools.schema.json).
+Tool descriptor schema: [`schemas/mcp-reference-tools.schema.json`](../schemas/mcp-reference-tools.schema.json), [`schemas/mcp-library-tools.schema.json`](../schemas/mcp-library-tools.schema.json).
 
 ---
 

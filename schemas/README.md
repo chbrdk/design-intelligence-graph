@@ -20,6 +20,7 @@ Machine-readable JSON Schemas live here and are versioned independently.
 - `flow-interactive.schema.json` — Interactive Mode playback payload.
 - `mcp-flow-neighbors.schema.json` — `dig_flow_neighbors` output.
 - `design-reference.schema.json` / `design-reference-pack.schema.json` — DIG-012 agent retrieval units.
-- `mcp-reference-tools.schema.json` — planned `dig_reference_search|get|pack`.
+- `mcp-reference-tools.schema.json` — `dig_reference_search|get|pack` (facets on search).
+- `mcp-library-tools.schema.json` — `dig_screen_search` / `dig_capture_prompt_pack`.
 
 Viewport, state, and artifact schemas will be split into reusable documents as the capture model evolves.

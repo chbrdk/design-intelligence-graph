@@ -11,8 +11,12 @@ test("listDigTools includes dig_reference_* Wave 2 tools", () => {
   assert.ok(names.includes("dig_reference_pack"));
   assert.ok(names.includes("dig_reference_prompt_pack"));
   assert.ok(names.includes("dig_generate"));
+  assert.ok(names.includes("dig_screen_search"));
+  assert.ok(names.includes("dig_capture_prompt_pack"));
   const search = listDigTools().find((t) => t.name === "dig_reference_search");
-  assert.ok(search?.inputSchema && "similar_to" in (search.inputSchema.properties as object));
+  const props = search?.inputSchema.properties as Record<string, unknown>;
+  assert.ok(props && "similar_to" in props);
+  assert.ok("style" in props && "layout" in props && "industry" in props);
 });
 
 test("assertCollectionScopeAllowed requires platformProjectId in live mode", () => {
@@ -45,5 +49,9 @@ test("callDigTool rejects dig_reference_* (async path)", () => {
   assert.throws(
     () => callDigTool(graph, "dig_reference_search", { query: "hero" }),
     /callDigReferenceTool/
+  );
+  assert.throws(
+    () => callDigTool(graph, "dig_screen_search", { style: "high-energy" }),
+    /callDigLibraryTool/
   );
 });

@@ -304,9 +304,9 @@ export type ScreenFacetSummary = {
 };
 
 export type ScreenFacetFilter = {
-  style?: string | null;
-  layout?: string | null;
-  industry?: string | null;
+  style?: string | null | undefined;
+  layout?: string | null | undefined;
+  industry?: string | null | undefined;
 };
 
 export function summarizeDesignFacets(facets: DesignFacets): ScreenFacetSummary {

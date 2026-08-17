@@ -14,6 +14,9 @@ export type DesignReferenceSearchQuery = {
   category?: string | undefined;
   signature?: string | undefined;
   style_label?: string | undefined;
+  style?: string | undefined;
+  layout?: string | undefined;
+  industry?: string | undefined;
   similar_to?: string | undefined;
   platformProjectId?: string | null | undefined;
   digProjectId?: string | null | undefined;
@@ -157,6 +160,15 @@ export async function searchDesignReferences(
   if (!client) return [];
   await runMigrations(process.cwd(), client);
 
+  const { captureRunIdsForScreenFacets } = await import("./library-screens.js");
+  const captureRunIds = await captureRunIdsForScreenFacets(client, {
+    style: query.style,
+    layout: query.layout,
+    industry: query.industry,
+    platformProjectId: query.platformProjectId
+  });
+  if (captureRunIds && !captureRunIds.length) return [];
+
   if (query.similar_to?.trim()) {
     const { searchDesignReferenceEmbeddingNeighbors } = await import("./design-reference-embeddings.js");
     try {
@@ -165,6 +177,7 @@ export async function searchDesignReferences(
         category: query.category,
         signature: query.signature,
         style_label: query.style_label,
+        captureRunIds: captureRunIds ?? undefined,
         platformProjectId: query.platformProjectId,
         digProjectId: query.digProjectId,
         limit: clampLimit(query.limit)
@@ -198,6 +211,10 @@ export async function searchDesignReferences(
   if (query.style_label?.trim()) {
     values.push(JSON.stringify([query.style_label.trim()]));
     clauses.push(`style_labels @> $${values.length}::jsonb`);
+  }
+  if (captureRunIds) {
+    values.push(captureRunIds);
+    clauses.push(`capture_run_id = ANY($${values.length}::text[])`);
   }
   const textQuery = query.query?.trim() || query.similar_to?.trim();
   if (textQuery) {

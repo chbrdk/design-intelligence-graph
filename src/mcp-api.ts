@@ -14,6 +14,8 @@ export type McpToolName =
   | "dig_reference_pack"
   | "dig_reference_prompt_pack"
   | "dig_generate"
+  | "dig_screen_search"
+  | "dig_capture_prompt_pack"
   | "dig_flow_search"
   | "dig_flow_get"
   | "dig_flow_neighbors";
@@ -25,6 +27,8 @@ const REFERENCE_TOOL_NAMES = new Set<McpToolName>([
   "dig_reference_prompt_pack",
   "dig_generate"
 ]);
+
+const LIBRARY_TOOL_NAMES = new Set<McpToolName>(["dig_screen_search", "dig_capture_prompt_pack"]);
 
 const FLOW_TOOL_NAMES = new Set<McpToolName>([
   "dig_flow_search",
@@ -51,7 +55,8 @@ export function listDigTools() {
     { name: "dig_recommend", description: "Recommend nodes with the same type or taxonomy as a seed node; deterministic, not model-ranked.", inputSchema: { type: "object", required: ["node_id"], properties: { node_id: { type: "string" }, limit: { type: "number" } } } },
     {
       name: "dig_reference_search",
-      description: "Search Collection-scoped DesignReferences (DIG-012). Live mode requires platformProjectId.",
+      description:
+        "Search Collection-scoped DesignReferences (DIG-012). Filter by style/layout/industry facets. Live mode requires platformProjectId.",
       inputSchema: {
         type: "object",
         properties: {
@@ -59,6 +64,9 @@ export function listDigTools() {
           category: { type: "string" },
           signature: { type: "string" },
           style_label: { type: "string" },
+          style: { type: "string" },
+          layout: { type: "string" },
+          industry: { type: "string" },
           similar_to: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
@@ -121,6 +129,39 @@ export function listDigTools() {
       }
     },
     {
+      name: "dig_screen_search",
+      description:
+        "Search captured Library screens by Style/Layout/Industry facets. Returns capture_run_id + design_facets (no server paths). Live mode requires platformProjectId.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          style: { type: "string" },
+          layout: { type: "string" },
+          industry: { type: "string" },
+          platformProjectId: { type: "string" },
+          limit: { type: "number" }
+        }
+      }
+    },
+    {
+      name: "dig_capture_prompt_pack",
+      description:
+        "Assemble a DesignPromptPack from one capture (look_contract + page_rhythm). Use after dig_screen_search.",
+      inputSchema: {
+        type: "object",
+        required: ["capture_run_id"],
+        properties: {
+          capture_run_id: { type: "string" },
+          brief: { type: "string" },
+          platformProjectId: { type: "string" },
+          output_contract: {
+            type: "string",
+            enum: ["layout_hints_json", "prose_brief", "both"]
+          }
+        }
+      }
+    },
+    {
       name: "dig_flow_search",
       description: "Search DIG-011 multi-screen Flows by flow_action / app_scope / title (read-only).",
       inputSchema: {
@@ -160,6 +201,9 @@ export function listDigTools() {
 export function callDigTool(graph: KnowledgeGraph, name: McpToolName, args: Record<string, unknown>): unknown {
   if (REFERENCE_TOOL_NAMES.has(name)) {
     throw new Error(`Use callDigReferenceTool for ${name}`);
+  }
+  if (LIBRARY_TOOL_NAMES.has(name)) {
+    throw new Error(`Use callDigLibraryTool for ${name}`);
   }
   if (FLOW_TOOL_NAMES.has(name)) {
     throw new Error(`Use callDigFlowTool for ${name}`);
@@ -225,6 +269,9 @@ export async function callDigReferenceTool(
       category: typeof args.category === "string" ? args.category : undefined,
       signature: typeof args.signature === "string" ? args.signature : undefined,
       style_label: typeof args.style_label === "string" ? args.style_label : undefined,
+      style: typeof args.style === "string" ? args.style : undefined,
+      layout: typeof args.layout === "string" ? args.layout : undefined,
+      industry: typeof args.industry === "string" ? args.industry : undefined,
       similar_to:
         typeof args.similar_to === "string"
           ? args.similar_to
@@ -271,6 +318,52 @@ export async function callDigReferenceTool(
   const { deriveLayoutFromReferencePack } = await import("./layout-generation.js");
   const specification = deriveLayoutFromReferencePack({ pack, layout_hints: null, graph: null });
   return { pack, specification };
+}
+
+export async function callDigLibraryTool(
+  name: Extract<McpToolName, "dig_screen_search" | "dig_capture_prompt_pack">,
+  args: Record<string, unknown>
+): Promise<unknown> {
+  const platformProjectId =
+    typeof args.platformProjectId === "string"
+      ? args.platformProjectId
+      : typeof args.platform_project_id === "string"
+        ? args.platform_project_id
+        : null;
+  if (name === "dig_screen_search") {
+    const { assertCollectionScopeAllowed } = await import("./design-reference-library.js");
+    const { getPool } = await import("./db.js");
+    const {
+      libraryScreenFacetCatalog,
+      listLibraryScreens,
+      publicLibraryScreenHit
+    } = await import("./library-screens.js");
+    assertCollectionScopeAllowed(platformProjectId);
+    const client = getPool();
+    if (!client) throw new Error("database_unavailable");
+    const limit =
+      typeof args.limit === "number" && Number.isFinite(args.limit)
+        ? Math.max(1, Math.min(20, Math.floor(args.limit)))
+        : 20;
+    const listed = await listLibraryScreens(client, {
+      style: typeof args.style === "string" ? args.style : undefined,
+      layout: typeof args.layout === "string" ? args.layout : undefined,
+      industry: typeof args.industry === "string" ? args.industry : undefined,
+      platformProjectId,
+      limit: 200
+    });
+    const screens = listed.slice(0, limit).map(publicLibraryScreenHit);
+    return { count: screens.length, screens, ...libraryScreenFacetCatalog() };
+  }
+  const captureRunId =
+    typeof args.capture_run_id === "string"
+      ? args.capture_run_id
+      : typeof args.captureRunId === "string"
+        ? args.captureRunId
+        : "";
+  if (!captureRunId.trim()) throw new Error("capture_run_id required");
+  const { assemblePromptPackForCaptureRunFromPool } = await import("./capture-prompt-pack.js");
+  return assemblePromptPackForCaptureRunFromPool(captureRunId.trim(), args);
 }
 
 export async function callDigFlowTool(

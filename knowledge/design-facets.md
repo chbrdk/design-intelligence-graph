@@ -3,6 +3,7 @@
 **Date:** 2026-08-17  
 **Code:** [`src/design-facets.ts`](../src/design-facets.ts) · API `package.design_facets` on `GET /api/library/analyses/:capture_run_id`  
 **List/search:** `GET /api/library/screens?style=&layout=&industry=` (query keys in `knowledge/paths.json` → `libraryScreenFacets`)  
+**MCP:** `dig_screen_search` / `dig_capture_prompt_pack` — [`mcp-library-loop.md`](mcp-library-loop.md)  
 **Version:** `0.3.0`  
 **Look contract:** [`look-contract.md`](look-contract.md)
 

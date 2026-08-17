@@ -11,18 +11,9 @@ import { libraryApiPath, libraryScreenFacetQueryKeys } from "./runtime-paths.js"
 import { rejectIfUnauthorized } from "./api-auth.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
-import {
-  buildDesignFacets,
-  DESIGN_FACETS_VERSION,
-  INDUSTRY_VOCAB,
-  LAYOUT_VOCAB,
-  STYLE_VOCAB,
-  designFacetFilterCatalog,
-  normalizeFacetFilterValue,
-  screenFacetsMatch,
-  summarizeDesignFacets,
-  type ScreenFacetSummary
-} from "./design-facets.js";
+import { buildDesignFacets } from "./design-facets.js";
+import { assemblePromptPackForCaptureRun } from "./capture-prompt-pack.js";
+import { libraryScreenFacetCatalog, listLibraryScreens } from "./library-screens.js";
 import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-tokens.js";
 import { asLookContract } from "./look-contract.js";
 import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
@@ -56,22 +47,6 @@ async function readJsonBody(request: IncomingMessage): Promise<Record<string, un
   } catch {
     return {};
   }
-}
-
-async function compactFacetsForPackage(
-  packagePath: string | null,
-  cache: Map<string, ScreenFacetSummary | null>
-): Promise<ScreenFacetSummary | null> {
-  if (!packagePath) return null;
-  if (cache.has(packagePath)) return cache.get(packagePath) ?? null;
-  const visionPage = await loadVisionPageDocument(packagePath).catch(() => null);
-  if (!visionPage) {
-    cache.set(packagePath, null);
-    return null;
-  }
-  const summary = summarizeDesignFacets(buildDesignFacets({ vision_page: visionPage }));
-  cache.set(packagePath, summary);
-  return summary;
 }
 
 async function loadTokensForCaptureRun(
@@ -108,102 +83,6 @@ async function loadPageRhythmForCaptureRun(
   } catch {
     return null;
   }
-}
-
-async function assemblePromptPackForCaptureRun(
-  client: Queryable,
-  captureRunId: string,
-  body: Record<string, unknown>
-) {
-  const { listDesignReferencesForCapture, indexDesignReferencesFromPackage } = await import(
-    "./design-reference-library.js"
-  );
-  const { assembleDesignPromptPack, syntheticScreenReference } = await import("./design-prompt-pack.js");
-  const capture = await client.query(
-    `SELECT package_path, platform_project_id FROM captures WHERE capture_run_id = $1 LIMIT 1`,
-    [captureRunId]
-  );
-  const row = capture.rows[0] as { package_path?: string; platform_project_id?: string | null } | undefined;
-  if (!row?.package_path) {
-    const error = new Error("capture_not_found");
-    (error as Error & { status?: number }).status = 404;
-    throw error;
-  }
-  const platformProjectId =
-    typeof body.platformProjectId === "string"
-      ? body.platformProjectId
-      : typeof body.platform_project_id === "string"
-        ? body.platform_project_id
-        : row.platform_project_id ?? null;
-
-  let references = await listDesignReferencesForCapture(
-    captureRunId,
-    { platformProjectId, limit: 8 },
-    client
-  );
-  if (!references.length) {
-    try {
-      await indexDesignReferencesFromPackage(row.package_path, { platformProjectId }, client);
-      references = await listDesignReferencesForCapture(
-        captureRunId,
-        { platformProjectId, limit: 8 },
-        client
-      );
-    } catch {
-      references = [];
-    }
-  }
-
-  const tokens = await loadDesignTokensDocument(row.package_path).catch(() => null);
-  const visionPage = await loadVisionPageDocument(row.package_path).catch(() => null);
-  const visionLayout = await loadVisionLayoutDocument(row.package_path).catch(() => null);
-  const facets = buildDesignFacets({
-    vision_page: visionPage,
-    bands: visionLayout?.bands ?? [],
-    tokens
-  });
-  const look_contract = asLookContract(body.look_contract) ?? facets.look_contract;
-  const page_rhythm =
-    asPageRhythm(body.page_rhythm) ?? (await loadPageRhythmForPackage(row.package_path).catch(() => null));
-
-  if (!references.length) {
-    references = [
-      syntheticScreenReference({
-        captureRunId,
-        visionPage,
-        lookContract: look_contract,
-        style: facets.style,
-        layout: facets.layout
-      })
-    ];
-  }
-
-  const brief =
-    typeof body.brief === "string" && body.brief.trim()
-      ? body.brief.trim()
-      : `Rebuild this screen using look_contract. Cite ${references[0]!.reference_id}.`;
-  const output_contract =
-    body.output_contract === "prose_brief" || body.output_contract === "both"
-      ? body.output_contract
-      : "layout_hints_json";
-
-  return assembleDesignPromptPack({
-    brief,
-    pack: {
-      schema_version: "0.1.0",
-      intent: brief,
-      references,
-      synthesis_mode: "look_conditioned",
-      constraints: { forbid_source_copy: true }
-    },
-    output_contract,
-    look_contract,
-    page_rhythm,
-    tokens,
-    layout: facets.layout,
-    style: facets.style,
-    spacing_feel: visionPage?.spacing_feel ?? null
-  });
 }
 
 function asBox(value: unknown): Box | null {
@@ -544,46 +423,23 @@ export async function handleLibraryApi(
 
   if (request.method === "GET" && path === "/screens") {
     const facetKeys = libraryScreenFacetQueryKeys();
-    const filter = {
-      style: normalizeFacetFilterValue(queryParam(requestUrl, facetKeys.style), STYLE_VOCAB),
-      layout: normalizeFacetFilterValue(queryParam(requestUrl, facetKeys.layout), LAYOUT_VOCAB),
-      industry: normalizeFacetFilterValue(queryParam(requestUrl, facetKeys.industry), INDUSTRY_VOCAB)
-    };
-    const result = await client.query(
-      `SELECT v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
-              v.document_width, v.document_height,
-              v.title, v.settled_screenshot_path, v.full_page_screenshot_path,
-              c.canonical_url, c.site_domain, c.package_path
-       FROM viewports v
-       JOIN captures c ON c.capture_run_id = v.capture_run_id
-       ORDER BY c.indexed_at DESC, v.name
-       LIMIT 200`
-    );
-    const facetCache = new Map<string, ScreenFacetSummary | null>();
-    const uniquePackages = [
-      ...new Set(
-        result.rows
-          .map((row) => (typeof row.package_path === "string" ? row.package_path : ""))
-          .filter(Boolean)
-      )
-    ];
-    await Promise.all(uniquePackages.map((pkg) => compactFacetsForPackage(pkg, facetCache)));
-    const screens = [];
-    for (const row of result.rows) {
-      const packagePath = typeof row.package_path === "string" ? row.package_path : null;
-      const design_facets = packagePath ? (facetCache.get(packagePath) ?? null) : null;
-      if (!screenFacetsMatch(design_facets, filter)) continue;
+    const listed = await listLibraryScreens(client, {
+      style: queryParam(requestUrl, facetKeys.style),
+      layout: queryParam(requestUrl, facetKeys.layout),
+      industry: queryParam(requestUrl, facetKeys.industry),
+      platformProjectId:
+        queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
+    });
+    const screens = listed.map((row) => {
       const captureRunId = String(row.capture_run_id ?? "");
-      screens.push({
+      return {
         ...row,
-        ...screenMediaUrls(base, captureRunId, row),
-        design_facets
-      });
-    }
+        ...screenMediaUrls(base, captureRunId, row)
+      };
+    });
     sendJson(response, 200, {
       screens,
-      facet_filters: designFacetFilterCatalog(),
-      facets_version: DESIGN_FACETS_VERSION
+      ...libraryScreenFacetCatalog()
     });
     return true;
   }
@@ -735,9 +591,11 @@ export async function handleLibraryApi(
       const status =
         message === "capture_not_found"
           ? 404
-          : message.includes("required") || message.includes("Unknown reference")
-            ? 400
-            : 500;
+          : message === "database_unavailable"
+            ? 503
+            : message.includes("required") || message.includes("Unknown reference")
+              ? 400
+              : 500;
       sendJson(response, status, { error: message });
     }
     return true;
@@ -1081,11 +939,15 @@ export async function handleLibraryApi(
   if (request.method === "GET" && path === "/references") {
     try {
       const { searchDesignReferences } = await import("./design-reference-library.js");
+      const facetKeys = libraryScreenFacetQueryKeys();
       const references = await searchDesignReferences({
         query: queryParam(requestUrl, "q") ?? queryParam(requestUrl, "query") ?? undefined,
         category: queryParam(requestUrl, "category") ?? undefined,
         signature: queryParam(requestUrl, "signature") ?? undefined,
         style_label: queryParam(requestUrl, "style_label") ?? undefined,
+        style: queryParam(requestUrl, facetKeys.style) ?? undefined,
+        layout: queryParam(requestUrl, facetKeys.layout) ?? undefined,
+        industry: queryParam(requestUrl, facetKeys.industry) ?? undefined,
         similar_to: queryParam(requestUrl, "similar_to") ?? queryParam(requestUrl, "similarTo") ?? undefined,
         platformProjectId:
           queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id"),

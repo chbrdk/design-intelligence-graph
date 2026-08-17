@@ -159,6 +159,7 @@ export async function searchDesignReferenceEmbeddingNeighbors(
     category?: string | undefined;
     signature?: string | undefined;
     style_label?: string | undefined;
+    captureRunIds?: string[] | undefined;
     platformProjectId?: string | null | undefined;
     digProjectId?: string | null | undefined;
     limit?: number | undefined;
@@ -166,6 +167,7 @@ export async function searchDesignReferenceEmbeddingNeighbors(
   root = process.cwd()
 ): Promise<Array<{ reference_id: string; score: number; payload: DesignReferenceRecord }>> {
   const limit = Math.max(1, Math.min(20, input.limit ?? 20));
+  if (input.captureRunIds && !input.captureRunIds.length) return [];
   const anchorResult = await client.query(
     `SELECT e.content_text, e.embedding::text AS embedding_text, r.payload
      FROM embeddings e
@@ -212,6 +214,10 @@ export async function searchDesignReferenceEmbeddingNeighbors(
   if (input.style_label?.trim()) {
     values.push(JSON.stringify([input.style_label.trim()]));
     clauses.push(`r.style_labels @> $${values.length}::jsonb`);
+  }
+  if (input.captureRunIds?.length) {
+    values.push(input.captureRunIds);
+    clauses.push(`r.capture_run_id = ANY($${values.length}::text[])`);
   }
   values.push(limit);
   const result = await client.query(

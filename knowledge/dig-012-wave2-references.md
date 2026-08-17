@@ -14,6 +14,10 @@
 
 `dig_reference_search` · `dig_reference_get` · `dig_reference_pack` (via `callDigReferenceTool`)
 
+Screen loop: `dig_screen_search` · `dig_capture_prompt_pack` (via `callDigLibraryTool`) — see [`mcp-library-loop.md`](mcp-library-loop.md).
+
+`dig_reference_search` accepts `style` / `layout` / `industry` (same keys as `libraryScreenFacets`).
+
 ## Storage
 
 `design_references` table (migration `010`) — filled on index after `derived/design-references.jsonl` emit.

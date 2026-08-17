@@ -27,6 +27,7 @@ Vision layout notes are under **Notes**, not in the hero.
 - `apps/web/lib/dig-api.ts` (`design_facets` on analysis package; `fetchLibraryScreensPage`; `fetchCapturePromptPack`)
 - `GET /api/library/screens` compact `design_facets` + `facet_filters`
 - Capture prompt pack: `POST /api/library/analyses/:capture_run_id/prompt-pack`
+- MCP loop: [`mcp-library-loop.md`](mcp-library-loop.md) (`dig_screen_search` → `dig_capture_prompt_pack`)
 - Facet contract: [`design-facets.md`](design-facets.md)
 - Look contract: [`look-contract.md`](look-contract.md)
 - Page rhythm: [`page-rhythm.md`](page-rhythm.md)

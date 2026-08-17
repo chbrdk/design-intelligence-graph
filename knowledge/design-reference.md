@@ -20,10 +20,20 @@ LLMs need **compact, evidence-backed look + composition** packages — not only 
 ## Agent loop (target)
 
 ```text
+dig_screen_search(style, layout, industry)
+  → dig_capture_prompt_pack(capture_run_id)
+  → LLM / dig_generate(look_conditioned)
+```
+
+Alternate (section references):
+
+```text
 brief → dig_reference_search → dig_reference_pack
      → LLM and/or dig-generate(look_conditioned)
      → layout-spec with provenance.reference_ids
 ```
+
+See [`mcp-library-loop.md`](mcp-library-loop.md).
 
 ## paths.json
 

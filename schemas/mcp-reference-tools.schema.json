@@ -7,7 +7,7 @@
   "required": ["name", "description", "inputSchema"],
   "properties": {
     "name": {
-      "enum": ["dig_reference_search", "dig_reference_get", "dig_reference_pack"]
+      "enum": ["dig_reference_search", "dig_reference_get", "dig_reference_pack", "dig_screen_search", "dig_capture_prompt_pack"]
     },
     "description": { "type": "string" },
     "inputSchema": { "type": "object" }
@@ -20,6 +20,9 @@
         "category": { "type": "string" },
         "signature": { "type": "string" },
         "style_label": { "type": "string" },
+        "style": { "type": "string" },
+        "layout": { "type": "string" },
+        "industry": { "type": "string" },
         "similar_to": { "type": "string" },
         "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
       }

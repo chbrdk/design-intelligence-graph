@@ -65,6 +65,13 @@ export interface DigPaths {
     queryIndustry?: string;
     doc?: string;
   };
+  mcpLibraryTools?: {
+    screenSearch?: string;
+    capturePromptPack?: string;
+    defaultLimit?: number;
+    listLimit?: number;
+    doc?: string;
+  };
   structureSpine?: {
     relativePath?: string;
     maxBands?: number;
@@ -238,5 +245,16 @@ export function libraryScreenFacetQueryKeys(root = process.cwd()): {
     style: cfg?.queryStyle ?? "style",
     layout: cfg?.queryLayout ?? "layout",
     industry: cfg?.queryIndustry ?? "industry"
+  };
+}
+
+export function mcpLibraryToolNames(root = process.cwd()): {
+  screenSearch: string;
+  capturePromptPack: string;
+} {
+  const cfg = loadDigPaths(root).mcpLibraryTools;
+  return {
+    screenSearch: cfg?.screenSearch ?? "dig_screen_search",
+    capturePromptPack: cfg?.capturePromptPack ?? "dig_capture_prompt_pack"
   };
 }

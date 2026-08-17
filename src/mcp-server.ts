@@ -2,6 +2,7 @@
 import { createInterface } from "node:readline";
 import {
   callDigFlowTool,
+  callDigLibraryTool,
   callDigReferenceTool,
   callDigTool,
   listDigTools,
@@ -38,6 +39,8 @@ for await (const line of rl) {
         name === "dig_generate"
       ) {
         result = toolResult(await callDigReferenceTool(name, args));
+      } else if (name === "dig_screen_search" || name === "dig_capture_prompt_pack") {
+        result = toolResult(await callDigLibraryTool(name, args));
       } else if (name === "dig_flow_search" || name === "dig_flow_get" || name === "dig_flow_neighbors") {
         result = toolResult(await callDigFlowTool(name, args));
       } else {
