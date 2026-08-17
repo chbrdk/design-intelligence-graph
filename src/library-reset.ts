@@ -37,7 +37,7 @@ export function assertSafeLibraryDataDir(dir: string, kind: "captures" | "indexe
 
 export async function emptyLibraryDataDir(dir: string, kind: "captures" | "indexes"): Promise<number> {
   const resolved = assertSafeLibraryDataDir(dir, kind);
-  let entries: Awaited<ReturnType<typeof readdir>>;
+  let entries: Array<{ name: string }>;
   try {
     entries = await readdir(resolved, { withFileTypes: true });
   } catch (error: unknown) {
@@ -47,7 +47,7 @@ export async function emptyLibraryDataDir(dir: string, kind: "captures" | "index
   }
   let removed = 0;
   for (const entry of entries) {
-    await rm(resolve(resolved, entry.name), { recursive: true, force: true });
+    await rm(resolve(resolved, String(entry.name)), { recursive: true, force: true });
     removed += 1;
   }
   return removed;
