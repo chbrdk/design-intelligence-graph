@@ -24,19 +24,21 @@ dig_capture_prompt_pack(capture_run_id, brief?)
 
 ## Cursor
 
-Project MCP config: `.cursor/mcp.json` (name `spirion`, paths in `knowledge/paths.json` → `cursorMcp`).
+Cursor talks to **Coolify dig-api**, not a local Node process.
 
-Launcher `scripts/dig-mcp-cursor.ts` sets `DIG_API_URL` to staging `coolify.digApiFqdn` when unset, then starts stdio MCP with `fixtures/mcp/empty-graph.json`. Library tools call the HTTP API (so Cursor does not need local Postgres or `/data/captures`).
+Remote URL: `coolify.digApiFqdn` + `cursorMcp.httpPath` (`/mcp`) — committed in `.cursor/mcp.json`.
 
-After pulling: Cursor Settings → Tools & MCP → refresh **spirion**. Test:
+After deploy: Cursor Settings → Tools & MCP → refresh **spirion**. Test:
 
 ```text
 dig_screen_search style=high-energy layout=full-bleed stacks
 dig_capture_prompt_pack capture_run_id=<from search>
 ```
 
-Override with local API: `DIG_API_URL=http://127.0.0.1:8787`.
+Stdio (`npm run mcp`) remains for local CLI. The old launcher `scripts/dig-mcp-cursor.ts` is a fallback HTTP client (`DIG_MCP_HTTP_CLIENT=1`) and is not what Cursor uses.
 
 ## Not in this slice
 
 Dense embeddings, screenshot embeddings, and Cursor skill wrappers stay parked.
+
+**Next (CHECKION-parity):** wrap the rest of SPIRION as MCP tools — capture/jobs, enrichment, library/analyses, prefix `spirion.*`, Bearer like CHECKION. This deploy only hosts Streamable HTTP `/mcp` for the current design-agent tools.

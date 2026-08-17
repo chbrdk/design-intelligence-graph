@@ -27,7 +27,8 @@
     "healthPath": "/api/health",
     "jobsPath": "/api/jobs",
     "libraryPath": "/api/library",
-    "enrichmentPath": "/api/enrichment"
+    "enrichmentPath": "/api/enrichment",
+    "mcpPath": "/mcp"
   },
   "runtime": {
     "capturesDir": "captures",
@@ -209,6 +210,8 @@
     "serverName": "spirion",
     "configPath": ".cursor/mcp.json",
     "graphRelativePath": "fixtures/mcp/empty-graph.json",
+    "httpPath": "/mcp",
+    "httpClientEnv": "DIG_MCP_HTTP_CLIENT",
     "preferStagingApi": true,
     "doc": "knowledge/mcp-library-loop.md"
   },

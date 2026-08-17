@@ -26,6 +26,7 @@ export interface DigPaths {
     jobsPath: string;
     libraryPath?: string;
     enrichmentPath?: string;
+    mcpPath?: string;
   };
   runtime: {
     capturesDir: string;
@@ -199,6 +200,8 @@ export interface DigPaths {
     configPath?: string;
     graphRelativePath?: string;
     preferStagingApi?: boolean;
+    httpPath?: string;
+    httpClientEnv?: string;
     doc?: string;
   };
 }
@@ -286,11 +289,30 @@ export function digApiBaseUrl(root = process.cwd(), environment: NodeJS.ProcessE
   return null;
 }
 
+export function mcpHttpPath(root = process.cwd()): string {
+  const paths = loadDigPaths(root);
+  return paths.cursorMcp?.httpPath ?? paths.api.mcpPath ?? "/mcp";
+}
+
+export function cursorMcpRemoteUrl(root = process.cwd()): string {
+  const paths = loadDigPaths(root);
+  const base = (paths.coolify?.digApiFqdn ?? "http://127.0.0.1:8787").replace(/\/$/, "");
+  return `${base}${mcpHttpPath(root)}`;
+}
+
+export function mcpHttpClientEnabled(environment: NodeJS.ProcessEnv = process.env, root = process.cwd()): boolean {
+  const envName = loadDigPaths(root).cursorMcp?.httpClientEnv ?? "DIG_MCP_HTTP_CLIENT";
+  const value = environment[envName]?.trim();
+  return value === "1" || value === "true";
+}
+
 export function applyCursorMcpDefaults(root = process.cwd(), environment: NodeJS.ProcessEnv = process.env): string {
   const paths = loadDigPaths(root);
   const envName = paths.plexon?.digApiUrlEnv ?? "DIG_API_URL";
+  const clientEnv = paths.cursorMcp?.httpClientEnv ?? "DIG_MCP_HTTP_CLIENT";
   if (!environment[envName]?.trim() && paths.cursorMcp?.preferStagingApi && paths.coolify?.digApiFqdn) {
     environment[envName] = paths.coolify.digApiFqdn;
   }
+  if (!environment[clientEnv]?.trim()) environment[clientEnv] = "1";
   return resolve(root, paths.cursorMcp?.graphRelativePath ?? "fixtures/mcp/empty-graph.json");
 }

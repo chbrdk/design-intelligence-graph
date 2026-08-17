@@ -10,9 +10,13 @@ DIG-007 exposes the portable DIG-006 graph to design agents over JSON-RPC stdio 
 
 ## Start
 
+Stdio (local CLI):
+
 ```bash
 npm run mcp -- indexes/<capture-run-id>/graph.json
 ```
+
+Streamable HTTP (Coolify dig-api, what Cursor uses): `POST {coolify.digApiFqdn}/mcp` — see [`knowledge/mcp-library-loop.md`](../knowledge/mcp-library-loop.md).
 
 ## Tools
 

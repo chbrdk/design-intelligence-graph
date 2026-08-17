@@ -1,8 +1,55 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync } from "node:fs";
+import { Readable } from "node:stream";
+import type { IncomingMessage, ServerResponse } from "node:http";
+import { resolve } from "node:path";
 import { emptyKnowledgeGraph, handleMcpMessage, listDigTools } from "../src/mcp-api.js";
+import { handleMcpHttp } from "../src/mcp-http.js";
 import { callDigLibraryToolHttp } from "../src/mcp-library-http.js";
-import { applyCursorMcpDefaults, mcpLibraryToolNames } from "../src/runtime-paths.js";
+import {
+  applyCursorMcpDefaults,
+  cursorMcpRemoteUrl,
+  mcpLibraryToolNames
+} from "../src/runtime-paths.js";
+
+function mockResponse() {
+  const headers: Record<string, string> = {};
+  let statusCode = 200;
+  let body = "";
+  const response = {
+    writeHead(status: number, nextHeaders?: Record<string, string>) {
+      statusCode = status;
+      Object.assign(headers, nextHeaders ?? {});
+      return response;
+    },
+    end(payload?: string) {
+      body = payload ?? "";
+      return response;
+    }
+  } as unknown as ServerResponse;
+  return {
+    response,
+    get statusCode() {
+      return statusCode;
+    },
+    get body() {
+      return body;
+    },
+    get headers() {
+      return headers;
+    }
+  };
+}
+
+function mockRequest(method: string, body?: string): IncomingMessage {
+  const stream = Readable.from([Buffer.from(body ?? "")]);
+  return Object.assign(stream, {
+    method,
+    headers: { origin: "https://cursor.com" },
+    url: "/mcp"
+  }) as IncomingMessage;
+}
 
 test("handleMcpMessage initializes, lists tools, ignores notifications", async () => {
   const graph = emptyKnowledgeGraph();
@@ -75,4 +122,56 @@ test("applyCursorMcpDefaults points at empty graph and staging API", () => {
   const graph = applyCursorMcpDefaults(process.cwd(), env);
   assert.match(graph, /fixtures\/mcp\/empty-graph\.json$/);
   assert.match(String(env.DIG_API_URL), /spirion-api/);
+  assert.equal(env.DIG_MCP_HTTP_CLIENT, "1");
+});
+
+test("Cursor mcp.json points at Coolify Streamable HTTP URL", () => {
+  const config = JSON.parse(readFileSync(resolve(".cursor/mcp.json"), "utf8")) as {
+    mcpServers: { spirion: { url?: string; command?: string } };
+  };
+  assert.equal(config.mcpServers.spirion.url, cursorMcpRemoteUrl());
+  assert.equal(config.mcpServers.spirion.command, undefined);
+});
+
+test("handleMcpHttp initialize and tools/list over POST JSON", async () => {
+  const init = mockResponse();
+  const initOk = await handleMcpHttp(
+    mockRequest(
+      "POST",
+      JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "initialize",
+        params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "t", version: "0" } }
+      })
+    ),
+    init.response,
+    new URL("http://127.0.0.1/mcp")
+  );
+  assert.equal(initOk, true);
+  assert.equal(init.statusCode, 200);
+  const initBody = JSON.parse(init.body) as { result: { protocolVersion: string; serverInfo: { name: string } } };
+  assert.equal(initBody.result.protocolVersion, "2025-11-25");
+  assert.equal(initBody.result.serverInfo.name, "design-intelligence-graph");
+
+  const note = mockResponse();
+  await handleMcpHttp(
+    mockRequest("POST", JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" })),
+    note.response,
+    new URL("http://127.0.0.1/mcp")
+  );
+  assert.equal(note.statusCode, 202);
+
+  const listed = mockResponse();
+  await handleMcpHttp(
+    mockRequest("POST", JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list" })),
+    listed.response,
+    new URL("http://127.0.0.1/mcp")
+  );
+  const tools = (JSON.parse(listed.body) as { result: { tools: Array<{ name: string }> } }).result.tools;
+  assert.ok(tools.some((tool) => tool.name === "dig_screen_search"));
+
+  const get = mockResponse();
+  await handleMcpHttp(mockRequest("GET"), get.response, new URL("http://127.0.0.1/mcp"));
+  assert.equal(get.statusCode, 405);
 });

@@ -336,11 +336,13 @@ export async function callDigLibraryTool(
   name: Extract<McpToolName, "dig_screen_search" | "dig_capture_prompt_pack">,
   args: Record<string, unknown>
 ): Promise<unknown> {
-  const { digApiBaseUrl } = await import("./runtime-paths.js");
-  const apiBase = digApiBaseUrl();
-  if (apiBase) {
-    const { callDigLibraryToolHttp } = await import("./mcp-library-http.js");
-    return callDigLibraryToolHttp(name, args, apiBase);
+  const { digApiBaseUrl, mcpHttpClientEnabled } = await import("./runtime-paths.js");
+  if (mcpHttpClientEnabled()) {
+    const apiBase = digApiBaseUrl();
+    if (apiBase) {
+      const { callDigLibraryToolHttp } = await import("./mcp-library-http.js");
+      return callDigLibraryToolHttp(name, args, apiBase);
+    }
   }
   const platformProjectId =
     typeof args.platformProjectId === "string"
@@ -427,8 +429,13 @@ export async function handleMcpMessage(
   try {
     let result: unknown;
     if (method === "initialize") {
+      const requested =
+        typeof request.params?.protocolVersion === "string" ? request.params.protocolVersion : "";
+      const protocolVersion = ["2025-11-25", "2025-03-26", "2024-11-05"].includes(requested)
+        ? requested
+        : "2025-03-26";
       result = {
-        protocolVersion: "2024-11-05",
+        protocolVersion,
         capabilities: { tools: {} },
         serverInfo: { name: "design-intelligence-graph", version: "0.1.0" }
       };

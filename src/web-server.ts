@@ -7,6 +7,7 @@ import { JobRunner, publicJobView, type JobEvent } from "./job-runner.js";
 import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
 import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-store.js";
 import { handleLibraryApi } from "./library-api.js";
+import { handleMcpHttp } from "./mcp-http.js";
 import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
 import { loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
@@ -236,6 +237,7 @@ export function createWebServer(): ReturnType<typeof createServer> {
     try {
       const host = request.headers.host ?? `127.0.0.1:${webPort()}`;
       const url = new URL(request.url ?? "/", `http://${host}`);
+      if (await handleMcpHttp(request, response, url)) return;
       if (await handleApi(request, response, url)) return;
       if (request.method === "GET" && tryStatic(response, url.pathname)) return;
       sendJson(response, 404, { error: "Not found" });
