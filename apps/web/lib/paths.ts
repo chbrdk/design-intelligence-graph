@@ -96,6 +96,8 @@ export const paths = {
     layout: 'layout',
     industry: 'industry',
   },
+  /** Keep in sync with knowledge/paths.json libraryScreenFacets.pollMs */
+  libraryScreensPollMs: 15_000,
   defaultDigApiUrl: 'http://127.0.0.1:8787',
   msqdxUiSibling: '../../../msqdx-ui',
   bindingTicket: 'knowledge/plexon-dig-binding-ticket.md',

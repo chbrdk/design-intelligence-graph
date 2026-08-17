@@ -219,6 +219,7 @@
     "queryStyle": "style",
     "queryLayout": "layout",
     "queryIndustry": "industry",
+    "pollMs": 15000,
     "doc": "knowledge/design-facets.md"
   },
   "libraryReset": {

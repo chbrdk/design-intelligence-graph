@@ -13,11 +13,17 @@ describe('library screen facet filters', () => {
     const catalog = JSON.parse(
       readFileSync(resolve(__dirname, '../../../knowledge/paths.json'), 'utf8'),
     ) as {
-      libraryScreenFacets: { queryStyle: string; queryLayout: string; queryIndustry: string }
+      libraryScreenFacets: {
+        queryStyle: string
+        queryLayout: string
+        queryIndustry: string
+        pollMs: number
+      }
     }
     assert.equal(paths.libraryFacetQuery.style, catalog.libraryScreenFacets.queryStyle)
     assert.equal(paths.libraryFacetQuery.layout, catalog.libraryScreenFacets.queryLayout)
     assert.equal(paths.libraryFacetQuery.industry, catalog.libraryScreenFacets.queryIndustry)
+    assert.equal(paths.libraryScreensPollMs, catalog.libraryScreenFacets.pollMs)
   })
 
   it('builds GET /screens query params from facet filters', () => {

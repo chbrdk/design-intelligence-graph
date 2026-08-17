@@ -86,6 +86,7 @@ export interface DigPaths {
     queryStyle?: string;
     queryLayout?: string;
     queryIndustry?: string;
+    pollMs?: number;
     doc?: string;
   };
   libraryReset?: {

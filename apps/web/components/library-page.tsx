@@ -138,6 +138,8 @@ function LibraryPageInner() {
 
   useEffect(() => {
     void refresh()
+    const timer = window.setInterval(() => void refresh(), paths.libraryScreensPollMs)
+    return () => window.clearInterval(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope and facet query drive refresh
   }, [platformProjectId, facetStyle, facetLayout, facetIndustry])
 
