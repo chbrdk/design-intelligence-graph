@@ -11,7 +11,9 @@ import { libraryApiPath } from "./runtime-paths.js";
 import { rejectIfUnauthorized } from "./api-auth.js";
 import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
+import { buildDesignFacets } from "./design-facets.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
+import { loadVisionPageDocument } from "./vision-page.js";
 
 type Box = { x: number; y: number; width: number; height: number };
 
@@ -581,14 +583,18 @@ export async function handleLibraryApi(
     const packagePath = typeof row.package_path === "string" ? row.package_path : null;
     if (packagePath) {
       try {
-        const llmPath = resolve(packagePath, "derived/llm-design.json");
-        const llm = JSON.parse(await readFile(llmPath, "utf8")) as {
+        let llm: {
           vision?: unknown;
           cost?: unknown;
           stages?: unknown;
           hypotheses?: unknown;
           mobbin?: { section_descriptions?: unknown };
-        };
+        } = {};
+        try {
+          llm = JSON.parse(await readFile(resolve(packagePath, "derived/llm-design.json"), "utf8")) as typeof llm;
+        } catch {
+          llm = {};
+        }
         let section_crops: unknown = null;
         try {
           section_crops = JSON.parse(await readFile(resolve(packagePath, "derived/section-crops.json"), "utf8"));
@@ -618,13 +624,38 @@ export async function handleLibraryApi(
             };
           });
         }
+        const visionPage = await loadVisionPageDocument(packagePath).catch(() => null);
+        const visionLayout = await loadVisionLayoutDocument(packagePath).catch(() => null);
+        const screenPatternLabels = grouped.screen_patterns
+          .map((item) => String((item as { name?: unknown }).name ?? "").trim())
+          .filter(Boolean);
+        const visualStyleLabels = grouped.visual_style
+          .map((item) => String((item as { name?: unknown }).name ?? "").trim())
+          .filter(Boolean);
+        const design_facets = buildDesignFacets({
+          vision_page: visionPage,
+          bands: visionLayout?.bands ?? [],
+          screen_pattern_labels: screenPatternLabels,
+          visual_style_labels: visualStyleLabels
+        });
         packageExtras = {
           vision: llm.vision ?? null,
           cost: llm.cost ?? null,
           stages: llm.stages ?? null,
           hypotheses: llm.hypotheses ?? null,
           section_descriptions: llm.mobbin?.section_descriptions ?? null,
-          section_crops
+          section_crops,
+          vision_page: visionPage,
+          vision_layout: visionLayout
+            ? {
+                status: visionLayout.status,
+                band_count: visionLayout.bands.length,
+                notes: visionLayout.notes ?? null,
+                source_screenshot: visionLayout.source_screenshot,
+                bands: visionLayout.bands
+              }
+            : null,
+          design_facets
         };
       } catch {
         packageExtras = null;

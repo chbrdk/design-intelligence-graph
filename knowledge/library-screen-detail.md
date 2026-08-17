@@ -1,16 +1,23 @@
-# Library screen detail (2026-08-16)
+# Library screen detail
+
+**Updated:** 2026-08-17
 
 ## UX
 
 Clicking a Library screen card opens `#/library/screens/{viewport_capture_id}`:
 
-- Left: large settled / full-page screenshot (`ToggleGroup`) with optional section overlay hotspots from `GET /api/library/screens/:id`
-- Right: analysis summary, page narrative, **msqdx Accordion** of `section_look` rows
+1. Toolbar (back, viewport/full page, overlay)
+2. **Design profile** (`ScreenInsightStrip`) — page type, style, layout, color, typography, industry + section chips
+3. Split:
+   - Left: screenshot + vision band overlays
+   - Right: collapsible summary, page narrative, section accordion
 
-Back returns to `#/library/screens`.
+Vision layout notes are under **Notes**, not in the hero.
 
 ## Files
 
 - `apps/web/components/library-screen-detail.tsx`
+- `apps/web/components/screen-insight-strip.tsx`
 - `apps/web/lib/library-hash.ts` (`screen_detail`)
-- `apps/web/lib/dig-api.ts` (`fetchScreenDetail` + hotspots)
+- `apps/web/lib/dig-api.ts` (`design_facets` on analysis package)
+- Facet contract: [`design-facets.md`](design-facets.md)

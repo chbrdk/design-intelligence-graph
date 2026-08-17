@@ -152,6 +152,37 @@ export interface SectionDescription {
   confidence?: number
 }
 
+/** Stable facets for screen profile + future inspiration search. */
+export interface DesignFacets {
+  schema_version?: string
+  facets_version?: string
+  page_type: string | null
+  industry_tags: string[]
+  style: string | null
+  layout: string | null
+  color_mood: string | null
+  typography: string | null
+  above_fold_job: string | null
+  section_categories: string[]
+  modules: string[]
+  confidence: number | null
+}
+
+export interface VisionPageSummary {
+  page_type?: string
+  overall_atmosphere?: string
+  color_mood?: string
+  typography_feel?: string
+  layout_system?: string
+  vertical_rhythm?: string
+  above_fold_job?: string
+  above_the_fold?: string
+  category_tags?: string[]
+  notable_modules?: string[]
+  confidence?: number
+  status?: string
+}
+
 export interface LibraryAnalysisDetail {
   analysis: {
     status?: string | null
@@ -166,12 +197,44 @@ export interface LibraryAnalysisDetail {
     cost?: { estimated_usd?: number; prompt_tokens?: number; completion_tokens?: number }
     vision?: { status?: string; summary?: string }
     section_descriptions?: SectionDescription[]
+    vision_page?: VisionPageSummary | null
+    vision_layout?: {
+      status?: string
+      band_count?: number
+      notes?: string | null
+      bands?: Array<{ id?: string; label?: string; category?: string }>
+    } | null
+    design_facets?: DesignFacets | null
   }
 }
 
-function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryAnalysisDetail {
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.map(String).map((item) => item.trim()).filter(Boolean)
+}
+
+function normalizeDesignFacets(raw: unknown): DesignFacets | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
+  const record = raw as Record<string, unknown>
+  return {
+    schema_version: typeof record.schema_version === 'string' ? record.schema_version : undefined,
+    facets_version: typeof record.facets_version === 'string' ? record.facets_version : undefined,
+    page_type: typeof record.page_type === 'string' ? record.page_type : null,
+    industry_tags: asStringArray(record.industry_tags),
+    style: typeof record.style === 'string' ? record.style : null,
+    layout: typeof record.layout === 'string' ? record.layout : null,
+    color_mood: typeof record.color_mood === 'string' ? record.color_mood : null,
+    typography: typeof record.typography === 'string' ? record.typography : null,
+    above_fold_job: typeof record.above_fold_job === 'string' ? record.above_fold_job : null,
+    section_categories: asStringArray(record.section_categories),
+    modules: asStringArray(record.modules),
+    confidence: typeof record.confidence === 'number' ? record.confidence : null,
+  }
+}
+
+export function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryAnalysisDetail {
   const analysis = (body.analysis ?? {}) as LibraryAnalysisDetail['analysis']
-  const pkg = body.package as LibraryAnalysisDetail['package'] | undefined
+  const pkgRaw = body.package as Record<string, unknown> | undefined
   const rawItems = body.items
   let section_look: SectionLookItem[] = []
   let flat: SectionLookItem[] = []
@@ -183,7 +246,7 @@ function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryAnalysis
     section_look = Array.isArray(grouped.section_look) ? grouped.section_look : []
     flat = Object.values(grouped).flatMap((rows) => (Array.isArray(rows) ? rows : []))
   }
-  const fromPackage = pkg?.section_descriptions ?? []
+  const fromPackage = (pkgRaw?.section_descriptions as SectionDescription[] | undefined) ?? []
   if (!section_look.length && fromPackage.length) {
     section_look = fromPackage.map((desc, index) => ({
       id: desc.section_id ?? `section_${index}`,
@@ -197,11 +260,29 @@ function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryAnalysis
       confidence: desc.confidence ?? null,
     }))
   }
+  const design_facets = normalizeDesignFacets(pkgRaw?.design_facets)
+  let packageExtras: LibraryAnalysisDetail['package']
+  if (pkgRaw) {
+    packageExtras = {
+      ...(pkgRaw.cost && typeof pkgRaw.cost === 'object'
+        ? { cost: pkgRaw.cost as NonNullable<LibraryAnalysisDetail['package']>['cost'] }
+        : {}),
+      ...(pkgRaw.vision && typeof pkgRaw.vision === 'object'
+        ? { vision: pkgRaw.vision as NonNullable<LibraryAnalysisDetail['package']>['vision'] }
+        : {}),
+      ...(fromPackage.length ? { section_descriptions: fromPackage } : {}),
+      vision_page: (pkgRaw.vision_page as VisionPageSummary | null | undefined) ?? null,
+      vision_layout:
+        (pkgRaw.vision_layout as NonNullable<LibraryAnalysisDetail['package']>['vision_layout']) ??
+        null,
+      ...(design_facets ? { design_facets } : {}),
+    }
+  }
   return {
     analysis,
     items: flat,
     section_look,
-    ...(pkg ? { package: pkg } : {}),
+    ...(packageExtras ? { package: packageExtras } : {}),
   }
 }
 

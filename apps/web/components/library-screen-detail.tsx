@@ -15,6 +15,7 @@ import {
   type SectionLookItem,
 } from '../lib/dig-api'
 import { paths } from '../lib/paths'
+import { ScreenInsightStrip } from './screen-insight-strip'
 
 type MediaMode = 'settled' | 'full_page'
 
@@ -142,6 +143,9 @@ export function LibraryScreenDetailPanel(props: {
 
   const sectionLooks = analysis?.section_look ?? []
   const overlays = useMemo(() => sectionHotspots(hotspots), [hotspots])
+  const facets = analysis?.package?.design_facets ?? null
+  const layoutNotes =
+    analysis?.package?.vision_layout?.notes ?? visionNotes ?? null
 
   const mediaUrl =
     mediaMode === 'full_page'
@@ -153,7 +157,7 @@ export function LibraryScreenDetailPanel(props: {
     if (!overlays.length) return []
     return overlays.map((hotspot) => {
       const look = sectionLooks.find(
-        (item) => String(item.name ?? item.id ?? '') === hotspot.section_id
+        (item) => String(item.name ?? item.id ?? '') === hotspot.section_id,
       )
       return {
         id: hotspot.section_id,
@@ -174,6 +178,8 @@ export function LibraryScreenDetailPanel(props: {
     setOpenSectionId(sectionId)
     setShowOverlay(true)
   }
+
+  const summary = analysis?.analysis.design_summary?.trim() || ''
 
   return (
     <div className="dig-screen-detail">
@@ -209,11 +215,16 @@ export function LibraryScreenDetailPanel(props: {
 
       {error ? <Alert tone="error">{error}</Alert> : null}
 
+      <ScreenInsightStrip
+        title={screen?.title || screen?.name || 'Screen'}
+        url={screen?.canonical_url}
+        facets={facets}
+        pending={analysisPending}
+        notes={layoutNotes}
+      />
+
       <div className="dig-screen-detail-split">
         <Panel className="dig-panel dig-screen-detail-media">
-          <Text role="headline">{screen?.title || screen?.name || 'Screen'}</Text>
-          <Text role="meta">{screen?.canonical_url}</Text>
-          {visionNotes ? <Text role="meta">Vision layout: {visionNotes}</Text> : null}
           {mediaUrl ? (
             <div className="dig-screen-detail-frame">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -253,13 +264,18 @@ export function LibraryScreenDetailPanel(props: {
         </Panel>
 
         <Panel className="dig-panel dig-screen-detail-side">
-          <Text role="title">Analysis</Text>
-          <Text role="body">
-            {analysis?.analysis.design_summary ??
-              (analysisPending
+          {summary ? (
+            <details className="dig-screen-summary">
+              <summary>{paths.libraryCopy.screenInsightSummary}</summary>
+              <Text role="body">{summary}</Text>
+            </details>
+          ) : (
+            <Text role="body">
+              {analysisPending
                 ? 'Waiting for enrichment / analysis…'
-                : 'No analysis summary yet.')}
-          </Text>
+                : 'No analysis summary yet.'}
+            </Text>
+          )}
           {enrichmentHint ? <Text role="meta">{enrichmentHint}</Text> : null}
 
           <Text role="title">{paths.libraryCopy.pageNarrativeLabel}</Text>
