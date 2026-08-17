@@ -35,7 +35,7 @@ import { emitLocalHrefJoinForPackage } from "./flow-edges.js";
 import { deriveAnalysisReport } from "./analysis-pipeline.js";
 import { pauseAnimations, scrollSettlePage, stabilizePage } from "./stabilize.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
-import { acceptLanguageForLocale, gotoWithNavGuard, shouldUseFirefoxFallback } from "./capture-nav.js";
+import { captureBrowserContextOptions, gotoWithNavGuard, shouldUseFirefoxFallback } from "./capture-nav.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
 
 interface RuntimeEvidence {
@@ -137,19 +137,16 @@ async function captureViewport(
   const prefix = `viewports/${viewport.name}`;
   const warnings: string[] = [];
   const artifacts: ViewportResult["artifacts"] = {};
-  const context = await browser.newContext({
-    viewport: { width: viewport.width, height: viewport.height },
-    deviceScaleFactor: viewport.deviceScaleFactor,
+  const engine = browser.browserType().name();
+  const context = await browser.newContext(captureBrowserContextOptions({
+    viewport,
     locale: options.locale,
     timezoneId: options.timezoneId,
     colorScheme: options.colorScheme,
     reducedMotion: options.reducedMotion,
-    extraHTTPHeaders: {
-      "Accept-Language": acceptLanguageForLocale(options.locale)
-    },
-    hasTouch: false,
-    isMobile: false
-  });
+    engine: engine === "firefox" ? "firefox" : "chromium",
+    browserVersion: browser.version()
+  }));
   const page = await context.newPage();
   await installPerformanceObservers(page);
   const runtime = attachRuntimeEvidence(page);
@@ -453,7 +450,8 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
 
   const browser = await chromium.launch({
     headless: !options.headed,
-    args: ["--disable-blink-features=AutomationControlled"]
+    args: ["--disable-blink-features=AutomationControlled"],
+    ignoreDefaultArgs: ["--enable-automation"]
   });
   let firefoxBrowser: Browser | undefined;
   const results: ViewportResult[] = [];

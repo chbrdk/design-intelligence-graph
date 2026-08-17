@@ -42,6 +42,19 @@ export interface DigPaths {
     jobTimeoutMs?: number;
     firefoxFallbackViewport?: string;
     libraryListedStatuses?: string[];
+    geolocation?: { latitude: number; longitude: number };
+    acceptHeader?: string;
+    secChUaTemplate?: string;
+    chromiumUserAgentTemplates?: {
+      linux?: string;
+      darwin?: string;
+      win32?: string;
+    };
+    secChUaPlatform?: {
+      linux?: string;
+      darwin?: string;
+      win32?: string;
+    };
   };
   captureLimits?: {
     maxHtmlBytes?: number;
