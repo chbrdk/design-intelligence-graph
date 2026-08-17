@@ -23,6 +23,7 @@ DesignPromptPack {
   ask: string                           // structured output instruction
   output_contract: "layout_hints_json" | "prose_brief" | "both"
   look_contract?: LookContract          // measured hex/type/radius/CTA + avoid[]
+  page_rhythm?: PageRhythm              // page_arc + bands; outranks card-kit templates
 }
 ```
 
@@ -37,6 +38,7 @@ DesignPromptPack {
 5. Separate **structure** (signature, roles, taxonomy) from **feel** (look_summary, tokens).  
 6. If `forbid_source_copy` is true on the pack, treat it as absolute.  
 7. If `look_contract` is present, it outranks vibe adjectives; obey `look_contract.avoid` and measured colors/type/radius/CTA (no glassmorphic defaults).
+8. If `page_rhythm` is present, it outranks generic landing-page / card-kit structure; follow `page_arc`.
 
 ## Templates
 

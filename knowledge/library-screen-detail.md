@@ -29,3 +29,4 @@ Vision layout notes are under **Notes**, not in the hero.
 - Capture prompt pack: `POST /api/library/analyses/:capture_run_id/prompt-pack`
 - Facet contract: [`design-facets.md`](design-facets.md)
 - Look contract: [`look-contract.md`](look-contract.md)
+- Page rhythm: [`page-rhythm.md`](page-rhythm.md)

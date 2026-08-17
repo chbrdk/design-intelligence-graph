@@ -17,7 +17,7 @@
   ],
   "properties": {
     "schema_version": { "const": "0.1.0" },
-    "generation_version": { "enum": ["0.1.0", "0.2.0", "0.3.0"] },
+    "generation_version": { "enum": ["0.1.0", "0.2.0", "0.3.0", "0.4.0"] },
     "intent": {
       "enum": ["evidence_based_structural_synthesis", "look_conditioned_structural_synthesis"]
     },
@@ -33,6 +33,10 @@
     "look_contract": {
       "type": "object",
       "description": "Measured look constraints applied to token_hints and constraints."
+    },
+    "page_rhythm": {
+      "type": "object",
+      "description": "Measured page arc and bands applied to block plan and constraints."
     },
     "blocks": {
       "type": "array",
@@ -50,7 +54,8 @@
         "seed": { "enum": ["graph", "blank_canvas"] },
         "reference_ids": { "type": "array", "items": { "type": "string" } },
         "layout_hints_used": { "type": "boolean" },
-        "look_contract_used": { "type": "boolean" }
+        "look_contract_used": { "type": "boolean" },
+        "page_rhythm_used": { "type": "boolean" }
       },
       "additionalProperties": true
     }

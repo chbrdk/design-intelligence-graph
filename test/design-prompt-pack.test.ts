@@ -103,3 +103,34 @@ test("synthetic screen reference assembles a capture prompt pack with look_contr
   assert.ok(prompt.rules.some((line) => line.includes("#141414")));
   assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
 });
+
+test("prompt pack includes page_rhythm rules and arc", () => {
+  const aurora = JSON.parse(readFileSync(join(FIX, "aurora-hero.reference.json"), "utf8")) as DesignReferenceRecord;
+  const prompt = assembleDesignPromptPack({
+    brief: "Rebuild this captured screen.",
+    pack: {
+      schema_version: "0.1.0",
+      intent: "rebuild",
+      references: [aurora],
+      synthesis_mode: "look_conditioned",
+      constraints: { forbid_source_copy: true }
+    },
+    page_rhythm: {
+      schema_version: "0.1.0",
+      page_rhythm_version: "0.1.0",
+      page_arc: "hero → feature → footer",
+      above_fold: { ingredients: ["media", "headline", "cta"], summary: "hero(media>heading>cta)", height: 0.36 },
+      bands: [
+        { zone: "above_fold", category: "hero", signature: "media>heading>cta", beat: "Open", height: 0.36 },
+        { zone: "mid", category: "feature", signature: null, beat: null, height: 0.4 },
+        { zone: "below", category: "footer", signature: null, beat: null, height: 0.2 }
+      ],
+      avoid: ["card grid in the hero"]
+    }
+  });
+  assert.equal(prompt.page_rhythm?.page_arc, "hero → feature → footer");
+  assert.ok(prompt.rules.some((line) => line.includes("hero → feature → footer")));
+  assert.ok(prompt.ask.includes("page_rhythm.page_arc"));
+  assert.ok(JSON.stringify(prompt).length <= PROMPT_PACK_MAX_BYTES);
+  assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
+});

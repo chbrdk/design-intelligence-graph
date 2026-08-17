@@ -66,6 +66,7 @@ export const paths = {
     screenInsightTypography: 'Typography',
     screenInsightAboveFold: 'Above the fold',
     screenInsightLook: 'Look contract',
+    screenInsightPageArc: 'Page arc',
     screenInsightCta: 'CTA',
     screenInsightDensity: 'Density',
     screenInsightRadius: 'Radius',

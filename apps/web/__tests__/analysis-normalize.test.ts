@@ -48,6 +48,10 @@ describe('analysis detail normalization', () => {
             avoid: ['glassmorphism / frosted-blur panels', 'card grid in the hero'],
           },
         },
+        page_rhythm: {
+          page_arc: 'hero → feature → footer',
+          bands: [{ zone: 'above_fold', category: 'hero', height: 0.4 }],
+        },
         vision_page: { page_type: 'marketing_agency_landing_page' },
       },
     })
@@ -57,6 +61,7 @@ describe('analysis detail normalization', () => {
     assert.equal(detail.package?.vision_page?.page_type, 'marketing_agency_landing_page')
     assert.equal(detail.package?.design_facets?.look_contract?.colors.accent, '#00e5ff')
     assert.equal(detail.package?.design_facets?.look_contract?.cta_chrome, 'outline')
+    assert.equal(detail.package?.page_rhythm?.page_arc, 'hero → feature → footer')
   })
 
   it('serializes a prompt pack for clipboard paste into Cursor', () => {

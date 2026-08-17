@@ -253,6 +253,7 @@ export function LibraryScreenDetailPanel(props: {
         title={screen?.title || screen?.name || 'Screen'}
         url={screen?.canonical_url}
         facets={facets}
+        pageArc={analysis?.package?.page_rhythm?.page_arc}
         pending={analysisPending}
         notes={layoutNotes}
       />

@@ -3,6 +3,8 @@
  * Complements section compositions / section_look with a human-usable band list.
  */
 
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { writeArtifact } from "./io.js";
 import type {
   RoleStep,
@@ -233,6 +235,19 @@ export function formatStructureSpineBriefSection(spine: StructureSpineDocument):
   return lines.join("\n");
 }
 
+export function structureSpineRelativePath(): string {
+  return loadDigPaths().structureSpine?.relativePath ?? STRUCTURE_SPINE_RELATIVE_PATH;
+}
+
+export async function loadStructureSpineDocument(packageRoot: string): Promise<StructureSpineDocument | null> {
+  try {
+    const raw = await readFile(resolve(packageRoot, structureSpineRelativePath()), "utf8");
+    return JSON.parse(raw) as StructureSpineDocument;
+  } catch {
+    return null;
+  }
+}
+
 export async function emitStructureSpineForPackage(
   packageRoot: string,
   sectionDoc: SectionCompositionDocument,
@@ -254,9 +269,7 @@ export async function emitStructureSpineForPackage(
     viewportCaptureId: picked.viewport_capture_id,
     ...(options.looks ? { looks: options.looks } : {})
   });
-  const relative =
-    (loadDigPaths() as { structureSpine?: { relativePath?: string } }).structureSpine?.relativePath ??
-    STRUCTURE_SPINE_RELATIVE_PATH;
+  const relative = structureSpineRelativePath();
   const artifact = await writeArtifact(packageRoot, relative, JSON.stringify(document, null, 2), "application/json");
   return { path: relative, artifact, document };
 }

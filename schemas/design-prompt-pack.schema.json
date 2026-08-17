@@ -49,6 +49,37 @@
         "density": { "type": ["string", "null"] },
         "avoid": { "type": "array", "items": { "type": "string" } }
       }
+    },
+    "page_rhythm": {
+      "type": "object",
+      "description": "Measured vertical page order (arc, above-fold recipe, bands).",
+      "properties": {
+        "schema_version": { "const": "0.1.0" },
+        "page_rhythm_version": { "type": "string" },
+        "page_arc": { "type": "string" },
+        "above_fold": {
+          "type": "object",
+          "properties": {
+            "ingredients": { "type": "array", "items": { "type": "string" } },
+            "summary": { "type": "string" },
+            "height": { "type": ["number", "null"] }
+          }
+        },
+        "bands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "zone": { "enum": ["above_fold", "mid", "below"] },
+              "category": { "type": "string" },
+              "signature": { "type": ["string", "null"] },
+              "beat": { "type": ["string", "null"] },
+              "height": { "type": "number" }
+            }
+          }
+        },
+        "avoid": { "type": "array", "items": { "type": "string" } }
+      }
     }
   }
 }

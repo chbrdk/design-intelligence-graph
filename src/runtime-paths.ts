@@ -70,6 +70,12 @@ export interface DigPaths {
     maxBands?: number;
     doc?: string;
   };
+  pageRhythm?: {
+    version?: string;
+    doc?: string;
+    maxBands?: number;
+    generationVersion?: string;
+  };
   flowCandidates?: {
     relativePath?: string;
     maxCandidates?: number;

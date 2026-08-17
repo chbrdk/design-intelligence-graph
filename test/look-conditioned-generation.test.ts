@@ -88,5 +88,42 @@ test("look_contract measured colors beat layout_hints token_hints", () => {
   assert.equal(spec.token_hints?.colors?.accent, "#00e5ff");
   assert.equal(spec.token_hints?.colors?.extra, "#abcdef");
   assert.equal(spec.token_hints?.shape?.cta_chrome, "outline");
-  assert.equal(spec.generation_version, "0.3.0");
+  assert.equal(spec.generation_version, "0.4.0");
+});
+
+test("page_rhythm outranks proposed_signature and drives blocks", () => {
+  const aurora = JSON.parse(readFileSync(join(FIX, "aurora-hero.reference.json"), "utf8")) as DesignReferenceRecord;
+  const pack = {
+    schema_version: "0.1.0" as const,
+    intent: "rebuild",
+    references: [aurora],
+    synthesis_mode: "look_conditioned" as const,
+    constraints: { forbid_source_copy: true as const }
+  };
+  const spec = deriveLookConditionedLayout({
+    pack,
+    layout_hints: { proposed_signature: "nav>heading>cta" },
+    page_rhythm: {
+      schema_version: "0.1.0",
+      page_rhythm_version: "0.1.0",
+      page_arc: "hero → feature → footer",
+      above_fold: { ingredients: ["media", "headline"], summary: "hero(media>heading>cta)", height: 0.4 },
+      bands: [
+        { zone: "above_fold", category: "hero", signature: "media>heading>cta", beat: "Cinematic open", height: 0.4 },
+        { zone: "mid", category: "feature", signature: "heading>body", beat: "Stacks", height: 0.4 },
+        { zone: "below", category: "footer", signature: "nav", beat: "Close", height: 0.2 }
+      ],
+      avoid: ["card grid in the hero"]
+    }
+  });
+  assert.deepEqual(
+    spec.blocks.map((block) => block.taxonomy_id),
+    ["dig:pattern.hero", "dig:section.feature", "dig:pattern.footer"]
+  );
+  assert.equal(spec.page_rhythm?.page_arc, "hero → feature → footer");
+  assert.equal(spec.provenance.page_rhythm_used, true);
+  assert.ok(spec.provenance.methods.includes("page_rhythm_bands"));
+  assert.ok(!spec.provenance.methods.includes("layout_hints_merge"));
+  assert.ok(spec.constraints.some((line) => line.includes("hero → feature → footer")));
+  assert.ok(spec.constraints.some((line) => line.includes("avoid:card grid in the hero")));
 });

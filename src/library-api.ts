@@ -25,6 +25,7 @@ import {
 } from "./design-facets.js";
 import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-tokens.js";
 import { asLookContract } from "./look-contract.js";
+import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 
@@ -91,6 +92,24 @@ async function loadTokensForCaptureRun(
   }
 }
 
+async function loadPageRhythmForCaptureRun(
+  client: Queryable,
+  captureRunId: string | undefined
+) {
+  if (!captureRunId) return null;
+  try {
+    const capture = await client.query(
+      "SELECT package_path FROM captures WHERE capture_run_id = $1 LIMIT 1",
+      [captureRunId]
+    );
+    const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
+    if (!packagePath) return null;
+    return await loadPageRhythmForPackage(packagePath);
+  } catch {
+    return null;
+  }
+}
+
 async function assemblePromptPackForCaptureRun(
   client: Queryable,
   captureRunId: string,
@@ -144,6 +163,8 @@ async function assemblePromptPackForCaptureRun(
     tokens
   });
   const look_contract = asLookContract(body.look_contract) ?? facets.look_contract;
+  const page_rhythm =
+    asPageRhythm(body.page_rhythm) ?? (await loadPageRhythmForPackage(row.package_path).catch(() => null));
 
   if (!references.length) {
     references = [
@@ -177,6 +198,7 @@ async function assemblePromptPackForCaptureRun(
     },
     output_contract,
     look_contract,
+    page_rhythm,
     tokens,
     layout: facets.layout,
     style: facets.style,
@@ -823,6 +845,7 @@ export async function handleLibraryApi(
           visual_style_labels: visualStyleLabels,
           tokens
         });
+        const page_rhythm = await loadPageRhythmForPackage(packagePath).catch(() => null);
         packageExtras = {
           vision: llm.vision ?? null,
           cost: llm.cost ?? null,
@@ -840,7 +863,8 @@ export async function handleLibraryApi(
                 bands: visionLayout.bands
               }
             : null,
-          design_facets
+          design_facets,
+          ...(page_rhythm ? { page_rhythm } : {})
         };
       } catch {
         packageExtras = null;
@@ -1173,11 +1197,15 @@ export async function handleLibraryApi(
       const tokens = look_contract
         ? null
         : await loadTokensForCaptureRun(client, pack.references[0]?.capture_run_id);
+      const page_rhythm =
+        asPageRhythm(body.page_rhythm) ??
+        (await loadPageRhythmForCaptureRun(client, pack.references[0]?.capture_run_id));
       const promptPack = assembleDesignPromptPack({
         brief,
         pack,
         output_contract,
         ...(look_contract ? { look_contract } : {}),
+        page_rhythm,
         tokens,
         layout: typeof body.layout === "string" ? body.layout : null,
         style: typeof body.style === "string" ? body.style : null,
@@ -1222,11 +1250,15 @@ export async function handleLibraryApi(
       const tokens = look_contract
         ? null
         : await loadTokensForCaptureRun(client, pack.references[0]?.capture_run_id);
+      const page_rhythm =
+        asPageRhythm(body.page_rhythm) ??
+        (await loadPageRhythmForCaptureRun(client, pack.references[0]?.capture_run_id));
       const specification = deriveLayoutFromReferencePack({
         pack,
         layout_hints,
         graph: null,
         ...(look_contract ? { look_contract } : {}),
+        page_rhythm,
         tokens,
         layout: typeof body.layout === "string" ? body.layout : null,
         style: typeof body.style === "string" ? body.style : null,

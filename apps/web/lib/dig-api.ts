@@ -118,6 +118,25 @@ export function buildLibraryScreensSearchParams(opts?: LibraryScreensQuery): URL
   return params
 }
 
+export type PageRhythm = {
+  schema_version?: string
+  page_rhythm_version?: string
+  page_arc: string
+  above_fold?: {
+    ingredients: string[]
+    summary: string
+    height: number | null
+  }
+  bands: Array<{
+    zone: 'above_fold' | 'mid' | 'below'
+    category: string
+    signature: string | null
+    beat: string | null
+    height: number
+  }>
+  avoid: string[]
+}
+
 export type ScreenHotspot = {
   section_id: string
   label: string
@@ -257,6 +276,7 @@ export interface LibraryAnalysisDetail {
       bands?: Array<{ id?: string; label?: string; category?: string }>
     } | null
     design_facets?: DesignFacets | null
+    page_rhythm?: PageRhythm | null
   }
 }
 
@@ -297,6 +317,47 @@ function normalizeLookContract(raw: unknown): LookContract | null {
     radius_px: typeof record.radius_px === 'number' && Number.isFinite(record.radius_px) ? record.radius_px : null,
     cta_chrome: chrome === 'fill' || chrome === 'outline' || chrome === 'ghost' ? chrome : null,
     density: density === 'tight' || density === 'airy' || density === 'uneven' ? density : null,
+    avoid: asStringArray(record.avoid),
+  }
+}
+
+function normalizePageRhythm(raw: unknown): PageRhythm | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
+  const record = raw as Record<string, unknown>
+  const page_arc = asNullableString(record.page_arc)
+  const bandsRaw = Array.isArray(record.bands) ? record.bands : []
+  const bands: PageRhythm['bands'] = []
+  for (const row of bandsRaw) {
+    if (!row || typeof row !== 'object' || Array.isArray(row)) continue
+    const band = row as Record<string, unknown>
+    const category = asNullableString(band.category)
+    if (!category) continue
+    const zone =
+      band.zone === 'above_fold' || band.zone === 'mid' || band.zone === 'below' ? band.zone : 'mid'
+    bands.push({
+      zone,
+      category,
+      signature: asNullableString(band.signature),
+      beat: asNullableString(band.beat),
+      height: typeof band.height === 'number' && Number.isFinite(band.height) ? band.height : 0,
+    })
+  }
+  if (!page_arc && !bands.length) return null
+  const aboveRaw =
+    record.above_fold && typeof record.above_fold === 'object' && !Array.isArray(record.above_fold)
+      ? (record.above_fold as Record<string, unknown>)
+      : {}
+  return {
+    schema_version: typeof record.schema_version === 'string' ? record.schema_version : undefined,
+    page_rhythm_version:
+      typeof record.page_rhythm_version === 'string' ? record.page_rhythm_version : undefined,
+    page_arc: page_arc ?? bands.map((band) => band.category).join(' → '),
+    above_fold: {
+      ingredients: asStringArray(aboveRaw.ingredients),
+      summary: asNullableString(aboveRaw.summary) ?? 'unknown',
+      height: typeof aboveRaw.height === 'number' && Number.isFinite(aboveRaw.height) ? aboveRaw.height : null,
+    },
+    bands,
     avoid: asStringArray(record.avoid),
   }
 }
@@ -349,24 +410,26 @@ export function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryA
       confidence: desc.confidence ?? null,
     }))
   }
-  const design_facets = normalizeDesignFacets(pkgRaw?.design_facets)
-  let packageExtras: LibraryAnalysisDetail['package']
-  if (pkgRaw) {
-    packageExtras = {
-      ...(pkgRaw.cost && typeof pkgRaw.cost === 'object'
-        ? { cost: pkgRaw.cost as NonNullable<LibraryAnalysisDetail['package']>['cost'] }
-        : {}),
-      ...(pkgRaw.vision && typeof pkgRaw.vision === 'object'
-        ? { vision: pkgRaw.vision as NonNullable<LibraryAnalysisDetail['package']>['vision'] }
-        : {}),
-      ...(fromPackage.length ? { section_descriptions: fromPackage } : {}),
-      vision_page: (pkgRaw.vision_page as VisionPageSummary | null | undefined) ?? null,
-      vision_layout:
-        (pkgRaw.vision_layout as NonNullable<LibraryAnalysisDetail['package']>['vision_layout']) ??
-        null,
-      ...(design_facets ? { design_facets } : {}),
-    }
-  }
+      const design_facets = normalizeDesignFacets(pkgRaw?.design_facets)
+      const page_rhythm = normalizePageRhythm(pkgRaw?.page_rhythm)
+      let packageExtras: LibraryAnalysisDetail['package']
+      if (pkgRaw) {
+        packageExtras = {
+          ...(pkgRaw.cost && typeof pkgRaw.cost === 'object'
+            ? { cost: pkgRaw.cost as NonNullable<LibraryAnalysisDetail['package']>['cost'] }
+            : {}),
+          ...(pkgRaw.vision && typeof pkgRaw.vision === 'object'
+            ? { vision: pkgRaw.vision as NonNullable<LibraryAnalysisDetail['package']>['vision'] }
+            : {}),
+          ...(fromPackage.length ? { section_descriptions: fromPackage } : {}),
+          vision_page: (pkgRaw.vision_page as VisionPageSummary | null | undefined) ?? null,
+          vision_layout:
+            (pkgRaw.vision_layout as NonNullable<LibraryAnalysisDetail['package']>['vision_layout']) ??
+            null,
+          ...(design_facets ? { design_facets } : {}),
+          ...(page_rhythm ? { page_rhythm } : {}),
+        }
+      }
   return {
     analysis,
     items: flat,

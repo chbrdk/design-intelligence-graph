@@ -17,9 +17,11 @@ import {
   type LookContract,
   type LookTokenHints
 } from "./look-contract.js";
+import type { PageRhythm } from "./page-rhythm.js";
+import { pageRhythmGenerateConstraints, pageRhythmHasSignal } from "./page-rhythm.js";
 import { loadDigPaths } from "./runtime-paths.js";
 
-export const LOOK_CONDITIONED_GENERATION_VERSION = "0.3.0";
+export const LOOK_CONDITIONED_GENERATION_VERSION = "0.4.0";
 export const LOOK_CONDITIONED_CONSTRAINT_CAP_DEFAULT = 20;
 
 export type LayoutHints = {
@@ -46,6 +48,7 @@ export type LookConditionedLayoutSpec = {
     shape?: Record<string, string>;
   } | undefined;
   look_contract?: LookContract;
+  page_rhythm?: PageRhythm;
   blocks: Array<{
     block_id: string;
     kind: string;
@@ -60,12 +63,14 @@ export type LookConditionedLayoutSpec = {
     reference_ids?: string[];
     layout_hints_used?: boolean;
     look_contract_used?: boolean;
+    page_rhythm_used?: boolean;
   };
   constraints: string[];
 };
 
 type MappingDoc = {
   role_to_taxonomy: Record<string, string>;
+  category_to_taxonomy?: Record<string, string>;
   look_to_constraints: Array<{
     when: { path: string; in?: string[]; eq?: string; includes?: string };
     constraint: string;
@@ -191,6 +196,7 @@ export function deriveLookConditionedLayout(input: {
   graph?: KnowledgeGraph | null | undefined;
   layout_hints?: LayoutHints | null | undefined;
   look_contract?: LookContract | null;
+  page_rhythm?: PageRhythm | null;
   tokens?: DesignTokensDocument | null;
   layout?: string | null;
   style?: string | null;
@@ -211,9 +217,11 @@ export function deriveLookConditionedLayout(input: {
     style: input.style ?? compactTokens?.style_labels?.[0] ?? null
   });
 
+  const page_rhythm = pageRhythmHasSignal(input.page_rhythm) ? input.page_rhythm! : null;
+
   let signature = primary.composition.signature;
   const methods = ["look_conditioned_block_plan", "token_hints_from_reference", "look_contract_token_hints"];
-  if (input.layout_hints?.proposed_signature) {
+  if (!page_rhythm && input.layout_hints?.proposed_signature) {
     const roles = input.layout_hints.proposed_signature.split(">").map((r) => r.trim()).filter(Boolean);
     if (roles.every((role) => Boolean(mapping.role_to_taxonomy[role]))) {
       signature = input.layout_hints.proposed_signature;
@@ -221,7 +229,6 @@ export function deriveLookConditionedLayout(input: {
     }
   }
 
-  const roles = signature.split(">").map((r) => r.trim()).filter(Boolean);
   const graph = input.graph ?? null;
   const byTaxonomy = new Map<string, string[]>();
   if (graph) {
@@ -232,21 +239,45 @@ export function deriveLookConditionedLayout(input: {
     }
   }
 
-  const blocks = roles.map((role, index) => {
-    const taxonomy_id = mapping.role_to_taxonomy[role] ?? `dig:pattern.${role}`;
-    const source_node_ids = [...(byTaxonomy.get(taxonomy_id) ?? [])].sort();
-    return {
-      block_id: `blk_${String(index + 1).padStart(3, "0")}_${sha256(`${role}|${taxonomy_id}`).slice(7, 15)}`,
-      kind: taxonomy_id.split(".")[1] ?? "container",
-      taxonomy_id,
-      source_node_ids,
-      responsive: {
-        mobile: "single_column_or_intrinsic",
-        tablet: "preserve_evidence_based_order",
-        desktop: "preserve_evidence_based_order"
-      }
-    };
-  });
+  const categoryMap = mapping.category_to_taxonomy ?? {};
+  const blocks = page_rhythm
+    ? page_rhythm.bands.map((band, index) => {
+        const taxonomy_id = categoryMap[band.category] ?? `dig:pattern.${band.category}`;
+        const source_node_ids = [...(byTaxonomy.get(taxonomy_id) ?? [])].sort();
+        return {
+          block_id: `blk_${String(index + 1).padStart(3, "0")}_${sha256(`${band.category}|${taxonomy_id}`).slice(7, 15)}`,
+          kind: taxonomy_id.split(".")[1] ?? "container",
+          taxonomy_id,
+          source_node_ids,
+          responsive: {
+            mobile: "single_column_or_intrinsic",
+            tablet: "preserve_evidence_based_order",
+            desktop: "preserve_evidence_based_order"
+          }
+        };
+      })
+    : signature
+        .split(">")
+        .map((r) => r.trim())
+        .filter(Boolean)
+        .map((role, index) => {
+          const taxonomy_id = mapping.role_to_taxonomy[role] ?? `dig:pattern.${role}`;
+          const source_node_ids = [...(byTaxonomy.get(taxonomy_id) ?? [])].sort();
+          return {
+            block_id: `blk_${String(index + 1).padStart(3, "0")}_${sha256(`${role}|${taxonomy_id}`).slice(7, 15)}`,
+            kind: taxonomy_id.split(".")[1] ?? "container",
+            taxonomy_id,
+            source_node_ids,
+            responsive: {
+              mobile: "single_column_or_intrinsic",
+              tablet: "preserve_evidence_based_order",
+              desktop: "preserve_evidence_based_order"
+            }
+          };
+        });
+  if (page_rhythm) {
+    methods.push("page_rhythm_bands");
+  }
 
   let token_hints = mergeHintBag(
     tokenHintsFromReference(primary),
@@ -261,6 +292,7 @@ export function deriveLookConditionedLayout(input: {
     "No source text or asset bytes are copied",
     "Look cues are structural/feel hints, not L1 measurements of the target",
     ...lookContractGenerateConstraints(look_contract),
+    ...(page_rhythm ? pageRhythmGenerateConstraints(page_rhythm) : []),
     ...constraintsFromLook(primary, mapping)
   ]);
   for (const line of input.layout_hints?.look_directives ?? []) constraints.add(`hint:${line}`);
@@ -290,14 +322,16 @@ export function deriveLookConditionedLayout(input: {
     },
     token_hints,
     look_contract,
+    ...(page_rhythm ? { page_rhythm } : {}),
     blocks,
     provenance: {
       graph_lineage_count: graph?.lineage.length ?? 0,
-      methods,
+      methods: [...new Set(methods)],
       seed,
       reference_ids,
       layout_hints_used: Boolean(input.layout_hints),
-      look_contract_used: true
+      look_contract_used: true,
+      page_rhythm_used: Boolean(page_rhythm)
     },
     constraints: [...constraints].slice(0, constraintCap())
   };

@@ -12,7 +12,7 @@
 ### Wave 4 — look_conditioned generation
 - Runtime: `src/look-conditioned-generation.ts` (mapping SoT: `fixtures/design-references/look-conditioned-mapping.json`)
 - Hooked from `src/layout-generation.ts` (`deriveLayoutFromReferencePack`, optional pack path on generate)
-- `generation_version` `0.3.0`: `look_contract` overwrites `token_hints`; LLM layout_hints only fill empty slots; constraints include `avoid:`
+- `generation_version` `0.4.0`: `page_rhythm` drives block plan (outranks `proposed_signature`); look-contract still overwrites `token_hints`
 - Schema additive: `schemas/layout-spec.schema.json` allows `0.3.0` + `look_contract`
 - Tests: `test/look-conditioned-generation.test.ts`, extended `test/layout-generation.test.ts`
 

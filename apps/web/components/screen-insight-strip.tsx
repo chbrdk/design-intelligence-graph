@@ -89,11 +89,12 @@ export function ScreenInsightStrip(props: {
   title: string
   url?: string | null
   facets: DesignFacets | null | undefined
+  pageArc?: string | null
   pending?: boolean
   notes?: string | null
 }) {
   const copy = paths.libraryCopy
-  const hasSignal = designFacetsHaveUiSignal(props.facets)
+  const hasSignal = designFacetsHaveUiSignal(props.facets) || Boolean(props.pageArc?.trim())
   const contract = props.facets?.look_contract ?? null
 
   return (
@@ -117,6 +118,7 @@ export function ScreenInsightStrip(props: {
             <Metric label={copy.screenInsightPageType} value={props.facets.page_type} />
             <Metric label={copy.screenInsightStyle} value={props.facets.style} />
             <Metric label={copy.screenInsightLayout} value={props.facets.layout} />
+            <Metric label={copy.screenInsightPageArc} value={props.pageArc} />
             <Metric label={copy.screenInsightColor} value={props.facets.color_mood} />
             <Metric label={copy.screenInsightTypography} value={props.facets.typography} />
             <Metric label={copy.screenInsightAboveFold} value={props.facets.above_fold_job} />

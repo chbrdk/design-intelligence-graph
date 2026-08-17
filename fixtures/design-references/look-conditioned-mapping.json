@@ -9,6 +9,17 @@
     "nav": "dig:component.navigation",
     "card": "dig:pattern.card_grid"
   },
+  "category_to_taxonomy": {
+    "hero": "dig:pattern.hero",
+    "nav": "dig:component.navigation",
+    "feature": "dig:section.feature",
+    "content": "dig:section.content_block",
+    "commerce": "dig:section.commerce",
+    "conversion": "dig:section.conversion",
+    "social_proof": "dig:section.social_proof",
+    "footer": "dig:pattern.footer",
+    "other": "dig:element.container"
+  },
   "look_to_constraints": [
     {
       "when": { "path": "look.overlay.kind", "in": ["scrim", "gradient"] },

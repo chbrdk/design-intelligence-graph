@@ -12,6 +12,8 @@ import {
   type CompactLookTokens,
   type LookContract
 } from "./look-contract.js";
+import type { PageRhythm } from "./page-rhythm.js";
+import { pageRhythmHasSignal, pageRhythmRules } from "./page-rhythm.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 
 export const DESIGN_PROMPT_PACK_SCHEMA_VERSION = "0.1.0" as const;
@@ -54,6 +56,7 @@ export type DesignPromptPack = {
   ask: string;
   output_contract: PromptOutputContract;
   look_contract?: LookContract;
+  page_rhythm?: PageRhythm;
 };
 
 export const HARD_RULES: string[] = [
@@ -62,7 +65,8 @@ export const HARD_RULES: string[] = [
   "Prefer primary reference (index 0) for look; secondary refs only for contrast or missing roles.",
   "Cite reference_ids in the output when making look claims.",
   "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens).",
-  "If look_contract is present, it outranks vibe adjectives in the brief."
+  "If look_contract is present, it outranks vibe adjectives in the brief.",
+  "If page_rhythm is present, it outranks generic landing-page / card-kit structure."
 ];
 
 function truncate(text: string, max: number): string {
@@ -219,14 +223,15 @@ export function syntheticScreenReference(input: {
   return record;
 }
 
-function buildAsk(contract: PromptOutputContract, primaryId: string): string {
+function buildAsk(contract: PromptOutputContract, primaryId: string, hasRhythm: boolean): string {
+  const rhythm = hasRhythm ? " Obey page_rhythm.page_arc; do not collapse into a card-kit hero." : "";
   if (contract === "prose_brief") {
-    return `Write a ≤200-word creative direction citing ${primaryId}. Follow look_contract. Do not copy source marketing copy.`;
+    return `Write a ≤200-word creative direction citing ${primaryId}. Follow look_contract.${rhythm} Do not copy source marketing copy.`;
   }
   if (contract === "both") {
-    return `Return layout_hints_json first (DIG-012 contract), then a ≤80-word prose rationale. Cite ${primaryId}. Obey look_contract.avoid.`;
+    return `Return layout_hints_json first (DIG-012 contract), then a ≤80-word prose rationale. Cite ${primaryId}. Obey look_contract.avoid.${rhythm}`;
   }
-  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.`;
+  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.${rhythm}`;
 }
 
 export function assembleDesignPromptPack(input: {
@@ -234,6 +239,7 @@ export function assembleDesignPromptPack(input: {
   pack: DesignReferencePack;
   output_contract?: PromptOutputContract;
   look_contract?: LookContract | null;
+  page_rhythm?: PageRhythm | null;
   tokens?: DesignTokensDocument | null;
   layout?: string | null;
   style?: string | null;
@@ -254,11 +260,13 @@ export function assembleDesignPromptPack(input: {
     layout: input.layout ?? primary.composition.stack_summary,
     style: input.style ?? compactTokens?.style_labels?.[0] ?? null
   });
+  const page_rhythm = pageRhythmHasSignal(input.page_rhythm) ? input.page_rhythm! : null;
 
   const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
   const rules = [
     ...HARD_RULES,
     ...lookContractRules(look_contract),
+    ...(page_rhythm ? pageRhythmRules(page_rhythm) : []),
     ...(forbid ? ["forbid_source_copy is absolute for this pack."] : [])
   ];
   const contract = input.output_contract ?? "layout_hints_json";
@@ -271,9 +279,10 @@ export function assembleDesignPromptPack(input: {
     brief,
     rules,
     references: compacted,
-    ask: buildAsk(contract, primaryId),
+    ask: buildAsk(contract, primaryId, Boolean(page_rhythm)),
     output_contract: contract,
-    look_contract
+    look_contract,
+    ...(page_rhythm ? { page_rhythm } : {})
   };
 
   // Drop page-level noise already omitted; if still over budget, shrink look summaries.

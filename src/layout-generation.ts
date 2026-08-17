@@ -11,6 +11,7 @@ import {
 import type { DesignReferencePack } from "./design-reference-library.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 import type { LookContract } from "./look-contract.js";
+import type { PageRhythm } from "./page-rhythm.js";
 
 export const LAYOUT_GENERATION_VERSION = "0.1.0";
 export { LOOK_CONDITIONED_GENERATION_VERSION, deriveLookConditionedLayout };
@@ -26,6 +27,7 @@ export interface LayoutSpecification {
   tokens: { typography_slots: string[]; color_slots: string[]; shape_slots: string[] };
   token_hints?: LookConditionedLayoutSpec["token_hints"];
   look_contract?: LookContract;
+  page_rhythm?: PageRhythm;
   blocks: Array<{
     block_id: string;
     kind: string;
@@ -40,6 +42,7 @@ export interface LayoutSpecification {
     reference_ids?: string[];
     layout_hints_used?: boolean;
     look_contract_used?: boolean;
+    page_rhythm_used?: boolean;
   };
   constraints: string[];
 }
@@ -97,6 +100,7 @@ export function deriveLayoutFromReferencePack(input: {
   graph?: KnowledgeGraph | null;
   layout_hints?: LayoutHints | null;
   look_contract?: LookContract | null;
+  page_rhythm?: PageRhythm | null;
   tokens?: DesignTokensDocument | null;
   layout?: string | null;
   style?: string | null;
@@ -108,6 +112,7 @@ export function deriveLayoutFromReferencePack(input: {
     graph: input.graph ?? null,
     layout_hints: input.layout_hints ?? null,
     look_contract: input.look_contract ?? null,
+    page_rhythm: input.page_rhythm ?? null,
     tokens: input.tokens ?? null,
     layout: input.layout ?? null,
     style: input.style ?? null,

@@ -188,8 +188,8 @@
     "doc": "knowledge/look-contract.md",
     "sourceTokensRelativePath": "derived/design-tokens.json",
     "facetsVersion": "0.3.0",
-    "generateConstraintCap": 20,
-    "generationVersion": "0.3.0",
+    "generateConstraintCap": 28,
+    "generationVersion": "0.4.0",
     "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack"
   },
   "libraryScreenFacets": {
@@ -202,6 +202,12 @@
     "relativePath": "derived/structure-spine.json",
     "maxBands": 12,
     "doc": "knowledge/structure-spine.md"
+  },
+  "pageRhythm": {
+    "version": "0.1.0",
+    "doc": "knowledge/page-rhythm.md",
+    "maxBands": 10,
+    "generationVersion": "0.4.0"
   },
   "flowCandidates": {
     "relativePath": "derived/flow-candidates.json",

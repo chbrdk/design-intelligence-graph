@@ -28,6 +28,8 @@ Written at capture from section compositions (desktop preferred); refreshed afte
 
 `## Structure spine` sits after design tokens, before page prose.
 
+Prompt pack / generate use a compact [`page-rhythm.md`](page-rhythm.md) contract derived from this spine (vision bands if spine is missing).
+
 ## Also
 
 Enrichment now **always** refreshes `design_summary` via `pageSummaryFromMobbin` when section vision completes (not only on synthesize failure).

@@ -1,9 +1,10 @@
 # DIG-012 — Look-conditioned DIG-008 generation (Wave 4)
 
-**Status:** v0.3 — **implemented** (`src/look-conditioned-generation.ts`, `generation_version` `0.3.0`)  
+**Status:** v0.4 — **implemented** (`src/look-conditioned-generation.ts`, `generation_version` `0.4.0`)  
 **Parent:** [DIG-012](DIG-012-design-reference.md) · Upstream generator: [DIG-008](DIG-008-layout-generation.md)  
 **Mapping table:** [`fixtures/design-references/look-conditioned-mapping.json`](../fixtures/design-references/look-conditioned-mapping.json)  
 **Look contract:** [`knowledge/look-contract.md`](../knowledge/look-contract.md)  
+**Page rhythm:** [`knowledge/page-rhythm.md`](../knowledge/page-rhythm.md)  
 **Example output delta:** [`fixtures/design-references/aurora-layout-hints.expected.json`](../fixtures/design-references/aurora-layout-hints.expected.json)
 
 ## Goal
@@ -17,7 +18,7 @@ Define how a `DesignReferencePack` (and optional LLM `layout_hints`) **biases** 
 | `evidence_based_structural_synthesis` | DIG-008 today — graph only |
 | `look_conditioned_structural_synthesis` | Graph **or blank seed** + DesignReferencePack (+ optional layout_hints) |
 
-`generation_version` `0.3.0` when look-contract binds token_hints (schema additive; `0.2.0` still valid for older specs).
+`generation_version` `0.4.0` when page-rhythm drives the block plan (schema additive; `0.3.0` still valid for look-contract-only specs).
 
 ## Inputs
 
@@ -31,7 +32,8 @@ Apply in order. Mapping fixture encodes the tables; code MUST NOT hardcode synon
 
 ### B1 — Block plan from composition
 
-1. Take primary reference `composition.signature` (e.g. `media>heading>cta`).  
+0. If `page_rhythm.bands` exist, **those bands** become the block plan (`category_to_taxonomy`); this outranks `layout_hints.proposed_signature`.  
+1. Else take primary reference `composition.signature` (e.g. `media>heading>cta`).  
 2. Split on `>` → ordered roles.  
 3. Map role → default taxonomy via mapping table (`media` → `dig:component.media`, …).  
 4. If target graph has ontology entities for that taxonomy, attach their `source_node_ids`; else emit placeholder block with empty source ids only when `seed = blank_canvas` OR when hints explicitly allow placeholders.  
