@@ -57,6 +57,7 @@ export interface DigPaths {
     facetsVersion?: string;
     generateConstraintCap?: number;
     generationVersion?: string;
+    capturePromptPackPath?: string;
   };
   structureSpine?: {
     relativePath?: string;

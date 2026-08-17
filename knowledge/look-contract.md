@@ -29,6 +29,7 @@ Vision facets describe *vibe* (`high-energy`, `full-bleed stacks`). Generators s
 - Analysis: `GET /api/library/analyses/:id` → `package.design_facets.look_contract` (loads tokens from the capture package).
 - Prompt pack: `POST /api/library/references/prompt-pack` accepts optional body `look_contract`; otherwise builds from primary-ref compact tokens and, when present, `derived/design-tokens.json` on that capture.
 - Generate: `POST /api/library/references/generate` and `dig_generate` apply the same contract to `token_hints` + `constraints` (`generation_version` `0.3.0`). Measured values outrank compact reference tokens and LLM `layout_hints`.
+- Screen export: `POST /api/library/analyses/:capture_run_id/prompt-pack` (also `POST /references/prompt-pack` with `capture_run_id`). Uses indexed refs when present, otherwise a synthetic screen reference from vision_page + look_contract. Library detail **Copy prompt pack** writes that JSON to the clipboard.
 
 ## UI
 

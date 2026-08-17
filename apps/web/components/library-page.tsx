@@ -262,6 +262,7 @@ function LibraryPageInner() {
         <LibraryScreenDetailPanel
           key={screenDetailId}
           viewportCaptureId={screenDetailId}
+          platformProjectId={platformProjectId}
           onBack={() => applyHash({ view: 'screens' })}
         />
       ) : null}

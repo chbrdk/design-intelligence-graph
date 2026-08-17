@@ -3,6 +3,7 @@
  * @see docs/DIG-012-prompt-pack.md
  */
 import type { DesignReferenceRecord } from "./design-reference-emit.js";
+import { referenceIdForSection } from "./design-reference-emit.js";
 import type { DesignReferencePack } from "./design-reference-library.js";
 import { validateAgainstSchema } from "./flow-schema-validate.js";
 import {
@@ -132,6 +133,90 @@ export function compactDesignReference(ref: DesignReferenceRecord): CompactRefer
     compact.look.look_summary = truncate(compact.look.look_summary, 160);
   }
   return compact;
+}
+
+export function syntheticScreenReference(input: {
+  captureRunId: string;
+  visionPage?: {
+    page_type?: string | null;
+    overall_atmosphere?: string | null;
+    color_mood?: string | null;
+    layout_system?: string | null;
+    spacing_feel?: string | null;
+    above_fold_job?: string | null;
+    notable_modules?: string[] | null;
+  } | null;
+  lookContract?: LookContract | null;
+  designSummary?: string | null;
+  style?: string | null;
+  layout?: string | null;
+}): DesignReferenceRecord {
+  const page = input.visionPage ?? null;
+  const contract = input.lookContract ?? null;
+  const lookBits = [
+    page?.overall_atmosphere,
+    page?.color_mood,
+    input.layout ?? page?.layout_system,
+    page?.above_fold_job,
+    input.designSummary
+  ]
+    .map((item) => (typeof item === "string" ? item.trim() : ""))
+    .filter(Boolean);
+  const look_summary = truncate(lookBits.join(" · ") || "Captured screen look contract", 400);
+  const modules = (page?.notable_modules ?? []).map(String).filter(Boolean).slice(0, 4);
+  const signature = modules.length ? modules.join(">") : "media>heading>cta";
+  const colors = [
+    contract?.colors.bg ? { hex: contract.colors.bg, roles: ["background"] } : null,
+    contract?.colors.ink ? { hex: contract.colors.ink, roles: ["foreground"] } : null,
+    contract?.colors.accent ? { hex: contract.colors.accent, roles: ["accent"] } : null
+  ].filter((item): item is { hex: string; roles: string[] } => Boolean(item));
+  const styleLabels = [input.style, page?.overall_atmosphere].filter(
+    (item): item is string => typeof item === "string" && Boolean(item.trim())
+  );
+  const record: DesignReferenceRecord = {
+    schema_version: "0.1.0",
+    reference_id: referenceIdForSection(input.captureRunId, "screen"),
+    capture_run_id: input.captureRunId,
+    scope: "screen",
+    section_id: null,
+    viewport_capture_id: null,
+    taxonomy: {
+      category: "screen",
+      taxonomy_ids: ["dig:pattern.unknown"]
+    },
+    composition: {
+      signature,
+      stack_summary: truncate(
+        [input.layout ?? page?.layout_system, page?.spacing_feel, look_summary].filter(Boolean).join(" · "),
+        200
+      )
+    },
+    look: {
+      look_summary,
+      confidence: 0.7
+    },
+    provenance: {
+      evidence_refs: ["look_contract", "vision_page"],
+      methods: ["look_contract", "vision_page"],
+      layers: ["L3"]
+    }
+  };
+  const tokenPack: {
+    style_labels?: string[];
+    colors?: Array<{ hex: string; roles: string[] }>;
+    typography?: Array<{ family: string; role: string }>;
+    radii?: string[];
+  } = {};
+  if (styleLabels.length) tokenPack.style_labels = styleLabels.slice(0, 8);
+  if (colors.length) tokenPack.colors = colors;
+  if (contract?.typography.display) {
+    tokenPack.typography = [{ family: contract.typography.display, role: "display" }];
+  }
+  if (contract?.radius_px != null) tokenPack.radii = [`${contract.radius_px}px`];
+  if (Object.keys(tokenPack).length) {
+    record.tokens = tokenPack as NonNullable<DesignReferenceRecord["tokens"]>;
+  }
+  return record;
 }
 
 function buildAsk(contract: PromptOutputContract, primaryId: string): string {

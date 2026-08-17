@@ -4,9 +4,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { Accordion, Alert, Button, Panel, Text, ToggleGroup } from '../lib/msqdx-ui'
 import {
   fetchAnalysisDetail,
+  fetchCapturePromptPack,
   fetchEnrichmentJobs,
   fetchPageFlows,
   fetchScreenDetail,
+  formatPromptPackForClipboard,
   islandMediaUrl,
   type EnrichmentJob,
   type LibraryAnalysisDetail,
@@ -29,6 +31,7 @@ function sectionHotspots(hotspots: ScreenHotspot[]): ScreenHotspot[] {
 
 export function LibraryScreenDetailPanel(props: {
   viewportCaptureId: string
+  platformProjectId?: string | null
   onBack: () => void
 }) {
   const [screen, setScreen] = useState<LibraryScreen | null>(null)
@@ -44,6 +47,7 @@ export function LibraryScreenDetailPanel(props: {
   const [mediaMode, setMediaMode] = useState<MediaMode>('full_page')
   const [showOverlay, setShowOverlay] = useState(true)
   const [openSectionId, setOpenSectionId] = useState<string | null>(null)
+  const [packCopyState, setPackCopyState] = useState<'idle' | 'copying' | 'copied' | 'failed'>('idle')
 
   useEffect(() => {
     let cancelled = false
@@ -179,6 +183,24 @@ export function LibraryScreenDetailPanel(props: {
     setShowOverlay(true)
   }
 
+  async function copyPromptPack() {
+    const runId = screen?.capture_run_id
+    if (!runId) return
+    setPackCopyState('copying')
+    try {
+      const pack = await fetchCapturePromptPack(runId, {
+        brief: paths.libraryCopy.screenPromptPackBrief,
+        platformProjectId: props.platformProjectId,
+      })
+      const text = formatPromptPackForClipboard(pack)
+      await navigator.clipboard.writeText(text)
+      setPackCopyState('copied')
+      window.setTimeout(() => setPackCopyState('idle'), 2500)
+    } catch {
+      setPackCopyState('failed')
+    }
+  }
+
   const summary = analysis?.analysis.design_summary?.trim() || ''
 
   return (
@@ -210,6 +232,18 @@ export function LibraryScreenDetailPanel(props: {
           onClick={() => setShowOverlay((value) => !value)}
         >
           {paths.libraryCopy.screenDetailOverlay}
+        </Button>
+        <Button
+          type="button"
+          variant="subtle"
+          disabled={!screen?.capture_run_id || packCopyState === 'copying'}
+          onClick={() => void copyPromptPack()}
+        >
+          {packCopyState === 'copied'
+            ? paths.libraryCopy.screenPromptPackCopied
+            : packCopyState === 'failed'
+              ? paths.libraryCopy.screenPromptPackFailed
+              : paths.libraryCopy.screenPromptPack}
         </Button>
       </div>
 

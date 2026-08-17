@@ -461,6 +461,35 @@ export async function fetchAnalyses(): Promise<LibraryAnalysisSummary[]> {
   return body.analyses ?? []
 }
 
+export async function fetchCapturePromptPack(
+  captureRunId: string,
+  opts?: {
+    brief?: string
+    platformProjectId?: string | null
+  },
+): Promise<Record<string, unknown>> {
+  const response = await fetch(
+    `${BASE}${paths.digApiLibrary}/analyses/${encodeURIComponent(captureRunId)}/prompt-pack`,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        ...(opts?.brief ? { brief: opts.brief } : {}),
+        ...(opts?.platformProjectId
+          ? { platformProjectId: opts.platformProjectId }
+          : {}),
+      }),
+    },
+  )
+  const body = await readJson<Record<string, unknown>>(response)
+  if (!response.ok) throw new Error(body.error ?? `Prompt-pack failed (${response.status})`)
+  return body
+}
+
+export function formatPromptPackForClipboard(pack: unknown): string {
+  return `${JSON.stringify(pack, null, 2)}\n`
+}
+
 export async function fetchAnalysisDetail(captureRunId: string): Promise<LibraryAnalysisDetail> {
   const response = await fetch(
     `${BASE}${paths.digApiLibrary}/analyses/${encodeURIComponent(captureRunId)}`,

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'vitest'
-import { normalizeAnalysisDetail } from '../lib/dig-api'
+import { formatPromptPackForClipboard, normalizeAnalysisDetail } from '../lib/dig-api'
+import { paths } from '../lib/paths'
 
 describe('analysis detail normalization', () => {
   it('reads section_look from grouped API items object', () => {
@@ -56,5 +57,15 @@ describe('analysis detail normalization', () => {
     assert.equal(detail.package?.vision_page?.page_type, 'marketing_agency_landing_page')
     assert.equal(detail.package?.design_facets?.look_contract?.colors.accent, '#00e5ff')
     assert.equal(detail.package?.design_facets?.look_contract?.cta_chrome, 'outline')
+  })
+
+  it('serializes a prompt pack for clipboard paste into Cursor', () => {
+    const text = formatPromptPackForClipboard({
+      role: 'design_synthesis',
+      look_contract: { colors: { accent: '#d6d6d6' } },
+    })
+    assert.match(text, /design_synthesis/)
+    assert.match(text, /#d6d6d6/)
+    assert.equal(paths.libraryCopy.screenPromptPack, 'Copy prompt pack')
   })
 })

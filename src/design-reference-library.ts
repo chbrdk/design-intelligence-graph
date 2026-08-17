@@ -239,6 +239,27 @@ export async function getDesignReference(
   return row ? mapPayload(row) : null;
 }
 
+export async function listDesignReferencesForCapture(
+  captureRunId: string,
+  opts: { platformProjectId?: string | null | undefined; limit?: number | undefined } = {},
+  client: Queryable | null = getPool()
+): Promise<DesignReferenceRecord[]> {
+  if (!client) return [];
+  const id = captureRunId.trim();
+  if (!id) return [];
+  await runMigrations(process.cwd(), client);
+  const values: unknown[] = [id];
+  let sql = `SELECT payload FROM design_references WHERE capture_run_id = $1`;
+  if (opts.platformProjectId?.trim()) {
+    values.push(opts.platformProjectId.trim());
+    sql += ` AND platform_project_id = $${values.length}`;
+  }
+  values.push(clampLimit(opts.limit ?? 8));
+  sql += ` ORDER BY CASE WHEN payload->>'scope' = 'screen' THEN 0 ELSE 1 END, indexed_at DESC LIMIT $${values.length}`;
+  const result = await client.query(sql, values);
+  return (result.rows as Array<Record<string, unknown>>).map(mapPayload);
+}
+
 export async function assembleDesignReferencePack(
   input: DesignReferencePackInput,
   client: Queryable | null = getPool()

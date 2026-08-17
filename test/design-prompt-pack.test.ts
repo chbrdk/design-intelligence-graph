@@ -6,7 +6,8 @@ import {
   HARD_RULES,
   PROMPT_PACK_MAX_BYTES,
   assembleDesignPromptPack,
-  compactDesignReference
+  compactDesignReference,
+  syntheticScreenReference
 } from "../src/design-prompt-pack.js";
 import type { DesignReferenceRecord } from "../src/design-reference-emit.js";
 import { validateAgainstSchema } from "../src/flow-schema-validate.js";
@@ -49,4 +50,56 @@ test("compact reference drops page_context and keeps look cues", () => {
   assert.ok(!("page_context" in compact));
   assert.ok(!("provenance" in compact));
   assert.ok((compact.tokens?.colors?.length ?? 0) >= 1);
+});
+
+test("synthetic screen reference assembles a capture prompt pack with look_contract", () => {
+  const ref = syntheticScreenReference({
+    captureRunId: "cap_msq_test",
+    visionPage: {
+      page_type: "marketing_agency_landing_page",
+      overall_atmosphere: "high-energy",
+      color_mood: "electric blue",
+      layout_system: "full-bleed stacks",
+      spacing_feel: "uneven cinematic gaps",
+      above_fold_job: "Brand momentum"
+    },
+    lookContract: {
+      schema_version: "0.1.0",
+      look_contract_version: "0.1.0",
+      colors: { bg: "#141414", ink: "#ffffff", accent: "#d6d6d6" },
+      typography: { display: "GT America 64px / 700", body: null },
+      radius_px: 8,
+      cta_chrome: "outline",
+      density: "uneven",
+      avoid: ["glassmorphism / frosted-blur panels"]
+    },
+    style: "high-energy",
+    layout: "full-bleed stacks"
+  });
+  assert.equal(ref.scope, "screen");
+  assert.equal(ref.capture_run_id, "cap_msq_test");
+  const prompt = assembleDesignPromptPack({
+    brief: "Rebuild this captured screen. Obey look_contract.",
+    pack: {
+      schema_version: "0.1.0",
+      intent: "rebuild",
+      references: [ref],
+      synthesis_mode: "look_conditioned",
+      constraints: { forbid_source_copy: true }
+    },
+    look_contract: {
+      schema_version: "0.1.0",
+      look_contract_version: "0.1.0",
+      colors: { bg: "#141414", ink: "#ffffff", accent: "#d6d6d6" },
+      typography: { display: "GT America 64px / 700", body: null },
+      radius_px: 8,
+      cta_chrome: "outline",
+      density: "uneven",
+      avoid: ["glassmorphism / frosted-blur panels"]
+    }
+  });
+  assert.equal(prompt.look_contract?.colors.accent, "#d6d6d6");
+  assert.equal(prompt.look_contract?.cta_chrome, "outline");
+  assert.ok(prompt.rules.some((line) => line.includes("#141414")));
+  assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
 });
