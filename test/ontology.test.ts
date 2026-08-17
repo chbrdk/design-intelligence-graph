@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { attachLogicalElements, deriveViewportOntology } from "../src/ontology.js";
+import { attachLogicalElements, deriveViewportOntology, uniquifyOntologyViewports } from "../src/ontology.js";
 
 const nodes = [
   { node_id: "body", parent_node_id: null, node_type: "element", tag: "body", rendered: true },
@@ -73,6 +73,50 @@ test("ontology entity ids stay unique across viewports", () => {
   const ids = [...mobile.entities, ...desktop.entities].map((entity) => entity.ontology_entity_id);
   assert.equal(ids.length, new Set(ids).size);
   const relIds = [...mobile.relationships, ...desktop.relationships].map((rel) => rel.relationship_id);
+  assert.equal(relIds.length, new Set(relIds).size);
+});
+
+test("deriveViewportOntology skips duplicate node+taxonomy rows", () => {
+  const header = nodes.find((node) => node.node_id === "header")!;
+  const ontology = deriveViewportOntology({
+    viewport_capture_id: "vpc_mobile",
+    viewport_name: "mobile",
+    viewport_height: 800,
+    title: "Example",
+    nodes: [...nodes, { ...header }],
+    boxes: [],
+    styles: [{ node_id: "header", properties: { position: "sticky" } }]
+  });
+  const ids = ontology.entities.map((entity) => entity.ontology_entity_id);
+  assert.equal(ids.length, new Set(ids).size);
+  const relIds = ontology.relationships.map((rel) => rel.relationship_id);
+  assert.equal(relIds.length, new Set(relIds).size);
+});
+
+test("uniquifyOntologyViewports rekeys colliding ids copied across viewports", () => {
+  const boxes = nodes.map((node, index) => ({
+    node_id: node.node_id,
+    bbox: { x: 0, y: index * 20, width: 300, height: 20 }
+  }));
+  const mobile = deriveViewportOntology({
+    viewport_capture_id: "vpc_mobile",
+    viewport_name: "mobile",
+    viewport_height: 800,
+    title: "Example",
+    nodes,
+    boxes,
+    styles: []
+  });
+  const clonedDesktop: typeof mobile = {
+    ...mobile,
+    viewport_capture_id: "vpc_desktop",
+    viewport_name: "desktop"
+  };
+  const unique = uniquifyOntologyViewports([mobile, clonedDesktop]);
+  assert.equal(unique.length, 2);
+  const ids = unique.flatMap((viewport) => viewport.entities.map((entity) => entity.ontology_entity_id));
+  assert.equal(ids.length, new Set(ids).size);
+  const relIds = unique.flatMap((viewport) => viewport.relationships.map((rel) => rel.relationship_id));
   assert.equal(relIds.length, new Set(relIds).size);
 });
 

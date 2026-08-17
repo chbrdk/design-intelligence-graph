@@ -75,6 +75,8 @@ export function deriveViewportOntology(input: {
     const term = getTaxonomyTerm(taxonomyId) ?? TAXONOMY[taxonomyId];
     if (!term) throw new Error(`Unknown taxonomy id: ${taxonomyId}`);
     const entityId = id("ont", `${input.viewport_capture_id}|${node?.node_id ?? "page"}|${taxonomyId}`);
+    const existing = entities.find((candidate) => candidate.ontology_entity_id === entityId);
+    if (existing) return existing;
     const entity: OntologyEntity = {
       ontology_entity_id: entityId,
       entity_type: term.entity_type,
@@ -218,19 +220,28 @@ export function deriveViewportOntology(input: {
     }
     if (!entity.parent_entity_id) entity.parent_entity_id = page.ontology_entity_id;
   }
-  const relationships: ViewportOntology["relationships"] = entities.filter((entity) => entity.parent_entity_id).map((entity) => ({
-    relationship_id: id("rel", `${entity.parent_entity_id}|contains|${entity.ontology_entity_id}`),
-    type: "contains" as const,
-    from_entity_id: entity.parent_entity_id!,
-    to_entity_id: entity.ontology_entity_id,
-    confidence: Math.min(1, entity.confidence),
-    layer: entity.layer
-  }));
+  const relationships: ViewportOntology["relationships"] = [];
+  const relationshipIds = new Set<string>();
+  const pushRelationship = (rel: ViewportOntology["relationships"][number]) => {
+    if (relationshipIds.has(rel.relationship_id)) return;
+    relationshipIds.add(rel.relationship_id);
+    relationships.push(rel);
+  };
+  for (const entity of entities.filter((item) => item.parent_entity_id)) {
+    pushRelationship({
+      relationship_id: id("rel", `${entity.parent_entity_id}|contains|${entity.ontology_entity_id}`),
+      type: "contains",
+      from_entity_id: entity.parent_entity_id!,
+      to_entity_id: entity.ontology_entity_id,
+      confidence: Math.min(1, entity.confidence),
+      layer: entity.layer
+    });
+  }
   for (const [nodeId, entityIds] of entityIdsByNode.entries()) {
     const nodeEntities = entityIds.map((entityId) => entities.find((entity) => entity.ontology_entity_id === entityId)!).filter(Boolean);
     for (const component of nodeEntities.filter((entity) => entity.entity_type === "component")) {
       for (const pattern of nodeEntities.filter((entity) => entity.entity_type === "ux_pattern")) {
-        relationships.push({
+        pushRelationship({
           relationship_id: id("rel", `${component.ontology_entity_id}|implements|${pattern.ontology_entity_id}`),
           type: "implements",
           from_entity_id: component.ontology_entity_id,
@@ -249,14 +260,16 @@ export function deriveViewportOntology(input: {
       const labelEntity = nodeEntities.find((entity) => entity.taxonomy_id === "dig:content.label");
       const targetEntity = targetNode ? (entityIdsByNode.get(targetNode.node_id) ?? []).map((entityId) => entities.find((entity) => entity.ontology_entity_id === entityId))
         .find((entity) => entity?.taxonomy_id === "dig:component.form_control") : undefined;
-      if (labelEntity && targetEntity) relationships.push({
-        relationship_id: id("rel", `${labelEntity.ontology_entity_id}|labels|${targetEntity.ontology_entity_id}`),
-        type: "labels",
-        from_entity_id: labelEntity.ontology_entity_id,
-        to_entity_id: targetEntity.ontology_entity_id,
-        confidence: 1,
-        layer: "L2"
-      });
+      if (labelEntity && targetEntity) {
+        pushRelationship({
+          relationship_id: id("rel", `${labelEntity.ontology_entity_id}|labels|${targetEntity.ontology_entity_id}`),
+          type: "labels",
+          from_entity_id: labelEntity.ontology_entity_id,
+          to_entity_id: targetEntity.ontology_entity_id,
+          confidence: 1,
+          layer: "L2"
+        });
+      }
     }
   }
   return { ontology_version: ONTOLOGY_VERSION, viewport_capture_id: input.viewport_capture_id, viewport_name: input.viewport_name,
@@ -299,6 +312,7 @@ export function enrichOntologyWithSectionCompositions(
       );
       if (already) continue;
       const entityId = id("ont", `${viewport.viewport_capture_id}|${section.root_node_id}|${section.taxonomy_id}|composition`);
+      if (viewport.entities.some((entity) => entity.ontology_entity_id === entityId)) continue;
       const entity: OntologyEntity = {
         ontology_entity_id: entityId,
         entity_type: term.entity_type,
@@ -338,4 +352,52 @@ export function enrichOntologyWithSectionCompositions(
       relationships
     };
   });
+}
+
+/** Drop duplicate viewport rows and re-key colliding entity/relationship ids across viewports. */
+export function uniquifyOntologyViewports(viewports: ViewportOntology[]): ViewportOntology[] {
+  const seenViewport = new Set<string>();
+  const usedEntity = new Set<string>();
+  const usedRel = new Set<string>();
+  const unique: ViewportOntology[] = [];
+  for (const viewport of viewports) {
+    if (seenViewport.has(viewport.viewport_capture_id)) continue;
+    seenViewport.add(viewport.viewport_capture_id);
+    const remap = new Map<string, string>();
+    for (const entity of viewport.entities) {
+      let nextId = entity.ontology_entity_id;
+      if (usedEntity.has(nextId)) {
+        nextId = id("ont", `${viewport.viewport_capture_id}|${entity.ontology_entity_id}|rekey`);
+      }
+      usedEntity.add(nextId);
+      remap.set(entity.ontology_entity_id, nextId);
+    }
+    const entities = viewport.entities.map((entity) => ({
+      ...entity,
+      ontology_entity_id: remap.get(entity.ontology_entity_id) ?? entity.ontology_entity_id,
+      parent_entity_id: entity.parent_entity_id
+        ? (remap.get(entity.parent_entity_id) ?? entity.parent_entity_id)
+        : null
+    }));
+    const relationships = viewport.relationships.map((rel) => {
+      let relationshipId = rel.relationship_id;
+      if (usedRel.has(relationshipId)) {
+        relationshipId = id("rel", `${viewport.viewport_capture_id}|${rel.relationship_id}|rekey`);
+      }
+      usedRel.add(relationshipId);
+      return {
+        ...rel,
+        relationship_id: relationshipId,
+        from_entity_id: remap.get(rel.from_entity_id) ?? rel.from_entity_id,
+        to_entity_id: remap.get(rel.to_entity_id) ?? rel.to_entity_id
+      };
+    });
+    unique.push({
+      ...viewport,
+      page_entity_id: remap.get(viewport.page_entity_id) ?? viewport.page_entity_id,
+      entities,
+      relationships
+    });
+  }
+  return unique;
 }

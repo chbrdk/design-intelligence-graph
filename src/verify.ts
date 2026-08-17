@@ -1,7 +1,7 @@
 import { readFile, stat } from "node:fs/promises";
 import { isAbsolute, relative, resolve, sep } from "node:path";
 import { sha256 } from "./io.js";
-import type { ArtifactReference, CaptureManifest } from "./types.js";
+import type { ArtifactReference, CaptureManifest, CaptureStatus } from "./types.js";
 import { isTaxonomyId, ONTOLOGY_VERSION } from "./taxonomy.js";
 
 export interface VerificationIssue {
@@ -45,6 +45,10 @@ async function readJsonLines(path: string): Promise<Array<Record<string, unknown
   return (await readFile(path, "utf8")).split(/\r?\n/).filter(Boolean).map((line) => JSON.parse(line) as Record<string, unknown>);
 }
 
+function viewportOmitsDomGraph(status: CaptureStatus): boolean {
+  return status === "blocked" || status === "failed" || status === "not_attempted" || status === "unsupported";
+}
+
 async function verifyRelations(packageRoot: string, manifest: CaptureManifest): Promise<VerificationIssue[]> {
   const issues: VerificationIssue[] = [];
   const viewportNames = new Set<string>();
@@ -56,7 +60,12 @@ async function verifyRelations(packageRoot: string, manifest: CaptureManifest): 
     viewportNames.add(viewport.name);
     viewportIds.add(viewport.viewport_capture_id);
     const nodesArtifact = viewport.artifacts.nodes;
-    if (!nodesArtifact) { issues.push({ code: "nodes_artifact_missing", message: viewport.name }); continue; }
+    if (!nodesArtifact) {
+      if (!viewportOmitsDomGraph(viewport.status)) {
+        issues.push({ code: "nodes_artifact_missing", message: viewport.name });
+      }
+      continue;
+    }
     try {
       const nodes = await readJsonLines(resolve(packageRoot, nodesArtifact.path));
       const nodeIds = new Set<string>();

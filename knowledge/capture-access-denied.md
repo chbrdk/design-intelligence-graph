@@ -44,4 +44,6 @@ If Tesla/Audi still deny the Coolify IP after retries, the job fails with `Captu
 2. Stage sat on **Capturing full-page screenshot via CHECKION** (`waitForCompletion: true`, poll default 300s, no fetch abort).
 3. Job then **failed** at 11:53Z during verify: `capture_status: partial`, error was a dump of duplicate `ont_*` / `rel_*` ids (verify hard-fails the job). LLM enrichment had already been queued (`enr_20260817115259_f8fbc410`).
 
-Fixes in this commit: async CHECKION scan + 45s poll + 20s fetch abort; Firefox fallback once; skip remaining viewports after the first Access Denied wall; cap `job.error` so duplicate-id lists stay readable.
+`job_20260817120252_7846e1d2` (after hang fix): capture finished in ~2.5 min as `partial`, then verify failed with `nodes_artifact_missing:tablet/desktop` (skipped blocked viewports had no `nodes.jsonl`) plus the same duplicate ontology ids.
+
+Fixes: write empty `nodes.jsonl` for blocked/skipped/failed viewports; verify does not require DOM artifacts when status is `blocked`/`failed`; ontology `add()` and `uniquifyOntologyViewports()` drop/rekey duplicate ids before the package is written.

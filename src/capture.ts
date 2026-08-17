@@ -21,7 +21,7 @@ import { collectPerformanceEvidence, installPerformanceObservers } from "./perfo
 import { createPageIdentity, createSiteIdentity } from "./identity.js";
 import { analyzeColorUsage } from "./color-analysis.js";
 import { deriveResponsiveLayoutGraph, deriveViewportGeometryLayout, GEOMETRY_MODEL_VERSION } from "./geometry-model.js";
-import { attachLogicalElements, deriveViewportOntology, enrichOntologyWithSectionCompositions } from "./ontology.js";
+import { attachLogicalElements, deriveViewportOntology, enrichOntologyWithSectionCompositions, uniquifyOntologyViewports } from "./ontology.js";
 import { ONTOLOGY_VERSION, TAXONOMY } from "./taxonomy.js";
 import {
   deriveSectionCompositionsDocument
@@ -173,6 +173,7 @@ async function captureViewport(
         );
       }
       const title = await page.title().catch(() => "");
+      artifacts.nodes = await writeJsonLinesArtifact(packageRoot, `${prefix}/dom/nodes.jsonl`, []);
       return {
         canonicalUrl: sanitizeStoredUrl(page.url() || options.url),
         userAgent: await page.evaluate(() => navigator.userAgent).catch(() => "unknown"),
@@ -469,7 +470,13 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     for (const viewport of options.viewports) {
       try {
         if (skipRemainingBlocked) {
-          results.push(stubSkippedBlockedViewport(viewport, skipRemainingBlocked));
+          const stub = stubSkippedBlockedViewport(viewport, skipRemainingBlocked);
+          stub.artifacts.nodes = await writeJsonLinesArtifact(
+            packageRoot,
+            `viewports/${viewport.name}/dom/nodes.jsonl`,
+            []
+          );
+          results.push(stub);
           continue;
         }
         let captured = await captureViewport(browser, options, viewport, packageRoot);
@@ -523,13 +530,19 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
         });
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
+        const failedId = createId("vpc");
+        const failedNodes = await writeJsonLinesArtifact(
+          packageRoot,
+          `viewports/${viewport.name}/dom/nodes.jsonl`,
+          []
+        );
         errors.push({ viewport: viewport.name, code: "viewport_capture_failed", message: sanitizeDiagnostic(message) });
         results.push({
-          viewport_capture_id: createId("vpc"), name: viewport.name,
+          viewport_capture_id: failedId, name: viewport.name,
           viewport: { width: viewport.width, height: viewport.height, device_scale_factor: viewport.deviceScaleFactor },
           document: { width: 0, height: 0 }, final_url: sanitizeStoredUrl(options.url), title: "", started_at: new Date().toISOString(),
           completed_at: new Date().toISOString(), status: "failed", node_count: 0, visible_node_count: 0,
-          text_line_count: 0, artifacts: {}, warnings: [sanitizeDiagnostic(message)], quality: evaluateQuality(ZERO_QUALITY_METRICS)
+          text_line_count: 0, artifacts: { nodes: failedNodes }, warnings: [sanitizeDiagnostic(message)], quality: evaluateQuality(ZERO_QUALITY_METRICS)
         });
       }
     }
@@ -706,6 +719,7 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
       message: error instanceof Error ? error.message : String(error)
     });
   }
+  const ontologyViewports = uniquifyOntologyViewports(enrichedOntologies);
   runArtifacts.ontology_catalog = await writeArtifact(
     packageRoot,
     "ontology/catalog.json",
@@ -719,7 +733,7 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
       schema_version: "0.1.0",
       ontology_version: ONTOLOGY_VERSION,
       generated_at: new Date().toISOString(),
-      viewports: enrichedOntologies
+      viewports: ontologyViewports
     }, null, 2),
     "application/json"
   );
@@ -742,7 +756,7 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
     "derived/analysis-report.json",
     JSON.stringify(deriveAnalysisReport({
       logical_elements: logicalElements, transformations: responsiveTransformations, geometry_layouts: geometryLayouts,
-      ontologies: enrichedOntologies, visual_language: visualLanguageViewports, visual_hypotheses: visualHypotheses,
+      ontologies: ontologyViewports, visual_language: visualLanguageViewports, visual_hypotheses: visualHypotheses,
       quality: aggregateEvaluation
     }), null, 2),
     "application/json"

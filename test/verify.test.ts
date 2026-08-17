@@ -109,6 +109,32 @@ test("allows intentional artifact path aliases (CHECKION full-page)", async () =
   assert.ok(report.checked_artifacts >= 3);
 });
 
+test("allows blocked viewports without a nodes artifact", async () => {
+  const { root, manifest } = await createPackage();
+  manifest.status = "partial";
+  manifest.viewport_captures.push({
+    viewport_capture_id: "vpc_blocked_tablet",
+    name: "tablet",
+    viewport: { width: 768, height: 1024, device_scale_factor: 1 },
+    document: { width: 0, height: 0 },
+    final_url: "https://www.tesla.com/",
+    title: "Access Denied",
+    started_at: "2026-08-17T12:02:52.000Z",
+    completed_at: "2026-08-17T12:03:00.000Z",
+    status: "blocked",
+    node_count: 0,
+    visible_node_count: 0,
+    text_line_count: 0,
+    artifacts: {},
+    warnings: ["skipped_after_site_block"],
+    quality: evaluateQuality(ZERO_QUALITY_METRICS)
+  });
+  await writeFile(join(root, "manifest.json"), JSON.stringify(manifest));
+  const report = await verifyCapturePackage(root);
+  assert.equal(report.valid, true);
+  assert.equal(report.issues.some((issue) => issue.code === "nodes_artifact_missing"), false);
+});
+
 test("detects invalid DIG-002 ontology references", async () => {
   const { root, manifest } = await createPackage();
   manifest.run_artifacts.ontology = await writeArtifact(root, "derived/ontology.json", JSON.stringify({
