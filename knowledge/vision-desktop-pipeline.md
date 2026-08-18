@@ -5,7 +5,7 @@
 Simple desktop visual understanding for later LLMs — **vision only**, no DOM overlays:
 
 1. One full-page **desktop** screenshot
-2. **Run A** — compact visual catalog (`vision_page`, image)
+2. **Run A** — visual catalog + **visual_craft** (`vision_page`, image) — type/image/space for LLM rebuilds (`knowledge/visual-craft.md`)
 3. **Run B** — **full-width** section bands (`vision_layout`) — parallel with A
 4. **Run A2** — whole-page UX/layout (`vision_page_ux`, **text-only** on catalog + bands)
 5. Crop bands from the shot

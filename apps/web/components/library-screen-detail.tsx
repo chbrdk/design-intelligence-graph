@@ -18,6 +18,7 @@ import {
 } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 import { ScreenInsightStrip } from './screen-insight-strip'
+import { VisualCraftPanel } from './visual-craft-panel'
 
 type MediaMode = 'settled' | 'full_page'
 
@@ -202,6 +203,7 @@ export function LibraryScreenDetailPanel(props: {
   }
 
   const summary = analysis?.analysis.design_summary?.trim() || ''
+  const visualCraft = analysis?.package?.vision_page?.visual_craft ?? null
 
   return (
     <div className="dig-screen-detail">
@@ -299,6 +301,7 @@ export function LibraryScreenDetailPanel(props: {
         </Panel>
 
         <Panel className="dig-panel dig-screen-detail-side">
+          <VisualCraftPanel craft={visualCraft} />
           {summary ? (
             <details className="dig-screen-summary">
               <summary>{paths.libraryCopy.screenInsightSummary}</summary>

@@ -336,7 +336,7 @@ export async function runVisionPageAnalysis(
     screenshotPath.replace(`${packageRoot}/`, "").replace(`${packageRoot}\\`, "");
   const dataUrl = `data:${mime};base64,${bytes.toString("base64")}`;
   const evidenceKey = evidenceSha256(
-    `vision_page:${relative}:${createHash("sha256").update(bytes).digest("hex")}`
+    `vision_page:${VISION_PAGE_VERSION}:${relative}:${createHash("sha256").update(bytes).digest("hex")}`
   );
   const cache = options.stageCache;
 
@@ -416,7 +416,7 @@ export async function runVisionPageAnalysis(
           ]
         }
       ],
-      { maxTokens: options.maxTokens ?? 2500, model: visionModel, reasoningEffort: "none" as const }
+      { maxTokens: options.maxTokens ?? 4200, model: visionModel, reasoningEffort: "none" as const }
     );
     await cache?.set({
       stage_id: "vision_page",
@@ -453,6 +453,14 @@ export async function runVisionPageAnalysis(
       interaction_chrome: "",
       category_tags: [],
       rebuild_hints: "",
+      visual_craft: {
+        type_image_relationship: "",
+        typography_composition: "",
+        imagery_craft: "",
+        spatial_craft: "",
+        chrome_vs_content: "",
+        rebuild_spec: ""
+      },
       heading: "",
       cta: "",
       layout_order: [],

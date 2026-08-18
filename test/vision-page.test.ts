@@ -5,6 +5,7 @@ import {
   parseVisionPageResponse,
   parseVisionPageUxResponse
 } from "../src/vision-page.js";
+import { VISION_PAGE_PROMPT } from "../src/llm-eval-scenario.js";
 import { runVisionPageUxAnalysis } from "../src/llm-vision.js";
 import type { VisionPageDocument } from "../src/vision-page.js";
 
@@ -25,7 +26,15 @@ test("parseVisionPageResponse extracts catalog fields", () => {
     heading: "New Model",
     cta: "Configure",
     layout_order: ["media", "heading", "cta"],
-    confidence: 0.88
+    confidence: 0.88,
+    visual_craft: {
+      type_image_relationship: "64px display type overlaps the lower third of the car photo.",
+      typography_composition: "Wide grotesk, all-caps, tight tracking.",
+      imagery_craft: "Full-bleed night product CG with a dark scrim.",
+      spatial_craft: "Hero hugs the viewport; 24px left inset for the headline.",
+      chrome_vs_content: "Tiny outline CTA under massive type.",
+      rebuild_spec: "Keep the headline overlapping the photo. Do not put the car in a card."
+    }
   });
   const parsed = parseVisionPageResponse(raw);
   assert.equal(parsed.page_type, "Automotive landing");
@@ -35,6 +44,8 @@ test("parseVisionPageResponse extracts catalog fields", () => {
   assert.deepEqual(parsed.category_tags, ["hero_media", "product_grid"]);
   assert.equal(parsed.confidence, 0.88);
   assert.match(parsed.rebuild_hints, /full-bleed/i);
+  assert.match(parsed.visual_craft.type_image_relationship, /overlaps/i);
+  assert.match(parsed.visual_craft.rebuild_spec, /not put the car in a card/i);
 });
 
 test("parseVisionPageResponse tolerates fenced JSON and trailing commas", () => {
@@ -68,6 +79,14 @@ test("parseVisionPageUxResponse and designSummaryFromVisionPage", () => {
       color_mood: "Green and white",
       typography_feel: "Serif display",
       media_strategy: "Graphic equation + photo",
+      visual_craft: {
+        type_image_relationship: "Headline sits in a slab over the photo, not beside it.",
+        typography_composition: "",
+        imagery_craft: "",
+        spatial_craft: "",
+        chrome_vs_content: "",
+        rebuild_spec: ""
+      },
       ...ux
     },
     [{ label: "Hero", category: "hero" }]
@@ -75,6 +94,7 @@ test("parseVisionPageUxResponse and designSummaryFromVisionPage", () => {
   assert.match(summary, /agency rebrand/i);
   assert.match(summary, /Announce rebrand/i);
   assert.match(summary, /full-bleed stacks/i);
+  assert.match(summary, /Headline sits in a slab/i);
   assert.ok(!summary.includes("dark mode"));
 });
 
@@ -142,5 +162,11 @@ test("runVisionPageUxAnalysis retries after empty/invalid JSON then succeeds", a
   assert.equal(result.status, "complete");
   assert.equal(result.document?.layout_system, "full-bleed stacks");
   assert.equal(result.document?.above_fold_job, "Establish brand identity");
+});
+
+test("VISION_PAGE_PROMPT asks for type/image craft and ignores ad strips", () => {
+  assert.match(VISION_PAGE_PROMPT, /type_image_relationship/);
+  assert.match(VISION_PAGE_PROMPT, /rebuild_spec/);
+  assert.match(VISION_PAGE_PROMPT, /Ignore third-party ad strips/i);
 });
 

@@ -352,6 +352,19 @@ a {
   flex: 0 0 auto;
 }
 
+.dig-visual-craft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.dig-visual-craft-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .dig-screen-insight-more,
 .dig-screen-summary {
   margin: 0;

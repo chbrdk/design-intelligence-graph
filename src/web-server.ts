@@ -283,6 +283,37 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
     return true;
   }
 
+  if (request.method === "POST" && url.pathname === enrichmentPath) {
+    if (rejectIfDestructiveUnauthorized(request, response)) return true;
+    try {
+      const body = (await readJson(request)) as { capture_run_id?: unknown; captureRunId?: unknown };
+      const captureRunId =
+        (typeof body.capture_run_id === "string" ? body.capture_run_id : typeof body.captureRunId === "string" ? body.captureRunId : "").trim();
+      if (!captureRunId) {
+        sendJson(response, 400, { error: "capture_run_id required" });
+        return true;
+      }
+      const pool = getPool();
+      if (!pool) {
+        sendJson(response, 503, { error: "database_unavailable" });
+        return true;
+      }
+      const capture = await pool.query("SELECT package_path FROM captures WHERE capture_run_id = $1 LIMIT 1", [
+        captureRunId
+      ]);
+      const packagePath = (capture.rows[0] as { package_path?: string } | undefined)?.package_path;
+      if (!packagePath) {
+        sendJson(response, 404, { error: "capture_not_found" });
+        return true;
+      }
+      const job = enrichmentQueue.enqueue({ package_path: packagePath, capture_run_id: captureRunId });
+      sendJson(response, 202, publicEnrichmentView(job));
+    } catch (error: unknown) {
+      sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
+    }
+    return true;
+  }
+
   if (request.method === "GET" && url.pathname === enrichmentPath) {
     const memory = enrichmentQueue.listJobs();
     const fromDb = await listEnrichmentJobsFromDb(100).catch(() => []);

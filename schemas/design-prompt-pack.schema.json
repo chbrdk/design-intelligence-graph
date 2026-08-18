@@ -50,6 +50,18 @@
         "avoid": { "type": "array", "items": { "type": "string" } }
       }
     },
+    "visual_craft": {
+      "type": "object",
+      "description": "Reconstruction-grade type/image/space craft for LLM rebuilds.",
+      "properties": {
+        "type_image_relationship": { "type": "string" },
+        "typography_composition": { "type": "string" },
+        "imagery_craft": { "type": "string" },
+        "spatial_craft": { "type": "string" },
+        "chrome_vs_content": { "type": "string" },
+        "rebuild_spec": { "type": "string" }
+      }
+    },
     "page_rhythm": {
       "type": "object",
       "description": "Measured vertical page order (arc, above-fold recipe, bands).",

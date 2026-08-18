@@ -10,7 +10,47 @@ import { loadDigPaths } from "./runtime-paths.js";
 import type { ArtifactReference } from "./types.js";
 import type { VisionLayoutBand } from "./vision-layout.js";
 
-export const VISION_PAGE_VERSION = "0.1.0";
+export const VISION_PAGE_VERSION = "0.2.0";
+
+export type VisualCraft = {
+  type_image_relationship: string;
+  typography_composition: string;
+  imagery_craft: string;
+  spatial_craft: string;
+  chrome_vs_content: string;
+  rebuild_spec: string;
+};
+
+export const EMPTY_VISUAL_CRAFT: VisualCraft = {
+  type_image_relationship: "",
+  typography_composition: "",
+  imagery_craft: "",
+  spatial_craft: "",
+  chrome_vs_content: "",
+  rebuild_spec: ""
+};
+
+export function visualCraftHasSignal(craft: VisualCraft | null | undefined): boolean {
+  if (!craft) return false;
+  return Boolean(
+    craft.rebuild_spec.trim() ||
+      craft.type_image_relationship.trim() ||
+      craft.typography_composition.trim() ||
+      craft.imagery_craft.trim()
+  );
+}
+
+function parseVisualCraft(value: unknown): VisualCraft {
+  const record = value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+  return {
+    type_image_relationship: String(record.type_image_relationship ?? "").trim(),
+    typography_composition: String(record.typography_composition ?? "").trim(),
+    imagery_craft: String(record.imagery_craft ?? "").trim(),
+    spatial_craft: String(record.spatial_craft ?? "").trim(),
+    chrome_vs_content: String(record.chrome_vs_content ?? "").trim(),
+    rebuild_spec: String(record.rebuild_spec ?? "").trim()
+  };
+}
 
 export type VisionPageUxFields = {
   layout_system: string;
@@ -24,7 +64,7 @@ export type VisionPageUxFields = {
 
 export type VisionPageDocument = {
   schema_version: "0.1.0";
-  vision_page_version: typeof VISION_PAGE_VERSION;
+  vision_page_version: string;
   generated_at: string;
   source_screenshot: string;
   page_type: string;
@@ -39,6 +79,7 @@ export type VisionPageDocument = {
   interaction_chrome: string;
   category_tags: string[];
   rebuild_hints: string;
+  visual_craft?: VisualCraft;
   heading: string;
   cta: string;
   layout_order: string[];
@@ -116,6 +157,7 @@ export function parseVisionPageResponse(raw: string): Omit<
     interaction_chrome: String(parsed.interaction_chrome ?? "").trim(),
     category_tags: asStringArray(parsed.category_tags, 6).map((tag) => tag.toLowerCase()),
     rebuild_hints: String(parsed.rebuild_hints ?? "").trim(),
+    visual_craft: parseVisualCraft(parsed.visual_craft),
     heading: String(parsed.heading ?? "").trim(),
     cta: String(parsed.cta ?? "").trim(),
     layout_order: asStringArray(parsed.layout_order, 8),
@@ -154,6 +196,7 @@ export function designSummaryFromVisionPage(
     | "ux_risks"
     | "layout_system"
     | "spacing_feel"
+    | "visual_craft"
   >,
   bands: Array<Pick<VisionLayoutBand, "label" | "category">> = []
 ): string {
@@ -171,13 +214,19 @@ export function designSummaryFromVisionPage(
     `Look: ${[page.overall_atmosphere, page.color_mood, page.typography_feel].filter(Boolean).join("; ")}.`
   );
   if (page.media_strategy) parts.push(`Media: ${page.media_strategy}`);
+  if (page.visual_craft?.type_image_relationship) {
+    parts.push(`Type/image: ${page.visual_craft.type_image_relationship}`);
+  }
+  if (page.visual_craft?.typography_composition) {
+    parts.push(`Type craft: ${page.visual_craft.typography_composition}`);
+  }
   if (page.ux_flow?.length) parts.push(`UX flow: ${page.ux_flow.join(" → ")}.`);
   else if (bands.length) {
     parts.push(`Sections: ${bands.map((band) => `${band.category}:${band.label}`).join(" → ")}.`);
   }
   if (page.ux_strengths?.length) parts.push(`Strengths: ${page.ux_strengths.join("; ")}.`);
   if (page.ux_risks?.length) parts.push(`Risks: ${page.ux_risks.join("; ")}.`);
-  return parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim().slice(0, 1200);
+  return parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim().slice(0, 1800);
 }
 
 export function buildVisionPageUxEvidence(
@@ -193,6 +242,7 @@ export function buildVisionPageUxEvidence(
     vertical_rhythm: page.vertical_rhythm,
     media_strategy: page.media_strategy,
     notable_modules: page.notable_modules,
+    visual_craft: page.visual_craft,
     heading: page.heading,
     cta: page.cta,
     bands: bands.map((band) => ({

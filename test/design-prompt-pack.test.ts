@@ -134,3 +134,30 @@ test("prompt pack includes page_rhythm rules and arc", () => {
   assert.ok(JSON.stringify(prompt).length <= PROMPT_PACK_MAX_BYTES);
   assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
 });
+
+test("prompt pack keeps visual_craft rebuild_spec for LLM rebuilds", () => {
+  const aurora = JSON.parse(readFileSync(join(FIX, "aurora-hero.reference.json"), "utf8")) as DesignReferenceRecord;
+  const prompt = assembleDesignPromptPack({
+    brief: "Rebuild this captured screen.",
+    pack: {
+      schema_version: "0.1.0",
+      intent: "rebuild",
+      references: [aurora],
+      synthesis_mode: "look_conditioned",
+      constraints: { forbid_source_copy: true }
+    },
+    visual_craft: {
+      type_image_relationship: "CITY sits above the photo; ARCADE cuts through the lower glass modules.",
+      typography_composition: "Split wordmark, staircase indent manifesto, black-to-gray weight rhythm.",
+      imagery_craft: "Modular architecture with motion-blur traffic; grayscale reprise in the feature column.",
+      spatial_craft: "Stats hug the right of CITY; feature cards stack against a tall crop of the same building.",
+      chrome_vs_content: "Hairline nav and pill Sign In versus massive grotesk.",
+      rebuild_spec: "Overlap the second wordmark line with the hero photo. Invert one feature card. Do not card the architecture."
+    }
+  });
+  assert.match(prompt.visual_craft?.type_image_relationship ?? "", /ARCADE cuts through/i);
+  assert.match(prompt.visual_craft?.rebuild_spec ?? "", /Overlap the second wordmark/i);
+  assert.match(prompt.ask, /visual_craft/);
+  assert.ok(HARD_RULES.some((line) => line.includes("type/image")));
+  assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
+});

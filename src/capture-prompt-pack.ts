@@ -108,7 +108,8 @@ export async function assemblePromptPackForCaptureRun(
     tokens,
     layout: facets.layout,
     style: facets.style,
-    spacing_feel: visionPage?.spacing_feel ?? null
+    spacing_feel: visionPage?.spacing_feel ?? null,
+    visual_craft: visionPage?.visual_craft ?? null
   });
 }
 

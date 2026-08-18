@@ -15,9 +15,11 @@ import {
 import type { PageRhythm } from "./page-rhythm.js";
 import { pageRhythmHasSignal, pageRhythmRules } from "./page-rhythm.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
+import type { VisualCraft } from "./vision-page.js";
+import { visualCraftHasSignal } from "./vision-page.js";
 
 export const DESIGN_PROMPT_PACK_SCHEMA_VERSION = "0.1.0" as const;
-export const PROMPT_PACK_MAX_BYTES = 12_000;
+export const PROMPT_PACK_MAX_BYTES = 16_000;
 export const COMPACT_REF_MAX_BYTES = 2_500;
 
 export type PromptOutputContract = "layout_hints_json" | "prose_brief" | "both";
@@ -57,6 +59,7 @@ export type DesignPromptPack = {
   output_contract: PromptOutputContract;
   look_contract?: LookContract;
   page_rhythm?: PageRhythm;
+  visual_craft?: VisualCraft;
 };
 
 export const HARD_RULES: string[] = [
@@ -66,7 +69,8 @@ export const HARD_RULES: string[] = [
   "Cite reference_ids in the output when making look claims.",
   "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens).",
   "If look_contract is present, it outranks vibe adjectives in the brief.",
-  "If page_rhythm is present, it outranks generic landing-page / card-kit structure."
+  "If page_rhythm is present, it outranks generic landing-page / card-kit structure.",
+  "If visual_craft is present, implement type/image layering and typographic composition literally; do not flatten into a generic card kit."
 ];
 
 function truncate(text: string, max: number): string {
@@ -223,15 +227,23 @@ export function syntheticScreenReference(input: {
   return record;
 }
 
-function buildAsk(contract: PromptOutputContract, primaryId: string, hasRhythm: boolean): string {
+function buildAsk(
+  contract: PromptOutputContract,
+  primaryId: string,
+  hasRhythm: boolean,
+  hasCraft: boolean
+): string {
   const rhythm = hasRhythm ? " Obey page_rhythm.page_arc; do not collapse into a card-kit hero." : "";
+  const craft = hasCraft
+    ? " Obey visual_craft: type/image overlap, typographic composition, imagery treatments, and rebuild_spec."
+    : "";
   if (contract === "prose_brief") {
-    return `Write a ≤200-word creative direction citing ${primaryId}. Follow look_contract.${rhythm} Do not copy source marketing copy.`;
+    return `Write a ≤280-word creative direction citing ${primaryId}. Follow look_contract.${rhythm}${craft} Do not copy source marketing copy.`;
   }
   if (contract === "both") {
-    return `Return layout_hints_json first (DIG-012 contract), then a ≤80-word prose rationale. Cite ${primaryId}. Obey look_contract.avoid.${rhythm}`;
+    return `Return layout_hints_json first (DIG-012 contract), then a short prose rationale. Cite ${primaryId}. Obey look_contract.avoid.${rhythm}${craft}`;
   }
-  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.${rhythm}`;
+  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.${rhythm}${craft}`;
 }
 
 export function assembleDesignPromptPack(input: {
@@ -244,6 +256,7 @@ export function assembleDesignPromptPack(input: {
   layout?: string | null;
   style?: string | null;
   spacing_feel?: string | null;
+  visual_craft?: VisualCraft | null;
 }): DesignPromptPack {
   const brief = input.brief.trim();
   if (!brief) throw new Error("brief required");
@@ -261,6 +274,7 @@ export function assembleDesignPromptPack(input: {
     style: input.style ?? compactTokens?.style_labels?.[0] ?? null
   });
   const page_rhythm = pageRhythmHasSignal(input.page_rhythm) ? input.page_rhythm! : null;
+  const visual_craft = visualCraftHasSignal(input.visual_craft) ? input.visual_craft! : null;
 
   const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
   const rules = [
@@ -279,10 +293,11 @@ export function assembleDesignPromptPack(input: {
     brief,
     rules,
     references: compacted,
-    ask: buildAsk(contract, primaryId, Boolean(page_rhythm)),
+    ask: buildAsk(contract, primaryId, Boolean(page_rhythm), Boolean(visual_craft)),
     output_contract: contract,
     look_contract,
-    ...(page_rhythm ? { page_rhythm } : {})
+    ...(page_rhythm ? { page_rhythm } : {}),
+    ...(visual_craft ? { visual_craft } : {})
   };
 
   // Drop page-level noise already omitted; if still over budget, shrink look summaries.

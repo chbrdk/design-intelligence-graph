@@ -190,17 +190,26 @@ Rules:
 - notes = brief page-wide composition cues (e.g. full-bleed media bands, repeated product modules)
 - confidence in (0,1)`;
 
-/** Run A — compact visual catalog (keep small for Flash VL). */
-export const VISION_PAGE_PROMPT = `You catalog the VISUAL SYSTEM of a DESKTOP marketing webpage screenshot for DIG.
+/** Run A — visual catalog plus reconstruction-grade craft (type/image/space). */
+export const VISION_PAGE_PROMPT = `You catalog the VISUAL SYSTEM of a DESKTOP marketing webpage or moodboard screenshot for DIG.
+An LLM will rebuild this layout from your JSON, so describe craft, not vibe adjectives.
 Return ONLY minified JSON (no markdown, no trailing commas):
-{"page_type":string,"overall_atmosphere":string,"color_mood":string,"typography_feel":string,"above_the_fold":string,"vertical_rhythm":string,"media_strategy":string,"notable_modules":string[],"brand_cues":string,"interaction_chrome":string,"category_tags":string[],"rebuild_hints":string,"heading":string,"cta":string,"layout_order":["media"|"heading"|"cta"|"other"],"confidence":number}
+{"page_type":string,"overall_atmosphere":string,"color_mood":string,"typography_feel":string,"above_the_fold":string,"vertical_rhythm":string,"media_strategy":string,"notable_modules":string[],"brand_cues":string,"interaction_chrome":string,"category_tags":string[],"rebuild_hints":string,"visual_craft":{"type_image_relationship":string,"typography_composition":string,"imagery_craft":string,"spatial_craft":string,"chrome_vs_content":string,"rebuild_spec":string},"heading":string,"cta":string,"layout_order":["media"|"heading"|"cta"|"other"],"confidence":number}
 Rules:
 - Be concrete and pixel-grounded; do not invent unread text.
-- above_the_fold: 2 sentences max. rebuild_hints: 2 sentences max.
-- notable_modules: up to 6 visual modules (hero, ticker, card grid…).
-- category_tags: 1–3 INDUSTRY/SECTOR labels only (automotive, finance, marketing_agency, luxury, ecommerce, media, tech, healthcare, travel, food, fashion, real_estate, nonprofit, other). Never campaign names, awards, or page modules.
+- Ignore third-party ad strips, watermarks, or promo banners that are not part of the designed page (bright unrelated language bars at the very bottom of a screenshot).
+- above_the_fold: 2–4 sentences on the first screen, including how type sits on/over/beside media.
+- notable_modules: up to 8 visual modules with craft cues (not just "hero").
+- category_tags: 1–3 INDUSTRY/SECTOR labels only (automotive, finance, marketing_agency, luxury, ecommerce, media, tech, healthcare, travel, food, fashion, real_estate, nonprofit, other).
 - heading / cta / layout_order: hero-level facts only.
 - overall_atmosphere: short style token (minimal, editorial, high-energy, luxury-dark, corporate, playful).
+- visual_craft.type_image_relationship: how display type overlaps, cuts through, captions, or splits from photography (z-order, bleed, knock-out).
+- visual_craft.typography_composition: scale contrast, case, tracking, weight/opacity rhythm, staircase indents, split wordmarks.
+- visual_craft.imagery_craft: subject, crop, motion blur, grayscale reprise, repetition of the same photo.
+- visual_craft.spatial_craft: whitespace as material, edge-hugging, asymmetric stats vs hero, grid vs broken grid.
+- visual_craft.chrome_vs_content: how tiny nav/pills relate to massive editorial type.
+- visual_craft.rebuild_spec: 8–14 sentences an implementer can follow (layout, type/image layering, treatments). No generic "use a CSS grid".
+- rebuild_hints: 1–2 sentence pointer into rebuild_spec (not a substitute for it).
 - confidence in (0,1).`;
 
 /** Run A2 — whole-page UX/layout (TEXT ONLY; grounded on visual catalog + bands). */

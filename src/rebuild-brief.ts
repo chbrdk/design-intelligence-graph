@@ -80,6 +80,18 @@ export function buildRebuildBriefMarkdown(input: {
     if (page.ux_strengths?.length) lines.push(`- UX strengths: ${page.ux_strengths.join("; ")}`);
     if (page.ux_risks?.length) lines.push(`- UX risks: ${page.ux_risks.join("; ")}`);
     if (page.rebuild_hints) lines.push(`- Rebuild: ${page.rebuild_hints}`);
+    const craft = page.visual_craft;
+    if (craft?.type_image_relationship) lines.push(`- Type/image: ${craft.type_image_relationship}`);
+    if (craft?.typography_composition) lines.push(`- Type craft: ${craft.typography_composition}`);
+    if (craft?.imagery_craft) lines.push(`- Imagery: ${craft.imagery_craft}`);
+    if (craft?.spatial_craft) lines.push(`- Space: ${craft.spatial_craft}`);
+    if (craft?.chrome_vs_content) lines.push(`- Chrome vs content: ${craft.chrome_vs_content}`);
+    if (craft?.rebuild_spec) {
+      lines.push("");
+      lines.push("### Rebuild spec");
+      lines.push("");
+      lines.push(craft.rebuild_spec);
+    }
     if (page.category_tags?.length) lines.push(`- Tags: ${page.category_tags.join(", ")}`);
     lines.push("");
   }

@@ -239,6 +239,15 @@ export interface DesignFacets {
   look_contract: LookContract | null
 }
 
+export interface VisualCraft {
+  type_image_relationship?: string
+  typography_composition?: string
+  imagery_craft?: string
+  spatial_craft?: string
+  chrome_vs_content?: string
+  rebuild_spec?: string
+}
+
 export interface VisionPageSummary {
   page_type?: string
   overall_atmosphere?: string
@@ -250,6 +259,8 @@ export interface VisionPageSummary {
   above_the_fold?: string
   category_tags?: string[]
   notable_modules?: string[]
+  rebuild_hints?: string
+  visual_craft?: VisualCraft | null
   confidence?: number
   status?: string
 }
