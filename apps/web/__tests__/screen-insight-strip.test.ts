@@ -4,9 +4,9 @@ import {
   designFacetsHaveUiSignal,
   lookContractHasUiSignal,
   screenInsightLedes,
+  screenInsightMetaChips,
 } from '../components/screen-insight-strip'
 import type { DesignFacets, LookContract } from '../lib/dig-api'
-import { paths } from '../lib/paths'
 
 const emptyContract: LookContract = {
   colors: { bg: null, ink: null, accent: null },
@@ -57,36 +57,34 @@ describe('ScreenInsightStrip helpers', () => {
     )
   })
 
-  it('builds magazine ledes and skips empty facet slots', () => {
-    const ledes = screenInsightLedes(
-      {
-        ...empty,
-        page_type: 'press_release',
-        style: 'editorial',
-        layout: 'full-bleed stacks',
-        color_mood: 'industrial blue, clinical white',
-        look_contract: { ...emptyContract, density: 'airy', radius_px: 0 },
-      },
-      'nav',
-    )
+  it('keeps four identity ledes and folds the rest into meta chips', () => {
+    const facets = {
+      ...empty,
+      page_type: 'press_release',
+      style: 'editorial',
+      layout: 'full-bleed stacks',
+      color_mood: 'industrial blue, clinical white',
+      typography: 'grotesk',
+      industry_tags: ['appliances'],
+      section_categories: ['hero', 'article'],
+      look_contract: { ...emptyContract, density: 'airy' as const, radius_px: 0 },
+    }
+    const ledes = screenInsightLedes(facets, 'nav')
     assert.deepEqual(
-      ledes.map((lede) => ({ id: lede.id, label: lede.label, value: lede.value })),
-      [
-        { id: 'page_type', label: paths.libraryCopy.screenInsightPageType, value: 'press release' },
-        { id: 'style', label: paths.libraryCopy.screenInsightStyle, value: 'editorial' },
-        { id: 'layout', label: paths.libraryCopy.screenInsightLayout, value: 'full-bleed stacks' },
-        { id: 'page_arc', label: paths.libraryCopy.screenInsightPageArc, value: 'nav' },
-        {
-          id: 'color',
-          label: paths.libraryCopy.screenInsightColor,
-          value: 'industrial blue, clinical white',
-        },
-        { id: 'density', label: paths.libraryCopy.screenInsightDensity, value: 'airy' },
-        { id: 'radius', label: paths.libraryCopy.screenInsightRadius, value: '0px' },
-      ],
+      ledes.map((lede) => lede.id),
+      ['page_type', 'style', 'layout', 'color'],
     )
+    assert.equal(ledes[0]?.value, 'press release')
+    assert.deepEqual(screenInsightMetaChips(facets, 'nav'), [
+      'nav',
+      'grotesk',
+      'airy',
+      '0px',
+      'appliances',
+      'hero',
+      'article',
+    ])
     assert.equal(screenInsightLedes(empty, null).length, 0)
-    assert.equal(paths.libraryCopy.screenMagazineLabel, 'Design brief')
-    assert.equal(paths.libraryCopy.screenInsightKicker, 'Style, layout, and look')
+    assert.equal(screenInsightMetaChips(empty, null).length, 0)
   })
 })

@@ -1,15 +1,6 @@
 'use client'
 
-import {
-  Chip,
-  IconGrid,
-  Lede,
-  LedeStrip,
-  SectionChrome,
-  Stack,
-  SwatchStrip,
-  Text,
-} from '../lib/msqdx-ui'
+import { Chip, Lede, LedeStrip, Stack, SwatchStrip, Text } from '../lib/msqdx-ui'
 import type { DesignFacets, LookContract } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 
@@ -26,52 +17,59 @@ export type ScreenInsightLede = {
   value: string
 }
 
+const HERO_LIMIT = 4
+const META_CHIP_LIMIT = 8
+
 export function screenInsightLedes(
   facets: DesignFacets | null | undefined,
   pageArc: string | null | undefined,
   copy: typeof paths.libraryCopy = paths.libraryCopy,
 ): ScreenInsightLede[] {
   if (!facets) return []
-  const contract = facets.look_contract
   const rows: Array<{ id: string; label: string; value: string | null | undefined }> = [
     { id: 'page_type', label: copy.screenInsightPageType, value: facets.page_type },
     { id: 'style', label: copy.screenInsightStyle, value: facets.style },
     { id: 'layout', label: copy.screenInsightLayout, value: facets.layout },
-    { id: 'page_arc', label: copy.screenInsightPageArc, value: pageArc },
     { id: 'color', label: copy.screenInsightColor, value: facets.color_mood },
-    { id: 'typography', label: copy.screenInsightTypography, value: facets.typography },
-    { id: 'above_fold', label: copy.screenInsightAboveFold, value: facets.above_fold_job },
-    { id: 'cta', label: copy.screenInsightCta, value: contract?.cta_chrome },
-    { id: 'density', label: copy.screenInsightDensity, value: contract?.density },
-    {
-      id: 'radius',
-      label: copy.screenInsightRadius,
-      value: contract?.radius_px != null ? `${contract.radius_px}px` : null,
-    },
   ]
   return rows.flatMap((row) => {
     const value = row.value?.trim()
     if (!value) return []
     return [{ id: row.id, label: row.label, value: humanizeFacet(value) }]
-  })
+  }).slice(0, HERO_LIMIT)
 }
 
-function ChipRow({ label, values }: { label: string; values: string[] }) {
-  if (!values.length) return null
-  return (
-    <div className="dig-screen-insight-chips">
-      <span className="dig-screen-insight-chips-label">{label}</span>
-      <ul>
-        {values.slice(0, 8).map((tag) => (
-          <li key={tag}>
-            <Chip static size="sm">
-              {humanizeFacet(tag)}
-            </Chip>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+export function screenInsightMetaChips(
+  facets: DesignFacets | null | undefined,
+  pageArc: string | null | undefined,
+): string[] {
+  if (!facets) return []
+  const contract = facets.look_contract
+  const secondary = [
+    pageArc,
+    facets.typography,
+    contract?.cta_chrome,
+    contract?.density,
+    contract?.radius_px != null ? `${contract.radius_px}px` : null,
+  ]
+  const tags = [
+    ...secondary,
+    ...facets.industry_tags,
+    ...facets.section_categories,
+  ]
+  const seen = new Set<string>()
+  const chips: string[] = []
+  for (const raw of tags) {
+    const value = raw?.trim()
+    if (!value) continue
+    const label = humanizeFacet(value)
+    const key = label.toLowerCase()
+    if (seen.has(key)) continue
+    seen.add(key)
+    chips.push(label)
+    if (chips.length >= META_CHIP_LIMIT) break
+  }
+  return chips
 }
 
 function LookSwatches({ contract }: { contract: LookContract }) {
@@ -84,7 +82,6 @@ function LookSwatches({ contract }: { contract: LookContract }) {
       className="dig-screen-insight-swatches"
       swatches={hexes}
       max={3}
-      label={hexes.join(' · ')}
       aria-label={paths.libraryCopy.screenInsightLook}
     />
   )
@@ -131,6 +128,7 @@ export function ScreenInsightStrip(props: {
   const hasSignal = designFacetsHaveUiSignal(props.facets) || Boolean(props.pageArc?.trim())
   const contract = props.facets?.look_contract ?? null
   const ledes = screenInsightLedes(props.facets, props.pageArc, copy)
+  const chips = screenInsightMetaChips(props.facets, props.pageArc)
 
   return (
     <section className="dig-screen-insight" aria-label={copy.screenInsightTitle}>
@@ -138,13 +136,6 @@ export function ScreenInsightStrip(props: {
         <Text role="headline">{props.title}</Text>
         {props.url ? <Text role="meta">{props.url}</Text> : null}
       </header>
-
-      <SectionChrome
-        icon={<IconGrid />}
-        title={copy.screenInsightTitle}
-        meta={copy.screenInsightKicker}
-        as="h2"
-      />
 
       {props.pending && !hasSignal ? (
         <Text role="hint">{copy.screenInsightPending}</Text>
@@ -155,11 +146,11 @@ export function ScreenInsightStrip(props: {
       ) : null}
 
       {hasSignal && props.facets ? (
-        <Stack gap="md">
+        <Stack gap="sm">
           {ledes.length ? (
             <LedeStrip
               className="dig-screen-insight-ledes"
-              columns={4}
+              columns={Math.min(4, ledes.length)}
               compact
               aria-label={copy.screenInsightTitle}
             >
@@ -168,10 +159,22 @@ export function ScreenInsightStrip(props: {
               ))}
             </LedeStrip>
           ) : null}
-          {contract ? <LookSwatches contract={contract} /> : null}
-          <ChipRow label={copy.screenInsightIndustry} values={props.facets.industry_tags} />
-          <ChipRow label={copy.screenInsightSections} values={props.facets.section_categories} />
-          <ChipRow label={copy.screenInsightAvoid} values={contract?.avoid ?? []} />
+          {contract || chips.length ? (
+            <div className="dig-screen-insight-meta">
+              {contract ? <LookSwatches contract={contract} /> : null}
+              {chips.length ? (
+                <ul className="dig-screen-insight-chips">
+                  {chips.map((tag) => (
+                    <li key={tag}>
+                      <Chip static size="sm">
+                        {tag}
+                      </Chip>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          ) : null}
         </Stack>
       ) : null}
 

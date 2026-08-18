@@ -19,7 +19,6 @@ export {
   IconArrowLeft,
   IconBadge,
   IconGap,
-  IconGrid,
   IconImage,
   IconOpacity,
   IconScroll,
