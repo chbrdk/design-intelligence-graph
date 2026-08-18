@@ -6,6 +6,7 @@ import { loadCaptureCatalog } from "./capture-catalog.js";
 
 const CATALOG_INDUSTRY: Record<string, string> = {
   "insurance-1000": "insurance",
+  "insurance-plus-500": "insurance",
   "automotive-oem-50": "automotive",
   "engineering-manufacturing-1000": "manufacturing"
 };

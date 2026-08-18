@@ -164,6 +164,7 @@ export interface DigPaths {
     crossIndustry100?: string;
     engineeringManufacturing1000?: string;
     insurance1000?: string;
+    insurancePlus500?: string;
     maxBatch?: number;
   };
   imageIngest?: {

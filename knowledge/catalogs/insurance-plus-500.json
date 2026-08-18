@@ -1,0 +1,4010 @@
+{
+  "id": "insurance-plus-500",
+  "title": "500 additional worldwide insurance homepages not in insurance-1000 or earlier catalogs",
+  "source": "Second insurance capture wave (2026-08-18). Curated regional/specialty gaps first, then leftover Wikidata official websites round-robin by country. Hosts already in automotive-oem-50, cross-industry-100, engineering-manufacturing-1000, or insurance-1000 are excluded.",
+  "sourceUrl": "https://query.wikidata.org/",
+  "year": 2026,
+  "updated": "2026-08-18",
+  "entries": [
+    {
+      "rank": 1,
+      "id": "nationalenederlanden",
+      "name": "Nationale-Nederlanden",
+      "group": "Life insurance",
+      "country": "NL",
+      "url": "https://www.nn.nl/"
+    },
+    {
+      "rank": 2,
+      "id": "the-auto-club-group",
+      "name": "The Auto Club Group",
+      "group": "Auto insurance",
+      "country": "US",
+      "url": "https://www.autoclubgroup.com/"
+    },
+    {
+      "rank": 3,
+      "id": "aaa",
+      "name": "AAA",
+      "group": "Auto insurance",
+      "country": "US",
+      "url": "https://www.aaa.com/"
+    },
+    {
+      "rank": 4,
+      "id": "state-auto",
+      "name": "State Auto",
+      "group": "Property & casualty",
+      "country": "US",
+      "url": "https://www.stateauto.com/"
+    },
+    {
+      "rank": 5,
+      "id": "donegal-insurance",
+      "name": "Donegal Insurance",
+      "group": "Property & casualty",
+      "country": "US",
+      "url": "https://www.donegalgroup.com/"
+    },
+    {
+      "rank": 6,
+      "id": "american-national",
+      "name": "American National",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.americannational.com/"
+    },
+    {
+      "rank": 7,
+      "id": "national-life-group",
+      "name": "National Life Group",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.nationallife.com/"
+    },
+    {
+      "rank": 8,
+      "id": "penn-mutual",
+      "name": "Penn Mutual",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.pennmutual.com/"
+    },
+    {
+      "rank": 9,
+      "id": "ohio-national",
+      "name": "Ohio National",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.ohionational.com/"
+    },
+    {
+      "rank": 10,
+      "id": "f-g",
+      "name": "F&G",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.fglife.com/"
+    },
+    {
+      "rank": 11,
+      "id": "sagicor",
+      "name": "Sagicor",
+      "group": "Life insurance",
+      "country": "BB",
+      "url": "https://www.sagicor.com/"
+    },
+    {
+      "rank": 12,
+      "id": "bajaj-allianz-general",
+      "name": "Bajaj Allianz General",
+      "group": "Property & casualty",
+      "country": "IN",
+      "url": "https://www.bajajallianz.com/"
+    },
+    {
+      "rank": 13,
+      "id": "max-life",
+      "name": "Max Life",
+      "group": "Life insurance",
+      "country": "IN",
+      "url": "https://www.maxlifeinsurance.com/"
+    },
+    {
+      "rank": 14,
+      "id": "tata-aia",
+      "name": "Tata AIA",
+      "group": "Life insurance",
+      "country": "IN",
+      "url": "https://www.tataaia.com/"
+    },
+    {
+      "rank": 15,
+      "id": "kotak-life",
+      "name": "Kotak Life",
+      "group": "Life insurance",
+      "country": "IN",
+      "url": "https://www.kotaklife.com/"
+    },
+    {
+      "rank": 16,
+      "id": "care-health-insurance",
+      "name": "Care Health Insurance",
+      "group": "Health insurance",
+      "country": "IN",
+      "url": "https://www.careinsurance.com/"
+    },
+    {
+      "rank": 17,
+      "id": "niva-bupa",
+      "name": "Niva Bupa",
+      "group": "Health insurance",
+      "country": "IN",
+      "url": "https://www.nivabupa.com/"
+    },
+    {
+      "rank": 18,
+      "id": "reliance-general",
+      "name": "Reliance General",
+      "group": "Property & casualty",
+      "country": "IN",
+      "url": "https://www.reliancegeneral.co.in/"
+    },
+    {
+      "rank": 19,
+      "id": "msig-malaysia",
+      "name": "MSIG Malaysia",
+      "group": "Property & casualty",
+      "country": "MY",
+      "url": "https://www.msig.com.my/"
+    },
+    {
+      "rank": 20,
+      "id": "allianz-malaysia",
+      "name": "Allianz Malaysia",
+      "group": "Composite / multiline",
+      "country": "MY",
+      "url": "https://www.allianz.com.my/"
+    },
+    {
+      "rank": 21,
+      "id": "etiqa",
+      "name": "Etiqa",
+      "group": "Takaful",
+      "country": "MY",
+      "url": "https://www.etiqa.com.my/"
+    },
+    {
+      "rank": 22,
+      "id": "aia-malaysia",
+      "name": "AIA Malaysia",
+      "group": "Life insurance",
+      "country": "MY",
+      "url": "https://www.aia.com.my/"
+    },
+    {
+      "rank": 23,
+      "id": "tokio-marine-malaysia",
+      "name": "Tokio Marine Malaysia",
+      "group": "Property & casualty",
+      "country": "MY",
+      "url": "https://www.tokiomarine.com.my/"
+    },
+    {
+      "rank": 24,
+      "id": "dhipaya-insurance",
+      "name": "Dhipaya Insurance",
+      "group": "Property & casualty",
+      "country": "TH",
+      "url": "https://www.dhipaya.co.th/"
+    },
+    {
+      "rank": 25,
+      "id": "muang-thai-life",
+      "name": "Muang Thai Life",
+      "group": "Life insurance",
+      "country": "TH",
+      "url": "https://www.muangthai.co.th/"
+    },
+    {
+      "rank": 26,
+      "id": "fwd",
+      "name": "FWD",
+      "group": "Life insurance",
+      "country": "HK",
+      "url": "https://www.fwd.com/"
+    },
+    {
+      "rank": 27,
+      "id": "ftlife",
+      "name": "FTLife",
+      "group": "Life insurance",
+      "country": "HK",
+      "url": "https://www.ftlife.com.hk/"
+    },
+    {
+      "rank": 28,
+      "id": "boc-life",
+      "name": "BOC Life",
+      "group": "Life insurance",
+      "country": "HK",
+      "url": "https://www.boclife.com.hk/"
+    },
+    {
+      "rank": 29,
+      "id": "china-taiping",
+      "name": "China Taiping",
+      "group": "Composite / multiline",
+      "country": "HK",
+      "url": "https://www.cntaiping.com/"
+    },
+    {
+      "rank": 30,
+      "id": "new-china-life",
+      "name": "New China Life",
+      "group": "Life insurance",
+      "country": "CN",
+      "url": "https://www.newchinalife.com/"
+    },
+    {
+      "rank": 31,
+      "id": "taikang",
+      "name": "Taikang",
+      "group": "Life insurance",
+      "country": "CN",
+      "url": "https://www.taikang.com/"
+    },
+    {
+      "rank": 32,
+      "id": "sompo-japan",
+      "name": "Sompo Japan",
+      "group": "Property & casualty",
+      "country": "JP",
+      "url": "https://www.sompo-japan.co.jp/"
+    },
+    {
+      "rank": 33,
+      "id": "aioi-nissay-dowa",
+      "name": "Aioi Nissay Dowa",
+      "group": "Property & casualty",
+      "country": "JP",
+      "url": "https://www.aioinissaydowa.co.jp/"
+    },
+    {
+      "rank": 34,
+      "id": "mitsui-direct",
+      "name": "Mitsui Direct",
+      "group": "Auto insurance",
+      "country": "JP",
+      "url": "https://www.mitsui-direct.co.jp/"
+    },
+    {
+      "rank": 35,
+      "id": "anicom",
+      "name": "Anicom",
+      "group": "Pet insurance",
+      "country": "JP",
+      "url": "https://www.anicom-sompo.co.jp/"
+    },
+    {
+      "rank": 36,
+      "id": "zurich-japan",
+      "name": "Zurich Japan",
+      "group": "Property & casualty",
+      "country": "JP",
+      "url": "https://www.zurich.co.jp/"
+    },
+    {
+      "rank": 37,
+      "id": "axa-japan",
+      "name": "AXA Japan",
+      "group": "Composite / multiline",
+      "country": "JP",
+      "url": "https://www.axa.co.jp/"
+    },
+    {
+      "rank": 38,
+      "id": "admiral-uk",
+      "name": "Admiral UK",
+      "group": "Auto insurance",
+      "country": "GB",
+      "url": "https://www.admiral.com/"
+    },
+    {
+      "rank": 39,
+      "id": "elephant",
+      "name": "Elephant",
+      "group": "Auto insurance",
+      "country": "GB",
+      "url": "https://www.elephant.co.uk/"
+    },
+    {
+      "rank": 40,
+      "id": "gocompare",
+      "name": "GoCompare",
+      "group": "Insurtech",
+      "country": "GB",
+      "url": "https://www.gocompare.com/"
+    },
+    {
+      "rank": 41,
+      "id": "ageas-uk",
+      "name": "Ageas UK",
+      "group": "Property & casualty",
+      "country": "GB",
+      "url": "https://www.ageas.co.uk/"
+    },
+    {
+      "rank": 42,
+      "id": "zurich-uk",
+      "name": "Zurich UK",
+      "group": "Property & casualty",
+      "country": "GB",
+      "url": "https://www.zurich.co.uk/"
+    },
+    {
+      "rank": 43,
+      "id": "axa-uk",
+      "name": "AXA UK",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.axa.co.uk/"
+    },
+    {
+      "rank": 44,
+      "id": "direct-line",
+      "name": "Direct Line",
+      "group": "Auto insurance",
+      "country": "GB",
+      "url": "https://www.directline.com/"
+    },
+    {
+      "rank": 45,
+      "id": "ecclesiastical",
+      "name": "Ecclesiastical",
+      "group": "Marine / specialty",
+      "country": "GB",
+      "url": "https://www.ecclesiastical.com/"
+    },
+    {
+      "rank": 46,
+      "id": "allied-world",
+      "name": "Allied World",
+      "group": "Reinsurance",
+      "country": "BM",
+      "url": "https://alliedworldinsurance.com/"
+    },
+    {
+      "rank": 47,
+      "id": "aspen-insurance",
+      "name": "Aspen Insurance",
+      "group": "Reinsurance",
+      "country": "BM",
+      "url": "https://www.aspen.co/"
+    },
+    {
+      "rank": 48,
+      "id": "siriuspoint",
+      "name": "SiriusPoint",
+      "group": "Reinsurance",
+      "country": "BM",
+      "url": "https://www.siriuspt.com/"
+    },
+    {
+      "rank": 49,
+      "id": "hamilton-insurance",
+      "name": "Hamilton Insurance",
+      "group": "Reinsurance",
+      "country": "BM",
+      "url": "https://www.hamiltongroup.com/"
+    },
+    {
+      "rank": 50,
+      "id": "james-river",
+      "name": "James River",
+      "group": "Marine / specialty",
+      "country": "US",
+      "url": "https://www.jamesriverins.com/"
+    },
+    {
+      "rank": 51,
+      "id": "skyward-specialty",
+      "name": "Skyward Specialty",
+      "group": "Marine / specialty",
+      "country": "US",
+      "url": "https://www.skywardinsurance.com/"
+    },
+    {
+      "rank": 52,
+      "id": "stewart-title",
+      "name": "Stewart Title",
+      "group": "Title insurance",
+      "country": "US",
+      "url": "https://www.stewart.com/"
+    },
+    {
+      "rank": 53,
+      "id": "hylant",
+      "name": "Hylant",
+      "group": "Insurance broker",
+      "country": "US",
+      "url": "https://www.hylant.com/"
+    },
+    {
+      "rank": 54,
+      "id": "ima-financial",
+      "name": "IMA Financial",
+      "group": "Insurance broker",
+      "country": "US",
+      "url": "https://imacorp.com/"
+    },
+    {
+      "rank": 55,
+      "id": "baldwin-group",
+      "name": "Baldwin Group",
+      "group": "Insurance broker",
+      "country": "US",
+      "url": "https://www.baldwin.com/"
+    },
+    {
+      "rank": 56,
+      "id": "world-insurance-associates",
+      "name": "World Insurance Associates",
+      "group": "Insurance broker",
+      "country": "US",
+      "url": "https://www.worldinsurance.com/"
+    },
+    {
+      "rank": 57,
+      "id": "onedigital",
+      "name": "OneDigital",
+      "group": "Insurance broker",
+      "country": "US",
+      "url": "https://www.onedigital.com/"
+    },
+    {
+      "rank": 58,
+      "id": "newfront",
+      "name": "Newfront",
+      "group": "Insurance broker",
+      "country": "US",
+      "url": "https://www.newfront.com/"
+    },
+    {
+      "rank": 59,
+      "id": "coverdash",
+      "name": "Coverdash",
+      "group": "Insurtech",
+      "country": "US",
+      "url": "https://www.coverdash.com/"
+    },
+    {
+      "rank": 60,
+      "id": "boost-insurance",
+      "name": "Boost Insurance",
+      "group": "Insurtech",
+      "country": "US",
+      "url": "https://www.boostinsurance.com/"
+    },
+    {
+      "rank": 61,
+      "id": "accelerant",
+      "name": "Accelerant",
+      "group": "Insurtech",
+      "country": "US",
+      "url": "https://www.accelerant.ai/"
+    },
+    {
+      "rank": 62,
+      "id": "resilience-cyber",
+      "name": "Resilience Cyber",
+      "group": "Insurtech",
+      "country": "US",
+      "url": "https://resilienceinsurance.com/"
+    },
+    {
+      "rank": 63,
+      "id": "hiscox-us",
+      "name": "Hiscox US",
+      "group": "Marine / specialty",
+      "country": "US",
+      "url": "https://www.hiscox.com/"
+    },
+    {
+      "rank": 64,
+      "id": "santam",
+      "name": "Santam",
+      "group": "Property & casualty",
+      "country": "ZA",
+      "url": "https://www.santam.co.za/"
+    },
+    {
+      "rank": 65,
+      "id": "hollard",
+      "name": "Hollard",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://www.hollard.co.za/"
+    },
+    {
+      "rank": 66,
+      "id": "client\u00e8le",
+      "name": "Client\u00e8le",
+      "group": "Life insurance",
+      "country": "ZA",
+      "url": "https://www.clientele.co.za/"
+    },
+    {
+      "rank": 67,
+      "id": "qbe-europe",
+      "name": "QBE Europe",
+      "group": "Property & casualty",
+      "country": "GB",
+      "url": "https://www.qbeeurope.com/"
+    },
+    {
+      "rank": 68,
+      "id": "gibraltar-bsn",
+      "name": "Gibraltar BSN",
+      "group": "Composite / multiline",
+      "country": "MY",
+      "url": "https://www.gibraltarbsn.com/"
+    },
+    {
+      "rank": 69,
+      "id": "insig",
+      "name": "INSIG",
+      "group": "Composite / multiline",
+      "country": "AL",
+      "url": "https://www.insig.com.al/"
+    },
+    {
+      "rank": 70,
+      "id": "bangladesh-jiban-bima-corporation",
+      "name": "Bangladesh Jiban Bima Corporation",
+      "group": "Composite / multiline",
+      "country": "BD",
+      "url": "https://www.jbc.gov.bd"
+    },
+    {
+      "rank": 71,
+      "id": "arig",
+      "name": "Arig",
+      "group": "Composite / multiline",
+      "country": "BH",
+      "url": "https://www.arig.net/"
+    },
+    {
+      "rank": 72,
+      "id": "perlo-draudimo-brokeris",
+      "name": "Perlo draudimo brokeris",
+      "group": "Insurance broker",
+      "country": "LT",
+      "url": "https://perlodraudimas.lt/"
+    },
+    {
+      "rank": 73,
+      "id": "vision-insurance-saog",
+      "name": "Vision Insurance SAOG",
+      "group": "Composite / multiline",
+      "country": "OM",
+      "url": "https://insurevic.com/"
+    },
+    {
+      "rank": 74,
+      "id": "zavarovalnica-triglav",
+      "name": "Zavarovalnica Triglav",
+      "group": "Composite / multiline",
+      "country": "SI",
+      "url": "https://www.triglav.si"
+    },
+    {
+      "rank": 75,
+      "id": "banesco",
+      "name": "Banesco",
+      "group": "Composite / multiline",
+      "country": "VE",
+      "url": "https://www.banesco.com"
+    },
+    {
+      "rank": 76,
+      "id": "agria",
+      "name": "Agria",
+      "group": "Composite / multiline",
+      "country": "SE",
+      "url": "https://www.agria.fi/"
+    },
+    {
+      "rank": 77,
+      "id": "acko",
+      "name": "ACKO",
+      "group": "Composite / multiline",
+      "country": "RU",
+      "url": "https://www.acko.ru/"
+    },
+    {
+      "rank": 78,
+      "id": "dunav-osiguranje",
+      "name": "Dunav osiguranje",
+      "group": "Composite / multiline",
+      "country": "RS",
+      "url": "https://www.dunav.com/"
+    },
+    {
+      "rank": 79,
+      "id": "mariategui-jlt",
+      "name": "Mariategui JLT",
+      "group": "Composite / multiline",
+      "country": "CL",
+      "url": "https://www.jltperu.com/"
+    },
+    {
+      "rank": 80,
+      "id": "grupo-sura",
+      "name": "Grupo Sura",
+      "group": "Composite / multiline",
+      "country": "CO",
+      "url": "https://www.gruposura.com"
+    },
+    {
+      "rank": 81,
+      "id": "advigon",
+      "name": "Advigon",
+      "group": "Composite / multiline",
+      "country": "LI",
+      "url": "https://www.advigon.com/"
+    },
+    {
+      "rank": 82,
+      "id": "foyer-s-a",
+      "name": "Foyer S.A.",
+      "group": "Composite / multiline",
+      "country": "LU",
+      "url": "https://www.foyer.lu/"
+    },
+    {
+      "rank": 83,
+      "id": "great-eastern-life",
+      "name": "Great Eastern Life",
+      "group": "Composite / multiline",
+      "country": "SG",
+      "url": "https://www.lifeisgreat.com.sg/"
+    },
+    {
+      "rank": 84,
+      "id": "agria-se",
+      "name": "Agria",
+      "group": "Composite / multiline",
+      "country": "SE",
+      "url": "https://www.agria.no/"
+    },
+    {
+      "rank": 85,
+      "id": "union-pois\u0165ov\u0148a",
+      "name": "Union pois\u0165ov\u0148a",
+      "group": "Composite / multiline",
+      "country": "SK",
+      "url": "https://www.unionpojistovna.cz/"
+    },
+    {
+      "rank": 86,
+      "id": "oil-insurance-limited",
+      "name": "Oil Insurance Limited",
+      "group": "Composite / multiline",
+      "country": "BM",
+      "url": "https://www.oil.bm/"
+    },
+    {
+      "rank": 87,
+      "id": "ddor-novi-sad",
+      "name": "DDOR Novi Sad",
+      "group": "Composite / multiline",
+      "country": "RS",
+      "url": "https://www.ddor.co.rs"
+    },
+    {
+      "rank": 88,
+      "id": "esanad",
+      "name": "eSanad",
+      "group": "Composite / multiline",
+      "country": "AE",
+      "url": "https://www.esanad.com"
+    },
+    {
+      "rank": 89,
+      "id": "ghana-insurance-college",
+      "name": "Ghana Insurance College",
+      "group": "Composite / multiline",
+      "country": "GH",
+      "url": "https://www.gic.edu.gh/"
+    },
+    {
+      "rank": 90,
+      "id": "european-reliance",
+      "name": "European Reliance",
+      "group": "Composite / multiline",
+      "country": "GR",
+      "url": "https://www.europaikipisti.gr/"
+    },
+    {
+      "rank": 91,
+      "id": "croatia-osiguranje",
+      "name": "Croatia osiguranje",
+      "group": "Composite / multiline",
+      "country": "HR",
+      "url": "https://www.crosig.hr/"
+    },
+    {
+      "rank": 92,
+      "id": "bpjs-kesehatan",
+      "name": "BPJS Kesehatan",
+      "group": "Composite / multiline",
+      "country": "ID",
+      "url": "https://www.bpjs-kesehatan.go.id/"
+    },
+    {
+      "rank": 93,
+      "id": "ceylinco-insurance",
+      "name": "Ceylinco Insurance",
+      "group": "Composite / multiline",
+      "country": "LK",
+      "url": "https://www.ceylinco-insurance.com/"
+    },
+    {
+      "rank": 94,
+      "id": "seguros-monterrey",
+      "name": "Seguros Monterrey",
+      "group": "Composite / multiline",
+      "country": "MX",
+      "url": "https://www.mnyl.com.mx/"
+    },
+    {
+      "rank": 95,
+      "id": "ammetlife",
+      "name": "AmMetLife",
+      "group": "Composite / multiline",
+      "country": "MY",
+      "url": "https://www.ammetlife.com/"
+    },
+    {
+      "rank": 96,
+      "id": "pjico",
+      "name": "PJICO",
+      "group": "Composite / multiline",
+      "country": "VN",
+      "url": "https://www.pjico.com.vn"
+    },
+    {
+      "rank": 97,
+      "id": "towergate-insurance",
+      "name": "Towergate Insurance",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.towergate.com/"
+    },
+    {
+      "rank": 98,
+      "id": "agria-se-agria",
+      "name": "Agria",
+      "group": "Composite / multiline",
+      "country": "SE",
+      "url": "https://www.agria.se/"
+    },
+    {
+      "rank": 99,
+      "id": "codan-a-s",
+      "name": "Codan A/S",
+      "group": "Composite / multiline",
+      "country": "DK",
+      "url": "https://www.codan.dk/"
+    },
+    {
+      "rank": 100,
+      "id": "catlin-group",
+      "name": "Catlin Group",
+      "group": "Composite / multiline",
+      "country": "BM",
+      "url": "https://www.catlin.com"
+    },
+    {
+      "rank": 101,
+      "id": "zitouna-takaful",
+      "name": "Zitouna Takaful",
+      "group": "Takaful",
+      "country": "TN",
+      "url": "https://zitounatakaful.com/"
+    },
+    {
+      "rank": 102,
+      "id": "dzi",
+      "name": "DZI",
+      "group": "Composite / multiline",
+      "country": "BG",
+      "url": "https://www.dzi.bg"
+    },
+    {
+      "rank": 103,
+      "id": "eureko",
+      "name": "Eureko",
+      "group": "Composite / multiline",
+      "country": "RO",
+      "url": "https://www.eureko.ro/"
+    },
+    {
+      "rank": 104,
+      "id": "ddor-novi-sad-rs",
+      "name": "DDOR Novi Sad",
+      "group": "Composite / multiline",
+      "country": "RS",
+      "url": "https://www.ddor.rs/"
+    },
+    {
+      "rank": 105,
+      "id": "asr-nederland",
+      "name": "ASR Nederland",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.asrnl.com/"
+    },
+    {
+      "rank": 106,
+      "id": "agria-se-agriatierversicherung",
+      "name": "Agria",
+      "group": "Composite / multiline",
+      "country": "SE",
+      "url": "https://www.agriatierversicherung.de/"
+    },
+    {
+      "rank": 107,
+      "id": "eureko-tr",
+      "name": "Eureko",
+      "group": "Composite / multiline",
+      "country": "TR",
+      "url": "https://eurekosigorta.com.tr/"
+    },
+    {
+      "rank": 108,
+      "id": "maiden-holdings",
+      "name": "Maiden Holdings",
+      "group": "Composite / multiline",
+      "country": "BM",
+      "url": "https://www.maiden.bm"
+    },
+    {
+      "rank": 109,
+      "id": "mutuelle-assurance-de-lenseignement",
+      "name": "Mutuelle Assurance de l\u2019Enseignement",
+      "group": "Composite / multiline",
+      "country": "TN",
+      "url": "https://www.mae.tn/"
+    },
+    {
+      "rank": 110,
+      "id": "royal-automobile-club-of-catalonia",
+      "name": "Royal Automobile Club of Catalonia",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.racc.cat/"
+    },
+    {
+      "rank": 111,
+      "id": "swiss-mobiliar-insurance-cooperative",
+      "name": "Swiss Mobiliar insurance cooperative",
+      "group": "Mutual / cooperative",
+      "country": "CH",
+      "url": "https://www.mobiliere.ch/"
+    },
+    {
+      "rank": 112,
+      "id": "uniqa-insurance-group",
+      "name": "Uniqa Insurance Group",
+      "group": "Composite / multiline",
+      "country": "AT",
+      "url": "https://uniqa.ua/"
+    },
+    {
+      "rank": 113,
+      "id": "ion-insurance",
+      "name": "Ion Insurance",
+      "group": "Composite / multiline",
+      "country": "IE",
+      "url": "https://www.ioninsurance.ie"
+    },
+    {
+      "rank": 114,
+      "id": "cuk-ubezpieczenia",
+      "name": "CUK Ubezpieczenia",
+      "group": "Composite / multiline",
+      "country": "PL",
+      "url": "https://cuk.pl"
+    },
+    {
+      "rank": 115,
+      "id": "social-insurance-institution",
+      "name": "Social Insurance Institution",
+      "group": "Composite / multiline",
+      "country": "TR",
+      "url": "https://www.ssk.gov.tr/"
+    },
+    {
+      "rank": 116,
+      "id": "alm-brand",
+      "name": "Alm. Brand",
+      "group": "Composite / multiline",
+      "country": "DK",
+      "url": "https://www.almbrand.dk"
+    },
+    {
+      "rank": 117,
+      "id": "gjensidige",
+      "name": "Gjensidige",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://gjensidige.no"
+    },
+    {
+      "rank": 118,
+      "id": "l\u00e4hitapiola",
+      "name": "L\u00e4hiTapiola",
+      "group": "Composite / multiline",
+      "country": "FI",
+      "url": "https://www.lokaltapiola.fi/"
+    },
+    {
+      "rank": 119,
+      "id": "fbd-holdings",
+      "name": "FBD Holdings",
+      "group": "Composite / multiline",
+      "country": "IE",
+      "url": "https://www.fbdgroup.ie"
+    },
+    {
+      "rank": 120,
+      "id": "russian-national-reinsurance-company",
+      "name": "Russian National Reinsurance Company",
+      "group": "Reinsurance",
+      "country": "RU",
+      "url": "https://en.rnrc.ru"
+    },
+    {
+      "rank": 121,
+      "id": "zak\u0142ad-ubezpiecze\u0144-spo\u0142ecznych",
+      "name": "Zak\u0142ad Ubezpiecze\u0144 Spo\u0142ecznych",
+      "group": "Composite / multiline",
+      "country": "PL",
+      "url": "https://www.zus.pl/"
+    },
+    {
+      "rank": 122,
+      "id": "anadolu-hayat-emeklilik",
+      "name": "Anadolu Hayat Emeklilik",
+      "group": "Composite / multiline",
+      "country": "TR",
+      "url": "https://www.anadoluhayat.com.tr/"
+    },
+    {
+      "rank": 123,
+      "id": "gjensidige-no",
+      "name": "Gjensidige",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://www.gjensidige.dk/"
+    },
+    {
+      "rank": 124,
+      "id": "ping-an-insurance",
+      "name": "Ping An Insurance",
+      "group": "Composite / multiline",
+      "country": "CN",
+      "url": "https://www.pingan.com"
+    },
+    {
+      "rank": 125,
+      "id": "saag-insurance-broker-for-selfemployed-professionals-liberal-professions-and-companies-in-belgium-brussels",
+      "name": "SAAG \u2013 Insurance broker for self-employed professionals, liberal professions and companies in Belgium \u2013 Brussels",
+      "group": "Insurance broker",
+      "country": "BE",
+      "url": "https://www.saag.be"
+    },
+    {
+      "rank": 126,
+      "id": "veritas",
+      "name": "Veritas",
+      "group": "Composite / multiline",
+      "country": "FI",
+      "url": "https://veritas.fi/"
+    },
+    {
+      "rank": 127,
+      "id": "irish-life-assurance-plc",
+      "name": "Irish Life Assurance Plc",
+      "group": "Life insurance",
+      "country": "IE",
+      "url": "https://www.irishlife.ie/"
+    },
+    {
+      "rank": 128,
+      "id": "tpension",
+      "name": "T-Pension",
+      "group": "Pension / retirement",
+      "country": "RU",
+      "url": "https://www.tpension.ru/"
+    },
+    {
+      "rank": 129,
+      "id": "groupama",
+      "name": "Groupama",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.groupama.fr/"
+    },
+    {
+      "rank": 130,
+      "id": "hoken-no-madoguchi",
+      "name": "Hoken No Madoguchi",
+      "group": "Composite / multiline",
+      "country": "JP",
+      "url": "https://www.hokennomadoguchi.com/"
+    },
+    {
+      "rank": 131,
+      "id": "china-taiping-insurance-hk-company-limited",
+      "name": "China Taiping Insurance (HK) Company Limited",
+      "group": "Composite / multiline",
+      "country": "CN",
+      "url": "https://www.hk.cntaiping.com"
+    },
+    {
+      "rank": 132,
+      "id": "belfius",
+      "name": "Belfius",
+      "group": "Composite / multiline",
+      "country": "BE",
+      "url": "https://www.belfius.be"
+    },
+    {
+      "rank": 133,
+      "id": "elo",
+      "name": "Elo",
+      "group": "Composite / multiline",
+      "country": "FI",
+      "url": "https://www.elo.fi/"
+    },
+    {
+      "rank": 134,
+      "id": "standard-bank",
+      "name": "Standard Bank",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://standardbank.co.za"
+    },
+    {
+      "rank": 135,
+      "id": "china-export-credit-insurance-corporation",
+      "name": "China Export & Credit Insurance Corporation",
+      "group": "Credit / surety",
+      "country": "CN",
+      "url": "https://www.sinosure.com.cn/"
+    },
+    {
+      "rank": 136,
+      "id": "uniqa",
+      "name": "Uniqa",
+      "group": "Composite / multiline",
+      "country": "AT",
+      "url": "https://www.uniqa.at/"
+    },
+    {
+      "rank": 137,
+      "id": "allianz-direct",
+      "name": "Allianz Direct",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.allianzdirect.it/"
+    },
+    {
+      "rank": 138,
+      "id": "sanlam",
+      "name": "Sanlam",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://www.sanlam.co.za"
+    },
+    {
+      "rank": 139,
+      "id": "fortis",
+      "name": "Fortis",
+      "group": "Composite / multiline",
+      "country": "BE",
+      "url": "https://www.fortis.com/"
+    },
+    {
+      "rank": 140,
+      "id": "viking-assistance-group",
+      "name": "Viking Assistance Group",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://www.vikingassistancegroup.com"
+    },
+    {
+      "rank": 141,
+      "id": "s-shlomo-insurance-company-ltd",
+      "name": "S.SHLOMO INSURANCE COMPANY LTD",
+      "group": "Composite / multiline",
+      "country": "IL",
+      "url": "https://www.shlomo-bit.co.il/"
+    },
+    {
+      "rank": 142,
+      "id": "afrikaanse-verbond-begrafnisonderneming-beperk",
+      "name": "Afrikaanse Verbond Begrafnisonderneming Beperk",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://www.avbob.co.za/"
+    },
+    {
+      "rank": 143,
+      "id": "anbang-insurance-group",
+      "name": "Anbang Insurance Group",
+      "group": "Composite / multiline",
+      "country": "CN",
+      "url": "https://www.anbanggroup.com/"
+    },
+    {
+      "rank": 144,
+      "id": "w\u00e4lder-versicherung",
+      "name": "W\u00e4lder Versicherung",
+      "group": "Composite / multiline",
+      "country": "AT",
+      "url": "https://www.waelderversicherung.at/"
+    },
+    {
+      "rank": 145,
+      "id": "association-internationale-de-la-mutualit\u00e9",
+      "name": "Association internationale de la mutualit\u00e9",
+      "group": "Mutual / cooperative",
+      "country": "BE",
+      "url": "https://www.aim-mutual.org/"
+    },
+    {
+      "rank": 146,
+      "id": "kyobo-life",
+      "name": "Kyobo Life",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.kyobo.com/"
+    },
+    {
+      "rank": 147,
+      "id": "nobleoak-life",
+      "name": "NobleOak Life",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.nobleoak.com.au/"
+    },
+    {
+      "rank": 148,
+      "id": "sbi-general-insurance",
+      "name": "SBI General Insurance",
+      "group": "Composite / multiline",
+      "country": "IN",
+      "url": "https://www.sbigeneral.in/"
+    },
+    {
+      "rank": 149,
+      "id": "vardia-insurance-group",
+      "name": "Vardia Insurance Group",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://www.vardia.com"
+    },
+    {
+      "rank": 150,
+      "id": "femi",
+      "name": "Femi",
+      "group": "Composite / multiline",
+      "country": "IL",
+      "url": "https://www.femi.com/"
+    },
+    {
+      "rank": 151,
+      "id": "first-assurance-kenya-limited",
+      "name": "First Assurance Kenya Limited",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://firstassurance.co.ke/"
+    },
+    {
+      "rank": 152,
+      "id": "\u00f6sterreichische-gesundheitskasse",
+      "name": "\u00d6sterreichische Gesundheitskasse",
+      "group": "Composite / multiline",
+      "country": "AT",
+      "url": "https://www.gesundheitskasse.at/"
+    },
+    {
+      "rank": 153,
+      "id": "dela-holding-belgium-n-v",
+      "name": "DELA Holding Belgium N.V.",
+      "group": "Composite / multiline",
+      "country": "BE",
+      "url": "https://www.dela.be/"
+    },
+    {
+      "rank": 154,
+      "id": "fetch-pet-health",
+      "name": "Fetch Pet Health",
+      "group": "Health insurance",
+      "country": "AU",
+      "url": "https://www.fetchpet.com.au"
+    },
+    {
+      "rank": 155,
+      "id": "aegon-life-insurance-company",
+      "name": "Aegon Life Insurance Company",
+      "group": "Life insurance",
+      "country": "IN",
+      "url": "https://www.aegonlife.com/"
+    },
+    {
+      "rank": 156,
+      "id": "libra-insurance-company-ltd",
+      "name": "Libra Insurance Company Ltd",
+      "group": "Composite / multiline",
+      "country": "IL",
+      "url": "https://www.lbr.co.il/"
+    },
+    {
+      "rank": 157,
+      "id": "momentum-metropolitan-holdings-limited",
+      "name": "Momentum Metropolitan Holdings Limited",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://www.mmiholdings.com"
+    },
+    {
+      "rank": 158,
+      "id": "z\u00fcrich-versicherung-\u00f6sterreich",
+      "name": "Z\u00fcrich Versicherung \u00d6sterreich",
+      "group": "Composite / multiline",
+      "country": "AT",
+      "url": "https://www.zurich.at/"
+    },
+    {
+      "rank": 159,
+      "id": "comparetravelinsurance-com-au",
+      "name": "Comparetravelinsurance.com.au",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.comparetravelinsurance.com.au"
+    },
+    {
+      "rank": 160,
+      "id": "helvetia-insurance",
+      "name": "Helvetia Insurance",
+      "group": "Composite / multiline",
+      "country": "CH",
+      "url": "https://www.helvetia.es/"
+    },
+    {
+      "rank": 161,
+      "id": "banca-mediolanum",
+      "name": "Banca Mediolanum",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.bancamediolanum.it"
+    },
+    {
+      "rank": 162,
+      "id": "one-solution",
+      "name": "One Solution",
+      "group": "Composite / multiline",
+      "country": "IN",
+      "url": "https://onesolutionez.in"
+    },
+    {
+      "rank": 163,
+      "id": "mirae-asset-group",
+      "name": "Mirae Asset Group",
+      "group": "Composite / multiline",
+      "country": "KR",
+      "url": "https://www.miraeasset.co.kr/"
+    },
+    {
+      "rank": 164,
+      "id": "ro-marine",
+      "name": "Ro Marine",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://romarine.no/"
+    },
+    {
+      "rank": 165,
+      "id": "migdal-insurance-company",
+      "name": "Migdal Insurance Company",
+      "group": "Composite / multiline",
+      "country": "IL",
+      "url": "https://www.migdal.co.il/"
+    },
+    {
+      "rank": 166,
+      "id": "miway-insurance",
+      "name": "MiWay Insurance",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://www.miway.co.za"
+    },
+    {
+      "rank": 167,
+      "id": "guohua-life",
+      "name": "Guohua Life",
+      "group": "Composite / multiline",
+      "country": "CN",
+      "url": "https://www.95549.cn"
+    },
+    {
+      "rank": 168,
+      "id": "vorarlberger-landesversicherung",
+      "name": "Vorarlberger Landesversicherung",
+      "group": "Composite / multiline",
+      "country": "AT",
+      "url": "https://www.vlv.at/"
+    },
+    {
+      "rank": 169,
+      "id": "mutua-levante",
+      "name": "Mutua Levante",
+      "group": "Mutual / cooperative",
+      "country": "ES",
+      "url": "https://mutualevante.com/"
+    },
+    {
+      "rank": 170,
+      "id": "helvetia-insurance-ch",
+      "name": "Helvetia Insurance",
+      "group": "Composite / multiline",
+      "country": "CH",
+      "url": "https://www.helvetia.it"
+    },
+    {
+      "rank": 171,
+      "id": "aviva-italia-holding",
+      "name": "Aviva Italia Holding",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.avivaitalia.it"
+    },
+    {
+      "rank": 172,
+      "id": "future-generali-india-insurance",
+      "name": "Future Generali India Insurance",
+      "group": "Composite / multiline",
+      "country": "IN",
+      "url": "https://general.futuregenerali.in"
+    },
+    {
+      "rank": 173,
+      "id": "korea-deposit-insurance-corporation",
+      "name": "Korea Deposit Insurance Corporation",
+      "group": "Composite / multiline",
+      "country": "KR",
+      "url": "https://www.kdic.or.kr"
+    },
+    {
+      "rank": 174,
+      "id": "storebrand",
+      "name": "Storebrand",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://storebrand.com"
+    },
+    {
+      "rank": 175,
+      "id": "s-shlomo-holdings-ltd",
+      "name": "S.shlomo Holdings Ltd",
+      "group": "Composite / multiline",
+      "country": "IL",
+      "url": "https://www.shlomo.co.il"
+    },
+    {
+      "rank": 176,
+      "id": "fwd-group",
+      "name": "FWD Group",
+      "group": "Composite / multiline",
+      "country": "CN",
+      "url": "https://www.fwd.com.hk"
+    },
+    {
+      "rank": 177,
+      "id": "delta-lloyd-group",
+      "name": "Delta Lloyd Group",
+      "group": "Marine / specialty",
+      "country": "NL",
+      "url": "https://www.deltalloyd.nl/"
+    },
+    {
+      "rank": 178,
+      "id": "verti-insurance",
+      "name": "Verti Insurance",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.verti.es/"
+    },
+    {
+      "rank": 179,
+      "id": "future-generali-india-insurance-in",
+      "name": "Future Generali India Insurance",
+      "group": "Composite / multiline",
+      "country": "IN",
+      "url": "https://life.futuregenerali.in/"
+    },
+    {
+      "rank": 180,
+      "id": "\u30c0\u30a6\u30e0\u81ea\u52d5\u8eca\u4fdd\u967a",
+      "name": "\u30c0\u30a6\u30e0\u81ea\u52d5\u8eca\u4fdd\u967a",
+      "group": "Composite / multiline",
+      "country": "KR",
+      "url": "https://www.shinhanez.co.kr/"
+    },
+    {
+      "rank": 181,
+      "id": "protector-forsikring",
+      "name": "Protector Forsikring",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://www.protectorforsikring.no"
+    },
+    {
+      "rank": 182,
+      "id": "psagot-investment-house",
+      "name": "Psagot Investment House",
+      "group": "Composite / multiline",
+      "country": "IL",
+      "url": "https://www.psagot.co.il"
+    },
+    {
+      "rank": 183,
+      "id": "rmh-holdings",
+      "name": "RMH Holdings",
+      "group": "Composite / multiline",
+      "country": "ZA",
+      "url": "https://www.rmbh.co.za/"
+    },
+    {
+      "rank": 184,
+      "id": "inter-versicherungsgruppe",
+      "name": "Inter Versicherungsgruppe",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://beratung.inter.de/"
+    },
+    {
+      "rank": 185,
+      "id": "royal-automobile-association-of-south-australia",
+      "name": "Royal Automobile Association of South Australia",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.raa.com.au"
+    },
+    {
+      "rank": 186,
+      "id": "laka-insurance",
+      "name": "Laka Insurance",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://laka.co/"
+    },
+    {
+      "rank": 187,
+      "id": "verti-insurance-es",
+      "name": "Verti Insurance",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.verti.de/"
+    },
+    {
+      "rank": 188,
+      "id": "gruppo-assicurativo-poste-vita",
+      "name": "Gruppo Assicurativo Poste Vita",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://postevita.poste.it/"
+    },
+    {
+      "rank": 189,
+      "id": "\u30cf\u30ca\u751f\u547d\u4fdd\u967a",
+      "name": "\u30cf\u30ca\u751f\u547d\u4fdd\u967a",
+      "group": "Composite / multiline",
+      "country": "KR",
+      "url": "https://www.hanalife.co.kr/"
+    },
+    {
+      "rank": 190,
+      "id": "gjensidige-nor",
+      "name": "Gjensidige NOR",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://www.gjensidigenor.no/"
+    },
+    {
+      "rank": 191,
+      "id": "leumit-health-fund",
+      "name": "Leumit Health Fund",
+      "group": "Health insurance",
+      "country": "IL",
+      "url": "https://www.leumit.co.il"
+    },
+    {
+      "rank": 192,
+      "id": "pautions",
+      "name": "Pautions",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://pautions.fr/"
+    },
+    {
+      "rank": 193,
+      "id": "royal-automobile-club-of-victoria",
+      "name": "Royal Automobile Club of Victoria",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.racv.com.au/"
+    },
+    {
+      "rank": 194,
+      "id": "avero-achmea",
+      "name": "Avero Achmea",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.averoachmea.nl"
+    },
+    {
+      "rank": 195,
+      "id": "assuria",
+      "name": "Assuria",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://assuria.sr/"
+    },
+    {
+      "rank": 196,
+      "id": "verti-insurance-es-verti",
+      "name": "Verti Insurance",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.verti.it/"
+    },
+    {
+      "rank": 197,
+      "id": "farmers-mutual-group",
+      "name": "Farmers' Mutual Group",
+      "group": "Mutual / cooperative",
+      "country": "NZ",
+      "url": "https://www.fmg.co.nz"
+    },
+    {
+      "rank": 198,
+      "id": "vojensk\u00e1-zdravotn\u00ed-poji\u0161\u0165ovna-\u010desk\u00e9-republiky",
+      "name": "Vojensk\u00e1 zdravotn\u00ed poji\u0161\u0165ovna \u010cesk\u00e9 republiky",
+      "group": "Composite / multiline",
+      "country": "CZ",
+      "url": "https://www.vozp.cz/"
+    },
+    {
+      "rank": 199,
+      "id": "gruppo-intesa-sanpaolo",
+      "name": "Gruppo Intesa Sanpaolo",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.intesasanpaolo.com/"
+    },
+    {
+      "rank": 200,
+      "id": "t-d-holdings",
+      "name": "T&D Holdings",
+      "group": "Composite / multiline",
+      "country": "JP",
+      "url": "https://www.td-holdings.co.jp/"
+    },
+    {
+      "rank": 201,
+      "id": "\u8208\u56fd\u53cc\u9f8d\u706b\u707d\u6d77\u4e0a\u4fdd\u967a",
+      "name": "\u8208\u56fd\u53cc\u9f8d\u706b\u707d\u6d77\u4e0a\u4fdd\u967a",
+      "group": "Composite / multiline",
+      "country": "KR",
+      "url": "https://www.heungkukfire.co.kr/"
+    },
+    {
+      "rank": 202,
+      "id": "dnb-livsforsikring",
+      "name": "DNB Livsforsikring",
+      "group": "Composite / multiline",
+      "country": "NO",
+      "url": "https://www.dnb.no/"
+    },
+    {
+      "rank": 203,
+      "id": "canada-life",
+      "name": "Canada Life",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.lagreatwest.com/"
+    },
+    {
+      "rank": 204,
+      "id": "csf-group",
+      "name": "CSF Group",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.csf.fr/"
+    },
+    {
+      "rank": 205,
+      "id": "royal-automobile-club-of-western-australia",
+      "name": "Royal Automobile Club of Western Australia",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://rac.com.au"
+    },
+    {
+      "rank": 206,
+      "id": "treeum",
+      "name": "Treeum",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://treeum.net/"
+    },
+    {
+      "rank": 207,
+      "id": "segurcaixa-adeslas",
+      "name": "SegurCaixa Adeslas",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.segurcaixaadeslas.es/"
+    },
+    {
+      "rank": 208,
+      "id": "ami-insurance",
+      "name": "AMI Insurance",
+      "group": "Composite / multiline",
+      "country": "NZ",
+      "url": "https://www.ami.co.nz"
+    },
+    {
+      "rank": 209,
+      "id": "smart-l\u00e9man",
+      "name": "Smart L\u00e9man",
+      "group": "Composite / multiline",
+      "country": "CH",
+      "url": "https://smart-leman.ch"
+    },
+    {
+      "rank": 210,
+      "id": "oborov\u00e1-zdravotn\u00ed-poji\u0161\u0165ovna-zam\u011bstnanc\u016f-bank-poji\u0161\u0165oven-a-stavebnictv\u00ed",
+      "name": "Oborov\u00e1 zdravotn\u00ed poji\u0161\u0165ovna zam\u011bstnanc\u016f bank, poji\u0161\u0165oven a stavebnictv\u00ed",
+      "group": "Composite / multiline",
+      "country": "CZ",
+      "url": "https://www.ozp.cz/"
+    },
+    {
+      "rank": 211,
+      "id": "unipol-gruppo",
+      "name": "Unipol Gruppo",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.unipol.it/"
+    },
+    {
+      "rank": 212,
+      "id": "\u30e1\u30c7\u30a3\u30b1\u30a2\u751f\u547d\u4fdd\u967a",
+      "name": "\u30e1\u30c7\u30a3\u30b1\u30a2\u751f\u547d\u4fdd\u967a",
+      "group": "Composite / multiline",
+      "country": "JP",
+      "url": "https://www.medicarelife.com/"
+    },
+    {
+      "rank": 213,
+      "id": "abeille-assurances",
+      "name": "Abeille Assurances",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.abeille-assurances.fr/"
+    },
+    {
+      "rank": 214,
+      "id": "gio-general",
+      "name": "GIO General",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.gio.com.au"
+    },
+    {
+      "rank": 215,
+      "id": "centraal-beheer",
+      "name": "Centraal Beheer",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.centraalbeheer.nl/"
+    },
+    {
+      "rank": 216,
+      "id": "reliance-insurance-limited",
+      "name": "Reliance Insurance Limited",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.reliance.com.bd/"
+    },
+    {
+      "rank": 217,
+      "id": "petplan-ib\u00e9rica",
+      "name": "Petplan Ib\u00e9rica",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://petplan.es/"
+    },
+    {
+      "rank": 218,
+      "id": "true-aim-ag",
+      "name": "True Aim AG",
+      "group": "Composite / multiline",
+      "country": "CH",
+      "url": "https://trueaim.ai"
+    },
+    {
+      "rank": 219,
+      "id": "rbp-zdravotn\u00ed-poji\u0161\u0165ovna",
+      "name": "RBP, zdravotn\u00ed poji\u0161\u0165ovna",
+      "group": "Composite / multiline",
+      "country": "CZ",
+      "url": "https://www.rbp213.cz/"
+    },
+    {
+      "rank": 220,
+      "id": "facile-it",
+      "name": "Facile.it",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.facile.it"
+    },
+    {
+      "rank": 221,
+      "id": "ateam-finergy-inc",
+      "name": "Ateam Finergy Inc.",
+      "group": "Composite / multiline",
+      "country": "JP",
+      "url": "https://finergy.a-tm.co.jp/"
+    },
+    {
+      "rank": 222,
+      "id": "areas-assurances",
+      "name": "AREAS assurances",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.areas.fr"
+    },
+    {
+      "rank": 223,
+      "id": "gmhba-limited",
+      "name": "GMHBA Limited",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.gmhba.com.au"
+    },
+    {
+      "rank": 224,
+      "id": "companhia-caboverdiana-de-seguros",
+      "name": "Companhia Cabo-Verdiana de Seguros",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.impar.cv"
+    },
+    {
+      "rank": 225,
+      "id": "globalfinanz",
+      "name": "Globalfinanz",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.globalfinanz.es"
+    },
+    {
+      "rank": 226,
+      "id": "sovereign-limited",
+      "name": "Sovereign Limited",
+      "group": "Composite / multiline",
+      "country": "NZ",
+      "url": "https://www.sovereign.co.nz/"
+    },
+    {
+      "rank": 227,
+      "id": "ace-limited",
+      "name": "ACE Limited",
+      "group": "Composite / multiline",
+      "country": "CH",
+      "url": "https://www.acelimited.com/"
+    },
+    {
+      "rank": 228,
+      "id": "\u010desk\u00e1-pr\u016fmyslov\u00e1-zdravotn\u00ed-poji\u0161\u0165ovna",
+      "name": "\u010cesk\u00e1 pr\u016fmyslov\u00e1 zdravotn\u00ed poji\u0161\u0165ovna",
+      "group": "Composite / multiline",
+      "country": "CZ",
+      "url": "https://www.cpzp.cz/"
+    },
+    {
+      "rank": 229,
+      "id": "generali-italia",
+      "name": "Generali Italia",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.generali.it/"
+    },
+    {
+      "rank": 230,
+      "id": "cosmos-risk-solutions",
+      "name": "Cosmos Risk Solutions",
+      "group": "Composite / multiline",
+      "country": "JP",
+      "url": "https://www.itrs.co.jp"
+    },
+    {
+      "rank": 231,
+      "id": "desjardins",
+      "name": "Desjardins",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.desjardinsinsurance.com"
+    },
+    {
+      "rank": 232,
+      "id": "exiliance",
+      "name": "Exiliance",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.exiliance.com"
+    },
+    {
+      "rank": 233,
+      "id": "real-insurance",
+      "name": "Real Insurance",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.realinsurance.com.au"
+    },
+    {
+      "rank": 234,
+      "id": "ing-group",
+      "name": "ING Group",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://ing.com"
+    },
+    {
+      "rank": 235,
+      "id": "kenya-reinsurance-corporation",
+      "name": "Kenya Reinsurance Corporation",
+      "group": "Reinsurance",
+      "country": "XX",
+      "url": "https://www.kenyare.co.ke"
+    },
+    {
+      "rank": 236,
+      "id": "pib-group-iberia",
+      "name": "PIB Group Iberia",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://pibgroupiberia.com/"
+    },
+    {
+      "rank": 237,
+      "id": "southern-cross-healthcare",
+      "name": "Southern Cross Healthcare",
+      "group": "Health insurance",
+      "country": "NZ",
+      "url": "https://healthcare.southerncross.co.nz/"
+    },
+    {
+      "rank": 238,
+      "id": "zdravotn\u00ed-poji\u0161\u0165ovna-ministerstva-vnitra-\u010desk\u00e9-republiky",
+      "name": "Zdravotn\u00ed poji\u0161\u0165ovna ministerstva vnitra \u010cesk\u00e9 republiky",
+      "group": "Composite / multiline",
+      "country": "CZ",
+      "url": "https://www.zpmvcr.cz/"
+    },
+    {
+      "rank": 239,
+      "id": "alleanza-assicurazioni",
+      "name": "Alleanza Assicurazioni",
+      "group": "Composite / multiline",
+      "country": "IT",
+      "url": "https://www.alleanza.it/"
+    },
+    {
+      "rank": 240,
+      "id": "aiico-insurance",
+      "name": "AIICO Insurance",
+      "group": "Composite / multiline",
+      "country": "NG",
+      "url": "https://www.aiicoplc.com/"
+    },
+    {
+      "rank": 241,
+      "id": "shory-united-insurance-brokerage-company",
+      "name": "Shory United Insurance Brokerage Company",
+      "group": "Insurance broker",
+      "country": "SA",
+      "url": "https://www.shory.sa"
+    },
+    {
+      "rank": 242,
+      "id": "the-personal-insurance-company",
+      "name": "The Personal Insurance Company",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.thepersonal.com/"
+    },
+    {
+      "rank": 243,
+      "id": "integra-assurance",
+      "name": "Integra Assurance",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://integracc.fr/"
+    },
+    {
+      "rank": 244,
+      "id": "employers-mutual-limited",
+      "name": "Employers Mutual Limited",
+      "group": "Mutual / cooperative",
+      "country": "AU",
+      "url": "https://www.eml.com.au/"
+    },
+    {
+      "rank": 245,
+      "id": "sns-reaal",
+      "name": "SNS Reaal",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.snsreaal.nl"
+    },
+    {
+      "rank": 246,
+      "id": "real-insurance-company-of-malawi",
+      "name": "Real Insurance Company of Malawi",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.realinsurance.co.mw/"
+    },
+    {
+      "rank": 247,
+      "id": "l\u00ednea-directa-aseguradora",
+      "name": "L\u00ednea Directa Aseguradora",
+      "group": "Composite / multiline",
+      "country": "ES",
+      "url": "https://www.lineadirecta.com"
+    },
+    {
+      "rank": 248,
+      "id": "state-insurance",
+      "name": "State Insurance",
+      "group": "Composite / multiline",
+      "country": "NZ",
+      "url": "https://www.state.co.nz"
+    },
+    {
+      "rank": 249,
+      "id": "tradition-mutual-insurance-company",
+      "name": "Tradition Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.traditionmutual.com/"
+    },
+    {
+      "rank": 250,
+      "id": "covermore",
+      "name": "Cover-More",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://CoverMore.com.au"
+    },
+    {
+      "rank": 251,
+      "id": "klaverblad-verzekeringen",
+      "name": "Klaverblad Verzekeringen",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.klaverblad.nl"
+    },
+    {
+      "rank": 252,
+      "id": "state-life",
+      "name": "State Life",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.statelife.com.pk"
+    },
+    {
+      "rank": 253,
+      "id": "trillium-mutual-insurance-company",
+      "name": "Trillium Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.trilliummutual.com/"
+    },
+    {
+      "rank": 254,
+      "id": "royal-automobile-club-of-queensland",
+      "name": "Royal Automobile Club of Queensland",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.racq.com.au"
+    },
+    {
+      "rank": 255,
+      "id": "de-goudse-verzekeringen",
+      "name": "De Goudse verzekeringen",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.goudse.nl/"
+    },
+    {
+      "rank": 256,
+      "id": "national-insurance-corporation",
+      "name": "National Insurance Corporation",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.nic.co.ug"
+    },
+    {
+      "rank": 257,
+      "id": "trisura-guarantee-insurance-company",
+      "name": "Trisura Guarantee Insurance Company",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.trisura.com/"
+    },
+    {
+      "rank": 258,
+      "id": "mobilize-financial-services",
+      "name": "Mobilize Financial Services",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.rcibs.com/"
+    },
+    {
+      "rank": 259,
+      "id": "national-roads-and-motorists-association",
+      "name": "National Roads and Motorists' Association",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.mynrma.com.au/"
+    },
+    {
+      "rank": 260,
+      "id": "reaal",
+      "name": "Reaal",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.reaal.nl"
+    },
+    {
+      "rank": 261,
+      "id": "statewide-insurance-company",
+      "name": "Statewide Insurance Company",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.swico.co.ug"
+    },
+    {
+      "rank": 262,
+      "id": "west-wawanosh-mutual-insurance-company",
+      "name": "West Wawanosh Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://wwmic.com/"
+    },
+    {
+      "rank": 263,
+      "id": "australian-associated-motor-insurers-limited",
+      "name": "Australian Associated Motor Insurers Limited",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.aami.com.au/"
+    },
+    {
+      "rank": 264,
+      "id": "nh1816-verzekeringen",
+      "name": "Nh1816 Verzekeringen",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.nh1816.nl"
+    },
+    {
+      "rank": 265,
+      "id": "waepa",
+      "name": "WAEPA",
+      "group": "Composite / multiline",
+      "country": "XX",
+      "url": "https://www.waepa.org/"
+    },
+    {
+      "rank": 266,
+      "id": "westminster-mutual-insurance-company",
+      "name": "Westminster Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://wmic.ca/"
+    },
+    {
+      "rank": 267,
+      "id": "linxea",
+      "name": "Linxea",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.linxea.com/"
+    },
+    {
+      "rank": 268,
+      "id": "care4life",
+      "name": "Care4Life",
+      "group": "Composite / multiline",
+      "country": "NL",
+      "url": "https://www.care4life.nl/"
+    },
+    {
+      "rank": 269,
+      "id": "yarmouth-mutual-insurance-company",
+      "name": "Yarmouth Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://yarmouthmutual.com/"
+    },
+    {
+      "rank": 270,
+      "id": "agf",
+      "name": "AGF",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://luxus.fr"
+    },
+    {
+      "rank": 271,
+      "id": "suncorp-group",
+      "name": "Suncorp Group",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://suncorpgroup.com.au"
+    },
+    {
+      "rank": 272,
+      "id": "zensurance",
+      "name": "Zensurance",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.zensurance.com/"
+    },
+    {
+      "rank": 273,
+      "id": "albingia",
+      "name": "Albingia",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.albingia.fr"
+    },
+    {
+      "rank": 274,
+      "id": "vero-insurance",
+      "name": "Vero Insurance",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.vero.com.au/"
+    },
+    {
+      "rank": 275,
+      "id": "direct-line-group",
+      "name": "Direct Line Group",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.directlinegroup.com"
+    },
+    {
+      "rank": 276,
+      "id": "ivari",
+      "name": "Ivari",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://ivari.ca/"
+    },
+    {
+      "rank": 277,
+      "id": "april-group",
+      "name": "April Group",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.april.fr"
+    },
+    {
+      "rank": 278,
+      "id": "st-lukes-private-hospital",
+      "name": "St Lukes Private Hospital",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://www.stlukes.com.au/"
+    },
+    {
+      "rank": 279,
+      "id": "foresters-financial",
+      "name": "Foresters Financial",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.foresters.com/"
+    },
+    {
+      "rank": 280,
+      "id": "april-group-fr",
+      "name": "April Group",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.april-moto.com/"
+    },
+    {
+      "rank": 281,
+      "id": "bellrock-advisory",
+      "name": "Bellrock Advisory",
+      "group": "Composite / multiline",
+      "country": "AU",
+      "url": "https://bellrockadvisory.com"
+    },
+    {
+      "rank": 282,
+      "id": "hannoversche",
+      "name": "Hannoversche",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.hannoversche.at/"
+    },
+    {
+      "rank": 283,
+      "id": "amherst-island-mutual-insurance-company",
+      "name": "Amherst Island Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.amherstislandinsurance.ca/"
+    },
+    {
+      "rank": 284,
+      "id": "ayr-farmers-mutual-insurance-company",
+      "name": "Ayr Farmers' Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.ayrmutual.com/"
+    },
+    {
+      "rank": 285,
+      "id": "april-group-fr-april",
+      "name": "April Group",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.april.com/"
+    },
+    {
+      "rank": 286,
+      "id": "bay-of-quinte-mutual-insurance-co",
+      "name": "Bay of Quinte Mutual Insurance Co.",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://bayofquintemutual.com/"
+    },
+    {
+      "rank": 287,
+      "id": "april-group-fr-aprilmarine",
+      "name": "April Group",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.aprilmarine.fr/"
+    },
+    {
+      "rank": 288,
+      "id": "combined-insurance-canada",
+      "name": "Combined Insurance Canada",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.combinedinsurance.ca/"
+    },
+    {
+      "rank": 289,
+      "id": "april-group-fr-dlpk",
+      "name": "April Group",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.dlpk.fr/"
+    },
+    {
+      "rank": 290,
+      "id": "dufferin-mutual-insurance-company",
+      "name": "Dufferin Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.dufferinmutual.com/"
+    },
+    {
+      "rank": 291,
+      "id": "commonwell-mutual-insurance-group",
+      "name": "Commonwell Mutual Insurance Group",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.commonwell.ca/"
+    },
+    {
+      "rank": 292,
+      "id": "compagnie-fran\u00e7aise-d-assurance-pour-le-commerce-ext\u00e9rieur",
+      "name": "Compagnie Fran\u00e7aise d'Assurance pour le Commerce Ext\u00e9rieur",
+      "group": "Credit / surety",
+      "country": "FR",
+      "url": "https://www.coface.fr"
+    },
+    {
+      "rank": 293,
+      "id": "wuerzburger-versicherungsag",
+      "name": "Wuerzburger Versicherungs-AG",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.travelsecure.de/"
+    },
+    {
+      "rank": 294,
+      "id": "edge-mutual-insurance-company",
+      "name": "Edge Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.edgemutual.com/"
+    },
+    {
+      "rank": 295,
+      "id": "roam",
+      "name": "ROAM",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.roam.asso.fr/"
+    },
+    {
+      "rank": 296,
+      "id": "bertie-and-clinton-mutual-insurance-company",
+      "name": "Bertie and Clinton Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://bcminsurance.com/"
+    },
+    {
+      "rank": 297,
+      "id": "la-mutuelle-g\u00e9n\u00e9rale",
+      "name": "La Mutuelle G\u00e9n\u00e9rale",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.lamutuellegenerale.fr/"
+    },
+    {
+      "rank": 298,
+      "id": "erie-mutual-fire-insurance-company",
+      "name": "Erie Mutual Fire Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.eriemutual.com/"
+    },
+    {
+      "rank": 299,
+      "id": "mutuelle-saintmartin",
+      "name": "Mutuelle Saint-Martin",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://mutuellesaintmartin.fr/"
+    },
+    {
+      "rank": 300,
+      "id": "fenchurch-general-insurance-company",
+      "name": "Fenchurch General Insurance Company",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.fenchurchgeneral.com/"
+    },
+    {
+      "rank": 301,
+      "id": "apivia",
+      "name": "Apivia",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.apivia.fr/"
+    },
+    {
+      "rank": 302,
+      "id": "kent-and-essex-mutual-insurance-company",
+      "name": "Kent and Essex Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.kemutual.com/"
+    },
+    {
+      "rank": 303,
+      "id": "harmonie-mutuelle",
+      "name": "Harmonie Mutuelle",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://www.harmonie-mutuelle.fr/"
+    },
+    {
+      "rank": 304,
+      "id": "lambton-mutual-insurance-company",
+      "name": "Lambton Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.lambtonmutual.com/"
+    },
+    {
+      "rank": 305,
+      "id": "legal-general",
+      "name": "Legal & General",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.legalandgeneralgroup.com/"
+    },
+    {
+      "rank": 306,
+      "id": "maple-mutual-insurance-company",
+      "name": "Maple Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://maplemutual.com/"
+    },
+    {
+      "rank": 307,
+      "id": "groupe-apicil",
+      "name": "Groupe APICIL",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://mon.apicil.com"
+    },
+    {
+      "rank": 308,
+      "id": "l-a-mutual-insurance-company",
+      "name": "L&A Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://l-amutual.com/"
+    },
+    {
+      "rank": 309,
+      "id": "arundo-re",
+      "name": "Arundo Re",
+      "group": "Composite / multiline",
+      "country": "FR",
+      "url": "https://arundore.com/"
+    },
+    {
+      "rank": 310,
+      "id": "north-blenheim-mutual-insurance-company",
+      "name": "North Blenheim Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.northblenheim.com/"
+    },
+    {
+      "rank": 311,
+      "id": "peel-mutual-insurance-company",
+      "name": "Peel Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.peelmutual.com/"
+    },
+    {
+      "rank": 312,
+      "id": "pembridge-insurance",
+      "name": "Pembridge Insurance",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.pembridge.com/"
+    },
+    {
+      "rank": 313,
+      "id": "policyme",
+      "name": "PolicyMe",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.policyme.com/"
+    },
+    {
+      "rank": 314,
+      "id": "serenia-life",
+      "name": "Serenia Life",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.serenialife.ca/"
+    },
+    {
+      "rank": 315,
+      "id": "south-easthope-mutual-insurance-company",
+      "name": "South Easthope Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "CA",
+      "url": "https://www.southeasthope.com/"
+    },
+    {
+      "rank": 316,
+      "id": "national-bank-of-canada",
+      "name": "National Bank of Canada",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.nbc.ca/"
+    },
+    {
+      "rank": 317,
+      "id": "president-s-choice-financial",
+      "name": "President's Choice Financial",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.pcfinancial.ca/"
+    },
+    {
+      "rank": 318,
+      "id": "securian-canada",
+      "name": "Securian Canada",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.securiancanada.ca/"
+    },
+    {
+      "rank": 319,
+      "id": "legalshield",
+      "name": "LegalShield",
+      "group": "Composite / multiline",
+      "country": "CA",
+      "url": "https://www.legalshield.com/"
+    },
+    {
+      "rank": 320,
+      "id": "beach-associates",
+      "name": "Beach & Associates",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://beachgp.com/"
+    },
+    {
+      "rank": 321,
+      "id": "mga-mutual",
+      "name": "MGA Mutual",
+      "group": "Mutual / cooperative",
+      "country": "GB",
+      "url": "https://mgamutual.com/"
+    },
+    {
+      "rank": 322,
+      "id": "blumont-annuity",
+      "name": "Blumont Annuity",
+      "group": "Life insurance",
+      "country": "GB",
+      "url": "https://www.blumontannuity.co.uk/"
+    },
+    {
+      "rank": 323,
+      "id": "william-russell-insurance-company",
+      "name": "William Russell (insurance company)",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.william-russell.com"
+    },
+    {
+      "rank": 324,
+      "id": "provinzial-versicherung",
+      "name": "Provinzial Versicherung",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.provinzial.com"
+    },
+    {
+      "rank": 325,
+      "id": "continuitypoint",
+      "name": "ContinuityPoint",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.continuitypoint.co.uk"
+    },
+    {
+      "rank": 326,
+      "id": "consumer-protection-association",
+      "name": "Consumer Protection Association",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.thecpa.co.uk/"
+    },
+    {
+      "rank": 327,
+      "id": "bk-maklerb\u00fcro",
+      "name": "BK Maklerb\u00fcro",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://bk-maklerbuero.de/"
+    },
+    {
+      "rank": 328,
+      "id": "homepro",
+      "name": "HomePro",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.homepro.com/"
+    },
+    {
+      "rank": 329,
+      "id": "genki",
+      "name": "Genki",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://genki.world"
+    },
+    {
+      "rank": 330,
+      "id": "apex-insurance-brokers",
+      "name": "Apex Insurance Brokers",
+      "group": "Insurance broker",
+      "country": "GB",
+      "url": "https://apexinsurancebrokers.co.uk"
+    },
+    {
+      "rank": 331,
+      "id": "pkvwelt",
+      "name": "PKV-Welt",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://pkv-welt.de/"
+    },
+    {
+      "rank": 332,
+      "id": "getsurance",
+      "name": "Getsurance",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://getsurance.de"
+    },
+    {
+      "rank": 333,
+      "id": "cooperative-banking-group",
+      "name": "Co-operative Banking Group",
+      "group": "Mutual / cooperative",
+      "country": "GB",
+      "url": "https://www.co-operativebankinggroup.co.uk/"
+    },
+    {
+      "rank": 334,
+      "id": "embea",
+      "name": "Embea",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://embea.com"
+    },
+    {
+      "rank": 335,
+      "id": "brand-partners",
+      "name": "Brand Partners",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.brand-partners.co.uk/"
+    },
+    {
+      "rank": 336,
+      "id": "aegidius-se",
+      "name": "Aegidius SE",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.wertgarantie-group.com"
+    },
+    {
+      "rank": 337,
+      "id": "marmalade-insurance",
+      "name": "Marmalade Insurance",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.wearemarmalade.co.uk/"
+    },
+    {
+      "rank": 338,
+      "id": "flood-re",
+      "name": "Flood Re",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.floodre.co.uk/"
+    },
+    {
+      "rank": 339,
+      "id": "deutsche-afrikalinien-john-t-essberger-group-of-companies",
+      "name": "Deutsche Afrika-Linien/John T. Essberger Group of Companies",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.rantzau.de/"
+    },
+    {
+      "rank": 340,
+      "id": "motor-insurers-bureau",
+      "name": "Motor Insurers' Bureau",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.mib.org.uk/"
+    },
+    {
+      "rank": 341,
+      "id": "w\u00fcstenrot-w\u00fcrttembergische",
+      "name": "W\u00fcstenrot & W\u00fcrttembergische",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://ww-ag.com/"
+    },
+    {
+      "rank": 342,
+      "id": "petplan",
+      "name": "Petplan",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.petplan.co.uk/"
+    },
+    {
+      "rank": 343,
+      "id": "g-j-e-pinckernelle",
+      "name": "G. & J. E. Pinckernelle",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.pinckernelle-hamburg.com"
+    },
+    {
+      "rank": 344,
+      "id": "stonebridge-international-insurance-ltd",
+      "name": "Stonebridge International Insurance Ltd",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.stonebridge-insurance.com"
+    },
+    {
+      "rank": 345,
+      "id": "simply-business",
+      "name": "Simply Business",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.simplybusiness.co.uk"
+    },
+    {
+      "rank": 346,
+      "id": "atlas-bkk-ahlmann",
+      "name": "Atlas BKK ahlmann",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.atlasbkkahlmann.de/"
+    },
+    {
+      "rank": 347,
+      "id": "suffolk-life",
+      "name": "Suffolk Life",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.suffolklife.co.uk"
+    },
+    {
+      "rank": 348,
+      "id": "\u00f6vb",
+      "name": "\u00d6VB",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.oevb.de/"
+    },
+    {
+      "rank": 349,
+      "id": "sunlife",
+      "name": "SunLife",
+      "group": "Composite / multiline",
+      "country": "GB",
+      "url": "https://www.sunlife.co.uk/"
+    },
+    {
+      "rank": 350,
+      "id": "krankenunterst\u00fctzungskasse-hannover",
+      "name": "Krankenunterst\u00fctzungskasse Hannover",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://kuk-hannover.de/"
+    },
+    {
+      "rank": 351,
+      "id": "bupa",
+      "name": "Bupa",
+      "group": "Health insurance",
+      "country": "GB",
+      "url": "https://www.bupa.co.uk/"
+    },
+    {
+      "rank": 352,
+      "id": "bkk-euregio",
+      "name": "BKK Euregio",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-euregio.de/"
+    },
+    {
+      "rank": 353,
+      "id": "bkk-akzo-nobel-bayern",
+      "name": "BKK Akzo Nobel Bayern",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://bkk-akzo.de/"
+    },
+    {
+      "rank": 354,
+      "id": "bkk-achenbach-buschh\u00fctten",
+      "name": "BKK Achenbach Buschh\u00fctten",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-achenbach.de/"
+    },
+    {
+      "rank": 355,
+      "id": "bkk-d\u00fcrkopp-adler",
+      "name": "BKK D\u00fcrkopp Adler",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-da.de/"
+    },
+    {
+      "rank": 356,
+      "id": "bkk-fabercastell-partner",
+      "name": "BKK Faber-Castell & Partner",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-faber-castell.de/"
+    },
+    {
+      "rank": 357,
+      "id": "bkk-freudenberg",
+      "name": "BKK Freudenberg",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-freudenberg.de/"
+    },
+    {
+      "rank": 358,
+      "id": "bkk-herkules",
+      "name": "BKK Herkules",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-herkules.de/"
+    },
+    {
+      "rank": 359,
+      "id": "bkk-melitta-plus",
+      "name": "BKK Melitta Plus",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-melitta.de/"
+    },
+    {
+      "rank": 360,
+      "id": "bkk24",
+      "name": "BKK24",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk24.de/"
+    },
+    {
+      "rank": 361,
+      "id": "vgh-versicherungen",
+      "name": "VGH Versicherungen",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.vgh.de/"
+    },
+    {
+      "rank": 362,
+      "id": "knappschaft",
+      "name": "Knappschaft",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.knappschaft.de/"
+    },
+    {
+      "rank": 363,
+      "id": "versicherungskammer-bayern",
+      "name": "Versicherungskammer Bayern",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.vkb.de/"
+    },
+    {
+      "rank": 364,
+      "id": "bgv",
+      "name": "BGV",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bgv.de"
+    },
+    {
+      "rank": 365,
+      "id": "ostfriesische-landschaftliche-brandkasse",
+      "name": "Ostfriesische Landschaftliche Brandkasse",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.ostfriesische-brandkasse.de/"
+    },
+    {
+      "rank": 366,
+      "id": "sv-sparkassenversicherung",
+      "name": "SV SparkassenVersicherung",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.sparkassenversicherung.de"
+    },
+    {
+      "rank": 367,
+      "id": "bkk-hmr",
+      "name": "BKK HMR",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-hmr.de/"
+    },
+    {
+      "rank": 368,
+      "id": "fahrlehrerversicherung",
+      "name": "Fahrlehrerversicherung",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.fahrlehrerversicherung.de/"
+    },
+    {
+      "rank": 369,
+      "id": "bahnbkk",
+      "name": "Bahn-BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bahn-bkk.de/"
+    },
+    {
+      "rank": 370,
+      "id": "actimonda-bkk",
+      "name": "Actimonda BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.actimonda.de/"
+    },
+    {
+      "rank": 371,
+      "id": "bkk-provita",
+      "name": "BKK ProVita",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-provita.de/"
+    },
+    {
+      "rank": 372,
+      "id": "bkk-salzgitter",
+      "name": "BKK Salzgitter",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-salzgitter.de/"
+    },
+    {
+      "rank": 373,
+      "id": "bkk-diakonie",
+      "name": "BKK Diakonie",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-diakonie.de/"
+    },
+    {
+      "rank": 374,
+      "id": "bkk-mkk-meine-krankenkasse",
+      "name": "BKK MKK - Meine Krankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.meine-krankenkasse.de"
+    },
+    {
+      "rank": 375,
+      "id": "merck-bkk",
+      "name": "Merck BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.merck-bkk.de/"
+    },
+    {
+      "rank": 376,
+      "id": "audi-bkk",
+      "name": "Audi BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.audibkk.de/"
+    },
+    {
+      "rank": 377,
+      "id": "skd-bkk",
+      "name": "SKD BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.skd-bkk.de/"
+    },
+    {
+      "rank": 378,
+      "id": "siemensbetriebskrankenkasse",
+      "name": "Siemens-Betriebskrankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.sbk.org/"
+    },
+    {
+      "rank": 379,
+      "id": "ikk-classic",
+      "name": "IKK classic",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.ikk-classic.de/"
+    },
+    {
+      "rank": 380,
+      "id": "bkk-textilgruppe-hof",
+      "name": "BKK Textilgruppe Hof",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-textilgruppe-hof.de/"
+    },
+    {
+      "rank": 381,
+      "id": "unfallkasse-badenw\u00fcrttemberg",
+      "name": "Unfallkasse Baden-W\u00fcrttemberg",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.ukbw.de/"
+    },
+    {
+      "rank": 382,
+      "id": "mercedesbenz-betriebskrankenkasse",
+      "name": "Mercedes-Benz Betriebskrankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.mercedes-benz-bkk.com/"
+    },
+    {
+      "rank": 383,
+      "id": "unfallkasse-saarland",
+      "name": "Unfallkasse Saarland",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.uks.de/"
+    },
+    {
+      "rank": 384,
+      "id": "handelskrankenkasse",
+      "name": "Handelskrankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.hkk.de/"
+    },
+    {
+      "rank": 385,
+      "id": "ikk-gesund-plus",
+      "name": "IKK gesund plus",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.ikk-gesundplus.de"
+    },
+    {
+      "rank": 386,
+      "id": "landesunfallkasse-niedersachsen",
+      "name": "Landesunfallkasse Niedersachsen",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.lukn.de/"
+    },
+    {
+      "rank": 387,
+      "id": "die-bergische-krankenkasse",
+      "name": "Die Bergische Krankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.die-bergische-kk.de/"
+    },
+    {
+      "rank": 388,
+      "id": "mhplus-betriebskrankenkasse",
+      "name": "MHplus Betriebskrankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.mhplus-krankenkasse.de/"
+    },
+    {
+      "rank": 389,
+      "id": "bundesinnungskrankenkasse-gesundheit",
+      "name": "Bundesinnungskrankenkasse Gesundheit",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.big-direkt.de"
+    },
+    {
+      "rank": 390,
+      "id": "heimat-bkk",
+      "name": "Heimat BKK",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.heimat-krankenkasse.de/"
+    },
+    {
+      "rank": 391,
+      "id": "vivida-betriebskrankenkasse",
+      "name": "Vivida Betriebskrankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.vividabkk.de/"
+    },
+    {
+      "rank": 392,
+      "id": "bosch-bkk",
+      "name": "Bosch BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bosch-bkk.de/"
+    },
+    {
+      "rank": 393,
+      "id": "ikk-die-innovationskasse",
+      "name": "IKK - Die Innovationskasse",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.die-ik.de/"
+    },
+    {
+      "rank": 394,
+      "id": "innungskrankenkasse-brandenburg-und-berlin",
+      "name": "Innungskrankenkasse Brandenburg und Berlin",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.ikkbb.de/"
+    },
+    {
+      "rank": 395,
+      "id": "betriebskrankenkasse-basell-polyolefine-gmbh",
+      "name": "Betriebskrankenkasse Basell Polyolefine GmbH",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.basell-bkk.de/"
+    },
+    {
+      "rank": 396,
+      "id": "betriebskrankenkasse-miele",
+      "name": "Betriebskrankenkasse Miele",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.miele-bkk.de/"
+    },
+    {
+      "rank": 397,
+      "id": "betriebskrankenkasse-mobil",
+      "name": "Betriebskrankenkasse Mobil",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.bkk-mobil-oil.de/"
+    },
+    {
+      "rank": 398,
+      "id": "krones-bkk",
+      "name": "Krones BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.krones-bkk.de/"
+    },
+    {
+      "rank": 399,
+      "id": "bkk-melitta-hmr",
+      "name": "BKK Melitta HMR",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-melitta-hmr.de/"
+    },
+    {
+      "rank": 400,
+      "id": "betriebskrankenkasse-wmf-w\u00fcrttembergische-metallwarenfabrik-ag",
+      "name": "Betriebskrankenkasse WMF W\u00fcrttembergische Metallwarenfabrik AG",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.wmf-bkk.de/"
+    },
+    {
+      "rank": 401,
+      "id": "siemag-bkk",
+      "name": "SIEMAG BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.siemagbkk.de/"
+    },
+    {
+      "rank": 402,
+      "id": "bkk-pfaff",
+      "name": "BKK Pfaff",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-pfaff.de/"
+    },
+    {
+      "rank": 403,
+      "id": "bkk-sbh",
+      "name": "BKK SBH",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://bkk-sbh.de/"
+    },
+    {
+      "rank": 404,
+      "id": "bkk-scheufelen",
+      "name": "BKK Scheufelen",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-scheufelen.de/"
+    },
+    {
+      "rank": 405,
+      "id": "bkk-vdn",
+      "name": "BKK VDN",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-vdn.de/"
+    },
+    {
+      "rank": 406,
+      "id": "bkk-public",
+      "name": "BKK Public",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-public.de/"
+    },
+    {
+      "rank": 407,
+      "id": "bkk-technoform",
+      "name": "BKK Technoform",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-technoform.de/"
+    },
+    {
+      "rank": 408,
+      "id": "bkk-werrameissner",
+      "name": "BKK Werra-Meissner",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-werra-meissner.de/"
+    },
+    {
+      "rank": 409,
+      "id": "bkk-wirtschaft-finanzen-die-bkk-der-wirtschaftspr\u00fcfenden-und-beratenden-berufe",
+      "name": "BKK Wirtschaft & Finanzen Die BKK der wirtschaftspr\u00fcfenden und \u2013beratenden Berufe",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-wf.de/"
+    },
+    {
+      "rank": 410,
+      "id": "bkk-zf-partner",
+      "name": "BKK ZF & Partner",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.bkk-zf-partner.de/"
+    },
+    {
+      "rank": 411,
+      "id": "tui-bkk",
+      "name": "TUI BKK",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.tui-bkk.de/"
+    },
+    {
+      "rank": 412,
+      "id": "bkk-exklusiv",
+      "name": "BKK exklusiv",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://bkkexklusiv.de/"
+    },
+    {
+      "rank": 413,
+      "id": "ikk-s\u00fcdwest",
+      "name": "IKK S\u00fcdwest",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.ikk-suedwest.de"
+    },
+    {
+      "rank": 414,
+      "id": "ey-betriebskrankenkasse",
+      "name": "EY Betriebskrankenkasse",
+      "group": "Health insurance",
+      "country": "DE",
+      "url": "https://www.ey-bkk.de/"
+    },
+    {
+      "rank": 415,
+      "id": "unfallversicherung-bund-und-bahn",
+      "name": "Unfallversicherung Bund und Bahn",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.uv-bund-bahn.de/"
+    },
+    {
+      "rank": 416,
+      "id": "unfallkasse-rheinlandpfalz",
+      "name": "Unfallkasse Rheinland-Pfalz",
+      "group": "Composite / multiline",
+      "country": "DE",
+      "url": "https://www.ukrlp.de/"
+    },
+    {
+      "rank": 417,
+      "id": "w-r-berkley",
+      "name": "W. R. Berkley",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.wrberkley.com/"
+    },
+    {
+      "rank": 418,
+      "id": "xceedance",
+      "name": "Xceedance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.xceedance.com/"
+    },
+    {
+      "rank": 419,
+      "id": "sicuro-health",
+      "name": "Sicuro Health",
+      "group": "Health insurance",
+      "country": "US",
+      "url": "https://sicuro-health.com/"
+    },
+    {
+      "rank": 420,
+      "id": "institut-international-des-assurances",
+      "name": "Institut International des Assurances",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://iiayaounde.com"
+    },
+    {
+      "rank": 421,
+      "id": "brotherhood-mutual-insurance-company",
+      "name": "Brotherhood Mutual Insurance Company",
+      "group": "Mutual / cooperative",
+      "country": "US",
+      "url": "https://www.brotherhoodmutual.com"
+    },
+    {
+      "rank": 422,
+      "id": "hilltop-holdings-inc",
+      "name": "Hilltop Holdings Inc.",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.hilltop-holdings.com/"
+    },
+    {
+      "rank": 423,
+      "id": "greatflorida-insurance",
+      "name": "GreatFlorida Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://greatflorida.com/"
+    },
+    {
+      "rank": 424,
+      "id": "old-mutual-holdings",
+      "name": "Old Mutual Holdings",
+      "group": "Mutual / cooperative",
+      "country": "US",
+      "url": "https://www.uapoldmutual.com/"
+    },
+    {
+      "rank": 425,
+      "id": "farm-bureau-insurance-of-tennessee",
+      "name": "Farm Bureau Insurance of Tennessee",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.fbitn.com/"
+    },
+    {
+      "rank": 426,
+      "id": "frontier-services-group",
+      "name": "Frontier Services Group",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.fsgroup.com/"
+    },
+    {
+      "rank": 427,
+      "id": "duck-creek-technologies",
+      "name": "Duck Creek Technologies",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.duckcreek.com/"
+    },
+    {
+      "rank": 428,
+      "id": "zero-hail-deductible",
+      "name": "Zero Hail Deductible",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://zerohaildeductible.com"
+    },
+    {
+      "rank": 429,
+      "id": "columbus-life-insurance-company",
+      "name": "Columbus Life insurance Company",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.columbuslife.com"
+    },
+    {
+      "rank": 430,
+      "id": "the-lafayette-life-insurance-company",
+      "name": "The Lafayette Life Insurance Company",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.lafayettelife.com"
+    },
+    {
+      "rank": 431,
+      "id": "the-western-southern-life-insurance-company",
+      "name": "The Western & Southern Life Insurance Company",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.westernsouthernlife.com"
+    },
+    {
+      "rank": 432,
+      "id": "fiesta-auto-insurance",
+      "name": "Fiesta Auto Insurance",
+      "group": "Auto insurance",
+      "country": "US",
+      "url": "https://www.fiestainsurance.com/"
+    },
+    {
+      "rank": 433,
+      "id": "freeway-insurance",
+      "name": "Freeway Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.freewayinsurance.com"
+    },
+    {
+      "rank": 434,
+      "id": "w-s-financial-group-distributors-inc",
+      "name": "W&S Financial Group Distributors, Inc.",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.wsfinancialpartners.com/"
+    },
+    {
+      "rank": 435,
+      "id": "autocomplete-inc",
+      "name": "AutoComplete, Inc.",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.autocomplete.io/"
+    },
+    {
+      "rank": 436,
+      "id": "coverage-cat",
+      "name": "Coverage Cat",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.coveragecat.com/"
+    },
+    {
+      "rank": 437,
+      "id": "vitruvio",
+      "name": "Vitruvio",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.myvitruvio.com/"
+    },
+    {
+      "rank": 438,
+      "id": "softvery-solutions",
+      "name": "Softvery Solutions",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.softverysolutions.com/"
+    },
+    {
+      "rank": 439,
+      "id": "the-coyle-group",
+      "name": "The Coyle Group",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://thecoylegroup.com"
+    },
+    {
+      "rank": 440,
+      "id": "energy-medicine-professional-association",
+      "name": "Energy Medicine Professional Association",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.energymedicineprofessionalassociation.com/"
+    },
+    {
+      "rank": 441,
+      "id": "uas-drone-insurance",
+      "name": "UAS Drone Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.uasdroneinsurance.com"
+    },
+    {
+      "rank": 442,
+      "id": "capitol-benefits-llc",
+      "name": "Capitol Benefits LLC",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.capitolbenefits.com/"
+    },
+    {
+      "rank": 443,
+      "id": "insurance-institute-for-business-home-safety",
+      "name": "Insurance Institute for Business & Home Safety",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://ibhs.org/"
+    },
+    {
+      "rank": 444,
+      "id": "life-sciences-liability",
+      "name": "Life Sciences Liability",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://lifesciencesliability.com"
+    },
+    {
+      "rank": 445,
+      "id": "atesa-risk-advisors",
+      "name": "Atesa Risk Advisors",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://atesariskadvisors.com"
+    },
+    {
+      "rank": 446,
+      "id": "braven",
+      "name": "Braven",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://gobraven.com"
+    },
+    {
+      "rank": 447,
+      "id": "apellica",
+      "name": "Apellica",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://apellica.com"
+    },
+    {
+      "rank": 448,
+      "id": "ala-auto-insurance",
+      "name": "A-LA Auto Insurance",
+      "group": "Auto insurance",
+      "country": "US",
+      "url": "https://alaautoinsurance.com/"
+    },
+    {
+      "rank": 449,
+      "id": "think-safe-insurance",
+      "name": "Think Safe Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://ThinkSafeInsurance.com"
+    },
+    {
+      "rank": 450,
+      "id": "insuranceopedia",
+      "name": "Insuranceopedia",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.insuranceopedia.com"
+    },
+    {
+      "rank": 451,
+      "id": "frankenmuth-insurance",
+      "name": "Frankenmuth Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.fmins.com/"
+    },
+    {
+      "rank": 452,
+      "id": "greene-associates-insurance",
+      "name": "Greene & Associates Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.greeneinsurance.com"
+    },
+    {
+      "rank": 453,
+      "id": "americassuretybonds-com",
+      "name": "AmericasSuretyBonds.com",
+      "group": "Credit / surety",
+      "country": "US",
+      "url": "https://AmericasSuretyBonds.com"
+    },
+    {
+      "rank": 454,
+      "id": "annuity-com",
+      "name": "Annuity.com",
+      "group": "Life insurance",
+      "country": "US",
+      "url": "https://www.annuity.com"
+    },
+    {
+      "rank": 455,
+      "id": "grandbay-financial-services",
+      "name": "Grandbay Financial Services",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.grandbayfinancial.com"
+    },
+    {
+      "rank": 456,
+      "id": "testudo",
+      "name": "Testudo",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.testudo.co"
+    },
+    {
+      "rank": 457,
+      "id": "the-morgano-agency-inc",
+      "name": "The Morgano Agency Inc",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://morganoagency.com"
+    },
+    {
+      "rank": 458,
+      "id": "national-insurance-board-of-the-commonwealth-of-the-bahamas",
+      "name": "National Insurance Board of The Commonwealth of The Bahamas",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.nib-bahamas.com/"
+    },
+    {
+      "rank": 459,
+      "id": "the-pocket-protector",
+      "name": "The Pocket Protector",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://thepocketprotector.com"
+    },
+    {
+      "rank": 460,
+      "id": "51-state-insurance-llc",
+      "name": "51 State Insurance LLC",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://ru.51stateinsurance.com/"
+    },
+    {
+      "rank": 461,
+      "id": "51-state-insurance-llc-us",
+      "name": "51 State Insurance LLC",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://51stateinsurance.com/"
+    },
+    {
+      "rank": 462,
+      "id": "white-mountains-insurance-group",
+      "name": "White Mountains Insurance Group",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.whitemountains.com/"
+    },
+    {
+      "rank": 463,
+      "id": "tokio-millennium-re-ltd",
+      "name": "Tokio Millennium Re Ltd.",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.tokiomillennium.com"
+    },
+    {
+      "rank": 464,
+      "id": "everest-re",
+      "name": "Everest Re",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.everestre.com/"
+    },
+    {
+      "rank": 465,
+      "id": "china-united-sme-guarantee-corporation",
+      "name": "China United SME Guarantee Corporation",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.sinoguarantee.com"
+    },
+    {
+      "rank": 466,
+      "id": "agriculture-insurance-company-of-india",
+      "name": "Agriculture Insurance Company of India",
+      "group": "Crop / agriculture",
+      "country": "US",
+      "url": "https://www.aicofindia.com"
+    },
+    {
+      "rank": 467,
+      "id": "jubilee-holdings-limited",
+      "name": "Jubilee Holdings Limited",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.jubileeinsurance.com/"
+    },
+    {
+      "rank": 468,
+      "id": "national-life-general",
+      "name": "National Life & General",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.nlicgulf.com/"
+    },
+    {
+      "rank": 469,
+      "id": "efu-life",
+      "name": "EFU Life",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.efulife.com/"
+    },
+    {
+      "rank": 470,
+      "id": "asia-capital-reinsurance",
+      "name": "Asia Capital Reinsurance",
+      "group": "Reinsurance",
+      "country": "US",
+      "url": "https://www.asiacapitalre.com/"
+    },
+    {
+      "rank": 471,
+      "id": "chaucer-holdings",
+      "name": "Chaucer Holdings",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.chaucerplc.com"
+    },
+    {
+      "rank": 472,
+      "id": "devitt-insurance",
+      "name": "Devitt Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.devittinsurance.com/"
+    },
+    {
+      "rank": 473,
+      "id": "british-insurance",
+      "name": "British Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.britishinsurance.com"
+    },
+    {
+      "rank": 474,
+      "id": "cpp-group",
+      "name": "CPP Group",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.cppgroupplc.com"
+    },
+    {
+      "rank": 475,
+      "id": "carole-nash",
+      "name": "Carole Nash",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.carolenash.com/"
+    },
+    {
+      "rank": 476,
+      "id": "forces-financial",
+      "name": "Forces Financial",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.forcesfinancial.com/"
+    },
+    {
+      "rank": 477,
+      "id": "more-than",
+      "name": "More Than",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.morethan.com"
+    },
+    {
+      "rank": 478,
+      "id": "quilter-plc",
+      "name": "Quilter Plc",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.quilter.com/"
+    },
+    {
+      "rank": 479,
+      "id": "american-fidelity-assurance",
+      "name": "American Fidelity Assurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.americanfidelity.com/"
+    },
+    {
+      "rank": 480,
+      "id": "ambac",
+      "name": "Ambac",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.ambac.com/"
+    },
+    {
+      "rank": 481,
+      "id": "asurion",
+      "name": "Asurion",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.asurion.com/"
+    },
+    {
+      "rank": 482,
+      "id": "bell-bank",
+      "name": "Bell Bank",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://bellbanks.com/"
+    },
+    {
+      "rank": 483,
+      "id": "bankers-life",
+      "name": "Bankers Life",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.bankerslife.com/"
+    },
+    {
+      "rank": 484,
+      "id": "american-modern-insurance-group-inc",
+      "name": "American Modern Insurance Group, Inc.",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.amig.com"
+    },
+    {
+      "rank": 485,
+      "id": "american-strategic-insurance",
+      "name": "American Strategic Insurance",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.americanstrategic.com/"
+    },
+    {
+      "rank": 486,
+      "id": "allianz-life",
+      "name": "Allianz Life",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.allianzlife.com/"
+    },
+    {
+      "rank": 487,
+      "id": "demotech",
+      "name": "Demotech",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.demotech.com/"
+    },
+    {
+      "rank": 488,
+      "id": "commerce-insurance-group",
+      "name": "Commerce Insurance Group",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://commerceinsurance.com"
+    },
+    {
+      "rank": 489,
+      "id": "commonwealth-land-title-insurance-company",
+      "name": "Commonwealth Land Title Insurance Company",
+      "group": "Title insurance",
+      "country": "US",
+      "url": "https://www.cltic.com/"
+    },
+    {
+      "rank": 490,
+      "id": "evergreen-usa-rrg",
+      "name": "Evergreen USA RRG",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.evergreenusa.com/"
+    },
+    {
+      "rank": 491,
+      "id": "compass-rose-benefits-group",
+      "name": "Compass Rose Benefits Group",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.compassrosebenefits.com"
+    },
+    {
+      "rank": 492,
+      "id": "the-doctors-company",
+      "name": "The Doctors Company",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.thedoctors.com/"
+    },
+    {
+      "rank": 493,
+      "id": "conseco",
+      "name": "Conseco",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://cnoinc.com/"
+    },
+    {
+      "rank": 494,
+      "id": "berkshire-hathaway-travel-protection",
+      "name": "Berkshire Hathaway Travel Protection",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.bhtp.com"
+    },
+    {
+      "rank": 495,
+      "id": "first-command-financial-planning",
+      "name": "First Command Financial Planning",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.firstcommand.com/"
+    },
+    {
+      "rank": 496,
+      "id": "financial-guaranty-insurance-company",
+      "name": "Financial Guaranty Insurance Company",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.fgic.com"
+    },
+    {
+      "rank": 497,
+      "id": "fetch-pet-insurance",
+      "name": "Fetch Pet Insurance",
+      "group": "Pet insurance",
+      "country": "US",
+      "url": "https://www.fetchpet.com/"
+    },
+    {
+      "rank": 498,
+      "id": "geha",
+      "name": "GEHA",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.geha.com"
+    },
+    {
+      "rank": 499,
+      "id": "insureon",
+      "name": "Insureon",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.insureon.com/"
+    },
+    {
+      "rank": 500,
+      "id": "mbia",
+      "name": "MBIA",
+      "group": "Composite / multiline",
+      "country": "US",
+      "url": "https://www.mbia.com/"
+    }
+  ]
+}

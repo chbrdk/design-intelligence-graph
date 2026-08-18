@@ -305,6 +305,7 @@
     "crossIndustry100": "knowledge/catalogs/cross-industry-100.json",
     "engineeringManufacturing1000": "knowledge/catalogs/engineering-manufacturing-1000.json",
     "insurance1000": "knowledge/catalogs/insurance-1000.json",
+    "insurancePlus500": "knowledge/catalogs/insurance-plus-500.json",
     "maxBatch": 1000
   },
   "imageIngest": {
