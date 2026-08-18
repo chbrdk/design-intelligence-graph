@@ -269,6 +269,22 @@ export interface DigPaths {
     dims: number;
     model: string;
     provider: string;
+    doc?: string;
+    denseDoc?: string;
+    dense?: {
+      status: string;
+      doc: string;
+      provider: string;
+      model: string;
+      evalModel: string;
+      dims: number;
+      table: string;
+      subjects: string[];
+      maxCanonicalChars: number;
+      queryInstruction: string;
+      modelEnv: string;
+      baseUrlEnv: string;
+    };
   };
   llm: {
     enabledDefault: boolean;

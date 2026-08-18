@@ -147,6 +147,8 @@ test("db index upserts capture metadata through injectable client", async () => 
   assert.ok(statements.some((sql) => /root_box/i.test(sql)));
   assert.ok(statements.some((sql) => /INSERT INTO llm_analyses/i.test(sql)));
   assert.ok(statements.some((sql) => /screen_pattern/i.test(sql)));
+  assert.ok(statements.some((sql) => /recipe_insight/i.test(sql)));
+  assert.ok(statements.some((sql) => /page_flow/i.test(sql)));
 });
 
 test("deriveRootBox unions role boxes", async () => {

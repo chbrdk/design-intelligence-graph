@@ -1,3 +1,4 @@
+import { normalizeStyleLabel } from "./design-facets.js";
 import type { DesignEvidenceInput } from "./llm-design.js";
 import type { LlmCompleter, LlmMessage } from "./llm-provider.js";
 import type { SectionLookDescription } from "./section-look.js";
@@ -199,7 +200,7 @@ Rules: explain stacks like "media then headline then CTA with ~Npx gaps"; 1-8 in
   if (stageId === "visual_style") {
     return `You label visual style from measured fonts/colors/shape/shadows.
 Return ONLY JSON: {"visual_style_labels":[{"name":string,"confidence":number,"evidence_refs":string[]}]}
-Rules: 2-6 labels (e.g. "SF Pro system sans", "high-contrast monochrome", "soft drop shadows"); cite hex/fonts/shadows.`;
+Rules: 2-6 labels. Prefer these names when they fit: corporate, editorial, minimal, high-energy, luxury-dark, photographic, high-contrast monochrome, soft drop shadows, rounded pills. Add at most one measured font family. Cite hex/fonts/shadows.`;
   }
   if (stageId === "section_look") {
     return SECTION_LOOK_SYSTEM_PROMPT;
@@ -288,10 +289,24 @@ export function parseVisualStyleLabels(raw: string): MobbinParityContent["visual
   return parsed.visual_style_labels.slice(0, 8).flatMap((item) => {
     if (!item || typeof item !== "object") return [];
     const record = item as Record<string, unknown>;
-    const name = String(record.name ?? "").trim();
+    const name = normalizeVisualStyleLabel(String(record.name ?? "").trim());
     if (!name) return [];
     return [{ name, confidence: clampConfidence(record.confidence), evidence_refs: asStringArray(record.evidence_refs) }];
   });
+}
+
+export function normalizeVisualStyleLabel(raw: string): string {
+  const name = raw.trim();
+  if (!name) return "";
+  const hay = name.toLowerCase();
+  if (hay.includes("monochrome") || hay.includes("black and white") || hay.includes("grayscale")) {
+    return "high-contrast monochrome";
+  }
+  if (hay.includes("shadow") && (hay.includes("soft") || hay.includes("drop") || hay.includes("subtle"))) {
+    return "soft drop shadows";
+  }
+  if (hay.includes("pill") || (hay.includes("rounded") && hay.includes("ui"))) return "rounded pills";
+  return normalizeStyleLabel(name) ?? name.slice(0, 48);
 }
 
 export async function runLlmStage(

@@ -4,7 +4,7 @@
 **Version:** `0.1.0`  
 **Code:** [`src/look-contract.ts`](../src/look-contract.ts)  
 **Tokens:** [`derived/design-tokens.json`](../knowledge/paths.json) via `designTokens.relativePath`  
-**Facets:** [`src/design-facets.ts`](../src/design-facets.ts) `look_contract` (`facets_version` `0.3.0`)  
+**Facets:** [`src/design-facets.ts`](../src/design-facets.ts) `look_contract` (`facets_version` `0.4.0`)  
 **Prompt pack:** [`src/design-prompt-pack.ts`](../src/design-prompt-pack.ts) + [`schemas/design-prompt-pack.schema.json`](../schemas/design-prompt-pack.schema.json)
 
 ## Why

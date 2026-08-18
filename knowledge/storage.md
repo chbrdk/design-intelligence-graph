@@ -19,7 +19,7 @@ Coolify staging uses **`pgvector/pgvector:pg16`** (`coolify.digPostgresImage`) a
 - Env override: `DIG_DATABASE_URL`
 - Migrations: `db/migrations/` via `npm run db:migrate`
 - Tables: captures, viewports, sections, llm_analyses, llm_items, artifacts, collections, **design_nodes**, **embeddings** (`vector(384)`)
-- Embeddings model default: `dig-hashing-v1` (`embeddings.dims` / `embeddings.model`)
+- Embeddings model default: `dig-hashing-v1` (`embeddings.dims` / `embeddings.model`). Dense Stage B is a separate 1024-d table — [`dense-embeddings.md`](dense-embeddings.md).
 
 ### Image switch
 

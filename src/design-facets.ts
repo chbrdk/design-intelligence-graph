@@ -3,16 +3,19 @@
  * Derived from vision_page / vision_layout (+ optional llm_items labels).
  */
 
+import { industryTagsForHost } from "./catalog-industry.js";
 import type { VisionLayoutBand } from "./vision-layout.js";
 import type { VisionPageDocument } from "./vision-page.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 import { buildLookContract, type LookContract } from "./look-contract.js";
 
-export const DESIGN_FACETS_VERSION = "0.3.0" as const;
+export const DESIGN_FACETS_VERSION = "0.4.0" as const;
 
 export const INDUSTRY_VOCAB = [
   "automotive",
+  "insurance",
   "finance",
+  "manufacturing",
   "marketing_agency",
   "luxury",
   "ecommerce",
@@ -24,6 +27,21 @@ export const INDUSTRY_VOCAB = [
   "fashion",
   "real_estate",
   "nonprofit",
+  "other"
+] as const;
+
+export type IndustryTag = (typeof INDUSTRY_VOCAB)[number];
+
+export const PAGE_TYPE_VOCAB = [
+  "corporate_homepage",
+  "corporate_landing",
+  "marketing_landing",
+  "article",
+  "legal",
+  "portal",
+  "newsroom",
+  "product",
+  "blank",
   "other"
 ] as const;
 
@@ -137,7 +155,7 @@ function deriveImageryDensity(page: Partial<VisionPageDocument> | null): (typeof
   if (includesAny(hay, ["text only", "no image", "without image", "type only"])) return "none";
   if (includesAny(hay, ["few images", "little imagery", "single image", "one image", "single render", "single architectural", "grayscale reprise", "secondary imagery"])) return "low";
   if (includesAny(hay, ["gallery", "many images", "image wall", "collage", "multiple photos", "repeated images"])) return "high";
-  if (includesAny(hay, ["hero image", "photo", "render", "architectural", "video", "imagery"])) return "medium";
+  if (includesAny(hay, ["hero image", "photo", "photograph", "portrait", "render", "architectural", "video", "imagery", "lifestyle"])) return "medium";
   return null;
 }
 
@@ -162,7 +180,7 @@ function deriveTypeImageMode(page: Partial<VisionPageDocument> | null): (typeof 
   );
   if (!hay) return null;
   if (includesAny(hay, ["cuts through", "through image", "inside image", "knock out"])) return "through_image";
-  if (includesAny(hay, ["overlap", "layered", "behind the top edge", "on the image", "overlay"])) return "overlap";
+  if (includesAny(hay, ["overlap", "layered", "behind the top edge", "on the image", "overlay", "superimposed", "over the hero", "over the photograph"])) return "overlap";
   if (includesAny(hay, ["beside", "alongside", "flanked by", "side by side"])) return "adjacent";
   return "separate";
 }
@@ -269,7 +287,15 @@ const INDUSTRY_ALIASES: Record<string, (typeof INDUSTRY_VOCAB)[number]> = {
   auto: "automotive",
   car: "automotive",
   bank: "finance",
-  insurance: "finance",
+  insurance: "insurance",
+  insurtech: "insurance",
+  reinsurance: "insurance",
+  versicherung: "insurance",
+  assurance: "insurance",
+  takaful: "insurance",
+  manufacturing: "manufacturing",
+  industrial: "manufacturing",
+  engineering: "manufacturing",
   fintech: "finance",
   shop: "ecommerce",
   retail: "ecommerce",
@@ -353,7 +379,96 @@ export function normalizeLayoutLabel(raw: string | null | undefined): string | n
 export function normalizePageType(raw: string | null | undefined): string | null {
   const cleaned = clean(raw, 48);
   if (!cleaned) return null;
-  return slug(cleaned).replace(/\s+/g, "_").slice(0, 48);
+  const hay = slug(cleaned);
+  if (!hay) return null;
+  if (includesAny(hay, ["blank", "empty canvas", "empty_canvas"])) return "blank";
+  if (includesAny(hay, ["legal", "terms", "policy"])) return "legal";
+  if (includesAny(hay, ["article", "archive", "guide"])) return "article";
+  if (includesAny(hay, ["newsroom", "news hub", "news"])) return "newsroom";
+  if (includesAny(hay, ["portal", "directory", "intranet"])) return "portal";
+  if (includesAny(hay, ["product showcase", "pdp", "product"])) return "product";
+  if (includesAny(hay, ["homepage", "home page"]) || hay.endsWith(" home") || hay.endsWith("_home") || hay === "home") {
+    return "corporate_homepage";
+  }
+  if (hay.includes("corporate") && hay.includes("landing")) return "corporate_landing";
+  if (hay.includes("landing")) return "marketing_landing";
+  if (hay.includes("corporate")) return "corporate_homepage";
+  const matched = matchVocab(hay.replace(/_/g, " "), PAGE_TYPE_VOCAB);
+  return matched ?? "other";
+}
+
+const SUMMARY_LABELS = [
+  ["above_fold", /Above the fold job:/i],
+  ["layout", /Layout:/i],
+  ["rhythm", /Rhythm:/i],
+  ["look", /Look:/i],
+  ["media", /Media:/i],
+  ["type_image", /Type\/image:/i],
+  ["type_craft", /Type craft:/i],
+  ["ux", /UX flow:/i],
+  ["chrome", /chrome:/i]
+] as const;
+
+function summarySlice(summary: string, label: (typeof SUMMARY_LABELS)[number][1], next: RegExp[]): string {
+  const match = summary.match(label);
+  if (!match || match.index == null) return "";
+  const rest = summary.slice(match.index + match[0].length);
+  let end = rest.length;
+  for (const marker of next) {
+    const hit = rest.search(marker);
+    if (hit >= 0) end = Math.min(end, hit);
+  }
+  return rest.slice(0, end).replace(/^[—\-\s]+/, "").replace(/[.;]+$/g, "").trim();
+}
+
+/** Reconstruct vision_page fields from the staged design_summary when vision_page.json is missing. */
+export function visionPageFromDesignSummary(summary: string): Partial<VisionPageDocument> {
+  const text = summary.trim();
+  if (!text) return {};
+  const reads = text.match(/This reads as an?\s+([^.]+)\./i);
+  const nextAfter = (index: number) => SUMMARY_LABELS.slice(index + 1).map((item) => item[1]);
+  const layout = summarySlice(text, /Layout:/i, nextAfter(1));
+  const look = summarySlice(text, /Look:/i, nextAfter(3));
+  const media = summarySlice(text, /Media:/i, nextAfter(4));
+  const typeImage = summarySlice(text, /Type\/image:/i, nextAfter(5));
+  const typeCraft = summarySlice(text, /Type craft:/i, nextAfter(6));
+  const above = summarySlice(text, /Above the fold job:/i, nextAfter(0));
+  const rhythm = summarySlice(text, /Rhythm:/i, nextAfter(2));
+  const lookParts = look.split(";").map((part) => part.trim()).filter(Boolean);
+  return {
+    page_type: reads?.[1]?.trim() ?? "",
+    layout_system: layout.split(";")[0]?.trim() ?? "",
+    vertical_rhythm: rhythm || layout,
+    overall_atmosphere: lookParts[0] ?? "",
+    color_mood: lookParts[1] ?? look,
+    typography_feel: lookParts[2] || typeCraft,
+    media_strategy: media,
+    above_fold_job: above,
+    above_the_fold: above,
+    visual_craft: {
+      type_image_relationship: typeImage,
+      typography_composition: typeCraft,
+      imagery_craft: media,
+      spatial_craft: rhythm || layout,
+      chrome_vs_content: /minimal(?:ist)? chrome|tiny nav/i.test(text)
+        ? "minimal chrome"
+        : /interface heavy|dense ui|dashboard/i.test(text)
+          ? "interface heavy"
+          : "",
+      rebuild_spec: ""
+    }
+  };
+}
+
+function pageHasCraft(page: Partial<VisionPageDocument> | null | undefined): boolean {
+  if (!page) return false;
+  return Boolean(
+    page.layout_system?.trim() ||
+      page.media_strategy?.trim() ||
+      page.overall_atmosphere?.trim() ||
+      page.visual_craft?.type_image_relationship?.trim() ||
+      page.visual_craft?.typography_composition?.trim()
+  );
 }
 
 export type DesignFacetsInput = {
@@ -362,11 +477,21 @@ export type DesignFacetsInput = {
   screen_pattern_labels?: string[] | null;
   visual_style_labels?: string[] | null;
   tokens?: DesignTokensDocument | null;
+  design_summary?: string | null;
+  site_domain?: string | null;
+  canonical_url?: string | null;
 };
 
 /** Build searchable / scannable facets from package + indexed labels. */
 export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
-  const page = input.vision_page ?? null;
+  const summaryPage = input.design_summary?.trim()
+    ? visionPageFromDesignSummary(input.design_summary)
+    : {};
+  const page: Partial<VisionPageDocument> | null = pageHasCraft(input.vision_page ?? null)
+    ? { ...summaryPage, ...(input.vision_page ?? {}) }
+    : Object.keys(summaryPage).length
+      ? { ...summaryPage, ...(input.vision_page ?? {}) }
+      : (input.vision_page ?? null);
   const pageType = normalizePageType(page?.page_type);
   const style =
     normalizeStyleLabel(page?.overall_atmosphere) ??
@@ -379,11 +504,18 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
   const aboveFold =
     clean(page?.above_fold_job, 120) ?? clean(page?.above_the_fold, 120);
 
-  const industry = normalizeIndustryTags([
-    ...(Array.isArray(page?.category_tags) ? page!.category_tags!.map(String) : []),
-    page?.page_type ?? "",
-    ...(input.screen_pattern_labels ?? []).map(String)
-  ]);
+  const industry = uniqueStrings(
+    [
+      ...industryTagsForHost(input.canonical_url, input.site_domain),
+      ...normalizeIndustryTags([
+        ...(Array.isArray(page?.category_tags) ? page!.category_tags!.map(String) : []),
+        page?.page_type ?? "",
+        ...(input.screen_pattern_labels ?? []).map(String),
+        input.design_summary ?? ""
+      ])
+    ],
+    3
+  );
 
   const sectionCategories = uniqueStrings(
     (input.bands ?? [])

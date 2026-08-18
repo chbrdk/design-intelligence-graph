@@ -21,6 +21,7 @@ import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadVisionPageDocument } from "./vision-page.js";
+import { sectionsFromCompositionDoc, synthesizeRecipeParity } from "./recipe-fallback.js";
 
 type Box = { x: number; y: number; width: number; height: number };
 
@@ -735,12 +736,47 @@ export async function handleLibraryApi(
           cost?: unknown;
           stages?: unknown;
           hypotheses?: unknown;
-          mobbin?: { section_descriptions?: unknown };
+          mobbin?: {
+            section_descriptions?: unknown;
+            recipe_insights?: Array<Record<string, unknown>>;
+            page_flow?: Array<Record<string, unknown>>;
+          };
         } = {};
         try {
           llm = JSON.parse(await readFile(resolve(packagePath, "derived/llm-design.json"), "utf8")) as typeof llm;
         } catch {
           llm = {};
+        }
+        if (!grouped.recipe_insights.length || !grouped.page_flow.length) {
+          try {
+            const sectionDoc = JSON.parse(
+              await readFile(resolve(packagePath, "derived/section-compositions.json"), "utf8")
+            ) as SectionCompositionDocument;
+            const fallback = synthesizeRecipeParity(sectionsFromCompositionDoc(sectionDoc));
+            if (!grouped.recipe_insights.length) {
+              grouped.recipe_insights = fallback.recipe_insights.map((item) => ({
+                kind: "recipe_insight",
+                name: item.signature,
+                signature: item.signature,
+                category: item.category ?? null,
+                interpretation: item.interpretation,
+                confidence: 0.7,
+                evidence_refs: item.evidence_refs,
+                source: "measured_fallback"
+              }));
+            }
+            if (!grouped.page_flow.length) {
+              grouped.page_flow = fallback.page_flow.map((item) => ({
+                kind: "page_flow",
+                section_label: item.section_label,
+                signature: item.signature ?? null,
+                step_index: item.step,
+                source: "measured_fallback"
+              }));
+            }
+          } catch {
+            /* compositions optional */
+          }
         }
         let section_crops: unknown = null;
         try {
@@ -785,7 +821,10 @@ export async function handleLibraryApi(
           bands: visionLayout?.bands ?? [],
           screen_pattern_labels: screenPatternLabels,
           visual_style_labels: visualStyleLabels,
-          tokens
+          tokens,
+          design_summary: typeof row.design_summary === "string" ? row.design_summary : null,
+          site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
+          canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : null
         });
         const page_rhythm = await loadPageRhythmForPackage(packagePath).catch(() => null);
         packageExtras = {

@@ -33,6 +33,7 @@ test("hasScreenFacetFilters ignores empty and unknown values", () => {
   assert.equal(hasScreenFacetFilters({ style: "high-energy" }), true);
   assert.equal(hasScreenFacetFilters({ layout: "card grid" }), true);
   assert.equal(hasScreenFacetFilters({ industry: "finance" }), true);
+  assert.equal(hasScreenFacetFilters({ industry: "insurance" }), true);
   assert.equal(hasScreenFacetFilters({ craft_tags: ["editorial_type"] }), true);
 });
 
@@ -217,4 +218,72 @@ test("listLibraryScreens filters by style/layout and capture ids", async () => {
 
   const empty = await captureRunIdsForScreenFacets(client, { industry: "healthcare" });
   assert.deepEqual(empty, []);
+});
+
+test("listLibraryScreens industry-filters from catalog host without vision_page", async () => {
+  const root = await mkdtemp(join(tmpdir(), "dig-lib-catalog-"));
+  const client = {
+    async query() {
+      return {
+        rows: [
+          {
+            capture_run_id: "cap_allianz",
+            viewport_capture_id: "vpc_allianz",
+            name: "desktop",
+            title: "Allianz",
+            site_domain: "www.allianz.com",
+            canonical_url: "https://www.allianz.com/",
+            package_path: root
+          }
+        ]
+      };
+    }
+  };
+  const listed = await listLibraryScreens(client, { industry: "insurance" });
+  assert.deepEqual(
+    listed.map((row) => row.capture_run_id),
+    ["cap_allianz"]
+  );
+  assert.ok(listed[0]?.design_facets?.industry_tags.includes("insurance"));
+});
+
+test("listLibraryScreens derives craft from llm-design when vision_page is missing", async () => {
+  const root = await mkdtemp(join(tmpdir(), "dig-lib-summary-"));
+  await mkdir(join(root, "derived"), { recursive: true });
+  await writeFile(
+    join(root, "derived/llm-design.json"),
+    JSON.stringify({
+      design_summary:
+        "This reads as a corporate_landing. Layout: full-bleed stacks. Look: editorial; clinical white; bold sans. Media: single lifestyle portrait. Type/image: Headline text is superimposed directly over the hero photograph. Type craft: Massive hero title. Strengths: Minimalist chrome keeps focus on content.",
+      mobbin: { screen_patterns: [], visual_style_labels: [] }
+    })
+  );
+  const client = {
+    async query() {
+      return {
+        rows: [
+          {
+            capture_run_id: "cap_summary",
+            viewport_capture_id: "vpc_summary",
+            name: "desktop",
+            title: "Summary",
+            site_domain: "www.allianz.com",
+            canonical_url: "https://www.allianz.com/",
+            package_path: root
+          }
+        ]
+      };
+    }
+  };
+  const listed = await listLibraryScreens(client, {
+    style: "editorial",
+    layout: "full-bleed stacks",
+    industry: "insurance"
+  });
+  assert.deepEqual(
+    listed.map((row) => row.capture_run_id),
+    ["cap_summary"]
+  );
+  assert.equal(listed[0]?.design_facets?.page_type, "corporate_landing");
+  assert.equal(listed[0]?.design_facets?.type_image_mode, "overlap");
 });

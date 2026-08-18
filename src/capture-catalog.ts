@@ -31,6 +31,7 @@ export function captureJobsConfig(root = process.cwd()): {
   automotiveOem50: string;
   crossIndustry100: string;
   engineeringManufacturing1000: string;
+  insurance1000: string;
   maxBatch: number;
 } {
   const cfg = loadDigPaths(root).captureJobs;
@@ -42,6 +43,7 @@ export function captureJobsConfig(root = process.cwd()): {
     crossIndustry100: cfg?.crossIndustry100 ?? "knowledge/catalogs/cross-industry-100.json",
     engineeringManufacturing1000:
       cfg?.engineeringManufacturing1000 ?? "knowledge/catalogs/engineering-manufacturing-1000.json",
+    insurance1000: cfg?.insurance1000 ?? "knowledge/catalogs/insurance-1000.json",
     maxBatch: cfg?.maxBatch ?? 1000
   };
 }
@@ -51,6 +53,7 @@ export function resolveCaptureCatalogPath(catalogId: string, root = process.cwd(
   if (catalogId === "automotive-oem-50") return resolve(root, cfg.automotiveOem50);
   if (catalogId === "cross-industry-100") return resolve(root, cfg.crossIndustry100);
   if (catalogId === "engineering-manufacturing-1000") return resolve(root, cfg.engineeringManufacturing1000);
+  if (catalogId === "insurance-1000") return resolve(root, cfg.insurance1000);
   return resolve(root, cfg.catalogsDir, `${catalogId}.json`);
 }
 

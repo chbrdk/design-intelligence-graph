@@ -9,6 +9,9 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.captureLimits?.matchedStylesMode, "essential");
   assert.equal(paths.database?.image, "pgvector/pgvector:0.8.6-pg18-trixie");
   assert.equal(paths.embeddings?.dims, 384);
+  assert.equal(paths.embeddings?.dense?.model, "qwen/qwen3-embedding-8b");
+  assert.equal(paths.embeddings?.dense?.dims, 1024);
+  assert.equal(paths.embeddings?.denseDoc, "knowledge/dense-embeddings.md");
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");
   assert.equal(paths.captureJobs?.maxConcurrent, 6);

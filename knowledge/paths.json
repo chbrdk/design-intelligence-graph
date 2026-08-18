@@ -228,7 +228,7 @@
     "version": "0.1.0",
     "doc": "knowledge/look-contract.md",
     "sourceTokensRelativePath": "derived/design-tokens.json",
-    "facetsVersion": "0.3.0",
+    "facetsVersion": "0.4.0",
     "generateConstraintCap": 28,
     "generationVersion": "0.4.0",
     "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack",
@@ -472,6 +472,7 @@
     "designLookConditionedSpec": "docs/DIG-012-look-conditioned-generation.md",
     "designWave34Runtime": "knowledge/dig-012-wave3-4.md",
     "designEmbeddingsRuntime": "knowledge/dig-012-embeddings-runtime.md",
+    "denseEmbeddingsConcept": "knowledge/dense-embeddings.md",
     "digP2dLiveApiAuth": "knowledge/dig-p2d-live-api-auth.md",
     "designEmbeddingsSpec": "docs/DIG-012-embeddings.md",
     "designQualityEvalSpec": "docs/DIG-012-design-quality-eval.md",
@@ -508,7 +509,23 @@
   "embeddings": {
     "dims": 384,
     "model": "dig-hashing-v1",
-    "provider": "hashing"
+    "provider": "hashing",
+    "doc": "knowledge/storage.md",
+    "denseDoc": "knowledge/dense-embeddings.md",
+    "dense": {
+      "status": "concept",
+      "doc": "knowledge/dense-embeddings.md",
+      "provider": "openrouter",
+      "model": "qwen/qwen3-embedding-8b",
+      "evalModel": "qwen/qwen3-embedding-0.6b",
+      "dims": 1024,
+      "table": "dense_embeddings",
+      "subjects": ["screen", "module", "design_reference"],
+      "maxCanonicalChars": 1500,
+      "queryInstruction": "Retrieve website screens that match this visual craft: layout, type, imagery, contrast, and chrome.",
+      "modelEnv": "DIG_EMBEDDING_MODEL",
+      "baseUrlEnv": "DIG_EMBEDDING_BASE_URL"
+    }
   },
   "checkionV3": {
     "repo": "https://github.com/chbrdk/checkion-v3",

@@ -6,7 +6,8 @@ import { bumpDigProjectCaptureActivity, getDigProjectByPlatformId } from "./dig-
 import { upsertEmbeddings, type EmbeddingSubject } from "./embeddings.js";
 import type { LlmDesignAnalysis } from "./llm-design.js";
 import type { OntologyEntity, ViewportOntology } from "./ontology.js";
-import type { RecipeStep, SectionCompositionDocument } from "./section-composition.js";
+import type { RecipeStep, SectionComposition, SectionCompositionDocument } from "./section-composition.js";
+import { synthesizeRecipeParity } from "./recipe-fallback.js";
 import { loadSectionCropsDocument } from "./section-crops.js";
 import { libraryFullPageScreenshotPath } from "./library-screenshot.js";
 import type { ArtifactReference, CaptureManifest } from "./types.js";
@@ -207,6 +208,7 @@ export async function indexCapturePackageToDatabase(
   );
 
   const embeddingSubjects: EmbeddingSubject[] = [];
+  const measuredSections: SectionComposition[] = [];
 
   await client.query("DELETE FROM sections WHERE capture_run_id = $1", [captureRunId]);
   try {
@@ -220,6 +222,7 @@ export async function indexCapturePackageToDatabase(
           return match ? { width: match.viewport.width, height: match.viewport.height } : null;
         })();
       for (const section of viewport.sections ?? []) {
+        measuredSections.push(section);
         const rootBox = deriveRootBox(section.recipe ?? []);
         await client.query(
           `INSERT INTO sections (
@@ -370,6 +373,41 @@ export async function indexCapturePackageToDatabase(
         subject_id: `page_flow:${llmItemIndex}:${step.step}`,
         content_text: `page_flow ${step.section_label} ${step.signature ?? ""}`
       });
+    }
+    if (
+      measuredSections.length &&
+      (!(llm.mobbin?.recipe_insights ?? []).length || !(llm.mobbin?.page_flow ?? []).length)
+    ) {
+      const fallback = synthesizeRecipeParity(measuredSections);
+      if (!(llm.mobbin?.recipe_insights ?? []).length) {
+        for (const insight of fallback.recipe_insights) {
+          llmItemIndex += 1;
+          await client.query(
+            `INSERT INTO llm_items (capture_run_id, kind, name, signature, category, interpretation, confidence, evidence_refs, gaps)
+             VALUES ($1,'recipe_insight',$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb)`,
+            [
+              captureRunId,
+              insight.signature,
+              insight.signature,
+              insight.category ?? null,
+              insight.interpretation,
+              0.7,
+              JSON.stringify(insight.evidence_refs),
+              JSON.stringify([])
+            ]
+          );
+        }
+      }
+      if (!(llm.mobbin?.page_flow ?? []).length) {
+        for (const step of fallback.page_flow) {
+          llmItemIndex += 1;
+          await client.query(
+            `INSERT INTO llm_items (capture_run_id, kind, section_label, signature, step_index, evidence_refs)
+             VALUES ($1,'page_flow',$2,$3,$4,'[]'::jsonb)`,
+            [captureRunId, step.section_label, step.signature ?? null, step.step]
+          );
+        }
+      }
     }
     for (const label of llm.mobbin?.visual_style_labels ?? []) {
       llmItemIndex += 1;

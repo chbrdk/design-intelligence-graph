@@ -6,6 +6,8 @@
 
 Island UI ships **live** on Coolify after it lands on `main` (user: immer live). Deploy **island only** unless an API change is required. API restart drops the in-memory capture/enrichment queues.
 
+Facet/read-path quality (`facets_version` `0.4.0`, catalog industry, recipe fallback) is **API-only**. Apply after the capture queue is idle — see [`design-facets.md`](design-facets.md).
+
 | Item | Value |
 |------|--------|
 | Project | `MSQDX-DIG-v3` · uuid `hx1vxpmu1heuou535kht5t9s` |

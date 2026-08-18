@@ -2,6 +2,8 @@
  * Library screen list with compact design facets (shared by HTTP + MCP).
  */
 
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import type { Queryable } from "./db.js";
 import {
   buildDesignFacets,
@@ -61,18 +63,52 @@ function clampLimit(limit: unknown, fallback: number, max: number): number {
 
 async function compactFacetsForPackage(
   packagePath: string | null,
-  cache: Map<string, ScreenFacetSummary | null>
+  cache: Map<string, ScreenFacetSummary | null>,
+  hints: { site_domain?: string | null; canonical_url?: string | null }
 ): Promise<ScreenFacetSummary | null> {
   if (!packagePath) return null;
   if (cache.has(packagePath)) return cache.get(packagePath) ?? null;
-  const visionPage = await loadVisionPageDocument(packagePath).catch(() => null);
-  if (!visionPage) {
-    cache.set(packagePath, null);
+  const [visionPage, llm] = await Promise.all([
+    loadVisionPageDocument(packagePath).catch(() => null),
+    loadLlmDesignDisk(packagePath)
+  ]);
+  const screen_pattern_labels = (llm?.mobbin?.screen_patterns ?? [])
+    .map((item) => String(item.name ?? "").trim())
+    .filter(Boolean);
+  const visual_style_labels = (llm?.mobbin?.visual_style_labels ?? [])
+    .map((item) => String(item.name ?? "").trim())
+    .filter(Boolean);
+  const summary = summarizeDesignFacets(
+    buildDesignFacets({
+      vision_page: visionPage,
+      screen_pattern_labels,
+      visual_style_labels,
+      design_summary: llm?.design_summary ?? null,
+      site_domain: hints.site_domain ?? null,
+      canonical_url: hints.canonical_url ?? null
+    })
+  );
+  const usable = summary.style || summary.layout || (summary.industry_tags?.length ?? 0) || summary.imagery_density;
+  const value = usable ? summary : null;
+  cache.set(packagePath, value);
+  return value;
+}
+
+type LlmDisk = {
+  design_summary?: string;
+  mobbin?: {
+    screen_patterns?: Array<{ name?: string }>;
+    visual_style_labels?: Array<{ name?: string }>;
+  };
+};
+
+async function loadLlmDesignDisk(packagePath: string): Promise<LlmDisk | null> {
+  try {
+    const raw = await readFile(resolve(packagePath, "derived/llm-design.json"), "utf8");
+    return JSON.parse(raw) as LlmDisk;
+  } catch {
     return null;
   }
-  const summary = summarizeDesignFacets(buildDesignFacets({ vision_page: visionPage }));
-  cache.set(packagePath, summary);
-  return summary;
 }
 
 export function hasScreenFacetFilters(opts: ScreenFacetFilter): boolean {
@@ -168,7 +204,20 @@ export async function listLibraryScreens(
         .filter(Boolean)
     )
   ];
-  await Promise.all(uniquePackages.map((pkg) => compactFacetsForPackage(pkg, facetCache)));
+  const rowByPackage = new Map<string, { site_domain?: unknown; canonical_url?: unknown }>();
+  for (const row of result.rows) {
+    const pkg = typeof row.package_path === "string" ? row.package_path : "";
+    if (pkg && !rowByPackage.has(pkg)) rowByPackage.set(pkg, row);
+  }
+  await Promise.all(
+    uniquePackages.map((pkg) => {
+      const row = rowByPackage.get(pkg);
+      return compactFacetsForPackage(pkg, facetCache, {
+        site_domain: typeof row?.site_domain === "string" ? row.site_domain : null,
+        canonical_url: typeof row?.canonical_url === "string" ? row.canonical_url : null
+      });
+    })
+  );
   const screens: LibraryScreenRecord[] = [];
   for (const row of result.rows) {
     const packagePath = typeof row.package_path === "string" ? row.package_path : null;

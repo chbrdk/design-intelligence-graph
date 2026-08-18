@@ -7,6 +7,7 @@ import {
   normalizeFacetFilterValue,
   normalizeIndustryTags,
   normalizeLayoutLabel,
+  normalizePageType,
   normalizeStyleLabel,
   screenFacetsMatch,
   STYLE_VOCAB,
@@ -55,7 +56,7 @@ test("buildDesignFacets from MSQ-like vision_page and bands", () => {
     visual_style_labels: ["Should not override atmosphere"]
   });
 
-  assert.equal(facets.page_type, "marketing_agency_landing_page");
+  assert.equal(facets.page_type, "marketing_landing");
   assert.equal(facets.style, "high-energy");
   assert.equal(facets.layout, "full-bleed stacks");
   assert.deepEqual(facets.industry_tags, ["marketing_agency", "media"]);
@@ -63,7 +64,7 @@ test("buildDesignFacets from MSQ-like vision_page and bands", () => {
   assert.deepEqual(facets.section_categories, ["hero", "content", "feature", "footer"]);
   assert.equal(facets.confidence, 0.85);
   assert.equal(designFacetsHaveSignal(facets), true);
-  assert.equal(facets.facets_version, "0.3.0");
+  assert.equal(facets.facets_version, "0.4.0");
   assert.ok(facets.look_contract?.avoid.some((item) => item.includes("glassmorphism")));
   assert.ok(facets.look_contract?.avoid.includes("card grid in the hero"));
 });
@@ -148,10 +149,29 @@ test("screenFacetsMatch ANDs style layout industry and drops unfaceted rows", ()
   assert.equal(screenFacetsMatch(null, {}), true);
   assert.equal(normalizeFacetFilterValue("high-energy", STYLE_VOCAB), "high-energy");
   assert.equal(normalizeFacetFilterValue("nope", STYLE_VOCAB), null);
-  assert.ok(designFacetFilterCatalog().style.includes("high-energy"));
-  assert.deepEqual(libraryScreenFacetQueryKeys(), {
-    style: "style",
-    layout: "layout",
-    industry: "industry"
+  assert.ok(designFacetFilterCatalog().industry.includes("insurance"));
+  assert.ok(designFacetFilterCatalog().industry.includes("manufacturing"));
+});
+
+test("normalizePageType collapses landing variants", () => {
+  assert.equal(normalizePageType("corporate_landing_page"), "corporate_landing");
+  assert.equal(normalizePageType("marketing_agency_landing_page"), "marketing_landing");
+  assert.equal(normalizePageType("article_detail"), "article");
+  assert.equal(normalizePageType("blank_canvas"), "blank");
+});
+
+test("buildDesignFacets uses design_summary when vision_page is missing", () => {
+  const facets = buildDesignFacets({
+    design_summary:
+      "This reads as a corporate_landing. Above the fold job: Establish brand with large type. Layout: full-bleed stacks; airy gutters. Look: editorial; clinical white; bold sans. Media: single lifestyle portrait. Type/image: Headline text is superimposed directly over the hero photograph. Type craft: Massive hero title. Strengths: Minimalist chrome keeps focus on content.",
+    canonical_url: "https://www.allianz.com/"
   });
+  assert.equal(facets.page_type, "corporate_landing");
+  assert.equal(facets.layout, "full-bleed stacks");
+  assert.equal(facets.style, "editorial");
+  assert.equal(facets.imagery_density, "medium");
+  assert.equal(facets.type_scale, "monumental");
+  assert.equal(facets.type_image_mode, "overlap");
+  assert.ok(facets.industry_tags.includes("insurance"));
+  assert.equal(facets.chrome_weight, "minimal");
 });

@@ -1,3 +1,4 @@
+import { synthesizeRecipeParity } from "./recipe-fallback.js";
 import { createHash, randomUUID } from "node:crypto";
 import { localLlmConfig, createLlmProviderFromConfig, type LlmCompleter, type LlmProviderConfig } from "./llm-provider.js";
 import type { AnalysisReport } from "./analysis-pipeline.js";
@@ -670,6 +671,12 @@ async function analyzeDesignWithLlmStaged(
     if (!found) continue;
     stages.push(found.outcome.stage);
     Object.assign(mobbin, found.outcome.patch);
+  }
+
+  if (!mobbin.recipe_insights.length || !mobbin.page_flow.length) {
+    const fallback = synthesizeRecipeParity(input.section_compositions ?? []);
+    if (!mobbin.recipe_insights.length) mobbin.recipe_insights = fallback.recipe_insights;
+    if (!mobbin.page_flow.length) mobbin.page_flow = fallback.page_flow;
   }
 
   // Wave B: per-section look & feel (measured recipes + CSS), parallel and budgeted.
