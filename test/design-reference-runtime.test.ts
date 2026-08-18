@@ -40,6 +40,8 @@ test("emit DesignReference from section_look validates and writes jsonl", async 
     designSummary: "Test hero page"
   });
   assert.equal(validateAgainstSchema("designReference", reference).length, 0);
+  assert.equal(reference.craft?.type_scale, "medium");
+  assert.equal(reference.craft?.contrast_mode, "mixed");
 
   const root = await mkdtemp(join(tmpdir(), "dig-ref-emit-"));
   await mkdir(join(root, "derived"), { recursive: true });
@@ -142,4 +144,5 @@ test("emit falls back to screen DesignReference when section_look is empty", asy
   assert.equal(refs.length, 1);
   assert.equal(refs[0]!.scope, "screen");
   assert.equal(validateAgainstSchema("designReference", refs[0]!).length, 0);
+  assert.equal(refs[0]!.craft?.contrast_mode, "monochrome");
 });

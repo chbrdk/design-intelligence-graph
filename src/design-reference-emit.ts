@@ -15,6 +15,16 @@ import { validateAgainstSchema } from "./flow-schema-validate.js";
 export const DESIGN_REFERENCE_SCHEMA_VERSION = "0.1.0" as const;
 export const DESIGN_REFERENCES_RELATIVE_PATH = "derived/design-references.jsonl";
 
+export type ReferenceCraft = {
+  imagery_density?: "none" | "low" | "medium" | "high";
+  type_scale?: "small" | "medium" | "large" | "monumental";
+  type_image_mode?: "separate" | "adjacent" | "overlap" | "through_image";
+  contrast_mode?: "monochrome" | "low_contrast" | "mixed" | "saturated";
+  composition_energy?: "calm" | "balanced" | "dynamic";
+  chrome_weight?: "minimal" | "balanced" | "interface_heavy";
+  craft_tags?: string[];
+};
+
 export type DesignReferenceRecord = {
   schema_version: typeof DESIGN_REFERENCE_SCHEMA_VERSION;
   reference_id: string;
@@ -46,6 +56,7 @@ export type DesignReferenceRecord = {
     media?: SectionLookDescription["media"];
     confidence: number;
   };
+  craft?: ReferenceCraft;
   tokens?: {
     style_labels?: string[];
   };
@@ -68,6 +79,82 @@ function truncate(text: string, max: number): string {
   const trimmed = text.trim();
   if (trimmed.length <= max) return trimmed;
   return `${trimmed.slice(0, Math.max(0, max - 1)).trimEnd()}…`;
+}
+
+function slug(value: string): string {
+  return value.toLowerCase().replace(/[_|/-]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function craftTag(raw: string): string {
+  return raw.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 48);
+}
+
+function deriveReferenceCraft(input: {
+  lookSummary: string;
+  stackSummary: string;
+  designSummary?: string | null | undefined;
+  styleLabels?: string[] | null | undefined;
+}): NonNullable<DesignReferenceRecord["craft"]> | undefined {
+  const hay = slug(
+    [input.lookSummary, input.stackSummary, input.designSummary ?? "", ...(input.styleLabels ?? [])]
+      .filter(Boolean)
+      .join(" ")
+  );
+  if (!hay) return undefined;
+  const tags = new Set<string>();
+  const add = (value: string) => tags.add(craftTag(value));
+  const craft: ReferenceCraft = {};
+  if (/(monochrome|black and white|grayscale)/.test(hay)) {
+    craft.contrast_mode = "monochrome";
+    add("monochrome");
+  } else if (/(vibrant|saturated|neon|bright accent)/.test(hay)) {
+    craft.contrast_mode = "saturated";
+  } else if (/(muted|soft contrast|low contrast)/.test(hay)) {
+    craft.contrast_mode = "low_contrast";
+  } else {
+    craft.contrast_mode = "mixed";
+  }
+  if (/(massive|huge|monumental|oversized)/.test(hay)) craft.type_scale = "monumental";
+  else if (/(large|display|editorial)/.test(hay)) craft.type_scale = "large";
+  else if (/(small|tiny|compact)/.test(hay)) craft.type_scale = "small";
+  else craft.type_scale = "medium";
+  if (/(overlap|overlay|layered|behind)/.test(hay)) {
+    craft.type_image_mode = "overlap";
+    add("type_over_image");
+  } else if (/(through image|cut through|knock out)/.test(hay)) {
+    craft.type_image_mode = "through_image";
+  } else if (/(beside|alongside|split)/.test(hay)) {
+    craft.type_image_mode = "adjacent";
+  } else {
+    craft.type_image_mode = "separate";
+  }
+  if (/(single image|few images|secondary imagery|low imagery)/.test(hay)) {
+    craft.imagery_density = "low";
+    add("low_imagery");
+  } else if (/(gallery|many images|collage|multiple photos)/.test(hay)) {
+    craft.imagery_density = "high";
+  } else if (/(text only|no image)/.test(hay)) {
+    craft.imagery_density = "none";
+  } else {
+    craft.imagery_density = "medium";
+  }
+  if (/(dynamic|asymmetric|motion blur|broken grid)/.test(hay)) craft.composition_energy = "dynamic";
+  else if (/(calm|minimal|airy|quiet)/.test(hay)) craft.composition_energy = "calm";
+  else craft.composition_energy = "balanced";
+  if (/(minimal chrome|tiny nav|pill|simple icons)/.test(hay)) {
+    craft.chrome_weight = "minimal";
+    add("minimal_chrome");
+  } else if (/(dashboard|toolbar|dense ui|interface heavy)/.test(hay)) {
+    craft.chrome_weight = "interface_heavy";
+  } else {
+    craft.chrome_weight = "balanced";
+  }
+  if (/(editorial|display caps|tracked out|tight tracking)/.test(hay)) add("editorial_type");
+  if (/(stats column|key statistics|right aligned stats)/.test(hay)) add("stats_column");
+  if (/(grayscale reprise|grayscale|black and white|desaturated)/.test(hay)) add("grayscale_reprise");
+  if (/(inverted card|black card|alternating white and black cards)/.test(hay)) add("inverted_card");
+  if (tags.size) craft.craft_tags = [...tags].slice(0, 12);
+  return craft;
 }
 
 function categoryToTaxonomyIds(category: string): string[] {
@@ -101,6 +188,12 @@ export function designReferenceFromSectionLook(input: {
   const stackSummary = truncate(input.description.stack_summary || lookSummary, 200);
   const evidence = (input.description.evidence_refs ?? []).slice(0, 24);
   const cropPath = input.cropPath?.trim() || null;
+  const craft = deriveReferenceCraft({
+    lookSummary,
+    stackSummary: input.description.stack_summary,
+    designSummary: input.designSummary,
+    styleLabels: input.visualStyleLabels
+  });
   const record: DesignReferenceRecord = {
     schema_version: DESIGN_REFERENCE_SCHEMA_VERSION,
     reference_id: referenceIdForSection(input.captureRunId, input.description.section_id),
@@ -133,6 +226,7 @@ export function designReferenceFromSectionLook(input: {
       ...(input.description.alignment ? { alignment: input.description.alignment } : {}),
       ...(input.description.media ? { media: input.description.media } : {})
     },
+    ...(craft ? { craft } : {}),
     media_ref: cropPath
       ? { kind: "section_crop", path: cropPath }
       : { kind: "none", path: null },
@@ -188,6 +282,12 @@ export function designReferencesFromLlmAnalysis(
   if (!llm.design_summary?.trim()) return [];
   const summary = truncate(llm.design_summary, 400);
   const style = visualStyleLabels[0] ?? screenPatterns[0] ?? "content";
+  const craft = deriveReferenceCraft({
+    lookSummary: summary,
+    stackSummary: summary,
+    designSummary: summary,
+    styleLabels: visualStyleLabels
+  });
   const record: DesignReferenceRecord = {
     schema_version: DESIGN_REFERENCE_SCHEMA_VERSION,
     reference_id: referenceIdForSection(captureRunId, "screen"),
@@ -208,6 +308,7 @@ export function designReferencesFromLlmAnalysis(
       look_summary: summary,
       confidence: 0.55
     },
+    ...(craft ? { craft } : {}),
     media_ref: { kind: "none", path: null },
     provenance: {
       evidence_refs: ["screen"],

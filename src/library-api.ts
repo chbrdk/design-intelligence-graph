@@ -38,6 +38,13 @@ function queryParam(url: URL, name: string): string | null {
   return value && value.trim() ? value.trim() : null;
 }
 
+function queryParams(url: URL, name: string): string[] {
+  return url.searchParams
+    .getAll(name)
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
 async function readJsonBody(request: IncomingMessage): Promise<Record<string, unknown>> {
   const chunks: Buffer[] = [];
   for await (const chunk of request) {
@@ -492,9 +499,18 @@ export async function handleLibraryApi(
   if (request.method === "GET" && path === "/screens") {
     const facetKeys = libraryScreenFacetQueryKeys();
     const listed = await listLibraryScreens(client, {
+      q: queryParam(requestUrl, "q"),
       style: queryParam(requestUrl, facetKeys.style),
       layout: queryParam(requestUrl, facetKeys.layout),
       industry: queryParam(requestUrl, facetKeys.industry),
+      modules: queryParams(requestUrl, "modules"),
+      craft_tags: queryParams(requestUrl, "craft_tags"),
+      imagery_density: queryParam(requestUrl, "imagery_density"),
+      type_scale: queryParam(requestUrl, "type_scale"),
+      type_image_mode: queryParam(requestUrl, "type_image_mode"),
+      contrast_mode: queryParam(requestUrl, "contrast_mode"),
+      composition_energy: queryParam(requestUrl, "composition_energy"),
+      chrome_weight: queryParam(requestUrl, "chrome_weight"),
       platformProjectId:
         queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
     });
@@ -1009,6 +1025,7 @@ export async function handleLibraryApi(
       const { searchDesignReferences } = await import("./design-reference-library.js");
       const facetKeys = libraryScreenFacetQueryKeys();
       const references = await searchDesignReferences({
+        q: queryParam(requestUrl, "q") ?? undefined,
         query: queryParam(requestUrl, "q") ?? queryParam(requestUrl, "query") ?? undefined,
         category: queryParam(requestUrl, "category") ?? undefined,
         signature: queryParam(requestUrl, "signature") ?? undefined,
@@ -1016,6 +1033,14 @@ export async function handleLibraryApi(
         style: queryParam(requestUrl, facetKeys.style) ?? undefined,
         layout: queryParam(requestUrl, facetKeys.layout) ?? undefined,
         industry: queryParam(requestUrl, facetKeys.industry) ?? undefined,
+        modules: queryParams(requestUrl, "modules"),
+        craft_tags: queryParams(requestUrl, "craft_tags"),
+        imagery_density: queryParam(requestUrl, "imagery_density") ?? undefined,
+        type_scale: queryParam(requestUrl, "type_scale") ?? undefined,
+        type_image_mode: queryParam(requestUrl, "type_image_mode") ?? undefined,
+        contrast_mode: queryParam(requestUrl, "contrast_mode") ?? undefined,
+        composition_energy: queryParam(requestUrl, "composition_energy") ?? undefined,
+        chrome_weight: queryParam(requestUrl, "chrome_weight") ?? undefined,
         similar_to: queryParam(requestUrl, "similar_to") ?? queryParam(requestUrl, "similarTo") ?? undefined,
         platformProjectId:
           queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id"),
@@ -1146,6 +1171,26 @@ export async function handleLibraryApi(
       const message = error instanceof Error ? error.message : String(error);
       const status =
         message.includes("required") || message.includes("Unknown reference") ? 400 : 500;
+      sendJson(response, status, { error: message });
+    }
+    return true;
+  }
+
+  if (request.method === "POST" && path === "/references/compose-brief") {
+    try {
+      const body = await readJsonBody(request);
+      const { assembleCompositionBrief } = await import("./compose-brief.js");
+      const brief = await assembleCompositionBrief(body, client);
+      sendJson(response, 200, brief);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status =
+        message.includes("required") ||
+        message.includes("Unknown reference") ||
+        message.includes("not_found") ||
+        message.includes("screen_not_found")
+          ? 400
+          : 500;
       sendJson(response, status, { error: message });
     }
     return true;

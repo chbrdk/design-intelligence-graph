@@ -11,14 +11,17 @@ dig_screen_search(style, layout, industry, platformProjectId)
   → [{ capture_run_id, title, design_facets }]
 dig_capture_prompt_pack(capture_run_id, brief?)
   → DesignPromptPack (look_contract + page_rhythm)
+dig_compose_brief(intent, reference_ids[] and/or capture_run_ids[])
+  → composition brief (craft constraints + prompt_pack)
 ```
 
 ## Tools
 
 | Tool | Role |
 |------|------|
-| `dig_screen_search` | Same Style/Layout/Industry filters as `GET /api/library/screens`. Omits `package_path`. Live mode requires `platformProjectId`. Default limit 20 (lists up to 200 then slices). |
+| `dig_screen_search` | Same Style/Layout/Industry filters as `GET /api/library/screens`, plus craft atoms like `craft_tags`, `imagery_density`, `type_scale`, `type_image_mode`, `contrast_mode`, `composition_energy`, `chrome_weight`. Omits `package_path`. Live mode requires `platformProjectId`. Default limit 20 (lists up to 200 then slices). |
 | `dig_capture_prompt_pack` | Same assembly as `POST /api/library/analyses/:capture_run_id/prompt-pack`. |
+| `dig_compose_brief` | Merge references and/or capture runs into one builder-facing composition brief with `look_contract`, `page_rhythm`, `craft_constraints`, and a ready `prompt_pack`. |
 
 `dig_reference_search` also accepts `style` / `layout` / `industry`. When any facet is set, results are limited to `capture_run_id`s from the screen list (empty list → no hits).
 

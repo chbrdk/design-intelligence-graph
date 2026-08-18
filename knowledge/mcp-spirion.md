@@ -15,7 +15,7 @@ Product tools live **in-process** on dig-api (not a separate Coolify MCP app). C
 | Capture jobs | `jobs_list`, `job_start`, `job_get` |
 | Enrichment | `enrichment_list`, `enrichment_get` |
 | Library | `captures_list`, `analyses_list`, `analysis_get`, `screens_search`, `capture_prompt_pack` |
-| References | `references_search`, `reference_get`, `reference_pack`, `generate` |
+| References | `references_search`, `reference_get`, `reference_pack`, `compose_brief`, `generate` |
 | Flows | `flows_search`, `flow_get`, `flow_neighbors` |
 
 `screens_search` / `capture_prompt_pack` / references / flows are aliases of the matching `dig_*` tools.
@@ -37,5 +37,6 @@ spirion.job_start url=… platformProjectId=…
   → poll spirion.job_get
 spirion.captures_list / spirion.screens_search
   → spirion.capture_prompt_pack
+spirion.references_search / spirion.compose_brief
 spirion.generate | spirion.reference_pack
 ```

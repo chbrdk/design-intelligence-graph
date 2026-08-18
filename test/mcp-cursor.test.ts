@@ -61,12 +61,15 @@ test("handleMcpMessage initializes, lists tools, ignores notifications", async (
   const names = mcpLibraryToolNames();
   assert.ok(tools.some((tool) => tool.name === names.screenSearch));
   assert.ok(tools.some((tool) => tool.name === names.capturePromptPack));
+  assert.ok(tools.some((tool) => tool.name === names.composeBrief));
   assert.ok(listDigTools().length >= tools.length);
 });
 
 test("callDigLibraryToolHttp searches screens and strips package_path", async () => {
   const fetchImpl: typeof fetch = async (url) => {
-    assert.match(String(url), /\/api\/library\/screens\?style=high-energy/);
+    assert.match(String(url), /\/api\/library\/screens\?/);
+    assert.match(String(url), /style=high-energy/);
+    assert.match(String(url), /craft_tags=editorial_type/);
     return new Response(
       JSON.stringify({
         screens: [
@@ -87,7 +90,7 @@ test("callDigLibraryToolHttp searches screens and strips package_path", async ()
   };
   const result = (await callDigLibraryToolHttp(
     "dig_screen_search",
-    { style: "high-energy", limit: 5 },
+    { style: "high-energy", craft_tags: ["editorial_type"], limit: 5 },
     "https://spirion-api.example",
     fetchImpl
   )) as { count: number; screens: Array<Record<string, unknown>> };

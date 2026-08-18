@@ -231,7 +231,8 @@
     "facetsVersion": "0.3.0",
     "generateConstraintCap": 28,
     "generationVersion": "0.4.0",
-    "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack"
+    "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack",
+    "composeBriefPath": "/api/library/references/compose-brief"
   },
   "libraryScreenFacets": {
     "queryStyle": "style",
@@ -301,6 +302,7 @@
   "mcpLibraryTools": {
     "screenSearch": "dig_screen_search",
     "capturePromptPack": "dig_capture_prompt_pack",
+    "composeBrief": "dig_compose_brief",
     "defaultLimit": 20,
     "listLimit": 200,
     "doc": "knowledge/mcp-library-loop.md"
@@ -325,6 +327,7 @@
       "references_search",
       "reference_get",
       "reference_pack",
+      "compose_brief",
       "generate",
       "flows_search",
       "flow_get",

@@ -47,10 +47,27 @@ export async function callDigLibraryToolHttp(
   if (name === "dig_screen_search") {
     const facetKeys = libraryScreenFacetQueryKeys(root);
     const params = new URLSearchParams();
+    if (typeof args.q === "string" && args.q.trim()) params.set("q", args.q.trim());
     if (typeof args.style === "string" && args.style.trim()) params.set(facetKeys.style, args.style.trim());
     if (typeof args.layout === "string" && args.layout.trim()) params.set(facetKeys.layout, args.layout.trim());
     if (typeof args.industry === "string" && args.industry.trim()) {
       params.set(facetKeys.industry, args.industry.trim());
+    }
+    for (const module of Array.isArray(args.modules) ? args.modules.filter((item): item is string => typeof item === "string") : []) {
+      if (module.trim()) params.append("modules", module.trim());
+    }
+    for (const tag of Array.isArray(args.craft_tags) ? args.craft_tags.filter((item): item is string => typeof item === "string") : []) {
+      if (tag.trim()) params.append("craft_tags", tag.trim());
+    }
+    for (const key of [
+      "imagery_density",
+      "type_scale",
+      "type_image_mode",
+      "contrast_mode",
+      "composition_energy",
+      "chrome_weight"
+    ] as const) {
+      if (typeof args[key] === "string" && args[key].trim()) params.set(key, args[key].trim());
     }
     if (platformProjectId?.trim()) params.set("platformProjectId", platformProjectId.trim());
     const qs = params.toString();

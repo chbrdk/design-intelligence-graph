@@ -7,7 +7,7 @@
   "required": ["name", "description", "inputSchema"],
   "properties": {
     "name": {
-      "enum": ["dig_screen_search", "dig_capture_prompt_pack"]
+      "enum": ["dig_screen_search", "dig_capture_prompt_pack", "dig_compose_brief"]
     },
     "description": { "type": "string" },
     "inputSchema": { "type": "object" }
@@ -19,6 +19,15 @@
         "style": { "type": "string" },
         "layout": { "type": "string" },
         "industry": { "type": "string" },
+        "q": { "type": "string" },
+        "modules": { "type": "array", "items": { "type": "string" } },
+        "craft_tags": { "type": "array", "items": { "type": "string" } },
+        "imagery_density": { "type": "string" },
+        "type_scale": { "type": "string" },
+        "type_image_mode": { "type": "string" },
+        "contrast_mode": { "type": "string" },
+        "composition_energy": { "type": "string" },
+        "chrome_weight": { "type": "string" },
         "platformProjectId": { "type": "string" },
         "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
       }
@@ -29,6 +38,21 @@
       "properties": {
         "capture_run_id": { "type": "string" },
         "brief": { "type": "string" },
+        "platformProjectId": { "type": "string" },
+        "output_contract": {
+          "enum": ["layout_hints_json", "prose_brief", "both"]
+        }
+      }
+    },
+    "dig_compose_brief_input": {
+      "type": "object",
+      "required": ["intent"],
+      "properties": {
+        "intent": { "type": "string" },
+        "brief": { "type": "string" },
+        "reference_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 8 },
+        "capture_run_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 8 },
+        "primary_screen_id": { "type": "string" },
         "platformProjectId": { "type": "string" },
         "output_contract": {
           "enum": ["layout_hints_json", "prose_brief", "both"]

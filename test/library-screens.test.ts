@@ -17,11 +17,14 @@ test("mcpLibraryToolNames match listDigTools and paths.json", () => {
   const listed = listDigTools().map((tool) => tool.name);
   assert.equal(names.screenSearch, "dig_screen_search");
   assert.equal(names.capturePromptPack, "dig_capture_prompt_pack");
+  assert.equal(names.composeBrief, "dig_compose_brief");
   assert.ok(listed.includes(names.screenSearch));
   assert.ok(listed.includes(names.capturePromptPack));
+  assert.ok(listed.includes(names.composeBrief));
   const search = listDigTools().find((tool) => tool.name === names.screenSearch);
   const props = search?.inputSchema.properties as Record<string, unknown>;
   assert.ok(props && "style" in props && "layout" in props && "industry" in props);
+  assert.ok(props && "craft_tags" in props && "imagery_density" in props && "type_scale" in props);
 });
 
 test("hasScreenFacetFilters ignores empty and unknown values", () => {
@@ -30,6 +33,7 @@ test("hasScreenFacetFilters ignores empty and unknown values", () => {
   assert.equal(hasScreenFacetFilters({ style: "high-energy" }), true);
   assert.equal(hasScreenFacetFilters({ layout: "card grid" }), true);
   assert.equal(hasScreenFacetFilters({ industry: "finance" }), true);
+  assert.equal(hasScreenFacetFilters({ craft_tags: ["editorial_type"] }), true);
 });
 
 test("captureRunIdsForScreenFacets skips SQL when no facets", async () => {
@@ -99,9 +103,19 @@ test("listLibraryScreens filters by style/layout and capture ids", async () => {
         vertical_rhythm: page.layout,
         layout_system: page.layout,
         media_strategy: "photo",
-        notable_modules: [],
+        notable_modules: page.pageType.includes("real_estate") ? ["stats_column", "inverted_card"] : [],
         brand_cues: "",
-        interaction_chrome: "",
+        interaction_chrome: page.pageType.includes("real_estate") ? "tiny nav and simple icons" : "",
+        visual_craft: page.pageType.includes("real_estate")
+          ? {
+              type_image_relationship: "headline overlap over architecture render",
+              typography_composition: "massive display caps with tiny tracked body copy",
+              imagery_craft: "single architectural render with grayscale reprise",
+              spatial_craft: "asymmetric hero",
+              chrome_vs_content: "minimal chrome versus massive editorial type",
+              rebuild_spec: ""
+            }
+          : undefined,
         category_tags: page.tags,
         status: "complete"
       }),
@@ -123,6 +137,13 @@ test("listLibraryScreens filters by style/layout and capture ids", async () => {
     tags: ["finance"],
     pageType: "finance_home"
   });
+  const realEstateRoot = await mkdtemp(join(tmpdir(), "dig-lib-real-estate-"));
+  await writeVisionPage(realEstateRoot, {
+    atmosphere: "minimal editorial",
+    layout: "mixed",
+    tags: ["real_estate"],
+    pageType: "real_estate_platform_landing_page"
+  });
 
   const rows = [
     {
@@ -133,6 +154,15 @@ test("listLibraryScreens filters by style/layout and capture ids", async () => {
       site_domain: "energy.example",
       canonical_url: "https://energy.example/",
       package_path: energyRoot
+    },
+    {
+      capture_run_id: "cap_real_estate",
+      viewport_capture_id: "vpc_real_estate",
+      name: "desktop",
+      title: "Estate",
+      site_domain: "estate.example",
+      canonical_url: "https://estate.example/",
+      package_path: realEstateRoot
     },
     {
       capture_run_id: "cap_grid",
@@ -162,6 +192,28 @@ test("listLibraryScreens filters by style/layout and capture ids", async () => {
 
   const ids = await captureRunIdsForScreenFacets(client, { industry: "finance" });
   assert.deepEqual(ids, ["cap_grid"]);
+
+  const crafted = await listLibraryScreens(client, {
+    craft_tags: ["editorial_type", "stats_column"],
+    imagery_density: "low",
+    type_scale: "monumental",
+    contrast_mode: "monochrome",
+    chrome_weight: "minimal"
+  });
+  assert.deepEqual(
+    crafted.map((row) => row.capture_run_id),
+    ["cap_real_estate"]
+  );
+  assert.deepEqual(crafted[0]?.design_facets?.craft_tags, [
+    "stats_column",
+    "inverted_card",
+    "editorial_type",
+    "grayscale_reprise",
+    "low_imagery",
+    "type_over_image",
+    "minimal_chrome",
+    "monochrome"
+  ]);
 
   const empty = await captureRunIdsForScreenFacets(client, { industry: "healthcare" });
   assert.deepEqual(empty, []);

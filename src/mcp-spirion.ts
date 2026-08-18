@@ -30,6 +30,7 @@ export type SpirionToolName =
   | "spirion.references_search"
   | "spirion.reference_get"
   | "spirion.reference_pack"
+  | "spirion.compose_brief"
   | "spirion.generate"
   | "spirion.flows_search"
   | "spirion.flow_get"
@@ -42,6 +43,7 @@ export const SPIRION_DIG_ALIASES: Record<string, string> = {
   "spirion.references_search": "dig_reference_search",
   "spirion.reference_get": "dig_reference_get",
   "spirion.reference_pack": "dig_reference_pack",
+  "spirion.compose_brief": "dig_compose_brief",
   "spirion.generate": "dig_generate",
   "spirion.flows_search": "dig_flow_search",
   "spirion.flow_get": "dig_flow_get",
@@ -163,13 +165,22 @@ export function listSpirionTools(): ToolDef[] {
     },
     {
       name: "spirion.screens_search",
-      description: "Alias of dig_screen_search — Library screens by style/layout/industry.",
+      description: "Alias of dig_screen_search — Library screens by style/layout/industry plus craft facets.",
       inputSchema: {
         type: "object",
         properties: {
+          q: { type: "string" },
           style: { type: "string" },
           layout: { type: "string" },
           industry: { type: "string" },
+          modules: { type: "array", items: { type: "string" } },
+          craft_tags: { type: "array", items: { type: "string" } },
+          imagery_density: { type: "string" },
+          type_scale: { type: "string" },
+          type_image_mode: { type: "string" },
+          contrast_mode: { type: "string" },
+          composition_energy: { type: "string" },
+          chrome_weight: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
         }
@@ -195,12 +206,21 @@ export function listSpirionTools(): ToolDef[] {
       inputSchema: {
         type: "object",
         properties: {
+          q: { type: "string" },
           query: { type: "string" },
           category: { type: "string" },
           signature: { type: "string" },
           style: { type: "string" },
           layout: { type: "string" },
           industry: { type: "string" },
+          modules: { type: "array", items: { type: "string" } },
+          craft_tags: { type: "array", items: { type: "string" } },
+          imagery_density: { type: "string" },
+          type_scale: { type: "string" },
+          type_image_mode: { type: "string" },
+          contrast_mode: { type: "string" },
+          composition_energy: { type: "string" },
+          chrome_weight: { type: "string" },
           similar_to: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
@@ -225,6 +245,23 @@ export function listSpirionTools(): ToolDef[] {
         properties: {
           intent: { type: "string" },
           reference_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          platformProjectId: { type: "string" }
+        }
+      }
+    },
+    {
+      name: "spirion.compose_brief",
+      description: "Alias of dig_compose_brief — merge captures/references into one builder brief.",
+      inputSchema: {
+        type: "object",
+        required: ["intent"],
+        properties: {
+          intent: { type: "string" },
+          brief: { type: "string" },
+          reference_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          capture_run_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          primary_screen_id: { type: "string" },
+          output_contract: { type: "string", enum: ["layout_hints_json", "prose_brief", "both"] },
           platformProjectId: { type: "string" }
         }
       }

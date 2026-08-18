@@ -112,6 +112,7 @@ test("spirion.health and jobs work with injected runtime; omit package paths", a
 
 test("spirion.screens_search aliases dig_screen_search", () => {
   assert.equal(SPIRION_DIG_ALIASES["spirion.screens_search"], "dig_screen_search");
+  assert.equal(SPIRION_DIG_ALIASES["spirion.compose_brief"], "dig_compose_brief");
   assert.equal(SPIRION_DIG_ALIASES["spirion.generate"], "dig_generate");
   const schema = JSON.parse(
     readFileSync(resolve("schemas/mcp-spirion-tools.schema.json"), "utf8")

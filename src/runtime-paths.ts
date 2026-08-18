@@ -171,6 +171,7 @@ export interface DigPaths {
   mcpLibraryTools?: {
     screenSearch?: string;
     capturePromptPack?: string;
+    composeBrief?: string;
     defaultLimit?: number;
     listLimit?: number;
     doc?: string;
@@ -381,11 +382,13 @@ export function libraryScreenFacetQueryKeys(root = process.cwd()): {
 export function mcpLibraryToolNames(root = process.cwd()): {
   screenSearch: string;
   capturePromptPack: string;
+  composeBrief: string;
 } {
   const cfg = loadDigPaths(root).mcpLibraryTools;
   return {
     screenSearch: cfg?.screenSearch ?? "dig_screen_search",
-    capturePromptPack: cfg?.capturePromptPack ?? "dig_capture_prompt_pack"
+    capturePromptPack: cfg?.capturePromptPack ?? "dig_capture_prompt_pack",
+    composeBrief: cfg?.composeBrief ?? "dig_compose_brief"
   };
 }
 

@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import type { KnowledgeEdge, KnowledgeGraph, KnowledgeNode } from "./storage.js";
 import { searchKnowledgeGraph } from "./storage.js";
+import { getPool } from "./db.js";
 import {
   callSpirionTool,
   isSpirionToolName,
@@ -21,6 +22,7 @@ export type McpToolName =
   | "dig_reference_get"
   | "dig_reference_pack"
   | "dig_reference_prompt_pack"
+  | "dig_compose_brief"
   | "dig_generate"
   | "dig_screen_search"
   | "dig_capture_prompt_pack"
@@ -33,6 +35,7 @@ const REFERENCE_TOOL_NAMES = new Set<McpToolName>([
   "dig_reference_get",
   "dig_reference_pack",
   "dig_reference_prompt_pack",
+  "dig_compose_brief",
   "dig_generate"
 ]);
 
@@ -77,10 +80,11 @@ export function listDigTools() {
     {
       name: "dig_reference_search",
       description:
-        "Search Collection-scoped DesignReferences (DIG-012). Filter by style/layout/industry facets. Live mode requires platformProjectId.",
+        "Search Collection-scoped DesignReferences (DIG-012). Filter by style/layout/industry plus craft atoms. Live mode requires platformProjectId.",
       inputSchema: {
         type: "object",
         properties: {
+          q: { type: "string" },
           query: { type: "string" },
           category: { type: "string" },
           signature: { type: "string" },
@@ -88,6 +92,14 @@ export function listDigTools() {
           style: { type: "string" },
           layout: { type: "string" },
           industry: { type: "string" },
+          modules: { type: "array", items: { type: "string" } },
+          craft_tags: { type: "array", items: { type: "string" } },
+          imagery_density: { type: "string" },
+          type_scale: { type: "string" },
+          type_image_mode: { type: "string" },
+          contrast_mode: { type: "string" },
+          composition_energy: { type: "string" },
+          chrome_weight: { type: "string" },
           similar_to: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
@@ -137,6 +149,23 @@ export function listDigTools() {
       }
     },
     {
+      name: "dig_compose_brief",
+      description: "Compose a builder-facing brief from references and/or captures with merged craft, look_contract, and page_rhythm.",
+      inputSchema: {
+        type: "object",
+        required: ["intent"],
+        properties: {
+          intent: { type: "string" },
+          brief: { type: "string" },
+          reference_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          capture_run_ids: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 8 },
+          primary_screen_id: { type: "string" },
+          output_contract: { type: "string", enum: ["layout_hints_json", "prose_brief", "both"] },
+          platformProjectId: { type: "string" }
+        }
+      }
+    },
+    {
       name: "dig_generate",
       description: "Look-conditioned layout generation from DesignReferences (DIG-012 Wave 4 / dig.generate).",
       inputSchema: {
@@ -152,13 +181,22 @@ export function listDigTools() {
     {
       name: "dig_screen_search",
       description:
-        "Search captured Library screens by Style/Layout/Industry facets. Returns capture_run_id + design_facets (no server paths). Live mode requires platformProjectId.",
+        "Search captured Library screens by style/layout/industry plus craft facets. Returns capture_run_id + design_facets (no server paths). Live mode requires platformProjectId.",
       inputSchema: {
         type: "object",
         properties: {
+          q: { type: "string" },
           style: { type: "string" },
           layout: { type: "string" },
           industry: { type: "string" },
+          modules: { type: "array", items: { type: "string" } },
+          craft_tags: { type: "array", items: { type: "string" } },
+          imagery_density: { type: "string" },
+          type_scale: { type: "string" },
+          type_image_mode: { type: "string" },
+          contrast_mode: { type: "string" },
+          composition_energy: { type: "string" },
+          chrome_weight: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
         }
@@ -269,6 +307,7 @@ export async function callDigReferenceTool(
     | "dig_reference_get"
     | "dig_reference_pack"
     | "dig_reference_prompt_pack"
+    | "dig_compose_brief"
     | "dig_generate"
   >,
   args: Record<string, unknown>
@@ -286,6 +325,7 @@ export async function callDigReferenceTool(
         : null;
   if (name === "dig_reference_search") {
     const references = await searchDesignReferences({
+      q: typeof args.q === "string" ? args.q : undefined,
       query: typeof args.query === "string" ? args.query : undefined,
       category: typeof args.category === "string" ? args.category : undefined,
       signature: typeof args.signature === "string" ? args.signature : undefined,
@@ -293,6 +333,16 @@ export async function callDigReferenceTool(
       style: typeof args.style === "string" ? args.style : undefined,
       layout: typeof args.layout === "string" ? args.layout : undefined,
       industry: typeof args.industry === "string" ? args.industry : undefined,
+      modules: Array.isArray(args.modules) ? args.modules.filter((item): item is string => typeof item === "string") : undefined,
+      craft_tags: Array.isArray(args.craft_tags)
+        ? args.craft_tags.filter((item): item is string => typeof item === "string")
+        : undefined,
+      imagery_density: typeof args.imagery_density === "string" ? args.imagery_density : undefined,
+      type_scale: typeof args.type_scale === "string" ? args.type_scale : undefined,
+      type_image_mode: typeof args.type_image_mode === "string" ? args.type_image_mode : undefined,
+      contrast_mode: typeof args.contrast_mode === "string" ? args.contrast_mode : undefined,
+      composition_energy: typeof args.composition_energy === "string" ? args.composition_energy : undefined,
+      chrome_weight: typeof args.chrome_weight === "string" ? args.chrome_weight : undefined,
       similar_to:
         typeof args.similar_to === "string"
           ? args.similar_to
@@ -308,6 +358,16 @@ export async function callDigReferenceTool(
     const reference = await getDesignReference(String(args.reference_id ?? ""), { platformProjectId });
     if (!reference) throw new Error(`Unknown reference_id: ${String(args.reference_id ?? "")}`);
     return { reference };
+  }
+  if (name === "dig_compose_brief") {
+    const { assembleCompositionBrief } = await import("./compose-brief.js");
+    return assembleCompositionBrief(
+      {
+        ...args,
+        ...(platformProjectId ? { platformProjectId } : {})
+      },
+      getPool()
+    );
   }
   const ids = Array.isArray(args.reference_ids)
     ? args.reference_ids.filter((id): id is string => typeof id === "string")
@@ -375,9 +435,20 @@ export async function callDigLibraryTool(
         ? Math.max(1, Math.min(20, Math.floor(args.limit)))
         : 20;
     const listed = await listLibraryScreens(client, {
+      q: typeof args.q === "string" ? args.q : undefined,
       style: typeof args.style === "string" ? args.style : undefined,
       layout: typeof args.layout === "string" ? args.layout : undefined,
       industry: typeof args.industry === "string" ? args.industry : undefined,
+      modules: Array.isArray(args.modules) ? args.modules.filter((item): item is string => typeof item === "string") : undefined,
+      craft_tags: Array.isArray(args.craft_tags)
+        ? args.craft_tags.filter((item): item is string => typeof item === "string")
+        : undefined,
+      imagery_density: typeof args.imagery_density === "string" ? args.imagery_density : undefined,
+      type_scale: typeof args.type_scale === "string" ? args.type_scale : undefined,
+      type_image_mode: typeof args.type_image_mode === "string" ? args.type_image_mode : undefined,
+      contrast_mode: typeof args.contrast_mode === "string" ? args.contrast_mode : undefined,
+      composition_energy: typeof args.composition_energy === "string" ? args.composition_energy : undefined,
+      chrome_weight: typeof args.chrome_weight === "string" ? args.chrome_weight : undefined,
       platformProjectId,
       limit: 200
     });

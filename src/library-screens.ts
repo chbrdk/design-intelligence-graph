@@ -5,10 +5,16 @@
 import type { Queryable } from "./db.js";
 import {
   buildDesignFacets,
+  CHROME_WEIGHT_VOCAB,
+  COMPOSITION_ENERGY_VOCAB,
+  CONTRAST_MODE_VOCAB,
   DESIGN_FACETS_VERSION,
+  IMAGERY_DENSITY_VOCAB,
   INDUSTRY_VOCAB,
   LAYOUT_VOCAB,
   STYLE_VOCAB,
+  TYPE_IMAGE_MODE_VOCAB,
+  TYPE_SCALE_VOCAB,
   designFacetFilterCatalog,
   normalizeFacetFilterValue,
   screenFacetsMatch,
@@ -71,9 +77,18 @@ async function compactFacetsForPackage(
 
 export function hasScreenFacetFilters(opts: ScreenFacetFilter): boolean {
   return Boolean(
+    opts.q?.trim() ||
     normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB) ||
       normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB) ||
-      normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB)
+      normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB) ||
+      normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB) ||
+      normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB) ||
+      normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB) ||
+      normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB) ||
+      normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB) ||
+      normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB) ||
+      (opts.modules ?? []).some((item) => item.trim()) ||
+      (opts.craft_tags ?? []).some((item) => item.trim())
   );
 }
 
@@ -103,9 +118,20 @@ export async function listLibraryScreens(
   opts: LibraryScreenListOpts = {}
 ): Promise<LibraryScreenRecord[]> {
   const filter: ScreenFacetFilter = {
+    q: typeof opts.q === "string" ? opts.q.trim() : undefined,
     style: normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB),
     layout: normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB),
-    industry: normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB)
+    industry: normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB),
+    modules: Array.isArray(opts.modules) ? opts.modules.map(String).map((item) => item.trim()).filter(Boolean) : undefined,
+    craft_tags: Array.isArray(opts.craft_tags)
+      ? opts.craft_tags.map(String).map((item) => item.trim()).filter(Boolean)
+      : undefined,
+    imagery_density: normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB),
+    type_scale: normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB),
+    type_image_mode: normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB),
+    contrast_mode: normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB),
+    composition_energy: normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB),
+    chrome_weight: normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB)
   };
   const limit = clampLimit(opts.limit, 200, 200);
   const values: unknown[] = [];

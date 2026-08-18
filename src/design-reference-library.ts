@@ -11,12 +11,21 @@ import { getFederationMode } from "./federation-mode.js";
 
 export type DesignReferenceSearchQuery = {
   query?: string | undefined;
+  q?: string | undefined;
   category?: string | undefined;
   signature?: string | undefined;
   style_label?: string | undefined;
   style?: string | undefined;
   layout?: string | undefined;
   industry?: string | undefined;
+  modules?: string[] | undefined;
+  craft_tags?: string[] | undefined;
+  imagery_density?: string | undefined;
+  type_scale?: string | undefined;
+  type_image_mode?: string | undefined;
+  contrast_mode?: string | undefined;
+  composition_energy?: string | undefined;
+  chrome_weight?: string | undefined;
   similar_to?: string | undefined;
   platformProjectId?: string | null | undefined;
   digProjectId?: string | null | undefined;
@@ -152,6 +161,71 @@ function mapPayload(row: Record<string, unknown>): DesignReferenceRecord {
   return row.payload as DesignReferenceRecord;
 }
 
+function normalizeTags(values: string[] | undefined): string[] {
+  return (values ?? []).map((item) => item.trim().toLowerCase()).filter(Boolean);
+}
+
+function referenceMatchesCraft(query: DesignReferenceSearchQuery, ref: DesignReferenceRecord): boolean {
+  const q = (query.q ?? query.query)?.trim().toLowerCase() ?? "";
+  if (q) {
+    const hay = [
+      ref.taxonomy.category,
+      ref.composition.signature,
+      ref.composition.stack_summary,
+      ref.look.look_summary,
+      ref.page_context?.design_summary,
+      ...(ref.tokens?.style_labels ?? []),
+      ...(ref.craft?.craft_tags ?? [])
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  const modules = normalizeTags(query.modules);
+  if (modules.length) {
+    const refModules = normalizeTags(ref.taxonomy.screen_patterns);
+    if (!modules.every((item) => refModules.includes(item) || ref.composition.signature.toLowerCase().includes(item))) {
+      return false;
+    }
+  }
+  const craftTags = normalizeTags(query.craft_tags);
+  if (craftTags.length) {
+    const refTags = normalizeTags(ref.craft?.craft_tags);
+    if (!craftTags.every((item) => refTags.includes(item))) return false;
+  }
+  if (query.imagery_density?.trim() && ref.craft?.imagery_density !== query.imagery_density.trim()) return false;
+  if (query.type_scale?.trim() && ref.craft?.type_scale !== query.type_scale.trim()) return false;
+  if (query.type_image_mode?.trim() && ref.craft?.type_image_mode !== query.type_image_mode.trim()) return false;
+  if (query.contrast_mode?.trim() && ref.craft?.contrast_mode !== query.contrast_mode.trim()) return false;
+  if (query.composition_energy?.trim() && ref.craft?.composition_energy !== query.composition_energy.trim()) return false;
+  if (query.chrome_weight?.trim() && ref.craft?.chrome_weight !== query.chrome_weight.trim()) return false;
+  return true;
+}
+
+function referenceScore(query: DesignReferenceSearchQuery, ref: DesignReferenceRecord): number {
+  let score = 0;
+  const modules = normalizeTags(query.modules);
+  const craftTags = normalizeTags(query.craft_tags);
+  const refTags = normalizeTags(ref.craft?.craft_tags);
+  const refModules = normalizeTags(ref.taxonomy.screen_patterns);
+  for (const tag of craftTags) if (refTags.includes(tag)) score += 5;
+  for (const module of modules) if (refModules.includes(module) || ref.composition.signature.toLowerCase().includes(module)) score += 4;
+  if (query.category?.trim() && ref.taxonomy.category === query.category.trim()) score += 3;
+  if (query.imagery_density?.trim() && ref.craft?.imagery_density === query.imagery_density.trim()) score += 2;
+  if (query.type_scale?.trim() && ref.craft?.type_scale === query.type_scale.trim()) score += 2;
+  if (query.type_image_mode?.trim() && ref.craft?.type_image_mode === query.type_image_mode.trim()) score += 2;
+  if (query.contrast_mode?.trim() && ref.craft?.contrast_mode === query.contrast_mode.trim()) score += 2;
+  if (query.composition_energy?.trim() && ref.craft?.composition_energy === query.composition_energy.trim()) score += 2;
+  if (query.chrome_weight?.trim() && ref.craft?.chrome_weight === query.chrome_weight.trim()) score += 2;
+  const q = (query.q ?? query.query)?.trim().toLowerCase();
+  if (q) {
+    if (ref.look.look_summary.toLowerCase().includes(q)) score += 1;
+    if (ref.composition.stack_summary.toLowerCase().includes(q)) score += 1;
+  }
+  return score;
+}
+
 export async function searchDesignReferences(
   query: DesignReferenceSearchQuery,
   client: Queryable | null = getPool()
@@ -162,9 +236,18 @@ export async function searchDesignReferences(
 
   const { captureRunIdsForScreenFacets } = await import("./library-screens.js");
   const captureRunIds = await captureRunIdsForScreenFacets(client, {
+    q: query.q,
     style: query.style,
     layout: query.layout,
     industry: query.industry,
+    modules: query.modules,
+    craft_tags: query.craft_tags,
+    imagery_density: query.imagery_density,
+    type_scale: query.type_scale,
+    type_image_mode: query.type_image_mode,
+    contrast_mode: query.contrast_mode,
+    composition_energy: query.composition_energy,
+    chrome_weight: query.chrome_weight,
     platformProjectId: query.platformProjectId
   });
   if (captureRunIds && !captureRunIds.length) return [];
@@ -216,7 +299,7 @@ export async function searchDesignReferences(
     values.push(captureRunIds);
     clauses.push(`capture_run_id = ANY($${values.length}::text[])`);
   }
-  const textQuery = query.query?.trim() || query.similar_to?.trim();
+  const textQuery = query.q?.trim() || query.query?.trim() || query.similar_to?.trim();
   if (textQuery) {
     values.push(`%${textQuery.toLocaleLowerCase()}%`);
     clauses.push(
@@ -225,7 +308,7 @@ export async function searchDesignReferences(
   }
   const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
   const limit = clampLimit(query.limit);
-  values.push(limit);
+  values.push(Math.max(limit * 4, 40));
   const result = await client.query(
     `SELECT payload FROM design_references
      ${where}
@@ -233,7 +316,11 @@ export async function searchDesignReferences(
      LIMIT $${values.length}`,
     values
   );
-  return (result.rows as Array<Record<string, unknown>>).map(mapPayload);
+  return (result.rows as Array<Record<string, unknown>>)
+    .map(mapPayload)
+    .filter((ref) => referenceMatchesCraft(query, ref))
+    .sort((a, b) => referenceScore(query, b) - referenceScore(query, a))
+    .slice(0, limit);
 }
 
 export async function getDesignReference(
