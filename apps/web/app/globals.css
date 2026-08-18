@@ -485,7 +485,12 @@ a {
 
 .dig-section-look-panel {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.5rem;
+}
+
+.dig-section-look-panel .ds-text-body {
+  font-size: var(--type-sm);
+  line-height: 1.4;
 }
 
 .dig-section-look-list {
