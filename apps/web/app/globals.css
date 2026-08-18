@@ -275,6 +275,10 @@ a {
   gap: 0.15rem;
 }
 
+.dig-screen-insight-header .ds-text-display {
+  margin: 0;
+}
+
 .dig-screen-insight-ledes {
   --ds-stat-cols: 4;
 }
@@ -337,6 +341,11 @@ a {
 
 .dig-visual-craft-card {
   min-height: 0;
+}
+
+.dig-visual-craft-card .ds-text-body {
+  font-size: var(--type-md);
+  line-height: 1.4;
 }
 
 .dig-visual-craft-icon {

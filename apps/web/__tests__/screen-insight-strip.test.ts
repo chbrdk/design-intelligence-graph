@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, it } from 'vitest'
 import {
   designFacetsHaveUiSignal,
@@ -86,5 +88,11 @@ describe('ScreenInsightStrip helpers', () => {
     ])
     assert.equal(screenInsightLedes(empty, null).length, 0)
     assert.equal(screenInsightMetaChips(empty, null).length, 0)
+  })
+
+  it('sets the screen masthead in the thin display role used by shell headers', () => {
+    const src = readFileSync(resolve(__dirname, '../components/screen-insight-strip.tsx'), 'utf8')
+    assert.match(src, /role="display"/)
+    assert.doesNotMatch(src, /role="headline"/)
   })
 })

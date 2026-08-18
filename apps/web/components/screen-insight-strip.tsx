@@ -133,7 +133,9 @@ export function ScreenInsightStrip(props: {
   return (
     <section className="dig-screen-insight" aria-label={copy.screenInsightTitle}>
       <header className="dig-screen-insight-header">
-        <Text role="headline">{props.title}</Text>
+        <Text role="display" as="h2">
+          {props.title}
+        </Text>
         {props.url ? <Text role="meta">{props.url}</Text> : null}
       </header>
 

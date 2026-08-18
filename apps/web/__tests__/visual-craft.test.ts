@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, it } from 'vitest'
 import {
   visualCraftAtoms,
@@ -43,5 +45,10 @@ describe('Visual craft library copy', () => {
       'Keep the overlay band; do not card-kit the hero.',
     )
     assert.equal(visualCraftRebuildSpec({ type_image_relationship: 'Type only.' }), null)
+  })
+
+  it('sets craft card copy on the compact type-md step', () => {
+    const src = readFileSync(resolve(__dirname, '../components/visual-craft-panel.tsx'), 'utf8')
+    assert.match(src, /role="body" size="md"/)
   })
 })

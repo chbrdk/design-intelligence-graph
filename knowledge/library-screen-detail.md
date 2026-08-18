@@ -13,9 +13,9 @@ Library **Screens** grid:
 
    1. AppShell back icon (top-left, `screenDetailBack`) returns to Screens or Devices
    2. **Design brief** (`dig-screen-magazine`) — one editorial chapter:
-      - Masthead (title + URL)
+      - Masthead (title in `Text` `display` / `--weight-thin`, plus URL)
       - Four identity ledes (page type, style, layout, color) plus one quiet chip/swatch row
-      - **Visual craft** immediately below (`Panel` cards in `Grid`, embedded/flush — not under the screenshot)
+      - **Visual craft** immediately below (`Panel` cards in `Grid`, body copy at `--type-md`)
    3. Split:
       - Left: full-page screenshot + vision band overlays
       - Right: collapsible summary, **Page narrative**, **Section look** accordion (`SectionChrome`)

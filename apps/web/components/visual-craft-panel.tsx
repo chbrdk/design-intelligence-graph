@@ -138,7 +138,9 @@ export function VisualCraftPanel({
               <Text role="label" id={`dig-visual-craft-${atom.id}`}>
                 {atom.label}
               </Text>
-              <Text role="body">{atom.value}</Text>
+              <Text role="body" size="md">
+                {atom.value}
+              </Text>
             </Stack>
           </Panel>
         ))}
@@ -161,7 +163,9 @@ export function VisualCraftPanel({
               <Text role="label" id="dig-visual-craft-rebuild">
                 {copy.screenInsightRebuildSpec}
               </Text>
-              <Text role="body">{rebuildSpec}</Text>
+              <Text role="body" size="md">
+                {rebuildSpec}
+              </Text>
             </Stack>
           </Panel>
         ) : null}
