@@ -14,6 +14,7 @@ describe('SPIRION island paths contract', () => {
     assert.equal(paths.federationContract, '2026-05-plexon-federation-v3')
     assert.equal(ASSISTANT_EMBED_PRODUCT, 'spirion')
     assert.equal(paths.routes.capture, '/capture')
+    assert.equal(paths.routes.queue, '/queue')
     assert.equal(paths.routes.projects, '/projects')
     assert.equal(paths.digProxyBase, '/api/dig')
     assert.equal(paths.apiPlatformProvisioningProjects, '/api/platform/provisioning/projects')

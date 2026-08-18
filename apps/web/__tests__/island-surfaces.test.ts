@@ -27,10 +27,18 @@ describe('island surfaces', () => {
   it('keeps home/enrichment caps in sync with knowledge/paths.json', () => {
     const catalog = JSON.parse(
       readFileSync(resolve(__dirname, '../../../knowledge/paths.json'), 'utf8'),
-    ) as { islandSurfaces: { homeRecentCount: number; enrichmentListCap: number; analysesListCap: number } }
+    ) as {
+      islandSurfaces: {
+        homeRecentCount: number
+        enrichmentListCap: number
+        analysesListCap: number
+        queuePollMs: number
+      }
+    }
     assert.equal(paths.islandSurfaces.homeRecentCount, catalog.islandSurfaces.homeRecentCount)
     assert.equal(paths.islandSurfaces.enrichmentListCap, catalog.islandSurfaces.enrichmentListCap)
     assert.equal(paths.islandSurfaces.analysesListCap, catalog.islandSurfaces.analysesListCap)
+    assert.equal(paths.islandSurfaces.queuePollMs, catalog.islandSurfaces.queuePollMs)
   })
 
   it('links a capture to the desktop library screen', () => {
@@ -87,5 +95,6 @@ describe('island surfaces', () => {
     assert.doesNotMatch(flows, /Transitions/)
     const home = readFileSync(resolve(__dirname, '../components/home-page.tsx'), 'utf8')
     assert.match(home, /LibraryScreenGrid/)
+    assert.match(home, /QueueDashboard/)
   })
 })

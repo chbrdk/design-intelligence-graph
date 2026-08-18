@@ -546,3 +546,32 @@ test("JobRunner runs still-image jobs on a separate concurrency pool", async () 
     else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
   }
 });
+
+test("JobRunner cancelQueued and moveQueued edit the pending FIFO", () => {
+  const previousLlm = process.env.DIG_LLM_ENABLED;
+  process.env.DIG_LLM_ENABLED = "false";
+  const runner = new JobRunner({
+    maxConcurrent: 1,
+    asyncEnrichment: false,
+    captureFn: async () => {
+      throw new Error("held");
+    }
+  });
+  try {
+    runner.startJob("https://first.example/");
+    const waiting = runner.startJob("https://second.example/");
+    const later = runner.startJob("https://third.example/");
+    assert.deepEqual(runner.queuedOrder(), [waiting.job_id, later.job_id]);
+    const skipped = runner.cancelQueued(waiting.job_id);
+    assert.equal(skipped?.stage, "skipped");
+    assert.deepEqual(runner.queuedOrder(), [later.job_id]);
+    assert.equal(runner.moveQueued(later.job_id, "front")?.job_id, later.job_id);
+    assert.deepEqual(runner.queuedOrder(), [later.job_id]);
+    assert.equal(runner.cancelQueued(later.job_id)?.stage, "skipped");
+    assert.deepEqual(runner.queuedOrder(), []);
+    assert.equal(runner.cancelQueued(later.job_id), null);
+  } finally {
+    if (previousLlm === undefined) delete process.env.DIG_LLM_ENABLED;
+    else process.env.DIG_LLM_ENABLED = previousLlm;
+  }
+});

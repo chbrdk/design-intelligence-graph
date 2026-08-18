@@ -283,7 +283,10 @@
     "doc": "knowledge/island-surfaces.md",
     "homeRecentCount": 8,
     "enrichmentListCap": 12,
-    "analysesListCap": 24
+    "analysesListCap": 24,
+    "queuePollMs": 10000,
+    "homeLiveOpsCap": 6,
+    "queueEditHeadCap": 40
   },
   "libraryReset": {
     "doc": "knowledge/library-reset.md",

@@ -21,10 +21,10 @@ Paths come from [`paths.json`](paths.json):
 
 ## Dashboard panels
 
-1. **Pipeline status** — capture job timeline; shows `enrichment_job_id` when async LLM is queued
-2. **Enrichment** — queue status, models, tokens, estimated USD; link to analysis
-3. **Analyses** — design summary, patterns, UI elements, recipes, visual style, page flow, vision/cost
-4. **Library / Home / Analyses / Enrichment** — visual surfaces, not ID dumps. See [`island-surfaces.md`](island-surfaces.md).
+1. **Home pipeline** — `StatusMeterPanel` + `KpiStrip` + `PipelinePanel` from live `GET /api/jobs` and `GET /api/enrichment`
+2. **Queue** (`/queue`) — editable capture waiting list (`LayersPanel` + `DataTable`); skip/reorder via `DELETE`/`PATCH /api/jobs/:id` once dig-api is deployed
+3. **Enrichment** — queue status; link into Library when a screen exists
+4. **Analyses** — design summary cards that open Library
 
 Island `apps/web/lib/dig-api.ts` `readJson` must tolerate empty/truncated upstream bodies (Traefik 502 during Playwright batches). Do not call `response.json()` directly.
 

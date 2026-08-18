@@ -48,9 +48,21 @@ export { StatLede, StatLedeGroup } from '../../../../msqdx-ui/packages/ui/src/co
 export type { StatLedeTone } from '../../../../msqdx-ui/packages/ui/src/components/StatLede'
 export { StatusDot } from '../../../../msqdx-ui/packages/ui/src/components/StatusDot'
 export { StatusMeterPanel } from '../../../../msqdx-ui/packages/ui/src/components/StatusMeterPanel'
+export type { StatusMeterItem, StatusMeterLevel, StatusMeterPanelProps } from '../../../../msqdx-ui/packages/ui/src/components/StatusMeterPanel'
 export { TopStatus } from '../../../../msqdx-ui/packages/ui/src/components/TopStatus'
 export type { TopStatusLevel, TopStatusProps } from '../../../../msqdx-ui/packages/ui/src/components/TopStatus'
 export { Tabs } from '../../../../msqdx-ui/packages/ui/src/components/Tabs'
 export type { TabItem, TabsProps } from '../../../../msqdx-ui/packages/ui/src/components/Tabs'
 export { ToggleGroup } from '../../../../msqdx-ui/packages/ui/src/components/ToggleGroup'
 export type { ToggleGroupProps, ToggleOption } from '../../../../msqdx-ui/packages/ui/src/components/ToggleGroup'
+export { KpiStrip } from '../../../../msqdx-ui/packages/ui/src/components/KpiStrip'
+export type { KpiItem, KpiStripProps } from '../../../../msqdx-ui/packages/ui/src/components/KpiStrip'
+export { MetricChip } from '../../../../msqdx-ui/packages/ui/src/components/MetricChip'
+export type { MetricChipProps } from '../../../../msqdx-ui/packages/ui/src/components/MetricChip'
+export { PipelinePanel } from '../../../../msqdx-ui/packages/ui/src/components/PipelinePanel'
+export type {
+  PipelineLane,
+  PipelineOperation,
+  PipelinePanelProps,
+  PipelineSlot,
+} from '../../../../msqdx-ui/packages/ui/src/components/PipelinePanel'

@@ -18,6 +18,7 @@ import {
   NavIconEnrich,
   NavIconHome,
   NavIconLibrary,
+  NavIconQueue,
 } from './nav-icons'
 import { PlatformAssistantHost } from './platform-assistant-host'
 import { paths, withPlatformProject } from '../lib/paths'
@@ -27,6 +28,7 @@ const PRIMARY_NAV = [
   { id: 'home', href: paths.routes.home, label: 'Home', icon: <NavIconHome /> },
   { id: 'projects', href: paths.routes.projects, label: 'Projects', icon: <NavIconLibrary /> },
   { id: 'capture', href: paths.routes.capture, label: 'Capture', icon: <NavIconCapture /> },
+  { id: 'queue', href: paths.routes.queue, label: 'Queue', icon: <NavIconQueue /> },
   { id: 'library', href: paths.routes.library, label: 'Library', icon: <NavIconLibrary /> },
   { id: 'enrichment', href: paths.routes.enrichment, label: 'Enrichment', icon: <NavIconEnrich /> },
   { id: 'analyses', href: paths.routes.analyses, label: 'Analyses', icon: <NavIconAnalyses /> },

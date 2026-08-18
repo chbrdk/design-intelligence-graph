@@ -4,6 +4,8 @@
 export { ConfirmDialog } from '../../../../msqdx-ui/packages/ui/src/components/ConfirmDialog'
 export { DataTable } from '../../../../msqdx-ui/packages/ui/src/components/DataTable'
 export type { DataTableColumn, DataTableProps } from '../../../../msqdx-ui/packages/ui/src/components/DataTable'
+export { LayersPanel } from '../../../../msqdx-ui/packages/ui/src/components/LayersPanel'
+export type { LayersPanelItem, LayersPanelProps } from '../../../../msqdx-ui/packages/ui/src/components/LayersPanel'
 export { Dialog } from '../../../../msqdx-ui/packages/ui/src/components/Dialog'
 export { ChatOverlay } from '../../../../msqdx-ui/packages/ui/src/components/ChatOverlay'
 export type {

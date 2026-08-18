@@ -90,6 +90,18 @@ export class EnrichmentQueue {
     return this.jobs.get(id);
   }
 
+  skipQueued(id: string): EnrichmentJobRecord | null {
+    const job = this.jobs.get(id);
+    if (!job || job.status !== "queued") return null;
+    const now = (this.options.now ?? (() => new Date()))().toISOString();
+    job.status = "skipped";
+    job.message = "Removed from queue";
+    job.updated_at = now;
+    job.completed_at = now;
+    void (this.options.persist ?? persistEnrichmentJob)(job).catch(() => undefined);
+    return job;
+  }
+
   enqueue(input: {
     package_path: string;
     capture_run_id: string;

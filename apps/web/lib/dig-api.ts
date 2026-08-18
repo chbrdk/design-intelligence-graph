@@ -64,6 +64,45 @@ export interface EnrichmentJob {
   error?: string
 }
 
+export async function fetchCaptureJobs(): Promise<JobSnapshot[]> {
+  const response = await fetch(`${BASE}${paths.digApiJobs}`)
+  const body = await readJson<{ jobs?: JobSnapshot[] }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Jobs list failed (${response.status})`)
+  return body.jobs ?? []
+}
+
+export async function skipCaptureJob(jobId: string): Promise<JobSnapshot> {
+  const response = await fetch(`${BASE}${paths.digApiJobs}/${encodeURIComponent(jobId)}`, {
+    method: 'DELETE',
+  })
+  const body = await readJson<JobSnapshot>(response)
+  if (!response.ok) throw new Error(body.error ?? `Skip failed (${response.status})`)
+  return body
+}
+
+export async function moveCaptureJob(
+  jobId: string,
+  direction: 'up' | 'down' | 'front',
+): Promise<JobSnapshot> {
+  const response = await fetch(`${BASE}${paths.digApiJobs}/${encodeURIComponent(jobId)}`, {
+    method: 'PATCH',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'move', direction }),
+  })
+  const body = await readJson<JobSnapshot>(response)
+  if (!response.ok) throw new Error(body.error ?? `Reorder failed (${response.status})`)
+  return body
+}
+
+export async function skipEnrichmentJob(jobId: string): Promise<EnrichmentJob> {
+  const response = await fetch(`${BASE}${paths.digApiEnrichment}/${encodeURIComponent(jobId)}`, {
+    method: 'DELETE',
+  })
+  const body = await readJson<EnrichmentJob>(response)
+  if (!response.ok) throw new Error(body.error ?? `Skip enrichment failed (${response.status})`)
+  return body
+}
+
 export async function fetchEnrichmentJobs(): Promise<EnrichmentJob[]> {
   const response = await fetch(`${BASE}${paths.digApiEnrichment}`)
   const body = await readJson<{ jobs?: EnrichmentJob[] }>(response)

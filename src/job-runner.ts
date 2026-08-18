@@ -17,7 +17,7 @@ import { downloadPinImage, type PinterestPin } from "./pinterest-client.js";
 import { ingestPinterestPinPackage } from "./pinterest-package.js";
 import { ingestUploadedImagePackage, type UploadedImageIngest } from "./image-ingest.js";
 
-export type JobStage = "queued" | "capturing" | "analyzing" | "verifying" | "indexing" | "complete" | "failed";
+export type JobStage = "queued" | "capturing" | "analyzing" | "verifying" | "indexing" | "complete" | "failed" | "skipped";
 
 export interface JobResult {
   package_root?: string;
@@ -151,6 +151,31 @@ export class JobRunner {
 
   listJobs(): JobRecord[] {
     return [...this.jobs.values()].sort((a, b) => b.created_at.localeCompare(a.created_at));
+  }
+
+  queuedOrder(): string[] {
+    return [...this.pending];
+  }
+
+  cancelQueued(jobId: string): JobRecord | null {
+    const job = this.jobs.get(jobId);
+    if (!job || job.stage !== "queued") return null;
+    const idx = this.pending.indexOf(jobId);
+    if (idx >= 0) this.pending.splice(idx, 1);
+    this.emit(job, { stage: "skipped", message: "Removed from queue" });
+    return job;
+  }
+
+  moveQueued(jobId: string, direction: "up" | "down" | "front"): JobRecord | null {
+    const job = this.jobs.get(jobId);
+    if (!job || job.stage !== "queued") return null;
+    const idx = this.pending.indexOf(jobId);
+    if (idx < 0) return null;
+    this.pending.splice(idx, 1);
+    if (direction === "front") this.pending.unshift(jobId);
+    else if (direction === "up") this.pending.splice(Math.max(0, idx - 1), 0, jobId);
+    else this.pending.splice(Math.min(this.pending.length, idx + 1), 0, jobId);
+    return job;
   }
 
   getJob(jobId: string): JobRecord | undefined {
@@ -625,16 +650,20 @@ export function formatJobIssueList(
   return `${parts.join("; ")}${extra}`;
 }
 
-export function publicJobView(job: JobRecord): Omit<JobRecord, "events"> & { event_count: number; latest_event?: JobEvent } {
+export function publicJobView(
+  job: JobRecord,
+  queueIndex: number | null = null
+): Omit<JobRecord, "events"> & { event_count: number; latest_event?: JobEvent; queue_index?: number | null } {
   const latest = job.events.at(-1);
-  const view: Omit<JobRecord, "events"> & { event_count: number; latest_event?: JobEvent } = {
+  const view: Omit<JobRecord, "events"> & { event_count: number; latest_event?: JobEvent; queue_index?: number | null } = {
     job_id: job.job_id,
     url: job.url,
     stage: job.stage,
     message: job.message,
     created_at: job.created_at,
     updated_at: job.updated_at,
-    event_count: job.events.length
+    event_count: job.events.length,
+    queue_index: job.stage === "queued" ? queueIndex : null
   };
   if (job.platform_project_id) view.platform_project_id = job.platform_project_id;
   if (job.dig_project_id) view.dig_project_id = job.dig_project_id;

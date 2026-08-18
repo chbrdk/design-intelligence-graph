@@ -279,7 +279,13 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
   }
 
   if (request.method === "GET" && url.pathname === paths.api.jobsPath) {
-    sendJson(response, 200, { jobs: runner.listJobs().map(publicJobView) });
+    const order = runner.queuedOrder();
+    sendJson(response, 200, {
+      jobs: runner.listJobs().map((job) => {
+        const index = order.indexOf(job.job_id);
+        return publicJobView(job, index >= 0 ? index : null);
+      })
+    });
     return true;
   }
 
@@ -326,15 +332,27 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
   }
 
   const enrichmentMatch = url.pathname.match(new RegExp(`^${enrichmentPath}/([^/]+)$`));
-  if (request.method === "GET" && enrichmentMatch) {
+  if (enrichmentMatch) {
     const id = decodeURIComponent(enrichmentMatch[1]!);
-    const job = enrichmentQueue.getJob(id) ?? (await getEnrichmentJobFromDb(id).catch(() => null));
-    if (!job) {
-      sendJson(response, 404, { error: "Enrichment job not found" });
+    if (request.method === "DELETE") {
+      if (rejectIfDestructiveUnauthorized(request, response)) return true;
+      const skipped = enrichmentQueue.skipQueued(id);
+      if (!skipped) {
+        sendJson(response, 409, { error: "only_queued_enrichment_can_be_skipped" });
+        return true;
+      }
+      sendJson(response, 200, publicEnrichmentView(skipped));
       return true;
     }
-    sendJson(response, 200, publicEnrichmentView(job));
-    return true;
+    if (request.method === "GET") {
+      const job = enrichmentQueue.getJob(id) ?? (await getEnrichmentJobFromDb(id).catch(() => null));
+      if (!job) {
+        sendJson(response, 404, { error: "Enrichment job not found" });
+        return true;
+      }
+      sendJson(response, 200, publicEnrichmentView(job));
+      return true;
+    }
   }
 
   const jobMatch = url.pathname.match(new RegExp(`^${paths.api.jobsPath}/([^/]+)(/events)?$`));
@@ -356,17 +374,53 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
       for (const event of job.events) writeSse(response, event);
       const unsubscribe = runner.subscribe(jobId, (event) => {
         writeSse(response, event);
-        if (event.stage === "complete" || event.stage === "failed") {
+        if (event.stage === "complete" || event.stage === "failed" || event.stage === "skipped") {
           response.end();
           unsubscribe();
         }
       });
       request.on("close", unsubscribe);
-      if (job.stage === "complete" || job.stage === "failed") response.end();
+      if (job.stage === "complete" || job.stage === "failed" || job.stage === "skipped") response.end();
       return true;
     }
     if (request.method === "GET") {
-      sendJson(response, 200, publicJobView(job));
+      const idx = runner.queuedOrder().indexOf(job.job_id);
+      sendJson(response, 200, publicJobView(job, idx >= 0 ? idx : null));
+      return true;
+    }
+    if (request.method === "DELETE") {
+      if (rejectIfDestructiveUnauthorized(request, response)) return true;
+      const skipped = runner.cancelQueued(jobId);
+      if (!skipped) {
+        sendJson(response, 409, { error: "only_queued_jobs_can_be_skipped" });
+        return true;
+      }
+      sendJson(response, 200, publicJobView(skipped, null));
+      return true;
+    }
+    if (request.method === "PATCH") {
+      if (rejectIfDestructiveUnauthorized(request, response)) return true;
+      try {
+        const body = (await readJson(request)) as { action?: unknown; direction?: unknown };
+        if (body.action !== "move") {
+          sendJson(response, 400, { error: "action must be move" });
+          return true;
+        }
+        const direction = body.direction;
+        if (direction !== "up" && direction !== "down" && direction !== "front") {
+          sendJson(response, 400, { error: "direction must be up, down, or front" });
+          return true;
+        }
+        const moved = runner.moveQueued(jobId, direction);
+        if (!moved) {
+          sendJson(response, 409, { error: "only_queued_jobs_can_be_reordered" });
+          return true;
+        }
+        const index = runner.queuedOrder().indexOf(moved.job_id);
+        sendJson(response, 200, publicJobView(moved, index >= 0 ? index : null));
+      } catch (error: unknown) {
+        sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
+      }
       return true;
     }
   }

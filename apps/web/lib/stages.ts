@@ -6,6 +6,7 @@ export type JobStage =
   | 'indexing'
   | 'complete'
   | 'failed'
+  | 'skipped'
 
 export interface JobResult {
   package_root?: string
@@ -42,6 +43,8 @@ export interface JobSnapshot {
   event_count: number
   result?: JobResult
   error?: string
+  ingest_source?: string
+  queue_index?: number | null
   latest_event?: JobEvent
 }
 
@@ -70,6 +73,8 @@ export function stageLabel(stage: JobStage): string {
       return 'Complete'
     case 'failed':
       return 'Failed'
+    case 'skipped':
+      return 'Skipped'
   }
 }
 
@@ -81,5 +86,6 @@ export function stagePhase(
   if (stage === 'verifying' || stage === 'indexing') return 'ingestion'
   if (stage === 'complete') return 'done'
   if (stage === 'failed') return 'error'
+  if (stage === 'skipped') return 'idle'
   return 'idle'
 }
