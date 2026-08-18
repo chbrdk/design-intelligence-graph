@@ -48,7 +48,7 @@ describe('Visual craft library copy', () => {
   })
 
   it('sets craft card copy on the compact type-md step', () => {
-    const src = readFileSync(resolve(__dirname, '../components/visual-craft-panel.tsx'), 'utf8')
+    const src = readFileSync(resolve(__dirname, '../components/spec-atom-grid.tsx'), 'utf8')
     assert.match(src, /role="body" size="md"/)
   })
 })

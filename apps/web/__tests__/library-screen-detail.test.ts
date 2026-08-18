@@ -11,14 +11,20 @@ import {
 } from '../lib/screen-detail-split'
 
 describe('library screen detail section look', () => {
-  it('sets compact type on section-look item body copy', () => {
+  it('uses numbered spec cards for UX, functionality, and each section', () => {
     const css = readFileSync(resolve(__dirname, '../app/globals.css'), 'utf8')
-    const block = css.match(/\.dig-section-look-panel \.ds-text-body \{[^}]+\}/)
-    assert.ok(block)
-    assert.match(block[0], /font-size:\s*var\(--type-sm\)/)
+    assert.match(css, /\.dig-section-spec-thumb/)
+    assert.match(css, /\.dig-screen-detail-side \.dig-visual-craft-card \.ds-text-body/)
+    assert.match(css, /font-size:\s*var\(--type-sm\)/)
     const component = readFileSync(resolve(__dirname, '../components/library-screen-detail.tsx'), 'utf8')
-    assert.match(component, /dig-section-look-panel/)
-    assert.match(component, /item\.interpretation/)
+    assert.match(component, /UxAssessmentPanel/)
+    assert.match(component, /FunctionalityPanel/)
+    assert.match(component, /sectionSpecAtoms/)
+    assert.match(component, /pageFlowFromItems/)
+    assert.doesNotMatch(component, /item\.interpretation/)
+    assert.equal(paths.libraryCopy.screenInsightUx, 'UX assessment')
+    assert.equal(paths.libraryCopy.screenInsightFunctionality, 'Functionality')
+    assert.equal(paths.libraryCopy.screenInsightSectionSpec, 'Section spec')
   })
 })
 

@@ -15,12 +15,15 @@ Library **Screens** grid:
    2. **Design brief** (`dig-screen-magazine`) — one editorial chapter:
       - Masthead (title in `Text` `display` / `--weight-thin`, plus URL)
       - Four identity ledes (page type, style, layout, color) plus one quiet chip/swatch row
-      - **Visual craft** immediately below (`Panel` cards in `Grid`, body copy at `--type-md`)
+      - **Visual craft** (`SpecAtomGrid` numbered cards: type/image, typography, imagery, space, chrome, rebuild spec)
+      - **UX assessment** (same card grid: above-fold job, flow, spacing, strengths, risks)
+      - **Functionality** (detected UI, screen patterns, notable modules)
+      - **Section spec** — one independent numbered grid per vision band (crop + type/image/space/function/look)
    3. Split (drag the gutter to make screenshot or section look narrower; remembered in `libraryScreenDetail.splitStorageKey`):
-      - Left: full-page screenshot + vision band overlays
-      - Right: collapsible summary, **Page narrative**, **Section look** accordion (`SectionChrome`)
+      - Left: full-page screenshot + vision band overlays (click scrolls to that section spec)
+      - Right: collapsible summary, **Page narrative** (from analysis `page_flow` items, `GET /page-flows` only as fallback), **Section look** accordion with the same spec cards
 
-Vision layout notes are under **Notes**, not in the hero.
+Vision layout notes are under **Notes**, not in the hero. Do not show the `Vision-detected … Full-width band y=` preamble as body copy.
 
 ## Files
 
@@ -28,6 +31,10 @@ Vision layout notes are under **Notes**, not in the hero.
 - `apps/web/components/library-screen-detail.tsx`
 - `apps/web/components/screen-insight-strip.tsx`
 - `apps/web/components/visual-craft-panel.tsx`
+- `apps/web/components/ux-assessment-panel.tsx`
+- `apps/web/components/functionality-panel.tsx`
+- `apps/web/components/spec-atom-grid.tsx`
+- `apps/web/lib/spec-atoms.ts`
 - `apps/web/lib/library-hash.ts` (`screen_detail`)
 - `apps/web/lib/dig-api.ts` (`design_facets` on analysis package; `fetchLibraryScreensPage`; `fetchCapturePromptPack`)
 - `GET /api/library/screens` compact `design_facets` + `facet_filters`

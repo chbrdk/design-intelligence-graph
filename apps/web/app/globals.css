@@ -399,6 +399,23 @@ a {
   grid-column: 1 / -1;
 }
 
+.dig-section-spec-thumb {
+  width: 100%;
+  max-height: 14rem;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 6px;
+  background: var(--bg1);
+}
+
+.dig-screen-detail-side .dig-visual-craft--embedded {
+  min-width: 0;
+}
+
+.dig-screen-detail-side .dig-visual-craft-card .ds-text-body {
+  font-size: var(--type-sm);
+}
+
 .dig-screen-insight-more,
 .dig-screen-summary {
   margin: 0;

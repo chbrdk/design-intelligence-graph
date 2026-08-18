@@ -208,12 +208,14 @@ export interface SectionLookItem {
   kind?: string
   name?: string | null
   label?: string | null
+  section_label?: string | null
   signature?: string | null
   category?: string | null
   interpretation?: string | null
   confidence?: number | null
   crop_path?: string | null
   crop_url?: string | null
+  step_index?: number | null
 }
 
 export interface SectionDescription {
@@ -224,6 +226,14 @@ export interface SectionDescription {
   look_summary?: string
   interaction_summary?: string
   confidence?: number
+  overlay?: { present?: boolean; kind?: string; notes?: string }
+  media?: { role?: string; notes?: string }
+  spacing?: { notes?: string }
+  layout?: { mode?: string; notes?: string }
+  alignment?: { text?: string; cta?: string }
+  typography_emphasis?: string[]
+  role_notes?: Array<{ role: string; notes: string }>
+  color_notes?: string
 }
 
 export interface LookContract {
@@ -275,6 +285,12 @@ export interface VisionPageSummary {
   category_tags?: string[]
   notable_modules?: string[]
   rebuild_hints?: string
+  interaction_chrome?: string
+  spacing_feel?: string
+  alignment?: string
+  ux_flow?: string[]
+  ux_strengths?: string[]
+  ux_risks?: string[]
   visual_craft?: VisualCraft | null
   confidence?: number
   status?: string

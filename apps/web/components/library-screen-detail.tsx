@@ -12,12 +12,18 @@ import {
   type LibraryAnalysisDetail,
   type LibraryScreen,
   type ScreenHotspot,
-  type SectionLookItem,
 } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 import { ScreenInsightStrip } from './screen-insight-strip'
 import { ScreenDetailSplit } from './screen-detail-split'
 import { VisualCraftPanel } from './visual-craft-panel'
+import { UxAssessmentPanel } from './ux-assessment-panel'
+import { FunctionalityPanel } from './functionality-panel'
+import { SpecAtomGrid } from './spec-atom-grid'
+import {
+  pageFlowFromItems,
+  sectionSpecAtoms,
+} from '../lib/spec-atoms'
 
 function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
@@ -108,7 +114,12 @@ export function LibraryScreenDetailPanel(props: {
           setAnalysis(analysisDetail)
           setAnalysisPending(false)
           if (job?.message) setEnrichmentHint(job.message)
-          await loadNarrative()
+          const fromItems = pageFlowFromItems(analysisDetail.items)
+          if (fromItems.length) {
+            setPageNarrative(fromItems)
+          } else {
+            await loadNarrative()
+          }
           return
         } catch (err: unknown) {
           const message = err instanceof Error ? err.message : String(err)
@@ -145,34 +156,96 @@ export function LibraryScreenDetailPanel(props: {
     screen?.full_page_url ?? screen?.settled_url ?? screen?.primary_url,
   )
 
+  function selectSection(sectionId: string) {
+    setOpenSectionId(sectionId)
+    const chapter = document.getElementById(`dig-section-spec-${sectionId}`)
+    chapter?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const summary = analysis?.analysis.design_summary?.trim() || ''
+  const visualCraft = analysis?.package?.vision_page?.visual_craft ?? null
+  const sectionDescriptions = analysis?.package?.section_descriptions ?? []
+  const functionalityUi = useMemo(
+    () =>
+      (analysis?.items ?? [])
+        .filter((item) => item.kind === 'ui_element')
+        .map((item) => String(item.name || item.label || '').trim()),
+    [analysis],
+  )
+  const functionalityPatterns = useMemo(
+    () =>
+      (analysis?.items ?? [])
+        .filter((item) => item.kind === 'screen_pattern')
+        .map((item) => String(item.name || item.label || '').trim()),
+    [analysis],
+  )
+  const functionalityModules = analysis?.package?.vision_page?.notable_modules ?? []
+
+  const sectionChapters = useMemo(() => {
+    if (!overlays.length) return null
+    return overlays.flatMap((hotspot) => {
+      const look = sectionLooks.find(
+        (item) => String(item.name ?? item.id ?? '') === hotspot.section_id,
+      )
+      const desc = sectionDescriptions.find((item) => item.section_id === hotspot.section_id)
+      const atoms = sectionSpecAtoms(look, desc)
+      if (!atoms.length) return []
+      const crop = islandMediaUrl(look?.crop_url)
+      return [
+        <SpecAtomGrid
+          key={hotspot.section_id}
+          id={`dig-section-spec-${hotspot.section_id}`}
+          title={hotspot.label || look?.category || paths.libraryCopy.screenInsightSectionSpec}
+          kicker={paths.libraryCopy.screenInsightSectionSpecKicker}
+          atoms={atoms}
+          headingId={`dig-section-spec-${hotspot.section_id}`}
+          lead={
+            crop ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={crop} alt="" className="dig-section-spec-thumb" loading="lazy" />
+            ) : null
+          }
+        />,
+      ]
+    })
+  }, [overlays, sectionLooks, sectionDescriptions])
+
   const accordionItems = useMemo(() => {
-    // Vision full-width bands only — never DOM CTA/heading fragments.
     if (!overlays.length) return []
     return overlays.map((hotspot) => {
       const look = sectionLooks.find(
         (item) => String(item.name ?? item.id ?? '') === hotspot.section_id,
       )
+      const desc = sectionDescriptions.find((item) => item.section_id === hotspot.section_id)
+      const atoms = sectionSpecAtoms(look, desc)
+      const crop = islandMediaUrl(look?.crop_url)
       return {
         id: hotspot.section_id,
         title: hotspot.label || hotspot.section_id,
-        preview: (look?.interpretation ?? '').slice(0, 120) || undefined,
-        panel: look ? (
-          <SectionLookPanel item={look} />
+        preview: atoms[0]?.value.slice(0, 120) || undefined,
+        panel: atoms.length ? (
+          <SpecAtomGrid
+            title={hotspot.label || paths.libraryCopy.screenInsightSectionSpec}
+            atoms={atoms}
+            headingId={`dig-side-spec-${hotspot.section_id}`}
+            embedded
+            lead={
+              crop ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={crop} alt="" className="dig-section-look-thumb" loading="lazy" />
+              ) : null
+            }
+          />
         ) : (
-          <Text role="body">
-            Full-width vision band. Detail analysis appears after section VL.
+          <Text role="hint">
+            {analysisPending
+              ? 'Section spec appears after enrichment…'
+              : 'No independent section spec yet.'}
           </Text>
         ),
       }
     })
-  }, [sectionLooks, overlays])
-
-  function selectSection(sectionId: string) {
-    setOpenSectionId(sectionId)
-  }
-
-  const summary = analysis?.analysis.design_summary?.trim() || ''
-  const visualCraft = analysis?.package?.vision_page?.visual_craft ?? null
+  }, [overlays, sectionLooks, sectionDescriptions, analysisPending])
 
   return (
     <div className="dig-screen-detail">
@@ -193,6 +266,13 @@ export function LibraryScreenDetailPanel(props: {
           notes={layoutNotes}
         />
         <VisualCraftPanel craft={visualCraft} embedded />
+        <UxAssessmentPanel page={analysis?.package?.vision_page} summary={summary} />
+        <FunctionalityPanel
+          ui={functionalityUi}
+          patterns={functionalityPatterns}
+          modules={functionalityModules}
+        />
+        {sectionChapters}
       </Panel>
 
       <ScreenDetailSplit
@@ -275,7 +355,10 @@ export function LibraryScreenDetailPanel(props: {
             <Accordion
               aria-label={paths.libraryCopy.screenDetailSections}
               value={openSectionId}
-              onChange={setOpenSectionId}
+              onChange={(sectionId) => {
+                if (sectionId) selectSection(sectionId)
+                else setOpenSectionId(null)
+              }}
               items={accordionItems}
             />
           ) : (
@@ -288,22 +371,6 @@ export function LibraryScreenDetailPanel(props: {
           </Panel>
         }
       />
-    </div>
-  )
-}
-
-function SectionLookPanel({ item }: { item: SectionLookItem }) {
-  const crop = islandMediaUrl(item.crop_url)
-  return (
-    <div className="dig-section-look-panel">
-      {crop ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={crop} alt="" className="dig-section-look-thumb" loading="lazy" />
-      ) : null}
-      <Text role="body">{item.interpretation ?? '—'}</Text>
-      {typeof item.confidence === 'number' ? (
-        <Text role="meta">{(item.confidence * 100).toFixed(0)}% confidence</Text>
-      ) : null}
     </div>
   )
 }

@@ -43,7 +43,7 @@ Authorization: Bearer $DIG_API_TOKEN
 
 ## Surfaces
 
-- Library screen detail: **Visual craft** sits in the **Design brief** chapter directly under Design profile (`embedded` flush `Panel`, `SectionChrome` + `Grid` cards). Rebuild spec spans the card row. Copy lives in `apps/web/lib/paths.ts` `libraryCopy`.
+- Library screen detail: **Visual craft** sits in the **Design brief** chapter directly under Design profile (`SpecAtomGrid` numbered cards). The same card grammar is reused for **UX assessment**, **Functionality**, and each **Section spec**. Rebuild spec spans the card row. Copy lives in `apps/web/lib/paths.ts` `libraryCopy`. Atoms: `apps/web/lib/spec-atoms.ts`.
 - Copy prompt pack: `visual_craft` on the DesignPromptPack
 - `derived/rebuild-brief.md`
 - `design_summary` gets a Type/image + Type craft line (full spec stays on `visual_craft`)
