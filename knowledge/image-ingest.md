@@ -34,6 +34,6 @@ Limits come from `imageIngest` (do not hardcode in callers): `maxFiles` 40, `max
 
 Canonical URLs use `imageIngest.urlTemplate` with `{website}` from `pinterest.website` / `coolify.digFqdn`.
 
-Island Capture posts through `/api/dig/api/jobs/images`. `apps/web/next.config.ts` reads `imageIngest.islandProxyMaxBody` for the proxy body cap.
+Island Capture posts through `/api/dig` + `/api/jobs` + `/images`. `apps/web/next.config.ts` reads `imageIngest.islandProxyMaxBody` from `knowledge/paths.json` (copied into the island image so `next start` can load the config).
 
 Auth uses `assertDestructiveAuth` (Bearer even in dummy mode), same as catalog batch.

@@ -1,6 +1,10 @@
+import { readFileSync } from 'node:fs'
 import type { NextConfig } from 'next'
 import path from 'node:path'
-import catalog from '../../knowledge/paths.json'
+
+const catalog = JSON.parse(
+  readFileSync(path.join(__dirname, '../../knowledge/paths.json'), 'utf8'),
+) as { imageIngest: { islandProxyMaxBody: string } }
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '../..'),

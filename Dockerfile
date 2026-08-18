@@ -80,6 +80,7 @@ COPY --from=builder /workspace/design-intelligence-graph/apps/web/package-lock.j
 COPY --from=builder /workspace/design-intelligence-graph/apps/web/node_modules ./node_modules
 COPY --from=builder /workspace/design-intelligence-graph/apps/web/.next ./.next
 COPY --from=builder /workspace/design-intelligence-graph/apps/web/next.config.ts ./next.config.ts
+COPY --from=builder /workspace/design-intelligence-graph/knowledge/paths.json /workspace/design-intelligence-graph/knowledge/paths.json
 COPY --from=builder /workspace/design-intelligence-graph/apps/web/tsconfig.json ./tsconfig.json
 COPY --from=builder /workspace/design-intelligence-graph/apps/web/public ./public
 COPY --from=builder /workspace/msqdx-ui /workspace/msqdx-ui

@@ -15,11 +15,22 @@ describe('Bulk image ingest island paths', () => {
     const catalog = JSON.parse(
       readFileSync(resolve(__dirname, '../../../knowledge/paths.json'), 'utf8'),
     ) as {
-      imageIngest: { imagesPath: string; fieldName: string; maxFiles: number; accept: string }
+      imageIngest: {
+        imagesPath: string
+        fieldName: string
+        maxFiles: number
+        accept: string
+        islandProxyMaxBody: string
+      }
     }
     assert.equal(paths.imageIngest.imagesPath, catalog.imageIngest.imagesPath)
     assert.equal(paths.imageIngest.fieldName, catalog.imageIngest.fieldName)
     assert.equal(paths.imageIngest.maxFiles, catalog.imageIngest.maxFiles)
     assert.equal(paths.imageIngest.accept, catalog.imageIngest.accept)
+    const dockerfile = readFileSync(resolve(__dirname, '../../../Dockerfile'), 'utf8')
+    assert.match(dockerfile, /knowledge\/paths\.json/)
+    const nextConfig = readFileSync(resolve(__dirname, '../next.config.ts'), 'utf8')
+    assert.match(nextConfig, /knowledge\/paths\.json/)
+    assert.match(catalog.imageIngest.islandProxyMaxBody, /^\d+mb$/)
   })
 })
