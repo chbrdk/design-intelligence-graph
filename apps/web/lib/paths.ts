@@ -100,6 +100,7 @@ export const paths = {
     screenInsightSections: 'Sections',
     screenInsightSummary: 'Summary',
     screenInsightCraft: 'Visual craft',
+    screenInsightCraftKicker: 'Type, image, space, and chrome',
     screenInsightTypeImage: 'Type and image',
     screenInsightTypeCraft: 'Typography',
     screenInsightImagery: 'Imagery',

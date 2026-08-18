@@ -1,7 +1,15 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { Accordion, Alert, Button, Panel, Text, ToggleGroup } from '../lib/msqdx-ui'
+import {
+  Accordion,
+  Alert,
+  Button,
+  Panel,
+  SectionChrome,
+  Text,
+  ToggleGroup,
+} from '../lib/msqdx-ui'
 import {
   fetchAnalysisDetail,
   fetchCapturePromptPack,
@@ -301,7 +309,6 @@ export function LibraryScreenDetailPanel(props: {
         </Panel>
 
         <Panel className="dig-panel dig-screen-detail-side">
-          <VisualCraftPanel craft={visualCraft} />
           {summary ? (
             <details className="dig-screen-summary">
               <summary>{paths.libraryCopy.screenInsightSummary}</summary>
@@ -316,7 +323,7 @@ export function LibraryScreenDetailPanel(props: {
           )}
           {enrichmentHint ? <Text role="meta">{enrichmentHint}</Text> : null}
 
-          <Text role="title">{paths.libraryCopy.pageNarrativeLabel}</Text>
+          <SectionChrome title={paths.libraryCopy.pageNarrativeLabel} as="h2" quiet />
           {pageNarrative.length ? (
             <ol className="dig-list">
               {pageNarrative.map((step, index) => (
@@ -334,7 +341,7 @@ export function LibraryScreenDetailPanel(props: {
             </Text>
           )}
 
-          <Text role="title">{paths.libraryCopy.screenDetailSections}</Text>
+          <SectionChrome title={paths.libraryCopy.screenDetailSections} as="h2" quiet />
           {accordionItems.length ? (
             <Accordion
               aria-label={paths.libraryCopy.screenDetailSections}
@@ -351,6 +358,8 @@ export function LibraryScreenDetailPanel(props: {
           )}
         </Panel>
       </div>
+
+      <VisualCraftPanel craft={visualCraft} />
     </div>
   )
 }

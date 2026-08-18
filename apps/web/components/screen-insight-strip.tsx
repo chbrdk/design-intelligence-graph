@@ -1,6 +1,6 @@
 'use client'
 
-import { Text } from '../lib/msqdx-ui'
+import { Chip, Text } from '../lib/msqdx-ui'
 import type { DesignFacets, LookContract } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 
@@ -28,7 +28,11 @@ function ChipRow({ label, values }: { label: string; values: string[] }) {
       <span className="dig-screen-insight-chips-label">{label}</span>
       <ul>
         {values.slice(0, 8).map((tag) => (
-          <li key={tag}>{humanizeFacet(tag)}</li>
+          <li key={tag}>
+            <Chip static size="sm">
+              {humanizeFacet(tag)}
+            </Chip>
+          </li>
         ))}
       </ul>
     </div>

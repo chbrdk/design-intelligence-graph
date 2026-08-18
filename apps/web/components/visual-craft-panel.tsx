@@ -1,6 +1,60 @@
-import { Text } from '../lib/msqdx-ui'
+import type { ReactNode } from 'react'
+import {
+  Chip,
+  Grid,
+  IconBadge,
+  IconGap,
+  IconImage,
+  IconOpacity,
+  IconScroll,
+  IconSparkles,
+  IconType,
+  Panel,
+  SectionChrome,
+  Stack,
+  Text,
+} from '../lib/msqdx-ui'
 import type { VisualCraft } from '../lib/dig-api'
 import { paths } from '../lib/paths'
+
+export type VisualCraftAtomId =
+  | 'type_image'
+  | 'type'
+  | 'imagery'
+  | 'space'
+  | 'chrome'
+
+export type VisualCraftAtom = {
+  id: VisualCraftAtomId
+  index: string
+  label: string
+  value: string
+}
+
+const ATOM_FIELDS: Array<{
+  id: VisualCraftAtomId
+  field: keyof VisualCraft
+  labelKey:
+    | 'screenInsightTypeImage'
+    | 'screenInsightTypeCraft'
+    | 'screenInsightImagery'
+    | 'screenInsightSpace'
+    | 'screenInsightChrome'
+}> = [
+  { id: 'type_image', field: 'type_image_relationship', labelKey: 'screenInsightTypeImage' },
+  { id: 'type', field: 'typography_composition', labelKey: 'screenInsightTypeCraft' },
+  { id: 'imagery', field: 'imagery_craft', labelKey: 'screenInsightImagery' },
+  { id: 'space', field: 'spatial_craft', labelKey: 'screenInsightSpace' },
+  { id: 'chrome', field: 'chrome_vs_content', labelKey: 'screenInsightChrome' },
+]
+
+const ATOM_ICONS: Record<VisualCraftAtomId, ReactNode> = {
+  type_image: <IconOpacity />,
+  type: <IconType />,
+  imagery: <IconImage />,
+  space: <IconGap />,
+  chrome: <IconBadge />,
+}
 
 export function visualCraftHasUiSignal(craft: VisualCraft | null | undefined): boolean {
   if (!craft) return false
@@ -14,28 +68,98 @@ export function visualCraftHasUiSignal(craft: VisualCraft | null | undefined): b
   )
 }
 
-function CraftBlock({ label, value }: { label: string; value?: string }) {
-  if (!value?.trim()) return null
-  return (
-    <div className="dig-visual-craft-block">
-      <Text role="meta">{label}</Text>
-      <Text role="body">{value.trim()}</Text>
-    </div>
-  )
+export function visualCraftAtoms(
+  craft: VisualCraft | null | undefined,
+  copy: typeof paths.libraryCopy = paths.libraryCopy,
+): VisualCraftAtom[] {
+  if (!craft) return []
+  return ATOM_FIELDS.flatMap((def) => {
+    const value = craft[def.field]?.trim()
+    if (!value) return []
+    return [{ id: def.id, index: '', label: copy[def.labelKey], value }]
+  }).map((atom, index) => ({
+    ...atom,
+    index: String(index + 1).padStart(2, '0'),
+  }))
+}
+
+export function visualCraftRebuildSpec(craft: VisualCraft | null | undefined): string | null {
+  const value = craft?.rebuild_spec?.trim()
+  return value || null
 }
 
 export function VisualCraftPanel({ craft }: { craft: VisualCraft | null | undefined }) {
   if (!visualCraftHasUiSignal(craft) || !craft) return null
   const copy = paths.libraryCopy
+  const atoms = visualCraftAtoms(craft, copy)
+  const rebuildSpec = visualCraftRebuildSpec(craft)
+
   return (
-    <section className="dig-visual-craft" aria-label={copy.screenInsightCraft}>
-      <Text role="title">{copy.screenInsightCraft}</Text>
-      <CraftBlock label={copy.screenInsightTypeImage} value={craft.type_image_relationship} />
-      <CraftBlock label={copy.screenInsightTypeCraft} value={craft.typography_composition} />
-      <CraftBlock label={copy.screenInsightImagery} value={craft.imagery_craft} />
-      <CraftBlock label={copy.screenInsightSpace} value={craft.spatial_craft} />
-      <CraftBlock label={copy.screenInsightChrome} value={craft.chrome_vs_content} />
-      <CraftBlock label={copy.screenInsightRebuildSpec} value={craft.rebuild_spec} />
-    </section>
+    <Panel
+      as="section"
+      variant="editorial"
+      className="dig-visual-craft"
+      aria-label={copy.screenInsightCraft}
+    >
+      <SectionChrome
+        icon={<IconSparkles />}
+        title={copy.screenInsightCraft}
+        meta={copy.screenInsightCraftKicker}
+        as="h2"
+      />
+      <Grid
+        className="dig-visual-craft-grid"
+        columns="repeat(auto-fit, minmax(16.5rem, 1fr))"
+        gap="md"
+      >
+        {atoms.map((atom) => (
+          <Panel
+            key={atom.id}
+            as="article"
+            variant="card"
+            className="dig-visual-craft-card"
+            aria-labelledby={`dig-visual-craft-${atom.id}`}
+          >
+            <Stack gap="sm">
+              <Stack direction="row" gap="sm" align="center" justify="space-between">
+                <Chip static size="sm">
+                  {atom.index}
+                </Chip>
+                <span className="dig-visual-craft-icon" aria-hidden>
+                  {ATOM_ICONS[atom.id]}
+                </span>
+              </Stack>
+              <Text role="label" id={`dig-visual-craft-${atom.id}`}>
+                {atom.label}
+              </Text>
+              <Text role="body">{atom.value}</Text>
+            </Stack>
+          </Panel>
+        ))}
+        {rebuildSpec ? (
+          <Panel
+            as="article"
+            variant="card"
+            className="dig-visual-craft-card dig-visual-craft-spec"
+            aria-labelledby="dig-visual-craft-rebuild"
+          >
+            <Stack gap="sm">
+              <Stack direction="row" gap="sm" align="center" justify="space-between">
+                <Chip static size="sm">
+                  {String(atoms.length + 1).padStart(2, '0')}
+                </Chip>
+                <span className="dig-visual-craft-icon" aria-hidden>
+                  <IconScroll />
+                </span>
+              </Stack>
+              <Text role="label" id="dig-visual-craft-rebuild">
+                {copy.screenInsightRebuildSpec}
+              </Text>
+              <Text role="body">{rebuildSpec}</Text>
+            </Stack>
+          </Panel>
+        ) : null}
+      </Grid>
+    </Panel>
   )
 }

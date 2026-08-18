@@ -12,9 +12,22 @@ export type { ChipProps, ChipSize } from '../../../../msqdx-ui/packages/ui/src/c
 export { EmptyState, LoadingText } from '../../../../msqdx-ui/packages/ui/src/components/LoadingText'
 export { Field } from '../../../../msqdx-ui/packages/ui/src/components/Field'
 export { FilterRow } from '../../../../msqdx-ui/packages/ui/src/components/FilterRow'
+export { Grid } from '../../../../msqdx-ui/packages/ui/src/components/Grid'
+export type { GridProps } from '../../../../msqdx-ui/packages/ui/src/components/Grid'
 export { Hint } from '../../../../msqdx-ui/packages/ui/src/components/Hint'
+export {
+  IconBadge,
+  IconGap,
+  IconImage,
+  IconOpacity,
+  IconScroll,
+  IconSparkles,
+  IconType,
+} from '../../../../msqdx-ui/packages/ui/src/components/icons'
 export { Input } from '../../../../msqdx-ui/packages/ui/src/components/Input'
 export { Panel } from '../../../../msqdx-ui/packages/ui/src/components/Panel'
+export { Stack } from '../../../../msqdx-ui/packages/ui/src/components/Stack'
+export type { StackProps } from '../../../../msqdx-ui/packages/ui/src/components/Stack'
 export { RankedList, RankedRow } from '../../../../msqdx-ui/packages/ui/src/components/RankedList'
 export { Text } from '../../../../msqdx-ui/packages/ui/src/components/Text'
 export { Textarea } from '../../../../msqdx-ui/packages/ui/src/components/Textarea'

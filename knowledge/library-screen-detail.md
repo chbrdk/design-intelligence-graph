@@ -1,6 +1,6 @@
 # Library screen detail
 
-**Updated:** 2026-08-17
+**Updated:** 2026-08-18
 
 ## UX
 
@@ -12,10 +12,11 @@ Library **Screens** grid:
 4. Clicking a card opens `#/library/screens/{viewport_capture_id}`:
 
    1. Toolbar (back, viewport/full page, overlay, **Copy prompt pack**)
-   2. **Design profile** (`ScreenInsightStrip`) — page type, style, layout, color, typography, industry + section chips, look-contract swatches / CTA / density / Avoid
+   2. **Design profile** (`ScreenInsightStrip`) — magazine masthead: page type, style, layout, color, typography, industry + section chips, look-contract swatches / CTA / density / Avoid
    3. Split:
       - Left: screenshot + vision band overlays
-      - Right: collapsible summary, page narrative, section accordion
+      - Right: collapsible summary, **Page narrative**, **Section look** accordion (`SectionChrome`)
+   4. **Visual craft** full-width magazine chapter under the split — `Panel` cards in a `Grid` (type/image, typography, imagery, space, chrome) with msqdx-ui icons; **Rebuild spec** spans the row
 
 Vision layout notes are under **Notes**, not in the hero.
 
@@ -24,6 +25,7 @@ Vision layout notes are under **Notes**, not in the hero.
 - `apps/web/components/library-page.tsx` (facet chip filters)
 - `apps/web/components/library-screen-detail.tsx`
 - `apps/web/components/screen-insight-strip.tsx`
+- `apps/web/components/visual-craft-panel.tsx`
 - `apps/web/lib/library-hash.ts` (`screen_detail`)
 - `apps/web/lib/dig-api.ts` (`design_facets` on analysis package; `fetchLibraryScreensPage`; `fetchCapturePromptPack`)
 - `GET /api/library/screens` compact `design_facets` + `facet_filters`
@@ -32,3 +34,4 @@ Vision layout notes are under **Notes**, not in the hero.
 - Facet contract: [`design-facets.md`](design-facets.md)
 - Look contract: [`look-contract.md`](look-contract.md)
 - Page rhythm: [`page-rhythm.md`](page-rhythm.md)
+- Visual craft: [`visual-craft.md`](visual-craft.md)
