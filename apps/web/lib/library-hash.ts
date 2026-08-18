@@ -1,13 +1,14 @@
 /** DIG-011 Library hash routing helpers (client-only). */
 
 import { parseDeviceGalleryFilter, type DeviceGalleryFilter } from './library-screen-gallery'
+import { parseModuleGalleryFilter, type ModuleGalleryFilter } from './library-module-gallery'
 import { paths } from './paths'
 
 export type LibraryHashState =
   | { view: 'screens' }
   | { view: 'screen_detail'; viewportCaptureId: string }
   | { view: 'devices'; viewport?: DeviceGalleryFilter }
-  | { view: 'sections' }
+  | { view: 'sections'; module?: ModuleGalleryFilter }
   | { view: 'flows' }
   | { view: 'flow_detail'; flowId: string }
   | { view: 'flow_interactive'; flowId: string; step?: string }
@@ -17,7 +18,13 @@ export function parseLibraryHash(hash: string): LibraryHashState {
   const [pathPart, queryPart] = raw.split('?')
   const segments = (pathPart || '').split('/').filter(Boolean)
   if (segments[0] !== 'library') return { view: 'screens' }
-  if (segments[1] === 'sections') return { view: 'sections' }
+  if (segments[1] === 'sections') {
+    const params = new URLSearchParams(queryPart || '')
+    const module = parseModuleGalleryFilter(
+      params.get(paths.libraryModuleGallery.queryParam),
+    )
+    return { view: 'sections', module }
+  }
   if (segments[1] === 'devices') {
     const params = new URLSearchParams(queryPart || '')
     const viewport = parseDeviceGalleryFilter(
@@ -83,7 +90,15 @@ export function formatLibraryHash(state: LibraryHashState): string {
   if (state.view === 'screen_detail') {
     return `#/library/screens/${encodeURIComponent(state.viewportCaptureId)}`
   }
-  if (state.view === 'sections') return '#/library/sections'
+  if (state.view === 'sections') {
+    const param = paths.libraryModuleGallery.queryParam
+    const all = paths.libraryModuleGallery.allValue
+    const module =
+      state.module && state.module !== all
+        ? `?${param}=${encodeURIComponent(state.module)}`
+        : ''
+    return `#/library/sections${module}`
+  }
   if (state.view === 'flows') return '#/library/flows'
   if (state.view === 'flow_detail') return `#/library/flows/${encodeURIComponent(state.flowId)}`
   const step = state.step ? `?step=${encodeURIComponent(state.step)}` : ''

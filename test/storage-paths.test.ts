@@ -22,6 +22,20 @@ test("paths expose webp and database config", () => {
     paths.captureJobs?.engineeringManufacturing1000,
     "knowledge/catalogs/engineering-manufacturing-1000.json"
   );
+  assert.equal(paths.captureJobs?.insurance1000, "knowledge/catalogs/insurance-1000.json");
+  assert.equal(paths.islandChunkReload?.storageKey, "spirion.v1.chunkReload");
+  assert.equal(paths.islandChunkReload?.maxAttempts, 1);
+  assert.deepEqual(paths.libraryModuleGallery?.categories, [
+    "hero",
+    "nav",
+    "feature",
+    "conversion",
+    "commerce",
+    "social_proof",
+  ]);
+  assert.equal(paths.libraryModuleGallery?.queryParam, "module");
+  assert.equal(paths.northlineRebuild?.route, "/rebuild/northline");
+  assert.equal(paths.northlineRebuild?.captureRunId, "cap_42a3ef1cc922444b8ab0c6148df0a93f");
   assert.equal(paths.pinterest?.oauthAuthorize, "https://www.pinterest.com/oauth/");
   assert.equal(paths.pinterest?.islandCallbackPath, "/api/pinterest/callback");
   assert.equal(paths.pinterest?.privacyPath, "/privacy");

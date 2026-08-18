@@ -176,10 +176,14 @@ export function islandMediaUrl(apiMediaPath: string | null | undefined): string 
 export interface LibrarySection {
   capture_run_id: string
   viewport_name: string
+  section_id?: string
   taxonomy_id: string
   category: string
   signature: string
   confidence: number
+  root_box?: { x: number; y: number; width: number; height: number } | null
+  viewport_width?: number | null
+  viewport_height?: number | null
 }
 
 export interface LibrarySearchHit {

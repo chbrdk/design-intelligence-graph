@@ -37,6 +37,8 @@ import {
   preferredScreenForCapture,
   type DeviceGalleryFilter,
 } from '../lib/library-screen-gallery'
+import { LibraryModuleGallery } from './library-module-gallery'
+import { parseModuleGalleryFilter, type ModuleGalleryFilter } from '../lib/library-module-gallery'
 import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
 import { LibraryFlowsPanel } from './library-flows-panel'
@@ -191,12 +193,6 @@ function LibraryPageInner() {
       setScreens([])
     }
 
-    try {
-      setSections(await fetchLibrarySections({}))
-    } catch {
-      setSections([])
-    }
-
     if (!platformProjectId) {
       setReferences([])
       return
@@ -215,6 +211,34 @@ function LibraryPageInner() {
     return () => window.clearInterval(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope and facet query drive refresh
   }, [platformProjectId, facetStyle, facetLayout, facetIndustry])
+
+  const moduleFilter: ModuleGalleryFilter =
+    hashState.view === 'sections'
+      ? parseModuleGalleryFilter(hashState.module)
+      : paths.libraryModuleGallery.allValue
+
+  useEffect(() => {
+    if (hashState.view !== 'sections') return
+    let cancelled = false
+    async function loadModules() {
+      const categories =
+        moduleFilter === paths.libraryModuleGallery.allValue
+          ? [...paths.libraryModuleGallery.categories]
+          : [moduleFilter]
+      try {
+        const batches = await Promise.all(
+          categories.map((category) => fetchLibrarySections({ category })),
+        )
+        if (!cancelled) setSections(batches.flat())
+      } catch {
+        if (!cancelled) setSections([])
+      }
+    }
+    void loadModules()
+    return () => {
+      cancelled = true
+    }
+  }, [hashState.view, moduleFilter])
 
   function openScreen(screen: LibraryScreen) {
     applyHash({ view: 'screen_detail', viewportCaptureId: screen.viewport_capture_id })
@@ -381,22 +405,13 @@ function LibraryPageInner() {
 
       {mode === 'sections' ? (
         <Panel className="dig-panel">
-          <Text role="title">Sections</Text>
-          <Text role="meta">Measured section compositions across captures.</Text>
-          <ul className="dig-list">
-            {sections.map((section) => (
-              <li key={`${section.capture_run_id}-${section.signature}-${section.viewport_name}`}>
-                <strong>
-                  {section.category} · `{section.signature}`
-                </strong>
-                <Text role="meta">
-                  {section.viewport_name} · {(section.confidence * 100).toFixed(0)}% ·{' '}
-                  {section.capture_run_id}
-                </Text>
-              </li>
-            ))}
-            {!sections.length ? <li>No sections indexed yet.</li> : null}
-          </ul>
+          <LibraryModuleGallery
+            sections={sections}
+            screens={screens}
+            filter={moduleFilter}
+            onFilter={(next) => applyHash({ view: 'sections', module: next })}
+            onOpen={openScreen}
+          />
         </Panel>
       ) : null}
 

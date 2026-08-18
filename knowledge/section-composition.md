@@ -28,4 +28,4 @@ and categorize those blocks with a shared vocabulary (~500 terms).
 - Deterministic only (no LLM classifier)
 - ~30–50 strong heuristics; remaining catalog IDs are for matching/clustering/retrieval
 - Max ~24 sections per viewport
-- **Library UI:** raw “Ontology sections” list removed (thin `commerce · body` dumps were not useful). Capture still writes compositions for Section look / LLM / API.
+- **Library UI:** Modules gallery (`#/library/sections`) shows distinctive categories with screenshot crops — not the raw `content · body` dump. Capture still writes all compositions for Section look / LLM / API. See [`library-module-gallery.md`](library-module-gallery.md).

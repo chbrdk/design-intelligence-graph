@@ -1,6 +1,6 @@
 # Slim web UI
 
-Added 2026-08-15. Updated 2026-08-15 (enrichment + analyses dashboard).
+Added 2026-08-15. Updated 2026-08-18 (empty JSON + stale chunk reload).
 
 ## Purpose
 
@@ -24,11 +24,13 @@ Paths come from [`paths.json`](paths.json):
 1. **Pipeline status** — capture job timeline; shows `enrichment_job_id` when async LLM is queued
 2. **Enrichment** — queue status, models, tokens, estimated USD; link to analysis
 3. **Analyses** — design summary, patterns, UI elements, recipes, visual style, page flow, vision/cost
-4. **Library** — Screens / Sections / **Flows** (DIG-011 list/detail/Interactive); screen detail keeps **Page narrative** (`page_flow`) separate from multi-screen Flows
+4. **Library** — Screens / **Modules** / Devices / **Flows** (DIG-011 list/detail/Interactive); screen detail keeps **Page narrative** (`page_flow`) separate from multi-screen Flows
 
 Island `apps/web/lib/dig-api.ts` `readJson` must tolerate empty/truncated upstream bodies (Traefik 502 during Playwright batches). Do not call `response.json()` directly.
 
-Flows UI: [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md) · `#/library/flows`
+After an island Coolify deploy, an open tab can throw `ChunkLoadError` (404 on `/_next/static/chunks/…` from the previous webpack hash). Hard-refresh the tab. `ChunkLoadRecovery` reloads once per session when that happens. Do not redeploy the API for this.
+
+Flows UI: [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md) · `#/library/flows`. Modules: [`library-module-gallery.md`](library-module-gallery.md) · `#/library/sections`.
 ## Local
 
 ```bash

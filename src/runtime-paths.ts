@@ -102,6 +102,15 @@ export interface DigPaths {
     generateConstraintCap?: number;
     generationVersion?: string;
     capturePromptPackPath?: string;
+    composeBriefPath?: string;
+  };
+  northlineRebuild?: {
+    doc?: string;
+    route?: string;
+    heroImage?: string;
+    captureRunId?: string;
+    viewportCaptureId?: string;
+    sourceScreenHash?: string;
   };
   libraryScreenFacets?: {
     queryStyle?: string;
@@ -116,6 +125,22 @@ export interface DigPaths {
     deviceViewports?: string[];
     devicesQueryParam?: string;
     devicesAllValue?: string;
+  };
+  libraryModuleGallery?: {
+    doc?: string;
+    queryParam?: string;
+    allValue?: string;
+    categories?: string[];
+    thinCategories?: string[];
+    thinSignatures?: string[];
+    maxPerCategory?: number;
+    maxFiltered?: number;
+    cardAspect?: number;
+  };
+  islandChunkReload?: {
+    doc?: string;
+    storageKey?: string;
+    maxAttempts?: number;
   };
   libraryReset?: {
     doc?: string;
@@ -132,6 +157,7 @@ export interface DigPaths {
     automotiveOem50?: string;
     crossIndustry100?: string;
     engineeringManufacturing1000?: string;
+    insurance1000?: string;
     maxBatch?: number;
   };
   imageIngest?: {

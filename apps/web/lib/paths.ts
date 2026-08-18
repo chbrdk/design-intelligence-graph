@@ -19,6 +19,9 @@ export const paths = {
   displayNameStorageKey: 'spirion.v1.displayName',
   themeStorageKey: 'spirion.v1.theme',
   localeStorageKey: 'spirion.v1.locale',
+  /** Keep in sync with knowledge/paths.json islandChunkReload. */
+  chunkReloadStorageKey: 'spirion.v1.chunkReload',
+  chunkReloadMaxAttempts: 1,
   defaultTheme: 'msqdx-dark' as const,
   defaultLocale: 'en' as const,
   themeChoices: ['msqdx', 'msqdx-dark', 'msqdx-v2', 'msqdx-v2-dark'] as const,
@@ -53,7 +56,7 @@ export const paths = {
     contentsLabel: 'Contents',
     libraryModeAria: 'Library mode',
     screensLabel: 'Screens',
-    sectionsLabel: 'Sections',
+    sectionsLabel: 'Modules',
     flowsLabel: 'Flows',
     devicesLabel: 'Devices',
     devicesTitle: 'Tablet & mobile',
@@ -129,6 +132,10 @@ export const paths = {
     screenFacetEmpty: 'No screens match these facets.',
     screenGridHint:
       'Desktop captures only. Filter by style, layout, and industry. Open a card for full-page screenshot, overlay, and look contract.',
+    moduleGalleryTitle: 'Modules',
+    moduleGalleryHint:
+      'Hero, nav, feature, and conversion bands from desktop captures. Body paragraphs stay out of this grid.',
+    moduleGalleryEmpty: 'No modules match this filter yet.',
   },
   /** Keep in sync with knowledge/paths.json libraryScreenGallery. */
   libraryScreenGallery: {
@@ -136,6 +143,17 @@ export const paths = {
     deviceViewports: ['tablet', 'mobile'] as const,
     devicesQueryParam: 'viewport',
     devicesAllValue: 'all',
+  },
+  /** Keep in sync with knowledge/paths.json libraryModuleGallery. */
+  libraryModuleGallery: {
+    queryParam: 'module',
+    allValue: 'all',
+    categories: ['hero', 'nav', 'feature', 'conversion', 'commerce', 'social_proof'] as const,
+    thinCategories: ['content'] as const,
+    thinSignatures: ['body', 'unknown'] as const,
+    maxPerCategory: 12,
+    maxFiltered: 40,
+    cardAspect: 1.7778,
   },
   pinterest: {
     islandCallbackPath: '/api/pinterest/callback',
@@ -178,6 +196,7 @@ export const paths = {
     analyses: '/analyses',
     settings: '/settings',
     rebuild: '/rebuild',
+    rebuildNorthline: '/rebuild/northline',
     privacy: '/privacy',
     apiAuthNextAuth: '/api/auth',
     apiHealth: '/api/health',
@@ -193,6 +212,38 @@ export const paths = {
     heroImage: '/rebuild/hero-night-car.png',
     briefPath: 'knowledge/porsche-germany-rebuild-brief.md',
     captureRunId: 'cap_3f48fbb23e074fd6ae68540760f01b92',
+  },
+  /** Insurance homepage composed from City Arcade craft via SPIRION MCP. */
+  northlineRebuild: {
+    brand: 'Northline',
+    wordmark: 'NORTHLINE',
+    kicker: 'Mutual cover, measured.',
+    intro:
+      'A line of cover written like architecture: few images, large type, nothing decorative in the chrome.',
+    valueTitle: 'COVER THAT HOLDS STILL',
+    valueLead: 'Life, health, and property as one measured line — not a marketplace of cards.',
+    whyTitle: 'WHY NORTHLINE',
+    whyBody: 'We underwrite slowly. Claims move fast. The page should feel the same way.',
+    conversionLine1: 'Ask for a line.',
+    conversionLine2: 'Not a bundle.',
+    primaryCta: 'Request a line',
+    secondaryCta: 'Read the cover',
+    heroImage: '/rebuild/northline-architecture.png',
+    briefPath: 'knowledge/northline-insurance-rebuild.md',
+    captureRunId: 'cap_42a3ef1cc922444b8ab0c6148df0a93f',
+    viewportCaptureId: 'vpc_97ce4ecf8a204c4ab4e0fedda6073623',
+    nav: ['Cover', 'Life', 'Health', 'Claims'],
+    stats: [
+      { value: '48h', label: 'First claim note' },
+      { value: '12', label: 'Countries on one line' },
+      { value: '1:1', label: 'Named underwriter' },
+    ],
+    features: [
+      { title: 'Named lines', body: 'Every policy has an underwriter you can write to.' },
+      { title: 'Quiet chrome', body: 'No marketplace grid. Cover, terms, a single action.' },
+      { title: 'Still imagery', body: 'One building, reused in grayscale. Nothing extra.' },
+      { title: 'Outline only', body: 'Buttons stay hollow. Accent lives in the last band.' },
+    ],
   },
 } as const
 

@@ -234,6 +234,14 @@
     "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack",
     "composeBriefPath": "/api/library/references/compose-brief"
   },
+  "northlineRebuild": {
+    "doc": "knowledge/northline-insurance-rebuild.md",
+    "route": "/rebuild/northline",
+    "heroImage": "/rebuild/northline-architecture.png",
+    "captureRunId": "cap_42a3ef1cc922444b8ab0c6148df0a93f",
+    "viewportCaptureId": "vpc_97ce4ecf8a204c4ab4e0fedda6073623",
+    "sourceScreenHash": "/library/screens/vpc_97ce4ecf8a204c4ab4e0fedda6073623"
+  },
   "libraryScreenFacets": {
     "queryStyle": "style",
     "queryLayout": "layout",
@@ -248,6 +256,22 @@
     "devicesQueryParam": "viewport",
     "devicesAllValue": "all"
   },
+  "libraryModuleGallery": {
+    "doc": "knowledge/library-module-gallery.md",
+    "queryParam": "module",
+    "allValue": "all",
+    "categories": ["hero", "nav", "feature", "conversion", "commerce", "social_proof"],
+    "thinCategories": ["content"],
+    "thinSignatures": ["body", "unknown"],
+    "maxPerCategory": 12,
+    "maxFiltered": 40,
+    "cardAspect": 1.7778
+  },
+  "islandChunkReload": {
+    "doc": "knowledge/frontend.md",
+    "storageKey": "spirion.v1.chunkReload",
+    "maxAttempts": 1
+  },
   "libraryReset": {
     "doc": "knowledge/library-reset.md",
     "path": "/reset",
@@ -257,12 +281,14 @@
   },
   "captureJobs": {
     "doc": "knowledge/capture-batch.md",
+    "insuranceDoc": "knowledge/insurance-catalog.md",
     "maxConcurrent": 6,
     "batchPath": "/batch",
     "catalogsDir": "knowledge/catalogs",
     "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",
     "crossIndustry100": "knowledge/catalogs/cross-industry-100.json",
     "engineeringManufacturing1000": "knowledge/catalogs/engineering-manufacturing-1000.json",
+    "insurance1000": "knowledge/catalogs/insurance-1000.json",
     "maxBatch": 1000
   },
   "imageIngest": {

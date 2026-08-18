@@ -104,7 +104,7 @@ describe('flow action filter options', () => {
     assert.equal(labelForFlowAction('dig:flow.logging_in'), 'Logging in')
     assert.deepEqual(paths.libraryModes, ['screens', 'devices', 'sections', 'flows'])
     assert.equal(paths.libraryCopy.screensLabel, 'Screens')
-    assert.equal(paths.libraryCopy.sectionsLabel, 'Sections')
+    assert.equal(paths.libraryCopy.sectionsLabel, 'Modules')
     assert.equal(paths.libraryCopy.contentsLabel, 'Contents')
     assert.equal(paths.libraryCopy.libraryModeAria, 'Library mode')
     assert.equal(paths.digApiLibraryFlows, '/api/library/flows')

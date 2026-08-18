@@ -18,6 +18,8 @@ describe('SPIRION island paths contract', () => {
     assert.equal(paths.digProxyBase, '/api/dig')
     assert.equal(paths.apiPlatformProvisioningProjects, '/api/platform/provisioning/projects')
     assert.equal(paths.platformProjectQueryParam, 'platformProjectId')
+    assert.equal(paths.chunkReloadStorageKey, 'spirion.v1.chunkReload')
+    assert.equal(paths.chunkReloadMaxAttempts, 1)
   })
 
   it('barrels point at sibling msqdx-ui source', () => {
