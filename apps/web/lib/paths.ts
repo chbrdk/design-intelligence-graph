@@ -21,7 +21,7 @@ export const paths = {
   localeStorageKey: 'spirion.v1.locale',
   /** Keep in sync with knowledge/paths.json islandChunkReload. */
   chunkReloadStorageKey: 'spirion.v1.chunkReload',
-  chunkReloadMaxAttempts: 1,
+  chunkReloadMaxAttempts: 2,
   defaultTheme: 'msqdx-dark' as const,
   defaultLocale: 'en' as const,
   themeChoices: ['msqdx', 'msqdx-dark', 'msqdx-v2', 'msqdx-v2-dark'] as const,

@@ -277,7 +277,7 @@
   "islandChunkReload": {
     "doc": "knowledge/frontend.md",
     "storageKey": "spirion.v1.chunkReload",
-    "maxAttempts": 1
+    "maxAttempts": 2
   },
   "islandSurfaces": {
     "doc": "knowledge/island-surfaces.md",

@@ -28,7 +28,7 @@ Paths come from [`paths.json`](paths.json):
 
 Island `apps/web/lib/dig-api.ts` `readJson` must tolerate empty/truncated upstream bodies (Traefik 502 during Playwright batches). Do not call `response.json()` directly.
 
-After an island Coolify deploy, an open tab can throw `ChunkLoadError` (404 on `/_next/static/chunks/…` from the previous webpack hash). Hard-refresh the tab. `ChunkLoadRecovery` reloads once per session when that happens. Do not redeploy the API for this.
+After an island Coolify deploy, an open tab can throw `ChunkLoadError` (404 on `/_next/static/chunks/…` from the previous webpack hash). Hard-refresh the tab (`Cmd-Shift-R`). `ChunkLoadRecovery` reloads up to `islandChunkReload.maxAttempts` times per tab session. Do not redeploy the API for this.
 
 Flows UI: [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md) · `#/library/flows`. Modules: [`library-module-gallery.md`](library-module-gallery.md) · `#/library/sections`.
 ## Local

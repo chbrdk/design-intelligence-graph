@@ -7,11 +7,11 @@ import { paths } from '../lib/paths'
 
 describe('chunk load recovery', () => {
   it('detects webpack ChunkLoadError from the island console', () => {
-    const err = Object.assign(new Error('Loading chunk 217 failed.'), { name: 'ChunkLoadError' })
+    const err = Object.assign(new Error('Loading chunk 119 failed.'), { name: 'ChunkLoadError' })
     assert.equal(isChunkLoadFailure(err), true)
     assert.equal(
       isChunkLoadFailure(
-        'Loading chunk 217 failed.\n(error: https://spirion.projects-a.plygrnd.tech/_next/static/chunks/217-cc152cade55e014e.js)',
+        'Uncaught ChunkLoadError: Loading chunk 119 failed.\n(error: https://spirion.projects-a.plygrnd.tech/_next/static/chunks/119-ea90efa242fba65d.js)',
       ),
       true,
     )
@@ -19,9 +19,11 @@ describe('chunk load recovery', () => {
     assert.equal(isChunkLoadFailure('Empty response (502)'), false)
   })
 
-  it('reloads at most once per tab session', () => {
+  it('reloads at most twice per tab session so a mid-deploy miss can retry', () => {
+    assert.equal(paths.chunkReloadMaxAttempts, 2)
     assert.equal(shouldReloadForStaleChunk(0, paths.chunkReloadMaxAttempts), true)
-    assert.equal(shouldReloadForStaleChunk(1, paths.chunkReloadMaxAttempts), false)
+    assert.equal(shouldReloadForStaleChunk(1, paths.chunkReloadMaxAttempts), true)
+    assert.equal(shouldReloadForStaleChunk(2, paths.chunkReloadMaxAttempts), false)
   })
 
   it('mounts recovery in AppProviders', () => {
