@@ -34,6 +34,7 @@ test("paths expose webp and database config", () => {
     "social_proof",
   ]);
   assert.equal(paths.libraryModuleGallery?.queryParam, "module");
+  assert.equal(paths.islandSurfaces?.homeRecentCount, 8);
   assert.equal(paths.northlineRebuild?.route, "/rebuild/northline");
   assert.equal(paths.northlineRebuild?.captureRunId, "cap_42a3ef1cc922444b8ab0c6148df0a93f");
   assert.equal(paths.pinterest?.oauthAuthorize, "https://www.pinterest.com/oauth/");

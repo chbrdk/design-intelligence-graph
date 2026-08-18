@@ -199,6 +199,8 @@ export interface LibraryAnalysisSummary {
   model: string | null
   design_summary: string | null
   updated_at: string | null
+  site_domain?: string | null
+  canonical_url?: string | null
 }
 
 export interface SectionLookItem {

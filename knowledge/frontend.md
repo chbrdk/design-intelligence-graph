@@ -1,6 +1,6 @@
 # Slim web UI
 
-Added 2026-08-15. Updated 2026-08-18 (empty JSON + stale chunk reload).
+Added 2026-08-15. Updated 2026-08-18 (empty JSON, stale chunks, island surfaces).
 
 ## Purpose
 
@@ -24,7 +24,7 @@ Paths come from [`paths.json`](paths.json):
 1. **Pipeline status** — capture job timeline; shows `enrichment_job_id` when async LLM is queued
 2. **Enrichment** — queue status, models, tokens, estimated USD; link to analysis
 3. **Analyses** — design summary, patterns, UI elements, recipes, visual style, page flow, vision/cost
-4. **Library** — Screens / **Modules** / Devices / **Flows** (DIG-011 list/detail/Interactive); screen detail keeps **Page narrative** (`page_flow`) separate from multi-screen Flows
+4. **Library / Home / Analyses / Enrichment** — visual surfaces, not ID dumps. See [`island-surfaces.md`](island-surfaces.md).
 
 Island `apps/web/lib/dig-api.ts` `readJson` must tolerate empty/truncated upstream bodies (Traefik 502 during Playwright batches). Do not call `response.json()` directly.
 

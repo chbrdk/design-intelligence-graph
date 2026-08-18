@@ -24,10 +24,10 @@ function ProjectsBody() {
 
   return (
     <Panel className="dig-panel dig-stack">
-      <Text role="headline">Collection capability</Text>
+      <Text role="headline">Collection door</Text>
       <Text role="body">
-        {paths.brandLabel} opens from a Plexon Collection — not as a separate project type. Captures and design
-        references will be scoped to the bound Collection.
+        {paths.brandLabel} is not a project list. Plexon opens this island on a Collection; Capture and Library
+        inherit that id.
       </Text>
       {platformProjectId ? (
         <Text role="body">
@@ -55,7 +55,7 @@ export function ProjectsPageClient() {
   return (
     <AppShell
       title="Projects"
-      description={`${paths.brandLabel} mirrors for Plexon Collections.`}
+      description="Plexon Collection binding — then Capture or Library."
     >
       <Suspense fallback={<Panel className="dig-panel">Loading…</Panel>}>
         <ProjectsBody />

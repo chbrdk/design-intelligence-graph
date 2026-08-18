@@ -142,6 +142,12 @@ export interface DigPaths {
     storageKey?: string;
     maxAttempts?: number;
   };
+  islandSurfaces?: {
+    doc?: string;
+    homeRecentCount?: number;
+    enrichmentListCap?: number;
+    analysesListCap?: number;
+  };
   libraryReset?: {
     doc?: string;
     path?: string;

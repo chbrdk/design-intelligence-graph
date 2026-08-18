@@ -4,29 +4,19 @@ import { Suspense, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   Alert,
-  Button,
   Chip,
-  Field,
   FilterRow,
-  Input,
   MagazineContentsNav,
   Panel,
   Text,
 } from '../lib/msqdx-ui'
 import {
-  assembleReferencePromptPack,
   EMPTY_LIBRARY_FACET_FILTERS,
   facetChipLabel,
-  fetchDesignReferences,
   fetchLibraryScreensPage,
   fetchLibrarySections,
-  generateFromReferences,
-  islandMediaUrl,
-  searchLibrary,
-  type DesignReferenceHit,
   type LibraryFacetFilters,
   type LibraryScreen,
-  type LibrarySearchHit,
   type LibrarySection,
 } from '../lib/dig-api'
 import { formatLibraryHash, libraryModeNavItems, parseLibraryHash, type LibraryHashState } from '../lib/library-hash'
@@ -34,11 +24,11 @@ import {
   filterDeviceGalleryScreens,
   filterPrimaryGalleryScreens,
   isDeviceGalleryViewport,
-  preferredScreenForCapture,
   type DeviceGalleryFilter,
 } from '../lib/library-screen-gallery'
 import { LibraryModuleGallery } from './library-module-gallery'
 import { parseModuleGalleryFilter, type ModuleGalleryFilter } from '../lib/library-module-gallery'
+import { LibraryScreenGrid } from './library-screen-grid'
 import { paths } from '../lib/paths'
 import { AppShell } from './app-shell'
 import { LibraryFlowsPanel } from './library-flows-panel'
@@ -75,62 +65,6 @@ function FacetChipRow({
   )
 }
 
-function ScreenCardGrid({
-  screens,
-  empty,
-  variant = 'desktop',
-  onOpen,
-}: {
-  screens: LibraryScreen[]
-  empty: string
-  variant?: 'desktop' | 'devices'
-  onOpen: (screen: LibraryScreen) => void
-}) {
-  return (
-    <ul className={`dig-screen-grid${variant === 'devices' ? ' dig-screen-grid--devices' : ''}`}>
-      {screens.map((screen) => {
-        const thumb = islandMediaUrl(screen.primary_url)
-        const chips = [
-          screen.design_facets?.style,
-          screen.design_facets?.layout,
-          screen.design_facets?.industry_tags?.[0],
-        ].filter((value): value is string => Boolean(value))
-        return (
-          <li key={screen.viewport_capture_id}>
-            <button
-              type="button"
-              className="dig-screen-card"
-              data-viewport={screen.name}
-              onClick={() => onOpen(screen)}
-            >
-              {thumb ? (
-                // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
-                <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
-              ) : (
-                <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
-              )}
-              <strong>{screen.title || screen.name}</strong>
-              <Text role="meta">
-                {screen.name} · {screen.site_domain ?? screen.canonical_url}
-              </Text>
-              {chips.length ? (
-                <span className="dig-screen-card-facets">
-                  {chips.map((chip) => (
-                    <Chip key={chip} static={true} size="sm">
-                      {facetChipLabel(chip)}
-                    </Chip>
-                  ))}
-                </span>
-              ) : null}
-            </button>
-          </li>
-        )
-      })}
-      {!screens.length ? <li>{empty}</li> : null}
-    </ul>
-  )
-}
-
 function LibraryPageInner() {
   const router = useRouter()
   const pathname = usePathname()
@@ -143,13 +77,6 @@ function LibraryPageInner() {
   const [screens, setScreens] = useState<LibraryScreen[]>([])
   const [facetFilters, setFacetFilters] = useState<LibraryFacetFilters>(EMPTY_LIBRARY_FACET_FILTERS)
   const [sections, setSections] = useState<LibrarySection[]>([])
-  const [references, setReferences] = useState<DesignReferenceHit[]>([])
-  const [searchQuery, setSearchQuery] = useState('')
-  const [similarTo, setSimilarTo] = useState('')
-  const [searchHits, setSearchHits] = useState<LibrarySearchHit[]>([])
-  const [selectedRefs, setSelectedRefs] = useState<string[]>([])
-  const [intent, setIntent] = useState('hero marketing section')
-  const [packPreview, setPackPreview] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   function applyHash(next: LibraryHashState) {
@@ -178,10 +105,9 @@ function LibraryPageInner() {
 
   async function refresh() {
     setError(null)
-    const scope = { platformProjectId }
     try {
       const page = await fetchLibraryScreensPage({
-        ...scope,
+        platformProjectId,
         style: facetStyle,
         layout: facetLayout,
         industry: facetIndustry,
@@ -191,17 +117,6 @@ function LibraryPageInner() {
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setScreens([])
-    }
-
-    if (!platformProjectId) {
-      setReferences([])
-      return
-    }
-    try {
-      setReferences(await fetchDesignReferences({ ...scope, limit: 40 }))
-    } catch (err: unknown) {
-      setReferences([])
-      setError(err instanceof Error ? err.message : String(err))
     }
   }
 
@@ -244,84 +159,6 @@ function LibraryPageInner() {
     applyHash({ view: 'screen_detail', viewportCaptureId: screen.viewport_capture_id })
   }
 
-  async function onSearch() {
-    const q = searchQuery.trim()
-    if (!q) {
-      setSearchHits([])
-      return
-    }
-    try {
-      setError(null)
-      setSearchHits(await searchLibrary(q, { platformProjectId }))
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err))
-      setSearchHits([])
-    }
-  }
-
-  async function onSimilar() {
-    const q = similarTo.trim()
-    if (!q) return
-    if (!platformProjectId) {
-      setError(`Set ${paths.platformProjectQueryParam} (open Library from a Collection) for similar_to.`)
-      return
-    }
-    try {
-      setError(null)
-      setReferences(
-        await fetchDesignReferences({
-          similarTo: q,
-          platformProjectId,
-          limit: 20,
-        }),
-      )
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err))
-    }
-  }
-
-  function toggleRef(id: string) {
-    setSelectedRefs((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id].slice(0, 8),
-    )
-  }
-
-  async function onPromptPack() {
-    if (!selectedRefs.length) {
-      setError('Select at least one DesignReference')
-      return
-    }
-    try {
-      setError(null)
-      const pack = await assembleReferencePromptPack({
-        intent,
-        referenceIds: selectedRefs,
-        platformProjectId,
-      })
-      setPackPreview(JSON.stringify(pack, null, 2).slice(0, 4000))
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err))
-    }
-  }
-
-  async function onGenerate() {
-    if (!selectedRefs.length) {
-      setError('Select at least one DesignReference')
-      return
-    }
-    try {
-      setError(null)
-      const result = await generateFromReferences({
-        intent,
-        referenceIds: selectedRefs,
-        platformProjectId,
-      })
-      setPackPreview(JSON.stringify(result, null, 2).slice(0, 4000))
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err))
-    }
-  }
-
   const mode =
     hashState.view === 'flows' ||
     hashState.view === 'flow_detail' ||
@@ -341,15 +178,12 @@ function LibraryPageInner() {
     hashState.view === 'devices' ? hashState.viewport ?? 'all' : 'all'
   const desktopScreens = filterPrimaryGalleryScreens(screens)
   const deviceScreens = filterDeviceGalleryScreens(screens, deviceViewport)
-  const deviceCount = filterDeviceGalleryScreens(screens).length
 
   return (
     <AppShell
       title="Library"
       description={
-        screenDetailId
-          ? undefined
-          : 'Browse captured screens, section look, DesignReferences, and multi-screen Flows.'
+        screenDetailId ? undefined : 'Browse captured screens, modules, and flows.'
       }
       onBack={
         screenDetailId
@@ -372,8 +206,7 @@ function LibraryPageInner() {
         <Alert tone="info">
           Live federation needs a Collection. Open{' '}
           <a href={paths.routes.projects}>Projects</a> with{' '}
-          <code>?{paths.platformProjectQueryParam}=…</code> (from Plexon), then Library — screens still
-          load below without it; DesignReferences stay Collection-scoped.
+          <code>?{paths.platformProjectQueryParam}=…</code> (from Plexon). Screens still load below.
         </Alert>
       )}
 
@@ -394,7 +227,7 @@ function LibraryPageInner() {
               ? hashState.flowId
               : null
           }
-          initialInteractive={hashState.view === 'flow_interactive'}
+          initialInteractive={hashState.view === 'flow_interactive' || hashState.view === 'flow_detail'}
           initialStep={hashState.view === 'flow_interactive' ? hashState.step ?? null : null}
           onNavigateHash={(hash) => {
             if (typeof window !== 'undefined') window.location.hash = hash
@@ -423,141 +256,44 @@ function LibraryPageInner() {
       ) : null}
 
       {mode === 'screens' && !screenDetailId ? (
-        <>
-          <Panel className="dig-panel">
-            <div className="dig-row">
-              <Field label="Search">
-                <Input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-              </Field>
-              <Button type="button" variant="subtle" onClick={() => void onSearch()}>
-                Search
-              </Button>
-              <Field label="similar_to">
-                <Input value={similarTo} onChange={(e) => setSimilarTo(e.target.value)} />
-              </Field>
-              <Button type="button" variant="subtle" onClick={() => void onSimilar()}>
-                Similar refs
-              </Button>
-              <Button type="button" variant="subtle" onClick={() => void refresh()}>
-                Refresh
-              </Button>
-            </div>
-            {searchHits.length ? (
-              <ul className="dig-list">
-                {searchHits.map((hit) => (
-                  <li key={`${hit.capture_run_id}-${hit.label}`}>
-                    <button
-                      type="button"
-                      className="dig-linkish"
-                      onClick={() => {
-                        const match = preferredScreenForCapture(screens, hit.capture_run_id)
-                        if (match) openScreen(match)
-                      }}
-                    >
-                      {hit.label} <Text role="meta">({hit.kind})</Text>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </Panel>
-
-          <Panel className="dig-panel">
-            <Text role="title">DesignReferences</Text>
-            <div className="dig-row">
-              <Field label="Intent">
-                <Input value={intent} onChange={(e) => setIntent(e.target.value)} />
-              </Field>
-              <Button type="button" variant="subtle" onClick={() => void onPromptPack()}>
-                Prompt pack
-              </Button>
-              <Button type="button" onClick={() => void onGenerate()}>
-                Generate
-              </Button>
-            </div>
-            <ul className="dig-list">
-              {references.map((ref) => (
-                <li key={ref.reference_id}>
-                  <label className="dig-linkish">
-                    <input
-                      type="checkbox"
-                      checked={selectedRefs.includes(ref.reference_id)}
-                      onChange={() => toggleRef(ref.reference_id)}
-                    />{' '}
-                    <strong>{ref.signature ?? ref.category ?? ref.reference_id}</strong>
-                    <Text role="meta">
-                      {ref.style_label ?? ''}
-                      {typeof ref.similarity === 'number'
-                        ? ` · sim ${(ref.similarity * 100).toFixed(0)}%`
-                        : ''}
-                    </Text>
-                  </label>
-                </li>
-              ))}
-              {!references.length ? <li>No DesignReferences indexed yet.</li> : null}
-            </ul>
-            {packPreview ? (
-              <pre className="dig-pre" style={{ maxHeight: 280, overflow: 'auto', fontSize: 12 }}>
-                {packPreview}
-              </pre>
-            ) : null}
-          </Panel>
-
-          <Panel className="dig-panel">
-            <Text role="title">Screens</Text>
-            <Text role="hint">{paths.libraryCopy.screenGridHint}</Text>
-            <div className="dig-screen-facet-filters">
-              <FacetChipRow
-                label={paths.libraryCopy.screenFacetStyle}
-                values={facetFilters.style}
-                selected={facetStyle}
-                onSelect={(value) => setFacetParam('style', value)}
-              />
-              <FacetChipRow
-                label={paths.libraryCopy.screenFacetLayout}
-                values={facetFilters.layout}
-                selected={facetLayout}
-                onSelect={(value) => setFacetParam('layout', value)}
-              />
-              <FacetChipRow
-                label={paths.libraryCopy.screenFacetIndustry}
-                values={facetFilters.industry}
-                selected={facetIndustry}
-                onSelect={(value) => setFacetParam('industry', value)}
-              />
-            </div>
-            <ScreenCardGrid
-              screens={desktopScreens}
-              variant="desktop"
-              onOpen={openScreen}
-              empty={
-                facetStyle || facetLayout || facetIndustry
-                  ? paths.libraryCopy.screenFacetEmpty
-                  : 'No desktop screens indexed yet.'
-              }
+        <Panel className="dig-panel">
+          <Text role="title">{paths.libraryCopy.screensLabel}</Text>
+          <Text role="hint">{paths.libraryCopy.screenGridHint}</Text>
+          <div className="dig-screen-facet-filters">
+            <FacetChipRow
+              label={paths.libraryCopy.screenFacetStyle}
+              values={facetFilters.style}
+              selected={facetStyle}
+              onSelect={(value) => setFacetParam('style', value)}
             />
-          </Panel>
-
-          <Panel className="dig-panel" id="library-devices">
-            <Text role="title">{paths.libraryCopy.devicesTitle}</Text>
-            <Text role="hint">{paths.libraryCopy.devicesHint}</Text>
-            <div className="dig-row">
-              <Button type="button" variant="subtle" onClick={() => applyHash({ view: 'devices' })}>
-                {paths.libraryCopy.devicesOpen}
-              </Button>
-              <Text role="meta">{deviceCount} tablet/mobile screens</Text>
-            </div>
-          </Panel>
-        </>
+            <FacetChipRow
+              label={paths.libraryCopy.screenFacetLayout}
+              values={facetFilters.layout}
+              selected={facetLayout}
+              onSelect={(value) => setFacetParam('layout', value)}
+            />
+            <FacetChipRow
+              label={paths.libraryCopy.screenFacetIndustry}
+              values={facetFilters.industry}
+              selected={facetIndustry}
+              onSelect={(value) => setFacetParam('industry', value)}
+            />
+          </div>
+          <LibraryScreenGrid
+            screens={desktopScreens}
+            variant="desktop"
+            onOpen={openScreen}
+            empty={
+              facetStyle || facetLayout || facetIndustry
+                ? paths.libraryCopy.screenFacetEmpty
+                : 'No desktop screens indexed yet.'
+            }
+          />
+        </Panel>
       ) : null}
 
       {mode === 'devices' ? (
         <Panel className="dig-panel">
-          <div className="dig-row">
-            <Button type="button" variant="subtle" onClick={() => applyHash({ view: 'screens' })}>
-              {paths.libraryCopy.devicesBack}
-            </Button>
-          </div>
           <Text role="title">{paths.libraryCopy.devicesTitle}</Text>
           <Text role="hint">{paths.libraryCopy.devicesHint}</Text>
           <FilterRow variant="toolbar" label="Viewport">
@@ -583,7 +319,7 @@ function LibraryPageInner() {
               {paths.libraryCopy.devicesMobile}
             </Chip>
           </FilterRow>
-          <ScreenCardGrid
+          <LibraryScreenGrid
             screens={deviceScreens}
             variant="devices"
             onOpen={openScreen}

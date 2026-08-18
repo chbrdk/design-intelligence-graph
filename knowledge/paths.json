@@ -272,6 +272,12 @@
     "storageKey": "spirion.v1.chunkReload",
     "maxAttempts": 1
   },
+  "islandSurfaces": {
+    "doc": "knowledge/island-surfaces.md",
+    "homeRecentCount": 8,
+    "enrichmentListCap": 12,
+    "analysesListCap": 24
+  },
   "libraryReset": {
     "doc": "knowledge/library-reset.md",
     "path": "/reset",

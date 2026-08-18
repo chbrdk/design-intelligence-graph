@@ -1,0 +1,15 @@
+---
+description: Ship island UI to Coolify staging immediately; never leave product pages local-only.
+alwaysApply: true
+---
+
+# Island always live
+
+When SPIRION island UI ships (Library, Capture, Home, Analyses, Enrichment, Settings, AppShell):
+
+- Commit those product files (user said **immer live**).
+- Push `main` via SSH `git@github.com:chbrdk/design-intelligence-graph.git` without changing `origin`.
+- Coolify-deploy **only** `coolify.digAppUuid` (`dig-v3:main-app`). Do **not** deploy the API unless asked — an API restart drops the in-memory capture queue.
+- After deploy: hard-reload the island. Token: `/tmp/dig-coolify.token`. Details: `knowledge/coolify-dig-staging.md`.
+
+MCP example pages stay local HTML under `tmp/` (see local-html-demos rule).

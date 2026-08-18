@@ -1,8 +1,10 @@
 # DIG Coolify staging
 
-**Updated:** 2026-08-16  
+**Updated:** 2026-08-18  
 **Coolify UI:** https://coolify.plygrnd.tech/  
 **API base:** `https://coolify.plygrnd.tech/api/v1` (Bearer token — never commit)
+
+Island UI ships **live** on Coolify after it lands on `main` (user: immer live). Deploy **island only** unless an API change is required. API restart drops the in-memory capture/enrichment queues.
 
 | Item | Value |
 |------|--------|
@@ -67,6 +69,8 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 PG18 Coolify default mount `/var/lib/postgresql/data` breaks PG18 images — staging uses **pg16** after fixing the volume path to `/var/lib/postgresql`.
 
 ## Deploy
+
+Island UI: commit → push SSH `HEAD:main` → Coolify `POST /api/v1/deploy` `{uuid: coolify.digAppUuid, force:true}`. Never API-deploy for UI-only.
 
 ```bash
 # force deploy island or API (uuid from paths.json)

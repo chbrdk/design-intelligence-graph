@@ -1,0 +1,12 @@
+---
+description: Example pages from MCP/craft briefs are local standalone HTML, not island routes.
+alwaysApply: true
+---
+
+# Local HTML demos
+
+When composing or rebuilding an example page from SPIRION MCP (prompt pack, compose-brief, generate):
+
+- Write a **single standalone HTML file** under `tmp/` (gitignored).
+- Inline CSS. Put images next to the file or use a relative path that works with `file://`.
+- Open that file in the browser. Do not add Next.js routes, `paths.ts` copy, island deploys, or AppShell chrome unless the user explicitly asks to ship it into the product.

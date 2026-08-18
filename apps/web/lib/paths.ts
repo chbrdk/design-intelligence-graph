@@ -136,6 +136,16 @@ export const paths = {
     moduleGalleryHint:
       'Hero, nav, feature, and conversion bands from desktop captures. Body paragraphs stay out of this grid.',
     moduleGalleryEmpty: 'No modules match this filter yet.',
+    homeLead: 'Recent desktop captures. Open a card for the magazine brief, or start a new URL.',
+    homeRecentTitle: 'Latest screens',
+    homeEmpty: 'No desktop screens indexed yet. Capture a URL to fill the library.',
+    analysesHint: 'Indexed design summaries. Open a card to read the screen in Library — not a second ontology dump.',
+    analysesEmpty: 'No analyses yet.',
+    analysesOpen: 'Open in Library',
+    enrichmentHint: 'Live enrichment queue. Active jobs first; open a capture in Library when it has a screen.',
+    enrichmentEmpty: 'No enrichment jobs.',
+    flowsGalleryHint: 'Multi-screen journeys. Open a card to walk the captured screens.',
+    flowsEmpty: 'No flows indexed yet.',
   },
   /** Keep in sync with knowledge/paths.json libraryScreenGallery. */
   libraryScreenGallery: {
@@ -154,6 +164,12 @@ export const paths = {
     maxPerCategory: 12,
     maxFiltered: 40,
     cardAspect: 1.7778,
+  },
+  /** Keep in sync with knowledge/paths.json islandSurfaces. */
+  islandSurfaces: {
+    homeRecentCount: 8,
+    enrichmentListCap: 12,
+    analysesListCap: 24,
   },
   pinterest: {
     islandCallbackPath: '/api/pinterest/callback',

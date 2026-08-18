@@ -3,11 +3,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Alert, Button, Field, Input, Panel, Text } from '../lib/msqdx-ui'
 import {
-  fetchDesignFlow,
   fetchDesignFlowInteractive,
   fetchDesignFlows,
   islandMediaUrl,
-  type DesignFlowGraph,
   type DesignFlowInteractive,
   type DesignFlowListItem,
 } from '../lib/dig-api'
@@ -15,7 +13,7 @@ import { labelForFlowAction, listFlowActionFilterOptions } from '../lib/flow-act
 import { formatLibraryHash, nextInteractiveStep } from '../lib/library-hash'
 import { paths } from '../lib/paths'
 
-type FlowsView = 'list' | 'detail' | 'interactive'
+type FlowsView = 'list' | 'interactive'
 
 export function LibraryFlowsPanel(props: {
   initialFlowId?: string | null
@@ -24,12 +22,11 @@ export function LibraryFlowsPanel(props: {
   onNavigateHash: (hash: string) => void
 }) {
   const [view, setView] = useState<FlowsView>(
-    props.initialInteractive ? 'interactive' : props.initialFlowId ? 'detail' : 'list',
+    props.initialFlowId ? 'interactive' : 'list',
   )
   const [flowAction, setFlowAction] = useState('')
   const [query, setQuery] = useState('')
   const [items, setItems] = useState<DesignFlowListItem[]>([])
-  const [detail, setDetail] = useState<DesignFlowGraph | null>(null)
   const [interactive, setInteractive] = useState<DesignFlowInteractive | null>(null)
   const [stepId, setStepId] = useState<string | null>(props.initialStep ?? null)
   const [error, setError] = useState<string | null>(null)
@@ -51,21 +48,6 @@ export function LibraryFlowsPanel(props: {
       setItems([])
     }
   }, [flowAction, query])
-
-  const openDetail = useCallback(
-    async (flowId: string) => {
-      try {
-        setError(null)
-        const { flow } = await fetchDesignFlow(flowId)
-        setDetail(flow)
-        setView('detail')
-        props.onNavigateHash(formatLibraryHash({ view: 'flow_detail', flowId }))
-      } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : String(err))
-      }
-    },
-    [props],
-  )
 
   const openInteractive = useCallback(
     async (flowId: string, step?: string | null) => {
@@ -97,10 +79,8 @@ export function LibraryFlowsPanel(props: {
   }, [view, loadList])
 
   useEffect(() => {
-    if (props.initialFlowId && props.initialInteractive) {
+    if (props.initialFlowId) {
       void openInteractive(props.initialFlowId, props.initialStep)
-    } else if (props.initialFlowId) {
-      void openDetail(props.initialFlowId)
     } else {
       void loadList()
     }
@@ -110,7 +90,7 @@ export function LibraryFlowsPanel(props: {
   const currentStep = interactive?.steps.find((step) => step.flow_screen_id === stepId) ?? null
 
   function goHotspot(toScreenId: string) {
-    if (!interactive || !detail) return
+    if (!interactive) return
     setStepId(toScreenId)
     setImageReady(false)
     window.setTimeout(() => setImageReady(true), 120)
@@ -137,8 +117,9 @@ export function LibraryFlowsPanel(props: {
     if (view !== 'interactive' || !interactive || !stepId) return
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setView('detail')
-        props.onNavigateHash(formatLibraryHash({ view: 'flow_detail', flowId: interactive.flow_id }))
+        setView('list')
+        setInteractive(null)
+        props.onNavigateHash(formatLibraryHash({ view: 'flows' }))
         return
       }
       const index = interactive.steps.findIndex((step) => step.flow_screen_id === stepId)
@@ -159,7 +140,7 @@ export function LibraryFlowsPanel(props: {
 
   if (view === 'interactive' && interactive) {
     const stepIndex = interactive.steps.findIndex((step) => step.flow_screen_id === stepId) + 1
-    const title = detail?.title || interactive.flow_id
+    const title = interactive.flow_id
     return (
       <Panel className="dig-panel dig-flow-interactive">
         {error ? <Alert tone="error">{error}</Alert> : null}
@@ -172,10 +153,9 @@ export function LibraryFlowsPanel(props: {
             type="button"
             variant="subtle"
             onClick={() => {
-              setView('detail')
-              props.onNavigateHash(
-                formatLibraryHash({ view: 'flow_detail', flowId: interactive.flow_id }),
-              )
+              setView('list')
+              setInteractive(null)
+              props.onNavigateHash(formatLibraryHash({ view: 'flows' }))
             }}
           >
             Exit
@@ -239,75 +219,10 @@ export function LibraryFlowsPanel(props: {
     )
   }
 
-  if (view === 'detail' && detail) {
-    const ordered = [...detail.screens].sort((a, b) => a.order - b.order)
-    return (
-      <Panel className="dig-panel">
-        {error ? <Alert tone="error">{error}</Alert> : null}
-        <div className="dig-row">
-          <div>
-            <Text role="title">{detail.title || detail.flow_id}</Text>
-            <Text role="meta">{detail.app_scope_id}</Text>
-            <div className="dig-flow-chips">
-              {(detail.flow_actions ?? []).map((action) => (
-                <span key={action.taxonomy_id} className="dig-flow-chip">
-                  {labelForFlowAction(action.taxonomy_id)}
-                </span>
-              ))}
-            </div>
-          </div>
-          <Button type="button" onClick={() => void openInteractive(detail.flow_id)}>
-            Open Interactive
-          </Button>
-          <Button
-            type="button"
-            variant="subtle"
-            onClick={() => {
-              setView('list')
-              setDetail(null)
-              props.onNavigateHash(formatLibraryHash({ view: 'flows' }))
-            }}
-          >
-            Back
-          </Button>
-        </div>
-        <div className="dig-split">
-          <div>
-            <Text role="title">Screens</Text>
-            <ol className="dig-list">
-              {ordered.map((screen) => (
-                <li key={screen.flow_screen_id}>
-                  <strong>
-                    {screen.order} · {screen.flow_screen_id}
-                  </strong>
-                  <Text role="meta">{screen.primary_url ?? screen.capture_run_id}</Text>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <Text role="title">Transitions</Text>
-            <ul className="dig-list">
-              {detail.edges.map((edge) => (
-                <li key={edge.edge_id}>
-                  {edge.from_screen_id} → {edge.to_screen_id}
-                  <Text role="meta">
-                    {edge.method ?? '—'} · hotspot {edge.hotspot ? 'yes' : 'no'}
-                  </Text>
-                </li>
-              ))}
-              {!detail.edges.length ? <li>No edges.</li> : null}
-            </ul>
-          </div>
-        </div>
-      </Panel>
-    )
-  }
-
   return (
     <Panel className="dig-panel">
       <Text role="title">{paths.libraryCopy.flowsLabel}</Text>
-      <Text role="meta">{paths.libraryCopy.flowsSupport}</Text>
+      <Text role="hint">{paths.libraryCopy.flowsGalleryHint}</Text>
       {error ? <Alert tone="error">{error}</Alert> : null}
       <div className="dig-row">
         <Field label="Action">
@@ -341,26 +256,33 @@ export function LibraryFlowsPanel(props: {
           Clear
         </Button>
       </div>
-      <ul className="dig-list dig-flow-list">
-        {items.map((item) => (
-          <li key={item.flow_id}>
-            <button type="button" className="dig-linkish dig-flow-row" onClick={() => void openDetail(item.flow_id)}>
-              <strong>{item.title || item.flow_id}</strong>
-              <Text role="meta">
-                {item.flow_action_ids.map(labelForFlowAction).join(' · ') || '—'} · {item.screen_count}{' '}
-                screens · {item.edge_count} edge{item.edge_count === 1 ? '' : 's'}
-              </Text>
-            </button>
-          </li>
-        ))}
-        {!items.length ? (
-          <li>
-            <Text role="hint">
-              Flows appear after multi-screen index — golden fixtures load when the index is empty.
-            </Text>
-          </li>
-        ) : null}
+      <ul className="dig-screen-grid">
+        {items.map((item) => {
+          const thumb = islandMediaUrl(item.preview_url)
+          return (
+            <li key={item.flow_id}>
+              <button
+                type="button"
+                className="dig-screen-card"
+                onClick={() => void openInteractive(item.flow_id)}
+              >
+                {thumb ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- package media via dig proxy
+                  <img src={thumb} alt="" className="dig-screen-thumb" loading="lazy" />
+                ) : (
+                  <div className="dig-screen-thumb dig-screen-thumb--empty">No shot</div>
+                )}
+                <strong>{item.title || item.flow_id}</strong>
+                <Text role="meta">
+                  {item.flow_action_ids.map(labelForFlowAction).join(' · ') || '—'} · {item.screen_count}{' '}
+                  screens
+                </Text>
+              </button>
+            </li>
+          )
+        })}
       </ul>
+      {!items.length ? <Text role="hint">{paths.libraryCopy.flowsEmpty}</Text> : null}
     </Panel>
   )
 }
