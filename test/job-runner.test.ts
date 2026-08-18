@@ -423,3 +423,126 @@ test("JobRunner runs three captures in parallel when maxConcurrent is 3", async 
     else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
   }
 });
+
+test("JobRunner runs still-image jobs on a separate concurrency pool", async () => {
+  const previousLlm = process.env.DIG_LLM_ENABLED;
+  const previousCheckion = process.env.DIG_CHECKION_SCREENSHOTS;
+  process.env.DIG_LLM_ENABLED = "false";
+  process.env.DIG_CHECKION_SCREENSHOTS = "0";
+  const capturesDir = await mkdtemp(join(tmpdir(), "dig-job-imgpool-"));
+  const indexesDir = await mkdtemp(join(tmpdir(), "dig-job-imgpool-idx-"));
+  let playwrightInFlight = 0;
+  let playwrightPeak = 0;
+  let imageInFlight = 0;
+  let imagePeak = 0;
+  let seq = 0;
+  let releasePlaywright: () => void = () => undefined;
+  let releaseImages: () => void = () => undefined;
+  const playwrightGate = new Promise<void>((resolveGate) => {
+    releasePlaywright = resolveGate;
+  });
+  const imageGate = new Promise<void>((resolveGate) => {
+    releaseImages = resolveGate;
+  });
+  const runner = new JobRunner({
+    capturesDir,
+    indexesDir,
+    maxConcurrent: 1,
+    maxImageConcurrent: 2,
+    asyncEnrichment: false,
+    captureFn: async () => {
+      playwrightInFlight += 1;
+      playwrightPeak = Math.max(playwrightPeak, playwrightInFlight);
+      seq += 1;
+      const runId = `cap_pw_${seq}`;
+      await playwrightGate;
+      playwrightInFlight -= 1;
+      return {
+        packageRoot: join(capturesDir, runId),
+        manifest: {
+          status: "complete",
+          capture_run_id: runId,
+          errors: [],
+          viewport_captures: [{ name: "desktop" }]
+        } as never
+      };
+    },
+    stillImageIngestFn: async () => {
+      imageInFlight += 1;
+      imagePeak = Math.max(imagePeak, imageInFlight);
+      seq += 1;
+      const runId = `cap_img_${seq}`;
+      await imageGate;
+      imageInFlight -= 1;
+      return {
+        packageRoot: join(capturesDir, runId),
+        manifest: {
+          status: "complete",
+          capture_run_id: runId,
+          errors: [],
+          viewport_captures: [{ name: "desktop" }]
+        } as never
+      };
+    },
+    verifyFn: async () => ({
+      valid: true,
+      package_root: join(capturesDir, "pkg"),
+      capture_run_id: "cap_imgpool",
+      checked_artifacts: 1,
+      issues: []
+    }),
+    indexFn: async () => ({
+      indexRoot: join(indexesDir, "cap_imgpool"),
+      graph: { nodes: [], edges: [] } as never
+    })
+  });
+  try {
+    const urls = ["one", "two"].map((host) => runner.startJob(`https://${host}.example/`));
+    const images = ["a.png", "b.png", "c.png"].map((filename, index) =>
+      runner.startUploadJob({
+        source_id: `upload_${index}`,
+        filename,
+        path: join(capturesDir, filename)
+      })
+    );
+    await new Promise((resolveWait) => setTimeout(resolveWait, 40));
+    const urlStages = urls.map((job) => runner.getJob(job.job_id)?.stage);
+    const imageStages = images.map((job) => runner.getJob(job.job_id)?.stage);
+    assert.equal(urlStages.filter((stage) => stage === "capturing").length, 1);
+    assert.equal(urlStages.filter((stage) => stage === "queued").length, 1);
+    assert.equal(imageStages.filter((stage) => stage === "capturing").length, 2);
+    assert.equal(imageStages.filter((stage) => stage === "queued").length, 1);
+    assert.equal(playwrightPeak, 1);
+    assert.equal(imagePeak, 2);
+    releasePlaywright();
+    releaseImages();
+    await Promise.all(
+      [...urls, ...images].map(
+        (job) =>
+          new Promise<void>((resolveDone, reject) => {
+            const current = runner.getJob(job.job_id);
+            if (current?.stage === "complete") {
+              resolveDone();
+              return;
+            }
+            if (current?.stage === "failed") {
+              reject(new Error(current.error ?? "failed"));
+              return;
+            }
+            const stop = runner.subscribe(job.job_id, (event) => {
+              if (event.stage === "complete" || event.stage === "failed") {
+                stop();
+                if (event.stage === "failed") reject(new Error(event.error ?? "failed"));
+                else resolveDone();
+              }
+            });
+          })
+      )
+    );
+  } finally {
+    if (previousLlm === undefined) delete process.env.DIG_LLM_ENABLED;
+    else process.env.DIG_LLM_ENABLED = previousLlm;
+    if (previousCheckion === undefined) delete process.env.DIG_CHECKION_SCREENSHOTS;
+    else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
+  }
+});

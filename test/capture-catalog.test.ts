@@ -15,8 +15,8 @@ test("automotive-oem-50 catalog has 50 unique https manufacturer urls", () => {
   assert.ok(urls.some((url) => url.includes("audi")));
 });
 
-test("captureJobsConfig reads maxConcurrent 3 and maxBatch 1000 from paths.json", () => {
-  assert.equal(captureJobsConfig().maxConcurrent, 3);
+test("captureJobsConfig reads maxConcurrent 6 and maxBatch 1000 from paths.json", () => {
+  assert.equal(captureJobsConfig().maxConcurrent, 6);
   assert.equal(captureJobsConfig().maxBatch, 1000);
   assert.match(captureJobsConfig().crossIndustry100, /cross-industry-100\.json$/);
   assert.match(captureJobsConfig().engineeringManufacturing1000, /engineering-manufacturing-1000\.json$/);

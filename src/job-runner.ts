@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { readFile, unlink } from "node:fs/promises";
 import { capture } from "./capture.js";
 import { attachCheckionScreenshotIfConfigured } from "./checkion-attach.js";
 import { CANONICAL_VIEWPORTS } from "./config.js";
@@ -8,12 +9,13 @@ import { localLlmConfig } from "./llm-provider.js";
 import { captureNavConfig, inferCaptureLocale } from "./capture-nav.js";
 import { captureJobsConfig } from "./capture-catalog.js";
 import { captureSettleConfig } from "./capture-settle.js";
-import { capturesDirectory, indexesDirectory } from "./runtime-paths.js";
+import { capturesDirectory, imageIngestConfig, indexesDirectory, uploadedImageUrl } from "./runtime-paths.js";
 import { indexCapturePackage } from "./storage.js";
 import { indexCapturePackageToDatabase } from "./db-index.js";
 import { verifyCapturePackage } from "./verify.js";
 import { downloadPinImage, type PinterestPin } from "./pinterest-client.js";
 import { ingestPinterestPinPackage } from "./pinterest-package.js";
+import { ingestUploadedImagePackage, type UploadedImageIngest } from "./image-ingest.js";
 
 export type JobStage = "queued" | "capturing" | "analyzing" | "verifying" | "indexing" | "complete" | "failed";
 
@@ -56,8 +58,9 @@ export interface JobRecord {
   platform_project_id?: string | null;
   /** Local dig_projects.id when known. */
   dig_project_id?: string | null;
-  ingest_source?: "web" | "pinterest";
+  ingest_source?: "web" | "pinterest" | "upload";
   pinterest_pin?: PinterestPinIngest;
+  upload_image?: UploadedImageIngest;
 }
 
 export type StartJobOptions = {
@@ -85,8 +88,14 @@ export interface JobRunnerOptions {
   enrichmentQueue?: EnrichmentQueue;
   /** When true (default if DIG_LLM_ASYNC), enqueue enrichment instead of blocking. */
   asyncEnrichment?: boolean;
-  /** How many Playwright captures may run at once (Coolify: 1). */
+  /** How many Playwright captures may run at once. */
   maxConcurrent?: number;
+  /** How many still-image ingest jobs (upload + Pinterest) may run at once. */
+  maxImageConcurrent?: number;
+  stillImageIngestFn?: (job: JobRecord) => Promise<{
+    packageRoot: string;
+    manifest: import("./types.js").CaptureManifest;
+  }>;
 }
 
 const DETECTION_STAGES: JobStage[] = ["queued", "capturing", "analyzing"];
@@ -127,13 +136,15 @@ export class JobRunner {
   private readonly listeners = new Map<string, Set<Listener>>();
   private readonly options: Required<Pick<JobRunnerOptions, "timeoutMs" | "settleMs">> & JobRunnerOptions;
   private readonly pending: string[] = [];
-  private running = 0;
+  private runningPlaywright = 0;
+  private runningImage = 0;
 
   constructor(options: JobRunnerOptions = {}) {
     this.options = {
       timeoutMs: options.timeoutMs ?? captureNavConfig().jobTimeoutMs,
       settleMs: options.settleMs ?? captureSettleConfig().settleMs,
       maxConcurrent: options.maxConcurrent ?? captureJobsConfig().maxConcurrent,
+      maxImageConcurrent: options.maxImageConcurrent ?? imageIngestConfig().maxConcurrent,
       ...options
     };
   }
@@ -212,18 +223,68 @@ export class JobRunner {
     return job;
   }
 
+  startUploadJobs(files: UploadedImageIngest[], options: StartJobOptions = {}): JobRecord[] {
+    return files.map((file) => this.startUploadJob(file, options));
+  }
+
+  startUploadJob(file: UploadedImageIngest, options: StartJobOptions = {}): JobRecord {
+    const now = (this.options.now ?? (() => new Date()))().toISOString();
+    const platformProjectId = options.platformProjectId?.trim() || null;
+    const digProjectId = options.digProjectId?.trim() || null;
+    const url = uploadedImageUrl(file.source_id);
+    const job: JobRecord = {
+      job_id: createJobId(this.options.now),
+      url,
+      stage: "queued",
+      message: "Image upload queued",
+      created_at: now,
+      updated_at: now,
+      events: [],
+      ingest_source: "upload",
+      upload_image: file,
+      ...(platformProjectId ? { platform_project_id: platformProjectId } : {}),
+      ...(digProjectId ? { dig_project_id: digProjectId } : {})
+    };
+    this.jobs.set(job.job_id, job);
+    this.emit(job, { stage: "queued", message: `Waiting to ingest ${file.filename}` });
+    this.pending.push(job.job_id);
+    this.pump();
+    return job;
+  }
+
   private maxConcurrent(): number {
     return Math.max(1, this.options.maxConcurrent ?? 1);
   }
 
+  private maxImageConcurrent(): number {
+    return Math.max(1, this.options.maxImageConcurrent ?? 1);
+  }
+
   private pump(): void {
-    const cap = this.maxConcurrent();
-    while (this.running < cap && this.pending.length) {
-      const jobId = this.pending.shift();
+    const playwrightCap = this.maxConcurrent();
+    const imageCap = this.maxImageConcurrent();
+    let progressed = true;
+    while (progressed) {
+      progressed = false;
+      const idx = this.pending.findIndex((id) => {
+        const job = this.jobs.get(id);
+        if (!job) return false;
+        return isImageIngestJob(job)
+          ? this.runningImage < imageCap
+          : this.runningPlaywright < playwrightCap;
+      });
+      if (idx < 0) break;
+      const jobId = this.pending.splice(idx, 1)[0];
       if (!jobId) break;
-      this.running += 1;
+      const job = this.jobs.get(jobId);
+      if (!job) continue;
+      const image = isImageIngestJob(job);
+      if (image) this.runningImage += 1;
+      else this.runningPlaywright += 1;
+      progressed = true;
       void this.run(jobId).finally(() => {
-        this.running -= 1;
+        if (image) this.runningImage -= 1;
+        else this.runningPlaywright -= 1;
         this.pump();
       });
     }
@@ -259,16 +320,32 @@ export class JobRunner {
     const indexesDir = this.options.indexesDir ?? indexesDirectory();
 
     try {
-      const isPinterest = job.ingest_source === "pinterest" && job.pinterest_pin;
+      const isImage = isImageIngestJob(job);
       this.emit(job, {
         stage: "capturing",
-        message: isPinterest
-          ? `Downloading Pinterest pin ${job.pinterest_pin!.pin_id}`
-          : `Detecting layout evidence across ${CANONICAL_VIEWPORTS.length} viewports`,
-        progress: { current: 0, total: isPinterest ? 1 : CANONICAL_VIEWPORTS.length, label: isPinterest ? "pin" : "viewports" }
+        message: job.ingest_source === "upload"
+          ? `Ingesting uploaded image ${job.upload_image?.filename ?? job.job_id}`
+          : job.ingest_source === "pinterest"
+            ? `Downloading Pinterest pin ${job.pinterest_pin!.pin_id}`
+            : `Detecting layout evidence across ${CANONICAL_VIEWPORTS.length} viewports`,
+        progress: {
+          current: 0,
+          total: isImage ? 1 : CANONICAL_VIEWPORTS.length,
+          label: isImage ? "image" : "viewports"
+        }
       });
       let captureResult: { packageRoot: string; manifest: import("./types.js").CaptureManifest };
-      if (isPinterest && job.pinterest_pin) {
+      if (this.options.stillImageIngestFn && isImage) {
+        captureResult = await this.options.stillImageIngestFn(job);
+      } else if (job.ingest_source === "upload" && job.upload_image) {
+        const image = await readFile(job.upload_image.path);
+        captureResult = await ingestUploadedImagePackage({
+          image,
+          outputDirectory: capturesDir,
+          sourceId: job.upload_image.source_id,
+          filename: job.upload_image.filename
+        });
+      } else if (job.ingest_source === "pinterest" && job.pinterest_pin) {
         const image = await downloadPinImage(job.pinterest_pin.image_url);
         const pin: PinterestPin = {
           id: job.pinterest_pin.pin_id,
@@ -315,11 +392,11 @@ export class JobRunner {
 
       this.emit(job, {
         stage: "capturing",
-        message: isPinterest ? "Skipping CHECKION for Pinterest pin ingest" : "Capturing full-page screenshot via CHECKION"
+        message: isImage ? "Skipping CHECKION for still-image ingest" : "Capturing full-page screenshot via CHECKION"
       });
       let checkion: Awaited<ReturnType<typeof attachCheckionScreenshotIfConfigured>>;
-      if (isPinterest) {
-        checkion = { attached: false, skipped: "pinterest_ingest" };
+      if (isImage) {
+        checkion = { attached: false, skipped: `${job.ingest_source ?? "image"}_ingest` };
       } else {
         try {
           checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
@@ -523,8 +600,16 @@ export class JobRunner {
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
       this.emit(job, { stage: "failed", message: "Job failed", error: message });
+    } finally {
+      if (job.upload_image?.path) {
+        await unlink(job.upload_image.path).catch(() => undefined);
+      }
     }
   }
+}
+
+function isImageIngestJob(job: JobRecord): boolean {
+  return job.ingest_source === "pinterest" || job.ingest_source === "upload";
 }
 
 /** Keep job.error readable when verify dumps dozens of duplicate ontology ids. */

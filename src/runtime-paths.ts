@@ -134,6 +134,20 @@ export interface DigPaths {
     engineeringManufacturing1000?: string;
     maxBatch?: number;
   };
+  imageIngest?: {
+    doc?: string;
+    imagesPath?: string;
+    maxConcurrent?: number;
+    maxFiles?: number;
+    maxBytes?: number;
+    allowedMime?: string[];
+    fieldName?: string;
+    stagingDir?: string;
+    intervention?: string;
+    urlTemplate?: string;
+    islandProxyMaxBody?: string;
+    accept?: string;
+  };
   pinterest?: {
     doc?: string;
     apiBase?: string;
@@ -466,6 +480,54 @@ export function pinterestConfig(root = process.cwd()): {
     imageHostSuffixes: cfg?.imageHostSuffixes?.length ? cfg.imageHostSuffixes : ["pinimg.com", "pinterest.com"],
     apiPrefix: paths.api.pinterestPath ?? "/api/pinterest"
   };
+}
+
+export function imageIngestConfig(root = process.cwd()): {
+  doc: string;
+  imagesPath: string;
+  maxConcurrent: number;
+  maxFiles: number;
+  maxBytes: number;
+  allowedMime: string[];
+  fieldName: string;
+  stagingDir: string;
+  intervention: string;
+  urlTemplate: string;
+  islandProxyMaxBody: string;
+  accept: string;
+  website: string;
+} {
+  const paths = loadDigPaths(root);
+  const cfg = paths.imageIngest;
+  const website = (cfg?.urlTemplate?.includes("{website}")
+    ? (paths.pinterest?.website ?? paths.coolify?.digFqdn ?? `http://${paths.web.host}:${paths.web.port}`)
+    : ""
+  ).replace(/\/$/, "");
+  const template = cfg?.urlTemplate ?? "{website}/import/image/{id}/";
+  const maxConcurrent = Number(cfg?.maxConcurrent);
+  const maxFiles = Number(cfg?.maxFiles);
+  const maxBytes = Number(cfg?.maxBytes);
+  return {
+    doc: cfg?.doc ?? "knowledge/image-ingest.md",
+    imagesPath: cfg?.imagesPath ?? "/images",
+    maxConcurrent: Number.isFinite(maxConcurrent) ? Math.min(16, Math.max(1, Math.round(maxConcurrent))) : 4,
+    maxFiles: Number.isFinite(maxFiles) ? Math.min(100, Math.max(1, Math.round(maxFiles))) : 40,
+    maxBytes: Number.isFinite(maxBytes) ? Math.max(1024, Math.round(maxBytes)) : 12 * 1024 * 1024,
+    allowedMime: cfg?.allowedMime?.length
+      ? cfg.allowedMime
+      : ["image/jpeg", "image/png", "image/webp", "image/gif"],
+    fieldName: cfg?.fieldName ?? "files",
+    stagingDir: cfg?.stagingDir ?? "tmp/image-uploads",
+    intervention: cfg?.intervention ?? "bulk_image_upload",
+    urlTemplate: template.replaceAll("{website}", website),
+    islandProxyMaxBody: cfg?.islandProxyMaxBody ?? "100mb",
+    accept: cfg?.accept ?? "image/jpeg,image/png,image/webp,image/gif",
+    website
+  };
+}
+
+export function uploadedImageUrl(sourceId: string, root = process.cwd()): string {
+  return imageIngestConfig(root).urlTemplate.replaceAll("{id}", encodeURIComponent(sourceId));
 }
 
 export function applyCursorMcpDefaults(root = process.cwd(), environment: NodeJS.ProcessEnv = process.env): string {

@@ -807,6 +807,26 @@ export async function fetchPinterestBoards(): Promise<PinterestBoard[]> {
   return body.boards ?? []
 }
 
+export async function uploadCaptureImages(
+  files: File[],
+  opts?: { platformProjectId?: string | null },
+): Promise<{ queued: number; skipped: number; jobs: JobSnapshot[] }> {
+  const form = new FormData()
+  for (const file of files) {
+    form.append(paths.imageIngest.fieldName, file)
+  }
+  if (opts?.platformProjectId) {
+    form.append(paths.platformProjectQueryParam, opts.platformProjectId)
+  }
+  const response = await fetch(`${BASE}${paths.digApiJobs}${paths.imageIngest.imagesPath}`, {
+    method: 'POST',
+    body: form,
+  })
+  const body = await readJson<{ queued?: number; skipped?: number; jobs?: JobSnapshot[] }>(response)
+  if (!response.ok) throw new Error(body.error ?? `Image upload failed (${response.status})`)
+  return { queued: body.queued ?? 0, skipped: body.skipped ?? 0, jobs: body.jobs ?? [] }
+}
+
 export async function importPinterestBoard(
   boardId: string,
   opts?: { platformProjectId?: string | null; limit?: number },

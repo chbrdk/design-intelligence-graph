@@ -16,9 +16,10 @@ import { handlePinterestApi } from "./pinterest-api.js";
 import { handleMcpHttp } from "./mcp-http.js";
 import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
-import { loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
+import { imageIngestConfig, loadDigPaths, webHost, webPort, webStaticDir } from "./runtime-paths.js";
 import { setFlowSeedEnqueueCapture } from "./flow-seed.js";
 import { setDigApiRuntime } from "./dig-api-runtime.js";
+import { parseMultipartImageUploads } from "./image-upload.js";
 
 loadDotEnv();
 const enrichmentQueue = new EnrichmentQueue({ autoStart: true });
@@ -239,6 +240,36 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         skipped_duplicate: filtered.skippedDuplicate,
         skip_existing: skipExisting,
         max_concurrent: cfg.maxConcurrent,
+        max_image_concurrent: imageIngestConfig().maxConcurrent,
+        jobs: jobs.map(publicJobView)
+      });
+    } catch (error: unknown) {
+      sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
+    }
+    return true;
+  }
+
+  const jobsImagesPath = `${paths.api.jobsPath.replace(/\/$/, "")}${imageIngestConfig().imagesPath}`;
+  if (request.method === "POST" && url.pathname === jobsImagesPath) {
+    if (rejectIfDestructiveUnauthorized(request, response)) return true;
+    try {
+      const parsed = await parseMultipartImageUploads(request);
+      if (!parsed.files.length) {
+        sendJson(response, 400, {
+          error: "no_images",
+          skipped: parsed.skipped
+        });
+        return true;
+      }
+      const jobs = runner.startUploadJobs(parsed.files, {
+        platformProjectId: parsed.platformProjectId
+      });
+      sendJson(response, 202, {
+        ok: true,
+        queued: jobs.length,
+        skipped: parsed.skipped.length,
+        skipped_files: parsed.skipped,
+        max_image_concurrent: imageIngestConfig().maxConcurrent,
         jobs: jobs.map(publicJobView)
       });
     } catch (error: unknown) {

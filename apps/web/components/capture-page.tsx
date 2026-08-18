@@ -12,6 +12,7 @@ import {
   importPinterestBoard,
   startJob,
   subscribeJobEvents,
+  uploadCaptureImages,
   type EnrichmentJob,
   type PinterestBoard,
   type PinterestStatus,
@@ -37,6 +38,9 @@ function CaptureBody() {
   const [boardId, setBoardId] = useState('')
   const [importing, setImporting] = useState(false)
   const [importMessage, setImportMessage] = useState<string | null>(null)
+  const [uploadFiles, setUploadFiles] = useState<File[]>([])
+  const [uploading, setUploading] = useState(false)
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null)
 
   useEffect(() => {
     if (!job || !ACTIVE.includes(job.stage)) return
@@ -154,6 +158,53 @@ function CaptureBody() {
           </Button>
         </form>
         {error ? <Alert tone="error">{error}</Alert> : null}
+      </Panel>
+
+      <Panel className="dig-panel">
+        <Text role="title">{paths.libraryCopy.uploadTitle}</Text>
+        <Text role="hint">{paths.libraryCopy.uploadHint}</Text>
+        <form
+          className="dig-stack"
+          onSubmit={(event) => {
+            event.preventDefault()
+            if (!uploadFiles.length) {
+              setUploadMessage(paths.libraryCopy.uploadEmpty)
+              return
+            }
+            setUploading(true)
+            setUploadMessage(null)
+            setError(null)
+            void uploadCaptureImages(uploadFiles, { platformProjectId })
+              .then(async (result) => {
+                setUploadMessage(
+                  `Queued ${result.queued} images` +
+                    (result.skipped ? `, skipped ${result.skipped}` : ''),
+                )
+                setUploadFiles([])
+                const first = result.jobs[0]
+                if (first) {
+                  setEvents([])
+                  setJob(await fetchJob(first.job_id))
+                }
+              })
+              .catch((err: unknown) => setError(err instanceof Error ? err.message : String(err)))
+              .finally(() => setUploading(false))
+          }}
+        >
+          <Field label="Images">
+            <Input
+              key={uploadMessage ?? 'files'}
+              type="file"
+              accept={paths.imageIngest.accept}
+              multiple
+              onChange={(event) => setUploadFiles(Array.from(event.target.files ?? []).slice(0, paths.imageIngest.maxFiles))}
+            />
+          </Field>
+          <Button type="submit" variant="primary" disabled={uploading || !uploadFiles.length}>
+            {uploading ? paths.libraryCopy.uploadQueuing : paths.libraryCopy.uploadButton}
+          </Button>
+        </form>
+        {uploadMessage ? <Text role="meta">{uploadMessage}</Text> : null}
       </Panel>
 
       <Panel className="dig-panel">

@@ -3,6 +3,7 @@ import { paths } from '../../../../lib/paths'
 import { PLEXON_SERVICE_SECRET_HEADER } from '../../../../lib/plexon-contract'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 120
 
 /**
  * Forward browser → dig-api. In live federation dig-api expects machine auth;

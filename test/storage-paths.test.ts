@@ -11,8 +11,11 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.embeddings?.dims, 384);
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");
-  assert.equal(paths.captureJobs?.maxConcurrent, 3);
+  assert.equal(paths.captureJobs?.maxConcurrent, 6);
   assert.equal(paths.captureJobs?.maxBatch, 1000);
+  assert.equal(paths.imageIngest?.maxConcurrent, 4);
+  assert.equal(paths.imageIngest?.imagesPath, "/images");
+  assert.equal(paths.imageIngest?.fieldName, "files");
   assert.equal(paths.captureJobs?.automotiveOem50, "knowledge/catalogs/automotive-oem-50.json");
   assert.equal(paths.captureJobs?.crossIndustry100, "knowledge/catalogs/cross-industry-100.json");
   assert.equal(

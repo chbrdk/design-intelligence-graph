@@ -1,8 +1,12 @@
 import type { NextConfig } from 'next'
 import path from 'node:path'
+import catalog from '../../knowledge/paths.json'
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '../..'),
+  experimental: {
+    proxyClientMaxBodySize: catalog.imageIngest.islandProxyMaxBody as `${number}mb`,
+  },
   webpack: (config) => {
     const appNodeModules = path.resolve(__dirname, 'node_modules')
     config.resolve = config.resolve || {}

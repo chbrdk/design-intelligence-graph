@@ -43,6 +43,11 @@ export type PinterestPackageInput = {
   image: Buffer;
   outputDirectory: string;
   boardId?: string;
+  canonicalUrl?: string;
+  intervention?: string;
+  browserVersion?: string;
+  userAgent?: string;
+  experiment?: string;
 };
 
 function desktopViewport() {
@@ -53,7 +58,8 @@ export async function ingestPinterestPinPackage(
   input: PinterestPackageInput
 ): Promise<{ packageRoot: string; manifest: CaptureManifest }> {
   const viewport = desktopViewport();
-  const pinUrl = pinPageUrl(input.pin.id);
+  const pinUrl = input.canonicalUrl ?? pinPageUrl(input.pin.id);
+  const intervention = input.intervention ?? "pinterest_oauth_board_import";
   const startedAt = new Date().toISOString();
   const runId = createId("cap");
   const packageRoot = resolve(
@@ -214,7 +220,7 @@ export async function ingestPinterestPinPackage(
     visible_node_count: nodes.length,
     text_line_count: 1,
     artifacts,
-    warnings: ["pinterest_oauth_board_import"],
+    warnings: [intervention],
     quality
   };
 
@@ -432,8 +438,8 @@ export async function ingestPinterestPinPackage(
     crawler: { name: "dig-capture", version: VERSION },
     browser: {
       engine: "chromium",
-      version: "pinterest-ingest",
-      user_agent: "spirion-pinterest-ingest",
+      version: input.browserVersion ?? "pinterest-ingest",
+      user_agent: input.userAgent ?? "spirion-pinterest-ingest",
       locale: "en-US",
       timezone: "UTC"
     },
@@ -452,7 +458,9 @@ export async function ingestPinterestPinPackage(
       consent_state: "unknown",
       authentication_state: "unauthenticated",
       personalization: "unknown",
-      experiments: [`pinterest_board:${input.boardId ?? input.pin.board_id ?? "unknown"}`]
+      experiments: [
+        input.experiment ?? `pinterest_board:${input.boardId ?? input.pin.board_id ?? "unknown"}`
+      ]
     },
     policy: {
       authorization_basis: "user_initiated_public_capture",
@@ -464,7 +472,7 @@ export async function ingestPinterestPinPackage(
     capture_status: { dom: "complete", css: "complete", visual: "complete", assets: "complete", accessibility: "complete", interaction: "unsupported" },
     run_artifacts: runArtifacts,
     viewport_captures: [viewportResult],
-    interventions: ["pinterest_oauth_board_import"],
+    interventions: [intervention],
     errors: []
   };
   await writeArtifact(packageRoot, "manifest.json", JSON.stringify(manifest, null, 2), "application/json");

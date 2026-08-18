@@ -255,13 +255,27 @@
   },
   "captureJobs": {
     "doc": "knowledge/capture-batch.md",
-    "maxConcurrent": 3,
+    "maxConcurrent": 6,
     "batchPath": "/batch",
     "catalogsDir": "knowledge/catalogs",
     "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",
     "crossIndustry100": "knowledge/catalogs/cross-industry-100.json",
     "engineeringManufacturing1000": "knowledge/catalogs/engineering-manufacturing-1000.json",
     "maxBatch": 1000
+  },
+  "imageIngest": {
+    "doc": "knowledge/image-ingest.md",
+    "imagesPath": "/images",
+    "maxConcurrent": 4,
+    "maxFiles": 40,
+    "maxBytes": 12582912,
+    "allowedMime": ["image/jpeg", "image/png", "image/webp", "image/gif"],
+    "fieldName": "files",
+    "stagingDir": "tmp/image-uploads",
+    "intervention": "bulk_image_upload",
+    "urlTemplate": "{website}/import/image/{id}/",
+    "islandProxyMaxBody": "100mb",
+    "accept": "image/jpeg,image/png,image/webp,image/gif"
   },
   "pinterest": {
     "doc": "knowledge/pinterest-board-import.md",

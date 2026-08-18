@@ -32,3 +32,5 @@ Video/Idea pins without an allowed image host are skipped.
 Import uses `assertDestructiveAuth` (Bearer even in dummy), same as catalog batch.
 
 Image downloads only from hosts ending in `pinimg.com` or `pinterest.com`.
+
+Import jobs share the **still-image concurrency pool** (`imageIngest.maxConcurrent`), not the Playwright URL cap. Until Pinterest Trial access is granted, use Capture → bulk image upload (`knowledge/image-ingest.md`).

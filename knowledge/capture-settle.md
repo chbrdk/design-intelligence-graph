@@ -18,4 +18,4 @@ JobRunner / CLI default `settleMs` comes from `captureSettle.settleMs` (not a ha
 
 ## Tuning
 
-Raise `initialWaitMs` / `settleMs` if still incomplete; keep `maxConcurrent` at 3 — longer settle stretches wall-clock for large batches.
+Raise `initialWaitMs` / `settleMs` if still incomplete; Playwright `maxConcurrent` is 6 and still-image ingest uses its own pool — longer settle still stretches wall-clock for large URL batches.
