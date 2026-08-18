@@ -16,8 +16,10 @@ export { Grid } from '../../../../msqdx-ui/packages/ui/src/components/Grid'
 export type { GridProps } from '../../../../msqdx-ui/packages/ui/src/components/Grid'
 export { Hint } from '../../../../msqdx-ui/packages/ui/src/components/Hint'
 export {
+  IconArrowLeft,
   IconBadge,
   IconGap,
+  IconGrid,
   IconImage,
   IconOpacity,
   IconScroll,
@@ -28,6 +30,8 @@ export { Input } from '../../../../msqdx-ui/packages/ui/src/components/Input'
 export { Panel } from '../../../../msqdx-ui/packages/ui/src/components/Panel'
 export { Stack } from '../../../../msqdx-ui/packages/ui/src/components/Stack'
 export type { StackProps } from '../../../../msqdx-ui/packages/ui/src/components/Stack'
+export { SwatchStrip } from '../../../../msqdx-ui/packages/ui/src/components/SwatchStrip'
+export type { SwatchStripProps } from '../../../../msqdx-ui/packages/ui/src/components/SwatchStrip'
 export { RankedList, RankedRow } from '../../../../msqdx-ui/packages/ui/src/components/RankedList'
 export { Text } from '../../../../msqdx-ui/packages/ui/src/components/Text'
 export { Textarea } from '../../../../msqdx-ui/packages/ui/src/components/Textarea'
@@ -36,6 +40,11 @@ export { Meter, MeterList } from '../../../../msqdx-ui/packages/ui/src/component
 export { SectionChrome } from '../../../../msqdx-ui/packages/ui/src/SectionChrome'
 export { Lede, LedeStrip } from '../../../../msqdx-ui/packages/ui/src/components/Lede'
 export type { LedeProps, LedeStripProps, LedeTone, LedeStep } from '../../../../msqdx-ui/packages/ui/src/components/Lede'
+export { MagazineContentsNav } from '../../../../msqdx-ui/packages/ui/src/components/MagazineContentsNav'
+export type {
+  MagazineContentsItem,
+  MagazineContentsNavProps,
+} from '../../../../msqdx-ui/packages/ui/src/components/MagazineContentsNav'
 export { StatLede, StatLedeGroup } from '../../../../msqdx-ui/packages/ui/src/components/StatLede'
 export type { StatLedeTone } from '../../../../msqdx-ui/packages/ui/src/components/StatLede'
 export { StatusDot } from '../../../../msqdx-ui/packages/ui/src/components/StatusDot'

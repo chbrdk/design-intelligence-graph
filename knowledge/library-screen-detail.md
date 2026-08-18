@@ -11,12 +11,14 @@ Library **Screens** grid:
 3. Cards show compact facet chips (style, layout, first industry)
 4. Clicking a card opens `#/library/screens/{viewport_capture_id}`:
 
-   1. Toolbar (back, viewport/full page, overlay, **Copy prompt pack**)
-   2. **Design profile** (`ScreenInsightStrip`) — magazine masthead: page type, style, layout, color, typography, industry + section chips, look-contract swatches / CTA / density / Avoid
+   1. AppShell back icon (top-left, `screenDetailBack`) returns to Screens or Devices
+   2. **Design brief** (`dig-screen-magazine`) — one editorial chapter:
+      - Masthead (title + URL)
+      - **Design profile** as msqdx-ui `LedeStrip` + `SwatchStrip` + chips
+      - **Visual craft** immediately below (`Panel` cards in `Grid`, embedded/flush — not under the screenshot)
    3. Split:
-      - Left: screenshot + vision band overlays
+      - Left: full-page screenshot + vision band overlays
       - Right: collapsible summary, **Page narrative**, **Section look** accordion (`SectionChrome`)
-   4. **Visual craft** full-width magazine chapter under the split — `Panel` cards in a `Grid` (type/image, typography, imagery, space, chrome) with msqdx-ui icons; **Rebuild spec** spans the row
 
 Vision layout notes are under **Notes**, not in the hero.
 

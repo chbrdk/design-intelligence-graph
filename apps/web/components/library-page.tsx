@@ -2,7 +2,17 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Alert, Button, Chip, Field, FilterRow, Input, Panel, Text } from '../lib/msqdx-ui'
+import {
+  Alert,
+  Button,
+  Chip,
+  Field,
+  FilterRow,
+  Input,
+  MagazineContentsNav,
+  Panel,
+  Text,
+} from '../lib/msqdx-ui'
 import {
   assembleReferencePromptPack,
   EMPTY_LIBRARY_FACET_FILTERS,
@@ -19,7 +29,7 @@ import {
   type LibrarySearchHit,
   type LibrarySection,
 } from '../lib/dig-api'
-import { formatLibraryHash, parseLibraryHash, type LibraryHashState } from '../lib/library-hash'
+import { formatLibraryHash, libraryModeNavItems, parseLibraryHash, type LibraryHashState } from '../lib/library-hash'
 import {
   filterDeviceGalleryScreens,
   filterPrimaryGalleryScreens,
@@ -61,12 +71,6 @@ function FacetChipRow({
       ))}
     </FilterRow>
   )
-}
-
-function libraryModeLabel(item: (typeof paths.libraryModes)[number]): string {
-  if (item === 'flows') return paths.libraryCopy.flowsLabel
-  if (item === 'devices') return paths.libraryCopy.devicesLabel
-  return item[0]!.toUpperCase() + item.slice(1)
 }
 
 function ScreenCardGrid({
@@ -318,7 +322,22 @@ function LibraryPageInner() {
   return (
     <AppShell
       title="Library"
-      description="Browse captured screens, section look, DesignReferences, and multi-screen Flows."
+      description={
+        screenDetailId
+          ? undefined
+          : 'Browse captured screens, section look, DesignReferences, and multi-screen Flows.'
+      }
+      onBack={
+        screenDetailId
+          ? () =>
+              applyHash(
+                detailScreen && isDeviceGalleryViewport(detailScreen.name)
+                  ? { view: 'devices' }
+                  : { view: 'screens' },
+              )
+          : undefined
+      }
+      backLabel={screenDetailId ? paths.libraryCopy.screenDetailBack : undefined}
     >
       {error ? <Alert tone="error">{error}</Alert> : null}
       {platformProjectId ? (
@@ -334,30 +353,14 @@ function LibraryPageInner() {
         </Alert>
       )}
 
-      <div className="dig-mode-switch" role="tablist" aria-label="Library mode">
-        {paths.libraryModes.map((item) => (
-          <button
-            key={item}
-            type="button"
-            role="tab"
-            aria-selected={mode === item}
-            className={`dig-mode-tab${mode === item ? ' is-active' : ''}`}
-            onClick={() =>
-              applyHash(
-                item === 'flows'
-                  ? { view: 'flows' }
-                  : item === 'sections'
-                    ? { view: 'sections' }
-                    : item === 'devices'
-                      ? { view: 'devices' }
-                      : { view: 'screens' },
-              )
-            }
-          >
-            {libraryModeLabel(item)}
-          </button>
-        ))}
-      </div>
+      <MagazineContentsNav
+        className="dig-library-contents"
+        label={paths.libraryCopy.contentsLabel}
+        aria-label={paths.libraryCopy.libraryModeAria}
+        activeId={mode}
+        columns={paths.libraryModes.length}
+        items={libraryModeNavItems()}
+      />
 
       {mode === 'flows' ? (
         <LibraryFlowsPanel
@@ -401,14 +404,6 @@ function LibraryPageInner() {
         <LibraryScreenDetailPanel
           key={screenDetailId}
           viewportCaptureId={screenDetailId}
-          platformProjectId={platformProjectId}
-          onBack={() =>
-            applyHash(
-              detailScreen && isDeviceGalleryViewport(detailScreen.name)
-                ? { view: 'devices' }
-                : { view: 'screens' },
-            )
-          }
         />
       ) : null}
 

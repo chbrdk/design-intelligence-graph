@@ -1,24 +1,59 @@
 'use client'
 
-import { Chip, Text } from '../lib/msqdx-ui'
+import {
+  Chip,
+  IconGrid,
+  Lede,
+  LedeStrip,
+  SectionChrome,
+  Stack,
+  SwatchStrip,
+  Text,
+} from '../lib/msqdx-ui'
 import type { DesignFacets, LookContract } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 
-function humanizeFacet(value: string): string {
+export function humanizeFacet(value: string): string {
   return value
     .replace(/[_|]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
 }
 
-function Metric({ label, value }: { label: string; value: string | null | undefined }) {
-  if (!value?.trim()) return null
-  return (
-    <div className="dig-screen-insight-metric">
-      <dt>{label}</dt>
-      <dd>{humanizeFacet(value)}</dd>
-    </div>
-  )
+export type ScreenInsightLede = {
+  id: string
+  label: string
+  value: string
+}
+
+export function screenInsightLedes(
+  facets: DesignFacets | null | undefined,
+  pageArc: string | null | undefined,
+  copy: typeof paths.libraryCopy = paths.libraryCopy,
+): ScreenInsightLede[] {
+  if (!facets) return []
+  const contract = facets.look_contract
+  const rows: Array<{ id: string; label: string; value: string | null | undefined }> = [
+    { id: 'page_type', label: copy.screenInsightPageType, value: facets.page_type },
+    { id: 'style', label: copy.screenInsightStyle, value: facets.style },
+    { id: 'layout', label: copy.screenInsightLayout, value: facets.layout },
+    { id: 'page_arc', label: copy.screenInsightPageArc, value: pageArc },
+    { id: 'color', label: copy.screenInsightColor, value: facets.color_mood },
+    { id: 'typography', label: copy.screenInsightTypography, value: facets.typography },
+    { id: 'above_fold', label: copy.screenInsightAboveFold, value: facets.above_fold_job },
+    { id: 'cta', label: copy.screenInsightCta, value: contract?.cta_chrome },
+    { id: 'density', label: copy.screenInsightDensity, value: contract?.density },
+    {
+      id: 'radius',
+      label: copy.screenInsightRadius,
+      value: contract?.radius_px != null ? `${contract.radius_px}px` : null,
+    },
+  ]
+  return rows.flatMap((row) => {
+    const value = row.value?.trim()
+    if (!value) return []
+    return [{ id: row.id, label: row.label, value: humanizeFacet(value) }]
+  })
 }
 
 function ChipRow({ label, values }: { label: string; values: string[] }) {
@@ -39,24 +74,19 @@ function ChipRow({ label, values }: { label: string; values: string[] }) {
   )
 }
 
-function ColorSwatches({ contract }: { contract: LookContract }) {
-  const items = [
-    { key: 'bg', hex: contract.colors.bg },
-    { key: 'ink', hex: contract.colors.ink },
-    { key: 'accent', hex: contract.colors.accent },
-  ].filter((item): item is { key: string; hex: string } => Boolean(item.hex))
-  if (!items.length) return null
+function LookSwatches({ contract }: { contract: LookContract }) {
+  const hexes = [contract.colors.bg, contract.colors.ink, contract.colors.accent].filter(
+    (hex): hex is string => Boolean(hex),
+  )
+  if (!hexes.length) return null
   return (
-    <div className="dig-screen-insight-swatches" aria-label={paths.libraryCopy.screenInsightLook}>
-      {items.map((item) => (
-        <span key={item.key} className="dig-screen-insight-swatch">
-          <i style={{ background: item.hex }} aria-hidden />
-          <span>
-            {item.key} {item.hex}
-          </span>
-        </span>
-      ))}
-    </div>
+    <SwatchStrip
+      className="dig-screen-insight-swatches"
+      swatches={hexes}
+      max={3}
+      label={hexes.join(' · ')}
+      aria-label={paths.libraryCopy.screenInsightLook}
+    />
   )
 }
 
@@ -100,6 +130,7 @@ export function ScreenInsightStrip(props: {
   const copy = paths.libraryCopy
   const hasSignal = designFacetsHaveUiSignal(props.facets) || Boolean(props.pageArc?.trim())
   const contract = props.facets?.look_contract ?? null
+  const ledes = screenInsightLedes(props.facets, props.pageArc, copy)
 
   return (
     <section className="dig-screen-insight" aria-label={copy.screenInsightTitle}>
@@ -107,6 +138,13 @@ export function ScreenInsightStrip(props: {
         <Text role="headline">{props.title}</Text>
         {props.url ? <Text role="meta">{props.url}</Text> : null}
       </header>
+
+      <SectionChrome
+        icon={<IconGrid />}
+        title={copy.screenInsightTitle}
+        meta={copy.screenInsightKicker}
+        as="h2"
+      />
 
       {props.pending && !hasSignal ? (
         <Text role="hint">{copy.screenInsightPending}</Text>
@@ -117,33 +155,24 @@ export function ScreenInsightStrip(props: {
       ) : null}
 
       {hasSignal && props.facets ? (
-        <>
-          <dl className="dig-screen-insight-grid">
-            <Metric label={copy.screenInsightPageType} value={props.facets.page_type} />
-            <Metric label={copy.screenInsightStyle} value={props.facets.style} />
-            <Metric label={copy.screenInsightLayout} value={props.facets.layout} />
-            <Metric label={copy.screenInsightPageArc} value={props.pageArc} />
-            <Metric label={copy.screenInsightColor} value={props.facets.color_mood} />
-            <Metric label={copy.screenInsightTypography} value={props.facets.typography} />
-            <Metric label={copy.screenInsightAboveFold} value={props.facets.above_fold_job} />
-            <Metric
-              label={copy.screenInsightCta}
-              value={contract?.cta_chrome ? contract.cta_chrome : null}
-            />
-            <Metric
-              label={copy.screenInsightDensity}
-              value={contract?.density ? contract.density : null}
-            />
-            <Metric
-              label={copy.screenInsightRadius}
-              value={contract?.radius_px != null ? `${contract.radius_px}px` : null}
-            />
-          </dl>
-          {contract ? <ColorSwatches contract={contract} /> : null}
+        <Stack gap="md">
+          {ledes.length ? (
+            <LedeStrip
+              className="dig-screen-insight-ledes"
+              columns={4}
+              compact
+              aria-label={copy.screenInsightTitle}
+            >
+              {ledes.map((lede) => (
+                <Lede key={lede.id} kind="text" value={lede.value} label={lede.label} />
+              ))}
+            </LedeStrip>
+          ) : null}
+          {contract ? <LookSwatches contract={contract} /> : null}
           <ChipRow label={copy.screenInsightIndustry} values={props.facets.industry_tags} />
           <ChipRow label={copy.screenInsightSections} values={props.facets.section_categories} />
           <ChipRow label={copy.screenInsightAvoid} values={contract?.avoid ?? []} />
-        </>
+        </Stack>
       ) : null}
 
       {props.notes?.trim() ? (

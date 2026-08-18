@@ -41,6 +41,34 @@ export function parseLibraryHash(hash: string): LibraryHashState {
   return { view: 'screens' }
 }
 
+export function libraryModeLabel(item: (typeof paths.libraryModes)[number]): string {
+  if (item === 'flows') return paths.libraryCopy.flowsLabel
+  if (item === 'devices') return paths.libraryCopy.devicesLabel
+  if (item === 'sections') return paths.libraryCopy.sectionsLabel
+  return paths.libraryCopy.screensLabel
+}
+
+export function libraryModeHash(item: (typeof paths.libraryModes)[number]): LibraryHashState {
+  if (item === 'flows') return { view: 'flows' }
+  if (item === 'sections') return { view: 'sections' }
+  if (item === 'devices') return { view: 'devices' }
+  return { view: 'screens' }
+}
+
+export function libraryModeNavItems(): Array<{
+  id: (typeof paths.libraryModes)[number]
+  index: string
+  label: string
+  href: string
+}> {
+  return paths.libraryModes.map((id, index) => ({
+    id,
+    index: String(index + 1).padStart(2, '0'),
+    label: libraryModeLabel(id),
+    href: formatLibraryHash(libraryModeHash(id)),
+  }))
+}
+
 export function formatLibraryHash(state: LibraryHashState): string {
   if (state.view === 'screens') return '#/library/screens'
   if (state.view === 'devices') {

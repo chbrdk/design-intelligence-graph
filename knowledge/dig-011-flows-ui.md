@@ -5,10 +5,12 @@
 
 ## Library mode switch
 
+Sticky magazine **Contents** nav (`MagazineContentsNav`): Screens · Devices · Sections · Flows. Compacts while scrolling (CHECKION scan/GEO pattern).
+
 ```text
 ┌──────────────────────────────────────────────┐
-│ Library                                      │
-│  ( Screens )  ( Sections )  ( Flows● )       │
+│ CONTENTS                                     │
+│ 01 Screens   02 Devices   03 Sections  04 …  │
 │                                              │
 │  Flows                                       │
 │  Multi-screen design journeys from captures  │

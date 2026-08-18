@@ -11,7 +11,7 @@ import {
   PageTitle,
   shellFrameStyle,
 } from '../lib/msqdx-ui-shell'
-import { Avatar } from '@msqdx/ui'
+import { Avatar, Button, IconArrowLeft } from '@msqdx/ui'
 import {
   NavIconAnalyses,
   NavIconCapture,
@@ -38,12 +38,16 @@ function AppShellInner({
   description,
   actions,
   status,
+  onBack,
+  backLabel,
 }: {
   children: ReactNode
   title?: string | null
   description?: string
   actions?: ReactNode
   status?: ReactNode
+  onBack?: () => void
+  backLabel?: string
 }) {
   const pathname = usePathname()
   const search = useSearchParams()
@@ -100,6 +104,17 @@ function AppShellInner({
       topbar={
         <>
           <div className="topbar-brand">
+            {onBack ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="md"
+                className="shell-back"
+                icon={<IconArrowLeft size={22} />}
+                aria-label={backLabel ?? paths.libraryCopy.shellBack}
+                onClick={onBack}
+              />
+            ) : null}
             {title != null && title !== '' ? <PageTitle>{title}</PageTitle> : null}
           </div>
           <div className="topbar-right">
@@ -124,6 +139,8 @@ export function AppShell(props: {
   description?: string
   actions?: ReactNode
   status?: ReactNode
+  onBack?: () => void
+  backLabel?: string
 }) {
   return (
     <Suspense fallback={null}>

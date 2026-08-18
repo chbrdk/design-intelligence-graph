@@ -1,22 +1,12 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import {
-  Accordion,
-  Alert,
-  Button,
-  Panel,
-  SectionChrome,
-  Text,
-  ToggleGroup,
-} from '../lib/msqdx-ui'
+import { Accordion, Alert, Panel, SectionChrome, Text } from '../lib/msqdx-ui'
 import {
   fetchAnalysisDetail,
-  fetchCapturePromptPack,
   fetchEnrichmentJobs,
   fetchPageFlows,
   fetchScreenDetail,
-  formatPromptPackForClipboard,
   islandMediaUrl,
   type EnrichmentJob,
   type LibraryAnalysisDetail,
@@ -28,8 +18,6 @@ import { paths } from '../lib/paths'
 import { ScreenInsightStrip } from './screen-insight-strip'
 import { VisualCraftPanel } from './visual-craft-panel'
 
-type MediaMode = 'settled' | 'full_page'
-
 function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms))
 }
@@ -40,8 +28,6 @@ function sectionHotspots(hotspots: ScreenHotspot[]): ScreenHotspot[] {
 
 export function LibraryScreenDetailPanel(props: {
   viewportCaptureId: string
-  platformProjectId?: string | null
-  onBack: () => void
 }) {
   const [screen, setScreen] = useState<LibraryScreen | null>(null)
   const [hotspots, setHotspots] = useState<ScreenHotspot[]>([])
@@ -53,10 +39,7 @@ export function LibraryScreenDetailPanel(props: {
   const [analysisPending, setAnalysisPending] = useState(true)
   const [enrichmentHint, setEnrichmentHint] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [mediaMode, setMediaMode] = useState<MediaMode>('full_page')
-  const [showOverlay, setShowOverlay] = useState(true)
   const [openSectionId, setOpenSectionId] = useState<string | null>(null)
-  const [packCopyState, setPackCopyState] = useState<'idle' | 'copying' | 'copied' | 'failed'>('idle')
 
   useEffect(() => {
     let cancelled = false
@@ -77,9 +60,6 @@ export function LibraryScreenDetailPanel(props: {
         setHotspots(detail.hotspots)
         setVisionNotes(detail.vision_layout?.notes ?? null)
         runId = detail.screen.capture_run_id
-        if (!detail.screen.full_page_url && detail.screen.settled_url) {
-          setMediaMode('settled')
-        }
       } catch (err: unknown) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : String(err))
@@ -160,10 +140,9 @@ export function LibraryScreenDetailPanel(props: {
   const layoutNotes =
     analysis?.package?.vision_layout?.notes ?? visionNotes ?? null
 
-  const mediaUrl =
-    mediaMode === 'full_page'
-      ? islandMediaUrl(screen?.full_page_url ?? screen?.primary_url)
-      : islandMediaUrl(screen?.settled_url ?? screen?.primary_url)
+  const mediaUrl = islandMediaUrl(
+    screen?.full_page_url ?? screen?.settled_url ?? screen?.primary_url,
+  )
 
   const accordionItems = useMemo(() => {
     // Vision full-width bands only — never DOM CTA/heading fragments.
@@ -189,25 +168,6 @@ export function LibraryScreenDetailPanel(props: {
 
   function selectSection(sectionId: string) {
     setOpenSectionId(sectionId)
-    setShowOverlay(true)
-  }
-
-  async function copyPromptPack() {
-    const runId = screen?.capture_run_id
-    if (!runId) return
-    setPackCopyState('copying')
-    try {
-      const pack = await fetchCapturePromptPack(runId, {
-        brief: paths.libraryCopy.screenPromptPackBrief,
-        platformProjectId: props.platformProjectId,
-      })
-      const text = formatPromptPackForClipboard(pack)
-      await navigator.clipboard.writeText(text)
-      setPackCopyState('copied')
-      window.setTimeout(() => setPackCopyState('idle'), 2500)
-    } catch {
-      setPackCopyState('failed')
-    }
   }
 
   const summary = analysis?.analysis.design_summary?.trim() || ''
@@ -215,58 +175,24 @@ export function LibraryScreenDetailPanel(props: {
 
   return (
     <div className="dig-screen-detail">
-      <div className="dig-screen-detail-toolbar">
-        <Button type="button" variant="subtle" onClick={props.onBack}>
-          {paths.libraryCopy.screenDetailBack}
-        </Button>
-        <ToggleGroup
-          aria-label="Screenshot mode"
-          value={mediaMode}
-          onChange={(value) => setMediaMode(value as MediaMode)}
-          options={[
-            {
-              value: 'settled',
-              label: paths.libraryCopy.screenDetailSettled,
-              disabled: !screen?.settled_url && !screen?.primary_url,
-            },
-            {
-              value: 'full_page',
-              label: paths.libraryCopy.screenDetailFullPage,
-              disabled: !screen?.full_page_url && !screen?.primary_url,
-            },
-          ]}
-        />
-        <Button
-          type="button"
-          variant={showOverlay ? 'primary' : 'subtle'}
-          onClick={() => setShowOverlay((value) => !value)}
-        >
-          {paths.libraryCopy.screenDetailOverlay}
-        </Button>
-        <Button
-          type="button"
-          variant="subtle"
-          disabled={!screen?.capture_run_id || packCopyState === 'copying'}
-          onClick={() => void copyPromptPack()}
-        >
-          {packCopyState === 'copied'
-            ? paths.libraryCopy.screenPromptPackCopied
-            : packCopyState === 'failed'
-              ? paths.libraryCopy.screenPromptPackFailed
-              : paths.libraryCopy.screenPromptPack}
-        </Button>
-      </div>
-
       {error ? <Alert tone="error">{error}</Alert> : null}
 
-      <ScreenInsightStrip
-        title={screen?.title || screen?.name || 'Screen'}
-        url={screen?.canonical_url}
-        facets={facets}
-        pageArc={analysis?.package?.page_rhythm?.page_arc}
-        pending={analysisPending}
-        notes={layoutNotes}
-      />
+      <Panel
+        as="section"
+        variant="editorial"
+        className="dig-screen-magazine"
+        aria-label={paths.libraryCopy.screenMagazineLabel}
+      >
+        <ScreenInsightStrip
+          title={screen?.title || screen?.name || 'Screen'}
+          url={screen?.canonical_url}
+          facets={facets}
+          pageArc={analysis?.package?.page_rhythm?.page_arc}
+          pending={analysisPending}
+          notes={layoutNotes}
+        />
+        <VisualCraftPanel craft={visualCraft} embedded />
+      </Panel>
 
       <div className="dig-screen-detail-split">
         <Panel className="dig-panel dig-screen-detail-media">
@@ -278,7 +204,7 @@ export function LibraryScreenDetailPanel(props: {
                 alt={screen?.title || screen?.name || 'Screenshot'}
                 className="dig-screen-detail-image"
               />
-              {showOverlay && (mediaMode === 'full_page' || overlays.length > 0)
+              {overlays.length
                 ? overlays.map((hotspot) => {
                     const box = hotspot.normalized
                     if (!box) return null
@@ -358,8 +284,6 @@ export function LibraryScreenDetailPanel(props: {
           )}
         </Panel>
       </div>
-
-      <VisualCraftPanel craft={visualCraft} />
     </div>
   )
 }

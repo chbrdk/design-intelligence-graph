@@ -88,7 +88,13 @@ export function visualCraftRebuildSpec(craft: VisualCraft | null | undefined): s
   return value || null
 }
 
-export function VisualCraftPanel({ craft }: { craft: VisualCraft | null | undefined }) {
+export function VisualCraftPanel({
+  craft,
+  embedded = false,
+}: {
+  craft: VisualCraft | null | undefined
+  embedded?: boolean
+}) {
   if (!visualCraftHasUiSignal(craft) || !craft) return null
   const copy = paths.libraryCopy
   const atoms = visualCraftAtoms(craft, copy)
@@ -97,7 +103,7 @@ export function VisualCraftPanel({ craft }: { craft: VisualCraft | null | undefi
   return (
     <Panel
       as="section"
-      variant="editorial"
+      variant={embedded ? 'flush' : 'editorial'}
       className="dig-visual-craft"
       aria-label={copy.screenInsightCraft}
     >
