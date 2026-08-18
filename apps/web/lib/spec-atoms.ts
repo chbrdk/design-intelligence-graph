@@ -126,7 +126,33 @@ function usefulNotes(value: string | null | undefined): string | null {
   const trimmed = value?.trim()
   if (!trimmed) return null
   if (/^crop\s/i.test(trimmed) || /^vision band$/i.test(trimmed)) return null
+  if (/^(none|n\/a|null)$/i.test(trimmed)) return null
   return trimmed
+}
+
+function stubStackSummary(value: string | null | undefined): boolean {
+  return /^\w[\w-]* band\s*·/i.test((value ?? '').trim())
+}
+
+function visionFromLook(item: SectionLookItem | null | undefined): NonNullable<SectionLookItem['gaps']>['vision_section'] {
+  const stored = item?.gaps?.vision_section
+  if (stored?.composition || stored?.media_subject || stored?.atmosphere) return stored
+  const blob = stripVisionDetectedPreamble(item?.interpretation)
+  if (!blob) return null
+  const field = (label: string) =>
+    blob.match(new RegExp(`${label}:\\s*([^]*?)(?=\\s+(?:Atmosphere|Media|Overlay|CTA):|$)`, 'i'))?.[1]?.trim()
+  const composition =
+    field('Vision') ||
+    blob
+      .split(/\s+(?:Atmosphere|Media|Overlay|CTA):/i)[0]
+      ?.trim()
+  return {
+    composition: usefulNotes(composition),
+    atmosphere: usefulNotes(field('Atmosphere')),
+    media_subject: usefulNotes(field('Media')),
+    overlay: usefulNotes(field('Overlay')),
+    cta_chrome: usefulNotes(field('CTA')),
+  }
 }
 
 export function sectionSpecAtoms(
@@ -135,33 +161,57 @@ export function sectionSpecAtoms(
   copy: Copy = paths.libraryCopy,
 ): SpecAtom[] {
   const atoms: Array<Omit<SpecAtom, 'index'>> = []
+  const gaps = item?.gaps
+  const vision = visionFromLook(item)
   const overlay =
     usefulNotes(desc?.overlay?.notes) ||
+    usefulNotes(gaps?.overlay?.notes) ||
     (desc?.overlay?.present ? desc.overlay.kind : null) ||
-    usefulNotes(desc?.media?.notes)
+    usefulNotes(vision?.overlay)
   const typeNotes = [
     desc?.alignment?.text ? `Text ${desc.alignment.text}` : '',
-    ...(desc?.typography_emphasis ?? []),
+    gaps?.alignment?.text ? `Text ${gaps.alignment.text}` : '',
+    ...(desc?.typography_emphasis ?? gaps?.typography_emphasis ?? []),
   ]
     .filter(Boolean)
     .join(' · ')
-  const spaceNotes = [desc?.layout?.notes, desc?.spacing?.notes, desc?.layout?.mode].filter(Boolean).join(' · ')
-  const roles = (desc?.role_notes ?? [])
+  const spaceNotes = [
+    desc?.layout?.notes,
+    desc?.spacing?.notes,
+    desc?.layout?.mode,
+    gaps?.layout?.notes,
+    gaps?.spacing?.notes,
+    vision?.atmosphere,
+  ]
+    .filter(Boolean)
+    .join(' · ')
+  const roles = [...(desc?.role_notes ?? []), ...(gaps?.role_notes ?? [])]
     .map((note) => `${note.role}: ${note.notes}`.trim())
     .filter((line) => line.length > 3)
     .join(' · ')
-  const fallback = stripVisionDetectedPreamble(item?.interpretation)
-  const look = usefulNotes(stripVisionDetectedPreamble(desc?.look_summary)) || fallback
+  const stack =
+    (desc?.stack_summary && !stubStackSummary(desc.stack_summary) ? desc.stack_summary : null) ||
+    (vision?.visible_text?.length ? vision.visible_text.join(' · ') : null) ||
+    roles
+  const look =
+    usefulNotes(stripVisionDetectedPreamble(desc?.look_summary)) ||
+    usefulNotes(vision?.composition) ||
+    stripVisionDetectedPreamble(item?.interpretation)
 
-  pushAtom(atoms, 'functionality', copy.screenInsightFunctionality, desc?.stack_summary || roles)
-  pushAtom(atoms, 'type_image', copy.screenInsightTypeImage, overlay)
+  pushAtom(atoms, 'functionality', copy.screenInsightFunctionality, stack)
+  pushAtom(atoms, 'type_image', copy.screenInsightTypeImage, overlay || usefulNotes(vision?.composition))
   pushAtom(atoms, 'type', copy.screenInsightTypeCraft, typeNotes)
-  pushAtom(atoms, 'imagery', copy.screenInsightImagery, usefulNotes(desc?.media?.notes) || desc?.media?.role)
-  pushAtom(atoms, 'space', copy.screenInsightSpace, spaceNotes || usefulNotes(desc?.color_notes))
-  pushAtom(atoms, 'chrome', copy.screenInsightChrome, desc?.interaction_summary)
+  pushAtom(
+    atoms,
+    'imagery',
+    copy.screenInsightImagery,
+    usefulNotes(desc?.media?.notes) || usefulNotes(vision?.media_subject),
+  )
+  pushAtom(atoms, 'space', copy.screenInsightSpace, spaceNotes || usefulNotes(desc?.color_notes) || usefulNotes(gaps?.color_notes))
+  pushAtom(atoms, 'chrome', copy.screenInsightChrome, desc?.interaction_summary || usefulNotes(vision?.cta_chrome))
   if (!atoms.length) {
     pushAtom(atoms, 'functionality', copy.screenInsightFunctionality, look)
-  } else {
+  } else if (look && look !== atoms.find((atom) => atom.id === 'type_image')?.value) {
     pushAtom(atoms, 'rebuild', copy.screenInsightSectionLook, look, true)
   }
   return numbered(atoms)

@@ -18,7 +18,7 @@ Library **Screens** grid:
       - **Visual craft** (`SpecAtomGrid` numbered cards: type/image, typography, imagery, space, chrome, rebuild spec)
       - **UX assessment** (same card grid: above-fold job, flow, spacing, strengths, risks)
       - **Functionality** (detected UI, screen patterns, notable modules)
-      - **Section spec** — one independent numbered grid per vision band (crop + type/image/space/function/look)
+      - **Section spec** — one independent numbered grid per vision band from `section_look` + `gaps.vision_section` (crop + type/image/space/function/look). Analysis already ran per crop; the island maps those fields onto the visual-craft cards.
    3. Split (drag the gutter to make screenshot or section look narrower; remembered in `libraryScreenDetail.splitStorageKey`):
       - Left: full-page screenshot + vision band overlays (click scrolls to that section spec)
       - Right: collapsible summary, **Page narrative** (from analysis `page_flow` items, `GET /page-flows` only as fallback), **Section look** accordion with the same spec cards

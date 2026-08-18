@@ -90,6 +90,40 @@ describe('spec atoms', () => {
     assert.doesNotMatch(atoms.map((atom) => atom.value).join(' '), /Vision-detected/)
   })
 
+  it('maps per-crop vision_section onto the same numbered cards', () => {
+    const atoms = sectionSpecAtoms(
+      {
+        name: 'band_2',
+        interpretation:
+          'hero band · Hero Section · Vision-detected hero section labeled "Hero Section". Full-width band y=0.07 h=0.30. Vision: massive sans-serif headline CITY ARCADE. Atmosphere: bright daylight Media: glass modules Overlay: none',
+        gaps: {
+          vision_section: {
+            composition:
+              "massive sans-serif headline 'CITY ARCADE' dominates the upper center against a plain white field, while a 3D architectural render occupies the lower half.",
+            media_subject: 'futuristic modular glass architecture',
+            atmosphere: 'bright natural daylight with high contrast',
+            overlay: 'none',
+            visible_text: ['CITY', 'ARCADE', 'BEST REAL ESTATE AGENCY'],
+          },
+        },
+      },
+      {
+        section_id: 'band_2',
+        stack_summary: 'hero band · Hero Section',
+        look_summary: 'Vision-detected hero section labeled "Hero Section".',
+        media: { role: 'hero', notes: 'crop viewports/desktop/sections/vision_band_2.webp' },
+      },
+    )
+    const byId = Object.fromEntries(atoms.map((atom) => [atom.id, atom.value]))
+    assert.equal(atoms[0]?.id, 'functionality')
+    assert.match(byId.functionality, /CITY/)
+    assert.doesNotMatch(byId.functionality, /hero band/)
+    assert.match(byId.type_image, /CITY ARCADE/)
+    assert.match(byId.imagery, /glass architecture/)
+    assert.match(byId.space, /daylight/)
+    assert.doesNotMatch(atoms.map((atom) => atom.value).join(' '), /Vision-detected/)
+  })
+
   it('reads page narrative from analysis page_flow items', () => {
     const steps = pageFlowFromItems([
       { kind: 'ui_element', name: 'Search' },

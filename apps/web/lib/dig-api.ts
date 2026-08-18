@@ -203,6 +203,27 @@ export interface LibraryAnalysisSummary {
   canonical_url?: string | null
 }
 
+export interface SectionVisionNotes {
+  overlay?: string | null
+  atmosphere?: string | null
+  cta_chrome?: string | null
+  composition?: string | null
+  media_subject?: string | null
+  visible_text?: string[]
+}
+
+export interface SectionLookGaps {
+  overlay?: { present?: boolean; kind?: string; notes?: string } | null
+  media?: { role?: string; notes?: string } | null
+  spacing?: { notes?: string } | null
+  layout?: { mode?: string; notes?: string } | null
+  alignment?: { text?: string; cta?: string } | null
+  typography_emphasis?: string[]
+  role_notes?: Array<{ role: string; notes: string }>
+  color_notes?: string | null
+  vision_section?: SectionVisionNotes | null
+}
+
 export interface SectionLookItem {
   id?: string
   kind?: string
@@ -216,6 +237,7 @@ export interface SectionLookItem {
   crop_path?: string | null
   crop_url?: string | null
   step_index?: number | null
+  gaps?: SectionLookGaps | null
 }
 
 export interface SectionDescription {
