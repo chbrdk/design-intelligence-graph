@@ -13,7 +13,7 @@ const KEYBOARD_STEP = 0.03
 
 export function ScreenDetailSplit(props: { media: ReactNode; side: ReactNode }) {
   const splitRef = useRef<HTMLDivElement>(null)
-  const [sideRatio, setSideRatio] = useState(paths.libraryScreenDetail.sideRatioDefault)
+  const [sideRatio, setSideRatio] = useState<number>(paths.libraryScreenDetail.sideRatioDefault)
   const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
