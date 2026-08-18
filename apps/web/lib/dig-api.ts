@@ -3,8 +3,17 @@ import type { JobEvent, JobSnapshot } from './stages'
 
 const BASE = paths.digProxyBase
 
-async function readJson<T>(response: Response): Promise<T & { error?: string }> {
-  return (await response.json()) as T & { error?: string }
+/** Parse JSON without throwing when Traefik/Next returns an empty or truncated body. */
+export async function readJson<T>(response: Response): Promise<T & { error?: string }> {
+  const text = await response.text()
+  if (!text.trim()) {
+    return { error: `Empty response (${response.status})` } as T & { error?: string }
+  }
+  try {
+    return JSON.parse(text) as T & { error?: string }
+  } catch {
+    return { error: `Invalid JSON (${response.status})` } as T & { error?: string }
+  }
 }
 
 export async function startJob(

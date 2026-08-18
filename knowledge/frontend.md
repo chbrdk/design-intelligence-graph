@@ -11,7 +11,7 @@ URL entry plus live status for **detection** (capture), **ingestion** (verify + 
 Paths come from [`paths.json`](paths.json):
 
 - `POST /api/jobs` `{ "url": "https://…" }` → `202` job snapshot
-- `POST /api/jobs/batch` `{ "catalog": "automotive-oem-50" }` → queue many URLs (`knowledge/capture-batch.md`)
+- `POST /api/jobs/batch` `{ "catalog": "automotive-oem-50" }` / `insurance-1000` → queue many URLs (`knowledge/capture-batch.md`)
 - `GET /api/jobs/:id` → snapshot
 - `GET /api/jobs/:id/events` → SSE `event: job`
 - `GET /api/enrichment` → enrichment jobs (memory + Postgres)
@@ -25,6 +25,8 @@ Paths come from [`paths.json`](paths.json):
 2. **Enrichment** — queue status, models, tokens, estimated USD; link to analysis
 3. **Analyses** — design summary, patterns, UI elements, recipes, visual style, page flow, vision/cost
 4. **Library** — Screens / Sections / **Flows** (DIG-011 list/detail/Interactive); screen detail keeps **Page narrative** (`page_flow`) separate from multi-screen Flows
+
+Island `apps/web/lib/dig-api.ts` `readJson` must tolerate empty/truncated upstream bodies (Traefik 502 during Playwright batches). Do not call `response.json()` directly.
 
 Flows UI: [`docs/DIG-011-flows-ui.md`](../docs/DIG-011-flows-ui.md) · `#/library/flows`
 ## Local
