@@ -91,6 +91,7 @@ export const paths = {
     screenDetailFullPage: 'Full page',
     screenDetailOverlay: 'Section overlay',
     screenDetailSections: 'Section look',
+    screenDetailSplit: 'Resize screenshot and section look',
     screenInsightTitle: 'Design profile',
     screenInsightKicker: 'Style, layout, and look',
     screenMagazineLabel: 'Design brief',
@@ -153,6 +154,13 @@ export const paths = {
     deviceViewports: ['tablet', 'mobile'] as const,
     devicesQueryParam: 'viewport',
     devicesAllValue: 'all',
+  },
+  /** Keep in sync with knowledge/paths.json libraryScreenDetail. */
+  libraryScreenDetail: {
+    splitStorageKey: 'spirion.v1.screenDetailSplit',
+    sideRatioDefault: 0.32,
+    sideRatioMin: 0.2,
+    sideRatioMax: 0.58,
   },
   /** Keep in sync with knowledge/paths.json libraryModuleGallery. */
   libraryModuleGallery: {

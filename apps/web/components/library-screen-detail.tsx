@@ -16,6 +16,7 @@ import {
 } from '../lib/dig-api'
 import { paths } from '../lib/paths'
 import { ScreenInsightStrip } from './screen-insight-strip'
+import { ScreenDetailSplit } from './screen-detail-split'
 import { VisualCraftPanel } from './visual-craft-panel'
 
 function sleep(ms: number) {
@@ -194,7 +195,8 @@ export function LibraryScreenDetailPanel(props: {
         <VisualCraftPanel craft={visualCraft} embedded />
       </Panel>
 
-      <div className="dig-screen-detail-split">
+      <ScreenDetailSplit
+        media={
         <Panel className="dig-panel dig-screen-detail-media">
           {mediaUrl ? (
             <div className="dig-screen-detail-frame">
@@ -232,9 +234,10 @@ export function LibraryScreenDetailPanel(props: {
           ) : (
             <Text role="hint">No screenshot for this viewport.</Text>
           )}
-        </Panel>
-
-        <Panel className="dig-panel dig-screen-detail-side">
+          </Panel>
+        }
+        side={
+          <Panel className="dig-panel dig-screen-detail-side">
           {summary ? (
             <details className="dig-screen-summary">
               <summary>{paths.libraryCopy.screenInsightSummary}</summary>
@@ -282,8 +285,9 @@ export function LibraryScreenDetailPanel(props: {
                 : 'No section_look yet for this capture.'}
             </Text>
           )}
-        </Panel>
-      </div>
+          </Panel>
+        }
+      />
     </div>
   )
 }

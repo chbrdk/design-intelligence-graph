@@ -16,7 +16,7 @@ Library **Screens** grid:
       - Masthead (title in `Text` `display` / `--weight-thin`, plus URL)
       - Four identity ledes (page type, style, layout, color) plus one quiet chip/swatch row
       - **Visual craft** immediately below (`Panel` cards in `Grid`, body copy at `--type-md`)
-   3. Split:
+   3. Split (drag the gutter to make screenshot or section look narrower; remembered in `libraryScreenDetail.splitStorageKey`):
       - Left: full-page screenshot + vision band overlays
       - Right: collapsible summary, **Page narrative**, **Section look** accordion (`SectionChrome`)
 

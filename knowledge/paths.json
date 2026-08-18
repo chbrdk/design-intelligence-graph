@@ -256,6 +256,13 @@
     "devicesQueryParam": "viewport",
     "devicesAllValue": "all"
   },
+  "libraryScreenDetail": {
+    "doc": "knowledge/library-screen-detail.md",
+    "splitStorageKey": "spirion.v1.screenDetailSplit",
+    "sideRatioDefault": 0.32,
+    "sideRatioMin": 0.2,
+    "sideRatioMax": 0.58
+  },
   "libraryModuleGallery": {
     "doc": "knowledge/library-module-gallery.md",
     "queryParam": "module",
