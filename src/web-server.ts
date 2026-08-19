@@ -350,7 +350,8 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         embedded: results.filter((row) => row.written > 0).length,
         screenshot_queued: screenshotResults.length,
         screenshot_embedded: screenshotResults.filter((row) => row.written > 0).length,
-        results
+        results,
+        screenshot_results: screenshotResults
       });
     } catch (error: unknown) {
       sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
