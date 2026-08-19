@@ -333,8 +333,12 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         const shotPending = await listCapturesMissingScreenshots(pool, limit);
         for (const row of shotPending) {
           try {
-            const written = await embedScreenshotForPackage(row.package_path, { client: pool });
-            screenshotResults.push({ capture_run_id: row.capture_run_id, written });
+            let skipReason: string | undefined;
+            const written = await embedScreenshotForPackage(row.package_path, {
+              client: pool,
+              onSkip: (reason) => { skipReason = reason; }
+            });
+            screenshotResults.push({ capture_run_id: row.capture_run_id, written, ...(skipReason ? { skip: skipReason } : {}) });
           } catch (error: unknown) {
             screenshotResults.push({
               capture_run_id: row.capture_run_id,

@@ -176,18 +176,27 @@ export async function searchScreenshotEmbeddings(
 
 export async function embedScreenshotForPackage(
   packageRoot: string,
-  options: { client?: Queryable | null; request?: typeof fetch; root?: string } = {}
+  options: { client?: Queryable | null; request?: typeof fetch; root?: string; onSkip?: (reason: string) => void } = {}
 ): Promise<number> {
   const root = options.root ?? process.cwd();
-  if (!screenshotEmbeddingsEnabled(process.env, root)) return 0;
+  if (!screenshotEmbeddingsEnabled(process.env, root)) {
+    options.onSkip?.("disabled");
+    return 0;
+  }
   const { getPool } = await import("./db.js");
   const client = options.client ?? getPool();
   if (!client) throw new Error("database_unavailable");
   const cfg = screenshotEmbeddingConfig(root);
   const relative = await resolveDesktopScreenshotPath(packageRoot, root);
-  if (!relative) return 0;
+  if (!relative) {
+    options.onSkip?.("no_screenshot_path");
+    return 0;
+  }
   const bytes = await readFile(resolve(packageRoot, relative));
-  if (bytes.byteLength === 0 || bytes.byteLength > cfg.maxBytes) return 0;
+  if (bytes.byteLength === 0 || bytes.byteLength > cfg.maxBytes) {
+    options.onSkip?.(`size_${bytes.byteLength}`);
+    return 0;
+  }
   const sha = createHash("sha256").update(bytes).digest("hex");
   const captureRunId = JSON.parse(await readFile(resolve(packageRoot, "manifest.json"), "utf8")).capture_run_id as string;
   const existing = await client.query(
