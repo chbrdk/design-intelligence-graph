@@ -168,10 +168,10 @@ export const paths = {
     queueOpen: 'Open queue',
     graphTitle: 'Graph',
     graphHint:
-      'Screens linked by embedding similarity. Craft uses dense look-text; Visual uses screenshot vectors once Stage C is indexed.',
-    graphEmpty: 'No similarity links in this sample yet.',
+      'Screens linked by look craft — style, contrast, imagery, type — not URLs. Craft uses dense text embeddings; Visual uses screenshot vectors after API deploy.',
+    graphEmpty: 'No craft neighbors in this sample yet.',
     graphFacets:
-      'Linked by shared style, layout, and industry. Embedding neighbors need the next API deploy (after the capture queue drains).',
+      'Live facet graph: shared style, contrast, imagery, and type. Dense embedding neighbors replace this after dig-api deploy.',
     graphCraft: 'Craft',
     graphVisual: 'Visual',
     queueLive: 'Now running',

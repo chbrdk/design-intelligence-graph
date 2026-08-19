@@ -14,4 +14,4 @@ Not Facebook Open Graph. This is a **neighbor network of Library screens**.
 
 Pairwise cosine ≥ `similarityGraph.threshold` (0.72). Caps: `nodeCap` 80, `edgeCap` 240. Island layout is a deterministic spring (`apps/web/lib/similarity-graph-layout.ts`) — no extra npm graph library.
 
-Until dig-api is deployed, `GET /api/library/graph` returns `not_found`. The island then builds a **facet overlap** graph from `GET /screens` (shared style / layout / industry) so `/graph` is usable immediately. Embedding cosine replaces that after the API deploy.
+Until dig-api is deployed, `GET /api/library/graph` returns `not_found`. The island builds a **craft facet** graph from `GET /screens` (contrast, imagery, type, style — not URLs) with force-directed motion. Dense embeddings already index the same craft atoms in `dense_embeddings` canonical text; cosine neighbors replace the facet graph after API deploy.

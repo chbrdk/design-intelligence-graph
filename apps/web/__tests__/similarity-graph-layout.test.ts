@@ -1,16 +1,43 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'vitest'
+import { craftFacetOverlapScore, formatCraftGraphLabel } from '../lib/craft-graph-label'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from '../lib/similarity-graph-fallback'
+import { createForceSimulation, stepForceSimulation } from '../lib/similarity-graph-force'
 import { layoutSimilarityGraph } from '../lib/similarity-graph-layout'
 import { paths } from '../lib/paths'
+
+describe('craft graph labels', () => {
+  it('formats craft atoms instead of domains', () => {
+    const label = formatCraftGraphLabel({
+      style: 'minimal',
+      contrast_mode: 'monochrome',
+      imagery_density: 'low',
+      type_scale: 'large',
+      industry_tags: ['insurance'],
+    })
+    assert.match(label, /minimal/)
+    assert.match(label, /monochrome/)
+    assert.match(label, /low imagery/)
+    assert.match(label, /large type/)
+    assert.doesNotMatch(label, /insurance|example\.com/)
+  })
+
+  it('scores craft neighbors by contrast and imagery, not URL', () => {
+    const score = craftFacetOverlapScore(
+      { style: 'minimal', contrast_mode: 'monochrome', imagery_density: 'low', type_scale: 'large' },
+      { style: 'editorial', contrast_mode: 'monochrome', imagery_density: 'low', type_scale: 'monumental' },
+    )
+    assert.ok(score >= 0.35)
+  })
+})
 
 describe('similarity graph layout', () => {
   it('places every node inside the canvas and keeps edge ids', () => {
     const layout = layoutSimilarityGraph(
       [
-        { id: 'a', label: 'a.example' },
-        { id: 'b', label: 'b.example' },
-        { id: 'c', label: 'c.example' },
+        { id: 'a', label: 'minimal · monochrome' },
+        { id: 'b', label: 'editorial · low imagery' },
+        { id: 'c', label: 'high-energy · saturated' },
       ],
       [
         { from_id: 'a', to_id: 'b', score: 0.9 },
@@ -25,6 +52,20 @@ describe('similarity graph layout', () => {
       assert.ok(node.y >= 24 && node.y <= 536)
     }
   })
+
+  it('steps a force simulation without losing nodes', () => {
+    const nodes = createForceSimulation(
+      [
+        { id: 'a', label: 'minimal' },
+        { id: 'b', label: 'monochrome' },
+      ],
+      960,
+      560,
+    )
+    stepForceSimulation(nodes, [{ from_id: 'a', to_id: 'b', score: 0.8 }], 960, 560)
+    assert.equal(nodes.length, 2)
+    assert.ok(Number.isFinite(nodes[0]!.x))
+  })
 })
 
 describe('similarity graph fallback', () => {
@@ -34,44 +75,66 @@ describe('similarity graph fallback', () => {
     assert.equal(isEmbeddingGraphMissing(500, 'database_unavailable'), false)
   })
 
-  it('links screens that share style or layout', () => {
+  it('links screens that share craft atoms and labels nodes by craft', () => {
     const graph = buildFacetSimilarityGraph(
       [
         {
           capture_run_id: 'cap_a',
           viewport_capture_id: 'vpc_a',
           name: 'desktop',
-          title: 'A',
+          title: 'A Insurance',
           site_domain: 'a.example',
           canonical_url: 'https://a.example/',
-          design_facets: { style: 'minimal', layout: 'full-bleed stacks', industry_tags: ['insurance'] },
+          design_facets: {
+            style: 'minimal',
+            layout: 'full-bleed stacks',
+            contrast_mode: 'monochrome',
+            imagery_density: 'low',
+            type_scale: 'large',
+            industry_tags: ['insurance'],
+          },
         },
         {
           capture_run_id: 'cap_b',
           viewport_capture_id: 'vpc_b',
           name: 'desktop',
-          title: 'B',
+          title: 'B Insurance',
           site_domain: 'b.example',
           canonical_url: 'https://b.example/',
-          design_facets: { style: 'minimal', layout: 'editorial columns', industry_tags: ['insurance'] },
+          design_facets: {
+            style: 'editorial',
+            layout: 'editorial columns',
+            contrast_mode: 'monochrome',
+            imagery_density: 'low',
+            type_scale: 'monumental',
+            industry_tags: ['insurance'],
+          },
         },
         {
           capture_run_id: 'cap_c',
           viewport_capture_id: 'vpc_c',
           name: 'desktop',
-          title: 'C',
+          title: 'C Media',
           site_domain: 'c.example',
           canonical_url: 'https://c.example/',
-          design_facets: { style: 'high-energy', layout: 'card grid', industry_tags: ['media'] },
+          design_facets: {
+            style: 'high-energy',
+            layout: 'card grid',
+            contrast_mode: 'saturated',
+            imagery_density: 'high',
+            industry_tags: ['media'],
+          },
         },
       ],
       { nodeCap: paths.similarityGraph.nodeCap, edgeCap: paths.similarityGraph.edgeCap },
     )
     assert.equal(graph.source, 'facets')
     assert.equal(graph.nodes.length, 3)
+    assert.match(graph.nodes[0]?.craft_label ?? '', /minimal/)
+    assert.match(graph.nodes[0]?.craft_label ?? '', /monochrome/)
     assert.equal(graph.edges.length, 1)
     assert.equal(graph.edges[0]?.from_id, 'cap_a')
     assert.equal(graph.edges[0]?.to_id, 'cap_b')
-    assert.ok((graph.edges[0]?.score ?? 0) >= 0.45)
+    assert.ok((graph.edges[0]?.score ?? 0) >= 0.35)
   })
 })

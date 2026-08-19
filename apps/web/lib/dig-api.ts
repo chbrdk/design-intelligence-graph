@@ -1,6 +1,7 @@
 import { paths } from './paths'
 import type { JobEvent, JobSnapshot } from './stages'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from './similarity-graph-fallback'
+import type { SimilarityGraphNode, SimilarityGraphView } from './similarity-graph-fallback'
 
 const BASE = paths.digProxyBase
 
@@ -116,6 +117,17 @@ export type ScreenFacetSummary = {
   style: string | null
   layout: string | null
   industry_tags: string[]
+  modules?: string[]
+  typography?: string | null
+  color_mood?: string | null
+  above_fold_job?: string | null
+  imagery_density?: string | null
+  type_scale?: string | null
+  type_image_mode?: string | null
+  contrast_mode?: string | null
+  composition_energy?: string | null
+  chrome_weight?: string | null
+  craft_tags?: string[]
 }
 
 export type LibraryFacetFilters = {
@@ -590,21 +602,7 @@ export async function fetchLibrarySections(opts?: {
 
 export async function fetchSimilarityGraph(
   kind: 'craft' | 'visual' = 'craft',
-): Promise<{
-  kind: 'craft' | 'visual'
-  model: string
-  threshold: number
-  source: 'embeddings' | 'facets'
-  nodes: Array<{
-    capture_run_id: string
-    site_domain: string | null
-    canonical_url: string | null
-    viewport_capture_id: string | null
-    title: string | null
-  }>
-  edges: Array<{ from_id: string; to_id: string; score: number }>
-  error?: string
-}> {
+): Promise<SimilarityGraphView> {
   const response = await fetch(`${BASE}${paths.digApiLibrary}/graph?kind=${encodeURIComponent(kind)}`)
   const body = await readJson<{
     kind?: 'craft' | 'visual'
@@ -622,12 +620,16 @@ export async function fetchSimilarityGraph(
     message?: string
   }>(response)
   if (response.ok) {
+    const nodes: SimilarityGraphNode[] = (body.nodes ?? []).map((node) => ({
+      ...node,
+      craft_label: node.title?.trim() || 'screen',
+    }))
     return {
       kind: body.kind === 'visual' ? 'visual' : 'craft',
       model: body.model ?? '',
       threshold: Number(body.threshold ?? 0),
       source: 'embeddings',
-      nodes: body.nodes ?? [],
+      nodes,
       edges: body.edges ?? [],
     }
   }

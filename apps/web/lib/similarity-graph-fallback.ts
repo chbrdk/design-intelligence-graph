@@ -1,3 +1,4 @@
+import { craftFacetOverlapScore, formatCraftGraphLabel, type CraftFacetLike } from './craft-graph-label'
 import { paths } from './paths'
 
 export type FacetGraphScreen = {
@@ -7,11 +8,16 @@ export type FacetGraphScreen = {
   title: string | null
   site_domain: string | null
   canonical_url: string
-  design_facets?: {
-    style: string | null
-    layout: string | null
-    industry_tags: string[]
-  } | null
+  design_facets?: CraftFacetLike | null
+}
+
+export type SimilarityGraphNode = {
+  capture_run_id: string
+  site_domain: string | null
+  canonical_url: string | null
+  viewport_capture_id: string | null
+  title: string | null
+  craft_label: string
 }
 
 export type SimilarityGraphView = {
@@ -19,13 +25,7 @@ export type SimilarityGraphView = {
   model: string
   threshold: number
   source: 'embeddings' | 'facets'
-  nodes: Array<{
-    capture_run_id: string
-    site_domain: string | null
-    canonical_url: string | null
-    viewport_capture_id: string | null
-    title: string | null
-  }>
+  nodes: SimilarityGraphNode[]
   edges: Array<{ from_id: string; to_id: string; score: number }>
 }
 
@@ -54,43 +54,36 @@ function desktopScreens(screens: FacetGraphScreen[]): FacetGraphScreen[] {
   return [...byCapture.values()]
 }
 
-function overlapScore(a: FacetGraphScreen, b: FacetGraphScreen): number {
-  const fa = a.design_facets
-  const fb = b.design_facets
-  if (!fa || !fb) return 0
-  let score = 0
-  if (fa.style && fa.style === fb.style) score += 0.45
-  if (fa.layout && fa.layout === fb.layout) score += 0.35
-  const industries = new Set(fa.industry_tags ?? [])
-  if ((fb.industry_tags ?? []).some((tag) => industries.has(tag))) score += 0.2
-  return score
-}
-
-/** Neighbor graph from live Library screens when GET /graph is not on dig-api yet. */
+/** Neighbor graph from craft facets when GET /graph is not on dig-api yet. */
 export function buildFacetSimilarityGraph(
   screens: FacetGraphScreen[],
-  opts?: { nodeCap?: number; edgeCap?: number; kind?: 'craft' | 'visual' },
+  opts?: { nodeCap?: number; edgeCap?: number; kind?: 'craft' | 'visual'; threshold?: number },
 ): SimilarityGraphView {
   const nodeCap = opts?.nodeCap ?? paths.similarityGraph.nodeCap
   const edgeCap = opts?.edgeCap ?? paths.similarityGraph.edgeCap
+  const threshold = opts?.threshold ?? 0.35
   const kind = opts?.kind ?? 'craft'
   const picked = desktopScreens(screens).slice(0, nodeCap)
-  const nodes = picked.map((screen) => ({
+  const nodes: SimilarityGraphNode[] = picked.map((screen) => ({
     capture_run_id: screen.capture_run_id,
     site_domain: screen.site_domain,
     canonical_url: screen.canonical_url,
     viewport_capture_id: screen.viewport_capture_id,
     title: screen.title,
+    craft_label: formatCraftGraphLabel(screen.design_facets),
   }))
   const edges: SimilarityGraphView['edges'] = []
   for (let i = 0; i < picked.length; i += 1) {
     for (let j = i + 1; j < picked.length; j += 1) {
-      const score = overlapScore(picked[i]!, picked[j]!)
-      if (score < 0.45) continue
+      const fa = picked[i]!.design_facets
+      const fb = picked[j]!.design_facets
+      if (!fa || !fb) continue
+      const score = craftFacetOverlapScore(fa, fb)
+      if (score < threshold) continue
       edges.push({
         from_id: picked[i]!.capture_run_id,
         to_id: picked[j]!.capture_run_id,
-        score: Math.min(1, score),
+        score,
       })
     }
   }
@@ -98,7 +91,7 @@ export function buildFacetSimilarityGraph(
   return {
     kind,
     model: 'craft-facets',
-    threshold: 0.45,
+    threshold,
     source: 'facets',
     nodes,
     edges: edges.slice(0, edgeCap),
