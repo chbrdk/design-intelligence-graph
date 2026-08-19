@@ -67,7 +67,10 @@ export async function embedDenseSubjectsForCapture(
   if (!pending.length) return 0;
   const vectors = await embedTextsOpenRouter(
     pending.map((subject) => subject.content_text),
-    { request: options.request, root }
+    {
+      ...(options.request ? { request: options.request } : {}),
+      root
+    }
   );
   return upsertDenseEmbeddingSubjects(client, captureRunId, pending, vectors, root);
 }

@@ -43,7 +43,7 @@ export function denseEmbeddingsEnabled(
 export function denseEmbeddingConfig(root = process.cwd()): DenseEmbeddingConfig {
   const paths = loadDigPaths(root);
   const dense = paths.embeddings?.dense;
-  const llm = localLlmConfig(process.env, root);
+  const llm = localLlmConfig(process.env);
   const modelEnv = dense?.modelEnv ?? "DIG_EMBEDDING_MODEL";
   const baseUrlEnv = dense?.baseUrlEnv ?? "DIG_EMBEDDING_BASE_URL";
   const model =
@@ -220,7 +220,7 @@ export async function searchDenseEmbeddings(
   const [vector] = await embedTextsOpenRouter([formatDenseQuery(query, root)], {
     model: cfg.model,
     dims: cfg.dims,
-    request: options.request,
+    ...(options.request ? { request: options.request } : {}),
     root
   });
   if (!vector) return [];
