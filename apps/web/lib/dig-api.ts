@@ -1,5 +1,6 @@
 import { paths } from './paths'
 import type { JobEvent, JobSnapshot } from './stages'
+import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from './similarity-graph-fallback'
 
 const BASE = paths.digProxyBase
 
@@ -593,6 +594,7 @@ export async function fetchSimilarityGraph(
   kind: 'craft' | 'visual'
   model: string
   threshold: number
+  source: 'embeddings' | 'facets'
   nodes: Array<{
     capture_run_id: string
     site_domain: string | null
@@ -619,16 +621,21 @@ export async function fetchSimilarityGraph(
     error?: string
     message?: string
   }>(response)
-  if (!response.ok) {
+  if (response.ok) {
+    return {
+      kind: body.kind === 'visual' ? 'visual' : 'craft',
+      model: body.model ?? '',
+      threshold: Number(body.threshold ?? 0),
+      source: 'embeddings',
+      nodes: body.nodes ?? [],
+      edges: body.edges ?? [],
+    }
+  }
+  if (!isEmbeddingGraphMissing(response.status, body.error)) {
     throw new Error(body.error ?? body.message ?? `Graph failed (${response.status})`)
   }
-  return {
-    kind: body.kind === 'visual' ? 'visual' : 'craft',
-    model: body.model ?? '',
-    threshold: Number(body.threshold ?? 0),
-    nodes: body.nodes ?? [],
-    edges: body.edges ?? [],
-  }
+  const screens = await fetchLibraryScreens()
+  return buildFacetSimilarityGraph(screens, { kind })
 }
 
 export async function searchLibrary(

@@ -14,4 +14,4 @@ Not Facebook Open Graph. This is a **neighbor network of Library screens**.
 
 Pairwise cosine ≥ `similarityGraph.threshold` (0.72). Caps: `nodeCap` 80, `edgeCap` 240. Island layout is a deterministic spring (`apps/web/lib/similarity-graph-layout.ts`) — no extra npm graph library.
 
-Until dig-api is deployed, `/graph` shows an empty/error state (`similarity_graph_unavailable` or 404). Ship the island anyway.
+Until dig-api is deployed, `GET /api/library/graph` returns `not_found`. The island then builds a **facet overlap** graph from `GET /screens` (shared style / layout / industry) so `/graph` is usable immediately. Embedding cosine replaces that after the API deploy.

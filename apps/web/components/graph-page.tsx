@@ -15,6 +15,7 @@ export function GraphPageClient() {
   const router = useRouter()
   const [kind, setKind] = useState<Kind>('craft')
   const [error, setError] = useState<string | null>(null)
+  const [source, setSource] = useState<'embeddings' | 'facets'>('embeddings')
   const [model, setModel] = useState('')
   const [nodes, setNodes] = useState<
     Array<{
@@ -32,6 +33,7 @@ export function GraphPageClient() {
       .then((graph) => {
         if (cancelled) return
         setError(null)
+        setSource(graph.source)
         setModel(graph.model)
         setNodes(graph.nodes)
         setEdges(graph.edges)
@@ -74,6 +76,7 @@ export function GraphPageClient() {
         {nodes.length} nodes · {edges.length} edges
         {model ? ` · ${model}` : ''}
       </Chip>
+      {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
       {!error && !edges.length ? <Text>{paths.libraryCopy.graphEmpty}</Text> : null}
       <Panel>

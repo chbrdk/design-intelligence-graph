@@ -169,7 +169,9 @@ export const paths = {
     graphTitle: 'Graph',
     graphHint:
       'Screens linked by embedding similarity. Craft uses dense look-text; Visual uses screenshot vectors once Stage C is indexed.',
-    graphEmpty: 'No similarity edges yet. Dense embeddings need an API deploy after the capture queue drains.',
+    graphEmpty: 'No similarity links in this sample yet.',
+    graphFacets:
+      'Linked by shared style, layout, and industry. Embedding neighbors need the next API deploy (after the capture queue drains).',
     graphCraft: 'Craft',
     graphVisual: 'Visual',
     queueLive: 'Now running',
@@ -224,6 +226,12 @@ export const paths = {
     homeLiveOpsCap: 6,
     queueEditHeadCap: 40,
     graphRoute: '/graph',
+  },
+  /** Keep in sync with knowledge/paths.json similarityGraph. */
+  similarityGraph: {
+    nodeCap: 80,
+    edgeCap: 240,
+    threshold: 0.72,
   },
   captureJobs: {
     maxConcurrent: 6,
