@@ -34,7 +34,7 @@ Facets first, then vector rank. Never replace craft filters with cosine.
 | `module` | Section in `libraryModuleGallery.categories` (hero, nav, feature, conversion, commerce, social_proof) | Same; skip `content` / body |
 | `design_reference` | Existing DIG-012 canonical | On emit, same as hashing sidecar |
 
-Screenshot / multimodal vectors are **Stage C** (separate model, separate table, image query encoder). Parked.
+Screenshot / multimodal vectors are **Stage C**: [`screenshot-embeddings.md`](screenshot-embeddings.md) — separate Gemini 768-d table. Island neighbor view: [`similarity-graph.md`](similarity-graph.md).
 
 ## Canonical recipes
 
@@ -129,10 +129,13 @@ Record Recall@10 vs hashing on the same set. Flip MCP default to dense only if d
 ## Non-goals (this concept)
 
 - Island Library search box (compose stays on MCP)
-- Screenshot embeddings
 - Cross-encoding reranker (optional later: `qwen/qwen3-reranker-0.6b`)
 - Replacing craft facets
 
-## Implement when
+## MCP (2026-08-19)
 
-Insurance + leftover capture jobs have drained (`queued` + `capturing` = 0). Then: migration + EmbeddingQueue + OpenRouter client + eval fixtures + tests. Until then hashing + facets remain the live retrieval path.
+`dig_screen_search` / `GET /api/library/screens`: when `q` is set, default `provider=dense` (facet chips first, then cosine). Island Library search box stays hashing-free; compose stays on MCP.
+
+`GET /api/library/search` **must** stay `provider=hashing` when `provider` is omitted.
+
+Live after the next **dig-api** deploy. Do not restart the API while the capture queue is draining.

@@ -99,6 +99,24 @@ test("callDigLibraryToolHttp searches screens and strips package_path", async ()
   assert.equal("package_path" in result.screens[0]!, false);
 });
 
+test("callDigLibraryToolHttp defaults provider=dense when q is set", async () => {
+  const fetchImpl: typeof fetch = async (url) => {
+    assert.match(String(url), /q=minimal/);
+    assert.match(String(url), /provider=dense/);
+    return new Response(JSON.stringify({ screens: [], provider: "dense" }), {
+      status: 200,
+      headers: { "content-type": "application/json" }
+    });
+  };
+  const result = (await callDigLibraryToolHttp(
+    "dig_screen_search",
+    { q: "minimal monochrome" },
+    "https://spirion-api.example",
+    fetchImpl
+  )) as { provider?: string };
+  assert.equal(result.provider, "dense");
+});
+
 test("callDigLibraryToolHttp posts capture prompt pack", async () => {
   const fetchImpl: typeof fetch = async (url, init) => {
     assert.match(String(url), /\/api\/library\/analyses\/cap_1\/prompt-pack$/);

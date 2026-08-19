@@ -304,6 +304,11 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         embedDenseCapturePackage,
         listCapturesMissingDenseScreens
       } = await import("./dense-embedding-package.js");
+      const {
+        embedScreenshotForPackage,
+        listCapturesMissingScreenshots,
+        screenshotEmbeddingsEnabled
+      } = await import("./screenshot-embeddings.js");
       const pending = await listCapturesMissingDenseScreens(pool, limit);
       const results: Array<{ capture_run_id: string; written: number; subjects: number; error?: string }> = [];
       for (const row of pending) {
@@ -323,10 +328,28 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
           });
         }
       }
+      const screenshotResults: Array<{ capture_run_id: string; written: number; error?: string }> = [];
+      if (screenshotEmbeddingsEnabled(process.env)) {
+        const shotPending = await listCapturesMissingScreenshots(pool, limit);
+        for (const row of shotPending) {
+          try {
+            const written = await embedScreenshotForPackage(row.package_path, { client: pool });
+            screenshotResults.push({ capture_run_id: row.capture_run_id, written });
+          } catch (error: unknown) {
+            screenshotResults.push({
+              capture_run_id: row.capture_run_id,
+              written: 0,
+              error: error instanceof Error ? error.message : String(error)
+            });
+          }
+        }
+      }
       sendJson(response, 202, {
         ok: true,
         queued: pending.length,
         embedded: results.filter((row) => row.written > 0).length,
+        screenshot_queued: screenshotResults.length,
+        screenshot_embedded: screenshotResults.filter((row) => row.written > 0).length,
         results
       });
     } catch (error: unknown) {

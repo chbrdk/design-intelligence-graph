@@ -19,7 +19,7 @@ dig_compose_brief(intent, reference_ids[] and/or capture_run_ids[])
 
 | Tool | Role |
 |------|------|
-| `dig_screen_search` | Same Style/Layout/Industry filters as `GET /api/library/screens`, plus craft atoms like `craft_tags`, `imagery_density`, `type_scale`, `type_image_mode`, `contrast_mode`, `composition_energy`, `chrome_weight`. Omits `package_path`. Live mode requires `platformProjectId`. Default limit 20 (lists up to 200 then slices). |
+| `dig_screen_search` | Same Style/Layout/Industry filters as `GET /api/library/screens`, plus craft atoms. Facets first; when `q` is set, default `provider=dense` (cosine on `dense_embeddings` subject `screen`). `provider=hashing` keeps substring `q`. `provider=screenshot` ranks Stage C image vectors. Omits `package_path`. Live mode requires `platformProjectId`. Default limit 20 (lists up to 200 then slices). |
 | `dig_capture_prompt_pack` | Same assembly as `POST /api/library/analyses/:capture_run_id/prompt-pack`. |
 | `dig_compose_brief` | Merge references and/or capture runs into one builder-facing composition brief with `look_contract`, `page_rhythm`, `craft_constraints`, and a ready `prompt_pack`. |
 
@@ -44,4 +44,4 @@ Stdio (`npm run mcp`) remains for local CLI. The old launcher `scripts/dig-mcp-c
 
 ## Not in this slice
 
-Dense embeddings, screenshot embeddings, Cursor skill wrappers, and a separate CHECKION-style `mcp-server/` Coolify app stay parked.
+Cursor skill wrappers and a separate CHECKION-style `mcp-server/` Coolify app stay parked. Dense MCP rank ships in API code on `main`; it is live only after the next **dig-api** deploy (wait until capture `queued` + `capturing` = 0). Screenshot table is migration `013_screenshot_embeddings.sql`. Island Graph: [`similarity-graph.md`](similarity-graph.md).

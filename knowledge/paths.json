@@ -287,7 +287,8 @@
     "analysesListCap": 24,
     "queuePollMs": 10000,
     "homeLiveOpsCap": 6,
-    "queueEditHeadCap": 40
+    "queueEditHeadCap": 40,
+    "graphRoute": "/graph"
   },
   "libraryReset": {
     "doc": "knowledge/library-reset.md",
@@ -524,6 +525,7 @@
     "provider": "hashing",
     "doc": "knowledge/storage.md",
     "denseDoc": "knowledge/dense-embeddings.md",
+    "screenshotDoc": "knowledge/screenshot-embeddings.md",
     "dense": {
       "status": "live",
       "doc": "knowledge/dense-embeddings.md",
@@ -537,7 +539,25 @@
       "queryInstruction": "Retrieve website screens that match this visual craft: layout, type, imagery, contrast, and chrome.",
       "modelEnv": "DIG_EMBEDDING_MODEL",
       "baseUrlEnv": "DIG_EMBEDDING_BASE_URL"
+    },
+    "screenshot": {
+      "status": "live",
+      "doc": "knowledge/screenshot-embeddings.md",
+      "provider": "openrouter",
+      "model": "google/gemini-embedding-2",
+      "dims": 768,
+      "table": "screenshot_embeddings",
+      "queryInstruction": "Retrieve website screenshots that match this visual look: composition, type, imagery, and chrome.",
+      "modelEnv": "DIG_SCREENSHOT_EMBEDDING_MODEL",
+      "baseUrlEnv": "DIG_EMBEDDING_BASE_URL",
+      "maxBytes": 2000000
     }
+  },
+  "similarityGraph": {
+    "doc": "knowledge/similarity-graph.md",
+    "nodeCap": 80,
+    "edgeCap": 240,
+    "threshold": 0.72
   },
   "checkionV3": {
     "repo": "https://github.com/chbrdk/checkion-v3",

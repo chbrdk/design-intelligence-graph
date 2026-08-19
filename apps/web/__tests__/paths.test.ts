@@ -15,12 +15,13 @@ describe('SPIRION island paths contract', () => {
     assert.equal(ASSISTANT_EMBED_PRODUCT, 'spirion')
     assert.equal(paths.routes.capture, '/capture')
     assert.equal(paths.routes.queue, '/queue')
+    assert.equal(paths.routes.graph, '/graph')
     assert.equal(paths.routes.projects, '/projects')
     assert.equal(paths.digProxyBase, '/api/dig')
     assert.equal(paths.apiPlatformProvisioningProjects, '/api/platform/provisioning/projects')
     assert.equal(paths.platformProjectQueryParam, 'platformProjectId')
     assert.equal(paths.chunkReloadStorageKey, 'spirion.v1.chunkReload')
-    assert.equal(paths.chunkReloadMaxAttempts, 1)
+    assert.equal(paths.chunkReloadMaxAttempts, 2)
   })
 
   it('barrels point at sibling msqdx-ui source', () => {

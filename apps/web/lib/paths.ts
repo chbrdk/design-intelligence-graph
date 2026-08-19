@@ -166,6 +166,12 @@ export const paths = {
     queueCaptureLane: 'Capture',
     queueEnrichLane: 'Enrichment',
     queueOpen: 'Open queue',
+    graphTitle: 'Graph',
+    graphHint:
+      'Screens linked by embedding similarity. Craft uses dense look-text; Visual uses screenshot vectors once Stage C is indexed.',
+    graphEmpty: 'No similarity edges yet. Dense embeddings need an API deploy after the capture queue drains.',
+    graphCraft: 'Craft',
+    graphVisual: 'Visual',
     queueLive: 'Now running',
     queueWaiting: 'Waiting',
     queueFailed: 'Failed',
@@ -217,6 +223,7 @@ export const paths = {
     queuePollMs: 10000,
     homeLiveOpsCap: 6,
     queueEditHeadCap: 40,
+    graphRoute: '/graph',
   },
   captureJobs: {
     maxConcurrent: 6,
@@ -260,6 +267,7 @@ export const paths = {
     library: '/library',
     enrichment: '/enrichment',
     queue: '/queue',
+    graph: '/graph',
     analyses: '/analyses',
     settings: '/settings',
     rebuild: '/rebuild',

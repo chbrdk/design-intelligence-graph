@@ -17,6 +17,7 @@ describe('rebuild demo', () => {
   it('middleware allows rebuild without login', () => {
     const mw = readFileSync(resolve(__dirname, '../middleware.ts'), 'utf8')
     assert.match(mw, /paths\.routes\.rebuild/)
+    assert.match(mw, /startsWith\(`\$\{paths\.routes\.rebuild\}\/`\)/)
     assert.match(mw, /paths\.routes\.privacy/)
     assert.match(mw, /\/api\/pinterest/)
   })

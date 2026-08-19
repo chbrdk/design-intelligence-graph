@@ -71,3 +71,15 @@ export function NavIconAnalyses() {
     </svg>
   )
 }
+
+export function NavIconGraph() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="6" cy="7" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="18" cy="8" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="8" cy="17" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="16" cy="17" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M8 8.6 16.2 9.6M7.4 9.2 8.4 14.8M16.6 10.1 15.6 14.9M10.2 17h3.6" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  )
+}

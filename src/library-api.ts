@@ -7,6 +7,13 @@ import type { Queryable } from "./db.js";
 import { getPool } from "./db.js";
 import { searchEmbeddings } from "./embeddings.js";
 import { searchDenseEmbeddings } from "./dense-embeddings.js";
+import { searchScreenshotEmbeddings } from "./screenshot-embeddings.js";
+import {
+  rankLibraryScreens,
+  resolveScreenSearchProvider,
+  usesSemanticScreenQuery
+} from "./library-screen-rank.js";
+import { loadSimilarityGraph, type SimilarityGraphKind } from "./similarity-graph.js";
 import { buildFigmaExport } from "./figma-export.js";
 import { libraryApiPath, libraryScreenFacetQueryKeys } from "./runtime-paths.js";
 import { rejectIfDestructiveUnauthorized, rejectIfUnauthorized } from "./api-auth.js";
@@ -500,8 +507,10 @@ export async function handleLibraryApi(
 
   if (request.method === "GET" && path === "/screens") {
     const facetKeys = libraryScreenFacetQueryKeys();
+    const q = queryParam(requestUrl, "q");
+    const provider = resolveScreenSearchProvider(queryParam(requestUrl, "provider"), q);
     const listed = await listLibraryScreens(client, {
-      q: queryParam(requestUrl, "q"),
+      ...(usesSemanticScreenQuery(provider) || !q ? {} : { q }),
       style: queryParam(requestUrl, facetKeys.style),
       layout: queryParam(requestUrl, facetKeys.layout),
       industry: queryParam(requestUrl, facetKeys.industry),
@@ -516,7 +525,8 @@ export async function handleLibraryApi(
       platformProjectId:
         queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
     });
-    const screens = listed.map((row) => {
+    const ranked = await rankLibraryScreens(client, listed, q, provider);
+    const screens = ranked.map((row) => {
       const captureRunId = String(row.capture_run_id ?? "");
       return {
         ...row,
@@ -525,6 +535,7 @@ export async function handleLibraryApi(
     });
     sendJson(response, 200, {
       screens,
+      provider,
       ...libraryScreenFacetCatalog()
     });
     return true;
@@ -933,6 +944,21 @@ export async function handleLibraryApi(
     return true;
   }
 
+  if (request.method === "GET" && path === "/graph") {
+    const kindRaw = (queryParam(requestUrl, "kind") ?? "craft").trim().toLowerCase();
+    const kind: SimilarityGraphKind = kindRaw === "visual" ? "visual" : "craft";
+    try {
+      const graph = await loadSimilarityGraph(client, kind);
+      sendJson(response, 200, graph);
+    } catch (error) {
+      sendJson(response, 503, {
+        error: "similarity_graph_unavailable",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
   if (request.method === "GET" && path === "/search") {
     const q = queryParam(requestUrl, "q");
     if (!q) {
@@ -940,15 +966,20 @@ export async function handleLibraryApi(
       return true;
     }
     const limit = Number(queryParam(requestUrl, "limit") ?? "20");
-    const provider = (queryParam(requestUrl, "provider") ?? "hashing").trim().toLowerCase();
+    const provider = queryParam(requestUrl, "provider")?.trim()
+      ? resolveScreenSearchProvider(queryParam(requestUrl, "provider"), q)
+      : "hashing";
     const subjectKind = queryParam(requestUrl, "subject_kind") ?? queryParam(requestUrl, "subjectKind");
     try {
+      const cap = Number.isFinite(limit) ? limit : 20;
       const results =
         provider === "dense"
-          ? await searchDenseEmbeddings(client, q, Number.isFinite(limit) ? limit : 20, {
+          ? await searchDenseEmbeddings(client, q, cap, {
               ...(subjectKind?.trim() ? { subject_kind: subjectKind.trim() } : {})
             })
-          : await searchEmbeddings(client, q, Number.isFinite(limit) ? limit : 20);
+          : provider === "screenshot"
+            ? await searchScreenshotEmbeddings(client, q, cap)
+            : await searchEmbeddings(client, q, cap);
       sendJson(response, 200, { query: q, provider, results });
     } catch (error) {
       sendJson(response, 503, {

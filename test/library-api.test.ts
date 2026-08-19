@@ -948,3 +948,93 @@ test("library captures delete removes matching urls with confirm", async () => {
     else process.env.DIG_API_TOKEN = prevToken;
   }
 });
+
+test("library API graph returns craft similarity payload", async () => {
+  const mock = mockResponse();
+  const client = {
+    async query(sql: string) {
+      if (/1 - \(a\.embedding <=> b\.embedding\)/i.test(sql)) {
+        return { rows: [{ from_id: "cap_a", to_id: "cap_b", score: 0.81 }] };
+      }
+      return {
+        rows: [
+          {
+            capture_run_id: "cap_a",
+            site_domain: "a.example",
+            canonical_url: "https://a.example/",
+            viewport_capture_id: "vpc_a",
+            title: "A"
+          },
+          {
+            capture_run_id: "cap_b",
+            site_domain: "b.example",
+            canonical_url: "https://b.example/",
+            viewport_capture_id: "vpc_b",
+            title: "B"
+          }
+        ]
+      };
+    }
+  };
+  const handled = await handleLibraryApi(
+    { method: "GET" } as IncomingMessage,
+    mock.response,
+    new URL("http://127.0.0.1/api/library/graph?kind=craft"),
+    client
+  );
+  assert.equal(handled, true);
+  assert.equal(mock.statusCode, 200);
+  assert.match(mock.body, /"kind":"craft"/);
+  assert.match(mock.body, /cap_a/);
+  assert.match(mock.body, /0\.81/);
+});
+
+test("library API search provider=screenshot uses screenshot_embeddings table", async () => {
+  const prev = { ...process.env };
+  process.env.OPENROUTER_API_KEY = "test-key";
+  const mock = mockResponse();
+  let sawShot = false;
+  const client = {
+    async query(sql: string) {
+      if (/FROM screenshot_embeddings/i.test(sql)) {
+        sawShot = true;
+        return {
+          rows: [
+            {
+              capture_run_id: "cap_shot",
+              subject_kind: "screenshot",
+              subject_id: "cap_shot",
+              model: "google/gemini-embedding-2",
+              site_domain: "example.com",
+              canonical_url: "https://example.com/",
+              score: 0.77
+            }
+          ]
+        };
+      }
+      return { rows: [] };
+    }
+  };
+  try {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () =>
+      new Response(JSON.stringify({ data: [{ index: 0, embedding: Array(768).fill(0.03) }] }), {
+        status: 200,
+        headers: { "content-type": "application/json" }
+      });
+    const handled = await handleLibraryApi(
+      { method: "GET" } as IncomingMessage,
+      mock.response,
+      new URL("http://127.0.0.1/api/library/search?q=few%20images&provider=screenshot"),
+      client
+    );
+    globalThis.fetch = originalFetch;
+    assert.equal(handled, true);
+    assert.equal(mock.statusCode, 200);
+    assert.equal(sawShot, true);
+    assert.match(mock.body, /cap_shot/);
+    assert.match(mock.body, /"provider":"screenshot"/);
+  } finally {
+    process.env = prev;
+  }
+});

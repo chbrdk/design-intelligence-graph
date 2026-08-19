@@ -12,6 +12,11 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.embeddings?.dense?.model, "qwen/qwen3-embedding-8b");
   assert.equal(paths.embeddings?.dense?.dims, 1024);
   assert.equal(paths.embeddings?.denseDoc, "knowledge/dense-embeddings.md");
+  assert.equal(paths.embeddings?.screenshotDoc, "knowledge/screenshot-embeddings.md");
+  assert.equal(paths.embeddings?.screenshot?.model, "google/gemini-embedding-2");
+  assert.equal(paths.embeddings?.screenshot?.dims, 768);
+  assert.equal(paths.similarityGraph?.nodeCap, 80);
+  assert.equal(paths.islandSurfaces?.graphRoute, "/graph");
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");
   assert.equal(paths.captureJobs?.maxConcurrent, 6);

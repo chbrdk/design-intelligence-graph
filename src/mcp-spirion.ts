@@ -165,7 +165,7 @@ export function listSpirionTools(): ToolDef[] {
     },
     {
       name: "spirion.screens_search",
-      description: "Alias of dig_screen_search — Library screens by style/layout/industry plus craft facets.",
+      description: "Alias of dig_screen_search — facets first, then dense rank when q is set.",
       inputSchema: {
         type: "object",
         properties: {
@@ -181,6 +181,7 @@ export function listSpirionTools(): ToolDef[] {
           contrast_mode: { type: "string" },
           composition_energy: { type: "string" },
           chrome_weight: { type: "string" },
+          provider: { type: "string" },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
         }

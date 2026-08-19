@@ -33,12 +33,15 @@ describe('island surfaces', () => {
         enrichmentListCap: number
         analysesListCap: number
         queuePollMs: number
+        graphRoute?: string
       }
     }
     assert.equal(paths.islandSurfaces.homeRecentCount, catalog.islandSurfaces.homeRecentCount)
     assert.equal(paths.islandSurfaces.enrichmentListCap, catalog.islandSurfaces.enrichmentListCap)
     assert.equal(paths.islandSurfaces.analysesListCap, catalog.islandSurfaces.analysesListCap)
     assert.equal(paths.islandSurfaces.queuePollMs, catalog.islandSurfaces.queuePollMs)
+    assert.equal(paths.islandSurfaces.graphRoute, catalog.islandSurfaces.graphRoute)
+    assert.equal(paths.routes.graph, catalog.islandSurfaces.graphRoute)
   })
 
   it('links a capture to the desktop library screen', () => {

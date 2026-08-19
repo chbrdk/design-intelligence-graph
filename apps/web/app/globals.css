@@ -746,3 +746,9 @@ a {
 .dig-legal a {
   color: var(--accent, #c4a574);
 }
+
+.dig-graph {
+  display: block;
+  width: 100%;
+  min-height: 28rem;
+}

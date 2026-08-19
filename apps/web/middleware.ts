@@ -11,6 +11,7 @@ const gated = auth((req) => {
   const isPublic =
     pathname === paths.routes.login ||
     pathname === paths.routes.rebuild ||
+    pathname.startsWith(`${paths.routes.rebuild}/`) ||
     pathname === paths.routes.privacy ||
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/health') ||

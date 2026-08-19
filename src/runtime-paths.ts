@@ -148,6 +148,7 @@ export interface DigPaths {
     homeRecentCount?: number;
     enrichmentListCap?: number;
     analysesListCap?: number;
+    graphRoute?: string;
   };
   libraryReset?: {
     doc?: string;
@@ -287,6 +288,24 @@ export interface DigPaths {
       modelEnv: string;
       baseUrlEnv: string;
     };
+    screenshot?: {
+      status: string;
+      doc: string;
+      provider: string;
+      model: string;
+      dims: number;
+      table: string;
+      queryInstruction: string;
+      modelEnv: string;
+      baseUrlEnv: string;
+      maxBytes: number;
+    };
+  };
+  similarityGraph?: {
+    doc?: string;
+    nodeCap?: number;
+    edgeCap?: number;
+    threshold?: number;
   };
   llm: {
     enabledDefault: boolean;

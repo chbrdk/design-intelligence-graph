@@ -22,6 +22,8 @@ Screen and reference retrieval now expose normalized craft filters in addition t
 
 These are derived from existing `vision_page`, `visual_craft`, section look summaries, and indexed reference payloads. They are intended for retrieval and ranking, not human prose.
 
+Natural-language `q` on `dig_screen_search` ranks with dense embeddings after the next API deploy (facets still filter first). `GET /api/library/search` stays `provider=hashing` until eval. Screenshot rank is `provider=screenshot`. See [`dense-embeddings.md`](dense-embeddings.md) and [`screenshot-embeddings.md`](screenshot-embeddings.md).
+
 ## MCP loop
 
 ```text

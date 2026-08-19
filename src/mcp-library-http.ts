@@ -48,6 +48,13 @@ export async function callDigLibraryToolHttp(
     const facetKeys = libraryScreenFacetQueryKeys(root);
     const params = new URLSearchParams();
     if (typeof args.q === "string" && args.q.trim()) params.set("q", args.q.trim());
+    const provider =
+      typeof args.provider === "string" && args.provider.trim()
+        ? args.provider.trim()
+        : typeof args.q === "string" && args.q.trim()
+          ? "dense"
+          : "";
+    if (provider) params.set("provider", provider);
     if (typeof args.style === "string" && args.style.trim()) params.set(facetKeys.style, args.style.trim());
     if (typeof args.layout === "string" && args.layout.trim()) params.set(facetKeys.layout, args.layout.trim());
     if (typeof args.industry === "string" && args.industry.trim()) {
@@ -78,6 +85,7 @@ export async function callDigLibraryToolHttp(
       error?: string;
       facet_filters?: unknown;
       facets_version?: string;
+      provider?: string;
     };
     if (!response.ok) throw new Error(body.error ?? `screen_search_failed_${response.status}`);
     const limit =
@@ -104,6 +112,7 @@ export async function callDigLibraryToolHttp(
     return {
       count: screens.length,
       screens,
+      ...(typeof body.provider === "string" ? { provider: body.provider } : {}),
       ...libraryScreenFacetCatalog()
     };
   }

@@ -23,8 +23,9 @@ Paths come from [`paths.json`](paths.json):
 
 1. **Home pipeline** — `StatusMeterPanel` + `KpiStrip` + `PipelinePanel` from live `GET /api/jobs` and `GET /api/enrichment`
 2. **Queue** (`/queue`) — editable capture waiting list (`LayersPanel` + `DataTable`); skip/reorder via `DELETE`/`PATCH /api/jobs/:id` once dig-api is deployed
-3. **Enrichment** — queue status; link into Library when a screen exists
-4. **Analyses** — design summary cards that open Library
+3. **Graph** (`/graph`) — screen similarity (`GET /api/library/graph`). Empty until the API with migration 013 + graph handler is deployed
+4. **Enrichment** — queue status; link into Library when a screen exists
+5. **Analyses** — design summary cards that open Library
 
 Island `apps/web/lib/dig-api.ts` `readJson` must tolerate empty/truncated upstream bodies (Traefik 502 during Playwright batches). Do not call `response.json()` directly.
 

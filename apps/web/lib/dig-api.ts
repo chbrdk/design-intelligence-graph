@@ -587,6 +587,50 @@ export async function fetchLibrarySections(opts?: {
   return body.sections ?? []
 }
 
+export async function fetchSimilarityGraph(
+  kind: 'craft' | 'visual' = 'craft',
+): Promise<{
+  kind: 'craft' | 'visual'
+  model: string
+  threshold: number
+  nodes: Array<{
+    capture_run_id: string
+    site_domain: string | null
+    canonical_url: string | null
+    viewport_capture_id: string | null
+    title: string | null
+  }>
+  edges: Array<{ from_id: string; to_id: string; score: number }>
+  error?: string
+}> {
+  const response = await fetch(`${BASE}${paths.digApiLibrary}/graph?kind=${encodeURIComponent(kind)}`)
+  const body = await readJson<{
+    kind?: 'craft' | 'visual'
+    model?: string
+    threshold?: number
+    nodes?: Array<{
+      capture_run_id: string
+      site_domain: string | null
+      canonical_url: string | null
+      viewport_capture_id: string | null
+      title: string | null
+    }>
+    edges?: Array<{ from_id: string; to_id: string; score: number }>
+    error?: string
+    message?: string
+  }>(response)
+  if (!response.ok) {
+    throw new Error(body.error ?? body.message ?? `Graph failed (${response.status})`)
+  }
+  return {
+    kind: body.kind === 'visual' ? 'visual' : 'craft',
+    model: body.model ?? '',
+    threshold: Number(body.threshold ?? 0),
+    nodes: body.nodes ?? [],
+    edges: body.edges ?? [],
+  }
+}
+
 export async function searchLibrary(
   q: string,
   opts?: { platformProjectId?: string | null },

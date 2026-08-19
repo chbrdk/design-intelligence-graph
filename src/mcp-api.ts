@@ -10,6 +10,11 @@ import {
   type SpirionToolName
 } from "./mcp-spirion.js";
 import { loadDigPaths } from "./runtime-paths.js";
+import {
+  rankLibraryScreens,
+  resolveScreenSearchProvider,
+  usesSemanticScreenQuery
+} from "./library-screen-rank.js";
 
 export const MCP_API_VERSION = "0.1.0";
 export type McpToolName =
@@ -181,7 +186,7 @@ export function listDigTools() {
     {
       name: "dig_screen_search",
       description:
-        "Search captured Library screens by style/layout/industry plus craft facets. Returns capture_run_id + design_facets (no server paths). Live mode requires platformProjectId.",
+        "Search captured Library screens. Facet filters apply first; natural-language q ranks with dense embeddings (provider=dense default when q is set).",
       inputSchema: {
         type: "object",
         properties: {
@@ -197,6 +202,7 @@ export function listDigTools() {
           contrast_mode: { type: "string" },
           composition_energy: { type: "string" },
           chrome_weight: { type: "string" },
+          provider: { type: "string", enum: ["dense", "hashing", "screenshot"] },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
         }
@@ -434,8 +440,14 @@ export async function callDigLibraryTool(
       typeof args.limit === "number" && Number.isFinite(args.limit)
         ? Math.max(1, Math.min(20, Math.floor(args.limit)))
         : 20;
+    const provider = resolveScreenSearchProvider(
+      typeof args.provider === "string" ? args.provider : null,
+      typeof args.q === "string" ? args.q : null
+    );
     const listed = await listLibraryScreens(client, {
-      q: typeof args.q === "string" ? args.q : undefined,
+      ...(usesSemanticScreenQuery(provider) || typeof args.q !== "string" || !args.q.trim()
+        ? {}
+        : { q: args.q }),
       style: typeof args.style === "string" ? args.style : undefined,
       layout: typeof args.layout === "string" ? args.layout : undefined,
       industry: typeof args.industry === "string" ? args.industry : undefined,
@@ -452,8 +464,14 @@ export async function callDigLibraryTool(
       platformProjectId,
       limit: 200
     });
-    const screens = listed.slice(0, limit).map(publicLibraryScreenHit);
-    return { count: screens.length, screens, ...libraryScreenFacetCatalog() };
+    const ranked = await rankLibraryScreens(
+      client,
+      listed,
+      typeof args.q === "string" ? args.q : null,
+      provider
+    );
+    const screens = ranked.slice(0, limit).map(publicLibraryScreenHit);
+    return { count: screens.length, screens, provider, ...libraryScreenFacetCatalog() };
   }
   const captureRunId =
     typeof args.capture_run_id === "string"

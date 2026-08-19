@@ -28,6 +28,7 @@
         "contrast_mode": { "type": "string" },
         "composition_energy": { "type": "string" },
         "chrome_weight": { "type": "string" },
+        "provider": { "type": "string", "enum": ["dense", "hashing", "screenshot"] },
         "platformProjectId": { "type": "string" },
         "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
       }

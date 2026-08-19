@@ -25,6 +25,16 @@
 
 Hashing `GET /search` stays default (`provider=hashing`) until dense eval passes.
 
+## Screenshot (Stage C)
+
+- Migration: `db/migrations/013_screenshot_embeddings.sql` → `screenshot_embeddings` (`vector(768)`)
+- Runtime: `src/screenshot-embeddings.ts` — OpenRouter `google/gemini-embedding-2`
+- After dense package embed + `POST /api/embeddings/backfill`
+- Search: `provider=screenshot` on `/search` and `/screens`
+- Doc: [`screenshot-embeddings.md`](screenshot-embeddings.md)
+
+MCP `dig_screen_search` defaults to dense when `q` is set (API deploy required). Island Graph: [`similarity-graph.md`](similarity-graph.md).
+
 ## Still optional
 
 - Dual-index recall union (RRF hashing + dense; never mixed cosine)

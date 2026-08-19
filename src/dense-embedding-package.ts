@@ -80,16 +80,33 @@ export async function embedDenseCapturePackage(
   options: { client?: Queryable | null; request?: typeof fetch; root?: string } = {}
 ): Promise<{ written: number; subjects: number }> {
   const root = options.root ?? process.cwd();
-  if (!denseEmbeddingsEnabled(process.env, root)) {
+  const { screenshotEmbeddingsEnabled } = await import("./screenshot-embeddings.js");
+  if (!denseEmbeddingsEnabled(process.env, root) && !screenshotEmbeddingsEnabled(process.env, root)) {
     return { written: 0, subjects: 0 };
   }
   const client = options.client ?? getPool();
   if (!client) throw new Error("database_unavailable");
-  const captureRunId = await captureRunIdForPackage(packageRoot);
-  const subjects = await buildDenseEmbeddingSubjects(packageRoot, captureRunId, root);
-  if (!subjects.length) return { written: 0, subjects: 0 };
-  const written = await embedDenseSubjectsForCapture(client, captureRunId, subjects, options);
-  return { written, subjects: subjects.length };
+  let written = 0;
+  let subjectsCount = 0;
+  if (denseEmbeddingsEnabled(process.env, root)) {
+    const captureRunId = await captureRunIdForPackage(packageRoot);
+    const subjects = await buildDenseEmbeddingSubjects(packageRoot, captureRunId, root);
+    subjectsCount = subjects.length;
+    if (subjects.length) {
+      written = await embedDenseSubjectsForCapture(client, captureRunId, subjects, options);
+    }
+  }
+  try {
+    const { embedScreenshotForPackage } = await import("./screenshot-embeddings.js");
+    await embedScreenshotForPackage(packageRoot, {
+      client,
+      ...(options.request ? { request: options.request } : {}),
+      ...(options.root ? { root: options.root } : {})
+    });
+  } catch {
+    /* screenshot stage is optional until migration 013 */
+  }
+  return { written, subjects: subjectsCount };
 }
 
 export async function listCapturesMissingDenseScreens(
