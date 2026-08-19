@@ -1,4 +1,5 @@
 import { paths } from './paths'
+import { formatCraftGraphLabel } from './craft-graph-label'
 import type { JobEvent, JobSnapshot } from './stages'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from './similarity-graph-fallback'
 import type { SimilarityGraphNode, SimilarityGraphView } from './similarity-graph-fallback'
@@ -620,10 +621,20 @@ export async function fetchSimilarityGraph(
     message?: string
   }>(response)
   if (response.ok) {
-    const nodes: SimilarityGraphNode[] = (body.nodes ?? []).map((node) => ({
-      ...node,
-      craft_label: node.title?.trim() || 'screen',
-    }))
+    const apiNodes = body.nodes ?? []
+    // The embeddings graph handler only returns URLs/domain + capture ids.
+    // For readable UX we derive craft labels from live Library facets.
+    const screens = await fetchLibraryScreens()
+    const byCapture = new Map(
+      screens.map((screen) => [screen.capture_run_id, screen.design_facets ?? null]),
+    )
+    const nodes: SimilarityGraphNode[] = apiNodes.map((node) => {
+      const facets = byCapture.get(node.capture_run_id) ?? null
+      return {
+        ...node,
+        craft_label: formatCraftGraphLabel(facets as any),
+      }
+    })
     return {
       kind: body.kind === 'visual' ? 'visual' : 'craft',
       model: body.model ?? '',
