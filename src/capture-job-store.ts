@@ -35,7 +35,9 @@ function rowToJob(row: Record<string, unknown>): JobRecord {
   if (row.error) job.error = String(row.error);
   if (row.platform_project_id) job.platform_project_id = String(row.platform_project_id);
   if (row.dig_project_id) job.dig_project_id = String(row.dig_project_id);
-  if (row.ingest_source) job.ingest_source = row.ingest_source as JobRecord["ingest_source"];
+  if (row.ingest_source === "web" || row.ingest_source === "pinterest" || row.ingest_source === "upload") {
+    job.ingest_source = row.ingest_source;
+  }
   const pinterest = parseJson<PinterestPinIngest>(row.pinterest_pin);
   if (pinterest) job.pinterest_pin = pinterest;
   const upload = parseJson<UploadedImageIngest>(row.upload_image);

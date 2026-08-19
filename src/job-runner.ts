@@ -176,8 +176,12 @@ export class JobRunner {
   private persistJob(job: JobRecord): void {
     const persist = this.options.persist;
     if (!persist) return;
-    const queueIndex = job.stage === "queued" ? this.pending.indexOf(job.job_id) : null;
-    void persist(job, queueIndex >= 0 ? queueIndex : null).catch(() => undefined);
+    let queueIndex: number | null = null;
+    if (job.stage === "queued") {
+      const index = this.pending.indexOf(job.job_id);
+      if (index >= 0) queueIndex = index;
+    }
+    void persist(job, queueIndex).catch(() => undefined);
   }
 
   private persistQueuedOrder(): void {
