@@ -169,7 +169,9 @@ export const paths = {
     graphTitle: 'Graph',
     graphHint:
       'Screens linked by look craft — style, contrast, imagery, type — not URLs. Craft uses dense text embeddings; Visual uses screenshot vectors after API deploy.',
-    graphEmpty: 'No craft neighbors in this sample yet.',
+    graphEmptyCraft: 'No craft neighbors in this sample yet.',
+    graphEmptyVisual:
+      'No screenshot embeddings yet. Visual neighbors appear after the backfill runs (Gemini Embedding 2).',
     graphFacets:
       'Live facet graph: shared style, contrast, imagery, and type. Dense embedding neighbors replace this after dig-api deploy.',
     graphCraft: 'Craft',

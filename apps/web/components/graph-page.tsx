@@ -81,7 +81,13 @@ export function GraphPageClient() {
       </Chip>
       {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
-      {!error && !edges.length ? <Text>{paths.libraryCopy.graphEmpty}</Text> : null}
+      {!error && !edges.length ? (
+        <Text>
+          {kind === 'visual'
+            ? paths.libraryCopy.graphEmptyVisual
+            : paths.libraryCopy.graphEmptyCraft}
+        </Text>
+      ) : null}
       <Panel>
         <SimilarityGraphView
           ariaLabel={paths.libraryCopy.graphTitle}
