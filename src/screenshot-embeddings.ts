@@ -187,18 +187,36 @@ export async function embedScreenshotForPackage(
   const client = options.client ?? getPool();
   if (!client) throw new Error("database_unavailable");
   const cfg = screenshotEmbeddingConfig(root);
-  const relative = await resolveDesktopScreenshotPath(packageRoot, root);
+  let relative = await resolveDesktopScreenshotPath(packageRoot, root).catch(() => null);
+  if (!relative) {
+    // Fallback: query the viewports table for the full_page_screenshot_path
+    const manifest = await readFile(resolve(packageRoot, "manifest.json"), "utf8").catch(() => null);
+    const captureId = manifest ? (JSON.parse(manifest) as { capture_run_id?: string }).capture_run_id : null;
+    if (captureId) {
+      const vp = await client.query(
+        `SELECT full_page_screenshot_path, settled_screenshot_path
+         FROM viewports
+         WHERE capture_run_id = $1 AND name = 'desktop'
+         LIMIT 1`,
+        [captureId]
+      );
+      const row = vp.rows[0] as { full_page_screenshot_path?: string; settled_screenshot_path?: string } | undefined;
+      relative = row?.full_page_screenshot_path ?? row?.settled_screenshot_path ?? null;
+    }
+  }
   if (!relative) {
     options.onSkip?.("no_screenshot_path");
     return 0;
   }
-  const bytes = await readFile(resolve(packageRoot, relative));
+  const absPath = relative.startsWith("/") ? relative : resolve(packageRoot, relative);
+  const bytes = await readFile(absPath);
   if (bytes.byteLength === 0 || bytes.byteLength > cfg.maxBytes) {
     options.onSkip?.(`size_${bytes.byteLength}`);
     return 0;
   }
   const sha = createHash("sha256").update(bytes).digest("hex");
-  const captureRunId = JSON.parse(await readFile(resolve(packageRoot, "manifest.json"), "utf8")).capture_run_id as string;
+  const manifestRaw = await readFile(resolve(packageRoot, "manifest.json"), "utf8");
+  const captureRunId = (JSON.parse(manifestRaw) as { capture_run_id: string }).capture_run_id;
   const existing = await client.query(
     `SELECT canonical_sha256 FROM ${cfg.table}
      WHERE capture_run_id = $1 AND subject_kind = 'screenshot' AND model = $2
