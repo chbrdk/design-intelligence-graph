@@ -26,6 +26,7 @@ export interface DigPaths {
     jobsPath: string;
     libraryPath?: string;
     enrichmentPath?: string;
+    embeddingsPath?: string;
     mcpPath?: string;
     pinterestPath?: string;
   };

@@ -1,8 +1,9 @@
 # DIG-012 — DesignReference embeddings & similarity
 
-**Status:** v0.1 — **hashing runtime implemented** (`src/design-reference-embeddings.ts`); dense provider still optional  
+**Status:** v0.1 — **hashing runtime implemented**; **dense Stage B live** (`src/dense-embeddings.ts`, migration `012`)  
 **Parent:** [DIG-012](DIG-012-design-reference.md)  
-**Paths:** `knowledge/paths.json` → `taxonomy.designReferenceEmbeddings`
+**Paths:** `knowledge/paths.json` → `taxonomy.designReferenceEmbeddings` · `embeddings.dense`  
+**Dense concept:** [knowledge/dense-embeddings.md](../knowledge/dense-embeddings.md)
 
 ## Goal
 
@@ -32,7 +33,7 @@ Max canonical text: 1 500 characters (truncate look_summary first).
 | Stage | Provider | Dims | When |
 |-------|----------|------|------|
 | A (now available in DIG) | `dig-hashing-v1` (existing) | 384 | Dev / CI / offline; coarse similarity only |
-| B | OpenRouter / local embedding model (configurable) | model-native | Production search quality |
+| B | `qwen/qwen3-embedding-8b` via OpenRouter, 1024-d MRL, own table; eval vs 0.6B | 1024 | After capture queue drains — [dense-embeddings.md](../knowledge/dense-embeddings.md) |
 | C | Optional dual index | hashing + dense | Recall union |
 
 Config keys (planned under `paths.json`):

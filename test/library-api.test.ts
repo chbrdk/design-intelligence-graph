@@ -496,6 +496,59 @@ test("library API search uses embeddings query", async () => {
   assert.equal(handled, true);
   assert.equal(mock.statusCode, 200);
   assert.match(mock.body, /sec_1/);
+  assert.match(mock.body, /"provider":"hashing"/);
+});
+
+test("library API search provider=dense uses dense_embeddings table", async () => {
+  const prev = { ...process.env };
+  process.env.DIG_EMBEDDING_ENABLED = "true";
+  process.env.OPENROUTER_API_KEY = "test-key";
+  const mock = mockResponse();
+  let sawDense = false;
+  const client = {
+    async query(sql: string) {
+      if (/FROM dense_embeddings/i.test(sql)) {
+        sawDense = true;
+        return {
+          rows: [
+            {
+              capture_run_id: "cap_dense",
+              subject_kind: "screen",
+              subject_id: "cap_dense",
+              content_text: "kind:screen",
+              model: "qwen/qwen3-embedding-8b",
+              site_domain: "example.com",
+              canonical_url: "https://example.com/",
+              score: 0.88
+            }
+          ]
+        };
+      }
+      return { rows: [] };
+    }
+  };
+  try {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () =>
+      new Response(JSON.stringify({ data: [{ index: 0, embedding: Array(1024).fill(0.02) }] }), {
+        status: 200,
+        headers: { "content-type": "application/json" }
+      });
+    const handled = await handleLibraryApi(
+      { method: "GET" } as IncomingMessage,
+      mock.response,
+      new URL("http://127.0.0.1/api/library/search?q=minimal%20monochrome&provider=dense"),
+      client
+    );
+    globalThis.fetch = originalFetch;
+    assert.equal(handled, true);
+    assert.equal(mock.statusCode, 200);
+    assert.equal(sawDense, true);
+    assert.match(mock.body, /cap_dense/);
+    assert.match(mock.body, /"provider":"dense"/);
+  } finally {
+    process.env = prev;
+  }
 });
 
 test("library API lists design nodes", async () => {

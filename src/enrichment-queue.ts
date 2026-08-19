@@ -223,6 +223,17 @@ export class EnrichmentQueue {
           : "Enrichment finished without artifact update";
         try {
           await reindexFn(job.package_path);
+          try {
+            const { embedDenseCapturePackage } = await import("./dense-embedding-package.js");
+            const dense = await embedDenseCapturePackage(job.package_path);
+            if (dense.written > 0) {
+              job.message = `${job.message}; dense=${dense.written}/${dense.subjects}`;
+            }
+          } catch (denseError: unknown) {
+            const note = denseError instanceof Error ? denseError.message : String(denseError);
+            job.message = `${job.message}; dense embed skipped`;
+            job.error = job.error ? `${job.error}; dense: ${note}` : `dense: ${note}`;
+          }
         } catch (error: unknown) {
           job.message = `${job.message}; DB reindex skipped`;
           job.error = error instanceof Error ? error.message : String(error);

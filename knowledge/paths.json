@@ -28,6 +28,7 @@
     "jobsPath": "/api/jobs",
     "libraryPath": "/api/library",
     "enrichmentPath": "/api/enrichment",
+    "embeddingsPath": "/api/embeddings",
     "mcpPath": "/mcp",
     "pinterestPath": "/api/pinterest"
   },
@@ -524,7 +525,7 @@
     "doc": "knowledge/storage.md",
     "denseDoc": "knowledge/dense-embeddings.md",
     "dense": {
-      "status": "concept",
+      "status": "live",
       "doc": "knowledge/dense-embeddings.md",
       "provider": "openrouter",
       "model": "qwen/qwen3-embedding-8b",

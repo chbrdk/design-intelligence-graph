@@ -109,6 +109,15 @@ export async function upsertDesignReferencesForCapture(
   try {
     const { upsertDesignReferenceEmbeddings } = await import("./design-reference-embeddings.js");
     await upsertDesignReferenceEmbeddings(client, input.captureRunId, input.references);
+    const {
+      denseSubjectsForDesignReferences,
+      embedDenseSubjectsForCapture
+    } = await import("./dense-embedding-package.js");
+    await embedDenseSubjectsForCapture(
+      client,
+      input.captureRunId,
+      denseSubjectsForDesignReferences(input.references)
+    );
   } catch {
     /* vector extension may be unavailable */
   }

@@ -6,6 +6,7 @@ import { createId } from "./io.js";
 import type { Queryable } from "./db.js";
 import { getPool } from "./db.js";
 import { searchEmbeddings } from "./embeddings.js";
+import { searchDenseEmbeddings } from "./dense-embeddings.js";
 import { buildFigmaExport } from "./figma-export.js";
 import { libraryApiPath, libraryScreenFacetQueryKeys } from "./runtime-paths.js";
 import { rejectIfDestructiveUnauthorized, rejectIfUnauthorized } from "./api-auth.js";
@@ -939,9 +940,16 @@ export async function handleLibraryApi(
       return true;
     }
     const limit = Number(queryParam(requestUrl, "limit") ?? "20");
+    const provider = (queryParam(requestUrl, "provider") ?? "hashing").trim().toLowerCase();
+    const subjectKind = queryParam(requestUrl, "subject_kind") ?? queryParam(requestUrl, "subjectKind");
     try {
-      const results = await searchEmbeddings(client, q, Number.isFinite(limit) ? limit : 20);
-      sendJson(response, 200, { query: q, results });
+      const results =
+        provider === "dense"
+          ? await searchDenseEmbeddings(client, q, Number.isFinite(limit) ? limit : 20, {
+              ...(subjectKind?.trim() ? { subject_kind: subjectKind.trim() } : {})
+            })
+          : await searchEmbeddings(client, q, Number.isFinite(limit) ? limit : 20);
+      sendJson(response, 200, { query: q, provider, results });
     } catch (error) {
       sendJson(response, 503, {
         error: "vector_search_unavailable",

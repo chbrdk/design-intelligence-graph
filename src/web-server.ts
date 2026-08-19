@@ -289,6 +289,52 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
     return true;
   }
 
+  if (request.method === "POST" && url.pathname === `${paths.api.embeddingsPath ?? "/api/embeddings"}/backfill`) {
+    if (rejectIfDestructiveUnauthorized(request, response)) return true;
+    try {
+      const body = (await readJson(request)) as { limit?: unknown };
+      const limitRaw = typeof body.limit === "number" ? body.limit : Number(body.limit ?? 25);
+      const limit = Number.isFinite(limitRaw) ? limitRaw : 25;
+      const pool = getPool();
+      if (!pool) {
+        sendJson(response, 503, { error: "database_unavailable" });
+        return true;
+      }
+      const {
+        embedDenseCapturePackage,
+        listCapturesMissingDenseScreens
+      } = await import("./dense-embedding-package.js");
+      const pending = await listCapturesMissingDenseScreens(pool, limit);
+      const results: Array<{ capture_run_id: string; written: number; subjects: number; error?: string }> = [];
+      for (const row of pending) {
+        try {
+          const outcome = await embedDenseCapturePackage(row.package_path, { client: pool });
+          results.push({
+            capture_run_id: row.capture_run_id,
+            written: outcome.written,
+            subjects: outcome.subjects
+          });
+        } catch (error: unknown) {
+          results.push({
+            capture_run_id: row.capture_run_id,
+            written: 0,
+            subjects: 0,
+            error: error instanceof Error ? error.message : String(error)
+          });
+        }
+      }
+      sendJson(response, 202, {
+        ok: true,
+        queued: pending.length,
+        embedded: results.filter((row) => row.written > 0).length,
+        results
+      });
+    } catch (error: unknown) {
+      sendJson(response, 400, { error: error instanceof Error ? error.message : String(error) });
+    }
+    return true;
+  }
+
   if (request.method === "POST" && url.pathname === enrichmentPath) {
     if (rejectIfDestructiveUnauthorized(request, response)) return true;
     try {
