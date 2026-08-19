@@ -5,7 +5,7 @@ import { createForceSimulation, stepForceSimulation, type ForceNode } from '../l
 import type { GraphLayoutEdge } from '../lib/similarity-graph-layout'
 
 type Props = {
-  nodes: Array<{ id: string; label: string; href?: string | null }>
+  nodes: Array<{ id: string; label: string; cluster?: string; href?: string | null }>
   edges: GraphLayoutEdge[]
   onNodeClick?: (id: string) => void
   width?: number
@@ -44,6 +44,16 @@ export function SimilarityGraphView({
     }
   }, [nodes, edges, width, height])
 
+  const toneFor = (cluster: string | undefined): string => {
+    const key = (cluster ?? 'mixed').toLowerCase()
+    if (key.includes('modern') || key.includes('minimal')) return '#84dcc6'
+    if (key.includes('editorial') || key.includes('type')) return '#ffcc66'
+    if (key.includes('image')) return '#ff8fab'
+    if (key.includes('dense') || key.includes('chrome')) return '#9fa8ff'
+    if (key.includes('energy')) return '#ff7b72'
+    return '#8fd3ff'
+  }
+
   return (
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={ariaLabel} className="dig-graph">
       {edges.map((edge) => {
@@ -75,7 +85,8 @@ export function SimilarityGraphView({
               if (clickable && onNodeClick) onNodeClick(node.id)
             }}
           >
-            <circle r={7} fill="currentColor" />
+            <title>{meta?.cluster ? `${meta.cluster} — ${node.label}` : node.label}</title>
+            <circle r={7} fill={toneFor(meta?.cluster)} />
             <text x={10} y={4} fontSize={11} fill="currentColor">
               {node.label}
             </text>

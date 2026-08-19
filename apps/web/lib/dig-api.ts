@@ -1,5 +1,5 @@
 import { paths } from './paths'
-import { formatCraftGraphLabel } from './craft-graph-label'
+import { describeCraftCluster, formatCraftGraphLabel } from './craft-graph-label'
 import type { JobEvent, JobSnapshot } from './stages'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from './similarity-graph-fallback'
 import type { SimilarityGraphNode, SimilarityGraphView } from './similarity-graph-fallback'
@@ -632,7 +632,11 @@ export async function fetchSimilarityGraph(
       const facets = byCapture.get(node.capture_run_id) ?? null
       return {
         ...node,
-        craft_label: formatCraftGraphLabel(facets as any),
+        craft_label: formatCraftGraphLabel(facets as any, {
+          title: node.title,
+          domain: node.site_domain,
+        }),
+        cluster_label: describeCraftCluster(facets as any),
       }
     })
     return {

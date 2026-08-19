@@ -18,23 +18,100 @@ function humanize(value: string): string {
   return value.replace(/_/g, ' ').trim()
 }
 
-/** Short craft headline for a graph node. */
-export function formatCraftGraphLabel(facets: CraftFacetLike | null | undefined): string {
-  if (!facets) return 'screen'
-  const parts: string[] = []
-  if (facets.style) parts.push(humanize(facets.style))
-  if (facets.contrast_mode) parts.push(humanize(facets.contrast_mode))
-  if (facets.imagery_density) parts.push(`${humanize(facets.imagery_density)} imagery`)
-  if (facets.type_scale) parts.push(`${humanize(facets.type_scale)} type`)
-  if (facets.layout && parts.length < 3) parts.push(humanize(facets.layout))
-  if (facets.composition_energy && parts.length < 4) parts.push(humanize(facets.composition_energy))
-  for (const tag of facets.craft_tags ?? []) {
-    if (parts.length >= 4) break
-    const label = humanize(tag)
-    if (!parts.includes(label)) parts.push(label)
+function titleFallback(value: string | null | undefined): string | null {
+  if (!value?.trim()) return null
+  return value
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .replace(/\/$/, '')
+    .trim()
+}
+
+function dedupe(parts: string[]): string[] {
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const part of parts) {
+    const key = part.toLowerCase()
+    if (!key || seen.has(key)) continue
+    seen.add(key)
+    result.push(part)
   }
-  if (!parts.length && facets.industry_tags?.[0]) parts.push(humanize(facets.industry_tags[0]))
-  return parts.slice(0, 4).join(' · ') || 'screen'
+  return result
+}
+
+export function describeCraftCluster(facets: CraftFacetLike | null | undefined): string {
+  if (!facets) return 'unclassified'
+  const style = facets.style?.toLowerCase() ?? ''
+  const layout = facets.layout?.toLowerCase() ?? ''
+  const contrast = facets.contrast_mode?.toLowerCase() ?? ''
+  const imagery = facets.imagery_density?.toLowerCase() ?? ''
+  const type = facets.type_scale?.toLowerCase() ?? ''
+  const energy = facets.composition_energy?.toLowerCase() ?? ''
+  const chrome = facets.chrome_weight?.toLowerCase() ?? ''
+  const mood = facets.color_mood?.toLowerCase() ?? ''
+
+  if (
+    style.includes('minimal') ||
+    ((contrast.includes('mono') || contrast.includes('low')) &&
+      (imagery.includes('low') || type.includes('large') || type.includes('monumental')))
+  ) {
+    return 'modern minimal'
+  }
+  if (style.includes('editorial') || layout.includes('column') || type.includes('monumental')) {
+    return 'editorial'
+  }
+  if (
+    imagery.includes('high') ||
+    style.includes('immersive') ||
+    mood.includes('vivid') ||
+    mood.includes('saturated')
+  ) {
+    return 'image-led'
+  }
+  if (chrome.includes('heavy') || style.includes('corporate') || layout.includes('dashboard')) {
+    return 'dense chrome'
+  }
+  if (energy.includes('high') || style.includes('expressive') || style.includes('playful')) {
+    return 'high energy'
+  }
+  if (type.includes('large') || type.includes('monumental') || facets.type_image_mode === 'type-led') {
+    return 'type-led'
+  }
+  if (facets.style) return humanize(facets.style)
+  if (facets.layout) return humanize(facets.layout)
+  return 'mixed'
+}
+
+export function describeGraphNode(
+  facets: CraftFacetLike | null | undefined,
+  fallback?: { title?: string | null; domain?: string | null },
+): { cluster: string; label: string } {
+  const cluster = describeCraftCluster(facets)
+  if (!facets) {
+    return {
+      cluster,
+      label: titleFallback(fallback?.title) ?? titleFallback(fallback?.domain) ?? 'unlabeled screen',
+    }
+  }
+  const details = dedupe([
+    facets.contrast_mode ? humanize(facets.contrast_mode) : '',
+    facets.imagery_density ? `${humanize(facets.imagery_density)} imagery` : '',
+    facets.type_scale ? `${humanize(facets.type_scale)} type` : '',
+    facets.style ? humanize(facets.style) : '',
+    facets.layout ? humanize(facets.layout) : '',
+  ]).filter((part) => part.toLowerCase() !== cluster.toLowerCase())
+  return {
+    cluster,
+    label: [cluster, ...details.slice(0, 2)].join(' · '),
+  }
+}
+
+/** Short craft headline for a graph node. */
+export function formatCraftGraphLabel(
+  facets: CraftFacetLike | null | undefined,
+  fallback?: { title?: string | null; domain?: string | null },
+): string {
+  return describeGraphNode(facets, fallback).label
 }
 
 function tagOverlap(a: string[] | undefined, b: string[] | undefined): number {

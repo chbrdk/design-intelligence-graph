@@ -22,6 +22,7 @@ export function GraphPageClient() {
       capture_run_id: string
       viewport_capture_id: string | null
       craft_label: string
+      cluster_label: string
     }>
   >([])
   const [edges, setEdges] = useState<Array<{ from_id: string; to_id: string; score: number }>>([])
@@ -39,6 +40,7 @@ export function GraphPageClient() {
             capture_run_id: node.capture_run_id,
             viewport_capture_id: node.viewport_capture_id,
             craft_label: node.craft_label,
+            cluster_label: node.cluster_label,
           })),
         )
         setEdges(graph.edges)
@@ -59,10 +61,22 @@ export function GraphPageClient() {
       nodes.map((node) => ({
         id: node.capture_run_id,
         label: node.craft_label,
+        cluster: node.cluster_label,
         href: node.viewport_capture_id ? libraryScreenHref(node.viewport_capture_id) : null,
       })),
     [nodes],
   )
+
+  const topClusters = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const node of nodes) {
+      const key = node.cluster_label || 'mixed'
+      counts.set(key, (counts.get(key) ?? 0) + 1)
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 4)
+  }, [nodes])
 
   return (
     <AppShell title={paths.libraryCopy.graphTitle} description={paths.libraryCopy.graphHint}>
@@ -79,6 +93,18 @@ export function GraphPageClient() {
         {nodes.length} nodes · {edges.length} edges
         {model ? ` · ${model}` : ''}
       </Chip>
+      {!!topClusters.length ? (
+        <Text>
+          Read the clusters like style neighborhoods: tight groups share more of the same visual signals.
+          If you are looking for a modern design, start with nodes labeled `modern minimal`, then compare the
+          nearby `editorial`, `type-led`, or `image-led` branches.
+        </Text>
+      ) : null}
+      {topClusters.map(([label, count]) => (
+        <Chip key={label}>
+          {label} · {count}
+        </Chip>
+      ))}
       {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
       {!error && !edges.length ? (

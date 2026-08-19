@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'vitest'
-import { craftFacetOverlapScore, formatCraftGraphLabel } from '../lib/craft-graph-label'
+import { craftFacetOverlapScore, describeCraftCluster, formatCraftGraphLabel } from '../lib/craft-graph-label'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from '../lib/similarity-graph-fallback'
 import { createForceSimulation, stepForceSimulation } from '../lib/similarity-graph-force'
 import { layoutSimilarityGraph } from '../lib/similarity-graph-layout'
@@ -18,8 +18,21 @@ describe('craft graph labels', () => {
     assert.match(label, /minimal/)
     assert.match(label, /monochrome/)
     assert.match(label, /low imagery/)
-    assert.match(label, /large type/)
     assert.doesNotMatch(label, /insurance|example\.com/)
+  })
+
+  it('classifies modern-looking screens into readable neighborhoods', () => {
+    const cluster = describeCraftCluster({
+      style: 'minimal',
+      contrast_mode: 'monochrome',
+      imagery_density: 'low',
+      type_scale: 'large',
+    })
+    assert.equal(cluster, 'modern minimal')
+    assert.equal(
+      formatCraftGraphLabel(null, { title: 'Acme landing page', domain: 'acme.example' }),
+      'Acme landing page',
+    )
   })
 
   it('scores craft neighbors by contrast and imagery, not URL', () => {
@@ -130,8 +143,9 @@ describe('similarity graph fallback', () => {
     )
     assert.equal(graph.source, 'facets')
     assert.equal(graph.nodes.length, 3)
-    assert.match(graph.nodes[0]?.craft_label ?? '', /minimal/)
+    assert.match(graph.nodes[0]?.craft_label ?? '', /modern minimal|minimal/)
     assert.match(graph.nodes[0]?.craft_label ?? '', /monochrome/)
+    assert.equal(graph.nodes[0]?.cluster_label, 'modern minimal')
     assert.equal(graph.edges.length, 1)
     assert.equal(graph.edges[0]?.from_id, 'cap_a')
     assert.equal(graph.edges[0]?.to_id, 'cap_b')
