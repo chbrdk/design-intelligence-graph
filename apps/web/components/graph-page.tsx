@@ -14,6 +14,8 @@ type Kind = 'craft' | 'visual'
 export function GraphPageClient() {
   const router = useRouter()
   const [kind, setKind] = useState<Kind>('craft')
+  const [clusterMode, setClusterMode] = useState<'clusters' | 'nodes'>('clusters')
+  const [clusterBy, setClusterBy] = useState<'contrast' | 'style'>('contrast')
   const [error, setError] = useState<string | null>(null)
   const [source, setSource] = useState<'embeddings' | 'facets'>('embeddings')
   const [model, setModel] = useState('')
@@ -23,6 +25,7 @@ export function GraphPageClient() {
       viewport_capture_id: string | null
       craft_label: string
       cluster_label: string
+      contrast_label: string
     }>
   >([])
   const [edges, setEdges] = useState<Array<{ from_id: string; to_id: string; score: number }>>([])
@@ -41,6 +44,7 @@ export function GraphPageClient() {
             viewport_capture_id: node.viewport_capture_id,
             craft_label: node.craft_label,
             cluster_label: node.cluster_label,
+            contrast_label: node.contrast_label,
           })),
         )
         setEdges(graph.edges)
@@ -62,6 +66,7 @@ export function GraphPageClient() {
         id: node.capture_run_id,
         label: node.craft_label,
         cluster: node.cluster_label,
+        contrast: node.contrast_label,
         href: node.viewport_capture_id ? libraryScreenHref(node.viewport_capture_id) : null,
       })),
     [nodes],
@@ -70,13 +75,13 @@ export function GraphPageClient() {
   const topClusters = useMemo(() => {
     const counts = new Map<string, number>()
     for (const node of nodes) {
-      const key = node.cluster_label || 'mixed'
+      const key = clusterBy === 'contrast' ? node.contrast_label || 'mixed' : node.cluster_label || 'mixed'
       counts.set(key, (counts.get(key) ?? 0) + 1)
     }
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1])
       .slice(0, 4)
-  }, [nodes])
+  }, [nodes, clusterBy])
 
   return (
     <AppShell title={paths.libraryCopy.graphTitle} description={paths.libraryCopy.graphHint}>
@@ -96,8 +101,8 @@ export function GraphPageClient() {
       {!!topClusters.length ? (
         <Text>
           Read the clusters like style neighborhoods: tight groups share more of the same visual signals.
-          If you are looking for a modern design, start with nodes labeled `modern minimal`, then compare the
-          nearby `editorial`, `type-led`, or `image-led` branches.
+          In this view, you usually get the best signal by switching between `contrast` (e.g. monochrome) and
+          `style` neighborhoods (e.g. modern minimal).
         </Text>
       ) : null}
       {topClusters.map(([label, count]) => (
@@ -105,6 +110,24 @@ export function GraphPageClient() {
           {label} · {count}
         </Chip>
       ))}
+      <ToggleGroup
+        aria-label="Graph view"
+        value={clusterMode}
+        onChange={(value) => setClusterMode(value === 'nodes' ? 'nodes' : 'clusters')}
+        options={[
+          { value: 'clusters', label: 'Clusters' },
+          { value: 'nodes', label: 'Nodes' },
+        ]}
+      />
+      <ToggleGroup
+        aria-label="Cluster by"
+        value={clusterBy}
+        onChange={(value) => setClusterBy(value === 'style' ? 'style' : 'contrast')}
+        options={[
+          { value: 'contrast', label: 'Contrast' },
+          { value: 'style', label: 'Style' },
+        ]}
+      />
       {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
       {!error && !edges.length ? (
@@ -119,6 +142,8 @@ export function GraphPageClient() {
           ariaLabel={paths.libraryCopy.graphTitle}
           nodes={viewNodes}
           edges={edges}
+          clusterMode={clusterMode}
+          clusterBy={clusterBy}
           onNodeClick={(id) => {
             const meta = nodes.find((node) => node.capture_run_id === id)
             if (meta?.viewport_capture_id) {

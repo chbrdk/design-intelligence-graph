@@ -82,6 +82,18 @@ export function describeCraftCluster(facets: CraftFacetLike | null | undefined):
   return 'mixed'
 }
 
+/** Contrast-first cluster for readability (e.g. monochrome vs saturated). */
+export function describeContrastCluster(facets: CraftFacetLike | null | undefined): string {
+  if (!facets) return 'unclassified'
+  const c = facets.contrast_mode?.toLowerCase().trim() ?? ''
+  if (!c) return facets.style ? 'contrast-unknown' : 'mixed'
+  if (c.includes('mono') || c.includes('monochrome')) return 'monochrome'
+  if (c.includes('satur')) return 'saturated'
+  if (c.includes('low')) return 'low contrast'
+  if (c.includes('high')) return 'high contrast'
+  return humanize(c)
+}
+
 export function describeGraphNode(
   facets: CraftFacetLike | null | undefined,
   fallback?: { title?: string | null; domain?: string | null },

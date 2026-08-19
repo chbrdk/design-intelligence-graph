@@ -1,4 +1,10 @@
-import { craftFacetOverlapScore, describeCraftCluster, formatCraftGraphLabel, type CraftFacetLike } from './craft-graph-label'
+import {
+  craftFacetOverlapScore,
+  describeContrastCluster,
+  describeCraftCluster,
+  formatCraftGraphLabel,
+  type CraftFacetLike,
+} from './craft-graph-label'
 import { paths } from './paths'
 
 export type FacetGraphScreen = {
@@ -19,6 +25,7 @@ export type SimilarityGraphNode = {
   title: string | null
   craft_label: string
   cluster_label: string
+  contrast_label: string
 }
 
 export type SimilarityGraphView = {
@@ -76,6 +83,7 @@ export function buildFacetSimilarityGraph(
       domain: screen.site_domain,
     }),
     cluster_label: describeCraftCluster(screen.design_facets),
+    contrast_label: describeContrastCluster(screen.design_facets),
   }))
   const edges: SimilarityGraphView['edges'] = []
   for (let i = 0; i < picked.length; i += 1) {
