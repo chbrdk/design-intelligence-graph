@@ -53,6 +53,9 @@ function attachRuntimeEvidence(page: Page): RuntimeEvidence {
   page.on("requestfailed", (request) => evidence.failedRequests.push({
     url: request.url(), method: request.method(), resource_type: request.resourceType(), error: request.failure()?.errorText ?? null
   }));
+  page.on("dialog", (dialog) => {
+    void dialog.dismiss().catch(() => undefined);
+  });
   return evidence;
 }
 

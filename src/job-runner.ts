@@ -96,6 +96,8 @@ export interface JobRunnerOptions {
     packageRoot: string;
     manifest: import("./types.js").CaptureManifest;
   }>;
+  /** Persist job snapshots to Postgres when a pool is configured. */
+  persist?: (job: JobRecord, queueIndex: number | null) => Promise<boolean>;
 }
 
 const DETECTION_STAGES: JobStage[] = ["queued", "capturing", "analyzing"];
@@ -157,12 +159,45 @@ export class JobRunner {
     return [...this.pending];
   }
 
+  /** Rebuild in-memory queue from Postgres after an API restart. */
+  restoreFromPersistence(jobs: JobRecord[], pendingOrder: string[]): void {
+    this.jobs.clear();
+    this.pending.length = 0;
+    for (const job of jobs) {
+      this.jobs.set(job.job_id, job);
+    }
+    for (const jobId of pendingOrder) {
+      const job = this.jobs.get(jobId);
+      if (job?.stage === "queued") this.pending.push(jobId);
+    }
+    this.pump();
+  }
+
+  private persistJob(job: JobRecord): void {
+    const persist = this.options.persist;
+    if (!persist) return;
+    const queueIndex = job.stage === "queued" ? this.pending.indexOf(job.job_id) : null;
+    void persist(job, queueIndex >= 0 ? queueIndex : null).catch(() => undefined);
+  }
+
+  private persistQueuedOrder(): void {
+    const persist = this.options.persist;
+    if (!persist) return;
+    for (let index = 0; index < this.pending.length; index += 1) {
+      const job = this.jobs.get(this.pending[index]!);
+      if (job?.stage === "queued") {
+        void persist(job, index).catch(() => undefined);
+      }
+    }
+  }
+
   cancelQueued(jobId: string): JobRecord | null {
     const job = this.jobs.get(jobId);
     if (!job || job.stage !== "queued") return null;
     const idx = this.pending.indexOf(jobId);
     if (idx >= 0) this.pending.splice(idx, 1);
     this.emit(job, { stage: "skipped", message: "Removed from queue" });
+    this.persistQueuedOrder();
     return job;
   }
 
@@ -175,6 +210,7 @@ export class JobRunner {
     if (direction === "front") this.pending.unshift(jobId);
     else if (direction === "up") this.pending.splice(Math.max(0, idx - 1), 0, jobId);
     else this.pending.splice(Math.min(this.pending.length, idx + 1), 0, jobId);
+    this.persistQueuedOrder();
     return job;
   }
 
@@ -332,6 +368,7 @@ export class JobRunner {
     if (event.error) job.error = event.error;
     job.events.push(event);
     for (const listener of this.listeners.get(job.job_id) ?? []) listener(event, job);
+    this.persistJob(job);
     return event;
   }
 

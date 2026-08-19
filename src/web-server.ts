@@ -7,6 +7,7 @@ import { JobRunner, publicJobView, type JobEvent } from "./job-runner.js";
 import { captureJobsConfig, catalogUrls, loadCaptureCatalog } from "./capture-catalog.js";
 import { captureIdentityKey, filterExistingCaptureUrls } from "./capture-identity.js";
 import { getPool } from "./db.js";
+import { buildCaptureJobHydration, listActiveCaptureUrlKeys, persistCaptureJob } from "./capture-job-store.js";
 import { listIndexedCaptureUrlKeys } from "./library-reset.js";
 import { rejectIfDestructiveUnauthorized } from "./api-auth.js";
 import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
@@ -23,7 +24,10 @@ import { parseMultipartImageUploads } from "./image-upload.js";
 
 loadDotEnv();
 const enrichmentQueue = new EnrichmentQueue({ autoStart: true });
-const runner = new JobRunner({ enrichmentQueue });
+const runner = new JobRunner({
+  enrichmentQueue,
+  persist: (job, queueIndex) => persistCaptureJob(job, queueIndex)
+});
 setFlowSeedEnqueueCapture((url) => {
   const job = runner.startJob(url);
   return { job_id: job.job_id };
@@ -31,6 +35,20 @@ setFlowSeedEnqueueCapture((url) => {
 setDigApiRuntime({ runner, enrichmentQueue });
 const paths = loadDigPaths();
 const enrichmentPath = paths.api.enrichmentPath ?? "/api/enrichment";
+
+async function hydrateCaptureQueueFromDatabase(): Promise<void> {
+  const pool = getPool();
+  if (!pool) return;
+  try {
+    const { jobs, pendingOrder } = await buildCaptureJobHydration(pool);
+    if (!jobs.length) return;
+    runner.restoreFromPersistence(jobs, pendingOrder);
+    process.stdout.write(`Restored ${jobs.length} capture jobs (${pendingOrder.length} queued)\n`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    process.stderr.write(`Capture queue hydration skipped: ${message}\n`);
+  }
+}
 
 function shouldServeStatic(): boolean {
   return process.env.DIG_WEB_STATIC !== "0";
@@ -215,6 +233,14 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
             for (const key of indexed) existingKeys.add(key);
           } catch {
             /* queue anyway if library lookup fails */
+          }
+          try {
+            for (const url of await listActiveCaptureUrlKeys(pool)) {
+              const key = captureIdentityKey(url);
+              if (key) existingKeys.add(key);
+            }
+          } catch {
+            /* fall back to in-memory + library keys only */
           }
         }
         for (const job of runner.listJobs()) {
@@ -519,11 +545,13 @@ export function createWebServer(): ReturnType<typeof createServer> {
 }
 
 export function startWebServer(): void {
-  const server = createWebServer();
-  const host = webHost();
-  const port = webPort();
-  server.listen(port, host, () => {
-    process.stdout.write(`DIG web listening on http://${host}:${port}\n`);
+  void hydrateCaptureQueueFromDatabase().finally(() => {
+    const server = createWebServer();
+    const host = webHost();
+    const port = webPort();
+    server.listen(port, host, () => {
+      process.stdout.write(`DIG web listening on http://${host}:${port}\n`);
+    });
   });
 }
 
