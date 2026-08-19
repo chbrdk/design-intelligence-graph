@@ -16,6 +16,7 @@ export function GraphPageClient() {
   const [kind, setKind] = useState<Kind>('craft')
   const [clusterMode, setClusterMode] = useState<'clusters' | 'nodes'>('clusters')
   const [clusterBy, setClusterBy] = useState<'contrast' | 'style'>('contrast')
+  const [selectedCluster, setSelectedCluster] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [source, setSource] = useState<'embeddings' | 'facets'>('embeddings')
   const [model, setModel] = useState('')
@@ -32,6 +33,8 @@ export function GraphPageClient() {
 
   useEffect(() => {
     let cancelled = false
+    setSelectedCluster(null)
+    setClusterMode('clusters')
     void fetchSimilarityGraph(kind)
       .then((graph) => {
         if (cancelled) return
@@ -72,16 +75,39 @@ export function GraphPageClient() {
     [nodes],
   )
 
-  const topClusters = useMemo(() => {
+  const clusterValueFor = (node: (typeof nodes)[number]) =>
+    clusterBy === 'contrast' ? node.contrast_label || 'mixed' : node.cluster_label || 'mixed'
+
+  const clusters = useMemo(() => {
     const counts = new Map<string, number>()
     for (const node of nodes) {
-      const key = clusterBy === 'contrast' ? node.contrast_label || 'mixed' : node.cluster_label || 'mixed'
+      const key = clusterValueFor(node)
       counts.set(key, (counts.get(key) ?? 0) + 1)
     }
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 4)
+      .map(([label, count]) => ({ label, count }))
   }, [nodes, clusterBy])
+
+  const activeNodes = useMemo(() => {
+    if (!selectedCluster) return viewNodes
+    return viewNodes.filter((node) => {
+      const meta = nodes.find((item) => item.capture_run_id === node.id)
+      return meta ? clusterValueFor(meta) === selectedCluster : false
+    })
+  }, [nodes, viewNodes, selectedCluster, clusterBy])
+
+  const activeNodeIds = useMemo(() => new Set(activeNodes.map((node) => node.id)), [activeNodes])
+
+  const activeEdges = useMemo(() => {
+    if (!selectedCluster) return edges
+    return edges.filter((edge) => activeNodeIds.has(edge.from_id) && activeNodeIds.has(edge.to_id))
+  }, [edges, activeNodeIds, selectedCluster])
+
+  const selectedClusterCount = useMemo(
+    () => clusters.find((cluster) => cluster.label === selectedCluster)?.count ?? 0,
+    [clusters, selectedCluster],
+  )
 
   return (
     <AppShell title={paths.libraryCopy.graphTitle} description={paths.libraryCopy.graphHint}>
@@ -98,36 +124,57 @@ export function GraphPageClient() {
         {nodes.length} nodes · {edges.length} edges
         {model ? ` · ${model}` : ''}
       </Chip>
-      {!!topClusters.length ? (
+      {!!clusters.length ? (
         <Text>
-          Read the clusters like style neighborhoods: tight groups share more of the same visual signals.
-          In this view, you usually get the best signal by switching between `contrast` (e.g. monochrome) and
-          `style` neighborhoods (e.g. modern minimal).
+          Start in cluster overview, then click a cluster to drill into just that neighborhood. That keeps the
+          embeddings useful because neighbors are only compared inside the chosen facet bucket.
         </Text>
       ) : null}
-      {topClusters.map(([label, count]) => (
-        <Chip key={label}>
-          {label} · {count}
+      {clusters.map((cluster) => (
+        <Chip key={cluster.label}>
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCluster(cluster.label)
+              setClusterMode('nodes')
+            }}
+            style={{ all: 'unset', cursor: 'pointer' }}
+          >
+            {cluster.label} · {cluster.count}
+          </button>
         </Chip>
       ))}
       <ToggleGroup
-        aria-label="Graph view"
-        value={clusterMode}
-        onChange={(value) => setClusterMode(value === 'nodes' ? 'nodes' : 'clusters')}
-        options={[
-          { value: 'clusters', label: 'Clusters' },
-          { value: 'nodes', label: 'Nodes' },
-        ]}
-      />
-      <ToggleGroup
         aria-label="Cluster by"
         value={clusterBy}
-        onChange={(value) => setClusterBy(value === 'style' ? 'style' : 'contrast')}
+        onChange={(value) => {
+          setClusterBy(value === 'style' ? 'style' : 'contrast')
+          setSelectedCluster(null)
+          setClusterMode('clusters')
+        }}
         options={[
           { value: 'contrast', label: 'Contrast' },
           { value: 'style', label: 'Style' },
         ]}
       />
+      <ToggleGroup
+        aria-label="Graph view"
+        value={clusterMode}
+        onChange={(value) => setClusterMode(value === 'nodes' ? 'nodes' : 'clusters')}
+        options={[
+          { value: 'clusters', label: 'Overview' },
+          { value: 'nodes', label: 'Drilldown' },
+        ]}
+      />
+      {clusterMode === 'nodes' ? (
+        <Text>
+          {selectedCluster
+            ? `Drilldown: ${selectedCluster} · ${selectedClusterCount} screens · ${activeEdges.length} internal links`
+            : 'Pick a cluster chip or cluster node first to drill into a smaller neighborhood.'}
+        </Text>
+      ) : (
+        <Text>Overview shows cluster-to-cluster relationships only.</Text>
+      )}
       {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
       {!error && !edges.length ? (
@@ -140,10 +187,14 @@ export function GraphPageClient() {
       <Panel>
         <SimilarityGraphView
           ariaLabel={paths.libraryCopy.graphTitle}
-          nodes={viewNodes}
-          edges={edges}
+          nodes={clusterMode === 'nodes' && selectedCluster ? activeNodes : viewNodes}
+          edges={clusterMode === 'nodes' && selectedCluster ? activeEdges : edges}
           clusterMode={clusterMode}
           clusterBy={clusterBy}
+          onClusterClick={(cluster) => {
+            setSelectedCluster(cluster)
+            setClusterMode('nodes')
+          }}
           onNodeClick={(id) => {
             const meta = nodes.find((node) => node.capture_run_id === id)
             if (meta?.viewport_capture_id) {

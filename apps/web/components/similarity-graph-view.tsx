@@ -8,6 +8,7 @@ type Props = {
   nodes: Array<{ id: string; label: string; cluster?: string; contrast?: string; href?: string | null }>
   edges: GraphLayoutEdge[]
   onNodeClick?: (id: string) => void
+  onClusterClick?: (cluster: string) => void
   width?: number
   height?: number
   ariaLabel: string
@@ -19,6 +20,7 @@ export function SimilarityGraphView({
   nodes,
   edges,
   onNodeClick,
+  onClusterClick,
   width = 960,
   height = 560,
   ariaLabel,
@@ -163,7 +165,9 @@ export function SimilarityGraphView({
       })}
       {placed.map((node) => {
         const meta = computed.displayMetaById.get(node.id)
-        const clickable = Boolean(meta?.href && onNodeClick && clusterMode !== 'clusters')
+        const clickable = clusterMode === 'clusters'
+          ? Boolean(onClusterClick)
+          : Boolean(meta?.href && onNodeClick)
         const r = clusterMode === 'clusters' ? 11 + Math.min(11, (meta as any)?.count ?? 0) * 0.35 : 7
         return (
           <g
@@ -171,7 +175,12 @@ export function SimilarityGraphView({
             transform={`translate(${node.x},${node.y})`}
             style={{ cursor: clickable ? 'pointer' : 'default' }}
             onClick={() => {
-              if (clickable && onNodeClick) onNodeClick(node.id)
+              if (!clickable) return
+              if (clusterMode === 'clusters') {
+                onClusterClick?.(node.id)
+                return
+              }
+              if (onNodeClick) onNodeClick(node.id)
             }}
           >
             <title>
