@@ -41,8 +41,9 @@ test("embedScreenshotOpenRouter sends image_url data URL at 768 dims", async () 
         const body = JSON.parse(String(init?.body));
         assert.equal(body.model, "google/gemini-embedding-2");
         assert.equal(body.dimensions, 768);
-        assert.equal(body.input[0].type, "image_url");
-        assert.equal(body.input[0].image_url.url, "data:image/png;base64,AAAA");
+        assert.equal(body.input[0].content[0].type, "image_url");
+        assert.equal(body.input[0].content[0].image_url.url, "data:image/png;base64,AAAA");
+        assert.equal(body.encoding_format, "float");
         return new Response(JSON.stringify({ data: [{ embedding: Array(768).fill(0.1) }] }), {
           status: 200,
           headers: { "content-type": "application/json" }

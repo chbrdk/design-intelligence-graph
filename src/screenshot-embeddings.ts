@@ -110,8 +110,9 @@ export async function embedScreenshotOpenRouter(
       },
       body: JSON.stringify({
         model: cfg.model,
-        input: [{ type: "image_url", image_url: { url: dataUrl } }],
-        dimensions: cfg.dims
+        input: [{ content: [{ type: "image_url", image_url: { url: dataUrl } }] }],
+        dimensions: cfg.dims,
+        encoding_format: "float"
       }),
       signal: controller.signal
     });
