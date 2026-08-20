@@ -38,8 +38,8 @@ export function similarityGraphConfig(root = process.cwd()): {
 } {
   const cfg = loadDigPaths(root).similarityGraph;
   return {
-    nodeCap: cfg?.nodeCap ?? 80,
-    edgeCap: cfg?.edgeCap ?? 240,
+    nodeCap: cfg?.nodeCap ?? 250,
+    edgeCap: cfg?.edgeCap ?? 750,
     threshold: cfg?.threshold ?? 0.72
   };
 }

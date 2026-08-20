@@ -253,8 +253,8 @@ export const paths = {
   },
   /** Keep in sync with knowledge/paths.json similarityGraph. */
   similarityGraph: {
-    nodeCap: 80,
-    edgeCap: 240,
+    nodeCap: 250,
+    edgeCap: 750,
     threshold: 0.72,
   },
   captureJobs: {

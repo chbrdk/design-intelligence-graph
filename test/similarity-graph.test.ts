@@ -4,8 +4,8 @@ import { loadSimilarityGraph, similarityGraphConfig } from "../src/similarity-gr
 
 test("similarityGraphConfig reads knowledge/paths.json caps", () => {
   const cfg = similarityGraphConfig();
-  assert.equal(cfg.nodeCap, 80);
-  assert.equal(cfg.edgeCap, 240);
+  assert.equal(cfg.nodeCap, 250);
+  assert.equal(cfg.edgeCap, 750);
   assert.equal(cfg.threshold, 0.72);
 });
 
