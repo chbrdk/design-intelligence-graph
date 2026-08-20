@@ -1,0 +1,1506 @@
+{
+  "id": "diversity-hotel",
+  "count": 250,
+  "entries": [
+    {
+      "name": "Grand Mercure",
+      "country": "",
+      "url": "https://www.grandmercure.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Art Series",
+      "country": "",
+      "url": "https://www.artserieshotels.com.au/",
+      "group": "hotel"
+    },
+    {
+      "name": "Point A Hotels",
+      "country": "",
+      "url": "https://www.pointahotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Basecamp Resorts",
+      "country": "Canada",
+      "url": "https://www.basecampresorts.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "KAI",
+      "country": "",
+      "url": "https://www.hoshinoresorts.com/brand/kai/",
+      "group": "hotel"
+    },
+    {
+      "name": "AC Hotels",
+      "country": "Netherlands",
+      "url": "https://ac-hotels.nl/",
+      "group": "hotel"
+    },
+    {
+      "name": "Gr8 Hotels",
+      "country": "Netherlands",
+      "url": "https://www.gr8hotels.nl/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hotel LiVEMAX",
+      "country": "Japan",
+      "url": "https://www.hotel-livemax.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Q113669359",
+      "country": "Malaysia",
+      "url": "https://www.raiahotels.com.my/",
+      "group": "hotel"
+    },
+    {
+      "name": "Janu Hotels",
+      "country": "",
+      "url": "https://www.janu.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Wanderhotels",
+      "country": "Austria",
+      "url": "https://www.wanderhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "NinetyNine Hotels",
+      "country": "Germany",
+      "url": "https://www.99-hotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hoshinoya",
+      "country": "",
+      "url": "https://www.hoshinoresorts.com/brand/hoshinoya/",
+      "group": "hotel"
+    },
+    {
+      "name": "Travel Hotels.",
+      "country": "Israel",
+      "url": "https://www.travelhotels.co.il/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Portugal",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Sumitomo Hotel Group",
+      "country": "People's Republic of China",
+      "url": "https://podinns.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Greece",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Amaris Hotels",
+      "country": "Indonesia",
+      "url": "https://amarishotel.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Petit Palace Hotels",
+      "country": "Spain",
+      "url": "https://www.petitpalace.com/en/",
+      "group": "hotel"
+    },
+    {
+      "name": "Fortune Hotels",
+      "country": "India",
+      "url": "https://fortunehotels.in/",
+      "group": "hotel"
+    },
+    {
+      "name": "Elaf Group",
+      "country": "Saudi Arabia",
+      "url": "https://elafgroup.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "AKZENT Hotels",
+      "country": "Germany",
+      "url": "https://www.akzent.de/",
+      "group": "hotel"
+    },
+    {
+      "name": "Quality Inn",
+      "country": "",
+      "url": "https://www.choicehotels.com/quality-inn",
+      "group": "hotel"
+    },
+    {
+      "name": "Hyatt Vacation Club",
+      "country": "United States",
+      "url": "https://www.hyattvacationclub.com/home",
+      "group": "hotel"
+    },
+    {
+      "name": "Staycity",
+      "country": "Ireland",
+      "url": "https://www.staycity.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Comfort Inn",
+      "country": "",
+      "url": "https://www.choicehotels.com/comfort-hotels",
+      "group": "hotel"
+    },
+    {
+      "name": "Trademark Collection by Wyndham",
+      "country": "",
+      "url": "https://www.wyndhamhotels.com/trademark",
+      "group": "hotel"
+    },
+    {
+      "name": "Wyndham Garden",
+      "country": "",
+      "url": "https://www.wyndhamhotels.com/wyndham-garden",
+      "group": "hotel"
+    },
+    {
+      "name": "Wyndham Grand",
+      "country": "",
+      "url": "https://www.wyndhamhotels.com/wyndham-grand",
+      "group": "hotel"
+    },
+    {
+      "name": "Alua Hotels & Resorts",
+      "country": "Greece",
+      "url": "https://www.hyattinclusivecollection.com/es/resorts-y-hoteles/alua-hotels/",
+      "group": "hotel"
+    },
+    {
+      "name": "Centara Hotels & Resorts",
+      "country": "Thailand",
+      "url": "https://www.centarahotelsresorts.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "HF Hotels",
+      "country": "",
+      "url": "https://www.hfhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Anantara Hotels & Resorts",
+      "country": "",
+      "url": "https://www.anantara.com/en",
+      "group": "hotel"
+    },
+    {
+      "name": "Lopesan Hotel Group",
+      "country": "Spain",
+      "url": "https://www.lopesan.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Thank U Hotel",
+      "country": "People's Republic of China",
+      "url": "http://en.thankyou99.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Thank U Hotel",
+      "country": "People's Republic of China",
+      "url": "https://www.thankyou99.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ascend Hotel Collection",
+      "country": "",
+      "url": "https://www.choicehotels.com/ascend",
+      "group": "hotel"
+    },
+    {
+      "name": "Cambria Hotels",
+      "country": "",
+      "url": "https://www.choicehotels.com/cambria",
+      "group": "hotel"
+    },
+    {
+      "name": "Suburban Studios",
+      "country": "",
+      "url": "https://www.choicehotels.com/suburban",
+      "group": "hotel"
+    },
+    {
+      "name": "Alt Hotels",
+      "country": "Canada",
+      "url": "https://www.germainhotels.com/en/alt-hotel",
+      "group": "hotel"
+    },
+    {
+      "name": "Alt Hotels",
+      "country": "Canada",
+      "url": "https://www.germainhotels.com/fr/hotel-alt",
+      "group": "hotel"
+    },
+    {
+      "name": "Le Germain Hotel",
+      "country": "Canada",
+      "url": "https://www.germainhotels.com/en/le-germain-hotel",
+      "group": "hotel"
+    },
+    {
+      "name": "Le Germain Hotel",
+      "country": "Canada",
+      "url": "https://www.germainhotels.com/fr/hotel-le-germain",
+      "group": "hotel"
+    },
+    {
+      "name": "Hoteles One",
+      "country": "Mexico",
+      "url": "https://www.onehoteles.com",
+      "group": "hotel"
+    },
+    {
+      "name": "MyTime Hotels",
+      "country": "Italy",
+      "url": "https://www.mytimehotels.com/it/",
+      "group": "hotel"
+    },
+    {
+      "name": "BEB",
+      "country": "",
+      "url": "https://www.hoshinoresorts.com/brand/beb/",
+      "group": "hotel"
+    },
+    {
+      "name": "Mantra",
+      "country": "",
+      "url": "https://www.mantrahotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Apogia Hotels",
+      "country": "Italy",
+      "url": "https://www.apogiahotels.com/en/index",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals Access",
+      "country": "France",
+      "url": "https://www.theoriginalshotels.com/en/about-us/the-originals-access",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals Boutique",
+      "country": "France",
+      "url": "https://www.theoriginalshotels.com/en/about-us/the-originals-boutique",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals City",
+      "country": "France",
+      "url": "https://www.theoriginalshotels.com/en/about-us/the-originals-city",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals Collection",
+      "country": "France",
+      "url": "https://www.theoriginalshotels.com/en/about-us/the-originals-collection",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals Relais",
+      "country": "France",
+      "url": "https://www.theoriginalshotels.com/en/about-us/the-originals-relais",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals Residence",
+      "country": "France",
+      "url": "https://www.theoriginalshotels.com/en/about-us/the-originals-residence",
+      "group": "hotel"
+    },
+    {
+      "name": "Travel Charme Hotels",
+      "country": "Germany",
+      "url": "https://www.travelcharme.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "iH Hotels",
+      "country": "Italy",
+      "url": "https://ih-hotels.com/it/",
+      "group": "hotel"
+    },
+    {
+      "name": "The Originals, Human Hotels & Resorts",
+      "country": "",
+      "url": "https://www.theoriginalshotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Barut Hotels",
+      "country": "Turkey",
+      "url": "https://baruthotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Green King Inns & Hotels",
+      "country": "United Kingdom",
+      "url": "https://www.greenekinginns.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "Q122311094",
+      "country": "Indonesia",
+      "url": "https://www.monolooghotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "MUJI HOTEL",
+      "country": "",
+      "url": "https://hotel.muji.com/en/",
+      "group": "hotel"
+    },
+    {
+      "name": "MUJI HOTEL",
+      "country": "",
+      "url": "https://hotel.muji.com/ja/",
+      "group": "hotel"
+    },
+    {
+      "name": "OMO",
+      "country": "",
+      "url": "https://hoshinoresorts.com/ja/brands/omo/",
+      "group": "hotel"
+    },
+    {
+      "name": "The Unbound Collection by Hyatt",
+      "country": "",
+      "url": "https://www.hyatt.com/brands/unbound-collection",
+      "group": "hotel"
+    },
+    {
+      "name": "Grand Chancellor Hotels",
+      "country": "",
+      "url": "https://www.grandchancellorhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Spain",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Italy Family Hotels",
+      "country": "Italy",
+      "url": "https://www.italyfamilyhotels.it/en",
+      "group": "hotel"
+    },
+    {
+      "name": "Capella Hotels & Resorts",
+      "country": "",
+      "url": "https://capellahotels.com/en",
+      "group": "hotel"
+    },
+    {
+      "name": "Capella Hotels & Resorts",
+      "country": "",
+      "url": "https://capellahotels.com/jp",
+      "group": "hotel"
+    },
+    {
+      "name": "Patina Hotels & Resorts",
+      "country": "",
+      "url": "https://patinahotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Patina Hotels & Resorts",
+      "country": "",
+      "url": "https://patinahotels.com/ja/",
+      "group": "hotel"
+    },
+    {
+      "name": "TUI Blue",
+      "country": "Germany",
+      "url": "https://www.tui-blue.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Slovenia",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Q118434132",
+      "country": "Poland",
+      "url": "https://www.focushotels.pl/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Norway",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Switzerland",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "TOP International Hotels",
+      "country": "Switzerland",
+      "url": "https://www.topinternational.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Q123245455",
+      "country": "Poland",
+      "url": "https://www.golebiewski.pl/",
+      "group": "hotel"
+    },
+    {
+      "name": "Warwick Hotels & Resorts",
+      "country": "",
+      "url": "https://www.warwickhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Trump Hotels",
+      "country": "",
+      "url": "https://www.trumphotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Belgium",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "TOP International Hotels",
+      "country": "Belgium",
+      "url": "https://www.topinternational.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "MainStay Suites",
+      "country": "United States",
+      "url": "https://www.choicehotels.com/mainstay",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Italy",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "TOP International Hotels",
+      "country": "Egypt",
+      "url": "https://www.topinternational.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "ALH Hotels",
+      "country": "Australia",
+      "url": "https://www.alhgroup.com.au/",
+      "group": "hotel"
+    },
+    {
+      "name": "gut-Gebucht",
+      "country": "Germany",
+      "url": "https://gut-gebucht.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Germany",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "TOP International Hotels",
+      "country": "Germany",
+      "url": "https://www.topinternational.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "TRIBE",
+      "country": "",
+      "url": "https://tribehotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "lyf",
+      "country": "",
+      "url": "https://www.discoverasr.com/en/lyf",
+      "group": "hotel"
+    },
+    {
+      "name": "Alua Hotels & Resorts",
+      "country": "Spain",
+      "url": "https://www.hyattinclusivecollection.com/es/resorts-y-hoteles/alua-hotels/",
+      "group": "hotel"
+    },
+    {
+      "name": "Catalonia Hotels & Resorts",
+      "country": "Spain",
+      "url": "https://www.cataloniahotels.com/es",
+      "group": "hotel"
+    },
+    {
+      "name": "Grupotel Hotels & Resorts",
+      "country": "Spain",
+      "url": "https://grupotel.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Sercotel",
+      "country": "Spain",
+      "url": "https://www.sercotelhoteles.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Vibra Hotels",
+      "country": "Spain",
+      "url": "https://www.vibrahotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Netherlands",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "greet hotels",
+      "country": "",
+      "url": "https://all.accor.com/brands/greet.en.shtml",
+      "group": "hotel"
+    },
+    {
+      "name": "Romantik Hotels & Restaurants",
+      "country": "Austria",
+      "url": "https://www.romantikhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Alua Hotels & Resorts",
+      "country": "Bulgaria",
+      "url": "https://www.hyattinclusivecollection.com/es/resorts-y-hoteles/alua-hotels/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Hungary",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Spain",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Mercure Hotels",
+      "country": "",
+      "url": "https://mercure.accor.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Hilton Worldwide",
+      "country": "United States",
+      "url": "https://www.hilton.com",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Brazil",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Slovenia",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Jumeirah",
+      "country": "United Arab Emirates",
+      "url": "http://www.jumeirah.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Louvre Hotels Group",
+      "country": "United States",
+      "url": "http://www.louvrehotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Czech Republic",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Switzerland",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Swiss\u00f4tel",
+      "country": "Switzerland",
+      "url": "https://swissotel.accor.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Pullman Hotels and Resorts",
+      "country": "France",
+      "url": "https://pullman.accor.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Robinson Club",
+      "country": "Germany",
+      "url": "https://www.robinson.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Fairmont Hotels & Resorts",
+      "country": "United States",
+      "url": "https://www.fairmont.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Belgium",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Radisson Hotels",
+      "country": "",
+      "url": "https://www.radissonhotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "France",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Italy",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Germany",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "The Peninsula Hotels",
+      "country": "",
+      "url": "https://www.peninsula.com",
+      "group": "hotel"
+    },
+    {
+      "name": "RIU Hotels",
+      "country": "Spain",
+      "url": "https://www.riu.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Novotel",
+      "country": "France",
+      "url": "http://www.novotel.com/fr/home/index.shtml",
+      "group": "hotel"
+    },
+    {
+      "name": "The Hotel Collection",
+      "country": "United Kingdom",
+      "url": "http://www.thehotelcollection.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "Louvre Hotels Group",
+      "country": "France",
+      "url": "http://www.louvrehotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Mandarin Oriental Hotel Group",
+      "country": "Bermuda",
+      "url": "https://www.mandarinoriental.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "ibis Hotels",
+      "country": "France",
+      "url": "https://ibis.accor.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Netherlands",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Stayokay",
+      "country": "Netherlands",
+      "url": "https://www.stayokay.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Conrad Hotels & Resorts",
+      "country": "",
+      "url": "https://conradhotels3.hilton.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Conrad Hotels & Resorts",
+      "country": "",
+      "url": "https://www.hilton.com/en/conrad/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Austria",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Poland",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ginger Hotels",
+      "country": "",
+      "url": "https://www.gingerhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hilton Hotels & Resorts",
+      "country": "United States",
+      "url": "https://www.hilton.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ameron Hotels",
+      "country": "Germany",
+      "url": "https://ameroncollection.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ramada",
+      "country": "United States",
+      "url": "http://www.ramada.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "InterContinental",
+      "country": "",
+      "url": "https://www.ihg.com/intercontinental/",
+      "group": "hotel"
+    },
+    {
+      "name": "Toyoko Inn",
+      "country": "Japan",
+      "url": "https://www.toyoko-inn.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Toyoko Inn",
+      "country": "Japan",
+      "url": "https://www.toyoko-inn.com/eng/index",
+      "group": "hotel"
+    },
+    {
+      "name": "Disney Vacation Club",
+      "country": "",
+      "url": "https://disneyvacationclub.disney.go.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ritz-Carlton",
+      "country": "",
+      "url": "http://www.ritzcarlton.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Holiday Inn",
+      "country": "United States",
+      "url": "https://www.holidayinn.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "JW Marriott Hotels",
+      "country": "United States",
+      "url": "https://jw-marriott.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ibis Budget",
+      "country": "",
+      "url": "https://ibis.accor.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ooedo Onsen Monogatari",
+      "country": "Japan",
+      "url": "https://www.ooedoonsen.jp/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hilton Garden Inn",
+      "country": "United States",
+      "url": "https://www.hilton.com/en/hilton-garden-inn/",
+      "group": "hotel"
+    },
+    {
+      "name": "Tune Hotels",
+      "country": "United Kingdom",
+      "url": "https://www.tunehotels.com/jp/jp",
+      "group": "hotel"
+    },
+    {
+      "name": "JW Marriott Hotels",
+      "country": "United States",
+      "url": "http://www.marriott.com/jw-marriott/travel.mi",
+      "group": "hotel"
+    },
+    {
+      "name": "Marriott International",
+      "country": "United States",
+      "url": "https://www.marriott.com.cn/",
+      "group": "hotel"
+    },
+    {
+      "name": "Marriott International",
+      "country": "United States",
+      "url": "https://www.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Marriott International",
+      "country": "United States",
+      "url": "https://www.marriott.com/default.mi",
+      "group": "hotel"
+    },
+    {
+      "name": "H10 Hotels",
+      "country": "Spain",
+      "url": "https://www.h10hotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Hotel Okura",
+      "country": "Japan",
+      "url": "http://www.okura.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hotel Okura",
+      "country": "Japan",
+      "url": "https://www.okura.com/jp/",
+      "group": "hotel"
+    },
+    {
+      "name": "Courtyard by Marriott",
+      "country": "United States",
+      "url": "https://courtyard.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "B&B Hotels",
+      "country": "Portugal",
+      "url": "https://www.hotel-bb.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Best Western",
+      "country": "United States",
+      "url": "https://www.bestwestern.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Crowne Plaza",
+      "country": "United States",
+      "url": "http://www.crowneplaza.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Crowne Plaza",
+      "country": "United Kingdom",
+      "url": "http://www.crowneplaza.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Abou Nawas",
+      "country": "Tunisia",
+      "url": "http://www.abounawas.com.tn/",
+      "group": "hotel"
+    },
+    {
+      "name": "Vienna House",
+      "country": "Austria",
+      "url": "https://www.wyndhamhotels.com/vienna-house",
+      "group": "hotel"
+    },
+    {
+      "name": "Regent Hotels & Resorts",
+      "country": "",
+      "url": "http://www.regenthotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Park Plaza Hotels & Resorts",
+      "country": "United States",
+      "url": "https://www.parkplaza.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Westin Hotels & Resorts",
+      "country": "",
+      "url": "https://westin.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "M\u00f6venpick Hotels & Resorts",
+      "country": "",
+      "url": "https://www.movenpick.accor.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Best Western",
+      "country": "Canada",
+      "url": "https://www.bestwestern.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "ibis Hotels",
+      "country": "France",
+      "url": "https://ibis.accor.com/ru.html",
+      "group": "hotel"
+    },
+    {
+      "name": "The Luxury Collection",
+      "country": "United States",
+      "url": "https://the-luxury-collection.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "El Mouradi hotels",
+      "country": "Tunisia",
+      "url": "http://www.elmouradi.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Motel One",
+      "country": "Germany",
+      "url": "https://www.motel-one.com/de/",
+      "group": "hotel"
+    },
+    {
+      "name": "Campanile",
+      "country": "",
+      "url": "https://www.campanile.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Ibis Styles",
+      "country": "",
+      "url": "https://ibis.accor.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "DoubleTree by Hilton",
+      "country": "United States",
+      "url": "https://www.hilton.com/en/doubletree/",
+      "group": "hotel"
+    },
+    {
+      "name": "Choice Hotels",
+      "country": "United States",
+      "url": "https://www.choicehotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Marhaba",
+      "country": "Tunisia",
+      "url": "http://www.marhabahotels.tn/",
+      "group": "hotel"
+    },
+    {
+      "name": "Dorint",
+      "country": "Germany",
+      "url": "https://dorint.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Le M\u00e9ridien",
+      "country": "",
+      "url": "https://le-meridien.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Le M\u00e9ridien",
+      "country": "",
+      "url": "https://le-meridien.marriott.com/fr-FR/",
+      "group": "hotel"
+    },
+    {
+      "name": "Brit Hotel",
+      "country": "France",
+      "url": "https://www.brithotel.fr/",
+      "group": "hotel"
+    },
+    {
+      "name": "Waldorf Astoria Hotels and Resorts",
+      "country": "United States",
+      "url": "https://www.hilton.com/en/waldorf-astoria/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hyatt Hotels Corporation",
+      "country": "United States",
+      "url": "https://www.hyatt.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "IHG Hotels & Resorts",
+      "country": "United Kingdom",
+      "url": "https://www.ihgplc.com/en/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hotel F1",
+      "country": "France",
+      "url": "https://hotelf1.accor.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Sheraton Hotels and Resorts",
+      "country": "United States",
+      "url": "https://sheraton.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Q2621567",
+      "country": "",
+      "url": "https://www.sunrise-resorts.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Q3572111",
+      "country": "",
+      "url": "https://www.yellohvillage.fr/",
+      "group": "hotel"
+    },
+    {
+      "name": "Iberostar Hotels & Resorts",
+      "country": "Spain",
+      "url": "https://www.iberostar.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Motel One",
+      "country": "Germany",
+      "url": "https://www.motel-one.com/en/",
+      "group": "hotel"
+    },
+    {
+      "name": "Adagio",
+      "country": "France",
+      "url": "https://www.adagio-city.com",
+      "group": "hotel"
+    },
+    {
+      "name": "NH Hotel Group",
+      "country": "Spain",
+      "url": "https://www.nh-hotels.com/en",
+      "group": "hotel"
+    },
+    {
+      "name": "Four Seasons Hotels and Resorts",
+      "country": "Canada",
+      "url": "https://www.fourseasons.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Paradores de Turismo",
+      "country": "Spain",
+      "url": "http://www.parador.es",
+      "group": "hotel"
+    },
+    {
+      "name": "Four Points by Sheraton",
+      "country": "",
+      "url": "https://four-points.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Tune Hotels",
+      "country": "Malaysia",
+      "url": "https://www.tunehotels.com/jp/jp",
+      "group": "hotel"
+    },
+    {
+      "name": "Sofitel",
+      "country": "France",
+      "url": "https://sofitel.accor.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Maritim Hotelgesellschaft",
+      "country": "Germany",
+      "url": "http://www.maritim.de/",
+      "group": "hotel"
+    },
+    {
+      "name": "Bastion Hotels",
+      "country": "Netherlands",
+      "url": "https://www.bastionhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Leonardo Hotels",
+      "country": "Germany",
+      "url": "https://www.leonardo-hotels.de/",
+      "group": "hotel"
+    },
+    {
+      "name": "Pousadas de Portugal",
+      "country": "Portugal",
+      "url": "http://www.pousadas.pt",
+      "group": "hotel"
+    },
+    {
+      "name": "The Dedica Anthology",
+      "country": "",
+      "url": "https://www.dahotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "SpringHill Suites",
+      "country": "",
+      "url": "https://springhillsuites.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "citizenM",
+      "country": "Netherlands",
+      "url": "https://www.citizenm.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Fattal Holdings (1998) Ltd",
+      "country": "Israel",
+      "url": "http://www.fattal.co.il/",
+      "group": "hotel"
+    },
+    {
+      "name": "Fattal Holdings (1998) Ltd",
+      "country": "Israel",
+      "url": "https://www.fattal-hotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Fattal Holdings (1998) Ltd",
+      "country": "Israel",
+      "url": "https://www.fattal.co.il",
+      "group": "hotel"
+    },
+    {
+      "name": "Fattal Holdings (1998) Ltd",
+      "country": "Israel",
+      "url": "https://www.fattalhotelgroup.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Staybridge Suites",
+      "country": "",
+      "url": "https://www.staybridge.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Marston's",
+      "country": "United Kingdom",
+      "url": "https://www.marstons.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "Lemon Tree Hotels",
+      "country": "United Arab Emirates",
+      "url": "https://www.lemontreehotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Okura Nikko Hotel Management",
+      "country": "Japan",
+      "url": "http://www.okura-nikko.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hand Picked Hotels",
+      "country": "United Kingdom",
+      "url": "http://www.handpicked.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "Club Quarters",
+      "country": "",
+      "url": "http://www.clubquartershotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "AC Hotels",
+      "country": "Spain",
+      "url": "https://ac-hotels.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Maybourne Hotel Group",
+      "country": "United Kingdom",
+      "url": "http://maybourne.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Palladium Hotel Group",
+      "country": "Spain",
+      "url": "http://www.palladiumhotelgroup.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Corus Hotels",
+      "country": "United Kingdom",
+      "url": "http://www.corushotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "McMillan Hotels",
+      "country": "United Kingdom",
+      "url": "http://www.mcmillanhotels.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "La Quinta Inns & Suites",
+      "country": "",
+      "url": "https://www.wyndhamhotels.com/laquinta",
+      "group": "hotel"
+    },
+    {
+      "name": "Country Inn & Suites by Radisson",
+      "country": "United States",
+      "url": "https://www.radissonhotels.com/en-us/brand/country-inn",
+      "group": "hotel"
+    },
+    {
+      "name": "Southern Sun Hotel Group",
+      "country": "South Africa",
+      "url": "https://www.southernsun.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Econo Lodge",
+      "country": "",
+      "url": "https://www.choicehotels.com/econo-lodge",
+      "group": "hotel"
+    },
+    {
+      "name": "Radisson Blu",
+      "country": "United States",
+      "url": "https://www.radissonblu.com",
+      "group": "hotel"
+    },
+    {
+      "name": "The Doyle Collection",
+      "country": "",
+      "url": "https://www.doylecollection.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Embassy Suites Hotels",
+      "country": "",
+      "url": "https://www.hilton.com/en/brands/embassy-suites/",
+      "group": "hotel"
+    },
+    {
+      "name": "Comwell",
+      "country": "Denmark",
+      "url": "https://comwell.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Radisson Blu",
+      "country": "Sweden",
+      "url": "https://www.radissonblu.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Hotel Indigo",
+      "country": "",
+      "url": "https://www.hotelindigo.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Fiesta Inn",
+      "country": "Mexico",
+      "url": "https://www.fiestainn.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Wyndham Hotels & Resorts",
+      "country": "United States",
+      "url": "https://www.wyndhamhotels.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Herods Hotels",
+      "country": "Israel",
+      "url": "http://www.herods.co.il",
+      "group": "hotel"
+    },
+    {
+      "name": "Crerar Hotels",
+      "country": "United Kingdom",
+      "url": "http://www.crerarhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Elite Hotels of Sweden",
+      "country": "Sweden",
+      "url": "https://elite.se",
+      "group": "hotel"
+    },
+    {
+      "name": "De Vere Hotels",
+      "country": "United Kingdom",
+      "url": "https://www.devere.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "UNA Hotels & Resorts",
+      "country": "Italy",
+      "url": "https://www.gruppouna.it/",
+      "group": "hotel"
+    },
+    {
+      "name": "Drury Hotels",
+      "country": "United States",
+      "url": "https://www.druryhotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Loews Hotels",
+      "country": "",
+      "url": "http://www.loewshotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "W Hotels",
+      "country": "",
+      "url": "https://w-hotels.marriott.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "HEI Hotels & Resorts",
+      "country": "",
+      "url": "http://www.heihotels.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Pestana Hotel Group",
+      "country": "Portugal",
+      "url": "https://www.pestana.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Clarion Hotels",
+      "country": "",
+      "url": "https://www.choicehotels.com/clarion",
+      "group": "hotel"
+    },
+    {
+      "name": "Vienna Hotels",
+      "country": "People's Republic of China",
+      "url": "https://www.wyn88.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Soho House",
+      "country": "United Kingdom",
+      "url": "http://www.sohohouse.com",
+      "group": "hotel"
+    },
+    {
+      "name": "TRYP by Wyndham",
+      "country": "Spain",
+      "url": "https://www.wyndhamhotels.com/tryp",
+      "group": "hotel"
+    },
+    {
+      "name": "Strawberry",
+      "country": "Finland",
+      "url": "https://www.strawberry.no/",
+      "group": "hotel"
+    },
+    {
+      "name": "Hampton by Hilton",
+      "country": "",
+      "url": "https://www.hilton.com/en/brands/hampton-by-hilton/",
+      "group": "hotel"
+    },
+    {
+      "name": "Masters Inn",
+      "country": "",
+      "url": "http://www.mastersinn.com/",
+      "group": "hotel"
+    },
+    {
+      "name": "Howard Johnson's",
+      "country": "United States",
+      "url": "http://www.hojo.com",
+      "group": "hotel"
+    },
+    {
+      "name": "Howard Johnson's",
+      "country": "United States",
+      "url": "https://www.wyndhamhotels.com/hojo",
+      "group": "hotel"
+    },
+    {
+      "name": "Macdonald Hotels & Resorts",
+      "country": "United Kingdom",
+      "url": "https://www.macdonaldhotels.co.uk/",
+      "group": "hotel"
+    },
+    {
+      "name": "Yotel",
+      "country": "United Kingdom",
+      "url": "https://www.yotel.com",
+      "group": "hotel"
+    }
+  ]
+}

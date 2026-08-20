@@ -22,6 +22,7 @@ test("captureJobsConfig reads maxConcurrent 6 and maxBatch 1000 from paths.json"
   assert.match(captureJobsConfig().engineeringManufacturing1000, /engineering-manufacturing-1000\.json$/);
   assert.match(captureJobsConfig().insurance1000, /insurance-1000\.json$/);
   assert.match(captureJobsConfig().insurancePlus500, /insurance-plus-500\.json$/);
+  assert.match(captureJobsConfig().designDiversity1000, /design-diversity-1000\.json$/);
 });
 
 test("cross-industry-100 catalog has 100 unique https urls across industries", () => {
@@ -123,4 +124,35 @@ test("insurance-plus-500 has 500 unique https urls and skips prior catalogs", ()
   assert.ok(countries.size >= 40);
   assert.ok(urls.some((url) => url.includes("nn.nl") || url.includes("sagicor")));
   assert.ok(urls.some((url) => url.includes("bajajallianz") || url.includes("fwd.com")));
+});
+
+test("design-diversity-1000 has 1000 unique https urls and skips prior catalogs", () => {
+  const catalog = loadCaptureCatalog("design-diversity-1000");
+  assert.equal(catalog.entries.length, 1000);
+  const urls = catalogUrls(catalog);
+  assert.equal(new Set(urls).size, 1000);
+  assert.equal(new Set(catalog.entries.map((entry) => entry.id)).size, 1000);
+  const hosts = new Set(
+    urls.map((url) => new URL(url).hostname.replace(/^www\./i, "").toLowerCase())
+  );
+  assert.equal(hosts.size, 1000);
+  for (const url of urls) {
+    assert.match(url, /^https:\/\//);
+  }
+  const priorHosts = new Set(
+    [
+      ...catalogUrls(loadCaptureCatalog("automotive-oem-50")),
+      ...catalogUrls(loadCaptureCatalog("cross-industry-100")),
+      ...catalogUrls(loadCaptureCatalog("engineering-manufacturing-1000")),
+      ...catalogUrls(loadCaptureCatalog("insurance-1000")),
+      ...catalogUrls(loadCaptureCatalog("insurance-plus-500"))
+    ].map((url) => new URL(url).hostname.replace(/^www\./i, "").toLowerCase())
+  );
+  for (const host of hosts) {
+    assert.equal(priorHosts.has(host), false, `overlap with prior catalog host: ${host}`);
+  }
+  const groups = new Set(catalog.entries.map((entry) => entry.group));
+  assert.ok(groups.size >= 10);
+  assert.ok(urls.some((url) => url.includes("linear.app") || url.includes("notion")));
+  assert.ok(urls.some((url) => url.includes("zalando") || url.includes("asos")));
 });

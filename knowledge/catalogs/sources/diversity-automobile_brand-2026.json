@@ -1,0 +1,1206 @@
+{
+  "id": "diversity-automobile_brand",
+  "count": 200,
+  "entries": [
+    {
+      "name": "Alpine",
+      "country": "France",
+      "url": "https://www.alpinecars.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Kaipan",
+      "country": "Czech Republic",
+      "url": "https://www.kaipan.cz/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Mazda",
+      "country": "Japan",
+      "url": "https://www.mazda.com/ja/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Citro\u00ebn",
+      "country": "France",
+      "url": "https://citroen.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "GAZ",
+      "country": "Russia",
+      "url": "https://nn.gaz.ru/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Matra",
+      "country": "France",
+      "url": "https://www.matra.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Mercedes-AMG",
+      "country": "Germany",
+      "url": "http://www.mercedes-amg.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Fabryka Samochod\u00f3w Ci\u0119\u017carowych",
+      "country": "Polish People's Republic",
+      "url": "http://www.honker.com.pl/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Renault",
+      "country": "France",
+      "url": "https://www.renaultgroup.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "BYD Auto",
+      "country": "People's Republic of China",
+      "url": "https://byd-automobiles.com/fr/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Lotus Cars",
+      "country": "United Kingdom",
+      "url": "https://www.lotuscars.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volkswagen",
+      "country": "Germany",
+      "url": "https://www.vw.com/en.html",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ferrari",
+      "country": "Italy",
+      "url": "https://www.ferrari.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Fiat",
+      "country": "Italy",
+      "url": "https://www.fiat.com.ar",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Lexus",
+      "country": "Japan",
+      "url": "https://discoverlexus.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Cadillac",
+      "country": "United States",
+      "url": "https://www.cadillac.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Cadillac",
+      "country": "United States",
+      "url": "https://www.cadillaceurope.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Lamborghini",
+      "country": "Italy",
+      "url": "https://www.lamborghini.com/en-en",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Fabryka Samochod\u00f3w Ci\u0119\u017carowych",
+      "country": "Poland",
+      "url": "http://www.honker.com.pl/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Kia",
+      "country": "South Korea",
+      "url": "https://kia.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Maserati",
+      "country": "Italy",
+      "url": "https://www.maserati.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Alfa Romeo",
+      "country": "Italy",
+      "url": "https://www.alfaromeo.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Bristol Cars",
+      "country": "United Kingdom",
+      "url": "http://www.bristolcars.co.uk/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "GAZ",
+      "country": "Soviet Union",
+      "url": "https://nn.gaz.ru/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Motor Company",
+      "country": "United States",
+      "url": "https://www.ford.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Bitter Automobile",
+      "country": "Germany",
+      "url": "https://www.bitter-cars.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Duesenberg",
+      "country": "United States",
+      "url": "http://www.automobilemuseum.org/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Waymo",
+      "country": "United States",
+      "url": "https://waymo.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "BYD Auto",
+      "country": "People's Republic of China",
+      "url": "https://www.byd.com/cn",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "BYD Auto",
+      "country": "People's Republic of China",
+      "url": "https://www.byd.com/en",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "BYD Auto",
+      "country": "People's Republic of China",
+      "url": "https://www.byd.com/es",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Chevrolet",
+      "country": "United States",
+      "url": "https://www.chevrolet.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Aston Martin Lagonda",
+      "country": "United Kingdom",
+      "url": "https://www.astonmartinlagonda.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "BMW",
+      "country": "Germany",
+      "url": "https://www.bmw.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Holden",
+      "country": "Australia",
+      "url": "https://www.holden.com.au/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Daihatsu",
+      "country": "Japan",
+      "url": "https://www.daihatsu.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Isuzu",
+      "country": "Japan",
+      "url": "https://www.isuzu.co.jp/world/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Abarth",
+      "country": "Italy",
+      "url": "https://www.abarth.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hyundai Motor Company",
+      "country": "Germany",
+      "url": "https://www.hyundai.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Honda",
+      "country": "Japan",
+      "url": "https://global.honda",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "\u0160koda Auto",
+      "country": "Czech Republic",
+      "url": "https://www.skoda-auto.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Avia",
+      "country": "Czech Republic",
+      "url": "http://www.avia.cz/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Bentley",
+      "country": "United Kingdom",
+      "url": "https://www.bentleymotors.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hanomag",
+      "country": "Germany",
+      "url": "http://www.komatsu-kohag.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Audi AG",
+      "country": "Germany",
+      "url": "https://www.audi.co.za/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Audi AG",
+      "country": "Germany",
+      "url": "https://www.audi.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Audi AG",
+      "country": "Germany",
+      "url": "https://www.audi.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Audi AG",
+      "country": "Germany",
+      "url": "https://www.audi.fr/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Dodge",
+      "country": "United States",
+      "url": "https://www.dodge.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "AvtoVAZ",
+      "country": "Russia",
+      "url": "http://info.avtovaz.ru/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Toyota",
+      "country": "Japan",
+      "url": "https://global.toyota",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Autosan",
+      "country": "Poland",
+      "url": "https://autosan.pl/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "AC Cars",
+      "country": "United Kingdom",
+      "url": "https://www.accars.eu/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "ErAZ",
+      "country": "Armenia",
+      "url": "https://eraz.auto.am",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Koenigsegg",
+      "country": "Sweden",
+      "url": "https://koenigsegg.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Jeep",
+      "country": "United States",
+      "url": "https://www.jeep.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Mitsubishi Motors",
+      "country": "Japan",
+      "url": "https://www.mitsubishi-motors.com/en/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ligier",
+      "country": "France",
+      "url": "https://www.ligier.fr/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Lagonda",
+      "country": "United Kingdom",
+      "url": "https://www.astonmartinlagonda.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Changan Automobile",
+      "country": "People's Republic of China",
+      "url": "http://www.changan.com.cn/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Changan Automobile",
+      "country": "People's Republic of China",
+      "url": "http://www.globalchangan.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Zastava Automobiles",
+      "country": "Serbia",
+      "url": "http://www.zastavanacionale.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Lancia",
+      "country": "Italy",
+      "url": "https://www.lancia.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "DAF",
+      "country": "Netherlands",
+      "url": "https://daf.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "MTX",
+      "country": "Czech Republic",
+      "url": "http://www.mtx.cz",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Delage",
+      "country": "France",
+      "url": "https://www.delage-automobiles.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Dacia",
+      "country": "Romania",
+      "url": "https://www.renaultgroup.com/en/our-brands/dacia",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Porsche",
+      "country": "Germany",
+      "url": "https://www.porsche.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Buick",
+      "country": "United States",
+      "url": "https://www.buick.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Bertone",
+      "country": "Italy",
+      "url": "http://www.bertone.it/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Mercedes-Benz Group",
+      "country": "Germany",
+      "url": "https://group.mercedes-benz.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hyundai Motor Company",
+      "country": "South Korea",
+      "url": "https://www.hyundai.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Fiat",
+      "country": "Italy",
+      "url": "https://www.fiat.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Donkervoort",
+      "country": "Netherlands",
+      "url": "https://www.donkervoort.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Nissan",
+      "country": "Japan",
+      "url": "https://www.nissan-global.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q27377",
+      "country": "Germany",
+      "url": "http://www.borgward.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Opel",
+      "country": "Germany",
+      "url": "https://www.opel.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "General Motors",
+      "country": "United States",
+      "url": "https://www.gm.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Avtotor",
+      "country": "Russia",
+      "url": "https://www.avtotor.ru/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Intermeccanica",
+      "country": "United States",
+      "url": "http://www.intermeccanica.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "De Tomaso",
+      "country": "Italy",
+      "url": "https://detomaso-automobili.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "BMW M",
+      "country": "Germany",
+      "url": "https://www.bmw-m.com/en/index.html",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Subaru",
+      "country": "Japan",
+      "url": "https://www.subaru-global.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hyundai Motor Group",
+      "country": "South Korea",
+      "url": "https://www.hyundaimotorgroup.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Alpina",
+      "country": "Germany",
+      "url": "http://www.alpina-automobiles.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Zimmer",
+      "country": "United States",
+      "url": "http://www.zimmermotorcars.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "David",
+      "country": "Spain",
+      "url": "http://www.davidsa.com/ca",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Gonow",
+      "country": "People's Republic of China",
+      "url": "http://www.gonowauto.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Jonway Automobile",
+      "country": "People's Republic of China",
+      "url": "http://www.jonwayauto.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Jonway Automobile",
+      "country": "People's Republic of China",
+      "url": "https://www.jonway.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Saipa",
+      "country": "Iran",
+      "url": "http://www.saipacorp.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "\u00c9lan Motorsport Technologies",
+      "country": "United States",
+      "url": "http://www.elanmotorsports.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Zhengzhou Nissan Automobile Company",
+      "country": "People's Republic of China",
+      "url": "https://www.zznissan.com.cn/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Zhengzhou Nissan Automobile Company",
+      "country": "People's Republic of China",
+      "url": "https://www.zznissan.com.cn/english/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Art\u00e9s de Arcos",
+      "country": "Spain",
+      "url": "http://www.joseartesdearcos.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Central Motors",
+      "country": "Japan",
+      "url": "http://www.toyota-ej.co.jp/english",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Tata Motors Ltd",
+      "country": "India",
+      "url": "https://www.tatamotors.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Zonda",
+      "country": "People's Republic of China",
+      "url": "http://www.zonda.com/en/main.asp",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Binz",
+      "country": "Germany",
+      "url": "http://www.binz.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Automobiles Gonfaronnaises Sportives",
+      "country": "France",
+      "url": "http://www.agsformule1.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Stellantis North America",
+      "country": "United States",
+      "url": "https://media.stellantisnorthamerica.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Abt Sportsline",
+      "country": "Germany",
+      "url": "http://www.abt-sportsline.de/en/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "AC Schnitzer",
+      "country": "Germany",
+      "url": "http://www.kohl.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ariel Motor Company",
+      "country": "United Kingdom",
+      "url": "http://www.arielmotor.co.uk/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ginetta Cars",
+      "country": "United Kingdom",
+      "url": "http://www.ginettacars.co.uk/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Wanderer",
+      "country": "Kingdom of Saxony",
+      "url": "http://www.wanderer.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ascari Cars",
+      "country": "United Kingdom",
+      "url": "http://www.ascari.net/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Briggs Automotive Company",
+      "country": "United Kingdom",
+      "url": "http://www.bac-mono.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "UMM",
+      "country": "Portugal",
+      "url": "http://www.umm.pt",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "ZAZ",
+      "country": "Ukraine",
+      "url": "http://epc.avtozaz.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Austin-Healey",
+      "country": "",
+      "url": "http://www.austinhealey.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q203084",
+      "country": "",
+      "url": "https://cizeta-automobili.it/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q219927",
+      "country": "",
+      "url": "https://zonsenmotor.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "KG Mobility",
+      "country": "South Korea",
+      "url": "https://www.kg-mobility.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "SEAT",
+      "country": "Spain",
+      "url": "https://www.seat.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "VDL Nedcar",
+      "country": "Netherlands",
+      "url": "https://www.vdlnedcar.nl/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volkswagen Group",
+      "country": "Germany",
+      "url": "https://www.volkswagenag.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volkswagen Group",
+      "country": "Germany",
+      "url": "https://www.volkswagenag.com/de.html",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volkswagen Group",
+      "country": "Germany",
+      "url": "https://www.volkswagenag.com/en.html",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Osella",
+      "country": "Italy",
+      "url": "https://www.osella.it/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volvo Cars",
+      "country": "Sweden",
+      "url": "https://www.volvocars.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Vauxhall",
+      "country": "United Kingdom",
+      "url": "https://www.vauxhall.co.uk/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Lincoln Motor Company",
+      "country": "United States",
+      "url": "https://www.lincoln.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Suzuki Motor Corporation",
+      "country": "Japan",
+      "url": "https://www.globalsuzuki.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Wanderer",
+      "country": "German Empire",
+      "url": "http://www.wanderer.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ram Trucks",
+      "country": "United States",
+      "url": "https://www.ramtrucks.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Checker Motors Corporation",
+      "country": "United States",
+      "url": "https://www.checkermotorcars.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Carbodies",
+      "country": "United Kingdom",
+      "url": "http://www.lti.co.uk/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Valmet Automotive",
+      "country": "",
+      "url": "https://www.valmet-automotive.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ram Trucks",
+      "country": "Canada",
+      "url": "https://www.ramtrucks.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Global Electric Motorcars",
+      "country": "United States",
+      "url": "https://gem.polaris.com/en-us/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "General Motors of Canada",
+      "country": "Canada",
+      "url": "https://www.gm.ca/en/home.html",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Mekong Auto",
+      "country": "",
+      "url": "http://www.mekongauto.com.vn/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Estrima",
+      "country": "",
+      "url": "http://www.estrima.com/de/index.aspx",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Euramobil vehicles",
+      "country": "",
+      "url": "http://www.euramobil.de",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Edwin Foden, Sons & Co.",
+      "country": "United Kingdom",
+      "url": "http://www.foden.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Expertise",
+      "country": "",
+      "url": "http://www.expertise.co.th",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Tan Chong Motor Holdings Berhad",
+      "country": "Malaysia",
+      "url": "https://www.tanchonggroup.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford do Brasil",
+      "country": "Brazil",
+      "url": "https://www.ford.com.br/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "El Nasr Automotive Manufacturing Company",
+      "country": "Egypt",
+      "url": "https://nasr.eg",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Performance Vehicles",
+      "country": "",
+      "url": "http://www.fpv.com.au",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Australia",
+      "country": "Australia",
+      "url": "https://www.ford.com.au/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Alba",
+      "country": "",
+      "url": "http://www.albaportugal.ning.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "McLaren Automotive",
+      "country": "United Kingdom",
+      "url": "https://cars.mclaren.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford of South Africa",
+      "country": "South Africa",
+      "url": "https://www.ford.co.za/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Italia",
+      "country": "Italy",
+      "url": "https://www.ford.it/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Elcat Oy",
+      "country": "Finland",
+      "url": "http://www.elcat.fi",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Elcat Oy",
+      "country": "Finland",
+      "url": "http://www.elcat.fi/eng/index.php",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Toyota Motor Manufacturing Turkey",
+      "country": "Turkey",
+      "url": "https://www.toyotatr.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Perodua",
+      "country": "",
+      "url": "http://www.perodua.com.my/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Renault\u2013Nissan\u2013Mitsubishi Alliance",
+      "country": "",
+      "url": "https://alliancernm.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Motor Company of Canada",
+      "country": "Canada",
+      "url": "https://www.ford.ca/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Marlin",
+      "country": "United Kingdom",
+      "url": "http://www.marlinsportscars.co.uk",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Aymesa",
+      "country": "",
+      "url": "http://www.aymesa.ec/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hafei Motor Co.",
+      "country": "",
+      "url": "http://www.hafeiauto.com.cn",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Esther",
+      "country": "",
+      "url": "http://www.esther.se/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Argentina",
+      "country": "Argentina",
+      "url": "https://www.ford.com.ar/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Giannini Automobili",
+      "country": "Italy",
+      "url": "http://www.gianniniautomobili.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Tazzari",
+      "country": "",
+      "url": "http://www.tazzari-zero.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Gilco vehicles",
+      "country": "",
+      "url": "http://www.gilcodesign.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hyundai Motor India Limited",
+      "country": "",
+      "url": "http://www.hyundai.co.in/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Giotti Victoria",
+      "country": "",
+      "url": "https://www.giottivictoria.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Saleen",
+      "country": "United States",
+      "url": "https://www.saleen.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "GAC Toyota",
+      "country": "",
+      "url": "https://www.gac-toyota.com.cn/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Fisker",
+      "country": "United States",
+      "url": "https://www.fiskerinc.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Waaijenberg",
+      "country": "Netherlands",
+      "url": "https://www.waaijenberg.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Van Hool",
+      "country": "Belgium",
+      "url": "http://www.vanhool.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "SSC North America",
+      "country": "United States",
+      "url": "https://www.sscnorthamerica.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Eurocar",
+      "country": "Ukraine",
+      "url": "http://uk.eurocar.com.ua/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Eurocar",
+      "country": "Ukraine",
+      "url": "http://www.eurocar.com.ua",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Fendt Caravan",
+      "country": "Germany",
+      "url": "http://www.fendt-caravan.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ferbedo motorcycles",
+      "country": "Germany",
+      "url": "http://www.ferbedo.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Force Motors",
+      "country": "India",
+      "url": "http://www.forcemotors.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "MMC Automotriz",
+      "country": "Venezuela",
+      "url": "http://mitsubishi-motors.com.ve",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volkswagen Motor Polska",
+      "country": "Poland",
+      "url": "http://www.vwmp.com.pl/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Iran Khodro",
+      "country": "Iran",
+      "url": "http://www.ikco.ir",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Iran Khodro",
+      "country": "Iran",
+      "url": "https://www.ikcopress.ir/fa",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q1321840",
+      "country": "",
+      "url": "http://www.volkspares.co.za",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Vietnam Limited",
+      "country": "Vietnam",
+      "url": "https://www.ford.com.vn/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q1435850",
+      "country": "",
+      "url": "http://www.fontauto.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q1501640",
+      "country": "",
+      "url": "http://www.gmnigeria.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "GTA Motor",
+      "country": "Spain",
+      "url": "https://www.spaniagta.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "GTM Cars",
+      "country": "United Kingdom",
+      "url": "http://www.gtmcars.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Toyota Motor Manufacturing Canada",
+      "country": "Canada",
+      "url": "https://tmmc.ca/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q1349971",
+      "country": "Germany",
+      "url": "http://www.fiberfab.de",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Volkswagen de M\u00e9xico",
+      "country": "Mexico",
+      "url": "https://www.vw.com.mx/es.html",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q1411666",
+      "country": "Germany",
+      "url": "http://www.fesc.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Bizzarrini",
+      "country": "Italy",
+      "url": "https://www.bizzarrini.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Q1513876",
+      "country": "Germany",
+      "url": "http://www.german-e-cars.de/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Haima Automobile",
+      "country": "People's Republic of China",
+      "url": "http://www.haima.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "SAIC Volkswagen",
+      "country": "People's Republic of China",
+      "url": "http://www.csvw.com/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "GM Vietnam",
+      "country": "Vietnam",
+      "url": "http://gmvietnam.com.vn",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Hurtan",
+      "country": "Spain",
+      "url": "http://www.hurtan.com",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ermini vehicles",
+      "country": "Italy",
+      "url": "http://www.erminiautomobili.it",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Emgrand",
+      "country": "",
+      "url": "http://www.dhcar.cn//",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Troller Ve\u00edculos Especiais",
+      "country": "Brazil",
+      "url": "https://www.troller.com.br/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Kia Motors Slovakia",
+      "country": "Slovakia",
+      "url": "http://www.kia.sk/index.php",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Ford Otosan",
+      "country": "Turkey",
+      "url": "https://www.fordotosan.com.tr/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "LTI",
+      "country": "United Kingdom",
+      "url": "http://www.lti.co.uk/",
+      "group": "automobile_brand"
+    },
+    {
+      "name": "Karsan",
+      "country": "Turkey",
+      "url": "http://www.karsan.com.tr",
+      "group": "automobile_brand"
+    }
+  ]
+}

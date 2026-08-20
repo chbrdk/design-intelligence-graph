@@ -300,6 +300,7 @@
   "captureJobs": {
     "doc": "knowledge/capture-batch.md",
     "insuranceDoc": "knowledge/insurance-catalog.md",
+    "designDiversityDoc": "knowledge/design-diversity-catalog.md",
     "maxConcurrent": 6,
     "batchPath": "/batch",
     "catalogsDir": "knowledge/catalogs",
@@ -308,6 +309,7 @@
     "engineeringManufacturing1000": "knowledge/catalogs/engineering-manufacturing-1000.json",
     "insurance1000": "knowledge/catalogs/insurance-1000.json",
     "insurancePlus500": "knowledge/catalogs/insurance-plus-500.json",
+    "designDiversity1000": "knowledge/catalogs/design-diversity-1000.json",
     "maxBatch": 1000
   },
   "imageIngest": {

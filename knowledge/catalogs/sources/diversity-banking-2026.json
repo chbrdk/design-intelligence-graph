@@ -1,0 +1,2406 @@
+{
+  "id": "diversity-banking",
+  "count": 400,
+  "entries": [
+    {
+      "name": "Penghu the Second Credit Cooperative",
+      "country": "Taiwan",
+      "url": "https://ph2c.scu.org.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Jerichower Land eG",
+      "country": "Germany",
+      "url": "https://www.vb-jerichower-land.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank L\u00f6bau-Zittau",
+      "country": "Germany",
+      "url": "https://www.vb-loebau-zittau.de/startseite.html",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Winsener Marsch",
+      "country": "Germany",
+      "url": "https://www.vbwinsenermarsch.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Abound Credit Union",
+      "country": "",
+      "url": "https://www.aboundcu.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Community First Credit Union",
+      "country": "",
+      "url": "https://www.communityfirstfl.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Raiffeisenbank Seesterm\u00fche",
+      "country": "Germany",
+      "url": "https://www.rbseestermuehe.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Raiffeisenbank Todenb\u00fcttel",
+      "country": "Germany",
+      "url": "https://www.rbtodenbuettel.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Spar- und Kreditbank B\u00fchlertal",
+      "country": "Germany",
+      "url": "https://www.skb-buehlertal.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank B\u00f6nen",
+      "country": "Germany",
+      "url": "https://www.volksbank-boenen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Schwanewede",
+      "country": "Germany",
+      "url": "https://www.voba-schwanewede.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Spree-Nei\u00dfe",
+      "country": "Germany",
+      "url": "https://www.vbspn.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Penghu the Second Credit Cooperative",
+      "country": "Taiwan under Japanese rule",
+      "url": "https://ph2c.scu.org.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Capital Credit Union",
+      "country": "United Kingdom",
+      "url": "https://www.capitalcreditunion.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Cresol",
+      "country": "Brazil",
+      "url": "https://cresol.com.br/",
+      "group": "banking"
+    },
+    {
+      "name": "Pace Savings & Credit Union",
+      "country": "",
+      "url": "https://www.pacecu.ca/",
+      "group": "banking"
+    },
+    {
+      "name": "Q110271430",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-elztal.de",
+      "group": "banking"
+    },
+    {
+      "name": "OnPoint Community Credit Union",
+      "country": "United States",
+      "url": "https://www.onpointcu.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Q115264228",
+      "country": "Germany",
+      "url": "https://www.rb-knobi.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q116079854",
+      "country": "Germany",
+      "url": "https://www.raiba-smue-stauden.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116136324",
+      "country": "Germany",
+      "url": "https://www.raiba-idafehn.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116142616",
+      "country": "Germany",
+      "url": "https://www.vblastrup.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116151224",
+      "country": "Germany",
+      "url": "https://www.vbhaseluenne.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116162354",
+      "country": "Germany",
+      "url": "https://www.vrbank-osnordland.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116562416",
+      "country": "Germany",
+      "url": "https://www.vr-mio.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116621229",
+      "country": "Germany",
+      "url": "https://www.vb-grebenhain.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116717952",
+      "country": "Germany",
+      "url": "https://www.rb-om.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116731907",
+      "country": "Germany",
+      "url": "https://www.volksbank-raiffeisenbank-regensburg-schwandorf.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116766229",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-straubing.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116764377",
+      "country": "Germany",
+      "url": "https://www.vb-marl-recklinghausen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116778851",
+      "country": "Germany",
+      "url": "https://www.volksbank-kleverland.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116780262",
+      "country": "Germany",
+      "url": "https://www.volksbank-rietberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116789206",
+      "country": "Germany",
+      "url": "https://www.vb-bocholt.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q116791393",
+      "country": "Germany",
+      "url": "https://www.volksbank-staufen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Lighthouse Credit Union",
+      "country": "United States",
+      "url": "https://necu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Lighthouse Credit Union",
+      "country": "United States",
+      "url": "https://www.lighthousecu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Q122228362",
+      "country": "Germany",
+      "url": "http://www.raibalauenburg.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124368133",
+      "country": "Germany",
+      "url": "https://www.budenheimervb.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124368334",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-kastellaun.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124368792",
+      "country": "Germany",
+      "url": "https://www.rb-nahe.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124375454",
+      "country": "Germany",
+      "url": "https://www.rb-nr.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124368004",
+      "country": "Germany",
+      "url": "https://www.volksbank-hamm.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124377748",
+      "country": "Germany",
+      "url": "https://www.meinevrbank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124389879",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-erlenbach.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124389642",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-wyhl.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124386848",
+      "country": "Germany",
+      "url": "https://www.rb-dreifranken.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124389711",
+      "country": "Germany",
+      "url": "https://www.rb-kieselbronn.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124386827",
+      "country": "Germany",
+      "url": "https://www.rb-singoldtal.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124388030",
+      "country": "Germany",
+      "url": "https://www.rbbs.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124388662",
+      "country": "Germany",
+      "url": "https://www.volksbank-baumberge.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124394601",
+      "country": "Germany",
+      "url": "https://www.bensbergerbank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124409518",
+      "country": "Germany",
+      "url": "https://www.bodenseebank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398496",
+      "country": "Germany",
+      "url": "https://www.dettinger-bank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398857",
+      "country": "Germany",
+      "url": "https://www.raiba-mittenwald.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124395043",
+      "country": "Germany",
+      "url": "https://www.rb-arnstorf.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398914",
+      "country": "Germany",
+      "url": "https://www.rb-bechhofen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398131",
+      "country": "Germany",
+      "url": "https://www.rb-grainet.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398856",
+      "country": "Germany",
+      "url": "https://www.rb-wegscheid.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124394599",
+      "country": "Germany",
+      "url": "https://www.vb-hohenlimburg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124394804",
+      "country": "Germany",
+      "url": "https://www.vbheiden.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124400399",
+      "country": "Germany",
+      "url": "https://www.vbrn.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124397808",
+      "country": "Germany",
+      "url": "https://www.voba-ober-moerlen.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124397807",
+      "country": "Germany",
+      "url": "https://www.voba-seligenstadt.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398497",
+      "country": "Germany",
+      "url": "https://www.volksbank-dettenhausen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124399740",
+      "country": "Germany",
+      "url": "https://www.volksbank-immenstadt.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398075",
+      "country": "Germany",
+      "url": "https://www.volksbank-kierspe.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124409703",
+      "country": "Germany",
+      "url": "https://www.volksbank-lindenberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124398281",
+      "country": "Germany",
+      "url": "https://www.volksbank-schupbach.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124400224",
+      "country": "Germany",
+      "url": "https://www.vrbfw.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124394685",
+      "country": "Germany",
+      "url": "https://www.westkreis.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124412821",
+      "country": "Germany",
+      "url": "https://www.volksbank-boerde-bernburg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Caixa Altea",
+      "country": "Spain",
+      "url": "https://www.grupocooperativocajamar.es/caixaltea/es/comun/",
+      "group": "banking"
+    },
+    {
+      "name": "Caixa Altea",
+      "country": "Spain",
+      "url": "https://www.grupocooperativocajamar.es/caixaltea/va/comun/",
+      "group": "banking"
+    },
+    {
+      "name": "Caixa Callosa",
+      "country": "Spain",
+      "url": "https://www.grupocooperativocajamar.es/caixacallosa/va/comun/",
+      "group": "banking"
+    },
+    {
+      "name": "DuTrac Community Credit Union",
+      "country": "United States",
+      "url": "https://www.dutrac.org",
+      "group": "banking"
+    },
+    {
+      "name": "Q113860677",
+      "country": "Austria",
+      "url": "https://www.raiffeisen.at/ooe/steinbach-gruenburg/de/privatkunden.html",
+      "group": "banking"
+    },
+    {
+      "name": "Belco Community Credit Union",
+      "country": "",
+      "url": "https://belco.org",
+      "group": "banking"
+    },
+    {
+      "name": "Unitus Community Credit Union",
+      "country": "United States",
+      "url": "https://www.unitusccu.com/",
+      "group": "banking"
+    },
+    {
+      "name": "VR S\u00fcdBank",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-westallgaeu.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Raiffeisenbank Anger",
+      "country": "Germany",
+      "url": "https://www.rb-anger.de/startseite.html",
+      "group": "banking"
+    },
+    {
+      "name": "United-Credit Commercial Bank",
+      "country": "",
+      "url": "http://www.skbank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Lucky Bank",
+      "country": "Taiwan",
+      "url": "http://www.luckybank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Keelung First Credit Cooperative",
+      "country": "Empire of Japan",
+      "url": "https://www.kfcc.com.tw/index.aspx",
+      "group": "banking"
+    },
+    {
+      "name": "Gateway Credit Union",
+      "country": "",
+      "url": "https://gatewaycu.co.uk/",
+      "group": "banking"
+    },
+    {
+      "name": "Champions First Credit Union",
+      "country": "United States",
+      "url": "https://championsfirst.org/",
+      "group": "banking"
+    },
+    {
+      "name": "The First Credit Cooperative of Hsinchu",
+      "country": "Taiwan",
+      "url": "https://www.hcfcbank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Gulf Winds Credit Union",
+      "country": "United States",
+      "url": "https://www.gogulfwinds.com/",
+      "group": "banking"
+    },
+    {
+      "name": "First Commerce Credit Union",
+      "country": "United States",
+      "url": "https://www.firstcommercecu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank-Raiffeisenbank Glauchau",
+      "country": "Germany",
+      "url": "https://www.vr-glauchau.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Raiffeisen-Volksbank Neustadt",
+      "country": "Germany",
+      "url": "https://www.raiffeisen-volksbank-neustadt.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Raiffeisenbank Steingaden",
+      "country": "Germany",
+      "url": "https://www.raiba-steingaden.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank B\u00f6r\u00dfum-Hornburg",
+      "country": "Germany",
+      "url": "https://www.vbbh.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Dromara & Drumgooland Credit Union",
+      "country": "United Kingdom",
+      "url": "https://ddcreditunion.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Five Star Credit Union",
+      "country": "United States",
+      "url": "https://www.fivestarcu.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Ohio University Credit Union",
+      "country": "United States",
+      "url": "https://www.oucu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "University Federal Credit Union",
+      "country": "United States",
+      "url": "https://www.ufcu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Tamshui First Credit Bank",
+      "country": "Empire of Japan",
+      "url": "https://www.tfccbank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Keelung First Credit Cooperative",
+      "country": "Taiwan",
+      "url": "https://www.kfcc.com.tw/index.aspx",
+      "group": "banking"
+    },
+    {
+      "name": "Envision Credit Union",
+      "country": "United States",
+      "url": "https://www.envisioncu.com/",
+      "group": "banking"
+    },
+    {
+      "name": "SKOK \u015al\u0105sk",
+      "country": "Poland",
+      "url": "https://skok.slask.pl/klienci-indywidualni/",
+      "group": "banking"
+    },
+    {
+      "name": "Tamsui Credit Cooperative",
+      "country": "Empire of Japan",
+      "url": "https://tsc.scu.org.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Kootenay Savings Credit Union",
+      "country": "",
+      "url": "https://kscu.com",
+      "group": "banking"
+    },
+    {
+      "name": "Cambrian Credit Union",
+      "country": "Canada",
+      "url": "https://cambrian.mb.ca",
+      "group": "banking"
+    },
+    {
+      "name": "Kalsee Credit Union",
+      "country": "United States",
+      "url": "https://www.kalsee.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Q131346443",
+      "country": "United States",
+      "url": "https://www.rivermarkcu.org",
+      "group": "banking"
+    },
+    {
+      "name": "Campus USA Credit Union",
+      "country": "United States",
+      "url": "https://campuscu.com/",
+      "group": "banking"
+    },
+    {
+      "name": "LOYALTY Credit Union",
+      "country": "United States",
+      "url": "https://loyaltycu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419362",
+      "country": "Germany",
+      "url": "https://www.landbank-horlofftal.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124414344",
+      "country": "Germany",
+      "url": "https://www.raiba-alsbach.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419374",
+      "country": "Germany",
+      "url": "https://www.raiba-buett-gauk.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419372",
+      "country": "Germany",
+      "url": "https://www.raiba-bw.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424391",
+      "country": "Germany",
+      "url": "https://www.raiba-pfaffenhofen.dee/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419373",
+      "country": "Germany",
+      "url": "https://www.raiba-ueda.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419363",
+      "country": "Germany",
+      "url": "https://www.raibahallertau.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124413385",
+      "country": "Germany",
+      "url": "https://www.rb-biebergrund-petersberg.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424451",
+      "country": "Germany",
+      "url": "https://www.rb-burgstaedt.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424480",
+      "country": "Germany",
+      "url": "https://www.rb-eching.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424452",
+      "country": "Germany",
+      "url": "https://www.rb-hs.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424453",
+      "country": "Germany",
+      "url": "https://www.rb-kirchweihtal.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124414210",
+      "country": "Germany",
+      "url": "https://www.rb-schaafheim.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424454",
+      "country": "Germany",
+      "url": "https://www.rb-sued-oal.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419370",
+      "country": "Germany",
+      "url": "https://www.rbok.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419371",
+      "country": "Germany",
+      "url": "https://www.rbpn.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424450",
+      "country": "Germany",
+      "url": "https://www.vb-delitzsch.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419368",
+      "country": "Germany",
+      "url": "https://www.vb-kempen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424390",
+      "country": "Germany",
+      "url": "https://www.voba-sh.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419011",
+      "country": "Germany",
+      "url": "https://www.volksbank-adelebsen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124424408",
+      "country": "Germany",
+      "url": "https://www.volksbank-anroechte.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419403",
+      "country": "Germany",
+      "url": "https://www.volksbank-langendernbach.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419369",
+      "country": "Germany",
+      "url": "https://www.volksbank-nordschwarzwald.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124419365",
+      "country": "Germany",
+      "url": "https://www.vr-meissen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430556",
+      "country": "Germany",
+      "url": "https://www.bopfinger-bank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430540",
+      "country": "Germany",
+      "url": "https://www.ems-vechte.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124440048",
+      "country": "Germany",
+      "url": "https://www.raiba-boellingertal.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439919",
+      "country": "Germany",
+      "url": "https://www.raiba-donau-heuberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430546",
+      "country": "Germany",
+      "url": "https://www.raiba-kaarst.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430557",
+      "country": "Germany",
+      "url": "https://www.raiba-westhausen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430553",
+      "country": "Germany",
+      "url": "https://www.raibadirekt.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430562",
+      "country": "Germany",
+      "url": "https://www.rb-bad-saulgau.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439923",
+      "country": "Germany",
+      "url": "https://www.rb-chiemgau-nord.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439917",
+      "country": "Germany",
+      "url": "https://www.rb-denzlingen-sexau.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439921",
+      "country": "Germany",
+      "url": "https://www.rb-koetzting.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124433144",
+      "country": "Germany",
+      "url": "https://www.rb-niedere-alb.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439926",
+      "country": "Germany",
+      "url": "https://www.rb-rattiszell-konzell.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439924",
+      "country": "Germany",
+      "url": "https://www.rb-tofk.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439920",
+      "country": "Germany",
+      "url": "https://www.rbfalkenstein-woerth.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439928",
+      "country": "Germany",
+      "url": "https://www.rvb-bad-staffelstein.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124439925",
+      "country": "Germany",
+      "url": "https://www.rvbwemding.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430547",
+      "country": "Germany",
+      "url": "https://www.vb-eow.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430541",
+      "country": "Germany",
+      "url": "https://www.vb-nordhuemmling.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430542",
+      "country": "Germany",
+      "url": "https://www.vbgn.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430549",
+      "country": "Germany",
+      "url": "https://www.voba-deisslingen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430545",
+      "country": "Germany",
+      "url": "https://www.volksbank-nordkirchen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124430559",
+      "country": "Germany",
+      "url": "https://www.volksbank-remseck.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453890",
+      "country": "Germany",
+      "url": "https://www.alxinger-bank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453887",
+      "country": "Germany",
+      "url": "https://www.raiba-burgthann.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453886",
+      "country": "Germany",
+      "url": "https://www.raiba-elsavatal.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453894",
+      "country": "Germany",
+      "url": "https://www.raiba-floss.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453882",
+      "country": "Germany",
+      "url": "https://www.raiba-kms.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453891",
+      "country": "Germany",
+      "url": "https://www.raiba-oberland.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453895",
+      "country": "Germany",
+      "url": "https://www.raiffeisenbank-sinzing.dee/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453893",
+      "country": "Germany",
+      "url": "https://www.rb-thurnauerland.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453888",
+      "country": "Germany",
+      "url": "https://www.rb-tuerkheim.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453889",
+      "country": "Germany",
+      "url": "https://www.rb-uz.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453881",
+      "country": "Germany",
+      "url": "https://www.rbuv.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124453885",
+      "country": "Germany",
+      "url": "https://www.rv-banken.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124454282",
+      "country": "Germany",
+      "url": "https://www.scharnhauserbank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124454468",
+      "country": "Germany",
+      "url": "https://www.vbemstek.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124455551",
+      "country": "Germany",
+      "url": "https://www.vobak.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q124455364",
+      "country": "Germany",
+      "url": "https://www.vr-bank-alzey-land-schwabenheim.de",
+      "group": "banking"
+    },
+    {
+      "name": "Second credit cooperative of Keelung",
+      "country": "Taiwan",
+      "url": "https://www.kscc.com.tw/index.html",
+      "group": "banking"
+    },
+    {
+      "name": "Tamshui First Credit Bank",
+      "country": "Taiwan",
+      "url": "https://www.tfccbank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Kaakkois-Suomen Osuuspankki",
+      "country": "Finland",
+      "url": "https://www.op.fi/web/op-kaakkois-suomi",
+      "group": "banking"
+    },
+    {
+      "name": "Tamsui Credit Cooperative",
+      "country": "Taiwan",
+      "url": "https://tsc.scu.org.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "HSBC",
+      "country": "United Kingdom",
+      "url": "https://hsbc.com/",
+      "group": "banking"
+    },
+    {
+      "name": "UniCredit",
+      "country": "Italy",
+      "url": "https://www.unicreditgroup.eu",
+      "group": "banking"
+    },
+    {
+      "name": "Morgan Stanley",
+      "country": "United States",
+      "url": "https://morganstanley.com",
+      "group": "banking"
+    },
+    {
+      "name": "Morgan Stanley",
+      "country": "United Kingdom",
+      "url": "https://morganstanley.com",
+      "group": "banking"
+    },
+    {
+      "name": "United Bank for Africa",
+      "country": "Nigeria",
+      "url": "https://www.ubagroup.com/",
+      "group": "banking"
+    },
+    {
+      "name": "ANZ Bank New Zealand",
+      "country": "New Zealand",
+      "url": "http://www.anz.co.nz/",
+      "group": "banking"
+    },
+    {
+      "name": "Arion Bank",
+      "country": "Iceland",
+      "url": "https://www.arionbanki.is",
+      "group": "banking"
+    },
+    {
+      "name": "Procredit Group",
+      "country": "Germany",
+      "url": "https://www.procredit-holding.com",
+      "group": "banking"
+    },
+    {
+      "name": "Glitnir",
+      "country": "Iceland",
+      "url": "http://www.glitnir.is/",
+      "group": "banking"
+    },
+    {
+      "name": "KB Kookmin Bank",
+      "country": "South Korea",
+      "url": "http://www.kbfng.com/",
+      "group": "banking"
+    },
+    {
+      "name": "IKB Deutsche Industriebank",
+      "country": "Germany",
+      "url": "http://www.ikb.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Central African States",
+      "country": "Cameroon",
+      "url": "https://www.beac.int",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Central African States",
+      "country": "Gabon",
+      "url": "https://www.beac.int",
+      "group": "banking"
+    },
+    {
+      "name": "PrivatBank",
+      "country": "Latvia",
+      "url": "http://www.privatbank.lv/",
+      "group": "banking"
+    },
+    {
+      "name": "Central Bank of the Republic of Turkey",
+      "country": "Turkey",
+      "url": "http://www.tcmb.gov.tr",
+      "group": "banking"
+    },
+    {
+      "name": "Piraeus Bank",
+      "country": "Greece",
+      "url": "https://www.piraeusbank.gr/",
+      "group": "banking"
+    },
+    {
+      "name": "Temirbank",
+      "country": "Kazakhstan",
+      "url": "http://www.temirbank.kz/",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Central African States",
+      "country": "Central African Republic",
+      "url": "https://www.beac.int",
+      "group": "banking"
+    },
+    {
+      "name": "SAREB",
+      "country": "Spain",
+      "url": "http://www.sareb.es",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Central African States",
+      "country": "Chad",
+      "url": "https://www.beac.int",
+      "group": "banking"
+    },
+    {
+      "name": "Guaranty Trust Holding Company",
+      "country": "Nigeria",
+      "url": "https://www.gtbank.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Dexia",
+      "country": "Belgium",
+      "url": "http://www.dexia.com",
+      "group": "banking"
+    },
+    {
+      "name": "PNC Financial Services",
+      "country": "United States",
+      "url": "https://www.pnc.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Dexia",
+      "country": "France",
+      "url": "http://www.dexia.com",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Central African States",
+      "country": "Republic of the Congo",
+      "url": "https://www.beac.int",
+      "group": "banking"
+    },
+    {
+      "name": "Banco de Valencia",
+      "country": "Spain",
+      "url": "http://www.bancodevalencia.es",
+      "group": "banking"
+    },
+    {
+      "name": "National bank of Liechtenstein",
+      "country": "Liechtenstein",
+      "url": "https://www.llb.li/en",
+      "group": "banking"
+    },
+    {
+      "name": "Sberbank",
+      "country": "Russia",
+      "url": "https://www.sberbank.ru",
+      "group": "banking"
+    },
+    {
+      "name": "Commonwealth Bank",
+      "country": "Australia",
+      "url": "https://www.commbank.com.au/",
+      "group": "banking"
+    },
+    {
+      "name": "Jyske Bank",
+      "country": "Denmark",
+      "url": "http://www.jyskebank.dk/",
+      "group": "banking"
+    },
+    {
+      "name": "ATEbank",
+      "country": "Greece",
+      "url": "http://www.atebank.gr/ENGLISH/",
+      "group": "banking"
+    },
+    {
+      "name": "Banque de Tunisie",
+      "country": "French protectorate of Tunisia",
+      "url": "http://www.bt.com.tn/",
+      "group": "banking"
+    },
+    {
+      "name": "BAWAG",
+      "country": "Austria",
+      "url": "https://www.bawag.at/bawag/privatkunden",
+      "group": "banking"
+    },
+    {
+      "name": "Crelan",
+      "country": "Belgium",
+      "url": "https://www.crelan.be/",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Beijing",
+      "country": "People's Republic of China",
+      "url": "http://www.bankofbeijing.com.cn/",
+      "group": "banking"
+    },
+    {
+      "name": "Goldman Sachs",
+      "country": "United States",
+      "url": "https://www.goldmansachs.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Akbank",
+      "country": "Turkey",
+      "url": "https://www.akbank.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Chase Bank",
+      "country": "United States",
+      "url": "https://www.chase.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Scotland",
+      "country": "United Kingdom",
+      "url": "https://www.bankofscotland.co.uk/",
+      "group": "banking"
+    },
+    {
+      "name": "Agrobanka",
+      "country": "Serbia",
+      "url": "http://www.agrobanka.co.rs/",
+      "group": "banking"
+    },
+    {
+      "name": "Mizuho Financial Group",
+      "country": "Japan",
+      "url": "http://www.mizuho-fg.co.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Mizuho Financial Group",
+      "country": "Japan",
+      "url": "https://www.mizuho-fg.com/index.html",
+      "group": "banking"
+    },
+    {
+      "name": "DZ Bank",
+      "country": "Germany",
+      "url": "https://www.dzbank.com",
+      "group": "banking"
+    },
+    {
+      "name": "DZ Bank",
+      "country": "Germany",
+      "url": "https://www.dzbank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Garanti BBVA",
+      "country": "Turkey",
+      "url": "https://www.garantibbva.com.tr/",
+      "group": "banking"
+    },
+    {
+      "name": "BDV | Banco de Venezuela",
+      "country": "Venezuela",
+      "url": "http://www.bancodevenezuela.com",
+      "group": "banking"
+    },
+    {
+      "name": "Credit Agricole Group",
+      "country": "France",
+      "url": "https://www.credit-agricole.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Banca Monte dei Paschi di Siena",
+      "country": "Italy",
+      "url": "https://www.mps.it/",
+      "group": "banking"
+    },
+    {
+      "name": "Sanpaolo IMI",
+      "country": "Italy",
+      "url": "http://www.sanpaoloimi.it/",
+      "group": "banking"
+    },
+    {
+      "name": "Kaspi Bank",
+      "country": "Kazakhstan",
+      "url": "https://kaspi.kz/",
+      "group": "banking"
+    },
+    {
+      "name": "Credit Suisse",
+      "country": "Switzerland",
+      "url": "https://www.credit-suisse.com/",
+      "group": "banking"
+    },
+    {
+      "name": "The Hongkong and Shanghai Banking Corporation Limited",
+      "country": "People's Republic of China",
+      "url": "http://www.hsbc.com.hk",
+      "group": "banking"
+    },
+    {
+      "name": "The Royal Bank of Scotland",
+      "country": "United Kingdom",
+      "url": "https://www.rbs.co.uk/",
+      "group": "banking"
+    },
+    {
+      "name": "ATFBank",
+      "country": "Kazakhstan",
+      "url": "http://www.atfbank.kz/",
+      "group": "banking"
+    },
+    {
+      "name": "CBH Bank",
+      "country": "Switzerland",
+      "url": "http://www.cbhbank.com/",
+      "group": "banking"
+    },
+    {
+      "name": "ABN AMRO",
+      "country": "Netherlands",
+      "url": "http://www.abnamro.com/",
+      "group": "banking"
+    },
+    {
+      "name": "HypoVereinsbank",
+      "country": "Germany",
+      "url": "https://www.hypovereinsbank.de",
+      "group": "banking"
+    },
+    {
+      "name": "SunTrust Banks",
+      "country": "United States",
+      "url": "https://www.suntrust.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Industrial Bank of Korea",
+      "country": "South Korea",
+      "url": "https://www.ibk.co.kr/",
+      "group": "banking"
+    },
+    {
+      "name": "LGT Group",
+      "country": "Liechtenstein",
+      "url": "http://www.lgt.com",
+      "group": "banking"
+    },
+    {
+      "name": "Woori Financial Group",
+      "country": "South Korea",
+      "url": "https://www.woorifg.com/eng/main/index.do",
+      "group": "banking"
+    },
+    {
+      "name": "Barclays",
+      "country": "United Kingdom",
+      "url": "https://home.barclays/",
+      "group": "banking"
+    },
+    {
+      "name": "Barclays",
+      "country": "United Kingdom",
+      "url": "https://www.barclays.co.uk/",
+      "group": "banking"
+    },
+    {
+      "name": "March Bank",
+      "country": "Spain",
+      "url": "http://www.bancamarch.com",
+      "group": "banking"
+    },
+    {
+      "name": "March Bank",
+      "country": "Spain",
+      "url": "https://www.bancamarch.es/es/",
+      "group": "banking"
+    },
+    {
+      "name": "Hamburg Commercial Bank",
+      "country": "Germany",
+      "url": "https://www.hcob-bank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "National Bank of Canada",
+      "country": "Canada",
+      "url": "https://www.nbc.ca/",
+      "group": "banking"
+    },
+    {
+      "name": "BNP Paribas",
+      "country": "France",
+      "url": "https://group.bnpparibas",
+      "group": "banking"
+    },
+    {
+      "name": "ING Group",
+      "country": "Netherlands",
+      "url": "https://ing.com",
+      "group": "banking"
+    },
+    {
+      "name": "China Construction Bank",
+      "country": "People's Republic of China",
+      "url": "https://ccb.com",
+      "group": "banking"
+    },
+    {
+      "name": "China Construction Bank",
+      "country": "People's Republic of China",
+      "url": "https://en.ccb.com",
+      "group": "banking"
+    },
+    {
+      "name": "The Hongkong and Shanghai Banking Corporation Limited",
+      "country": "British Hong Kong",
+      "url": "http://www.hsbc.com.hk",
+      "group": "banking"
+    },
+    {
+      "name": "BNP Paribas",
+      "country": "France",
+      "url": "https://group.bnpparibas/en/",
+      "group": "banking"
+    },
+    {
+      "name": "Commerzbank AG",
+      "country": "Germany",
+      "url": "https://www.commerzbank.com",
+      "group": "banking"
+    },
+    {
+      "name": "Commerzbank AG",
+      "country": "Germany",
+      "url": "https://www.commerzbank.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Standard Chartered",
+      "country": "United Kingdom",
+      "url": "https://www.sc.com",
+      "group": "banking"
+    },
+    {
+      "name": "HDFC Bank",
+      "country": "India",
+      "url": "https://hdfc.bank.in/",
+      "group": "banking"
+    },
+    {
+      "name": "UBS",
+      "country": "Switzerland",
+      "url": "https://www.ubs.com/",
+      "group": "banking"
+    },
+    {
+      "name": "AMP Limited",
+      "country": "Australia",
+      "url": "https://www.amp.com.au/",
+      "group": "banking"
+    },
+    {
+      "name": "Banque de Tunisie",
+      "country": "Tunisia",
+      "url": "http://www.bt.com.tn/",
+      "group": "banking"
+    },
+    {
+      "name": "Grameen Bank",
+      "country": "Bangladesh",
+      "url": "https://grameenbank.org.bd/",
+      "group": "banking"
+    },
+    {
+      "name": "SBI Shinsei Bank",
+      "country": "Japan",
+      "url": "http://www.shinseibank.com",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of America",
+      "country": "United States",
+      "url": "https://www.bankofamerica.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Anglo Irish Bank",
+      "country": "Ireland",
+      "url": "http://www.angloirishbank.ie/",
+      "group": "banking"
+    },
+    {
+      "name": "Deutsche Bank",
+      "country": "Germany",
+      "url": "https://www.db.com",
+      "group": "banking"
+    },
+    {
+      "name": "GE Money Bank",
+      "country": "Russia",
+      "url": "http://www.gemoney.ru",
+      "group": "banking"
+    },
+    {
+      "name": "Zurich Cantonal Bank",
+      "country": "Switzerland",
+      "url": "https://www.zkb.ch/",
+      "group": "banking"
+    },
+    {
+      "name": "Zurich Cantonal Bank",
+      "country": "Switzerland",
+      "url": "https://www.zkb.ch/en/",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Central African States",
+      "country": "Equatorial Guinea",
+      "url": "https://www.beac.int",
+      "group": "banking"
+    },
+    {
+      "name": "ASB Bank",
+      "country": "New Zealand",
+      "url": "http://www.asb.co.nz/",
+      "group": "banking"
+    },
+    {
+      "name": "\u010ceskoslovensk\u00e1 obchodn\u00ed banka",
+      "country": "Czech Republic",
+      "url": "https://www.csob.cz/",
+      "group": "banking"
+    },
+    {
+      "name": "Powszechna Kasa Oszcz\u0119dno\u015bci Bank Polski",
+      "country": "Poland",
+      "url": "https://pkobp.pl",
+      "group": "banking"
+    },
+    {
+      "name": "Rabobank",
+      "country": "Netherlands",
+      "url": "https://www.rabobank.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Kasikornbank",
+      "country": "Thailand",
+      "url": "https://www.kasikornbank.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Fannie Mae",
+      "country": "United States",
+      "url": "https://www.fanniemae.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Scotiabank",
+      "country": "Canada",
+      "url": "https://www.scotiabank.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Standard Chartered Korea",
+      "country": "",
+      "url": "http://www.standardchartered.co.kr",
+      "group": "banking"
+    },
+    {
+      "name": "JPMorgan Chase",
+      "country": "United States",
+      "url": "https://www.jpmorganchase.com/",
+      "group": "banking"
+    },
+    {
+      "name": "The Hongkong and Shanghai Banking Corporation Limited",
+      "country": "Republic of China",
+      "url": "http://www.hsbc.com.hk",
+      "group": "banking"
+    },
+    {
+      "name": "\u010cesk\u00e1 spo\u0159itelna",
+      "country": "Czech Republic",
+      "url": "https://www.csas.cz/",
+      "group": "banking"
+    },
+    {
+      "name": "Meguro Shinkin Bank",
+      "country": "Japan",
+      "url": "http://www.shinkin.co.jp/meguro/",
+      "group": "banking"
+    },
+    {
+      "name": "Chogin-Nishi Shinkumi, Ltd.",
+      "country": "Japan",
+      "url": "https://www.chogin-nishi.com/",
+      "group": "banking"
+    },
+    {
+      "name": "The Third Credit Cooperative of Tainan",
+      "country": "Taiwan",
+      "url": "https://ttc.scu.org.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Alterna Savings",
+      "country": "Canada",
+      "url": "https://www.alterna.ca",
+      "group": "banking"
+    },
+    {
+      "name": "Buldana Urban Cooperative Credit Society",
+      "country": "India",
+      "url": "https://buldanaurban.in",
+      "group": "banking"
+    },
+    {
+      "name": "Kingston Community Credit Union",
+      "country": "Canada",
+      "url": "http://www.kccu.ca",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Darmstadt Mainz",
+      "country": "Germany",
+      "url": "https://www.mvb.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Hana Credit Union",
+      "country": "Japan",
+      "url": "https://www.hanashinkumi.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Geest",
+      "country": "Germany",
+      "url": "https://www.vbgeest.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Artesa",
+      "country": "Czech Republic",
+      "url": "https://www.artesa.cz/",
+      "group": "banking"
+    },
+    {
+      "name": "Service Credit Union",
+      "country": "United States",
+      "url": "https://servicecu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "P&N Bank",
+      "country": "Australia",
+      "url": "http://www.pnbank.com.au",
+      "group": "banking"
+    },
+    {
+      "name": "Osaka Doctors Credit Union",
+      "country": "Japan",
+      "url": "https://www.odcu.or.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "First West Credit Union",
+      "country": "Canada",
+      "url": "https://www.firstwestcu.ca/",
+      "group": "banking"
+    },
+    {
+      "name": "Rogue Credit Union",
+      "country": "",
+      "url": "https://www.roguecu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Choshi Shoko Shinkumi Bank",
+      "country": "Japan",
+      "url": "https://www.choshi-shoko.co.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Eurocaja Rural",
+      "country": "Spain",
+      "url": "https://eurocajarural.es",
+      "group": "banking"
+    },
+    {
+      "name": "Qudos Bank",
+      "country": "Australia",
+      "url": "https://www.qudosbank.com.au",
+      "group": "banking"
+    },
+    {
+      "name": "Hwatai Commercial Bank",
+      "country": "Taiwan",
+      "url": "https://www.hwataibank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "The Fifth Credit Cooperation of Taipei",
+      "country": "Taiwan",
+      "url": "https://taipei-tfcc.scu.org.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Vancity",
+      "country": "Canada",
+      "url": "https://www.vancity.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Hyogo Himawari Credit Association",
+      "country": "Japan",
+      "url": "https://www.h-himawari.com/",
+      "group": "banking"
+    },
+    {
+      "name": "The Third Credit Cooperative of Chiayi",
+      "country": "Taiwan",
+      "url": "https://chiayi3c.scu.org.tw",
+      "group": "banking"
+    },
+    {
+      "name": "Taipei Star Bank",
+      "country": "Taiwan",
+      "url": "https://www.taipeistarbank.com.tw",
+      "group": "banking"
+    },
+    {
+      "name": "Meridian Credit Union",
+      "country": "Canada",
+      "url": "https://www.meridiancu.ca/",
+      "group": "banking"
+    },
+    {
+      "name": "Coast Capital Savings",
+      "country": "Canada",
+      "url": "https://www.coastcapitalsavings.com/",
+      "group": "banking"
+    },
+    {
+      "name": "North London Credit Union",
+      "country": "United Kingdom",
+      "url": "http://www.northlondoncreditunion.co.uk/",
+      "group": "banking"
+    },
+    {
+      "name": "The Kaohsiung Third Credit Cooperative",
+      "country": "Taiwan",
+      "url": "https://www.kh3c.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Seibu Shinkin Bank",
+      "country": "Japan",
+      "url": "http://www.seibushinkin.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Seibu Shinkin Bank",
+      "country": "Japan",
+      "url": "https://www.shinkin.co.jp/seibu/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank im Harz",
+      "country": "Germany",
+      "url": "https://www.vbimharz.de/",
+      "group": "banking"
+    },
+    {
+      "name": "VR Bank Mittelhaardt",
+      "country": "Germany",
+      "url": "https://www.vrbank-mittelhaardt.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Yokohama Kougin Credit Union",
+      "country": "Japan",
+      "url": "https://www.yokohamakougin.co.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Asuka Shinkumi Bank",
+      "country": "Japan",
+      "url": "http://www.asuka-c.jp",
+      "group": "banking"
+    },
+    {
+      "name": "Aldergrove Credit Union",
+      "country": "Canada",
+      "url": "https://www.aldergrovecu.ca",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank in S\u00fcdwestfalen eG",
+      "country": "Germany",
+      "url": "http://www.volksbank-im-mk.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Bank of Panshin",
+      "country": "Taiwan",
+      "url": "https://www.bop.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Volksbank Amelsb\u00fcren",
+      "country": "Germany",
+      "url": "https://www.vb-amelsbueren.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Caixa d'Enginyers",
+      "country": "Spain",
+      "url": "https://www.caixaenginyers.com",
+      "group": "banking"
+    },
+    {
+      "name": "Caixa d'Enginyers",
+      "country": "Spain",
+      "url": "https://www.caixaenginyers.com/es",
+      "group": "banking"
+    },
+    {
+      "name": "Io Credit Association",
+      "country": "Japan",
+      "url": "https://www.io-shin.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Q11381227",
+      "country": "Japan",
+      "url": "http://www.aizushinkumi.co.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Q11495391",
+      "country": "Japan",
+      "url": "https://www.seikyo-shinkumi.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Manchester Unity Credit Union",
+      "country": "United Kingdom",
+      "url": "http://www.manchesterunitycu.co.uk/",
+      "group": "banking"
+    },
+    {
+      "name": "Thamesbank Credit Union",
+      "country": "United Kingdom",
+      "url": "http://www.thamesbank.org/",
+      "group": "banking"
+    },
+    {
+      "name": "Q61747278",
+      "country": "",
+      "url": "https://www.volksbank-sangerhausen.de/privatkunden.html",
+      "group": "banking"
+    },
+    {
+      "name": "Credit Union Australia",
+      "country": "Australia",
+      "url": "https://www.greatsouthernbank.com.au/",
+      "group": "banking"
+    },
+    {
+      "name": "Q65244301",
+      "country": "",
+      "url": "https://www.raiffeisen.it/algund/",
+      "group": "banking"
+    },
+    {
+      "name": "Keiji Credit Association",
+      "country": "Japan",
+      "url": "https://www.keiji-shinkumi.net/",
+      "group": "banking"
+    },
+    {
+      "name": "Affinity Credit Union",
+      "country": "Canada",
+      "url": "https://www.affinitycu.ca/",
+      "group": "banking"
+    },
+    {
+      "name": "Sunny Commercial Bank",
+      "country": "Taiwan",
+      "url": "https://www.sunnybank.com.tw/",
+      "group": "banking"
+    },
+    {
+      "name": "Mire Credit Association",
+      "country": "Japan",
+      "url": "https://www.mire.co.jp/",
+      "group": "banking"
+    },
+    {
+      "name": "Desjardins Group",
+      "country": "Canada",
+      "url": "http://www.desjardins.com/",
+      "group": "banking"
+    },
+    {
+      "name": "VyStar Credit Union",
+      "country": "United States",
+      "url": "https://vystarcu.org/",
+      "group": "banking"
+    },
+    {
+      "name": "People's Choice Credit Union",
+      "country": "Australia",
+      "url": "http://www.peopleschoicecu.com.au/",
+      "group": "banking"
+    },
+    {
+      "name": "Community First Credit Union",
+      "country": "Australia",
+      "url": "http://www.communityfirst.com.au/",
+      "group": "banking"
+    },
+    {
+      "name": "Q66763683",
+      "country": "Germany",
+      "url": "https://www.rb-parkstetten.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Servus Credit Union",
+      "country": "Canada",
+      "url": "https://www.servus.ca/",
+      "group": "banking"
+    },
+    {
+      "name": "Q69706710",
+      "country": "Germany",
+      "url": "http://www.rb-frs.de",
+      "group": "banking"
+    },
+    {
+      "name": "Hiroshima Shogin Shinyoukumiai",
+      "country": "Japan",
+      "url": "https://www.shogin.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Verbands-Sparkasse Wesel",
+      "country": "Germany",
+      "url": "http://www.sparkasse-wesel.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Ansbach",
+      "country": "Germany",
+      "url": "https://www.sparkasse-ansbach.de",
+      "group": "banking"
+    },
+    {
+      "name": "Vereinigte Sparkassen Gunzenhausen",
+      "country": "Germany",
+      "url": "https://www.sparkasse-gunzenhausen.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Neckartal-Odenwald",
+      "country": "Germany",
+      "url": "http://www.sparkasse-neckartal-odenwald.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Herner Sparkasse",
+      "country": "Germany",
+      "url": "http://www.herner-sparkasse.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Salzlandsparkasse",
+      "country": "Germany",
+      "url": "https://www.salzlandsparkasse.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadt- und Kreissparkasse Moosburg a.d. Isar",
+      "country": "Germany",
+      "url": "http://www.sparkasse-moosburg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Rhein Neckar Nord",
+      "country": "Germany",
+      "url": "http://www.sparkasse-rhein-neckar-nord.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Stade-Altes Land",
+      "country": "Germany",
+      "url": "http://www.sparkasse-stade-altes-land.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Uckermark",
+      "country": "Germany",
+      "url": "http://www.spk-uckermark.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Uelzen L\u00fcchow-Dannenberg",
+      "country": "Germany",
+      "url": "http://www.sparkasse-uelzen-luechow-dannenberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Werl",
+      "country": "Germany",
+      "url": "http://www.sparkasse-werl.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Weserbergland",
+      "country": "Germany",
+      "url": "http://www.sparkasse-weserbergland.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Zollernalb",
+      "country": "Germany",
+      "url": "http://www.sparkasse-zollernalb.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Hegau-Bodensee",
+      "country": "Germany",
+      "url": "https://www.sparkasse-hegau-bodensee.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Rotenburg Osterholz",
+      "country": "Germany",
+      "url": "https://www.spk-row-ohz.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Saarbr\u00fccken",
+      "country": "Germany",
+      "url": "https://www.sparkasse-saarbruecken.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Schweinfurt",
+      "country": "Germany",
+      "url": "https://www.sparkasse-sw-has.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Spree-Nei\u00dfe",
+      "country": "Germany",
+      "url": "https://www.sparkasse-spree-neisse.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse S\u00fcdholstein",
+      "country": "Germany",
+      "url": "https://www.spk-suedholstein.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Vorpommern",
+      "country": "Germany",
+      "url": "https://www.spk-vorpommern.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Westholstein",
+      "country": "Germany",
+      "url": "https://www.spk-westholstein.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Witten",
+      "country": "Germany",
+      "url": "https://www.sparkasse-witten.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse zu L\u00fcbeck",
+      "country": "Germany",
+      "url": "https://www.spk-luebeck.de",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Augsburg",
+      "country": "Germany",
+      "url": "http://www.sska.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Kaiserslautern",
+      "country": "Germany",
+      "url": "http://www.stadtsparkasse-kaiserslautern.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Wunstorf",
+      "country": "Germany",
+      "url": "http://www.ssk-wunstorf.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Gevelsberg-Wetter",
+      "country": "Germany",
+      "url": "https://www.sparkasse-gw.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Felsberg",
+      "country": "Germany",
+      "url": "https://www.ssk-felsberg.de",
+      "group": "banking"
+    },
+    {
+      "name": "Centenary Bank Uganda",
+      "country": "Uganda",
+      "url": "http://www.centenarybank.co.ug/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Leverkusen",
+      "country": "Germany",
+      "url": "https://www.sparkasse-lev.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Wartburg-Sparkasse",
+      "country": "Germany",
+      "url": "http://www.wartburg-sparkasse.de",
+      "group": "banking"
+    },
+    {
+      "name": "Kreissparkasse Steinfurt",
+      "country": "Germany",
+      "url": "https://www.ksk-steinfurt.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Hochrhein",
+      "country": "Germany",
+      "url": "https://www.sparkasse-hochrhein.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Krefeld",
+      "country": "Germany",
+      "url": "https://www.sparkasse-krefeld.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Neuwied",
+      "country": "Germany",
+      "url": "https://www.sparkasse-neuwied.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Emmerich-Rees",
+      "country": "Germany",
+      "url": "https://www.stadtsparkasse-emmerich-rees.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Marburg-Biedenkopf",
+      "country": "Germany",
+      "url": "http://www.skmb.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Kreissparkasse Grafschaft Diepholz",
+      "country": "Germany",
+      "url": "http://www.kreissparkasse-diepholz.de",
+      "group": "banking"
+    },
+    {
+      "name": "Kreissparkasse Osterholz",
+      "country": "Germany",
+      "url": "http://www.kreissparkasse-osterholz.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Kreissparkasse Peine",
+      "country": "Germany",
+      "url": "http://www.ksk-peine.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Kreissparkasse Rhein-Pfalz",
+      "country": "Germany",
+      "url": "http://www.kreissparkasse-rhein-pfalz.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Westerwald-Sieg",
+      "country": "Germany",
+      "url": "https://www.sk-westerwald-sieg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Battenberg",
+      "country": "Germany",
+      "url": "http://www.sparkasse-battenberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Freiburg-N\u00f6rdlicher Breisgau",
+      "country": "Germany",
+      "url": "https://www.sparkasse-freiburg.de",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Waldeck-Frankenberg",
+      "country": "Germany",
+      "url": "http://www.sparkasse-wa-fkb.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Sparkasse Vorderpfalz",
+      "country": "Germany",
+      "url": "https://www.sparkasse-vorderpfalz.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Borken-Schwalmstadt",
+      "country": "Germany",
+      "url": "https://www.spkbs.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Stadtsparkasse Schmallenberg",
+      "country": "Germany",
+      "url": "https://www.stadtsparkasse-schmallenberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Vereinigte Sparkasse im M\u00e4rkischen Kreis",
+      "country": "Germany",
+      "url": "http://www.spk-mk.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Central Bank",
+      "country": "United States",
+      "url": "http://www.cbutah.com/",
+      "group": "banking"
+    },
+    {
+      "name": "Century Bank",
+      "country": "United States",
+      "url": "https://www.CenturyBank.com",
+      "group": "banking"
+    },
+    {
+      "name": "Q15117664",
+      "country": "Germany",
+      "url": "http://www.ksk-gelnhausen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15117674",
+      "country": "Germany",
+      "url": "http://www.ksk-schluechtern.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15128916",
+      "country": "Germany",
+      "url": "http://www.sparkasse-beckum.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15128932",
+      "country": "Germany",
+      "url": "https://www.sparkasse-guetersloh-rietberg.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15128968",
+      "country": "Germany",
+      "url": "http://www.sparkasse-st-blasien.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15128972",
+      "country": "Germany",
+      "url": "http://www.sparkasse-suedwestpfalz.de",
+      "group": "banking"
+    },
+    {
+      "name": "Q15130149",
+      "country": "Germany",
+      "url": "http://www.stadtsparkasse-grebenstein.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15130152",
+      "country": "Germany",
+      "url": "http://www.stadtsparkasse-oberhausen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15128949",
+      "country": "Germany",
+      "url": "https://www.sparkasse-meissen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15824395",
+      "country": "Germany",
+      "url": "http://www.ksk-kusel.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15848089",
+      "country": "Germany",
+      "url": "http://www.spk-aic-sob.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15848090",
+      "country": "Germany",
+      "url": "https://www.sparkasse-gm.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q15848097",
+      "country": "Germany",
+      "url": "https://www.sparkasse-unnakamen.de/",
+      "group": "banking"
+    },
+    {
+      "name": "Q16832628",
+      "country": "Germany",
+      "url": "http://www.ksk-tut.de/",
+      "group": "banking"
+    }
+  ]
+}

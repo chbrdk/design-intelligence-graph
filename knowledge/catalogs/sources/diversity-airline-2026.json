@@ -1,0 +1,1806 @@
+{
+  "id": "diversity-airline",
+  "count": 300,
+  "entries": [
+    {
+      "name": "Aero California",
+      "country": "Mexico",
+      "url": "https://web.archive.org/web/20080212085439/www.aerocalifornia.com.mx/",
+      "group": "airline"
+    },
+    {
+      "name": "WDL Aviation",
+      "country": "Germany",
+      "url": "https://germanairways.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aegean Airlines",
+      "country": "Greece",
+      "url": "http://www.aegeanair.com",
+      "group": "airline"
+    },
+    {
+      "name": "AirAsia X",
+      "country": "Malaysia",
+      "url": "http://www.airasiax.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aerosucre",
+      "country": "Colombia",
+      "url": "https://aerosucre.com.co/",
+      "group": "airline"
+    },
+    {
+      "name": "Asia Pacific Airlines",
+      "country": "United States",
+      "url": "http://www.flypa.com",
+      "group": "airline"
+    },
+    {
+      "name": "Azerbaijan Airlines",
+      "country": "Azerbaijan",
+      "url": "http://azal.az/en",
+      "group": "airline"
+    },
+    {
+      "name": "Aero C\u00f3ndor",
+      "country": "Peru",
+      "url": "http://www.aerocondor.com.pe",
+      "group": "airline"
+    },
+    {
+      "name": "Aerogem Aviation",
+      "country": "Ghana",
+      "url": "http://www.aerogemaviation.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Wizz Air",
+      "country": "Hungary",
+      "url": "https://wizzair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aeroland Airways",
+      "country": "Greece",
+      "url": "http://www.aeroland.gr:80/",
+      "group": "airline"
+    },
+    {
+      "name": "Aerocondor",
+      "country": "Portugal",
+      "url": "http://www.aerocondor.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Q387901",
+      "country": "Libya",
+      "url": "http://www.afriqiyah.aero",
+      "group": "airline"
+    },
+    {
+      "name": "RwandAir",
+      "country": "Rwanda",
+      "url": "http://www.rwandair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aerol\u00edneas Sosa",
+      "country": "Honduras",
+      "url": "https://www.aerososa.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Q381400",
+      "country": "Chile",
+      "url": "http://www.aerocardal.cl/",
+      "group": "airline"
+    },
+    {
+      "name": "Q381789",
+      "country": "Chile",
+      "url": "http://www.dap.cl",
+      "group": "airline"
+    },
+    {
+      "name": "Q381605",
+      "country": "Panama",
+      "url": "http://www.aeroperlas.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Sylt Air",
+      "country": "Germany",
+      "url": "http://www.syltair.eu/englishversion/home_eng.html",
+      "group": "airline"
+    },
+    {
+      "name": "Virgin Galactic",
+      "country": "United States",
+      "url": "https://www.virgingalactic.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Nightexpress",
+      "country": "Germany",
+      "url": "http://www.nightexpress.de/index.php?id=willkommen&L=1",
+      "group": "airline"
+    },
+    {
+      "name": "Atlas Atlantique Airlines",
+      "country": "France",
+      "url": "http://www.atlantiqueairassistance.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Elysian Airlines",
+      "country": "Cameroon",
+      "url": "http://www.elysianairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air C\u00f4te d'Ivoire",
+      "country": "Ivory Coast",
+      "url": "https://www.aircotedivoire.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Lithuania",
+      "country": "Lithuania",
+      "url": "http://www.airlithuania.lt/Default.asp?DL=E",
+      "group": "airline"
+    },
+    {
+      "name": "Envoy Air",
+      "country": "United States",
+      "url": "https://www.envoyair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Abelag Aviation",
+      "country": "Belgium",
+      "url": "http://www.abelag.com",
+      "group": "airline"
+    },
+    {
+      "name": "Affretair",
+      "country": "Zimbabwe",
+      "url": "http://www.planet.nu/sunshinecity/affretair/",
+      "group": "airline"
+    },
+    {
+      "name": "Justice Prisoner and Alien Transportation System",
+      "country": "United States",
+      "url": "https://www.usmarshals.gov/jpats/",
+      "group": "airline"
+    },
+    {
+      "name": "TransAsia Airways",
+      "country": "Taiwan",
+      "url": "http://www.tna.com.tw",
+      "group": "airline"
+    },
+    {
+      "name": "Abu Dhabi Aviation",
+      "country": "United Arab Emirates",
+      "url": "https://ada.ae/",
+      "group": "airline"
+    },
+    {
+      "name": "Aeroperu",
+      "country": "Peru",
+      "url": "http://www.aeroperu.com.pe",
+      "group": "airline"
+    },
+    {
+      "name": "air2there",
+      "country": "New Zealand",
+      "url": "http://www.air2there.com",
+      "group": "airline"
+    },
+    {
+      "name": "SkyStar Airways",
+      "country": "Thailand",
+      "url": "http://www.skystarairways.com/",
+      "group": "airline"
+    },
+    {
+      "name": "AirClass Airways",
+      "country": "Spain",
+      "url": "http://www.airclass.es/",
+      "group": "airline"
+    },
+    {
+      "name": "Corsair International",
+      "country": "France",
+      "url": "https://www.flycorsair.com",
+      "group": "airline"
+    },
+    {
+      "name": "AirTran Airways",
+      "country": "United States",
+      "url": "http://www.airtran.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Afrinat International Airlines",
+      "country": "The Gambia",
+      "url": "http://www.afrinat.com",
+      "group": "airline"
+    },
+    {
+      "name": "Velvet Sky",
+      "country": "South Africa",
+      "url": "http://www.flyvelvetsky.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aero Contractors",
+      "country": "Nigeria",
+      "url": "http://www.flyaero.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aero Mongolia",
+      "country": "Mongolia",
+      "url": "http://www.aeromongolia.mn",
+      "group": "airline"
+    },
+    {
+      "name": "FLN Frisia Luftverkehr",
+      "country": "Germany",
+      "url": "http://www.fln-norddeich.de/index.php?id=440",
+      "group": "airline"
+    },
+    {
+      "name": "Air-taxi europe",
+      "country": "Germany",
+      "url": "http://www.air-taxi.aero/",
+      "group": "airline"
+    },
+    {
+      "name": "AeroRescue",
+      "country": "Australia",
+      "url": "http://www.aerorescue.com.au",
+      "group": "airline"
+    },
+    {
+      "name": "African Express Airways",
+      "country": "Kenya",
+      "url": "http://www.africanexpress.net/",
+      "group": "airline"
+    },
+    {
+      "name": "Aero Asia International",
+      "country": "Pakistan",
+      "url": "http://www.aeroasia.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air Europa",
+      "country": "Spain",
+      "url": "https://www.aireuropa.com/es/es/home",
+      "group": "airline"
+    },
+    {
+      "name": "Air Europa",
+      "country": "Spain",
+      "url": "https://www.aireuropa.com/us/en/home",
+      "group": "airline"
+    },
+    {
+      "name": "Aeromist-Kharkiv",
+      "country": "Ukraine",
+      "url": "http://www.aeromost.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aerostar Airlines",
+      "country": "Ukraine",
+      "url": "http://www.aerostar.com.ua/",
+      "group": "airline"
+    },
+    {
+      "name": "Aerosvit Airlines",
+      "country": "Ukraine",
+      "url": "http://www.aerosvit.com",
+      "group": "airline"
+    },
+    {
+      "name": "Q406653",
+      "country": "Slovakia",
+      "url": "http://www.airexplore.sk/",
+      "group": "airline"
+    },
+    {
+      "name": "AirAsia",
+      "country": "Malaysia",
+      "url": "http://www.airasia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aero Services Executive",
+      "country": "France",
+      "url": "http://www.aeroservices-executive.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Alg\u00e9rie",
+      "country": "Algeria",
+      "url": "https://airalgerie.dz/",
+      "group": "airline"
+    },
+    {
+      "name": "African Safari Airways",
+      "country": "Kenya",
+      "url": "http://www.africansafariclub.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aero Airlines",
+      "country": "Estonia",
+      "url": "http://www.aeroairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aer Arann",
+      "country": "Ireland",
+      "url": "http://www.aerarann.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aeropelican Air Services",
+      "country": "Australia",
+      "url": "http://www.aeropelican.com.au/",
+      "group": "airline"
+    },
+    {
+      "name": "Aerogaviota",
+      "country": "Cuba",
+      "url": "http://www.aerogaviota.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aerom\u00e9xico Connect",
+      "country": "Mexico",
+      "url": "http://www.aeromexico.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Tahiti Nui",
+      "country": "France",
+      "url": "http://www.airtahitinui.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Cargojet",
+      "country": "Canada",
+      "url": "https://cargojet.com",
+      "group": "airline"
+    },
+    {
+      "name": "Q381184",
+      "country": "Democratic Republic of the Congo",
+      "url": "http://www.aero-service.net",
+      "group": "airline"
+    },
+    {
+      "name": "Air Antilles",
+      "country": "France",
+      "url": "https://www.airantilles.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aerom\u00e9xico",
+      "country": "Mexico",
+      "url": "https://aeromexico.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aerom\u00e9xico",
+      "country": "Mexico",
+      "url": "https://aeromexico.com/en-us",
+      "group": "airline"
+    },
+    {
+      "name": "Aerom\u00e9xico",
+      "country": "Mexico",
+      "url": "https://aeromexico.com/es-mx/",
+      "group": "airline"
+    },
+    {
+      "name": "Avianca Cargo M\u00e9xico",
+      "country": "Mexico",
+      "url": "https://www.aerounion.com.mx/esp/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Cambodia",
+      "country": "Cambodia",
+      "url": "http://www.cambodiaangkorair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Ada Air",
+      "country": "Albania",
+      "url": "http://www.adaair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aeroflot-Cargo",
+      "country": "Russia",
+      "url": "http://www.aeroflot.ru/cms/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Moorea",
+      "country": "France",
+      "url": "http://www.airmoorea.pf",
+      "group": "airline"
+    },
+    {
+      "name": "Bin Air",
+      "country": "Germany",
+      "url": "http://www.binair.eu/en_home.php",
+      "group": "airline"
+    },
+    {
+      "name": "Belair",
+      "country": "Switzerland",
+      "url": "http://www.airberlin.com/",
+      "group": "airline"
+    },
+    {
+      "name": "AeroSur",
+      "country": "Bolivia",
+      "url": "http://www.aerosur.com/en/",
+      "group": "airline"
+    },
+    {
+      "name": "EgyptAir",
+      "country": "Egypt",
+      "url": "https://www.egyptair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Sverigeflyg",
+      "country": "Sweden",
+      "url": "http://sverigeflyg.se",
+      "group": "airline"
+    },
+    {
+      "name": "Hahn Air",
+      "country": "Germany",
+      "url": "http://www.hahnair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Vall\u00e9e",
+      "country": "Italy",
+      "url": "https://web.archive.org/web/20160229161235/https://www.airvallee.it/",
+      "group": "airline"
+    },
+    {
+      "name": "Islas Airways",
+      "country": "Spain",
+      "url": "http://www.islasairways.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Private Wings",
+      "country": "Germany",
+      "url": "https://www.private-wings.de/",
+      "group": "airline"
+    },
+    {
+      "name": "Q491770",
+      "country": "Argentina",
+      "url": "http://www.andesonline.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Q461631",
+      "country": "Iran",
+      "url": "http://www.iranair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Tiger Airways",
+      "country": "Singapore",
+      "url": "http://www.tigerair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Serbia",
+      "country": "Serbia",
+      "url": "https://www.airserbia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Serbia",
+      "country": "Serbia",
+      "url": "https://www.airserbia.com/en/",
+      "group": "airline"
+    },
+    {
+      "name": "Airlinair",
+      "country": "France",
+      "url": "http://www.airlinair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Nile Air",
+      "country": "Egypt",
+      "url": "https://nileair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air West",
+      "country": "Sudan",
+      "url": "http://www.airwestuae.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aklak Air",
+      "country": "Canada",
+      "url": "http://www.aklakair.ca/",
+      "group": "airline"
+    },
+    {
+      "name": "Bestair",
+      "country": "Turkey",
+      "url": "http://www.flybestair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Adam Air",
+      "country": "Indonesia",
+      "url": "http://flyadamair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air Kasa\u00ef",
+      "country": "Democratic Republic of the Congo",
+      "url": "http://www.airkasai.cd/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Vanuatu",
+      "country": "Vanuatu",
+      "url": "http://www.airvanuatu.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air Zimbabwe",
+      "country": "Zimbabwe",
+      "url": "https://www.airzimbabwe.aero",
+      "group": "airline"
+    },
+    {
+      "name": "Saudia",
+      "country": "Saudi Arabia",
+      "url": "https://www.saudia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aircalin",
+      "country": "New Caledonia",
+      "url": "https://www.aircalin.com/",
+      "group": "airline"
+    },
+    {
+      "name": "LATAM Airlines Colombia",
+      "country": "Colombia",
+      "url": "https://www.latam.com/es_co/",
+      "group": "airline"
+    },
+    {
+      "name": "Gulf Air",
+      "country": "Bahrain",
+      "url": "https://www.gulfair.com",
+      "group": "airline"
+    },
+    {
+      "name": "T'way Airlines",
+      "country": "South Korea",
+      "url": "http://www.twayair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Athens Airways",
+      "country": "Greece",
+      "url": "http://www.athensairways.com/en",
+      "group": "airline"
+    },
+    {
+      "name": "Q486865",
+      "country": "Uganda",
+      "url": "http://www.swiftuganda.com/~uac/quhom.htm",
+      "group": "airline"
+    },
+    {
+      "name": "Airkenya Express",
+      "country": "Kenya",
+      "url": "http://www.airkenya.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Tunisair Express",
+      "country": "Tunisia",
+      "url": "https://www.tunisairexpress.net/",
+      "group": "airline"
+    },
+    {
+      "name": "Cosmic Air",
+      "country": "Nepal",
+      "url": "http://www.cosmicair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Skymaster Airlines",
+      "country": "Brazil",
+      "url": "http://www.skymaster.com.br",
+      "group": "airline"
+    },
+    {
+      "name": "Transaero Airlines",
+      "country": "Russia",
+      "url": "http://www.transaero.ru",
+      "group": "airline"
+    },
+    {
+      "name": "Martinair",
+      "country": "Netherlands",
+      "url": "http://www.martinair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "America West Airlines",
+      "country": "United States",
+      "url": "http://www.americawest.com",
+      "group": "airline"
+    },
+    {
+      "name": "Volaris",
+      "country": "Mexico",
+      "url": "http://www.volaris.com",
+      "group": "airline"
+    },
+    {
+      "name": "Airtours",
+      "country": "United Kingdom",
+      "url": "http://www.airtours.co.uk",
+      "group": "airline"
+    },
+    {
+      "name": "Jeju Air",
+      "country": "South Korea",
+      "url": "http://www.jejuair.net",
+      "group": "airline"
+    },
+    {
+      "name": "Amakusa Airlines",
+      "country": "Japan",
+      "url": "https://www.amx.co.jp/",
+      "group": "airline"
+    },
+    {
+      "name": "Southwest Airlines",
+      "country": "United States",
+      "url": "https://www.southwest.com/",
+      "group": "airline"
+    },
+    {
+      "name": "New Central Airlines",
+      "country": "Japan",
+      "url": "https://www.central-air.co.jp/",
+      "group": "airline"
+    },
+    {
+      "name": "Tajik Air",
+      "country": "Tajikistan",
+      "url": "http://www.tajikair.tj/",
+      "group": "airline"
+    },
+    {
+      "name": "Brindabella Airlines",
+      "country": "Australia",
+      "url": "http://www.brindabellaairlines.com.au",
+      "group": "airline"
+    },
+    {
+      "name": "Tor Air",
+      "country": "Sweden",
+      "url": "http://www.torair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Nordavia",
+      "country": "Russia",
+      "url": "http://www.nordavia.ru",
+      "group": "airline"
+    },
+    {
+      "name": "Amerer Air",
+      "country": "Austria",
+      "url": "http://www.amererair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Amapola Flyg",
+      "country": "Sweden",
+      "url": "https://www.amapola.nu/",
+      "group": "airline"
+    },
+    {
+      "name": "Eastar Jet",
+      "country": "South Korea",
+      "url": "https://main.eastarjet.com",
+      "group": "airline"
+    },
+    {
+      "name": "Airlink",
+      "country": "South Africa",
+      "url": "https://flyairlink.com/",
+      "group": "airline"
+    },
+    {
+      "name": "AJet",
+      "country": "Turkey",
+      "url": "https://ajet.com/",
+      "group": "airline"
+    },
+    {
+      "name": "AJet",
+      "country": "Turkey",
+      "url": "https://www.anadolujet.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Yeongnam Air",
+      "country": "South Korea",
+      "url": "http://www.ynair.co.kr/",
+      "group": "airline"
+    },
+    {
+      "name": "WebJet Linhas A\u00e9reas",
+      "country": "Brazil",
+      "url": "http://www.webjet.com.br/",
+      "group": "airline"
+    },
+    {
+      "name": "Armenian Airlines",
+      "country": "Armenia",
+      "url": "http://www.armenianairlines.com",
+      "group": "airline"
+    },
+    {
+      "name": "SmartLynx Australia",
+      "country": "Australia",
+      "url": "https://www.smartlynx.au",
+      "group": "airline"
+    },
+    {
+      "name": "Trans World Airlines",
+      "country": "United States",
+      "url": "http://www.twa.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air Wisconsin",
+      "country": "United States",
+      "url": "http://www.airwis.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air Wales",
+      "country": "United Kingdom",
+      "url": "http://www.airwales.co.uk",
+      "group": "airline"
+    },
+    {
+      "name": "Jin Air",
+      "country": "South Korea",
+      "url": "http://www.jinair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "TUI fly Netherlands",
+      "country": "Netherlands",
+      "url": "http://www.tui.nl",
+      "group": "airline"
+    },
+    {
+      "name": "Air VIA",
+      "country": "Bulgaria",
+      "url": "http://www.air-via.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Southwest Airlines",
+      "country": "United States",
+      "url": "https://espanol.southwest.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Korea Express Air",
+      "country": "South Korea",
+      "url": "http://www.keair.co.kr/",
+      "group": "airline"
+    },
+    {
+      "name": "Suckling Airways",
+      "country": "United Kingdom",
+      "url": "http://www.sucklingairways.co.uk",
+      "group": "airline"
+    },
+    {
+      "name": "TUI fly Belgium",
+      "country": "Belgium",
+      "url": "https://www.tuifly.be",
+      "group": "airline"
+    },
+    {
+      "name": "TUI fly Belgium",
+      "country": "Belgium",
+      "url": "https://www.tuifly.fr",
+      "group": "airline"
+    },
+    {
+      "name": "Laudamotion",
+      "country": "Austria",
+      "url": "https://www.laudamotion.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Airfast Indonesia",
+      "country": "Indonesia",
+      "url": "https://www.airfastindonesia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "UM Airlines",
+      "country": "Ukraine",
+      "url": "http://www.umair.com.ua/",
+      "group": "airline"
+    },
+    {
+      "name": "Eos Airlines",
+      "country": "United States",
+      "url": "http://www.eosairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Airnorth",
+      "country": "Australia",
+      "url": "https://www.airnorth.com.au/",
+      "group": "airline"
+    },
+    {
+      "name": "Aircalin",
+      "country": "France",
+      "url": "https://www.aircalin.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Swiss Global Air Lines",
+      "country": "Switzerland",
+      "url": "http://www.swiss.com",
+      "group": "airline"
+    },
+    {
+      "name": "TUI fly Deutschland",
+      "country": "Germany",
+      "url": "https://www.tuifly.com",
+      "group": "airline"
+    },
+    {
+      "name": "Airphil Express",
+      "country": "Philippines",
+      "url": "http://www.philippineairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Garuda Indonesia",
+      "country": "Indonesia",
+      "url": "https://www.garuda-indonesia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Angkor Airways",
+      "country": "Cambodia",
+      "url": "http://www.angkorairways.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Conviasa",
+      "country": "Venezuela",
+      "url": "http://www.conviasa.aero",
+      "group": "airline"
+    },
+    {
+      "name": "Tailwind Airlines",
+      "country": "Turkey",
+      "url": "http://www.tailwind.com.tr/",
+      "group": "airline"
+    },
+    {
+      "name": "VLM Airlines",
+      "country": "United Kingdom",
+      "url": "http://www.flyvlm.com",
+      "group": "airline"
+    },
+    {
+      "name": "Tyrolean Jet Services",
+      "country": "Austria",
+      "url": "https://www.tjs.at/",
+      "group": "airline"
+    },
+    {
+      "name": "Sriwijaya Air",
+      "country": "Indonesia",
+      "url": "http://www.sriwijayaair.co.id/id",
+      "group": "airline"
+    },
+    {
+      "name": "EuroAtlantic Airways",
+      "country": "Portugal",
+      "url": "http://www.flyeuroatlantic.pt/",
+      "group": "airline"
+    },
+    {
+      "name": "White Airways",
+      "country": "Portugal",
+      "url": "http://www.flywhite.com",
+      "group": "airline"
+    },
+    {
+      "name": "LASER Airlines",
+      "country": "Venezuela",
+      "url": "https://www.laserairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Okay Airways",
+      "country": "People's Republic of China",
+      "url": "http://www.okair.net/",
+      "group": "airline"
+    },
+    {
+      "name": "MIAT Mongolian Airlines",
+      "country": "Mongolia",
+      "url": "https://miat.com",
+      "group": "airline"
+    },
+    {
+      "name": "Song",
+      "country": "United States",
+      "url": "http://www.flysong.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Yemenia",
+      "country": "Yemen",
+      "url": "http://yemenia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "VLM Airlines",
+      "country": "Belgium",
+      "url": "http://www.flyvlm.com",
+      "group": "airline"
+    },
+    {
+      "name": "SCAT Airlines",
+      "country": "Kazakhstan",
+      "url": "https://www.scat.kz/",
+      "group": "airline"
+    },
+    {
+      "name": "Kenya Airways",
+      "country": "Kenya",
+      "url": "http://www.kenya-airways.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Dniproavia",
+      "country": "Ukraine",
+      "url": "http://www.dniproavia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "LATAM Airlines Ecuador",
+      "country": "Ecuador",
+      "url": "https://www.latam.com/es_ec/",
+      "group": "airline"
+    },
+    {
+      "name": "Asia Cargo Airlines",
+      "country": "Indonesia",
+      "url": "https://www.asiacargonetworkgroup.com/companies/asia-cargo-airlines-indonesia/",
+      "group": "airline"
+    },
+    {
+      "name": "Flyant",
+      "country": "Spain",
+      "url": "http://www.flyant.es/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Djibouti",
+      "country": "Djibouti",
+      "url": "http://air-djibouti.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Thai Sky Airlines",
+      "country": "Thailand",
+      "url": "http://www.thaiskyairlines.com",
+      "group": "airline"
+    },
+    {
+      "name": "Hamburg Airways",
+      "country": "Germany",
+      "url": "http://www.hamburgairways.com/",
+      "group": "airline"
+    },
+    {
+      "name": "LATAM Airlines",
+      "country": "Chile",
+      "url": "http://www.latam.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Tyrolean Airways",
+      "country": "Austria",
+      "url": "http://www.tyrolean.at",
+      "group": "airline"
+    },
+    {
+      "name": "Virgin America",
+      "country": "United States",
+      "url": "http://www.virginamerica.com",
+      "group": "airline"
+    },
+    {
+      "name": "Ariana Afghan Airlines",
+      "country": "Afghanistan",
+      "url": "http://www.flyariana.com",
+      "group": "airline"
+    },
+    {
+      "name": "Avanti Air",
+      "country": "Germany",
+      "url": "http://www.avantiair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Grant Aviation",
+      "country": "United States",
+      "url": "http://www.flygrant.com",
+      "group": "airline"
+    },
+    {
+      "name": "Japan Transocean Air",
+      "country": "Japan",
+      "url": "https://en.jta-okinawa.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Japan Transocean Air",
+      "country": "Japan",
+      "url": "https://jta-okinawa.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Portug\u00e1lia",
+      "country": "Portugal",
+      "url": "http://www.portugalia-airlines.pt/",
+      "group": "airline"
+    },
+    {
+      "name": "Q546812",
+      "country": "Chile",
+      "url": "http://www.lan.com/index-de-de.html",
+      "group": "airline"
+    },
+    {
+      "name": "Kam Air",
+      "country": "Afghanistan",
+      "url": "https://www.kamair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Guin\u00e9e",
+      "country": "Guinea",
+      "url": "http://www.mirinet.com/AirGuinee/",
+      "group": "airline"
+    },
+    {
+      "name": "Eritrean Airlines",
+      "country": "Eritrea",
+      "url": "http://www.eritrean.aero/",
+      "group": "airline"
+    },
+    {
+      "name": "Q673852",
+      "country": "Peru",
+      "url": "http://www.peruvian.pe/pe/en/",
+      "group": "airline"
+    },
+    {
+      "name": "Ural Airlines",
+      "country": "Russia",
+      "url": "http://www.uralairlines.ru",
+      "group": "airline"
+    },
+    {
+      "name": "Independence Air",
+      "country": "United States",
+      "url": "http://www.flyi.com",
+      "group": "airline"
+    },
+    {
+      "name": "Republic Express Airlines",
+      "country": "Indonesia",
+      "url": "http://www.rpxholding.com/index.php",
+      "group": "airline"
+    },
+    {
+      "name": "Buffalo Airways",
+      "country": "Canada",
+      "url": "http://www.buffaloairways.com/",
+      "group": "airline"
+    },
+    {
+      "name": "MAT Macedonian Airlines",
+      "country": "North Macedonia",
+      "url": "http://www.mat.com.mk/",
+      "group": "airline"
+    },
+    {
+      "name": "Hello",
+      "country": "Switzerland",
+      "url": "http://www.hello.ch",
+      "group": "airline"
+    },
+    {
+      "name": "Uzbekistan Airways",
+      "country": "Uzbekistan",
+      "url": "http://www.uzairways.com",
+      "group": "airline"
+    },
+    {
+      "name": "Imair Airlines",
+      "country": "Azerbaijan",
+      "url": "http://www.imair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air Atlanta Europe",
+      "country": "Malta",
+      "url": "https://airatlanta.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aer Lingus Regional",
+      "country": "Ireland",
+      "url": "http://www.aerlingus.com",
+      "group": "airline"
+    },
+    {
+      "name": "Crossair",
+      "country": "Switzerland",
+      "url": "http://www.crossair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Arcus Air",
+      "country": "Germany",
+      "url": "https://arcus-air.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Arik Air",
+      "country": "Nigeria",
+      "url": "http://www.arikair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Arab Wings",
+      "country": "Jordan",
+      "url": "http://www.arabwings.com.jo/",
+      "group": "airline"
+    },
+    {
+      "name": "Jordan Aviation",
+      "country": "Jordan",
+      "url": "http://www.jordanaviation.jo",
+      "group": "airline"
+    },
+    {
+      "name": "Blue Wings",
+      "country": "Germany",
+      "url": "http://www.bluewings.com/cms/index.php?no_cache=1&id=191&L=1",
+      "group": "airline"
+    },
+    {
+      "name": "Crossair",
+      "country": "France",
+      "url": "http://www.crossair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Nepal Airlines",
+      "country": "Nepal",
+      "url": "http://nepalairlines.com.np/",
+      "group": "airline"
+    },
+    {
+      "name": "Wind Jet",
+      "country": "Italy",
+      "url": "http://www.volawindjet.it",
+      "group": "airline"
+    },
+    {
+      "name": "Montenegro Airlines",
+      "country": "Montenegro",
+      "url": "http://www.montenegroairlines.com",
+      "group": "airline"
+    },
+    {
+      "name": "Israir Airlines",
+      "country": "Israel",
+      "url": "https://www.israir.co.il/",
+      "group": "airline"
+    },
+    {
+      "name": "Eagle Air",
+      "country": "Uganda",
+      "url": "http://www.eagleair-ug.com",
+      "group": "airline"
+    },
+    {
+      "name": "Bhoja Air",
+      "country": "Pakistan",
+      "url": "http://www.bhojaair.com.pk/home/",
+      "group": "airline"
+    },
+    {
+      "name": "Petroleum Air Services",
+      "country": "Egypt",
+      "url": "https://www.pas.com.eg/",
+      "group": "airline"
+    },
+    {
+      "name": "Hawaiian Airlines",
+      "country": "United States",
+      "url": "https://www.hawaiianairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Apatas Air",
+      "country": "Lithuania",
+      "url": "http://www.apatas.lt",
+      "group": "airline"
+    },
+    {
+      "name": "Safiran Airlines",
+      "country": "Iran",
+      "url": "http://www.safiranair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Hamburg International",
+      "country": "Germany",
+      "url": "http://www.hamburg-international.de/en/",
+      "group": "airline"
+    },
+    {
+      "name": "AlMasria Universal Airlines",
+      "country": "Egypt",
+      "url": "http://www.almasriaairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Midwest Airlines",
+      "country": "United States",
+      "url": "http://www.midwestairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Vision Air International",
+      "country": "Pakistan",
+      "url": "http://www.visionairintl.com",
+      "group": "airline"
+    },
+    {
+      "name": "Domestic Airlines",
+      "country": "Algeria",
+      "url": "http://www.tassiliairlines.dz",
+      "group": "airline"
+    },
+    {
+      "name": "ARP 410 Airlines",
+      "country": "Ukraine",
+      "url": "http://www.arp410.com.ua",
+      "group": "airline"
+    },
+    {
+      "name": "Corendon Airlines",
+      "country": "Turkey",
+      "url": "http://www.corendon-airlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Edelweiss Air",
+      "country": "Switzerland",
+      "url": "https://www.flyedelweiss.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Edelweiss Air",
+      "country": "Switzerland",
+      "url": "https://www.flyedelweiss.com/DE/",
+      "group": "airline"
+    },
+    {
+      "name": "Edelweiss Air",
+      "country": "Switzerland",
+      "url": "https://www.flyedelweiss.com/EN/",
+      "group": "airline"
+    },
+    {
+      "name": "Cebgo",
+      "country": "Philippines",
+      "url": "http://www.flyseair.com",
+      "group": "airline"
+    },
+    {
+      "name": "SN Brussels Airlines",
+      "country": "Belgium",
+      "url": "https://www.brussels-airlines.com",
+      "group": "airline"
+    },
+    {
+      "name": "LIAT",
+      "country": "Antigua and Barbuda",
+      "url": "http://www.liat.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Cirrus Airlines",
+      "country": "Germany",
+      "url": "http://www.cirrusairlines.de/",
+      "group": "airline"
+    },
+    {
+      "name": "Virgin Australia Regional Airlines",
+      "country": "Australia",
+      "url": "http://www.virginaustralia.com/au/en/skywest/",
+      "group": "airline"
+    },
+    {
+      "name": "Ankair",
+      "country": "Turkey",
+      "url": "http://www.ankair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Arkia",
+      "country": "Israel",
+      "url": "http://www.arkia.com/",
+      "group": "airline"
+    },
+    {
+      "name": "L\u00edneas A\u00e9reas del Estado (LADE)",
+      "country": "Argentina",
+      "url": "https://lade.com.ar/home",
+      "group": "airline"
+    },
+    {
+      "name": "Arcus Air",
+      "country": "Germany",
+      "url": "http://www.arcus-air.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Jetalliance",
+      "country": "Austria",
+      "url": "http://www.jetalliance.at/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Thanlwin",
+      "country": "Myanmar",
+      "url": "http://www.yangonair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Thanlwin",
+      "country": "Myanmar",
+      "url": "https://www.airthanlwin.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Cabo Verde Airlines",
+      "country": "Cape Verde",
+      "url": "https://www.caboverdeairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Aria Air",
+      "country": "Iran",
+      "url": "http://www.ariaairline.ir/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Harrods",
+      "country": "United Kingdom",
+      "url": "http://www.harrodsaviation.com/air-harrods/",
+      "group": "airline"
+    },
+    {
+      "name": "Slok Air International",
+      "country": "The Gambia",
+      "url": "http://www.slok-air.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Vueling",
+      "country": "Spain",
+      "url": "https://www.vueling.com",
+      "group": "airline"
+    },
+    {
+      "name": "Omni Air International",
+      "country": "United States",
+      "url": "https://www.oai.aero/",
+      "group": "airline"
+    },
+    {
+      "name": "Sun d'Or International Airlines",
+      "country": "Israel",
+      "url": "http://www.sundor.co.il/",
+      "group": "airline"
+    },
+    {
+      "name": "Chanchangi Airlines",
+      "country": "Nigeria",
+      "url": "http://www.flychanchangiair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Dalavia",
+      "country": "Russia",
+      "url": "http://www.dalaviadmd.ru",
+      "group": "airline"
+    },
+    {
+      "name": "Casa Air Service",
+      "country": "Morocco",
+      "url": "http://www.casaairservice.ma/",
+      "group": "airline"
+    },
+    {
+      "name": "Batik Air",
+      "country": "Indonesia",
+      "url": "https://www.batikair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Suparna Airlines",
+      "country": "People's Republic of China",
+      "url": "http://www.yzr.com.cn/",
+      "group": "airline"
+    },
+    {
+      "name": "West Atlantic Sweden",
+      "country": "Sweden",
+      "url": "http://www.westair.se/",
+      "group": "airline"
+    },
+    {
+      "name": "SonAir",
+      "country": "Angola",
+      "url": "http://www.sonair.co.ao",
+      "group": "airline"
+    },
+    {
+      "name": "Pronair",
+      "country": "Spain",
+      "url": "http://www.pronair.es/",
+      "group": "airline"
+    },
+    {
+      "name": "Ethiopian Airlines",
+      "country": "Ethiopia",
+      "url": "https://www.ethiopianairlines.com",
+      "group": "airline"
+    },
+    {
+      "name": "Air New Zealand",
+      "country": "New Zealand",
+      "url": "https://www.airnewzealand.com",
+      "group": "airline"
+    },
+    {
+      "name": "Aerovista",
+      "country": "United Arab Emirates",
+      "url": "http://www.aerovista.aero/",
+      "group": "airline"
+    },
+    {
+      "name": "Blue1",
+      "country": "Finland",
+      "url": "http://www.blue1.fi",
+      "group": "airline"
+    },
+    {
+      "name": "China Eastern Airlines",
+      "country": "People's Republic of China",
+      "url": "http://global.ceair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Turan Air",
+      "country": "Azerbaijan",
+      "url": "http://www.turan-air.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Avianca Ecuador",
+      "country": "Ecuador",
+      "url": "https://www.avianca.com/otr/en/",
+      "group": "airline"
+    },
+    {
+      "name": "Norwegian Air Shuttle",
+      "country": "Norway",
+      "url": "https://www.norwegian.no/",
+      "group": "airline"
+    },
+    {
+      "name": "Sichuan Airlines",
+      "country": "People's Republic of China",
+      "url": "http://www.sichuanair.com",
+      "group": "airline"
+    },
+    {
+      "name": "Nauru Airlines",
+      "country": "Nauru",
+      "url": "https://www.nauruair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "FaroeJet",
+      "country": "Faroe Islands",
+      "url": "http://www.faroejet.fo",
+      "group": "airline"
+    },
+    {
+      "name": "US Airways",
+      "country": "United States",
+      "url": "http://www.usairways.com",
+      "group": "airline"
+    },
+    {
+      "name": "Avianca Ecuador",
+      "country": "Ecuador",
+      "url": "https://www.avianca.com/ec/es/",
+      "group": "airline"
+    },
+    {
+      "name": "All Nippon Airways",
+      "country": "Japan",
+      "url": "https://www.ana.co.jp",
+      "group": "airline"
+    },
+    {
+      "name": "Air Madagascar",
+      "country": "Madagascar",
+      "url": "https://madagascarairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Pascan Aviation",
+      "country": "Canada",
+      "url": "https://www.pascan.com/en/",
+      "group": "airline"
+    },
+    {
+      "name": "Pascan Aviation",
+      "country": "Canada",
+      "url": "https://www.pascan.com/fr/",
+      "group": "airline"
+    },
+    {
+      "name": "Q213147",
+      "country": "South Korea",
+      "url": "https://www.koreanair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "LOT Polish Airlines",
+      "country": "Poland",
+      "url": "https://www.lot.com",
+      "group": "airline"
+    },
+    {
+      "name": "Finnair",
+      "country": "Finland",
+      "url": "https://www.finnair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Etihad Airways",
+      "country": "United Arab Emirates",
+      "url": "https://www.etihad.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Hainan Airlines",
+      "country": "People's Republic of China",
+      "url": "https://www.hainanairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Hi Fly",
+      "country": "Portugal",
+      "url": "http://www.hifly.aero/en/",
+      "group": "airline"
+    },
+    {
+      "name": "Bhutan Airlines",
+      "country": "Bhutan",
+      "url": "http://www.bhutanairlines.bt/?p=859",
+      "group": "airline"
+    },
+    {
+      "name": "Happy Air",
+      "country": "Thailand",
+      "url": "http://www.happyair.co.th/",
+      "group": "airline"
+    },
+    {
+      "name": "Master Top Airlines",
+      "country": "Brazil",
+      "url": "http://www.mt-airlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "AOM French Airlines",
+      "country": "France",
+      "url": "http://www.flyaom.com",
+      "group": "airline"
+    },
+    {
+      "name": "Zhongyuan Airlines",
+      "country": "People's Republic of China",
+      "url": "http://wayback.archive.org/*/http://zy-air.com/e-intro.htm",
+      "group": "airline"
+    },
+    {
+      "name": "Aigle Azur (1970)",
+      "country": "France",
+      "url": "http://www.aigle-azur.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Koryo",
+      "country": "North Korea",
+      "url": "http://www.airkoryo.com.kp/?__lang=en_US",
+      "group": "airline"
+    },
+    {
+      "name": "Air Koryo",
+      "country": "North Korea",
+      "url": "http://www.airkoryo.com.kp/?__lang=ko_KP",
+      "group": "airline"
+    },
+    {
+      "name": "Air Koryo",
+      "country": "North Korea",
+      "url": "http://www.airkoryo.com.kp/?__lang=zh_CN",
+      "group": "airline"
+    },
+    {
+      "name": "South African Airways",
+      "country": "South Africa",
+      "url": "https://www.flysaa.com",
+      "group": "airline"
+    },
+    {
+      "name": "Astar Air Cargo",
+      "country": "United States",
+      "url": "http://www.astaraircargo.com",
+      "group": "airline"
+    },
+    {
+      "name": "Pakistan International Airlines",
+      "country": "Pakistan",
+      "url": "https://www.piac.com.pk/",
+      "group": "airline"
+    },
+    {
+      "name": "Beijing Capital Airlines",
+      "country": "People's Republic of China",
+      "url": "https://www.jdair.net/",
+      "group": "airline"
+    },
+    {
+      "name": "Islandsflug",
+      "country": "Iceland",
+      "url": "http://www.islandsflug.is",
+      "group": "airline"
+    },
+    {
+      "name": "easyJet",
+      "country": "United Kingdom",
+      "url": "https://easyjet.com",
+      "group": "airline"
+    },
+    {
+      "name": "Ansett Australia",
+      "country": "Australia",
+      "url": "http://www.ansett.com.au",
+      "group": "airline"
+    },
+    {
+      "name": "Croatia Airlines",
+      "country": "Croatia",
+      "url": "https://www.croatiaairlines.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Avensa",
+      "country": "Venezuela",
+      "url": "http://www.avensa.com.ve/",
+      "group": "airline"
+    },
+    {
+      "name": "Air Comet",
+      "country": "Spain",
+      "url": "http://www.aircomet.com",
+      "group": "airline"
+    },
+    {
+      "name": "Harbour Air",
+      "country": "Canada",
+      "url": "https://harbourair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "EL AL Israel Airlines Ltd.",
+      "country": "Israel",
+      "url": "https://www.elal.co.il",
+      "group": "airline"
+    },
+    {
+      "name": "Welcome Air",
+      "country": "Austria",
+      "url": "http://www.welcomeair.com/",
+      "group": "airline"
+    },
+    {
+      "name": "Northwest Airlines",
+      "country": "United States",
+      "url": "http://www.nwa.com",
+      "group": "airline"
+    },
+    {
+      "name": "Miami Air International",
+      "country": "United States",
+      "url": "http://www.miamiair.com",
+      "group": "airline"
+    },
+    {
+      "name": "ADC Airlines",
+      "country": "Nigeria",
+      "url": "http://www.adcairlines.com",
+      "group": "airline"
+    }
+  ]
+}

@@ -1,0 +1,2406 @@
+{
+  "id": "diversity-retail",
+  "count": 400,
+  "entries": [
+    {
+      "name": "COS",
+      "country": "Portugal",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Sizeer",
+      "country": "Poland",
+      "url": "https://sklep.sizeer.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Si Optics",
+      "country": "Russia",
+      "url": "https://www.sioptics.ru",
+      "group": "retail"
+    },
+    {
+      "name": "Choice Discount Stores",
+      "country": "United Kingdom",
+      "url": "https://www.choicediscount.com",
+      "group": "retail"
+    },
+    {
+      "name": "Lola Nena's",
+      "country": "Philippines",
+      "url": "https://lolanenas.com",
+      "group": "retail"
+    },
+    {
+      "name": "St. Joseph Drug",
+      "country": "Philippines",
+      "url": "https://stjosephdrug.com",
+      "group": "retail"
+    },
+    {
+      "name": "Vapour Depot",
+      "country": "",
+      "url": "https://vapourdepot.com",
+      "group": "retail"
+    },
+    {
+      "name": "UK WorkStore",
+      "country": "United Kingdom",
+      "url": "https://www.ukworkstore.co.uk",
+      "group": "retail"
+    },
+    {
+      "name": "AudiophileAudio",
+      "country": "United Arab Emirates",
+      "url": "https://audiophileaudio.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Lipsy Limited",
+      "country": "United Kingdom",
+      "url": "http://www.lipsy.co.uk",
+      "group": "retail"
+    },
+    {
+      "name": "Lipsy Limited",
+      "country": "United Kingdom",
+      "url": "https://www.next.co.uk/lipsy",
+      "group": "retail"
+    },
+    {
+      "name": "Chic Le Frique",
+      "country": "United Arab Emirates",
+      "url": "https://chiclefrique.com",
+      "group": "retail"
+    },
+    {
+      "name": "Chic Le Frique",
+      "country": "United Arab Emirates",
+      "url": "https://chiclefrique.us",
+      "group": "retail"
+    },
+    {
+      "name": "Q136432867",
+      "country": "Germany",
+      "url": "https://www.getraenke-huesch.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Q121360533",
+      "country": "Panama",
+      "url": "https://www.superxtra.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Lids",
+      "country": "United States",
+      "url": "https://www.lids.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Next plc",
+      "country": "United Kingdom",
+      "url": "https://www.next.co.uk/",
+      "group": "retail"
+    },
+    {
+      "name": "Copec",
+      "country": "Chile",
+      "url": "https://ww2.copec.cl/",
+      "group": "retail"
+    },
+    {
+      "name": "Ekster\u00ae",
+      "country": "United States",
+      "url": "https://www.ekster.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Wyze Labs",
+      "country": "United States",
+      "url": "https://www.wyze.com",
+      "group": "retail"
+    },
+    {
+      "name": "Forman Mills",
+      "country": "United States",
+      "url": "https://formanmills.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Cigars International",
+      "country": "United States",
+      "url": "https://www.cigarsinternational.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Southern Marsh Collection",
+      "country": "United States",
+      "url": "http://www.southernmarsh.com",
+      "group": "retail"
+    },
+    {
+      "name": "Lids",
+      "country": "Canada",
+      "url": "https://www.lids.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Viba",
+      "country": "Germany",
+      "url": "https://www.viba.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Hortifruti",
+      "country": "Brazil",
+      "url": "https://hortifruti.com.br/",
+      "group": "retail"
+    },
+    {
+      "name": "W. Weitz",
+      "country": "Germany",
+      "url": "https://www.weitz-porzellan.de",
+      "group": "retail"
+    },
+    {
+      "name": "CareCo UK",
+      "country": "United Kingdom",
+      "url": "https://www.careco.co.uk/",
+      "group": "retail"
+    },
+    {
+      "name": "Nahkauf",
+      "country": "Germany",
+      "url": "https://www.nahkauf.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Forman Mills",
+      "country": "United States",
+      "url": "http://www.formanmills.com",
+      "group": "retail"
+    },
+    {
+      "name": "Garapati Autoventures Private Limited",
+      "country": "India",
+      "url": "https://garapatitata.com",
+      "group": "retail"
+    },
+    {
+      "name": "Ever",
+      "country": "Philippines",
+      "url": "https://ever.ph",
+      "group": "retail"
+    },
+    {
+      "name": "Fresh Options",
+      "country": "Philippines",
+      "url": "https://freshoptions.ph",
+      "group": "retail"
+    },
+    {
+      "name": "Strass-steentjes.nl",
+      "country": "Netherlands",
+      "url": "https://www.strass-steentjes.nl",
+      "group": "retail"
+    },
+    {
+      "name": "Clean Air Nepal",
+      "country": "Nepal",
+      "url": "https://cleanairnepal.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Viba",
+      "country": "Germany",
+      "url": "https://viba-sweets.de",
+      "group": "retail"
+    },
+    {
+      "name": "Sportscraft",
+      "country": "Australia",
+      "url": "https://www.sportscraft.com.au",
+      "group": "retail"
+    },
+    {
+      "name": "TehranPS",
+      "country": "Iran",
+      "url": "https://tehranps.com",
+      "group": "retail"
+    },
+    {
+      "name": "Global Digital Niaga",
+      "country": "Indonesia",
+      "url": "https://www.blibli.com/",
+      "group": "retail"
+    },
+    {
+      "name": "5P - printing, packaging, publishing, promotion, publicity",
+      "country": "Slovenia",
+      "url": "https://5p.si",
+      "group": "retail"
+    },
+    {
+      "name": "Building #19",
+      "country": "",
+      "url": "http://www.building19.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Mattokymppi",
+      "country": "Finland",
+      "url": "https://www.mattokymppi.fi/",
+      "group": "retail"
+    },
+    {
+      "name": "Rosen",
+      "country": "Chile",
+      "url": "https://www.rosen.cl/",
+      "group": "retail"
+    },
+    {
+      "name": "Garapati Autoventures Private Limited",
+      "country": "India",
+      "url": "https://www.garapatitata.com",
+      "group": "retail"
+    },
+    {
+      "name": "Holz-Richter",
+      "country": "Germany",
+      "url": "https://www.holz-richter.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Baliwag",
+      "country": "Philippines",
+      "url": "https://baliwaglechonmanok.com",
+      "group": "retail"
+    },
+    {
+      "name": "Australian Sports Nutrition",
+      "country": "Australia",
+      "url": "https://www.australiansportsnutrition.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "Source Shop",
+      "country": "France",
+      "url": "https://sourceshop.fr/",
+      "group": "retail"
+    },
+    {
+      "name": "Kalaban",
+      "country": "Iran",
+      "url": "https://kalaban.app/",
+      "group": "retail"
+    },
+    {
+      "name": "BrightHouse",
+      "country": "United Kingdom",
+      "url": "https://www.brighthouse.co.uk",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Turkey",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Manchester House",
+      "country": "Australia",
+      "url": "https://www.manchesterhouse.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Spain",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "United States",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "ParkerStore Trondheim",
+      "country": "Norway",
+      "url": "https://parkerstore-trondheim.no",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "United Kingdom",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Sweden",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Thai Watsadu",
+      "country": "Thailand",
+      "url": "https://www.thaiwatsadu.com/",
+      "group": "retail"
+    },
+    {
+      "name": "JAG",
+      "country": "Australia",
+      "url": "https://www,jag.com.au",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Switzerland",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q111328711",
+      "country": "France",
+      "url": "https://www.partauto.fr",
+      "group": "retail"
+    },
+    {
+      "name": "HMV Canada",
+      "country": "Canada",
+      "url": "http://www.hmv.ca",
+      "group": "retail"
+    },
+    {
+      "name": "Artifact Argentina",
+      "country": "Argentina",
+      "url": "https://www.artifactargentina.com",
+      "group": "retail"
+    },
+    {
+      "name": "CF Interiors",
+      "country": "Canada",
+      "url": "https://cfinteriors.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Belgium",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "France",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Italy",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Germany",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Hair Lux",
+      "country": "Poland",
+      "url": "https://www.hairlux.pl",
+      "group": "retail"
+    },
+    {
+      "name": "Kartes-Moda",
+      "country": "Poland",
+      "url": "https://kartes-moda.pl/",
+      "group": "retail"
+    },
+    {
+      "name": "Bible Society of Nigeria Bookshop",
+      "country": "Nigeria",
+      "url": "https://www.biblesociety-nigeria.org",
+      "group": "retail"
+    },
+    {
+      "name": "Wireless Nerds",
+      "country": "Canada",
+      "url": "https://wirelessnerds.ca",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Canada",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Netherlands",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "COS",
+      "country": "Luxembourg",
+      "url": "https://www.cos.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q55162043",
+      "country": "Spain",
+      "url": "http://casadediego.info/es/",
+      "group": "retail"
+    },
+    {
+      "name": "Q134588385",
+      "country": "Thailand",
+      "url": "https://www.bonnykids.com",
+      "group": "retail"
+    },
+    {
+      "name": "Sports Display Cases",
+      "country": "",
+      "url": "https://www.sportsdisplaycases.com",
+      "group": "retail"
+    },
+    {
+      "name": "Peak Performance",
+      "country": "United States",
+      "url": "https://buypeakperformance.com",
+      "group": "retail"
+    },
+    {
+      "name": "On City",
+      "country": "Argentina",
+      "url": "https://www.oncity.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Nestalia",
+      "country": "Italy",
+      "url": "https://www.nestalia.com/",
+      "group": "retail"
+    },
+    {
+      "name": "100 Nutrition",
+      "country": "United Kingdom",
+      "url": "https://www.boostdnutrition.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Chaitanya Global",
+      "country": "India",
+      "url": "https://chaitanya.global/",
+      "group": "retail"
+    },
+    {
+      "name": "Primigi Store",
+      "country": "Italy",
+      "url": "https://www.primigi.it",
+      "group": "retail"
+    },
+    {
+      "name": "Reifencom",
+      "country": "Germany",
+      "url": "https://www.reifen.com",
+      "group": "retail"
+    },
+    {
+      "name": "Cocorrina",
+      "country": "",
+      "url": "https://www.cocorrina.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Fraisochamp",
+      "country": "France",
+      "url": "http://www.cueillettefraisochamp.fr/",
+      "group": "retail"
+    },
+    {
+      "name": "Adore Beauty",
+      "country": "Australia",
+      "url": "https://www.adorebeauty.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "Sinopec",
+      "country": "People's Republic of China",
+      "url": "https://www.sinopechongkong.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Esso",
+      "country": "United States",
+      "url": "https://www.esso.com/en",
+      "group": "retail"
+    },
+    {
+      "name": "Pemex",
+      "country": "Mexico",
+      "url": "http://www.pemex.com",
+      "group": "retail"
+    },
+    {
+      "name": "B\u00fccherstube Leonie Konertz",
+      "country": "Germany",
+      "url": "https://www.konertz-buchhandlung.de",
+      "group": "retail"
+    },
+    {
+      "name": "Bulochnye F. Vol'cheka",
+      "country": "Russia",
+      "url": "http://f-volchek.ru",
+      "group": "retail"
+    },
+    {
+      "name": "WineLab",
+      "country": "Russia",
+      "url": "https://www.winelab.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Petrobahia",
+      "country": "Brazil",
+      "url": "https://www.petrobahia.com.br/",
+      "group": "retail"
+    },
+    {
+      "name": "Ermolino",
+      "country": "Russia",
+      "url": "https://www.ermolino-produkty.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Eni",
+      "country": "Italy",
+      "url": "https://www.eni.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Pumpa Pr\u016fhonice",
+      "country": "Czech Republic",
+      "url": "https://www.pumpapruhonice.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "Husky",
+      "country": "Canada",
+      "url": "http://myhusky.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Sainsbury's",
+      "country": "United Kingdom",
+      "url": "https://www.sainsburys.co.uk/",
+      "group": "retail"
+    },
+    {
+      "name": "PetroChina Company Limited",
+      "country": "People's Republic of China",
+      "url": "https://petrochinaintl.com.hk/",
+      "group": "retail"
+    },
+    {
+      "name": "Imperial Oil",
+      "country": "Canada",
+      "url": "https://www.imperialoil.ca/en-ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Imperial Oil",
+      "country": "Canada",
+      "url": "https://www.imperialoil.ca/fr-ca",
+      "group": "retail"
+    },
+    {
+      "name": "Moy Zubnoy",
+      "country": "Russia",
+      "url": "https://moyzubnoy.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "7-Eleven",
+      "country": "South Korea",
+      "url": "https://www.7-eleven.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Liqui Moly",
+      "country": "Germany",
+      "url": "http://www.liqui-moly.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Tesco",
+      "country": "United Kingdom",
+      "url": "https://www.tescoplc.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Vernyy",
+      "country": "Russia",
+      "url": "https://www.verno-info.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Petronas",
+      "country": "Malaysia",
+      "url": "https://www.petronas.com",
+      "group": "retail"
+    },
+    {
+      "name": "Hoff",
+      "country": "Russia",
+      "url": "https://hoff.ru",
+      "group": "retail"
+    },
+    {
+      "name": "Agip",
+      "country": "Italy",
+      "url": "http://www.agip.eni.it/",
+      "group": "retail"
+    },
+    {
+      "name": "Auchan Retail Russia",
+      "country": "Russia",
+      "url": "https://www.auchan.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Petrobras",
+      "country": "Brazil",
+      "url": "https://www.petrobras.com.br",
+      "group": "retail"
+    },
+    {
+      "name": "OMV",
+      "country": "Austria",
+      "url": "https://www.omv.com/",
+      "group": "retail"
+    },
+    {
+      "name": "GS Caltex",
+      "country": "Japan",
+      "url": "http://www.gscaltex.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Bharat Petroleum",
+      "country": "India",
+      "url": "https://www.bharatpetroleum.in",
+      "group": "retail"
+    },
+    {
+      "name": "AVIA International",
+      "country": "Switzerland",
+      "url": "https://avia-international.com",
+      "group": "retail"
+    },
+    {
+      "name": "Morrisons",
+      "country": "United Kingdom",
+      "url": "https://www.morrisons.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Sasol",
+      "country": "South Africa",
+      "url": "https://www.sasol.com",
+      "group": "retail"
+    },
+    {
+      "name": "ExxonMobil",
+      "country": "United States",
+      "url": "https://corporate.exxonmobil.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Kroger",
+      "country": "United States",
+      "url": "https://www.kroger.com",
+      "group": "retail"
+    },
+    {
+      "name": "ATB-Market",
+      "country": "Ukraine",
+      "url": "https://www.atbmarket.com/",
+      "group": "retail"
+    },
+    {
+      "name": "PDVSA",
+      "country": "Venezuela",
+      "url": "http://www.pdvsa.com",
+      "group": "retail"
+    },
+    {
+      "name": "RaceTrac",
+      "country": "United States",
+      "url": "https://www.racetrac.com",
+      "group": "retail"
+    },
+    {
+      "name": "Neste",
+      "country": "Finland",
+      "url": "https://www.neste.com",
+      "group": "retail"
+    },
+    {
+      "name": "DEA AG",
+      "country": "Germany",
+      "url": "http://www.dea-group.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q141029346",
+      "country": "Peru",
+      "url": "https://www.ava.pe/",
+      "group": "retail"
+    },
+    {
+      "name": "ARCO",
+      "country": "United States",
+      "url": "http://www.arco.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Souvenir Concept-Store",
+      "country": "Germany",
+      "url": "https://souvenir-hof.de/",
+      "group": "retail"
+    },
+    {
+      "name": "J.K. Fischer Verlag",
+      "country": "Germany",
+      "url": "https://www.j-k-fischer-verlag.de",
+      "group": "retail"
+    },
+    {
+      "name": "Aral AG",
+      "country": "Germany",
+      "url": "https://www.aral.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Zweitausendeins",
+      "country": "Germany",
+      "url": "https://www.zweitausendeins.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Saudi Aramco",
+      "country": "Saudi Arabia",
+      "url": "https://www.aramco.com//",
+      "group": "retail"
+    },
+    {
+      "name": "Rui Fu Xiang",
+      "country": "People's Republic of China",
+      "url": "http://www.ruifuxiang.cn",
+      "group": "retail"
+    },
+    {
+      "name": "Petronas",
+      "country": "Malaysia",
+      "url": "https://www.petronasgas.com",
+      "group": "retail"
+    },
+    {
+      "name": "Petshop.ru",
+      "country": "Russia",
+      "url": "https://www.petshop.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Bahrain Petroleum Company",
+      "country": "Bahrain",
+      "url": "http://www.bapco.net",
+      "group": "retail"
+    },
+    {
+      "name": "Jet",
+      "country": "United States",
+      "url": "https://www.jet.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Jet",
+      "country": "United States",
+      "url": "https://www.jetlocal.co.uk",
+      "group": "retail"
+    },
+    {
+      "name": "Gradusy",
+      "country": "Russia",
+      "url": "https://www.gradusi.net/",
+      "group": "retail"
+    },
+    {
+      "name": "K9 Vitality",
+      "country": "India",
+      "url": "https://k9vitality.in",
+      "group": "retail"
+    },
+    {
+      "name": "Preem",
+      "country": "Sweden",
+      "url": "https://www.preem.com",
+      "group": "retail"
+    },
+    {
+      "name": "Fleet Tesco Express",
+      "country": "United Kingdom",
+      "url": "https://www.esso.co.uk/en-gb/find-station/esso-fleet,crookham-fleettescoexpress-100200542",
+      "group": "retail"
+    },
+    {
+      "name": "Chevron Corporation",
+      "country": "United States",
+      "url": "https://www.chevron.com",
+      "group": "retail"
+    },
+    {
+      "name": "LaManna Supermarket",
+      "country": "",
+      "url": "https://www.lamanna.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "Moeve",
+      "country": "Spain",
+      "url": "https://www.moeveglobal.com/",
+      "group": "retail"
+    },
+    {
+      "name": "33 pingvina",
+      "country": "Russia",
+      "url": "https://33pingvina.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Petrol AD",
+      "country": "Bulgaria",
+      "url": "https://www.petrol.bg/",
+      "group": "retail"
+    },
+    {
+      "name": "LekOptTorg",
+      "country": "Russia",
+      "url": "https://lekopttorg.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Ulybka Radugi",
+      "country": "Russia",
+      "url": "https://www.r-ulybka.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "7-Eleven",
+      "country": "United States",
+      "url": "https://www.7-eleven.com/",
+      "group": "retail"
+    },
+    {
+      "name": "CPC Corporation, Taiwan",
+      "country": "Taiwan",
+      "url": "https://www.cpc.com.tw",
+      "group": "retail"
+    },
+    {
+      "name": "7-Eleven",
+      "country": "Denmark",
+      "url": "https://www.7-eleven.com/",
+      "group": "retail"
+    },
+    {
+      "name": "7-Eleven",
+      "country": "Australia",
+      "url": "https://www.7-eleven.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Lukoil",
+      "country": "Russia",
+      "url": "https://lukoil.com",
+      "group": "retail"
+    },
+    {
+      "name": "Sinopec",
+      "country": "People's Republic of China",
+      "url": "http://www.sinopecgroup.com",
+      "group": "retail"
+    },
+    {
+      "name": "Q130440361",
+      "country": "Japan",
+      "url": "http://www.naga-shou.co.jp/",
+      "group": "retail"
+    },
+    {
+      "name": "Q123975052",
+      "country": "Germany",
+      "url": "https://herm.net/tankstellen/herm-tankstellen/mosbach-tankstelle/",
+      "group": "retail"
+    },
+    {
+      "name": "7-Eleven",
+      "country": "Japan",
+      "url": "https://www.7-eleven.com/",
+      "group": "retail"
+    },
+    {
+      "name": "MOL Group",
+      "country": "Hungary",
+      "url": "https://molgroup.info/en",
+      "group": "retail"
+    },
+    {
+      "name": "S-Oil",
+      "country": "South Korea",
+      "url": "http://www.s-oil.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q154037",
+      "country": "France",
+      "url": "https://www.totalenergies.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Asda",
+      "country": "United Kingdom",
+      "url": "https://www.asda.com",
+      "group": "retail"
+    },
+    {
+      "name": "DEA AG",
+      "country": "German Reich",
+      "url": "http://www.dea-group.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Galamart",
+      "country": "",
+      "url": "https://galamart.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Q123557175",
+      "country": "Austria",
+      "url": "https://greisslermuseum-thoerl.jimdofree.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Repsol",
+      "country": "Spain",
+      "url": "https://www.repsol.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Texaco",
+      "country": "United States",
+      "url": "https://www.texaco.com",
+      "group": "retail"
+    },
+    {
+      "name": "Caltex",
+      "country": "United States",
+      "url": "https://www.caltex.com",
+      "group": "retail"
+    },
+    {
+      "name": "Europam",
+      "country": "Italy",
+      "url": "https://europam.it/",
+      "group": "retail"
+    },
+    {
+      "name": "China National Petroleum Corporation",
+      "country": "People's Republic of China",
+      "url": "http://www.cnpc.com.cn:81/cnpc/index.shtml",
+      "group": "retail"
+    },
+    {
+      "name": "China National Petroleum Corporation",
+      "country": "People's Republic of China",
+      "url": "http://www.cnpc.com.cn/",
+      "group": "retail"
+    },
+    {
+      "name": "China National Petroleum Corporation",
+      "country": "People's Republic of China",
+      "url": "http://www.cnpc.com.cn/en/",
+      "group": "retail"
+    },
+    {
+      "name": "China National Petroleum Corporation",
+      "country": "People's Republic of China",
+      "url": "http://www.cnpc.com.cn/es/",
+      "group": "retail"
+    },
+    {
+      "name": "China National Petroleum Corporation",
+      "country": "People's Republic of China",
+      "url": "http://www.cnpc.com.cn/ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Reno",
+      "country": "",
+      "url": "https://www.reno.de",
+      "group": "retail"
+    },
+    {
+      "name": "Sever Confectionery Products",
+      "country": "Russia",
+      "url": "https://sever-metropol.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Japan Energy",
+      "country": "Japan",
+      "url": "http://www.j-energy.co.jp/",
+      "group": "retail"
+    },
+    {
+      "name": "Marathon Petroleum",
+      "country": "United States",
+      "url": "https://www.marathonpetroleum.com/",
+      "group": "retail"
+    },
+    {
+      "name": "S\u00f6derk\u00f6pings Bokhandel",
+      "country": "Sweden",
+      "url": "http://www.soderkopingsbokhandel.se/",
+      "group": "retail"
+    },
+    {
+      "name": "Shell Fleet",
+      "country": "United Kingdom",
+      "url": "https://find.shell.com/gb/fuel/10019021-shell-fleet/en_GB",
+      "group": "retail"
+    },
+    {
+      "name": "A A RANO PETROL STATION",
+      "country": "Nigeria",
+      "url": "https://aaranonigeria.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Lemurrr",
+      "country": "Russia",
+      "url": "https://lemurrr.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "PetroChina Company Limited",
+      "country": "People's Republic of China",
+      "url": "https://www.petrochina.com.cn",
+      "group": "retail"
+    },
+    {
+      "name": "Brugseni",
+      "country": "Greenland",
+      "url": "https://brugseni.gl",
+      "group": "retail"
+    },
+    {
+      "name": "Spasibo!",
+      "country": "Russia",
+      "url": "https://spasiboshop.org/",
+      "group": "retail"
+    },
+    {
+      "name": "Gruppo API",
+      "country": "Italy",
+      "url": "https://www.gruppoapi.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Takeyama Rice Retailer House and Museum of Rice Cookery",
+      "country": "Japan",
+      "url": "https://tenkome.jp/moric/",
+      "group": "retail"
+    },
+    {
+      "name": "EKO",
+      "country": "Canada",
+      "url": "http://www.eko.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Q4119207",
+      "country": "Kuwait",
+      "url": "https://www.q8.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Aygaz",
+      "country": "Turkey",
+      "url": "https://www.aygaz.com.tr/",
+      "group": "retail"
+    },
+    {
+      "name": "Q3362746",
+      "country": "Denmark",
+      "url": "https://unoxmobility.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q3362746",
+      "country": "Norway",
+      "url": "https://unoxmobility.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Paz Retail And Energy",
+      "country": "Israel",
+      "url": "http://www.paz.co.il",
+      "group": "retail"
+    },
+    {
+      "name": "Paz Retail And Energy",
+      "country": "Israel",
+      "url": "https://www.paz.co.il",
+      "group": "retail"
+    },
+    {
+      "name": "ENEOS",
+      "country": "Japan",
+      "url": "https://www.eneos.co.jp/",
+      "group": "retail"
+    },
+    {
+      "name": "AS 24",
+      "country": "France",
+      "url": "https://www.as24.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Citgo",
+      "country": "United States",
+      "url": "https://www.citgo.com",
+      "group": "retail"
+    },
+    {
+      "name": "Petrol Ofisi",
+      "country": "Turkey",
+      "url": "https://www.petrolofisi.com.tr/",
+      "group": "retail"
+    },
+    {
+      "name": "Vibra Energia",
+      "country": "Brazil",
+      "url": "http://www.br.com.br",
+      "group": "retail"
+    },
+    {
+      "name": "Vibra Energia",
+      "country": "Brazil",
+      "url": "https://www.vibraenergia.com.br/",
+      "group": "retail"
+    },
+    {
+      "name": "BWOC",
+      "country": "United Kingdom",
+      "url": "https://bwoc.co.uk/index.php",
+      "group": "retail"
+    },
+    {
+      "name": "State Oil Company of Azerbaijan Republic",
+      "country": "Azerbaijan",
+      "url": "https://socar.az/az/home",
+      "group": "retail"
+    },
+    {
+      "name": "State Oil Company of Azerbaijan Republic",
+      "country": "Azerbaijan",
+      "url": "https://socar.ge",
+      "group": "retail"
+    },
+    {
+      "name": "State Oil Company of Azerbaijan Republic",
+      "country": "Azerbaijan",
+      "url": "https://www.sgp.ge",
+      "group": "retail"
+    },
+    {
+      "name": "State Oil Company of Azerbaijan Republic",
+      "country": "Azerbaijan",
+      "url": "https://www.socarenergy.ch/",
+      "group": "retail"
+    },
+    {
+      "name": "Elf Aquitaine",
+      "country": "France",
+      "url": "https://www.elf.com",
+      "group": "retail"
+    },
+    {
+      "name": "Pilot Flying J",
+      "country": "United States",
+      "url": "https://www.pilotflyingj.com/",
+      "group": "retail"
+    },
+    {
+      "name": "OKKO",
+      "country": "Ukraine",
+      "url": "https://www.okko.ua/",
+      "group": "retail"
+    },
+    {
+      "name": "Meijer",
+      "country": "United States",
+      "url": "https://meijer.com",
+      "group": "retail"
+    },
+    {
+      "name": "Hess Corporation",
+      "country": "United States",
+      "url": "http://www.hess.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Idemitsu Kosan",
+      "country": "Japan",
+      "url": "https://www.idemitsu.com/jp/",
+      "group": "retail"
+    },
+    {
+      "name": "Exxon",
+      "country": "United States",
+      "url": "http://www.exxon.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Kuwait Petroleum Italia",
+      "country": "Italy",
+      "url": "https://www.q8.it/",
+      "group": "retail"
+    },
+    {
+      "name": "Ceylon Petroleum Corporation",
+      "country": "Sri Lanka",
+      "url": "http://ceypetco.gov.lk/",
+      "group": "retail"
+    },
+    {
+      "name": "Engen Petroleum",
+      "country": "",
+      "url": "https://engen.co.za/",
+      "group": "retail"
+    },
+    {
+      "name": "Sinclair Oil Corporation",
+      "country": "United States",
+      "url": "https://www.sinclairoil.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Akwa Group",
+      "country": "Morocco",
+      "url": "http://www.akwagroup.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Oktan",
+      "country": "Poland",
+      "url": "http://www.oktan-energy.pl/oktan/en",
+      "group": "retail"
+    },
+    {
+      "name": "Pakistan State Oil",
+      "country": "Pakistan",
+      "url": "https://psopk.com/en/home",
+      "group": "retail"
+    },
+    {
+      "name": "Pakistan State Oil",
+      "country": "Pakistan",
+      "url": "https://psopk.com/ur/home",
+      "group": "retail"
+    },
+    {
+      "name": "IP Gruppo API",
+      "country": "Italy",
+      "url": "https://ip.gruppoapi.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Cosan",
+      "country": "Brazil",
+      "url": "http://cosan.com.br/",
+      "group": "retail"
+    },
+    {
+      "name": "Cosan",
+      "country": "Brazil",
+      "url": "https://www.cosan.com.br/en/",
+      "group": "retail"
+    },
+    {
+      "name": "Sunoco",
+      "country": "United States",
+      "url": "https://www.sunoco.com/",
+      "group": "retail"
+    },
+    {
+      "name": "OMV Petrom",
+      "country": "Romania",
+      "url": "https://www.omv.ro",
+      "group": "retail"
+    },
+    {
+      "name": "Giant Eagle",
+      "country": "United States",
+      "url": "https://www.gianteagle.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Love's Travel Stops & Country Stores",
+      "country": "United States",
+      "url": "https://www.loves.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Azpetrol",
+      "country": "Azerbaijan",
+      "url": "http://www.azpetrol.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Ukrnafta",
+      "country": "Ukraine",
+      "url": "https://azs.ukrnafta.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Ukrnafta",
+      "country": "Ukraine",
+      "url": "https://www.ukrnafta.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Kuwait Petroleum Nederland",
+      "country": "Netherlands",
+      "url": "https://www.q8.nl/",
+      "group": "retail"
+    },
+    {
+      "name": "Cosmo Oil Company",
+      "country": "Japan",
+      "url": "http://www.cosmo-oil.co.jp/",
+      "group": "retail"
+    },
+    {
+      "name": "Beyfin",
+      "country": "Italy",
+      "url": "https://www.beyfin.it/",
+      "group": "retail"
+    },
+    {
+      "name": "Challenge",
+      "country": "",
+      "url": "https://www.challenge.net.nz/",
+      "group": "retail"
+    },
+    {
+      "name": "Ampol",
+      "country": "Australia",
+      "url": "https://www.ampol.com.au",
+      "group": "retail"
+    },
+    {
+      "name": "Maxol",
+      "country": "",
+      "url": "https://www.maxol.ie/",
+      "group": "retail"
+    },
+    {
+      "name": "National Petroleum Corporation of Namibia",
+      "country": "",
+      "url": "http://www.namcor.com.na/",
+      "group": "retail"
+    },
+    {
+      "name": "Parallel",
+      "country": "Ukraine",
+      "url": "https://parallel.ua/",
+      "group": "retail"
+    },
+    {
+      "name": "Murphy Oil",
+      "country": "United States",
+      "url": "http://www.murphyoilcorp.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Makpetrol",
+      "country": "North Macedonia",
+      "url": "https://www.makpetrol.com.mk/",
+      "group": "retail"
+    },
+    {
+      "name": "OKTA",
+      "country": "",
+      "url": "https://www.okta-elpe.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Sonol",
+      "country": "Israel",
+      "url": "http://en.sonol.co.il/",
+      "group": "retail"
+    },
+    {
+      "name": "Sonol",
+      "country": "Israel",
+      "url": "https://www.sonol.co.il/",
+      "group": "retail"
+    },
+    {
+      "name": "Indian Oil Corporation",
+      "country": "India",
+      "url": "https://www.iocl.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Galp Energia",
+      "country": "Portugal",
+      "url": "https://www.galp.com/",
+      "group": "retail"
+    },
+    {
+      "name": "YX Energi",
+      "country": "",
+      "url": "https://yx.no/",
+      "group": "retail"
+    },
+    {
+      "name": "Delek Group Ltd.",
+      "country": "Israel",
+      "url": "https://delek.co.il",
+      "group": "retail"
+    },
+    {
+      "name": "Slovnaft",
+      "country": "Slovakia",
+      "url": "https://slovnaft.sk/",
+      "group": "retail"
+    },
+    {
+      "name": "Singapore Petroleum Company",
+      "country": "",
+      "url": "http://www.spc.com.sg",
+      "group": "retail"
+    },
+    {
+      "name": "Shell USA",
+      "country": "Netherlands",
+      "url": "https://www.shell.us/",
+      "group": "retail"
+    },
+    {
+      "name": "Formosa Petrochemical",
+      "country": "Taiwan",
+      "url": "http://www.fpcc.com.tw",
+      "group": "retail"
+    },
+    {
+      "name": "Canadian Tire",
+      "country": "Canada",
+      "url": "https://www.canadiantire.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "CHS Inc.",
+      "country": "United States",
+      "url": "http://www.chsinc.com",
+      "group": "retail"
+    },
+    {
+      "name": "OXXO",
+      "country": "Mexico",
+      "url": "https://www.oxxo.com",
+      "group": "retail"
+    },
+    {
+      "name": "Petro-Canada",
+      "country": "Canada",
+      "url": "https://www.petro-canada.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "INA",
+      "country": "Croatia",
+      "url": "https://www.ina.hr/",
+      "group": "retail"
+    },
+    {
+      "name": "Tank ONO",
+      "country": "Czech Republic",
+      "url": "http://www.tank-ono.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "Shell Canada",
+      "country": "Canada",
+      "url": "https://www.shell.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Ultramar",
+      "country": "Canada",
+      "url": "https://www.ultramar.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Valero Energy",
+      "country": "United States",
+      "url": "https://www.valero.com",
+      "group": "retail"
+    },
+    {
+      "name": "TotalErg",
+      "country": "Italy",
+      "url": "https://www.totalerg.it/",
+      "group": "retail"
+    },
+    {
+      "name": "Attock Petroleum",
+      "country": "",
+      "url": "http://www.apl.com.pk/",
+      "group": "retail"
+    },
+    {
+      "name": "Tesoro Corporation",
+      "country": "United States",
+      "url": "http://www.andeavor.com",
+      "group": "retail"
+    },
+    {
+      "name": "Getty Oil",
+      "country": "United States",
+      "url": "https://www.gettyoil.com",
+      "group": "retail"
+    },
+    {
+      "name": "Q3268010",
+      "country": "Indonesia",
+      "url": "https://www.circlek.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Suncor Energy",
+      "country": "Canada",
+      "url": "http://www.suncor.com/",
+      "group": "retail"
+    },
+    {
+      "name": "IQ-Diskont",
+      "country": "Austria",
+      "url": "https://iqtanken.com/",
+      "group": "retail"
+    },
+    {
+      "name": "TinQ",
+      "country": "Netherlands",
+      "url": "https://www.tinq.nl",
+      "group": "retail"
+    },
+    {
+      "name": "Orlen",
+      "country": "Poland",
+      "url": "https://www.orlen.pl/",
+      "group": "retail"
+    },
+    {
+      "name": "YPF",
+      "country": "Argentina",
+      "url": "https://www.ypf.com/english/Paginas/Home.aspx",
+      "group": "retail"
+    },
+    {
+      "name": "76 (gas station)",
+      "country": "United States",
+      "url": "https://www.76.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Pertamina",
+      "country": "Indonesia",
+      "url": "http://www.pertamina.com",
+      "group": "retail"
+    },
+    {
+      "name": "Orlen Lietuva, AB",
+      "country": "Lithuania",
+      "url": "http://www.orlenlietuva.lt",
+      "group": "retail"
+    },
+    {
+      "name": "Clark Brands",
+      "country": "United States",
+      "url": "https://www.clarkbrands.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q1634762",
+      "country": "Kuwait",
+      "url": "https://www.kpc.com.kw/",
+      "group": "retail"
+    },
+    {
+      "name": "Q3268010",
+      "country": "Canada",
+      "url": "https://www.circlek.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Buc-ee's",
+      "country": "",
+      "url": "https://www.buc-ees.com",
+      "group": "retail"
+    },
+    {
+      "name": "Lotos Group",
+      "country": "Poland",
+      "url": "https://www.lotos.pl/",
+      "group": "retail"
+    },
+    {
+      "name": "OKQ8",
+      "country": "Sweden",
+      "url": "https://www.okq8.se",
+      "group": "retail"
+    },
+    {
+      "name": "Irving Oil",
+      "country": "",
+      "url": "https://www.irvingoil.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Aloha Petroleum",
+      "country": "United States",
+      "url": "https://www.alohagas.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Euro Garages Australia",
+      "country": "Australia",
+      "url": "https://www.eg-australia.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Hindustan Petroleum",
+      "country": "India",
+      "url": "https://www.hindustanpetroleum.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Phillips 66",
+      "country": "United States",
+      "url": "https://www.phillips66.com",
+      "group": "retail"
+    },
+    {
+      "name": "Phillips 66",
+      "country": "United States",
+      "url": "https://www.phillips66gas.com",
+      "group": "retail"
+    },
+    {
+      "name": "Cenex",
+      "country": "United Kingdom",
+      "url": "http://www.cenex.co.uk",
+      "group": "retail"
+    },
+    {
+      "name": "Petroleo Ipiranga",
+      "country": "Brazil",
+      "url": "http://www.ipiranga.com.br/",
+      "group": "retail"
+    },
+    {
+      "name": "din-X",
+      "country": "Sweden",
+      "url": "https://www.din-x.se/",
+      "group": "retail"
+    },
+    {
+      "name": "Best",
+      "country": "Norway",
+      "url": "https://www.beststasjon.no/",
+      "group": "retail"
+    },
+    {
+      "name": "EKO Greece",
+      "country": "Greece",
+      "url": "https://www.eko.gr/",
+      "group": "retail"
+    },
+    {
+      "name": "High's Dairy Store",
+      "country": "United States",
+      "url": "https://www.highs.com/",
+      "group": "retail"
+    },
+    {
+      "name": "HD Hyundai Oilbank",
+      "country": "South Korea",
+      "url": "https://www.hd-hyundaioilbank.co.kr/",
+      "group": "retail"
+    },
+    {
+      "name": "Loaf 'N Jug",
+      "country": "United States",
+      "url": "https://www.loafnjug.com",
+      "group": "retail"
+    },
+    {
+      "name": "Firezone",
+      "country": "",
+      "url": "http://www.firezone.nl/",
+      "group": "retail"
+    },
+    {
+      "name": "Kwik Trip",
+      "country": "United States",
+      "url": "https://www.kwiktrip.com/",
+      "group": "retail"
+    },
+    {
+      "name": "HUNSGAS",
+      "country": "Czech Republic",
+      "url": "https://www.hunsgas.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "Sheetz",
+      "country": "United States",
+      "url": "https://www.sheetz.com",
+      "group": "retail"
+    },
+    {
+      "name": "Ol\u00eds",
+      "country": "Iceland",
+      "url": "https://www.olis.is/",
+      "group": "retail"
+    },
+    {
+      "name": "Gulf Oil International",
+      "country": "United States",
+      "url": "https://gulf.ge",
+      "group": "retail"
+    },
+    {
+      "name": "Z Energy",
+      "country": "New Zealand",
+      "url": "https://z.co.nz/",
+      "group": "retail"
+    },
+    {
+      "name": "WOG",
+      "country": "Ukraine",
+      "url": "https://wog.ua/",
+      "group": "retail"
+    },
+    {
+      "name": "F24",
+      "country": "Denmark",
+      "url": "https://www.f24.dk/",
+      "group": "retail"
+    },
+    {
+      "name": "Tedcastles Oil Products",
+      "country": "",
+      "url": "https://www.top.ie/",
+      "group": "retail"
+    },
+    {
+      "name": "PETRA",
+      "country": "Czech Republic",
+      "url": "http://csprim.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "Terrible Herbst",
+      "country": "",
+      "url": "https://www.terribles.com/",
+      "group": "retail"
+    },
+    {
+      "name": "SP Energia Siciliana",
+      "country": "Italy",
+      "url": "http://www.sp-energiasiciliana.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Olerex",
+      "country": "Estonia",
+      "url": "https://olerex.ee/",
+      "group": "retail"
+    },
+    {
+      "name": "Parkland Corporation",
+      "country": "Canada",
+      "url": "https://www.parkland.ca/en",
+      "group": "retail"
+    },
+    {
+      "name": "Pilot Company",
+      "country": "United States",
+      "url": "https://www.pilotcompany.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Petromoc",
+      "country": "Mozambique",
+      "url": "http://www.petromoc.co.mz/",
+      "group": "retail"
+    },
+    {
+      "name": "Terpel",
+      "country": "Colombia",
+      "url": "http://www.terpel.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Kwik Shop",
+      "country": "United States",
+      "url": "https://www.kwikshop.com/",
+      "group": "retail"
+    },
+    {
+      "name": "EUROBIT - \u010derpac\u00ed stanice",
+      "country": "Czech Republic",
+      "url": "https://www.eurobit.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "Qstar",
+      "country": "Sweden",
+      "url": "https://www.qstar.se/",
+      "group": "retail"
+    },
+    {
+      "name": "Par Pacific Holdings",
+      "country": "United States",
+      "url": "http://parpacific.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Phoenix Petroleum Philippines, Inc.",
+      "country": "Philippines",
+      "url": "https://www.phoenixfuels.ph",
+      "group": "retail"
+    },
+    {
+      "name": "ARMEX Oil",
+      "country": "Czech Republic",
+      "url": "https://www.armexoil.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "EnerCoop",
+      "country": "Italy",
+      "url": "https://www.coopalleanza3-0.it/oltre-la-spesa/carburanti-coop.html",
+      "group": "retail"
+    },
+    {
+      "name": "DATS 24",
+      "country": "Belgium",
+      "url": "https://customer.dats24.be",
+      "group": "retail"
+    },
+    {
+      "name": "DATS 24",
+      "country": "Belgium",
+      "url": "https://dats24.be/",
+      "group": "retail"
+    },
+    {
+      "name": "Diamond Shamrock",
+      "country": "United States",
+      "url": "http://www.valero.com",
+      "group": "retail"
+    },
+    {
+      "name": "FJ Management",
+      "country": "United States",
+      "url": "http://fjmgt.com",
+      "group": "retail"
+    },
+    {
+      "name": "Topaz Energy",
+      "country": "",
+      "url": "https://www.circlek.ie/",
+      "group": "retail"
+    },
+    {
+      "name": "Spirit Petroleum",
+      "country": "United States",
+      "url": "https://www.spiritpetroleum.com/",
+      "group": "retail"
+    },
+    {
+      "name": "EG Group",
+      "country": "",
+      "url": "http://www.eurogarages.com/",
+      "group": "retail"
+    },
+    {
+      "name": "National Petroleum Corporation",
+      "country": "Taiwan",
+      "url": "https://www.npcgas.com.tw/",
+      "group": "retail"
+    },
+    {
+      "name": "Pacific Pride",
+      "country": "United States",
+      "url": "https://www.pacificprideusa.com/",
+      "group": "retail"
+    },
+    {
+      "name": "KLO",
+      "country": "Ukraine",
+      "url": "https://www.klo.ua",
+      "group": "retail"
+    },
+    {
+      "name": "Thorntons LLC",
+      "country": "United States",
+      "url": "https://www.mythorntons.com/",
+      "group": "retail"
+    },
+    {
+      "name": "QuickChek",
+      "country": "United States",
+      "url": "https://quickchek.com",
+      "group": "retail"
+    },
+    {
+      "name": "QuikTrip",
+      "country": "United States",
+      "url": "https://www.quiktrip.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Motiva Enterprises",
+      "country": "",
+      "url": "https://www.motiva.com/",
+      "group": "retail"
+    },
+    {
+      "name": "United Dairy Farmers",
+      "country": "United States",
+      "url": "https://www.udfinc.com",
+      "group": "retail"
+    },
+    {
+      "name": "Elan",
+      "country": "France",
+      "url": "https://www.total-proxi-energies.fr/stations-elan",
+      "group": "retail"
+    },
+    {
+      "name": "ABC",
+      "country": "Finland",
+      "url": "http://www.abcasemat.fi/",
+      "group": "retail"
+    },
+    {
+      "name": "ABC",
+      "country": "Finland",
+      "url": "https://www.abcasemat.fi/en",
+      "group": "retail"
+    },
+    {
+      "name": "North Atlantic Refining",
+      "country": "Canada",
+      "url": "http://www.narefining.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Huck's Food & Fuel",
+      "country": "United States",
+      "url": "https://hucks.com/",
+      "group": "retail"
+    },
+    {
+      "name": "OPET",
+      "country": "Turkey",
+      "url": "https://www.opet.com.tr/",
+      "group": "retail"
+    },
+    {
+      "name": "Emo",
+      "country": "",
+      "url": "https://emo.ie",
+      "group": "retail"
+    },
+    {
+      "name": "Pioneer Energy",
+      "country": "Canada",
+      "url": "http://www.pioneer.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "Murco Petroleum",
+      "country": "United Kingdom",
+      "url": "https://murco.co.uk/",
+      "group": "retail"
+    },
+    {
+      "name": "Mohawk Oil",
+      "country": "",
+      "url": "http://www.myhusky.ca/",
+      "group": "retail"
+    },
+    {
+      "name": "OK a.m.b.a.",
+      "country": "Denmark",
+      "url": "https://www.ok.dk/",
+      "group": "retail"
+    },
+    {
+      "name": "SuperAmerica",
+      "country": "United States",
+      "url": "http://www.superamerica.com",
+      "group": "retail"
+    },
+    {
+      "name": "Alexela Oil",
+      "country": "Estonia",
+      "url": "https://www.alexela.ee/",
+      "group": "retail"
+    },
+    {
+      "name": "CLASSIC",
+      "country": "Germany",
+      "url": "https://classic-oil.de",
+      "group": "retail"
+    },
+    {
+      "name": "Empresas Copec",
+      "country": "Chile",
+      "url": "https://www.empresascopec.cl",
+      "group": "retail"
+    },
+    {
+      "name": "Petromin",
+      "country": "Saudi Arabia",
+      "url": "https://petromin.com/",
+      "group": "retail"
+    },
+    {
+      "name": "GetGo",
+      "country": "United States",
+      "url": "https://www.getgocafe.com",
+      "group": "retail"
+    },
+    {
+      "name": "Q12072608",
+      "country": "Ukraine",
+      "url": "http://www.tnk.ua/",
+      "group": "retail"
+    },
+    {
+      "name": "Teboil",
+      "country": "Finland",
+      "url": "https://azs.teboil.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Teboil",
+      "country": "Finland",
+      "url": "https://teboil.ru/",
+      "group": "retail"
+    },
+    {
+      "name": "Shell Italia",
+      "country": "Italy",
+      "url": "https://www.shell.it/",
+      "group": "retail"
+    },
+    {
+      "name": "Murphy USA",
+      "country": "United States",
+      "url": "https://www.murphyusa.com",
+      "group": "retail"
+    },
+    {
+      "name": "Giant Industries",
+      "country": "United States",
+      "url": "http://www.giant.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Royal Farms",
+      "country": "United States",
+      "url": "https://www.royalfarms.com",
+      "group": "retail"
+    },
+    {
+      "name": "Ingo",
+      "country": "",
+      "url": "https://www.ingo.dk/",
+      "group": "retail"
+    },
+    {
+      "name": "Ingo",
+      "country": "",
+      "url": "https://www.ingo.se",
+      "group": "retail"
+    },
+    {
+      "name": "Applegreen",
+      "country": "United States",
+      "url": "https://www.applegreenstores.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Applegreen",
+      "country": "United Kingdom",
+      "url": "https://www.applegreenstores.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Petron Corporation",
+      "country": "",
+      "url": "https://www.petron.com",
+      "group": "retail"
+    },
+    {
+      "name": "Teboil",
+      "country": "Finland",
+      "url": "https://www.teboil.fi/sv/",
+      "group": "retail"
+    },
+    {
+      "name": "Teboil",
+      "country": "Finland",
+      "url": "https://www.teboil.fi/en/",
+      "group": "retail"
+    },
+    {
+      "name": "Teboil",
+      "country": "Finland",
+      "url": "https://www.teboil.fi/",
+      "group": "retail"
+    },
+    {
+      "name": "Puma Energy",
+      "country": "",
+      "url": "https://pumaenergy.com/en/",
+      "group": "retail"
+    },
+    {
+      "name": "Puma Energy",
+      "country": "",
+      "url": "https://pumaenergyarg.com.ar/",
+      "group": "retail"
+    },
+    {
+      "name": "Puma Energy",
+      "country": "",
+      "url": "https://www.pumaenergy.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "Sprint",
+      "country": "Germany",
+      "url": "https://go-sprint.de/",
+      "group": "retail"
+    },
+    {
+      "name": "Neste K",
+      "country": "Finland",
+      "url": "https://www.nestek.fi",
+      "group": "retail"
+    },
+    {
+      "name": "Jio-BP",
+      "country": "",
+      "url": "https://www.jiobp.com/",
+      "group": "retail"
+    },
+    {
+      "name": "TravelCenters of America",
+      "country": "United States",
+      "url": "https://www.ta-petro.com",
+      "group": "retail"
+    },
+    {
+      "name": "Iberdoex",
+      "country": "Spain",
+      "url": "https://iberdoex.com/",
+      "group": "retail"
+    },
+    {
+      "name": "TPPD",
+      "country": "Turkey",
+      "url": "https://www.tppd.com.tr/",
+      "group": "retail"
+    },
+    {
+      "name": "KRALUPOL",
+      "country": "Czech Republic",
+      "url": "https://kralupol.cz/",
+      "group": "retail"
+    },
+    {
+      "name": "Tanka",
+      "country": "",
+      "url": "https://tanka.se/",
+      "group": "retail"
+    },
+    {
+      "name": "Rutter's",
+      "country": "United States",
+      "url": "https://www.rutters.com",
+      "group": "retail"
+    },
+    {
+      "name": "Applegreen",
+      "country": "Ireland",
+      "url": "https://www.applegreenstores.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Wawa",
+      "country": "United States",
+      "url": "https://www.wawa.com/",
+      "group": "retail"
+    },
+    {
+      "name": "United Petroleum",
+      "country": "Australia",
+      "url": "https://www.unitedpetroleum.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "Shell Australia",
+      "country": "",
+      "url": "http://www.shell.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "Gulf Oil International",
+      "country": "United States",
+      "url": "https://www.gulfoilltd.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Holiday Stationstores",
+      "country": "United States",
+      "url": "http://www.holidaystationstores.com",
+      "group": "retail"
+    },
+    {
+      "name": "Tirex Petrol",
+      "country": "Moldova",
+      "url": "https://www.tirexpetrol.com/",
+      "group": "retail"
+    },
+    {
+      "name": "SEAOIL Philippines",
+      "country": "Philippines",
+      "url": "https://www.seaoil.com.ph",
+      "group": "retail"
+    },
+    {
+      "name": "Avias",
+      "country": "Ukraine",
+      "url": "https://avias.ua/",
+      "group": "retail"
+    },
+    {
+      "name": "Speedway",
+      "country": "United States",
+      "url": "https://www.speedway.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q115843766",
+      "country": "Brazil",
+      "url": "https://institucional.angeloni.com.br/",
+      "group": "retail"
+    },
+    {
+      "name": "OTR",
+      "country": "Australia",
+      "url": "https://www.otr.com.au/",
+      "group": "retail"
+    },
+    {
+      "name": "BEBECO",
+      "country": "Switzerland",
+      "url": "https://www.vtg.admin.ch/de/bebeco",
+      "group": "retail"
+    },
+    {
+      "name": "Exxon",
+      "country": "United States",
+      "url": "https://www.exxon.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Mobil",
+      "country": "United States",
+      "url": "https://www.mobil.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Sol Petr\u00f3leo S.A.",
+      "country": "Argentina",
+      "url": "http://www.solpetroleo.com",
+      "group": "retail"
+    },
+    {
+      "name": "Enerpetroli",
+      "country": "Italy",
+      "url": "http://www.enerpetroli.it/",
+      "group": "retail"
+    },
+    {
+      "name": "Petrom",
+      "country": "Morocco",
+      "url": "http://petrom.ma/",
+      "group": "retail"
+    },
+    {
+      "name": "Petro Stopping Centers",
+      "country": "United States",
+      "url": "https://www.ta-petro.com/",
+      "group": "retail"
+    },
+    {
+      "name": "Q8 Danmark",
+      "country": "Denmark",
+      "url": "https://www.q8.dk/",
+      "group": "retail"
+    },
+    {
+      "name": "EKO Bulgaria",
+      "country": "Bulgaria",
+      "url": "https://www.eko.bg/",
+      "group": "retail"
+    },
+    {
+      "name": "Astro",
+      "country": "United States",
+      "url": "https://www.wscopetroleum.com/",
+      "group": "retail"
+    }
+  ]
+}

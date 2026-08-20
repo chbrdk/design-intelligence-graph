@@ -1,0 +1,1506 @@
+{
+  "id": "diversity-telecom",
+  "count": 250,
+  "entries": [
+    {
+      "name": "Cox Communications",
+      "country": "United States",
+      "url": "https://www.cox.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Cox Communications",
+      "country": "United States",
+      "url": "https://www.cox.com/residential/home.html",
+      "group": "telecom"
+    },
+    {
+      "name": "du",
+      "country": "United Arab Emirates",
+      "url": "https://www.du.ae/",
+      "group": "telecom"
+    },
+    {
+      "name": "China Telecommunications Corporation",
+      "country": "People's Republic of China",
+      "url": "http://www.chinatelecom.com.cn/",
+      "group": "telecom"
+    },
+    {
+      "name": "China Telecommunications Corporation",
+      "country": "People's Republic of China",
+      "url": "https://www.189.cn/",
+      "group": "telecom"
+    },
+    {
+      "name": "China Telecommunications Corporation",
+      "country": "People's Republic of China",
+      "url": "https://www.ctexcel.ca",
+      "group": "telecom"
+    },
+    {
+      "name": "China Telecommunications Corporation",
+      "country": "People's Republic of China",
+      "url": "https://www.ctexcel.com.hk/",
+      "group": "telecom"
+    },
+    {
+      "name": "China Telecommunications Corporation",
+      "country": "People's Republic of China",
+      "url": "https://www.ctexcel.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "China Telecommunications Corporation",
+      "country": "People's Republic of China",
+      "url": "https://www.ctexcel.com/uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "HGC Global Communications Limited",
+      "country": "British Hong Kong",
+      "url": "http://www.hgc.com.hk",
+      "group": "telecom"
+    },
+    {
+      "name": "ClubTelco",
+      "country": "",
+      "url": "http://www.clubtelco.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Easynet",
+      "country": "United Kingdom",
+      "url": "http://www.easynet.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Nordnet",
+      "country": "France",
+      "url": "https://www.nordnet.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Cogent Communications",
+      "country": "",
+      "url": "http://www.cogentco.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Ionos",
+      "country": "Germany",
+      "url": "https://www.ionos.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Individual Network Berlin",
+      "country": "Germany",
+      "url": "https://www.in-berlin.de/",
+      "group": "telecom"
+    },
+    {
+      "name": "BIGLOBE",
+      "country": "Japan",
+      "url": "https://www.biglobe.co.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "Cox Communications",
+      "country": "United States",
+      "url": "http://www.cox.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Exetel",
+      "country": "",
+      "url": "http://www.exetel.com.au",
+      "group": "telecom"
+    },
+    {
+      "name": "NOS",
+      "country": "Portugal",
+      "url": "https://www.nos.pt/",
+      "group": "telecom"
+    },
+    {
+      "name": "Scarlet Belgium",
+      "country": "Belgium",
+      "url": "http://www.scarlet.be",
+      "group": "telecom"
+    },
+    {
+      "name": "Tele Columbus",
+      "country": "Germany",
+      "url": "https://www.telecolumbus.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Telef\u00f3nica Deutschland",
+      "country": "Germany",
+      "url": "https://www.telefonica.de/",
+      "group": "telecom"
+    },
+    {
+      "name": "EDPnet",
+      "country": "Belgium",
+      "url": "http://www.edpnet.be",
+      "group": "telecom"
+    },
+    {
+      "name": "Telmex",
+      "country": "",
+      "url": "http://telmex.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Virgin Media Ireland",
+      "country": "",
+      "url": "https://www.virginmedia.ie",
+      "group": "telecom"
+    },
+    {
+      "name": "HCC!hobbynet",
+      "country": "",
+      "url": "https://hobby.nl",
+      "group": "telecom"
+    },
+    {
+      "name": "Infinitum",
+      "country": "Mexico",
+      "url": "https://www.telmex.com.mx",
+      "group": "telecom"
+    },
+    {
+      "name": "Telia Finland",
+      "country": "Finland",
+      "url": "https://www.telia.fi/",
+      "group": "telecom"
+    },
+    {
+      "name": "GlobalNet",
+      "country": "Tunisia",
+      "url": "http://www.gnet.tn/",
+      "group": "telecom"
+    },
+    {
+      "name": "Verizon",
+      "country": "United States",
+      "url": "https://www.verizon.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Verizon",
+      "country": "United States",
+      "url": "https://www.verizon.net",
+      "group": "telecom"
+    },
+    {
+      "name": "Sogetel",
+      "country": "Canada",
+      "url": "https://sogetel.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Bell Internet",
+      "country": "Canada",
+      "url": "https://www.bell.ca/Bell_Internet",
+      "group": "telecom"
+    },
+    {
+      "name": "Bell Internet",
+      "country": "Canada",
+      "url": "https://www.bell.ca/Services_Internet",
+      "group": "telecom"
+    },
+    {
+      "name": "Wifirst",
+      "country": "France",
+      "url": "https://www.wifirst.com",
+      "group": "telecom"
+    },
+    {
+      "name": "1&1 AG",
+      "country": "Germany",
+      "url": "https://www.1und1.ag/",
+      "group": "telecom"
+    },
+    {
+      "name": "French Data Network",
+      "country": "France",
+      "url": "https://www.fdn.fr/",
+      "group": "telecom"
+    },
+    {
+      "name": "Internet Initiative Japan",
+      "country": "Japan",
+      "url": "http://www.iij.ad.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "Etheric Networks",
+      "country": "United States",
+      "url": "https://ethericnetworks.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Grupo Televisa",
+      "country": "Mexico",
+      "url": "http://www.televisa.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Grupo Televisa",
+      "country": "Mexico",
+      "url": "https://www.televisa.com/corporativo/",
+      "group": "telecom"
+    },
+    {
+      "name": "GreenNet",
+      "country": "United Kingdom",
+      "url": "https://www.gn.apc.org",
+      "group": "telecom"
+    },
+    {
+      "name": "Deutsche Telekom",
+      "country": "Germany",
+      "url": "https://www.telekom.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "OPT",
+      "country": "France",
+      "url": "https://www.opt.pf",
+      "group": "telecom"
+    },
+    {
+      "name": "Oreka",
+      "country": "",
+      "url": "http://www.oreka.fr",
+      "group": "telecom"
+    },
+    {
+      "name": "Vodafone Germany",
+      "country": "Germany",
+      "url": "https://www.vodafone.de/",
+      "group": "telecom"
+    },
+    {
+      "name": "T-Mobile US",
+      "country": "United States",
+      "url": "https://www.t-mobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "XS4ALL",
+      "country": "Netherlands",
+      "url": "https://www.xs4all.nl/",
+      "group": "telecom"
+    },
+    {
+      "name": "Bahnhof",
+      "country": "Sweden",
+      "url": "http://www.bahnhof.net/",
+      "group": "telecom"
+    },
+    {
+      "name": "Bahnhof",
+      "country": "Sweden",
+      "url": "http://www.bahnhof.se/",
+      "group": "telecom"
+    },
+    {
+      "name": "Sohonet",
+      "country": "United Kingdom",
+      "url": "https://www.sohonet.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "HKBN Limited",
+      "country": "Cayman Islands",
+      "url": "http://www.hkbn.net",
+      "group": "telecom"
+    },
+    {
+      "name": "ethio telecom",
+      "country": "Ethiopia",
+      "url": "https://www.ethiotelecom.et/",
+      "group": "telecom"
+    },
+    {
+      "name": "Elisa",
+      "country": "Finland",
+      "url": "https://elisa.fi/",
+      "group": "telecom"
+    },
+    {
+      "name": "Elisa",
+      "country": "Finland",
+      "url": "https://www.elisa.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Bell Canada",
+      "country": "Canada",
+      "url": "https://www.bell.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "TalkTalk Group",
+      "country": "United Kingdom",
+      "url": "http://www.talktalkgroup.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Orange Business",
+      "country": "",
+      "url": "http://www.orange-business.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Orange Slovensko",
+      "country": "Slovakia",
+      "url": "https://www.orange.sk",
+      "group": "telecom"
+    },
+    {
+      "name": "Sky UK",
+      "country": "United Kingdom",
+      "url": "https://www.sky.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q2161940",
+      "country": "",
+      "url": "http://www.kliksafe.nl",
+      "group": "telecom"
+    },
+    {
+      "name": "AT&T U-verse",
+      "country": "United States",
+      "url": "https://www.att.com/u-verse-tv/",
+      "group": "telecom"
+    },
+    {
+      "name": "Centre de Calcul El-Khawarizmi",
+      "country": "Tunisia",
+      "url": "http://www.cck.rnu.tn/",
+      "group": "telecom"
+    },
+    {
+      "name": "Corbina telecom",
+      "country": "Russia",
+      "url": "http://www.corbina.ru",
+      "group": "telecom"
+    },
+    {
+      "name": "Xfinity",
+      "country": "United States",
+      "url": "https://www.xfinity.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Sky M\u00e9xico",
+      "country": "Mexico",
+      "url": "http://www.sky.com.mx",
+      "group": "telecom"
+    },
+    {
+      "name": "HGC Global Communications Limited",
+      "country": "People's Republic of China",
+      "url": "http://www.hgc.com.hk",
+      "group": "telecom"
+    },
+    {
+      "name": "Bezeq International",
+      "country": "Israel",
+      "url": "https://www.bezeqint.net/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q2283928",
+      "country": "Belgium",
+      "url": "http://www.dommel.be",
+      "group": "telecom"
+    },
+    {
+      "name": "Telnor",
+      "country": "Mexico",
+      "url": "https://www.telnor.com/home",
+      "group": "telecom"
+    },
+    {
+      "name": "Distributel",
+      "country": "Canada",
+      "url": "https://www.distributel.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "Shaw Communications",
+      "country": "Canada",
+      "url": "https://www.shaw.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "Telecentro",
+      "country": "Argentina",
+      "url": "http://www.telecentro.com.ar/",
+      "group": "telecom"
+    },
+    {
+      "name": "China Mobile Hong Kong",
+      "country": "People's Republic of China",
+      "url": "https://www.hk.chinamobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Telus Communications",
+      "country": "Canada",
+      "url": "https://www.telus.com/en/",
+      "group": "telecom"
+    },
+    {
+      "name": "Burlington Telecom",
+      "country": "",
+      "url": "https://www.burlingtontelecom.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "HKBN Limited",
+      "country": "People's Republic of China",
+      "url": "http://www.hkbn.net",
+      "group": "telecom"
+    },
+    {
+      "name": "Numericable",
+      "country": "France",
+      "url": "http://www.numericable.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Q994208",
+      "country": "Hungary",
+      "url": "https://www.externet.hu/",
+      "group": "telecom"
+    },
+    {
+      "name": "Afribone",
+      "country": "",
+      "url": "http://www.afribone.net.ml",
+      "group": "telecom"
+    },
+    {
+      "name": "Q4739512",
+      "country": "Netherlands",
+      "url": "https://www.internl.net",
+      "group": "telecom"
+    },
+    {
+      "name": "Rogers Communications",
+      "country": "Canada",
+      "url": "https://www.rogers.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "DERYtelecom",
+      "country": "Canada",
+      "url": "https://cogeco.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "Wilhelm.tel",
+      "country": "Germany",
+      "url": "http://www.wilhelm-tel.de/",
+      "group": "telecom"
+    },
+    {
+      "name": "Virgin Media Business",
+      "country": "",
+      "url": "http://www.virginmediabusiness.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q12249992",
+      "country": "Tunisia",
+      "url": "http://www.hexabyte.tn/",
+      "group": "telecom"
+    },
+    {
+      "name": "Plala",
+      "country": "Japan",
+      "url": "https://www.plala.or.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "Plala",
+      "country": "Japan",
+      "url": "https://www7.plala.or.jp",
+      "group": "telecom"
+    },
+    {
+      "name": "Centre de Recherche sur l'Information Scientifique et Technique",
+      "country": "Algeria",
+      "url": "http://www.cerist.dz/",
+      "group": "telecom"
+    },
+    {
+      "name": "Greek School Network",
+      "country": "Greece",
+      "url": "http://www.sch.gr/",
+      "group": "telecom"
+    },
+    {
+      "name": "Suddenlink Communications",
+      "country": "",
+      "url": "http://www.suddenlink.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Open Data Network",
+      "country": "",
+      "url": "https://www.odn.ne.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "21Vianet",
+      "country": "People's Republic of China",
+      "url": "http://www.ch.21vianet.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Aussie Broadband",
+      "country": "Australia",
+      "url": "https://www.aussiebroadband.com.au/",
+      "group": "telecom"
+    },
+    {
+      "name": "Nifty Corporation",
+      "country": "Japan",
+      "url": "http://www.nifty.co.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "ZERO",
+      "country": "Japan",
+      "url": "http://zero.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "iiNet",
+      "country": "Australia",
+      "url": "http://www.iinet.net.au/",
+      "group": "telecom"
+    },
+    {
+      "name": "its communications",
+      "country": "Japan",
+      "url": "https://www.itscom.co.jp./",
+      "group": "telecom"
+    },
+    {
+      "name": "Telef\u00f3nica Telecom",
+      "country": "Colombia",
+      "url": "https://www.telefonica.co",
+      "group": "telecom"
+    },
+    {
+      "name": "Saigontourist Cable Television Company",
+      "country": "Vietnam",
+      "url": "https://www.sctv.com.vn/en/",
+      "group": "telecom"
+    },
+    {
+      "name": "Topnet",
+      "country": "Tunisia",
+      "url": "http://www.topnet.tn/",
+      "group": "telecom"
+    },
+    {
+      "name": "XL",
+      "country": "Indonesia",
+      "url": "http://www.xl.co.id/",
+      "group": "telecom"
+    },
+    {
+      "name": "Megacable",
+      "country": "Mexico",
+      "url": "http://www.megacable.com.mx",
+      "group": "telecom"
+    },
+    {
+      "name": "Bigblu Broadband",
+      "country": "",
+      "url": "https://www.bbb-plc.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Zen Internet",
+      "country": "United Kingdom",
+      "url": "http://zen.co.uk",
+      "group": "telecom"
+    },
+    {
+      "name": "Playlouder",
+      "country": "United Kingdom",
+      "url": "http://www.playlouder.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Asahi Net",
+      "country": "",
+      "url": "https://asahi-net.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "National Information Resources Service",
+      "country": "South Korea",
+      "url": "http://www.ncis.go.kr/",
+      "group": "telecom"
+    },
+    {
+      "name": "Interlink",
+      "country": "Japan",
+      "url": "https://www.interlink.or.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "FiberStar",
+      "country": "Indonesia",
+      "url": "http://www.fiberstar.co.id/",
+      "group": "telecom"
+    },
+    {
+      "name": "Seokyung Cable Television",
+      "country": "South Korea",
+      "url": "http://www.iscs.co.kr/",
+      "group": "telecom"
+    },
+    {
+      "name": "Riseup",
+      "country": "United States",
+      "url": "http://vww6ybal4bd7szmgncyruucpgfkqahzddi37ktceo3ah7ngmcopnpyyd.onion",
+      "group": "telecom"
+    },
+    {
+      "name": "Riseup",
+      "country": "United States",
+      "url": "https://riseup.net",
+      "group": "telecom"
+    },
+    {
+      "name": "Internode",
+      "country": "Australia",
+      "url": "http://www.internode.on.net",
+      "group": "telecom"
+    },
+    {
+      "name": "Adamo Telecom",
+      "country": "Spain",
+      "url": "https://www.adamo.es",
+      "group": "telecom"
+    },
+    {
+      "name": "InfoSphere",
+      "country": "",
+      "url": "https://www.nttpc.co.jp/service/infosphere/",
+      "group": "telecom"
+    },
+    {
+      "name": "Posteo",
+      "country": "Germany",
+      "url": "https://posteo.de/",
+      "group": "telecom"
+    },
+    {
+      "name": "Netvigator",
+      "country": "",
+      "url": "http://www.netvigator.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Juno Online Services",
+      "country": "United States",
+      "url": "https://www.juno.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q17039890",
+      "country": "People's Republic of China",
+      "url": "http://www.cernet.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Totalplay",
+      "country": "Mexico",
+      "url": "https://www.mexinternet.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Totalplay",
+      "country": "Mexico",
+      "url": "https://www.totalplay.com.mx/",
+      "group": "telecom"
+    },
+    {
+      "name": "Bredband2",
+      "country": "Sweden",
+      "url": "https://www.bredband2.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "4ka",
+      "country": "Slovakia",
+      "url": "https://www.4ka.sk/",
+      "group": "telecom"
+    },
+    {
+      "name": "WorldNet Telecommunications",
+      "country": "",
+      "url": "https://www.worldnetpr.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Spectrum",
+      "country": "United States",
+      "url": "https://www.spectrum.net",
+      "group": "telecom"
+    },
+    {
+      "name": "Sparklight",
+      "country": "United States",
+      "url": "https://www.sparklight.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Q11201237",
+      "country": "",
+      "url": "https://gmobb.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q11255361",
+      "country": "",
+      "url": "https://bbpromo.yahoo.co.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "Hiweb",
+      "country": "Iran",
+      "url": "https://www.hiweb.ir/",
+      "group": "telecom"
+    },
+    {
+      "name": "Xplore Inc.",
+      "country": "Canada",
+      "url": "https://www.xplore.ca/fr/",
+      "group": "telecom"
+    },
+    {
+      "name": "Xplore Inc.",
+      "country": "Canada",
+      "url": "https://xplore.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "Nodo50",
+      "country": "Spain",
+      "url": "https://info.nodo50.org/",
+      "group": "telecom"
+    },
+    {
+      "name": "Orange Belgium",
+      "country": "Belgium",
+      "url": "https://www.orange.be/",
+      "group": "telecom"
+    },
+    {
+      "name": "Orange Belgium",
+      "country": "Belgium",
+      "url": "https://corporate.orange.be/",
+      "group": "telecom"
+    },
+    {
+      "name": "Ting",
+      "country": "United States",
+      "url": "http://www.ting.com",
+      "group": "telecom"
+    },
+    {
+      "name": "EBOX",
+      "country": "Canada",
+      "url": "https://www.ebox.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q21011013",
+      "country": "Spain",
+      "url": "https://sindominio.net/",
+      "group": "telecom"
+    },
+    {
+      "name": "Florence Online",
+      "country": "Italy",
+      "url": "http://www.florenceonline.it",
+      "group": "telecom"
+    },
+    {
+      "name": "Panix",
+      "country": "",
+      "url": "http://www.panix.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Posteo",
+      "country": "Germany",
+      "url": "https://posteo.de/en",
+      "group": "telecom"
+    },
+    {
+      "name": "Posteo",
+      "country": "Germany",
+      "url": "https://posteo.de/fr",
+      "group": "telecom"
+    },
+    {
+      "name": "Posteo",
+      "country": "Germany",
+      "url": "https://posteo.de/es",
+      "group": "telecom"
+    },
+    {
+      "name": "Q17209841",
+      "country": "Japan",
+      "url": "https://www.kamome.or.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q22127421",
+      "country": "Japan",
+      "url": "https://emn.ne.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "PSINet",
+      "country": "People's Republic of China",
+      "url": "http://www.psi.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Sonic.net",
+      "country": "United States",
+      "url": "http://www.sonic.net/",
+      "group": "telecom"
+    },
+    {
+      "name": "Utah Telecommunication Open Infrastructure Agency",
+      "country": "United States",
+      "url": "https://www.utopiafiber.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Global Impact Investing Network",
+      "country": "United States",
+      "url": "http://www.thegiin.org",
+      "group": "telecom"
+    },
+    {
+      "name": "Saigontourist Cable Television Company",
+      "country": "Vietnam",
+      "url": "https://www.sctv.com.vn/",
+      "group": "telecom"
+    },
+    {
+      "name": "Open Computer Network",
+      "country": "Japan",
+      "url": "https://www.ocn.ne.jp/",
+      "group": "telecom"
+    },
+    {
+      "name": "UPC Czech Republic",
+      "country": "Czech Republic",
+      "url": "http://www.upc.cz/",
+      "group": "telecom"
+    },
+    {
+      "name": "Yemen Net",
+      "country": "Yemen",
+      "url": "https://yemen.net.ye/",
+      "group": "telecom"
+    },
+    {
+      "name": "WaveDivision Holdings, LLC",
+      "country": "United States",
+      "url": "http://www.wavebroadband.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "PeoplePC",
+      "country": "United States",
+      "url": "http://peoplepc.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "TekSavvy",
+      "country": "Canada",
+      "url": "https://www.teksavvy.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Super Regional",
+      "country": "Japan",
+      "url": "http://www.super-r.net/",
+      "group": "telecom"
+    },
+    {
+      "name": "MindVox",
+      "country": "United States",
+      "url": "http://www.mindvox.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "NYSERNet",
+      "country": "United States",
+      "url": "http://www.nysernet.org/",
+      "group": "telecom"
+    },
+    {
+      "name": "Atria Convergence Technologies",
+      "country": "",
+      "url": "http://www.actcorp.in/",
+      "group": "telecom"
+    },
+    {
+      "name": "Circles.Life",
+      "country": "Singapore",
+      "url": "https://www.circles.life/sg/",
+      "group": "telecom"
+    },
+    {
+      "name": "The People's Operator",
+      "country": "United States",
+      "url": "http://www.thepeoplesoperator.com",
+      "group": "telecom"
+    },
+    {
+      "name": "iWireless",
+      "country": "United States",
+      "url": "http://iwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "The People's Operator",
+      "country": "United Kingdom",
+      "url": "http://www.thepeoplesoperator.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Fizz",
+      "country": "Canada",
+      "url": "https://fizz.ca/en",
+      "group": "telecom"
+    },
+    {
+      "name": "Visible",
+      "country": "United States",
+      "url": "https://www.visible.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Chatr",
+      "country": "Canada",
+      "url": "https://www.chatrwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "N\u00f2verca",
+      "country": "Italy",
+      "url": "https://www.noverca.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "Page Plus Cellular",
+      "country": "United States",
+      "url": "http://www.pagepluscellular.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Talkmobile",
+      "country": "United Kingdom",
+      "url": "https://talkmobile.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Tesco Mobile",
+      "country": "United Kingdom",
+      "url": "https://tescomobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "TruConnect",
+      "country": "United States",
+      "url": "https://www.truconnect.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Dataxoom",
+      "country": "United States",
+      "url": "http://dataxoom.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Tone Mobile",
+      "country": "Japan",
+      "url": "https://tone.ne.jp",
+      "group": "telecom"
+    },
+    {
+      "name": "Simple Mobile",
+      "country": "United States",
+      "url": "http://www.simplemobile.com",
+      "group": "telecom"
+    },
+    {
+      "name": "ho.",
+      "country": "Italy",
+      "url": "https://www.ho-mobile.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "elimobile",
+      "country": "Italy",
+      "url": "https://www.elimobile.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q Link Wireless",
+      "country": "United States",
+      "url": "https://qlinkwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Very Mobile",
+      "country": "Italy",
+      "url": "https://www.verymobile.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "Truphone",
+      "country": "United Kingdom",
+      "url": "http://www.truphone.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Utility Warehouse",
+      "country": "United Kingdom",
+      "url": "https://uw.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "spusu",
+      "country": "",
+      "url": "https://www.spusu.de/",
+      "group": "telecom"
+    },
+    {
+      "name": "Cherry",
+      "country": "Philippines",
+      "url": "https://cherryprepaid.com.ph/",
+      "group": "telecom"
+    },
+    {
+      "name": "Patriot Mobile",
+      "country": "United States",
+      "url": "https://patriotmobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Fonus Mobile",
+      "country": "United States",
+      "url": "https://www.fonusmobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Circles.Life",
+      "country": "Singapore",
+      "url": "https://circles.co/",
+      "group": "telecom"
+    },
+    {
+      "name": "iD Mobile",
+      "country": "United Kingdom",
+      "url": "https://www.idmobile.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Cricket Wireless",
+      "country": "United States",
+      "url": "https://www.cricketwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "amaysim",
+      "country": "Australia",
+      "url": "https://www.amaysim.com.au/",
+      "group": "telecom"
+    },
+    {
+      "name": "Straight Talk Wireless",
+      "country": "United States",
+      "url": "https://www.straighttalk.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Boost Mobile",
+      "country": "Australia",
+      "url": "https://boost.com.au/",
+      "group": "telecom"
+    },
+    {
+      "name": "Lucky Mobile",
+      "country": "Canada",
+      "url": "https://www.luckymobile.ca",
+      "group": "telecom"
+    },
+    {
+      "name": "Fizz",
+      "country": "Canada",
+      "url": "https://fizz.ca/fr/",
+      "group": "telecom"
+    },
+    {
+      "name": "Kroger Wireless",
+      "country": "United States",
+      "url": "https://www.krogerwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "MTV Mobile",
+      "country": "Italy",
+      "url": "http://www.mtvmobile.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "Digi Espa\u00f1a",
+      "country": "Spain",
+      "url": "https://www.digimobil.es/",
+      "group": "telecom"
+    },
+    {
+      "name": "Google Fi",
+      "country": "United States",
+      "url": "https://fi.google.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Google Fi",
+      "country": "United States",
+      "url": "https://fi.google.com/about/",
+      "group": "telecom"
+    },
+    {
+      "name": "Google Fi",
+      "country": "United States",
+      "url": "https://\u03c6.google.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Telecommunications Management Limited",
+      "country": "United Kingdom",
+      "url": "https://www.1pmobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Delight Mobile",
+      "country": "United Kingdom",
+      "url": "http://delightmobile.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Sun Cellular",
+      "country": "Philippines",
+      "url": "http://suncellular.com.ph",
+      "group": "telecom"
+    },
+    {
+      "name": "Lively",
+      "country": "United States",
+      "url": "http://www.greatcall.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "h2o Wireless",
+      "country": "United States",
+      "url": "http://www.h2owirelessnow.com",
+      "group": "telecom"
+    },
+    {
+      "name": "7-Eleven Speak Out Wireless",
+      "country": "United States",
+      "url": "http://www.speakout7eleven.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "Tello Mobile",
+      "country": "United States",
+      "url": "https://tello.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "US Mobile",
+      "country": "United States",
+      "url": "https://usmobile.com",
+      "group": "telecom"
+    },
+    {
+      "name": "GoSmart Mobile",
+      "country": "United States",
+      "url": "https://www.gosmartmobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "NET10 Wireless",
+      "country": "United States",
+      "url": "https://www.net10wireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "SafeLink Wireless",
+      "country": "United States",
+      "url": "https://www.safelinkwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Total Wireless",
+      "country": "United States",
+      "url": "https://www.totalwireless.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Walmart Family Mobile",
+      "country": "United States",
+      "url": "https://www.myfamilymobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "PosteMobile",
+      "country": "Italy",
+      "url": "https://www.postemobile.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q109885007",
+      "country": "Czech Republic",
+      "url": "https://www.emtecko.cz/",
+      "group": "telecom"
+    },
+    {
+      "name": "ABS-CBN Mobile",
+      "country": "Philippines",
+      "url": "http://www.abscbnmobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "7-Eleven Speak Out Wireless",
+      "country": "Canada",
+      "url": "http://www.speakout7eleven.ca/",
+      "group": "telecom"
+    },
+    {
+      "name": "FreedomPop",
+      "country": "Mexico",
+      "url": "https://freedompop.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Kajeet",
+      "country": "United States",
+      "url": "http://www.kajeet.com",
+      "group": "telecom"
+    },
+    {
+      "name": "TracFone WirelessICR",
+      "country": "United States",
+      "url": "http://www.tracfone.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q108907930",
+      "country": "Italy",
+      "url": "http://www.conad.it/portal/public/insim.jsp",
+      "group": "telecom"
+    },
+    {
+      "name": "giffgaff",
+      "country": "United Kingdom",
+      "url": "https://giffgaff.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Asda Mobile",
+      "country": "United Kingdom",
+      "url": "http://www.asda-mobile.com",
+      "group": "telecom"
+    },
+    {
+      "name": "spusu",
+      "country": "",
+      "url": "https://www.spusu.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "spusu",
+      "country": "",
+      "url": "https://www.spusu.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "spusu",
+      "country": "",
+      "url": "https://www.spusu.at/",
+      "group": "telecom"
+    },
+    {
+      "name": "spusu",
+      "country": "",
+      "url": "https://www.spusu.ch/",
+      "group": "telecom"
+    },
+    {
+      "name": "Mint Mobile",
+      "country": "United States",
+      "url": "https://mintmobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "CREDO Mobile",
+      "country": "United States",
+      "url": "https://www.credomobile.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Tiscali Mobile",
+      "country": "Italy",
+      "url": "https://mobile.tiscali.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "IKEA Family Mobile",
+      "country": "United Kingdom",
+      "url": "http://www.familymobile.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Gen Mobile",
+      "country": "United States",
+      "url": "https://www.genmobile.com",
+      "group": "telecom"
+    },
+    {
+      "name": "BT Mobile",
+      "country": "United Kingdom",
+      "url": "http://www.bt.com/mobile/",
+      "group": "telecom"
+    },
+    {
+      "name": "Virgin Mobile UK",
+      "country": "United Kingdom",
+      "url": "https://www.virginmedia.com/mobile/",
+      "group": "telecom"
+    },
+    {
+      "name": "Jazz",
+      "country": "Pakistan",
+      "url": "http://www.jazz.com.pk/",
+      "group": "telecom"
+    },
+    {
+      "name": "PureTalk",
+      "country": "United States",
+      "url": "http://www.puretalkusa.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "TracFone WirelessICR",
+      "country": "Mexico",
+      "url": "http://www.tracfone.com/",
+      "group": "telecom"
+    },
+    {
+      "name": "Virgin Mobile Australia",
+      "country": "Australia",
+      "url": "http://www.virginmobile.com.au/",
+      "group": "telecom"
+    },
+    {
+      "name": "TAG Mobile",
+      "country": "United States",
+      "url": "http://www.tagmobile.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Republic Wireless",
+      "country": "United States",
+      "url": "https://republicwireless.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Xfinity Mobile",
+      "country": "United States",
+      "url": "https://www.xfinity.com/mobile/",
+      "group": "telecom"
+    },
+    {
+      "name": "SMARTY",
+      "country": "United Kingdom",
+      "url": "https://www.smarty.co.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Coop mobil",
+      "country": "Denmark",
+      "url": "https://www.coopmobil.dk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Kena Mobile",
+      "country": "Italy",
+      "url": "https://www.kenamobile.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "Red Mobile",
+      "country": "Philippines",
+      "url": "http://www.redmobile.com",
+      "group": "telecom"
+    },
+    {
+      "name": "Q43640902",
+      "country": "Belgium",
+      "url": "http://www.jimmobile.be",
+      "group": "telecom"
+    },
+    {
+      "name": "Q58215676",
+      "country": "Austria",
+      "url": "https://www.hot.at/",
+      "group": "telecom"
+    },
+    {
+      "name": "CoopVoce",
+      "country": "Italy",
+      "url": "https://www.coopvoce.it/",
+      "group": "telecom"
+    },
+    {
+      "name": "ONSIM",
+      "country": "United Kingdom",
+      "url": "https://onsim.uk/",
+      "group": "telecom"
+    },
+    {
+      "name": "Q65233402",
+      "country": "Japan",
+      "url": "https://www.yumobile.co.jp",
+      "group": "telecom"
+    }
+  ]
+}
