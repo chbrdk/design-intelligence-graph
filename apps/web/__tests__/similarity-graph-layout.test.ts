@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'vitest'
-import { craftFacetOverlapScore, describeCraftCluster, formatCraftGraphLabel } from '../lib/craft-graph-label'
+import {
+  craftFacetOverlapScore,
+  describeCraftCluster,
+  describeIndustryCluster,
+  formatCraftGraphLabel,
+} from '../lib/craft-graph-label'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from '../lib/similarity-graph-fallback'
 import { createForceSimulation, stepForceSimulation } from '../lib/similarity-graph-force'
 import { layoutSimilarityGraph } from '../lib/similarity-graph-layout'
@@ -33,6 +38,12 @@ describe('craft graph labels', () => {
       formatCraftGraphLabel(null, { title: 'Acme landing page', domain: 'acme.example' }),
       'Acme landing page',
     )
+  })
+
+  it('clusters by primary industry tag', () => {
+    assert.equal(describeIndustryCluster({ industry_tags: ['marketing_agency'] }), 'marketing agency')
+    assert.equal(describeIndustryCluster({ industry_tags: ['insurance', 'finance'] }), 'insurance')
+    assert.equal(describeIndustryCluster({}), 'unclassified')
   })
 
   it('scores craft neighbors by contrast and imagery, not URL', () => {
@@ -148,6 +159,8 @@ describe('similarity graph fallback', () => {
     assert.match(graph.nodes[0]?.craft_label ?? '', /modern minimal|minimal/)
     assert.match(graph.nodes[0]?.craft_label ?? '', /monochrome/)
     assert.equal(graph.nodes[0]?.cluster_label, 'modern minimal')
+    assert.equal(graph.nodes[0]?.industry_label, 'insurance')
+    assert.equal(graph.nodes[2]?.industry_label, 'media')
     assert.equal(graph.edges.length, 1)
     assert.equal(graph.edges[0]?.from_id, 'cap_a')
     assert.equal(graph.edges[0]?.to_id, 'cap_b')

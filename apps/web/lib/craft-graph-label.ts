@@ -94,6 +94,14 @@ export function describeContrastCluster(facets: CraftFacetLike | null | undefine
   return humanize(c)
 }
 
+/** Primary industry tag for community coloring (catalog / facets). */
+export function describeIndustryCluster(facets: CraftFacetLike | null | undefined): string {
+  if (!facets) return 'unclassified'
+  const tag = facets.industry_tags?.find((item) => item?.trim())?.trim()
+  if (!tag) return 'unclassified'
+  return humanize(tag.toLowerCase())
+}
+
 export function describeGraphNode(
   facets: CraftFacetLike | null | undefined,
   fallback?: { title?: string | null; domain?: string | null },

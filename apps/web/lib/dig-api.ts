@@ -1,5 +1,10 @@
 import { paths } from './paths'
-import { describeContrastCluster, describeCraftCluster, formatCraftGraphLabel } from './craft-graph-label'
+import {
+  describeContrastCluster,
+  describeCraftCluster,
+  describeIndustryCluster,
+  formatCraftGraphLabel,
+} from './craft-graph-label'
 import type { JobEvent, JobSnapshot } from './stages'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from './similarity-graph-fallback'
 import type { SimilarityGraphNode, SimilarityGraphView } from './similarity-graph-fallback'
@@ -638,6 +643,7 @@ export async function fetchSimilarityGraph(
         }),
         cluster_label: describeCraftCluster(facets as any),
         contrast_label: describeContrastCluster(facets as any),
+        industry_label: describeIndustryCluster(facets as any),
       }
     })
     return {

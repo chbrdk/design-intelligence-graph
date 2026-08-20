@@ -26,12 +26,15 @@ type GraphNode = {
   craft_label: string
   cluster_label: string
   contrast_label: string
+  industry_label: string
 }
+
+type ClusterBy = 'contrast' | 'style' | 'industry'
 
 export function GraphPageClient() {
   const router = useRouter()
   const [kind, setKind] = useState<Kind>('craft')
-  const [clusterBy, setClusterBy] = useState<'contrast' | 'style'>('contrast')
+  const [clusterBy, setClusterBy] = useState<ClusterBy>('contrast')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [pathStartId, setPathStartId] = useState<string | null>(null)
   const [pathEndId, setPathEndId] = useState<string | null>(null)
@@ -64,6 +67,7 @@ export function GraphPageClient() {
             craft_label: node.craft_label,
             cluster_label: node.cluster_label,
             contrast_label: node.contrast_label,
+            industry_label: node.industry_label,
           })),
         )
         setEdges(graph.edges)
@@ -79,8 +83,11 @@ export function GraphPageClient() {
     }
   }, [kind])
 
-  const communityFor = (node: GraphNode) =>
-    clusterBy === 'contrast' ? node.contrast_label || 'mixed' : node.cluster_label || 'mixed'
+  const communityFor = (node: GraphNode) => {
+    if (clusterBy === 'industry') return node.industry_label || 'unclassified'
+    if (clusterBy === 'style') return node.cluster_label || 'mixed'
+    return node.contrast_label || 'mixed'
+  }
 
   const communities = useMemo(() => {
     const counts = new Map<string, number>()
@@ -180,7 +187,9 @@ export function GraphPageClient() {
           aria-label={paths.libraryCopy.graphCommunityBy}
           value={clusterBy}
           onChange={(value) => {
-            setClusterBy(value === 'style' ? 'style' : 'contrast')
+            setClusterBy(
+              value === 'style' ? 'style' : value === 'industry' ? 'industry' : 'contrast',
+            )
             setSelectedId(null)
             setPathStartId(null)
             setPathEndId(null)
@@ -189,6 +198,7 @@ export function GraphPageClient() {
           options={[
             { value: 'contrast', label: paths.libraryCopy.graphByContrast },
             { value: 'style', label: paths.libraryCopy.graphByStyle },
+            { value: 'industry', label: paths.libraryCopy.graphByIndustry },
           ]}
         />
         <Chip>

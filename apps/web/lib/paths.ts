@@ -181,6 +181,7 @@ export const paths = {
     graphCommunityBy: 'Community by',
     graphByContrast: 'Contrast',
     graphByStyle: 'Style',
+    graphByIndustry: 'Industry',
     graphSearch: 'Search',
     graphSearchPlaceholder: 'Domain, title, community…',
     graphLegend: 'Communities',
