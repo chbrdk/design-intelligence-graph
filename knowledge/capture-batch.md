@@ -105,3 +105,4 @@ Mitigations:
 4. `captureJobs.maxConcurrent` lowered to **2** (was 6, then 4)
 5. Boot defers `runner.kick()` until craft graph warm finishes so kNN + Playwright do not wedge the event loop together
 6. Override anytime with `DIG_CAPTURE_MAX_CONCURRENT`
+7. Playwright runs in a **forked child** (`src/capture-child.ts`) via `captureViaChildOrInProcess` — abort/hard-timeout SIGKILLs the child (and Chromium). Set `DIG_CAPTURE_IN_PROCESS=1` to force in-process capture for debugging.

@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { readFile, unlink } from "node:fs/promises";
 import { capture } from "./capture.js";
+import { captureViaChildOrInProcess } from "./capture-child-client.js";
 import { attachCheckionScreenshotIfConfigured } from "./checkion-attach.js";
 import { CANONICAL_VIEWPORTS } from "./config.js";
 import { asyncEnrichmentEnabled, type EnrichmentQueue } from "./enrichment-queue.js";
@@ -438,7 +439,7 @@ export class JobRunner {
     const job = this.jobs.get(jobId);
     if (!job) return;
     if (job.stage === "failed" || job.stage === "skipped" || job.stage === "complete") return;
-    const captureFn = this.options.captureFn ?? capture;
+    const captureFn = this.options.captureFn ?? captureViaChildOrInProcess;
     const verifyFn = this.options.verifyFn ?? verifyCapturePackage;
     const indexFn = this.options.indexFn ?? indexCapturePackage;
     const capturesDir = this.options.capturesDir ?? capturesDirectory();
