@@ -22,7 +22,15 @@ export async function readJson<T>(response: Response): Promise<T & { error?: str
   try {
     return JSON.parse(text) as T & { error?: string }
   } catch {
-    return { error: `Invalid JSON (${response.status})` } as T & { error?: string }
+    const snippet = text.replace(/\s+/g, ' ').trim().slice(0, 160)
+    if (response.status >= 500 && /no available server/i.test(snippet)) {
+      return { error: `dig-api unavailable (${response.status})` } as T & { error?: string }
+    }
+    return {
+      error: snippet
+        ? `Invalid JSON (${response.status}): ${snippet}`
+        : `Invalid JSON (${response.status})`,
+    } as T & { error?: string }
   }
 }
 

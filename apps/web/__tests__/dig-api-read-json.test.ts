@@ -20,6 +20,13 @@ describe('readJson', () => {
     const body = await readJson<{ screens?: string[] }>(
       new Response('{"screens":[{"id":', { status: 200 }),
     )
-    assert.equal(body.error, 'Invalid JSON (200)')
+    assert.equal(body.error, 'Invalid JSON (200): {"screens":[{"id":')
+  })
+
+  it('maps Traefik no-available-server to dig-api unavailable', async () => {
+    const body = await readJson<{ screens?: string[] }>(
+      new Response('no available server\n', { status: 503 }),
+    )
+    assert.equal(body.error, 'dig-api unavailable (503)')
   })
 })
