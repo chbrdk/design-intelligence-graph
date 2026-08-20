@@ -36,13 +36,13 @@ setDigApiRuntime({ runner, enrichmentQueue });
 const paths = loadDigPaths();
 const enrichmentPath = paths.api.enrichmentPath ?? "/api/enrichment";
 
-async function hydrateCaptureQueueFromDatabase(): Promise<void> {
+async function hydrateCaptureQueueFromDatabase(options: { start?: boolean } = {}): Promise<void> {
   const pool = getPool();
   if (!pool) return;
   try {
     const { jobs, pendingOrder } = await buildCaptureJobHydration(pool);
     if (!jobs.length) return;
-    runner.restoreFromPersistence(jobs, pendingOrder);
+    runner.restoreFromPersistence(jobs, pendingOrder, { start: options.start !== false });
     process.stdout.write(`Restored ${jobs.length} capture jobs (${pendingOrder.length} queued)\n`);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
@@ -558,27 +558,37 @@ export function createWebServer(): ReturnType<typeof createServer> {
 }
 
 export function startWebServer(): void {
-  void hydrateCaptureQueueFromDatabase().finally(() => {
+  // Hydrate queue metadata first, but do not start Playwright until the craft graph
+  // warm finishes — concurrent browsers + kNN warm wedged the event loop (Traefik 503).
+  void hydrateCaptureQueueFromDatabase({ start: false }).finally(() => {
     const server = createWebServer();
     const host = webHost();
     const port = webPort();
     server.listen(port, host, () => {
       process.stdout.write(`DIG web listening on http://${host}:${port}\n`);
-      // Warm craft graph cache so /graph is not a 50s cold miss on first island open.
+      const startCaptures = (reason: string) => {
+        process.stdout.write(`Starting capture queue (${reason})\n`);
+        runner.kick();
+      };
       setTimeout(() => {
         const pool = getPool();
-        if (!pool) return;
+        if (!pool) {
+          startCaptures("no database pool");
+          return;
+        }
         void import("./similarity-graph.js")
           .then(({ loadSimilarityGraph }) => loadSimilarityGraph(pool, "craft"))
           .then((graph) => {
             process.stdout.write(
               `Warmed craft similarity graph (${graph.nodes.length} nodes, ${graph.edges.length} edges)\n`
             );
+            startCaptures("graph warm complete");
           })
           .catch((error: unknown) => {
             process.stderr.write(
               `similarity graph warm failed: ${error instanceof Error ? error.message : String(error)}\n`
             );
+            startCaptures("graph warm failed");
           });
       }, 5_000);
     });

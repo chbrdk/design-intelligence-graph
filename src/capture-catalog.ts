@@ -41,8 +41,12 @@ export function captureJobsConfig(root = process.cwd()): {
   const cfg = loadDigPaths(root).captureJobs;
   const hardTimeoutMs = Number(cfg?.hardTimeoutMs);
   const checkionTimeoutMs = Number(cfg?.checkionTimeoutMs);
+  const envConcurrent = Number(process.env.DIG_CAPTURE_MAX_CONCURRENT);
+  const configuredConcurrent = Number.isFinite(envConcurrent) && envConcurrent > 0
+    ? Math.round(envConcurrent)
+    : (cfg?.maxConcurrent ?? 1);
   return {
-    maxConcurrent: cfg?.maxConcurrent ?? 1,
+    maxConcurrent: Math.min(16, Math.max(1, configuredConcurrent)),
     hardTimeoutMs: Number.isFinite(hardTimeoutMs) && hardTimeoutMs > 0 ? Math.round(hardTimeoutMs) : 480_000,
     checkionTimeoutMs:
       Number.isFinite(checkionTimeoutMs) && checkionTimeoutMs > 0 ? Math.round(checkionTimeoutMs) : 120_000,

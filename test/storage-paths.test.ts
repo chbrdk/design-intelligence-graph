@@ -19,7 +19,7 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.islandSurfaces?.graphRoute, "/graph");
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");
-  assert.equal(paths.captureJobs?.maxConcurrent, 4);
+  assert.equal(paths.captureJobs?.maxConcurrent, 2);
   assert.equal(paths.captureJobs?.hardTimeoutMs, 480000);
   assert.equal(paths.captureJobs?.maxBatch, 1000);
   assert.equal(paths.imageIngest?.maxConcurrent, 4);

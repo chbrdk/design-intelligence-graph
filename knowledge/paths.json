@@ -300,7 +300,7 @@
     "doc": "knowledge/capture-batch.md",
     "insuranceDoc": "knowledge/insurance-catalog.md",
     "designDiversityDoc": "knowledge/design-diversity-catalog.md",
-    "maxConcurrent": 4,
+    "maxConcurrent": 2,
     "hardTimeoutMs": 480000,
     "checkionTimeoutMs": 120000,
     "batchPath": "/batch",

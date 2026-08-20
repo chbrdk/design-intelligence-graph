@@ -102,4 +102,6 @@ Mitigations:
 1. `captureJobs.hardTimeoutMs` (default 480s) — JobRunner aborts the capture AbortSignal and force-kills Chromium/Firefox
 2. `forceCloseBrowser` — SIGKILL if `browser.close()` hangs (>8s)
 3. `captureJobs.checkionTimeoutMs` (default 120s) — CHECKION attach cannot block the pipeline
-4. `captureJobs.maxConcurrent` lowered to **4** (was 6)
+4. `captureJobs.maxConcurrent` lowered to **2** (was 6, then 4)
+5. Boot defers `runner.kick()` until craft graph warm finishes so kNN + Playwright do not wedge the event loop together
+6. Override anytime with `DIG_CAPTURE_MAX_CONCURRENT`

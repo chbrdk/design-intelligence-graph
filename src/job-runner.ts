@@ -146,6 +146,7 @@ export class JobRunner {
   private runningPlaywright = 0;
   private runningImage = 0;
   private readonly aborts = new Map<string, AbortController>();
+  private queuePaused = false;
 
   constructor(options: JobRunnerOptions = {}) {
     const jobsCfg = captureJobsConfig();
@@ -169,9 +170,23 @@ export class JobRunner {
   }
 
   /** Rebuild in-memory queue from Postgres after an API restart. */
-  restoreFromPersistence(jobs: JobRecord[], pendingOrder: string[]): void {
+  restoreFromPersistence(
+    jobs: JobRecord[],
+    pendingOrder: string[],
+    options: { start?: boolean } = {}
+  ): void {
     this.jobs.clear();
     this.pending.length = 0;
+    this.runningPlaywright = 0;
+    this.runningImage = 0;
+    for (const ac of this.aborts.values()) {
+      try {
+        ac.abort(new Error("queue_restored"));
+      } catch {
+        /* ignore */
+      }
+    }
+    this.aborts.clear();
     for (const job of jobs) {
       this.jobs.set(job.job_id, job);
     }
@@ -179,6 +194,14 @@ export class JobRunner {
       const job = this.jobs.get(jobId);
       if (job?.stage === "queued") this.pending.push(jobId);
     }
+    this.queuePaused = options.start === false;
+    if (this.queuePaused) return;
+    this.pump();
+  }
+
+  /** Start or continue draining the pending queue (e.g. after deferred boot warm). */
+  kick(): void {
+    this.queuePaused = false;
     this.pump();
   }
 
@@ -357,6 +380,7 @@ export class JobRunner {
   }
 
   private pump(): void {
+    if (this.queuePaused) return;
     const playwrightCap = this.maxConcurrent();
     const imageCap = this.maxImageConcurrent();
     let progressed = true;
