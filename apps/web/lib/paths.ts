@@ -170,7 +170,7 @@ export const paths = {
     graphHint:
       'Community map of screens — colored neighborhoods, god nodes by degree, click for why they connect.',
     graphifyHint:
-      'Communities group similar craft. Larger nodes are hubs. Search filters the map; the inspector explains neighbors and scores.',
+      'Communities group similar craft. Larger nodes are hubs. Scroll to zoom, drag empty space to pan. Path traces how two screens connect.',
     graphEmptyCraft: 'No craft neighbors in this sample yet.',
     graphEmptyVisual:
       'No screenshot embeddings yet. Visual neighbors appear after the backfill runs (Gemini Embedding 2).',
@@ -190,6 +190,12 @@ export const paths = {
     graphNeighbors: 'Top neighbors',
     graphNoNeighbors: 'No neighbors in this sample.',
     graphOpenLibrary: 'Open in Library',
+    graphPath: 'Path',
+    graphPathFromHere: 'Path from here…',
+    graphPathClear: 'Clear path',
+    graphPathPickHint: 'Click a second node to finish the path.',
+    graphPathHops: 'hops',
+    graphPathMissing: 'No path between these screens in the current sample.',
     queueLive: 'Now running',
     queueWaiting: 'Waiting',
     queueFailed: 'Failed',

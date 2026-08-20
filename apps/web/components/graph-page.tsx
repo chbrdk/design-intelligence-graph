@@ -9,6 +9,7 @@ import {
   neighborsFor,
   nodeDegree,
   shortGraphLabel,
+  shortestPath,
 } from '../lib/graphify-communities'
 import { libraryScreenHref } from '../lib/island-surfaces'
 import { paths } from '../lib/paths'
@@ -32,6 +33,9 @@ export function GraphPageClient() {
   const [kind, setKind] = useState<Kind>('craft')
   const [clusterBy, setClusterBy] = useState<'contrast' | 'style'>('contrast')
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [pathStartId, setPathStartId] = useState<string | null>(null)
+  const [pathEndId, setPathEndId] = useState<string | null>(null)
+  const [pathPickMode, setPathPickMode] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [source, setSource] = useState<'embeddings' | 'facets'>('embeddings')
@@ -42,6 +46,9 @@ export function GraphPageClient() {
   useEffect(() => {
     let cancelled = false
     setSelectedId(null)
+    setPathStartId(null)
+    setPathEndId(null)
+    setPathPickMode(false)
     void fetchSimilarityGraph(kind)
       .then((graph) => {
         if (cancelled) return
@@ -111,6 +118,13 @@ export function GraphPageClient() {
     [nodes, selectedId],
   )
 
+  const pathIds = useMemo(() => {
+    if (!pathStartId || !pathEndId) return [] as string[]
+    return shortestPath(pathStartId, pathEndId, edges) ?? []
+  }, [pathStartId, pathEndId, edges])
+
+  const pathMissing = Boolean(pathStartId && pathEndId && pathIds.length === 0)
+
   const selectedNeighbors = useMemo(() => {
     if (!selected) return []
     return neighborsFor(selected.capture_run_id, edges, 6).map((item) => {
@@ -130,6 +144,26 @@ export function GraphPageClient() {
 
   const selectedDegree = selected ? nodeDegree(selected.capture_run_id, edges) : 0
 
+  const labelForId = (id: string | null) => {
+    if (!id) return '—'
+    const meta = nodes.find((node) => node.capture_run_id === id)
+    return shortGraphLabel({
+      domain: meta?.site_domain,
+      title: meta?.title,
+      craftLabel: meta?.craft_label,
+    })
+  }
+
+  const onNodeSelect = (id: string) => {
+    if (pathPickMode && pathStartId && id !== pathStartId) {
+      setPathEndId(id)
+      setSelectedId(id)
+      setPathPickMode(false)
+      return
+    }
+    setSelectedId(id)
+  }
+
   return (
     <AppShell title={paths.libraryCopy.graphTitle} description={paths.libraryCopy.graphHint}>
       <div className="dig-graph-toolbar">
@@ -148,6 +182,9 @@ export function GraphPageClient() {
           onChange={(value) => {
             setClusterBy(value === 'style' ? 'style' : 'contrast')
             setSelectedId(null)
+            setPathStartId(null)
+            setPathEndId(null)
+            setPathPickMode(false)
           }}
           options={[
             { value: 'contrast', label: paths.libraryCopy.graphByContrast },
@@ -171,6 +208,7 @@ export function GraphPageClient() {
       </label>
 
       <Text>{paths.libraryCopy.graphifyHint}</Text>
+      {pathPickMode ? <Text>{paths.libraryCopy.graphPathPickHint}</Text> : null}
       {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
       {!error && !edges.length ? (
@@ -209,8 +247,9 @@ export function GraphPageClient() {
             nodes={viewNodes}
             edges={edges}
             selectedId={selectedId}
+            pathNodeIds={pathIds}
             searchQuery={searchQuery}
-            onNodeSelect={(id) => setSelectedId(id)}
+            onNodeSelect={onNodeSelect}
           />
         </Panel>
 
@@ -233,6 +272,59 @@ export function GraphPageClient() {
               </Chip>
               <Text>{selected.craft_label}</Text>
               {selected.title ? <Text>{selected.title}</Text> : null}
+
+              <div className="dig-graph-inspector__path">
+                <Text>{paths.libraryCopy.graphPath}</Text>
+                <Text>
+                  {labelForId(pathStartId)} → {labelForId(pathEndId)}
+                </Text>
+                {pathIds.length > 1 ? (
+                  <Chip>
+                    {pathIds.length - 1} {paths.libraryCopy.graphPathHops}
+                  </Chip>
+                ) : null}
+                {pathMissing ? <Text>{paths.libraryCopy.graphPathMissing}</Text> : null}
+                <button
+                  type="button"
+                  className="dig-graph-inspector__open"
+                  onClick={() => {
+                    setPathStartId(selected.capture_run_id)
+                    setPathEndId(null)
+                    setPathPickMode(true)
+                  }}
+                >
+                  {paths.libraryCopy.graphPathFromHere}
+                </button>
+                {(pathStartId || pathEndId || pathPickMode) && (
+                  <button
+                    type="button"
+                    className="dig-graph-inspector__neighbor"
+                    onClick={() => {
+                      setPathStartId(null)
+                      setPathEndId(null)
+                      setPathPickMode(false)
+                    }}
+                  >
+                    {paths.libraryCopy.graphPathClear}
+                  </button>
+                )}
+                {pathIds.length > 1 ? (
+                  <ol className="dig-graph-inspector__path-list">
+                    {pathIds.map((id) => (
+                      <li key={id}>
+                        <button
+                          type="button"
+                          className="dig-graph-inspector__neighbor"
+                          onClick={() => setSelectedId(id)}
+                        >
+                          {labelForId(id)}
+                        </button>
+                      </li>
+                    ))}
+                  </ol>
+                ) : null}
+              </div>
+
               <div className="dig-graph-inspector__neighbors">
                 <Text>{paths.libraryCopy.graphNeighbors}</Text>
                 {selectedNeighbors.length === 0 ? (
@@ -243,7 +335,15 @@ export function GraphPageClient() {
                       key={neighbor.id}
                       type="button"
                       className="dig-graph-inspector__neighbor"
-                      onClick={() => setSelectedId(neighbor.id)}
+                      onClick={() => {
+                        if (pathPickMode && pathStartId) {
+                          setPathEndId(neighbor.id)
+                          setSelectedId(neighbor.id)
+                          setPathPickMode(false)
+                          return
+                        }
+                        setSelectedId(neighbor.id)
+                      }}
                     >
                       <span>{neighbor.label}</span>
                       <span>{neighbor.score.toFixed(2)}</span>

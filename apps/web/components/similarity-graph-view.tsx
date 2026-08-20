@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react'
 import {
   communityTone,
+  edgeKey,
   godNodeRadius,
   hullPath,
   nodeDegree,
@@ -24,8 +25,10 @@ type Props = {
   nodes: GraphViewNode[]
   edges: GraphLayoutEdge[]
   selectedId?: string | null
+  pathNodeIds?: string[]
   searchQuery?: string
   onNodeSelect?: (id: string) => void
+  onResetView?: () => void
   width?: number
   height?: number
   ariaLabel: string
@@ -35,6 +38,7 @@ export function SimilarityGraphView({
   nodes,
   edges,
   selectedId = null,
+  pathNodeIds = [],
   searchQuery = '',
   onNodeSelect,
   width = 960,
@@ -42,8 +46,17 @@ export function SimilarityGraphView({
   ariaLabel,
 }: Props) {
   const [placed, setPlaced] = useState<ForceNode[]>([])
+  const [transform, setTransform] = useState({ x: 0, y: 0, k: 1 })
   const simRef = useRef<ForceNode[]>([])
   const frameRef = useRef<number | null>(null)
+  const svgRef = useRef<SVGSVGElement | null>(null)
+  const dragRef = useRef<{
+    pointerId: number
+    startX: number
+    startY: number
+    originX: number
+    originY: number
+  } | null>(null)
 
   const communities = useMemo(() => {
     const counts = new Map<string, number>()
@@ -66,6 +79,15 @@ export function SimilarityGraphView({
     return { map, max }
   }, [nodes, edges])
 
+  const pathSet = useMemo(() => new Set(pathNodeIds), [pathNodeIds])
+  const pathEdges = useMemo(() => {
+    const keys = new Set<string>()
+    for (let i = 0; i < pathNodeIds.length - 1; i += 1) {
+      keys.add(edgeKey(pathNodeIds[i]!, pathNodeIds[i + 1]!))
+    }
+    return keys
+  }, [pathNodeIds])
+
   const query = searchQuery.trim().toLowerCase()
 
   const matchesQuery = (node: GraphViewNode): boolean => {
@@ -82,6 +104,7 @@ export function SimilarityGraphView({
       height,
     )
     setPlaced(simRef.current.map((node) => ({ ...node })))
+    setTransform({ x: 0, y: 0, k: 1 })
 
     const tick = () => {
       stepForceSimulation(simRef.current, edges, width, height)
@@ -114,73 +137,159 @@ export function SimilarityGraphView({
       .filter(Boolean) as Array<{ community: string; path: string; tone: ReturnType<typeof communityTone> }>
   }, [placed, metaById, communities])
 
+  const onWheel = (event: ReactWheelEvent<SVGSVGElement>) => {
+    event.preventDefault()
+    const svg = svgRef.current
+    if (!svg) return
+    const rect = svg.getBoundingClientRect()
+    const mx = ((event.clientX - rect.left) / rect.width) * width
+    const my = ((event.clientY - rect.top) / rect.height) * height
+    const factor = event.deltaY < 0 ? 1.08 : 0.92
+    setTransform((prev) => {
+      const nextK = Math.min(4, Math.max(0.35, prev.k * factor))
+      const scale = nextK / prev.k
+      return {
+        k: nextK,
+        x: mx - (mx - prev.x) * scale,
+        y: my - (my - prev.y) * scale,
+      }
+    })
+  }
+
+  const onPointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
+    if (event.button !== 0) return
+    const target = event.target as Element
+    if (target.closest('[data-graph-node="1"]')) return
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: transform.x,
+      originY: transform.y,
+    }
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const onPointerMove = (event: ReactPointerEvent<SVGSVGElement>) => {
+    const drag = dragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+    const svg = svgRef.current
+    if (!svg) return
+    const rect = svg.getBoundingClientRect()
+    const dx = ((event.clientX - drag.startX) / rect.width) * width
+    const dy = ((event.clientY - drag.startY) / rect.height) * height
+    setTransform((prev) => ({ ...prev, x: drag.originX + dx, y: drag.originY + dy }))
+  }
+
+  const onPointerUp = (event: ReactPointerEvent<SVGSVGElement>) => {
+    if (dragRef.current?.pointerId === event.pointerId) dragRef.current = null
+  }
+
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={ariaLabel} className="dig-graph">
-      {hulls.map((hull) => (
-        <path
-          key={hull.community}
-          d={hull.path}
-          fill={hull.tone.hull}
-          stroke={hull.tone.stroke}
-          strokeOpacity={0.45}
-          strokeWidth={1.5}
-        />
-      ))}
-      {edges.map((edge) => {
-        const from = placed.find((node) => node.id === edge.from_id)
-        const to = placed.find((node) => node.id === edge.to_id)
-        if (!from || !to) return null
-        const active =
-          selectedId === edge.from_id || selectedId === edge.to_id || (!selectedId && !query)
-        return (
-          <line
-            key={`${edge.from_id}-${edge.to_id}`}
-            x1={from.x}
-            y1={from.y}
-            x2={to.x}
-            y2={to.y}
-            stroke="currentColor"
-            strokeOpacity={active ? 0.22 + edge.score * 0.45 : 0.06}
-            strokeWidth={1 + edge.score}
-          />
-        )
-      })}
-      {placed.map((node) => {
-        const meta = metaById.get(node.id)
-        if (!meta) return null
-        const tone = communityTone(meta.community, communities)
-        const degree = degreeById.map.get(node.id) ?? 0
-        const r = godNodeRadius(degree, degreeById.max)
-        const match = matchesQuery(meta)
-        const selected = selectedId === node.id
-        const dimmed = Boolean(query) && !match
-        return (
-          <g
-            key={node.id}
-            transform={`translate(${node.x},${node.y})`}
-            style={{ cursor: onNodeSelect ? 'pointer' : 'default', opacity: dimmed ? 0.18 : 1 }}
-            onClick={() => onNodeSelect?.(node.id)}
-          >
-            <title>
-              {meta.domain || meta.label}
-              {meta.craftLabel ? ` · ${meta.craftLabel}` : ''}
-              {` · degree ${degree}`}
-            </title>
-            {selected ? (
-              <circle r={r + 5} fill="none" stroke={tone.stroke} strokeWidth={2} opacity={0.9} />
-            ) : null}
-            <circle
-              r={r}
-              fill={tone.fill}
-              stroke={selected || match && query ? tone.stroke : 'transparent'}
-              strokeWidth={selected || (match && query) ? 2 : 0}
+    <div className="dig-graph-viewport">
+      <div className="dig-graph-zoombar">
+        <button type="button" onClick={() => setTransform({ x: 0, y: 0, k: 1 })}>
+          Reset view
+        </button>
+        <span>{Math.round(transform.k * 100)}%</span>
+      </div>
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${width} ${height}`}
+        role="img"
+        aria-label={ariaLabel}
+        className="dig-graph"
+        onWheel={onWheel}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+        <g transform={`translate(${transform.x} ${transform.y}) scale(${transform.k})`}>
+          {hulls.map((hull) => (
+            <path
+              key={hull.community}
+              d={hull.path}
+              fill={hull.tone.hull}
+              stroke={hull.tone.stroke}
+              strokeOpacity={0.45}
+              strokeWidth={1.5}
             />
-            <text x={r + 4} y={4} fontSize={11} fill="currentColor">
-              {meta.label}
-            </text>
-          </g>
-        )
-      })}
-    </svg>
+          ))}
+          {edges.map((edge) => {
+            const from = placed.find((node) => node.id === edge.from_id)
+            const to = placed.find((node) => node.id === edge.to_id)
+            if (!from || !to) return null
+            const onPath = pathEdges.has(edgeKey(edge.from_id, edge.to_id))
+            const active =
+              onPath ||
+              selectedId === edge.from_id ||
+              selectedId === edge.to_id ||
+              (!selectedId && !query && pathSet.size === 0)
+            return (
+              <line
+                key={`${edge.from_id}-${edge.to_id}`}
+                x1={from.x}
+                y1={from.y}
+                x2={to.x}
+                y2={to.y}
+                stroke={onPath ? '#f0a500' : 'currentColor'}
+                strokeOpacity={onPath ? 0.95 : active ? 0.22 + edge.score * 0.45 : 0.06}
+                strokeWidth={onPath ? 3.5 : 1 + edge.score}
+              />
+            )
+          })}
+          {placed.map((node) => {
+            const meta = metaById.get(node.id)
+            if (!meta) return null
+            const tone = communityTone(meta.community, communities)
+            const degree = degreeById.map.get(node.id) ?? 0
+            const r = godNodeRadius(degree, degreeById.max)
+            const match = matchesQuery(meta)
+            const selected = selectedId === node.id
+            const onPath = pathSet.has(node.id)
+            const dimmed =
+              (Boolean(query) && !match && !onPath && !selected) ||
+              (pathSet.size > 0 && !onPath && !selected && !query)
+            return (
+              <g
+                key={node.id}
+                data-graph-node="1"
+                transform={`translate(${node.x},${node.y})`}
+                style={{ cursor: onNodeSelect ? 'pointer' : 'default', opacity: dimmed ? 0.16 : 1 }}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onNodeSelect?.(node.id)
+                }}
+              >
+                <title>
+                  {meta.domain || meta.label}
+                  {meta.craftLabel ? ` · ${meta.craftLabel}` : ''}
+                  {` · degree ${degree}`}
+                </title>
+                {selected || onPath ? (
+                  <circle
+                    r={r + 5}
+                    fill="none"
+                    stroke={onPath ? '#f0a500' : tone.stroke}
+                    strokeWidth={2}
+                    opacity={0.95}
+                  />
+                ) : null}
+                <circle
+                  r={r}
+                  fill={tone.fill}
+                  stroke={selected || (match && query) || onPath ? tone.stroke : 'transparent'}
+                  strokeWidth={selected || (match && query) || onPath ? 2 : 0}
+                />
+                <text x={r + 4} y={4} fontSize={11} fill="currentColor">
+                  {meta.label}
+                </text>
+              </g>
+            )
+          })}
+        </g>
+      </svg>
+    </div>
   )
 }

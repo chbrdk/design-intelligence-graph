@@ -129,3 +129,57 @@ export function neighborsFor(
   }
   return out.sort((a, b) => b.score - a.score).slice(0, limit)
 }
+
+/** Unweighted BFS shortest path (Graphify-style path query). */
+export function shortestPath(
+  fromId: string,
+  toId: string,
+  edges: Array<{ from_id: string; to_id: string; score?: number }>,
+): string[] | null {
+  if (!fromId || !toId) return null
+  if (fromId === toId) return [fromId]
+  const adj = new Map<string, string[]>()
+  for (const edge of edges) {
+    const a = adj.get(edge.from_id) ?? []
+    a.push(edge.to_id)
+    adj.set(edge.from_id, a)
+    const b = adj.get(edge.to_id) ?? []
+    b.push(edge.from_id)
+    adj.set(edge.to_id, b)
+  }
+  if (!adj.has(fromId) || !adj.has(toId)) return null
+  const queue = [fromId]
+  const prev = new Map<string, string | null>([[fromId, null]])
+  while (queue.length) {
+    const current = queue.shift()!
+    if (current === toId) break
+    for (const next of adj.get(current) ?? []) {
+      if (prev.has(next)) continue
+      prev.set(next, current)
+      queue.push(next)
+    }
+  }
+  if (!prev.has(toId)) return null
+  const path: string[] = []
+  let cursor: string | null = toId
+  while (cursor) {
+    path.push(cursor)
+    cursor = prev.get(cursor) ?? null
+  }
+  path.reverse()
+  return path
+}
+
+export function pathEdgeKeys(path: string[]): Set<string> {
+  const keys = new Set<string>()
+  for (let i = 0; i < path.length - 1; i += 1) {
+    const a = path[i]!
+    const b = path[i + 1]!
+    keys.add(a < b ? `${a}__${b}` : `${b}__${a}`)
+  }
+  return keys
+}
+
+export function edgeKey(fromId: string, toId: string): string {
+  return fromId < toId ? `${fromId}__${toId}` : `${toId}__${fromId}`
+}

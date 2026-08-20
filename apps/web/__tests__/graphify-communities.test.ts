@@ -8,6 +8,7 @@ import {
   neighborsFor,
   nodeDegree,
   shortGraphLabel,
+  shortestPath,
 } from '../lib/graphify-communities'
 
 describe('graphify communities', () => {
@@ -65,5 +66,16 @@ describe('graphify communities', () => {
       neighbors.map((item) => item.id),
       ['b', 'c'],
     )
+  })
+
+  it('finds a shortest path between screens', () => {
+    const path = shortestPath('a', 'd', [
+      { from_id: 'a', to_id: 'b', score: 0.9 },
+      { from_id: 'b', to_id: 'c', score: 0.8 },
+      { from_id: 'c', to_id: 'd', score: 0.7 },
+      { from_id: 'a', to_id: 'x', score: 0.5 },
+    ])
+    assert.deepEqual(path, ['a', 'b', 'c', 'd'])
+    assert.equal(shortestPath('a', 'missing', [{ from_id: 'a', to_id: 'b', score: 1 }]), null)
   })
 })

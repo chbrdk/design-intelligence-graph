@@ -14,6 +14,6 @@ Not Facebook Open Graph. This is a **neighbor network of Library screens**, pres
 
 Pairwise cosine ≥ `similarityGraph.threshold` (0.72). Caps: `nodeCap` 80, `edgeCap` 240. Island layout is a custom force simulation with community attraction + convex hulls (`apps/web/lib/similarity-graph-force.ts`, `apps/web/lib/graphify-communities.ts`) — no extra npm graph library.
 
-Communities come from craft facets (`contrast` or `style` buckets). Labels prefer `site_domain` over long craft strings. Click a node → inspector (degree, craft label, top neighbors + scores) → optional Library open.
+Communities come from craft facets (`contrast` or `style` buckets). Labels prefer `site_domain` over long craft strings. Click a node → inspector (degree, craft label, top neighbors + scores) → optional Library open. **Path from here** + second click traces the shortest hop path (Graphify-style). Scroll zooms, drag pans, Reset view restores 1:1.
 
 Until dig-api is deployed, `GET /api/library/graph` returns `not_found`. The island builds a **craft facet** graph from `GET /screens`. Dense embeddings replace the facet graph after API deploy.
