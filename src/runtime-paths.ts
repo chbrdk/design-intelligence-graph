@@ -159,6 +159,8 @@ export interface DigPaths {
   };
   captureJobs?: {
     doc?: string;
+    insuranceDoc?: string;
+    designDiversityDoc?: string;
     maxConcurrent?: number;
     batchPath?: string;
     catalogsDir?: string;
@@ -167,6 +169,7 @@ export interface DigPaths {
     engineeringManufacturing1000?: string;
     insurance1000?: string;
     insurancePlus500?: string;
+    designDiversity1000?: string;
     maxBatch?: number;
   };
   imageIngest?: {
