@@ -197,6 +197,7 @@ export const paths = {
     graphPathPickHint: 'Click a second node to finish the path.',
     graphPathHops: 'hops',
     graphPathMissing: 'No path between these screens in the current sample.',
+    graphResetView: 'Reset view',
     queueLive: 'Now running',
     queueWaiting: 'Waiting',
     queueFailed: 'Failed',

@@ -6,15 +6,48 @@ export type GraphCommunityTone = {
   hull: string
 }
 
+/** Theme-aware community fills from msqdx role / status tokens. */
 const TONES: GraphCommunityTone[] = [
-  { fill: '#84dcc6', stroke: '#3aa891', hull: 'rgba(132, 220, 198, 0.18)' },
-  { fill: '#ffcc66', stroke: '#d4a017', hull: 'rgba(255, 204, 102, 0.18)' },
-  { fill: '#ff8fab', stroke: '#e85a7a', hull: 'rgba(255, 143, 171, 0.18)' },
-  { fill: '#9fa8ff', stroke: '#6b75e0', hull: 'rgba(159, 168, 255, 0.18)' },
-  { fill: '#ff7b72', stroke: '#d9483f', hull: 'rgba(255, 123, 114, 0.18)' },
-  { fill: '#8fd3ff', stroke: '#4aa3d9', hull: 'rgba(143, 211, 255, 0.18)' },
-  { fill: '#c4b5fd', stroke: '#8b7cf0', hull: 'rgba(196, 181, 253, 0.18)' },
-  { fill: '#86efac', stroke: '#34b36a', hull: 'rgba(134, 239, 172, 0.18)' },
+  {
+    fill: 'var(--role-sources)',
+    stroke: 'var(--role-sources)',
+    hull: 'color-mix(in srgb, var(--role-sources) 18%, transparent)',
+  },
+  {
+    fill: 'var(--warn)',
+    stroke: 'var(--warn)',
+    hull: 'color-mix(in srgb, var(--warn) 18%, transparent)',
+  },
+  {
+    fill: 'var(--role-signals)',
+    stroke: 'var(--role-signals)',
+    hull: 'color-mix(in srgb, var(--role-signals) 18%, transparent)',
+  },
+  {
+    fill: 'var(--role-research)',
+    stroke: 'var(--role-research)',
+    hull: 'color-mix(in srgb, var(--role-research) 18%, transparent)',
+  },
+  {
+    fill: 'var(--accent)',
+    stroke: 'var(--accent)',
+    hull: 'color-mix(in srgb, var(--accent) 18%, transparent)',
+  },
+  {
+    fill: 'var(--role-pipeline)',
+    stroke: 'var(--role-pipeline)',
+    hull: 'color-mix(in srgb, var(--role-pipeline) 18%, transparent)',
+  },
+  {
+    fill: 'var(--role-waves)',
+    stroke: 'var(--role-waves)',
+    hull: 'color-mix(in srgb, var(--role-waves) 18%, transparent)',
+  },
+  {
+    fill: 'var(--ok)',
+    stroke: 'var(--ok)',
+    hull: 'color-mix(in srgb, var(--ok) 18%, transparent)',
+  },
 ]
 
 export function communityTone(community: string, orderedCommunities: string[]): GraphCommunityTone {

@@ -2,7 +2,22 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Alert, Chip, Panel, Text, ToggleGroup } from '../lib/msqdx-ui'
+import {
+  Alert,
+  Button,
+  Chip,
+  Field,
+  FilterRow,
+  Input,
+  KpiStrip,
+  MetricChip,
+  Panel,
+  RankedList,
+  RankedRow,
+  SectionChrome,
+  Text,
+  ToggleGroup,
+} from '../lib/msqdx-ui'
 import { fetchSimilarityGraph } from '../lib/dig-api'
 import {
   communityTone,
@@ -171,209 +186,235 @@ export function GraphPageClient() {
     setSelectedId(id)
   }
 
+  const clearPath = () => {
+    setPathStartId(null)
+    setPathEndId(null)
+    setPathPickMode(false)
+  }
+
   return (
     <AppShell title={paths.libraryCopy.graphTitle} description={paths.libraryCopy.graphHint}>
-      <div className="dig-graph-toolbar">
-        <ToggleGroup
-          aria-label={paths.libraryCopy.graphTitle}
-          value={kind}
-          onChange={(value) => setKind(value === 'visual' ? 'visual' : 'craft')}
-          options={[
-            { value: 'craft', label: paths.libraryCopy.graphCraft },
-            { value: 'visual', label: paths.libraryCopy.graphVisual },
-          ]}
-        />
-        <ToggleGroup
-          aria-label={paths.libraryCopy.graphCommunityBy}
-          value={clusterBy}
-          onChange={(value) => {
-            setClusterBy(
-              value === 'style' ? 'style' : value === 'industry' ? 'industry' : 'contrast',
-            )
-            setSelectedId(null)
-            setPathStartId(null)
-            setPathEndId(null)
-            setPathPickMode(false)
-          }}
-          options={[
-            { value: 'contrast', label: paths.libraryCopy.graphByContrast },
-            { value: 'style', label: paths.libraryCopy.graphByStyle },
-            { value: 'industry', label: paths.libraryCopy.graphByIndustry },
-          ]}
-        />
-        <Chip>
-          {nodes.length} nodes · {edges.length} edges · {communities.length} communities
-          {model ? ` · ${model}` : ''}
-        </Chip>
-      </div>
-
-      <label className="dig-graph-search">
-        <span className="dig-graph-search__label">{paths.libraryCopy.graphSearch}</span>
-        <input
-          type="search"
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-          placeholder={paths.libraryCopy.graphSearchPlaceholder}
-        />
-      </label>
-
-      <Text>{paths.libraryCopy.graphifyHint}</Text>
-      {pathPickMode ? <Text>{paths.libraryCopy.graphPathPickHint}</Text> : null}
-      {source === 'facets' ? <Text>{paths.libraryCopy.graphFacets}</Text> : null}
       {error ? <Alert tone="info">{error}</Alert> : null}
-      {!error && !edges.length ? (
-        <Text>
-          {kind === 'visual'
-            ? paths.libraryCopy.graphEmptyVisual
-            : paths.libraryCopy.graphEmptyCraft}
-        </Text>
-      ) : null}
 
-      <div className="dig-graph-shell">
-        <aside className="dig-graph-legend" aria-label={paths.libraryCopy.graphLegend}>
-          <Text>{paths.libraryCopy.graphLegend}</Text>
-          {communities.map((community) => {
-            const tone = communityTone(community.label, communityOrder)
-            return (
-              <button
-                key={community.label}
-                type="button"
-                className="dig-graph-legend__row"
-                onClick={() => setSearchQuery(community.label)}
-              >
-                <span className="dig-graph-legend__swatch" style={{ background: tone.fill }} />
-                <span>
-                  {community.label}
-                  <span className="dig-graph-legend__count"> · {community.count}</span>
-                </span>
-              </button>
-            )
-          })}
-        </aside>
+      <Panel className="dig-panel">
+        <div className="dig-stack">
+          <FilterRow label={paths.libraryCopy.graphTitle} variant="toolbar">
+            <ToggleGroup
+              aria-label={paths.libraryCopy.graphTitle}
+              value={kind}
+              onChange={(value) => setKind(value === 'visual' ? 'visual' : 'craft')}
+              options={[
+                { value: 'craft', label: paths.libraryCopy.graphCraft },
+                { value: 'visual', label: paths.libraryCopy.graphVisual },
+              ]}
+            />
+          </FilterRow>
 
-        <Panel className="dig-graph-canvas">
-          <SimilarityGraphView
-            ariaLabel={paths.libraryCopy.graphTitle}
-            nodes={viewNodes}
-            edges={edges}
-            selectedId={selectedId}
-            pathNodeIds={pathIds}
-            searchQuery={searchQuery}
-            onNodeSelect={onNodeSelect}
+          <FilterRow label={paths.libraryCopy.graphCommunityBy} variant="toolbar">
+            <ToggleGroup
+              aria-label={paths.libraryCopy.graphCommunityBy}
+              value={clusterBy}
+              onChange={(value) => {
+                setClusterBy(
+                  value === 'style' ? 'style' : value === 'industry' ? 'industry' : 'contrast',
+                )
+                setSelectedId(null)
+                clearPath()
+              }}
+              options={[
+                { value: 'contrast', label: paths.libraryCopy.graphByContrast },
+                { value: 'style', label: paths.libraryCopy.graphByStyle },
+                { value: 'industry', label: paths.libraryCopy.graphByIndustry },
+              ]}
+            />
+          </FilterRow>
+
+          <KpiStrip
+            items={[
+              { id: 'nodes', label: 'Nodes', value: nodes.length },
+              { id: 'edges', label: 'Edges', value: edges.length },
+              { id: 'communities', label: paths.libraryCopy.graphLegend, value: communities.length },
+              {
+                id: 'model',
+                label: 'Source',
+                value: source === 'facets' ? 'facets' : model || 'embeddings',
+              },
+            ]}
           />
-        </Panel>
 
-        <aside className="dig-graph-inspector" aria-label={paths.libraryCopy.graphInspector}>
-          <Text>{paths.libraryCopy.graphInspector}</Text>
-          {!selected ? (
-            <Text>{paths.libraryCopy.graphInspectorEmpty}</Text>
-          ) : (
-            <>
-              <h3 className="dig-graph-inspector__title">
-                {shortGraphLabel({
-                  domain: selected.site_domain,
-                  title: selected.title,
-                  craftLabel: selected.craft_label,
-                })}
-              </h3>
-              <Chip>{communityFor(selected)}</Chip>
-              <Chip>
-                {paths.libraryCopy.graphDegree} {selectedDegree}
-              </Chip>
-              <Text>{selected.craft_label}</Text>
-              {selected.title ? <Text>{selected.title}</Text> : null}
+          <Field label={paths.libraryCopy.graphSearch} size="sm">
+            <Input
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder={paths.libraryCopy.graphSearchPlaceholder}
+            />
+          </Field>
 
-              <div className="dig-graph-inspector__path">
-                <Text>{paths.libraryCopy.graphPath}</Text>
-                <Text>
-                  {labelForId(pathStartId)} → {labelForId(pathEndId)}
-                </Text>
-                {pathIds.length > 1 ? (
-                  <Chip>
-                    {pathIds.length - 1} {paths.libraryCopy.graphPathHops}
-                  </Chip>
-                ) : null}
-                {pathMissing ? <Text>{paths.libraryCopy.graphPathMissing}</Text> : null}
-                <button
-                  type="button"
-                  className="dig-graph-inspector__open"
-                  onClick={() => {
-                    setPathStartId(selected.capture_run_id)
-                    setPathEndId(null)
-                    setPathPickMode(true)
-                  }}
-                >
-                  {paths.libraryCopy.graphPathFromHere}
-                </button>
-                {(pathStartId || pathEndId || pathPickMode) && (
-                  <button
-                    type="button"
-                    className="dig-graph-inspector__neighbor"
-                    onClick={() => {
-                      setPathStartId(null)
-                      setPathEndId(null)
-                      setPathPickMode(false)
-                    }}
-                  >
-                    {paths.libraryCopy.graphPathClear}
-                  </button>
-                )}
-                {pathIds.length > 1 ? (
-                  <ol className="dig-graph-inspector__path-list">
-                    {pathIds.map((id) => (
-                      <li key={id}>
-                        <button
-                          type="button"
-                          className="dig-graph-inspector__neighbor"
-                          onClick={() => setSelectedId(id)}
-                        >
-                          {labelForId(id)}
-                        </button>
-                      </li>
-                    ))}
-                  </ol>
-                ) : null}
-              </div>
+          <Text role="hint">{paths.libraryCopy.graphifyHint}</Text>
+          {pathPickMode ? <Text role="hint">{paths.libraryCopy.graphPathPickHint}</Text> : null}
+          {source === 'facets' ? <Text role="hint">{paths.libraryCopy.graphFacets}</Text> : null}
+          {!error && !edges.length ? (
+            <Text role="hint">
+              {kind === 'visual'
+                ? paths.libraryCopy.graphEmptyVisual
+                : paths.libraryCopy.graphEmptyCraft}
+            </Text>
+          ) : null}
 
-              <div className="dig-graph-inspector__neighbors">
-                <Text>{paths.libraryCopy.graphNeighbors}</Text>
-                {selectedNeighbors.length === 0 ? (
-                  <Text>{paths.libraryCopy.graphNoNeighbors}</Text>
-                ) : (
-                  selectedNeighbors.map((neighbor) => (
-                    <button
-                      key={neighbor.id}
-                      type="button"
-                      className="dig-graph-inspector__neighbor"
-                      onClick={() => {
-                        if (pathPickMode && pathStartId) {
-                          setPathEndId(neighbor.id)
-                          setSelectedId(neighbor.id)
-                          setPathPickMode(false)
-                          return
+          <div className="dig-graph-shell">
+            <Panel className="dig-graph-side" aria-label={paths.libraryCopy.graphLegend}>
+              <SectionChrome title={paths.libraryCopy.graphLegend} meta={`${communities.length}`} as="h2" quiet />
+              {communities.length === 0 ? (
+                <Text role="hint">{paths.libraryCopy.graphInspectorEmpty}</Text>
+              ) : (
+                <RankedList>
+                  {communities.map((community, index) => {
+                    const tone = communityTone(community.label, communityOrder)
+                    return (
+                      <RankedRow
+                        key={community.label}
+                        index={index + 1}
+                        active={searchQuery.trim().toLowerCase() === community.label.toLowerCase()}
+                        label={
+                          <span className="dig-graph-legend-label">
+                            <span className="dig-graph-swatch" style={{ background: tone.fill }} />
+                            {community.label}
+                          </span>
                         }
-                        setSelectedId(neighbor.id)
+                        value={community.count}
+                        onActivate={() => setSearchQuery(community.label)}
+                      />
+                    )
+                  })}
+                </RankedList>
+              )}
+            </Panel>
+
+            <Panel className="dig-graph-canvas">
+              <SimilarityGraphView
+                ariaLabel={paths.libraryCopy.graphTitle}
+                nodes={viewNodes}
+                edges={edges}
+                selectedId={selectedId}
+                pathNodeIds={pathIds}
+                searchQuery={searchQuery}
+                onNodeSelect={onNodeSelect}
+              />
+            </Panel>
+
+            <Panel className="dig-graph-side" aria-label={paths.libraryCopy.graphInspector}>
+              <SectionChrome title={paths.libraryCopy.graphInspector} as="h2" quiet />
+              {!selected ? (
+                <Text role="hint">{paths.libraryCopy.graphInspectorEmpty}</Text>
+              ) : (
+                <div className="dig-stack">
+                  <Text role="display" as="h3">
+                    {shortGraphLabel({
+                      domain: selected.site_domain,
+                      title: selected.title,
+                      craftLabel: selected.craft_label,
+                    })}
+                  </Text>
+                  <div className="dig-row">
+                    <Chip size="sm" static={true}>
+                      {communityFor(selected)}
+                    </Chip>
+                    <MetricChip label={paths.libraryCopy.graphDegree}>{selectedDegree}</MetricChip>
+                  </div>
+                  <Text role="body">{selected.craft_label}</Text>
+                  {selected.title ? <Text role="meta">{selected.title}</Text> : null}
+
+                  <SectionChrome
+                    title={paths.libraryCopy.graphPath}
+                    meta={
+                      pathIds.length > 1
+                        ? `${pathIds.length - 1} ${paths.libraryCopy.graphPathHops}`
+                        : undefined
+                    }
+                    as="h3"
+                    quiet
+                  />
+                  <Text role="meta">
+                    {labelForId(pathStartId)} → {labelForId(pathEndId)}
+                  </Text>
+                  {pathMissing ? <Text role="hint">{paths.libraryCopy.graphPathMissing}</Text> : null}
+                  <div className="dig-row">
+                    <Button
+                      type="button"
+                      variant="subtle"
+                      size="sm"
+                      onClick={() => {
+                        setPathStartId(selected.capture_run_id)
+                        setPathEndId(null)
+                        setPathPickMode(true)
                       }}
                     >
-                      <span>{neighbor.label}</span>
-                      <span>{neighbor.score.toFixed(2)}</span>
-                    </button>
-                  ))
-                )}
-              </div>
-              {selected.viewport_capture_id ? (
-                <button
-                  type="button"
-                  className="dig-graph-inspector__open"
-                  onClick={() => router.push(libraryScreenHref(selected.viewport_capture_id!))}
-                >
-                  {paths.libraryCopy.graphOpenLibrary}
-                </button>
-              ) : null}
-            </>
-          )}
-        </aside>
-      </div>
+                      {paths.libraryCopy.graphPathFromHere}
+                    </Button>
+                    {pathStartId || pathEndId || pathPickMode ? (
+                      <Button type="button" variant="ghost" size="sm" onClick={clearPath}>
+                        {paths.libraryCopy.graphPathClear}
+                      </Button>
+                    ) : null}
+                  </div>
+                  {pathIds.length > 1 ? (
+                    <RankedList hint={paths.libraryCopy.graphPath}>
+                      {pathIds.map((id, index) => (
+                        <RankedRow
+                          key={id}
+                          index={index + 1}
+                          label={labelForId(id)}
+                          active={id === selectedId}
+                          onActivate={() => setSelectedId(id)}
+                        />
+                      ))}
+                    </RankedList>
+                  ) : null}
+
+                  <SectionChrome title={paths.libraryCopy.graphNeighbors} as="h3" quiet />
+                  {selectedNeighbors.length === 0 ? (
+                    <Text role="hint">{paths.libraryCopy.graphNoNeighbors}</Text>
+                  ) : (
+                    <RankedList>
+                      {selectedNeighbors.map((neighbor, index) => (
+                        <RankedRow
+                          key={neighbor.id}
+                          index={index + 1}
+                          label={neighbor.label}
+                          value={neighbor.score.toFixed(2)}
+                          barPct={neighbor.score * 100}
+                          active={neighbor.id === selectedId}
+                          onActivate={() => {
+                            if (pathPickMode && pathStartId) {
+                              setPathEndId(neighbor.id)
+                              setSelectedId(neighbor.id)
+                              setPathPickMode(false)
+                              return
+                            }
+                            setSelectedId(neighbor.id)
+                          }}
+                        />
+                      ))}
+                    </RankedList>
+                  )}
+
+                  {selected.viewport_capture_id ? (
+                    <Button
+                      type="button"
+                      variant="primary"
+                      size="sm"
+                      onClick={() => router.push(libraryScreenHref(selected.viewport_capture_id!))}
+                    >
+                      {paths.libraryCopy.graphOpenLibrary}
+                    </Button>
+                  ) : null}
+                </div>
+              )}
+            </Panel>
+          </div>
+        </div>
+      </Panel>
     </AppShell>
   )
 }

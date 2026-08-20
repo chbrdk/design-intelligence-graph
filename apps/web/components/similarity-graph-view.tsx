@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react'
+import { Button, MetricChip } from '../lib/msqdx-ui'
 import {
   communityTone,
   edgeKey,
@@ -10,6 +11,7 @@ import {
 } from '../lib/graphify-communities'
 import { createForceSimulation, stepForceSimulation, type ForceNode } from '../lib/similarity-graph-force'
 import type { GraphLayoutEdge } from '../lib/similarity-graph-layout'
+import { paths } from '../lib/paths'
 
 export type GraphViewNode = {
   id: string
@@ -187,11 +189,11 @@ export function SimilarityGraphView({
 
   return (
     <div className="dig-graph-viewport">
-      <div className="dig-graph-zoombar">
-        <button type="button" onClick={() => setTransform({ x: 0, y: 0, k: 1 })}>
-          Reset view
-        </button>
-        <span>{Math.round(transform.k * 100)}%</span>
+      <div className="dig-row dig-graph-zoombar">
+        <Button type="button" variant="ghost" size="sm" onClick={() => setTransform({ x: 0, y: 0, k: 1 })}>
+          {paths.libraryCopy.graphResetView}
+        </Button>
+        <MetricChip label="Zoom">{`${Math.round(transform.k * 100)}%`}</MetricChip>
       </div>
       <svg
         ref={svgRef}
@@ -233,7 +235,7 @@ export function SimilarityGraphView({
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
-                stroke={onPath ? '#f0a500' : 'currentColor'}
+                stroke={onPath ? 'var(--accent)' : 'currentColor'}
                 strokeOpacity={onPath ? 0.95 : active ? 0.22 + edge.score * 0.45 : 0.06}
                 strokeWidth={onPath ? 3.5 : 1 + edge.score}
               />
@@ -271,7 +273,7 @@ export function SimilarityGraphView({
                   <circle
                     r={r + 5}
                     fill="none"
-                    stroke={onPath ? '#f0a500' : tone.stroke}
+                    stroke={onPath ? 'var(--accent)' : tone.stroke}
                     strokeWidth={2}
                     opacity={0.95}
                   />
