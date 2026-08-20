@@ -88,10 +88,79 @@ async function compactFacetsForPackage(
       canonical_url: hints.canonical_url ?? null
     })
   );
-  const usable = summary.style || summary.layout || (summary.industry_tags?.length ?? 0) || summary.imagery_density;
+  const usable =
+    summary.style ||
+    summary.layout ||
+    summary.contrast_mode ||
+    summary.imagery_density ||
+    summary.type_scale ||
+    summary.composition_energy ||
+    summary.chrome_weight ||
+    summary.type_image_mode ||
+    (summary.industry_tags?.length ?? 0) ||
+    summary.color_mood;
   const value = usable ? summary : null;
   cache.set(packagePath, value);
   return value;
+}
+
+/** Batch compact facets for graph / MCP by capture_run_id. */
+export async function loadScreenFacetsByCaptureIds(
+  client: Queryable,
+  captureRunIds: string[],
+  opts?: { concurrency?: number }
+): Promise<Map<string, ScreenFacetSummary | null>> {
+  const ids = [...new Set(captureRunIds.map(String).filter(Boolean))];
+  const out = new Map<string, ScreenFacetSummary | null>();
+  if (!ids.length) return out;
+
+  const result = await client.query(
+    `SELECT capture_run_id, package_path, site_domain, canonical_url
+     FROM captures
+     WHERE capture_run_id = ANY($1::text[])`,
+    [ids]
+  );
+
+  const facetCache = new Map<string, ScreenFacetSummary | null>();
+  const rows = result.rows as Array<{
+    capture_run_id?: unknown;
+    package_path?: unknown;
+    site_domain?: unknown;
+    canonical_url?: unknown;
+  }>;
+  const uniquePackages = [
+    ...new Set(rows.map((row) => (typeof row.package_path === "string" ? row.package_path : "")).filter(Boolean))
+  ];
+  const hintsByPackage = new Map<string, { site_domain?: string | null; canonical_url?: string | null }>();
+  for (const row of rows) {
+    const pkg = typeof row.package_path === "string" ? row.package_path : "";
+    if (!pkg || hintsByPackage.has(pkg)) continue;
+    hintsByPackage.set(pkg, {
+      site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
+      canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : null
+    });
+  }
+
+  const concurrency = Math.max(1, Math.min(32, opts?.concurrency ?? 16));
+  for (let i = 0; i < uniquePackages.length; i += concurrency) {
+    const slice = uniquePackages.slice(i, i + concurrency);
+    await Promise.all(
+      slice.map((pkg) =>
+        compactFacetsForPackage(pkg, facetCache, hintsByPackage.get(pkg) ?? {})
+      )
+    );
+  }
+
+  for (const row of rows) {
+    const id = String(row.capture_run_id ?? "");
+    if (!id) continue;
+    const pkg = typeof row.package_path === "string" ? row.package_path : "";
+    out.set(id, pkg ? (facetCache.get(pkg) ?? null) : null);
+  }
+  for (const id of ids) {
+    if (!out.has(id)) out.set(id, null);
+  }
+  return out;
 }
 
 type LlmDisk = {

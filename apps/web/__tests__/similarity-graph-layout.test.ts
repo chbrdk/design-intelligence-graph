@@ -3,6 +3,7 @@ import { describe, it } from 'vitest'
 import {
   craftFacetOverlapScore,
   describeCraftCluster,
+  describeFacetCommunity,
   describeIndustryCluster,
   formatCraftGraphLabel,
 } from '../lib/craft-graph-label'
@@ -44,6 +45,16 @@ describe('craft graph labels', () => {
     assert.equal(describeIndustryCluster({ industry_tags: ['marketing_agency'] }), 'marketing agency')
     assert.equal(describeIndustryCluster({ industry_tags: ['insurance', 'finance'] }), 'insurance')
     assert.equal(describeIndustryCluster({}), 'unclassified')
+  })
+
+  it('uses raw facet vocab for community coloring', () => {
+    assert.equal(describeFacetCommunity({ style: 'corporate' }, 'style'), 'corporate')
+    assert.equal(describeFacetCommunity({ layout: 'full-bleed stacks' }, 'layout'), 'full-bleed stacks')
+    assert.equal(describeFacetCommunity({ contrast_mode: 'mixed' }, 'contrast'), 'mixed')
+    assert.equal(describeFacetCommunity({ imagery_density: 'medium' }, 'imagery'), 'medium imagery')
+    assert.equal(describeFacetCommunity({ type_scale: 'monumental' }, 'type'), 'monumental type')
+    assert.equal(describeFacetCommunity({ composition_energy: 'calm' }, 'energy'), 'calm')
+    assert.equal(describeFacetCommunity({ chrome_weight: 'minimal' }, 'chrome'), 'minimal chrome')
   })
 
   it('scores craft neighbors by contrast and imagery, not URL', () => {
@@ -159,6 +170,7 @@ describe('similarity graph fallback', () => {
     assert.match(graph.nodes[0]?.craft_label ?? '', /modern minimal|minimal/)
     assert.match(graph.nodes[0]?.craft_label ?? '', /monochrome/)
     assert.equal(graph.nodes[0]?.cluster_label, 'modern minimal')
+    assert.equal(graph.nodes[0]?.style_label, 'minimal')
     assert.equal(graph.nodes[0]?.industry_label, 'insurance')
     assert.equal(graph.nodes[2]?.industry_label, 'media')
     assert.equal(graph.edges.length, 1)

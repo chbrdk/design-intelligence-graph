@@ -40,12 +40,25 @@ type GraphNode = {
   site_domain: string | null
   title: string | null
   craft_label: string
-  cluster_label: string
+  style_label: string
+  layout_label: string
   contrast_label: string
+  imagery_label: string
+  type_label: string
+  energy_label: string
+  chrome_label: string
   industry_label: string
 }
 
-type ClusterBy = 'contrast' | 'style' | 'industry'
+type ClusterBy =
+  | 'contrast'
+  | 'style'
+  | 'layout'
+  | 'imagery'
+  | 'type'
+  | 'energy'
+  | 'chrome'
+  | 'industry'
 
 export function GraphPageClient() {
   const router = useRouter()
@@ -94,8 +107,13 @@ export function GraphPageClient() {
           site_domain: node.site_domain,
           title: node.title,
           craft_label: node.craft_label,
-          cluster_label: node.cluster_label,
+          style_label: node.style_label,
+          layout_label: node.layout_label,
           contrast_label: node.contrast_label,
+          imagery_label: node.imagery_label,
+          type_label: node.type_label,
+          energy_label: node.energy_label,
+          chrome_label: node.chrome_label,
           industry_label: node.industry_label,
         })),
       )
@@ -134,8 +152,13 @@ export function GraphPageClient() {
 
   const communityFor = (node: GraphNode) => {
     if (clusterBy === 'industry') return node.industry_label || 'unclassified'
-    if (clusterBy === 'style') return node.cluster_label || 'mixed'
-    return node.contrast_label || 'mixed'
+    if (clusterBy === 'style') return node.style_label || 'unclassified'
+    if (clusterBy === 'layout') return node.layout_label || 'unclassified'
+    if (clusterBy === 'imagery') return node.imagery_label || 'unclassified'
+    if (clusterBy === 'type') return node.type_label || 'unclassified'
+    if (clusterBy === 'energy') return node.energy_label || 'unclassified'
+    if (clusterBy === 'chrome') return node.chrome_label || 'unclassified'
+    return node.contrast_label || 'unclassified'
   }
 
   const query = searchQuery.trim().toLowerCase()
@@ -274,15 +297,32 @@ export function GraphPageClient() {
               aria-label={paths.libraryCopy.graphCommunityBy}
               value={clusterBy}
               onChange={(value) => {
-                setClusterBy(
-                  value === 'style' ? 'style' : value === 'industry' ? 'industry' : 'contrast',
-                )
+                const next = (
+                  [
+                    'contrast',
+                    'style',
+                    'layout',
+                    'imagery',
+                    'type',
+                    'energy',
+                    'chrome',
+                    'industry',
+                  ] as const
+                ).includes(value as ClusterBy)
+                  ? (value as ClusterBy)
+                  : 'contrast'
+                setClusterBy(next)
                 setSelectedId(null)
                 clearPath()
               }}
               options={[
                 { value: 'contrast', label: paths.libraryCopy.graphByContrast },
                 { value: 'style', label: paths.libraryCopy.graphByStyle },
+                { value: 'layout', label: paths.libraryCopy.graphByLayout },
+                { value: 'imagery', label: paths.libraryCopy.graphByImagery },
+                { value: 'type', label: paths.libraryCopy.graphByType },
+                { value: 'energy', label: paths.libraryCopy.graphByEnergy },
+                { value: 'chrome', label: paths.libraryCopy.graphByChrome },
                 { value: 'industry', label: paths.libraryCopy.graphByIndustry },
               ]}
             />

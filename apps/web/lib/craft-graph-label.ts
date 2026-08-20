@@ -84,22 +84,58 @@ export function describeCraftCluster(facets: CraftFacetLike | null | undefined):
 
 /** Contrast-first cluster for readability (e.g. monochrome vs saturated). */
 export function describeContrastCluster(facets: CraftFacetLike | null | undefined): string {
-  if (!facets) return 'unclassified'
-  const c = facets.contrast_mode?.toLowerCase().trim() ?? ''
-  if (!c) return facets.style ? 'contrast-unknown' : 'mixed'
-  if (c.includes('mono') || c.includes('monochrome')) return 'monochrome'
-  if (c.includes('satur')) return 'saturated'
-  if (c.includes('low')) return 'low contrast'
-  if (c.includes('high')) return 'high contrast'
-  return humanize(c)
+  return describeFacetCommunity(facets, 'contrast')
 }
 
 /** Primary industry tag for community coloring (catalog / facets). */
 export function describeIndustryCluster(facets: CraftFacetLike | null | undefined): string {
+  return describeFacetCommunity(facets, 'industry')
+}
+
+/** Raw closed-vocab community labels for graph coloring (no mega-buckets). */
+export type FacetCommunityField =
+  | 'style'
+  | 'layout'
+  | 'contrast'
+  | 'imagery'
+  | 'type'
+  | 'energy'
+  | 'chrome'
+  | 'industry'
+
+export function describeFacetCommunity(
+  facets: CraftFacetLike | null | undefined,
+  field: FacetCommunityField,
+): string {
   if (!facets) return 'unclassified'
-  const tag = facets.industry_tags?.find((item) => item?.trim())?.trim()
-  if (!tag) return 'unclassified'
-  return humanize(tag.toLowerCase())
+  if (field === 'industry') {
+    const tag = facets.industry_tags?.find((item) => item?.trim())?.trim()
+    return tag ? humanize(tag.toLowerCase()) : 'unclassified'
+  }
+  if (field === 'style') {
+    return facets.style?.trim() ? humanize(facets.style) : 'unclassified'
+  }
+  if (field === 'layout') {
+    return facets.layout?.trim() ? humanize(facets.layout) : 'unclassified'
+  }
+  if (field === 'contrast') {
+    const c = facets.contrast_mode?.trim()
+    return c ? humanize(c) : 'unclassified'
+  }
+  if (field === 'imagery') {
+    const v = facets.imagery_density?.trim()
+    return v ? `${humanize(v)} imagery` : 'unclassified'
+  }
+  if (field === 'type') {
+    const v = facets.type_scale?.trim()
+    return v ? `${humanize(v)} type` : 'unclassified'
+  }
+  if (field === 'energy') {
+    const v = facets.composition_energy?.trim()
+    return v ? humanize(v) : 'unclassified'
+  }
+  const v = facets.chrome_weight?.trim()
+  return v ? `${humanize(v)} chrome` : 'unclassified'
 }
 
 export function describeGraphNode(

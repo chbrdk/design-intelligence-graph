@@ -6,6 +6,8 @@
 import type { Queryable } from "./db.js";
 import { denseEmbeddingConfig } from "./dense-embeddings.js";
 import { screenshotEmbeddingConfig } from "./screenshot-embeddings.js";
+import { loadScreenFacetsByCaptureIds } from "./library-screens.js";
+import type { ScreenFacetSummary } from "./design-facets.js";
 import { loadDigPaths } from "./runtime-paths.js";
 
 export type SimilarityGraphKind = "craft" | "visual";
@@ -16,6 +18,7 @@ export type SimilarityGraphNode = {
   canonical_url: string | null;
   viewport_capture_id: string | null;
   title: string | null;
+  design_facets?: ScreenFacetSummary | null;
 };
 
 export type SimilarityGraphEdge = {
@@ -136,6 +139,13 @@ async function buildSimilarityGraph(
 
   const nodes = mapNodes(nodeResult.rows as Array<Record<string, unknown>>);
   const ids = nodes.map((node) => node.capture_run_id).filter(Boolean);
+  const facetByCapture = await loadScreenFacetsByCaptureIds(client, ids);
+  const withFacets = (list: SimilarityGraphNode[]) =>
+    list.map((node) => ({
+      ...node,
+      design_facets: facetByCapture.get(node.capture_run_id) ?? null
+    }));
+
   if (ids.length < 2) {
     return {
       kind,
@@ -144,7 +154,7 @@ async function buildSimilarityGraph(
       total,
       page_size: limits.pageSize,
       neighbor_k: limits.neighborK,
-      nodes,
+      nodes: withFacets(nodes),
       edges: []
     };
   }
@@ -198,7 +208,7 @@ async function buildSimilarityGraph(
     total,
     page_size: limits.pageSize,
     neighbor_k: limits.neighborK,
-    nodes,
+    nodes: withFacets(nodes),
     edges
   };
 }

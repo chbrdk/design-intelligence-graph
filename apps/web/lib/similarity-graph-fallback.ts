@@ -2,6 +2,7 @@ import {
   craftFacetOverlapScore,
   describeContrastCluster,
   describeCraftCluster,
+  describeFacetCommunity,
   describeIndustryCluster,
   formatCraftGraphLabel,
   type CraftFacetLike,
@@ -25,8 +26,15 @@ export type SimilarityGraphNode = {
   viewport_capture_id: string | null
   title: string | null
   craft_label: string
+  /** @deprecated mega-bucket; prefer style_label */
   cluster_label: string
+  style_label: string
+  layout_label: string
   contrast_label: string
+  imagery_label: string
+  type_label: string
+  energy_label: string
+  chrome_label: string
   industry_label: string
 }
 
@@ -77,20 +85,29 @@ export function buildFacetSimilarityGraph(
   const threshold = opts?.threshold ?? 0.35
   const kind = opts?.kind ?? 'craft'
   const picked = desktopScreens(screens).slice(0, nodeCap)
-  const nodes: SimilarityGraphNode[] = picked.map((screen) => ({
-    capture_run_id: screen.capture_run_id,
-    site_domain: screen.site_domain,
-    canonical_url: screen.canonical_url,
-    viewport_capture_id: screen.viewport_capture_id,
-    title: screen.title,
-    craft_label: formatCraftGraphLabel(screen.design_facets, {
+  const nodes: SimilarityGraphNode[] = picked.map((screen) => {
+    const facets = screen.design_facets
+    return {
+      capture_run_id: screen.capture_run_id,
+      site_domain: screen.site_domain,
+      canonical_url: screen.canonical_url,
+      viewport_capture_id: screen.viewport_capture_id,
       title: screen.title,
-      domain: screen.site_domain,
-    }),
-    cluster_label: describeCraftCluster(screen.design_facets),
-    contrast_label: describeContrastCluster(screen.design_facets),
-    industry_label: describeIndustryCluster(screen.design_facets),
-  }))
+      craft_label: formatCraftGraphLabel(facets, {
+        title: screen.title,
+        domain: screen.site_domain,
+      }),
+      cluster_label: describeCraftCluster(facets),
+      style_label: describeFacetCommunity(facets, 'style'),
+      layout_label: describeFacetCommunity(facets, 'layout'),
+      contrast_label: describeContrastCluster(facets),
+      imagery_label: describeFacetCommunity(facets, 'imagery'),
+      type_label: describeFacetCommunity(facets, 'type'),
+      energy_label: describeFacetCommunity(facets, 'energy'),
+      chrome_label: describeFacetCommunity(facets, 'chrome'),
+      industry_label: describeIndustryCluster(facets),
+    }
+  })
   const edges: SimilarityGraphView['edges'] = []
   for (let i = 0; i < picked.length; i += 1) {
     for (let j = i + 1; j < picked.length; j += 1) {

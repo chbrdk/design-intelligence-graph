@@ -2,8 +2,10 @@ import { paths } from './paths'
 import {
   describeContrastCluster,
   describeCraftCluster,
+  describeFacetCommunity,
   describeIndustryCluster,
   formatCraftGraphLabel,
+  type CraftFacetLike,
 } from './craft-graph-label'
 import type { JobEvent, JobSnapshot } from './stages'
 import { buildFacetSimilarityGraph, isEmbeddingGraphMissing } from './similarity-graph-fallback'
@@ -630,6 +632,7 @@ export async function fetchSimilarityGraph(
       canonical_url: string | null
       viewport_capture_id: string | null
       title: string | null
+      design_facets?: CraftFacetLike | null
     }>
     edges?: Array<{ from_id: string; to_id: string; score: number }>
     error?: string
@@ -637,31 +640,52 @@ export async function fetchSimilarityGraph(
   }>(response)
   if (response.ok) {
     const apiNodes = body.nodes ?? []
-    const labelNodes = (byCapture: Map<string, unknown>): SimilarityGraphNode[] =>
-      apiNodes.map((node) => {
-        const facets = byCapture.get(node.capture_run_id) ?? null
-        return {
-          ...node,
-          craft_label: formatCraftGraphLabel(facets as any, {
-            title: node.title,
-            domain: node.site_domain,
-          }),
-          cluster_label: describeCraftCluster(facets as any),
-          contrast_label: describeContrastCluster(facets as any),
-          industry_label: describeIndustryCluster(facets as any),
-        }
-      })
+    const labelNode = (
+      node: (typeof apiNodes)[number],
+      facets: CraftFacetLike | null,
+    ): SimilarityGraphNode => ({
+      ...node,
+      craft_label: formatCraftGraphLabel(facets, {
+        title: node.title,
+        domain: node.site_domain,
+      }),
+      cluster_label: describeCraftCluster(facets),
+      style_label: describeFacetCommunity(facets, 'style'),
+      layout_label: describeFacetCommunity(facets, 'layout'),
+      contrast_label: describeContrastCluster(facets),
+      imagery_label: describeFacetCommunity(facets, 'imagery'),
+      type_label: describeFacetCommunity(facets, 'type'),
+      energy_label: describeFacetCommunity(facets, 'energy'),
+      chrome_label: describeFacetCommunity(facets, 'chrome'),
+      industry_label: describeIndustryCluster(facets),
+    })
 
-    // Paint immediately from graph payload; enrich facets when screens arrive.
-    let nodes = labelNodes(new Map())
-    try {
-      const screens = await fetchLibraryScreens()
-      nodes = labelNodes(
-        new Map(screens.map((screen) => [screen.capture_run_id, screen.design_facets ?? null])),
-      )
-    } catch {
-      /* domain/title labels already set */
+    const nodes: SimilarityGraphNode[] = apiNodes.map((node) => {
+      const fromApi = (node as { design_facets?: CraftFacetLike | null }).design_facets ?? null
+      return labelNode(node, fromApi)
+    })
+
+    // Fill gaps from Library screens list when API omitted facets (older dig-api).
+    const missing = nodes.some((node) => node.style_label === 'unclassified' && node.industry_label === 'unclassified')
+    if (missing) {
+      try {
+        const screens = await fetchLibraryScreens()
+        const byCapture = new Map(
+          screens.map((screen) => [screen.capture_run_id, screen.design_facets ?? null]),
+        )
+        for (let i = 0; i < nodes.length; i += 1) {
+          const apiFacets = (apiNodes[i] as { design_facets?: CraftFacetLike | null } | undefined)
+            ?.design_facets
+          if (apiFacets) continue
+          const facets = byCapture.get(nodes[i]!.capture_run_id) ?? null
+          if (!facets) continue
+          nodes[i] = labelNode(apiNodes[i]!, facets as CraftFacetLike)
+        }
+      } catch {
+        /* keep API-only labels */
+      }
     }
+
     return {
       kind: body.kind === 'visual' ? 'visual' : 'craft',
       model: body.model ?? '',
