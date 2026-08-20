@@ -69,15 +69,17 @@ describe('similarity graph layout', () => {
   it('steps a force simulation without losing nodes', () => {
     const nodes = createForceSimulation(
       [
-        { id: 'a', label: 'minimal' },
-        { id: 'b', label: 'monochrome' },
+        { id: 'a', label: 'minimal', community: 'monochrome' },
+        { id: 'b', label: 'monochrome', community: 'monochrome' },
+        { id: 'c', label: 'saturated', community: 'saturated' },
       ],
       960,
       560,
     )
     stepForceSimulation(nodes, [{ from_id: 'a', to_id: 'b', score: 0.8 }], 960, 560)
-    assert.equal(nodes.length, 2)
+    assert.equal(nodes.length, 3)
     assert.ok(Number.isFinite(nodes[0]!.x))
+    assert.equal(nodes[0]!.community, 'monochrome')
   })
 })
 
