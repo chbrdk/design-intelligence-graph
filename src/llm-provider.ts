@@ -358,14 +358,12 @@ export class FallbackLlmProvider {
 /**
  * Build a completer for an already-resolved config (e.g. enrichment bulk-model override).
  * Preserves local → OpenRouter fallback so callers that pass `config` do not skip it.
- * When OpenRouter is primary, also fall back to an alternate vision model on empty/429 errors.
  */
 export function createLlmProviderFromConfig(
   config: LlmProviderConfig,
   environment: NodeJS.ProcessEnv = process.env,
   request: typeof fetch = fetch
 ): LlmCompleter {
-  const paths = loadDigPaths();
   const primary = new OpenAiCompatibleLlmProvider(config, request);
   if (config.provider === "local" && config.fallbackProvider === "openrouter") {
     const fallbackConfig = openrouterFallbackConfig(environment, config);
@@ -374,27 +372,6 @@ export function createLlmProviderFromConfig(
     if (config.reasoningEffort) fallbackConfig.reasoningEffort = config.reasoningEffort;
     if (fallbackConfig.apiKey) {
       return new FallbackLlmProvider(primary, new OpenAiCompatibleLlmProvider(fallbackConfig, request), config);
-    }
-  }
-  if (config.provider === "openrouter") {
-    const altVision =
-      environment.DIG_LLM_VISION_FALLBACK_MODEL ??
-      (paths.llm.openrouter as { visionModelFallback?: string } | undefined)?.visionModelFallback ??
-      "";
-    const currentVision = config.visionModel ?? config.model;
-    if (altVision && currentVision && altVision !== currentVision) {
-      const altConfig: LlmProviderConfig = {
-        ...config,
-        model: altVision,
-        visionModel: altVision,
-        reasoningEffort: "none",
-        fallbackProvider: "openrouter"
-      };
-      return new FallbackLlmProvider(
-        primary,
-        new OpenAiCompatibleLlmProvider(altConfig, request),
-        { ...config, fallbackProvider: "openrouter" }
-      );
     }
   }
   return primary;

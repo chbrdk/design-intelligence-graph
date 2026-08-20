@@ -26,6 +26,8 @@ export type CaptureCatalog = {
 
 export function captureJobsConfig(root = process.cwd()): {
   maxConcurrent: number;
+  hardTimeoutMs: number;
+  checkionTimeoutMs: number;
   batchPath: string;
   catalogsDir: string;
   automotiveOem50: string;
@@ -37,8 +39,13 @@ export function captureJobsConfig(root = process.cwd()): {
   maxBatch: number;
 } {
   const cfg = loadDigPaths(root).captureJobs;
+  const hardTimeoutMs = Number(cfg?.hardTimeoutMs);
+  const checkionTimeoutMs = Number(cfg?.checkionTimeoutMs);
   return {
     maxConcurrent: cfg?.maxConcurrent ?? 1,
+    hardTimeoutMs: Number.isFinite(hardTimeoutMs) && hardTimeoutMs > 0 ? Math.round(hardTimeoutMs) : 480_000,
+    checkionTimeoutMs:
+      Number.isFinite(checkionTimeoutMs) && checkionTimeoutMs > 0 ? Math.round(checkionTimeoutMs) : 120_000,
     batchPath: cfg?.batchPath ?? "/batch",
     catalogsDir: cfg?.catalogsDir ?? "knowledge/catalogs",
     automotiveOem50: cfg?.automotiveOem50 ?? "knowledge/catalogs/automotive-oem-50.json",

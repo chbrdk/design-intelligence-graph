@@ -162,6 +162,8 @@ export interface DigPaths {
     insuranceDoc?: string;
     designDiversityDoc?: string;
     maxConcurrent?: number;
+    hardTimeoutMs?: number;
+    checkionTimeoutMs?: number;
     batchPath?: string;
     catalogsDir?: string;
     automotiveOem50?: string;

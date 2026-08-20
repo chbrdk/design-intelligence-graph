@@ -12,8 +12,7 @@ Staging used `DIG_LLM_VISION_MODEL=nvidia/nemotron-nano-12b-v2-vl:free`. That VL
 
 1. Default / Coolify vision model → `google/gemma-4-31b-it:free` (multimodal).
 2. Provider: treat empty content as retryable; one retry with `reasoning=none` + higher `max_tokens`; optionally parse JSON from `reasoning` field.
-3. OpenRouter primary → fallback to `DIG_LLM_VISION_FALLBACK_MODEL` / `visionModelFallback` on empty/429.
-4. Vision stages request more completion tokens.
+3. Vision stages request more completion tokens.
 
 ## Verify
 

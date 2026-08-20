@@ -9,6 +9,7 @@ import { localLlmConfig } from "./llm-provider.js";
 import { captureNavConfig, inferCaptureLocale } from "./capture-nav.js";
 import { captureJobsConfig } from "./capture-catalog.js";
 import { captureSettleConfig } from "./capture-settle.js";
+import { DeadlineError, withDeadline } from "./deadline.js";
 import { capturesDirectory, imageIngestConfig, indexesDirectory, uploadedImageUrl } from "./runtime-paths.js";
 import { indexCapturePackage } from "./storage.js";
 import { indexCapturePackageToDatabase } from "./db-index.js";
@@ -90,6 +91,10 @@ export interface JobRunnerOptions {
   asyncEnrichment?: boolean;
   /** How many Playwright captures may run at once. */
   maxConcurrent?: number;
+  /** Wall-clock limit for one Playwright capture (abort + kill browser). */
+  hardTimeoutMs?: number;
+  /** Wall-clock limit for CHECKION screenshot attach. */
+  checkionTimeoutMs?: number;
   /** How many still-image ingest jobs (upload + Pinterest) may run at once. */
   maxImageConcurrent?: number;
   stillImageIngestFn?: (job: JobRecord) => Promise<{
@@ -140,12 +145,16 @@ export class JobRunner {
   private readonly pending: string[] = [];
   private runningPlaywright = 0;
   private runningImage = 0;
+  private readonly aborts = new Map<string, AbortController>();
 
   constructor(options: JobRunnerOptions = {}) {
+    const jobsCfg = captureJobsConfig();
     this.options = {
       timeoutMs: options.timeoutMs ?? captureNavConfig().jobTimeoutMs,
       settleMs: options.settleMs ?? captureSettleConfig().settleMs,
-      maxConcurrent: options.maxConcurrent ?? captureJobsConfig().maxConcurrent,
+      maxConcurrent: options.maxConcurrent ?? jobsCfg.maxConcurrent,
+      hardTimeoutMs: options.hardTimeoutMs ?? jobsCfg.hardTimeoutMs,
+      checkionTimeoutMs: options.checkionTimeoutMs ?? jobsCfg.checkionTimeoutMs,
       maxImageConcurrent: options.maxImageConcurrent ?? imageIngestConfig().maxConcurrent,
       ...options
     };
@@ -211,6 +220,7 @@ export class JobRunner {
     if (!job || job.stage === "complete" || job.stage === "failed" || job.stage === "skipped") return null;
     const idx = this.pending.indexOf(jobId);
     if (idx >= 0) this.pending.splice(idx, 1);
+    this.aborts.get(jobId)?.abort(new Error(reason));
     this.emit(job, { stage: "failed", message: "Job cancelled", error: reason });
     this.persistQueuedOrder();
     return job;
@@ -336,6 +346,16 @@ export class JobRunner {
     return Math.max(1, this.options.maxImageConcurrent ?? 1);
   }
 
+  private hardTimeoutMs(): number {
+    const value = this.options.hardTimeoutMs ?? 480_000;
+    return Number.isFinite(value) && value > 0 ? Math.round(value) : 480_000;
+  }
+
+  private checkionTimeoutMs(): number {
+    const value = this.options.checkionTimeoutMs ?? 120_000;
+    return Number.isFinite(value) && value > 0 ? Math.round(value) : 120_000;
+  }
+
   private pump(): void {
     const playwrightCap = this.maxConcurrent();
     const imageCap = this.maxImageConcurrent();
@@ -358,7 +378,10 @@ export class JobRunner {
       if (image) this.runningImage += 1;
       else this.runningPlaywright += 1;
       progressed = true;
-      void this.run(jobId).finally(() => {
+      const abort = new AbortController();
+      this.aborts.set(jobId, abort);
+      void this.run(jobId, abort.signal).finally(() => {
+        this.aborts.delete(jobId);
         if (image) this.runningImage -= 1;
         else this.runningPlaywright -= 1;
         this.pump();
@@ -387,9 +410,10 @@ export class JobRunner {
     return event;
   }
 
-  private async run(jobId: string): Promise<void> {
+  private async run(jobId: string, signal?: AbortSignal): Promise<void> {
     const job = this.jobs.get(jobId);
     if (!job) return;
+    if (job.stage === "failed" || job.stage === "skipped" || job.stage === "complete") return;
     const captureFn = this.options.captureFn ?? capture;
     const verifyFn = this.options.verifyFn ?? verifyCapturePackage;
     const indexFn = this.options.indexFn ?? indexCapturePackage;
@@ -439,18 +463,38 @@ export class JobRunner {
           ...(job.pinterest_pin.board_id ? { boardId: job.pinterest_pin.board_id } : {})
         });
       } else {
-        captureResult = await captureFn({
-          url: job.url,
-          outputDirectory: capturesDir,
-          viewports: CANONICAL_VIEWPORTS,
-          timeoutMs: this.options.timeoutMs,
-          settleMs: this.options.settleMs,
-          locale: inferCaptureLocale(job.url, "Europe/Berlin"),
-          timezoneId: "Europe/Berlin",
-          colorScheme: "light",
-          reducedMotion: "no-preference",
-          headed: false
-        });
+        const abort = signal ? new AbortController() : undefined;
+        const onParentAbort = () => abort?.abort(signal?.reason);
+        if (signal) {
+          if (signal.aborted) onParentAbort();
+          else signal.addEventListener("abort", onParentAbort, { once: true });
+        }
+        try {
+          captureResult = await withDeadline(
+            () =>
+              captureFn({
+                url: job.url,
+                outputDirectory: capturesDir,
+                viewports: CANONICAL_VIEWPORTS,
+                timeoutMs: this.options.timeoutMs,
+                settleMs: this.options.settleMs,
+                locale: inferCaptureLocale(job.url, "Europe/Berlin"),
+                timezoneId: "Europe/Berlin",
+                colorScheme: "light",
+                reducedMotion: "no-preference",
+                headed: false,
+                ...(abort ? { signal: abort.signal } : {})
+              }),
+            this.hardTimeoutMs(),
+            () => abort?.abort(new DeadlineError(this.hardTimeoutMs(), "capture")),
+            "capture"
+          );
+        } finally {
+          if (signal) signal.removeEventListener("abort", onParentAbort);
+        }
+      }
+      if (this.jobs.get(jobId)?.stage === "failed" || signal?.aborted) {
+        throw signal?.reason instanceof Error ? signal.reason : new Error("Job cancelled");
       }
       this.emit(job, {
         stage: "capturing",
@@ -476,7 +520,12 @@ export class JobRunner {
         checkion = { attached: false, skipped: `${job.ingest_source ?? "image"}_ingest` };
       } else {
         try {
-          checkion = await attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url);
+          checkion = await withDeadline(
+            () => attachCheckionScreenshotIfConfigured(captureResult.packageRoot, job.url),
+            this.checkionTimeoutMs(),
+            undefined,
+            "checkion"
+          );
         } catch (checkionError: unknown) {
           checkion = {
             attached: false,
@@ -675,6 +724,8 @@ export class JobRunner {
         }
       });
     } catch (error: unknown) {
+      const stage = this.jobs.get(jobId)?.stage;
+      if (stage === "failed" || stage === "skipped" || stage === "complete") return;
       const message = error instanceof Error ? error.message : String(error);
       this.emit(job, { stage: "failed", message: "Job failed", error: message });
     } finally {

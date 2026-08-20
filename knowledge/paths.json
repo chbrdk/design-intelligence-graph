@@ -61,7 +61,6 @@
       "baseUrl": "https://openrouter.ai/api/v1",
       "defaultModel": "qwen/qwen3.7-flash",
       "visionModel": "qwen/qwen3.7-flash",
-      "visionModelFallback": "qwen/qwen3.6-flash",
       "apiKeyEnv": "OPENROUTER_API_KEY",
       "httpReferer": "https://github.com/design-intelligence-graph",
       "appTitle": "DIG"
@@ -301,7 +300,9 @@
     "doc": "knowledge/capture-batch.md",
     "insuranceDoc": "knowledge/insurance-catalog.md",
     "designDiversityDoc": "knowledge/design-diversity-catalog.md",
-    "maxConcurrent": 6,
+    "maxConcurrent": 4,
+    "hardTimeoutMs": 480000,
+    "checkionTimeoutMs": 120000,
     "batchPath": "/batch",
     "catalogsDir": "knowledge/catalogs",
     "automotiveOem50": "knowledge/catalogs/automotive-oem-50.json",

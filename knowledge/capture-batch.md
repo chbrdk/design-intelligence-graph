@@ -91,4 +91,15 @@ That uncaught Playwright error terminates the Node process and wipes the in-memo
 1. `page.on("dialog")` auto-dismiss in `src/capture.ts`
 2. Postgres-backed capture queue hydration on API boot (`src/capture-job-store.ts`)
 
-If crashes continue, check Coolify logs for OOM (`limits_memory` is unset on dig-api) and consider lowering `captureJobs.maxConcurrent` from 6 to 3–4.
+If crashes continue, check Coolify logs for OOM (`limits_memory` is unset on dig-api).
+
+## Hung Playwright slots (2026-08-20)
+
+A stuck `page.screenshot` / CDP / `browser.close` can hold a capture slot forever. Coolify then marks dig-api `running:unhealthy` (healthcheck timeout) while Traefik returns `503 no available server`.
+
+Mitigations:
+
+1. `captureJobs.hardTimeoutMs` (default 480s) — JobRunner aborts the capture AbortSignal and force-kills Chromium/Firefox
+2. `forceCloseBrowser` — SIGKILL if `browser.close()` hangs (>8s)
+3. `captureJobs.checkionTimeoutMs` (default 120s) — CHECKION attach cannot block the pipeline
+4. `captureJobs.maxConcurrent` lowered to **4** (was 6)

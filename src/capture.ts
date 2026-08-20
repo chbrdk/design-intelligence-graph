@@ -38,6 +38,7 @@ import { captureSettleConfig } from "./capture-settle.js";
 import { cookieConsentConfig } from "./runtime-paths.js";
 import { screenshotOptions, screenshotSettings } from "./screenshot-settings.js";
 import { captureBrowserContextOptions, gotoWithNavGuard, shouldUseFirefoxFallback } from "./capture-nav.js";
+import { forceCloseBrowser, throwIfAborted } from "./deadline.js";
 import type { CaptureManifest, CaptureOptions, ViewportDefinition, ViewportResult } from "./types.js";
 
 interface RuntimeEvidence {
@@ -142,6 +143,7 @@ async function captureViewport(
   const prefix = `viewports/${viewport.name}`;
   const warnings: string[] = [];
   const artifacts: ViewportResult["artifacts"] = {};
+  throwIfAborted(options.signal);
   const engine = browser.browserType().name();
   const context = await browser.newContext(captureBrowserContextOptions({
     viewport,
@@ -158,6 +160,7 @@ async function captureViewport(
   const runtime = attachRuntimeEvidence(page);
   const network = attachNetworkRecorder(page);
   try {
+    throwIfAborted(options.signal);
     const nav = await gotoWithNavGuard(page, options.url, options.timeoutMs);
     warnings.push(...nav.warnings);
     const response = nav.response;
@@ -466,12 +469,21 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
   const packageRoot = resolve(options.outputDirectory, `${safeDirectoryName(requestedUrl)}_${timestamp}_${runId.slice(-8)}`);
   await ensureDirectory(packageRoot);
 
+  throwIfAborted(options.signal);
   const browser = await chromium.launch({
     headless: !options.headed,
     args: ["--disable-blink-features=AutomationControlled"],
     ignoreDefaultArgs: ["--enable-automation"]
   });
   let firefoxBrowser: Browser | undefined;
+  const onAbort = () => {
+    void forceCloseBrowser(browser);
+    void forceCloseBrowser(firefoxBrowser);
+  };
+  if (options.signal) {
+    if (options.signal.aborted) onAbort();
+    else options.signal.addEventListener("abort", onAbort, { once: true });
+  }
   const results: ViewportResult[] = [];
   const viewportNodeSets: ViewportNodeSet[] = [];
   const responsiveEvidence: ResponsiveViewportEvidence[] = [];
@@ -481,6 +493,7 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
   let userAgent = "unknown";
   try {
     for (const viewport of options.viewports) {
+      throwIfAborted(options.signal);
       try {
         let captured = await captureViewport(browser, options, viewport, packageRoot);
         if (captured.result.status === "blocked" && shouldUseFirefoxFallback(viewport.name)) {
@@ -546,8 +559,9 @@ export async function capture(options: CaptureOptions): Promise<{ packageRoot: s
       }
     }
   } finally {
-    await browser.close();
-    await firefoxBrowser?.close().catch(() => undefined);
+    if (options.signal) options.signal.removeEventListener("abort", onAbort);
+    await forceCloseBrowser(browser);
+    await forceCloseBrowser(firefoxBrowser);
   }
 
   const completeCount = results.filter((result) => result.status === "complete").length;

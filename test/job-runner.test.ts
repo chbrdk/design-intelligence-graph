@@ -631,3 +631,81 @@ test("JobRunner cancelQueued and moveQueued edit the pending FIFO", () => {
     else process.env.DIG_LLM_ENABLED = previousLlm;
   }
 });
+
+test("JobRunner hardTimeout aborts a hung capture and frees the slot", async () => {
+  const previousLlm = process.env.DIG_LLM_ENABLED;
+  const previousCheckion = process.env.DIG_CHECKION_SCREENSHOTS;
+  process.env.DIG_LLM_ENABLED = "false";
+  process.env.DIG_CHECKION_SCREENSHOTS = "0";
+  const capturesDir = await mkdtemp(join(tmpdir(), "dig-job-hard-"));
+  const indexesDir = await mkdtemp(join(tmpdir(), "dig-job-hard-idx-"));
+  let sawAbort = false;
+  const runner = new JobRunner({
+    capturesDir,
+    indexesDir,
+    maxConcurrent: 1,
+    hardTimeoutMs: 80,
+    asyncEnrichment: false,
+    captureFn: async (options) => {
+      await new Promise<void>((resolve, reject) => {
+        const fail = (reason: unknown) => {
+          sawAbort = true;
+          reject(reason instanceof Error ? reason : new Error("aborted"));
+        };
+        if (options.signal?.aborted) {
+          fail(options.signal.reason);
+          return;
+        }
+        const timer = setTimeout(() => resolve(), 30_000);
+        options.signal?.addEventListener(
+          "abort",
+          () => {
+            clearTimeout(timer);
+            fail(options.signal?.reason);
+          },
+          { once: true }
+        );
+      });
+      return {
+        packageRoot: join(capturesDir, "never"),
+        manifest: { status: "complete", capture_run_id: "cap_never", errors: [], viewport_captures: [] } as never
+      };
+    }
+  });
+  try {
+    const hung = runner.startJob("https://hung.example/");
+    const next = runner.startJob("https://next.example/");
+    await new Promise<void>((resolveDone, reject) => {
+      const current = runner.getJob(hung.job_id);
+      if (current?.stage === "failed") {
+        resolveDone();
+        return;
+      }
+      const stop = runner.subscribe(hung.job_id, (event) => {
+        if (event.stage === "failed") {
+          stop();
+          resolveDone();
+        }
+        if (event.stage === "complete") {
+          stop();
+          reject(new Error("hung job should fail"));
+        }
+      });
+    });
+    assert.equal(runner.getJob(hung.job_id)?.stage, "failed");
+    assert.match(runner.getJob(hung.job_id)?.error ?? "", /hard_timeout|aborted|capture_hard_timeout/i);
+    assert.equal(sawAbort, true);
+    await new Promise((resolveWait) => setTimeout(resolveWait, 40));
+    const nextStage = runner.getJob(next.job_id)?.stage;
+    assert.ok(
+      nextStage === "capturing" || nextStage === "queued" || nextStage === "failed" || nextStage === "complete",
+      `expected next job to leave pure hang, got ${nextStage}`
+    );
+    runner.failJob(next.job_id, "test cleanup");
+  } finally {
+    if (previousLlm === undefined) delete process.env.DIG_LLM_ENABLED;
+    else process.env.DIG_LLM_ENABLED = previousLlm;
+    if (previousCheckion === undefined) delete process.env.DIG_CHECKION_SCREENSHOTS;
+    else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
+  }
+});

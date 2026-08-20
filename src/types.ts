@@ -24,6 +24,8 @@ export interface CaptureOptions {
   colorScheme: "light" | "dark";
   reducedMotion: "reduce" | "no-preference";
   headed: boolean;
+  /** When aborted, capture stops and force-closes Chromium/Firefox. */
+  signal?: AbortSignal;
 }
 
 export interface ArtifactReference {
