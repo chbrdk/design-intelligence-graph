@@ -35,6 +35,9 @@ export type SimilarityGraphView = {
   model: string
   threshold: number
   source: 'embeddings' | 'facets'
+  total: number
+  page_size: number
+  neighbor_k: number
   nodes: SimilarityGraphNode[]
   edges: Array<{ from_id: string; to_id: string; score: number }>
 }
@@ -109,6 +112,9 @@ export function buildFacetSimilarityGraph(
     model: 'craft-facets',
     threshold,
     source: 'facets',
+    total: nodes.length,
+    page_size: paths.similarityGraph.pageSize,
+    neighbor_k: paths.similarityGraph.neighborK,
     nodes,
     edges: edges.slice(0, edgeCap),
   }

@@ -60,6 +60,9 @@ export function GraphPageClient() {
   const [model, setModel] = useState('')
   const [nodes, setNodes] = useState<GraphNode[]>([])
   const [edges, setEdges] = useState<Array<{ from_id: string; to_id: string; score: number }>>([])
+  const [total, setTotal] = useState(0)
+  const [pageSize, setPageSize] = useState(paths.similarityGraph.pageSize)
+  const [visibleCount, setVisibleCount] = useState(paths.similarityGraph.pageSize)
 
   useEffect(() => {
     let cancelled = false
@@ -67,12 +70,16 @@ export function GraphPageClient() {
     setPathStartId(null)
     setPathEndId(null)
     setPathPickMode(false)
+    setVisibleCount(paths.similarityGraph.pageSize)
     void fetchSimilarityGraph(kind)
       .then((graph) => {
         if (cancelled) return
         setError(null)
         setSource(graph.source)
         setModel(graph.model)
+        setTotal(graph.total)
+        setPageSize(graph.page_size || paths.similarityGraph.pageSize)
+        setVisibleCount(graph.page_size || paths.similarityGraph.pageSize)
         setNodes(
           graph.nodes.map((node) => ({
             capture_run_id: node.capture_run_id,
@@ -91,6 +98,7 @@ export function GraphPageClient() {
         if (cancelled) return
         setNodes([])
         setEdges([])
+        setTotal(0)
         setError(err instanceof Error ? err.message : String(err))
       })
     return () => {
@@ -104,22 +112,45 @@ export function GraphPageClient() {
     return node.contrast_label || 'mixed'
   }
 
+  const query = searchQuery.trim().toLowerCase()
+
+  const visibleNodes = useMemo(() => {
+    if (query) {
+      return nodes.filter((node) =>
+        [node.site_domain, node.title, node.craft_label, communityFor(node)]
+          .filter(Boolean)
+          .some((value) => String(value).toLowerCase().includes(query)),
+      )
+    }
+    return nodes.slice(0, visibleCount)
+  }, [nodes, visibleCount, query, clusterBy])
+
+  const visibleIds = useMemo(
+    () => new Set(visibleNodes.map((node) => node.capture_run_id)),
+    [visibleNodes],
+  )
+
+  const visibleEdges = useMemo(
+    () => edges.filter((edge) => visibleIds.has(edge.from_id) && visibleIds.has(edge.to_id)),
+    [edges, visibleIds],
+  )
+
   const communities = useMemo(() => {
     const counts = new Map<string, number>()
-    for (const node of nodes) {
+    for (const node of visibleNodes) {
       const key = communityFor(node)
       counts.set(key, (counts.get(key) ?? 0) + 1)
     }
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1])
       .map(([label, count]) => ({ label, count }))
-  }, [nodes, clusterBy])
+  }, [visibleNodes, clusterBy])
 
   const communityOrder = useMemo(() => communities.map((c) => c.label), [communities])
 
   const viewNodes = useMemo(
     () =>
-      nodes.map((node) => ({
+      visibleNodes.map((node) => ({
         id: node.capture_run_id,
         label: shortGraphLabel({
           domain: node.site_domain,
@@ -132,7 +163,7 @@ export function GraphPageClient() {
         craftLabel: node.craft_label,
         href: node.viewport_capture_id ? libraryScreenHref(node.viewport_capture_id) : null,
       })),
-    [nodes, clusterBy],
+    [visibleNodes, clusterBy],
   )
 
   const selected = useMemo(
@@ -165,6 +196,8 @@ export function GraphPageClient() {
   }, [selected, edges, nodes, clusterBy])
 
   const selectedDegree = selected ? nodeDegree(selected.capture_run_id, edges) : 0
+  const corpusTotal = Math.max(total, nodes.length)
+  const hasMore = !query && visibleCount < nodes.length
 
   const labelForId = (id: string | null) => {
     if (!id) return '—'
@@ -231,8 +264,12 @@ export function GraphPageClient() {
 
           <KpiStrip
             items={[
-              { id: 'nodes', label: 'Nodes', value: nodes.length },
-              { id: 'edges', label: 'Edges', value: edges.length },
+              {
+                id: 'nodes',
+                label: paths.libraryCopy.graphShowing,
+                value: `${visibleNodes.length} ${paths.libraryCopy.graphOf} ${corpusTotal}`,
+              },
+              { id: 'edges', label: 'Edges', value: visibleEdges.length },
               { id: 'communities', label: paths.libraryCopy.graphLegend, value: communities.length },
               {
                 id: 'model',
@@ -254,7 +291,7 @@ export function GraphPageClient() {
           <Text role="hint">{paths.libraryCopy.graphifyHint}</Text>
           {pathPickMode ? <Text role="hint">{paths.libraryCopy.graphPathPickHint}</Text> : null}
           {source === 'facets' ? <Text role="hint">{paths.libraryCopy.graphFacets}</Text> : null}
-          {!error && !edges.length ? (
+          {!error && !visibleEdges.length ? (
             <Text role="hint">
               {kind === 'visual'
                 ? paths.libraryCopy.graphEmptyVisual
@@ -295,12 +332,24 @@ export function GraphPageClient() {
               <SimilarityGraphView
                 ariaLabel={paths.libraryCopy.graphTitle}
                 nodes={viewNodes}
-                edges={edges}
+                edges={visibleEdges}
                 selectedId={selectedId}
                 pathNodeIds={pathIds}
                 searchQuery={searchQuery}
                 onNodeSelect={onNodeSelect}
               />
+              {hasMore ? (
+                <div className="dig-row" style={{ marginTop: '0.75rem' }}>
+                  <Button
+                    type="button"
+                    variant="subtle"
+                    size="sm"
+                    onClick={() => setVisibleCount((count) => Math.min(nodes.length, count + pageSize))}
+                  >
+                    {paths.libraryCopy.graphLoadMore} ({nodes.length - visibleCount})
+                  </Button>
+                </div>
+              ) : null}
             </Panel>
 
             <Panel className="dig-graph-side" aria-label={paths.libraryCopy.graphInspector}>
@@ -418,3 +467,4 @@ export function GraphPageClient() {
     </AppShell>
   )
 }
+

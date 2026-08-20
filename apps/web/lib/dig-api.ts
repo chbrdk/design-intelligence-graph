@@ -614,6 +614,9 @@ export async function fetchSimilarityGraph(
     kind?: 'craft' | 'visual'
     model?: string
     threshold?: number
+    total?: number
+    page_size?: number
+    neighbor_k?: number
     nodes?: Array<{
       capture_run_id: string
       site_domain: string | null
@@ -651,6 +654,9 @@ export async function fetchSimilarityGraph(
       model: body.model ?? '',
       threshold: Number(body.threshold ?? 0),
       source: 'embeddings',
+      total: Number(body.total ?? nodes.length),
+      page_size: Number(body.page_size ?? paths.similarityGraph.pageSize),
+      neighbor_k: Number(body.neighbor_k ?? paths.similarityGraph.neighborK),
       nodes,
       edges: body.edges ?? [],
     }

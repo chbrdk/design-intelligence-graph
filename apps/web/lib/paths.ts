@@ -198,6 +198,9 @@ export const paths = {
     graphPathHops: 'hops',
     graphPathMissing: 'No path between these screens in the current sample.',
     graphResetView: 'Reset view',
+    graphLoadMore: 'Load more',
+    graphShowing: 'Showing',
+    graphOf: 'of',
     queueLive: 'Now running',
     queueWaiting: 'Waiting',
     queueFailed: 'Failed',
@@ -253,9 +256,11 @@ export const paths = {
   },
   /** Keep in sync with knowledge/paths.json similarityGraph. */
   similarityGraph: {
-    nodeCap: 250,
-    edgeCap: 750,
+    nodeCap: 5000,
+    edgeCap: 40000,
     threshold: 0.72,
+    pageSize: 120,
+    neighborK: 8,
   },
   captureJobs: {
     maxConcurrent: 6,

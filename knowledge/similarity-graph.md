@@ -12,8 +12,10 @@ Not Facebook Open Graph. This is a **neighbor network of Library screens**, pres
 | `craft` | `dense_embeddings` 1024 | `screen` |
 | `visual` | `screenshot_embeddings` 768 | `screenshot` |
 
-Pairwise cosine ≥ `similarityGraph.threshold` (0.72). Caps: `nodeCap` 250, `edgeCap` 750 (newest dense/screenshot rows). Island layout is a custom force simulation with community attraction + convex hulls (`apps/web/lib/similarity-graph-force.ts`, `apps/web/lib/graphify-communities.ts`) — no extra npm graph library. Raising caps needs a **dig-api** deploy (reads `paths.json` server-side); do that only when the capture queue is idle.
+API loads up to `nodeCap` (5000) newest embedding rows and builds **kNN edges** (`neighborK` = 8, cosine ≥ `threshold` 0.72), not a truncated full pairwise sample. Response includes `total`, `page_size`, `neighbor_k`.
 
-Communities come from craft facets (`contrast`, `style`, or primary `industry_tags`). Chrome is `@msqdx/ui` (FilterRow, KpiStrip, Field, Panel, SectionChrome, RankedList, Button). Node/edge colors use theme role tokens. Labels prefer `site_domain` over long craft strings. Click a node → inspector → optional Library open. **Path from here** + second click traces the shortest hop path. Scroll zooms, drag pans, Reset view restores 1:1.
+Island shows the first `pageSize` (120) nodes, then **Load more** reveals the next chunk from the already-fetched corpus (edges filtered to the visible set). Force layout stays responsive.
 
-Until dig-api is deployed, `GET /api/library/graph` returns `not_found`. The island builds a **craft facet** graph from `GET /screens`. Dense embeddings replace the facet graph after API deploy.
+Communities come from craft facets (`contrast`, `style`, or primary `industry_tags`). Chrome is `@msqdx/ui`. Node/edge colors use theme role tokens.
+
+Until dig-api is deployed with this slice, staging may still return the old 80-node pairwise graph. Capture queue restores from Postgres on API restart (`capture_jobs`).

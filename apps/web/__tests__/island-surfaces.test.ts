@@ -42,7 +42,9 @@ describe('island surfaces', () => {
     assert.equal(paths.islandSurfaces.queuePollMs, catalog.islandSurfaces.queuePollMs)
     assert.equal(paths.islandSurfaces.graphRoute, catalog.islandSurfaces.graphRoute)
     assert.equal(paths.routes.graph, catalog.islandSurfaces.graphRoute)
-    assert.equal(paths.similarityGraph.nodeCap, 80)
+    assert.equal(paths.similarityGraph.nodeCap, 5000)
+    assert.equal(paths.similarityGraph.pageSize, 120)
+    assert.equal(paths.similarityGraph.neighborK, 8)
   })
 
   it('links a capture to the desktop library screen', () => {

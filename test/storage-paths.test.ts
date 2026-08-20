@@ -15,7 +15,7 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.embeddings?.screenshotDoc, "knowledge/screenshot-embeddings.md");
   assert.equal(paths.embeddings?.screenshot?.model, "google/gemini-embedding-2");
   assert.equal(paths.embeddings?.screenshot?.dims, 768);
-  assert.equal(paths.similarityGraph?.nodeCap, 250);
+  assert.equal(paths.similarityGraph?.nodeCap, 5000);
   assert.equal(paths.islandSurfaces?.graphRoute, "/graph");
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");

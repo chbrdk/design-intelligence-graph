@@ -557,9 +557,11 @@
   },
   "similarityGraph": {
     "doc": "knowledge/similarity-graph.md",
-    "nodeCap": 250,
-    "edgeCap": 750,
-    "threshold": 0.72
+    "nodeCap": 5000,
+    "edgeCap": 40000,
+    "threshold": 0.72,
+    "pageSize": 120,
+    "neighborK": 8
   },
   "checkionV3": {
     "repo": "https://github.com/chbrdk/checkion-v3",

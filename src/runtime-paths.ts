@@ -309,6 +309,8 @@ export interface DigPaths {
     nodeCap?: number;
     edgeCap?: number;
     threshold?: number;
+    pageSize?: number;
+    neighborK?: number;
   };
   llm: {
     enabledDefault: boolean;
