@@ -61,8 +61,8 @@ export function GraphPageClient() {
   const [nodes, setNodes] = useState<GraphNode[]>([])
   const [edges, setEdges] = useState<Array<{ from_id: string; to_id: string; score: number }>>([])
   const [total, setTotal] = useState(0)
-  const [pageSize, setPageSize] = useState(paths.similarityGraph.pageSize)
-  const [visibleCount, setVisibleCount] = useState(paths.similarityGraph.pageSize)
+  const [pageSize, setPageSize] = useState<number>(paths.similarityGraph.pageSize)
+  const [visibleCount, setVisibleCount] = useState<number>(paths.similarityGraph.pageSize)
 
   useEffect(() => {
     let cancelled = false
