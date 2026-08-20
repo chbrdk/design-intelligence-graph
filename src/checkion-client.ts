@@ -16,6 +16,8 @@ export interface CheckionV3Paths {
   projectIdEnv?: string;
   defaultProjectName?: string;
   defaultProjectDomain?: string;
+  /** When false, never call CHECKION attach (overrides DIG_CHECKION_SCREENSHOTS). */
+  screenshotsEnabled?: boolean;
   attachPollTimeoutMs?: number;
   attachFetchTimeoutMs?: number;
 }
@@ -103,8 +105,12 @@ export function checkionConfig(environment: NodeJS.ProcessEnv = process.env, roo
   const port = paths.devWebPort ?? 3007;
   /** Only when CHECKION_API_URL is set — avoids accidental live calls in unit tests. */
   const baseUrl = (fromEnv || "").replace(/\/$/, "");
+  const pathAllows = paths.screenshotsEnabled !== false;
   const requiredFlag = (environment.DIG_CHECKION_SCREENSHOTS ?? "1").trim().toLowerCase();
-  const required = Boolean(baseUrl) && !(requiredFlag === "0" || requiredFlag === "false" || requiredFlag === "off");
+  const required =
+    pathAllows &&
+    Boolean(baseUrl) &&
+    !(requiredFlag === "0" || requiredFlag === "false" || requiredFlag === "off");
   return {
     baseUrl: baseUrl || `http://127.0.0.1:${port}`,
     token: environment[apiTokenEnv]?.trim() || null,
@@ -130,6 +136,10 @@ function isLocalCheckionBase(baseUrl: string): boolean {
 /** Staging/remote CHECKION needs a Bearer token; local can run without Plexon. */
 export function checkionPeerReadyReason(config: CheckionConfig = checkionConfig()): string | null {
   if (!config.required) {
+    const paths = loadCheckionPaths();
+    if (paths.screenshotsEnabled === false) {
+      return "CHECKION screenshots disabled (checkionV3.screenshotsEnabled=false)";
+    }
     return "CHECKION screenshots disabled (set CHECKION_API_URL + DIG_CHECKION_SCREENSHOTS=1)";
   }
   if (!config.baseUrl) return "CHECKION_API_URL not set";

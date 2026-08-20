@@ -19,7 +19,8 @@ DIG uses **CHECKION v3** for complete-page screenshots. Playwright `settled` / `
 | `CHECKION_API_URL` | Base (default `http://127.0.0.1:3007`) |
 | `CHECKION_API_TOKEN` | Bearer for staging / Plexon; optional for local without Plexon |
 | `CHECKION_PROJECT_ID` | Optional; else auto-create/find project `DIG` |
-| `DIG_CHECKION_SCREENSHOTS` | `1` (default) try CHECKION attach; `0` skip |
+| `DIG_CHECKION_SCREENSHOTS` | `1` try CHECKION attach; `0` skip (also gated by `checkionV3.screenshotsEnabled`) |
+| `checkionV3.screenshotsEnabled` | **`false` (current)** — hard-off regardless of Coolify env; set `true` to re-enable |
 | `DIG_CHECKION_STRICT` | `1` fail DIG job if CHECKION attach errors; default soft-skip and keep Playwright full-page |
 | `CHECKION_POLL_TIMEOUT_MS` | Override poll budget (default `checkionV3.attachPollTimeoutMs` = 45000) |
 | `CHECKION_FETCH_TIMEOUT_MS` | Override per-request abort (default `checkionV3.attachFetchTimeoutMs` = 20000) |

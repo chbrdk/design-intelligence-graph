@@ -584,6 +584,7 @@
     "defaultProjectDomain": "design-intelligence-graph.local",
     "screenshotsRequiredEnv": "DIG_CHECKION_SCREENSHOTS",
     "screenshotsStrictEnv": "DIG_CHECKION_STRICT",
+    "screenshotsEnabled": false,
     "attachPollTimeoutMs": 45000,
     "attachFetchTimeoutMs": 20000,
     "attachFailureDoc": "knowledge/checkion-attach-job-failure.md"

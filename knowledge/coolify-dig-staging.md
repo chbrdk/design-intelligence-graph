@@ -49,7 +49,8 @@ UUIDs also in `knowledge/paths.json` → `coolify.*`.
 | `DIG_IN_CONTAINER` | `1` → captures `/data/captures`, indexes `/data/indexes` |
 | `DIG_DATABASE_URL` | Coolify internal URL for `dig-v3-postgres` (secret) |
 | `CHECKION_API_URL` | `https://checkion-v3.projects-a.plygrnd.tech` (full-page screenshot SoT) |
-| `DIG_CHECKION_SCREENSHOTS` | `1` (enable CHECKION attach; soft-skip on error unless `DIG_CHECKION_STRICT=1`) |
+| `DIG_CHECKION_SCREENSHOTS` | ignored while `checkionV3.screenshotsEnabled=false`; was `1` |
+| `checkionV3.screenshotsEnabled` | **`false`** — CHECKION full-page attach off (timeouts); Playwright full-page only |
 | `DIG_CHECKION_STRICT` | unset/0 = capture continues if CHECKION fails; `1` = fail job |
 | `CHECKION_PROJECT_ID` | optional; pin DIG project id (e.g. staging `proj-msuphtrb`) |
 | `DIG_API_TOKEN` | Machine Bearer for live `/api/library/references*` (set on dig-api; activate with `DIG_FEDERATION_MODE=live`) |
