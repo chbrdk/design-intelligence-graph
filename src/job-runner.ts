@@ -205,6 +205,17 @@ export class JobRunner {
     return job;
   }
 
+  /** Mark a queued or in-flight job failed (e.g. stuck capture). */
+  failJob(jobId: string, reason = "Job cancelled"): JobRecord | null {
+    const job = this.jobs.get(jobId);
+    if (!job || job.stage === "complete" || job.stage === "failed" || job.stage === "skipped") return null;
+    const idx = this.pending.indexOf(jobId);
+    if (idx >= 0) this.pending.splice(idx, 1);
+    this.emit(job, { stage: "failed", message: "Job cancelled", error: reason });
+    this.persistQueuedOrder();
+    return job;
+  }
+
   moveQueued(jobId: string, direction: "up" | "down" | "front"): JobRecord | null {
     const job = this.jobs.get(jobId);
     if (!job || job.stage !== "queued") return null;

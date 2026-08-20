@@ -501,9 +501,22 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
     if (request.method === "PATCH") {
       if (rejectIfDestructiveUnauthorized(request, response)) return true;
       try {
-        const body = (await readJson(request)) as { action?: unknown; direction?: unknown };
+        const body = (await readJson(request)) as { action?: unknown; direction?: unknown; reason?: unknown };
+        if (body.action === "fail") {
+          const reason =
+            typeof body.reason === "string" && body.reason.trim()
+              ? body.reason.trim()
+              : "Job cancelled";
+          const failed = runner.failJob(jobId, reason);
+          if (!failed) {
+            sendJson(response, 409, { error: "job_cannot_be_failed" });
+            return true;
+          }
+          sendJson(response, 200, publicJobView(failed, null));
+          return true;
+        }
         if (body.action !== "move") {
-          sendJson(response, 400, { error: "action must be move" });
+          sendJson(response, 400, { error: "action must be move or fail" });
           return true;
         }
         const direction = body.direction;

@@ -547,6 +547,62 @@ test("JobRunner runs still-image jobs on a separate concurrency pool", async () 
   }
 });
 
+test("JobRunner failJob marks queued or in-flight jobs failed", async () => {
+  const previousLlm = process.env.DIG_LLM_ENABLED;
+  const previousCheckion = process.env.DIG_CHECKION_SCREENSHOTS;
+  process.env.DIG_LLM_ENABLED = "false";
+  process.env.DIG_CHECKION_SCREENSHOTS = "0";
+  let release: () => void = () => undefined;
+  const gate = new Promise<void>((resolveGate) => {
+    release = resolveGate;
+  });
+  const runner = new JobRunner({
+    maxConcurrent: 1,
+    asyncEnrichment: false,
+    captureFn: async (options) => {
+      if (options.url.includes("first.example")) await gate;
+      return {
+        packageRoot: "/tmp/pkg",
+        manifest: {
+          status: "complete",
+          capture_run_id: "cap_fail_job",
+          errors: [],
+          viewport_captures: [{ name: "desktop" }]
+        } as never
+      };
+    },
+    verifyFn: async () => ({
+      valid: true,
+      package_root: "/tmp/pkg",
+      capture_run_id: "cap_fail_job",
+      checked_artifacts: 1,
+      issues: []
+    }),
+    indexFn: async () => ({
+      indexRoot: "/tmp/idx",
+      graph: { nodes: [], edges: [] } as never
+    })
+  });
+  try {
+    const active = runner.startJob("https://first.example/");
+    const waiting = runner.startJob("https://second.example/");
+    await new Promise((resolveWait) => setTimeout(resolveWait, 20));
+    const failedActive = runner.failJob(active.job_id, "stuck capture cancelled");
+    assert.ok(failedActive);
+    assert.equal(failedActive.stage, "failed");
+    const failedQueued = runner.failJob(waiting.job_id, "removed from queue");
+    assert.ok(failedQueued);
+    assert.equal(failedQueued.stage, "failed");
+    assert.deepEqual(runner.queuedOrder(), []);
+    release();
+  } finally {
+    if (previousLlm === undefined) delete process.env.DIG_LLM_ENABLED;
+    else process.env.DIG_LLM_ENABLED = previousLlm;
+    if (previousCheckion === undefined) delete process.env.DIG_CHECKION_SCREENSHOTS;
+    else process.env.DIG_CHECKION_SCREENSHOTS = previousCheckion;
+  }
+});
+
 test("JobRunner cancelQueued and moveQueued edit the pending FIFO", () => {
   const previousLlm = process.env.DIG_LLM_ENABLED;
   process.env.DIG_LLM_ENABLED = "false";
