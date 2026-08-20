@@ -1,6 +1,6 @@
 /**
  * Similarity graph over dense (craft text) or screenshot (visual) embeddings.
- * Full corpus (up to nodeCap) with kNN edges; island reveals pages client-side.
+ * Full corpus (up to nodeCap) with kNN edges; in-process TTL cache for repeat hits.
  * @see knowledge/similarity-graph.md
  */
 import type { Queryable } from "./db.js";
@@ -31,9 +31,21 @@ export type SimilarityGraph = {
   total: number;
   page_size: number;
   neighbor_k: number;
+  cached?: boolean;
   nodes: SimilarityGraphNode[];
   edges: SimilarityGraphEdge[];
 };
+
+export type LoadSimilarityGraphOptions = {
+  /** Cap nodes (newest first). Omit for full nodeCap. */
+  limit?: number;
+  /** Bypass in-process cache. */
+  refresh?: boolean;
+};
+
+type CacheEntry = { at: number; graph: SimilarityGraph };
+
+const graphCache = new Map<string, CacheEntry>();
 
 export function similarityGraphConfig(root = process.cwd()): {
   nodeCap: number;
@@ -41,16 +53,19 @@ export function similarityGraphConfig(root = process.cwd()): {
   threshold: number;
   pageSize: number;
   neighborK: number;
+  cacheTtlMs: number;
 } {
   const cfg = loadDigPaths(root).similarityGraph;
   const nodeCap = cfg?.nodeCap ?? 5000;
   const neighborK = cfg?.neighborK ?? 8;
+  const cacheTtlSec = cfg?.cacheTtlSec ?? 600;
   return {
     nodeCap,
     edgeCap: cfg?.edgeCap ?? nodeCap * neighborK,
     threshold: cfg?.threshold ?? 0.72,
     pageSize: cfg?.pageSize ?? 120,
-    neighborK
+    neighborK,
+    cacheTtlMs: Math.max(0, cacheTtlSec) * 1000
   };
 }
 
@@ -69,15 +84,25 @@ export function undirectedEdgeKey(a: string, b: string): string {
   return a < b ? `${a}::${b}` : `${b}::${a}`;
 }
 
-export async function loadSimilarityGraph(
+export function clearSimilarityGraphCache(): void {
+  graphCache.clear();
+}
+
+function cacheKey(kind: SimilarityGraphKind, nodeLimit: number, nodeCap: number): string {
+  return nodeLimit >= nodeCap ? `full:${kind}` : `limit:${kind}:${nodeLimit}`;
+}
+
+async function buildSimilarityGraph(
   client: Queryable,
-  kind: SimilarityGraphKind = "craft",
-  root = process.cwd()
+  kind: SimilarityGraphKind,
+  nodeLimit: number,
+  root: string
 ): Promise<SimilarityGraph> {
   const limits = similarityGraphConfig(root);
   const table = kind === "visual" ? screenshotEmbeddingConfig(root).table : denseEmbeddingConfig(root).table;
   const model = kind === "visual" ? screenshotEmbeddingConfig(root).model : denseEmbeddingConfig(root).model;
   const kindFilter = kind === "visual" ? "screenshot" : "screen";
+  const capped = Math.max(2, Math.min(limits.nodeCap, Math.floor(nodeLimit)));
 
   const countResult = await client.query(
     `SELECT COUNT(*)::int AS total
@@ -106,7 +131,7 @@ export async function loadSimilarityGraph(
      WHERE e.subject_kind = $1 AND e.model = $2
      ORDER BY e.created_at DESC
      LIMIT $3`,
-    [kindFilter, model, limits.nodeCap]
+    [kindFilter, model, capped]
   );
 
   const nodes = mapNodes(nodeResult.rows as Array<Record<string, unknown>>);
@@ -124,7 +149,6 @@ export async function loadSimilarityGraph(
     };
   }
 
-  // Top-K neighbors per node across the loaded corpus (not full pairwise).
   const edgeResult = await client.query(
     `SELECT a.capture_run_id AS from_id, n.to_id, n.score
      FROM ${table} a
@@ -177,4 +201,28 @@ export async function loadSimilarityGraph(
     nodes,
     edges
   };
+}
+
+export async function loadSimilarityGraph(
+  client: Queryable,
+  kind: SimilarityGraphKind = "craft",
+  root = process.cwd(),
+  options: LoadSimilarityGraphOptions = {}
+): Promise<SimilarityGraph> {
+  const limits = similarityGraphConfig(root);
+  const nodeLimit = options.limit != null && Number.isFinite(options.limit) ? Number(options.limit) : limits.nodeCap;
+  const key = cacheKey(kind, nodeLimit, limits.nodeCap);
+
+  if (!options.refresh && limits.cacheTtlMs > 0) {
+    const hit = graphCache.get(key);
+    if (hit && Date.now() - hit.at < limits.cacheTtlMs) {
+      return { ...hit.graph, cached: true };
+    }
+  }
+
+  const graph = await buildSimilarityGraph(client, kind, nodeLimit, root);
+  if (limits.cacheTtlMs > 0) {
+    graphCache.set(key, { at: Date.now(), graph: { ...graph, cached: false } });
+  }
+  return { ...graph, cached: false };
 }

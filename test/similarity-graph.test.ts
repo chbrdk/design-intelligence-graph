@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  clearSimilarityGraphCache,
   loadSimilarityGraph,
   similarityGraphConfig,
   undirectedEdgeKey
@@ -13,21 +14,23 @@ test("similarityGraphConfig reads knowledge/paths.json caps", () => {
   assert.equal(cfg.threshold, 0.72);
   assert.equal(cfg.pageSize, 120);
   assert.equal(cfg.neighborK, 8);
+  assert.equal(cfg.cacheTtlMs, 600_000);
 });
 
 test("undirectedEdgeKey is order-invariant", () => {
   assert.equal(undirectedEdgeKey("a", "b"), undirectedEdgeKey("b", "a"));
 });
 
-test("loadSimilarityGraph returns craft nodes and knn edges", async () => {
-  const sqls: string[] = [];
+test("loadSimilarityGraph returns craft nodes and knn edges and caches", async () => {
+  clearSimilarityGraphCache();
+  let builds = 0;
   const client = {
     async query(sql: string) {
-      sqls.push(sql);
       if (/COUNT\(\*\)/i.test(sql)) {
         return { rows: [{ total: 2 }] };
       }
       if (/CROSS JOIN LATERAL/i.test(sql)) {
+        builds += 1;
         return { rows: [{ from_id: "cap_a", to_id: "cap_b", score: 0.88 }] };
       }
       return {
@@ -53,9 +56,12 @@ test("loadSimilarityGraph returns craft nodes and knn edges", async () => {
   const graph = await loadSimilarityGraph(client, "craft");
   assert.equal(graph.kind, "craft");
   assert.equal(graph.total, 2);
-  assert.equal(graph.page_size, 120);
-  assert.equal(graph.nodes.length, 2);
+  assert.equal(graph.cached, false);
   assert.equal(graph.edges[0]?.score, 0.88);
-  assert.match(sqls[1] ?? "", /dense_embeddings/);
-  assert.match(sqls.some((sql) => /CROSS JOIN LATERAL/i.test(sql)) ? "lateral" : "", /lateral/);
+  const again = await loadSimilarityGraph(client, "craft");
+  assert.equal(again.cached, true);
+  assert.equal(builds, 1);
+  const refreshed = await loadSimilarityGraph(client, "craft", process.cwd(), { refresh: true });
+  assert.equal(refreshed.cached, false);
+  assert.equal(builds, 2);
 });

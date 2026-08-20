@@ -608,8 +608,14 @@ export async function fetchLibrarySections(opts?: {
 
 export async function fetchSimilarityGraph(
   kind: 'craft' | 'visual' = 'craft',
+  opts?: { limit?: number; refresh?: boolean },
 ): Promise<SimilarityGraphView> {
-  const response = await fetch(`${BASE}${paths.digApiLibrary}/graph?kind=${encodeURIComponent(kind)}`)
+  const params = new URLSearchParams({ kind })
+  if (opts?.limit != null && Number.isFinite(opts.limit) && opts.limit > 0) {
+    params.set('limit', String(Math.floor(opts.limit)))
+  }
+  if (opts?.refresh) params.set('refresh', '1')
+  const response = await fetch(`${BASE}${paths.digApiLibrary}/graph?${params}`)
   const body = await readJson<{
     kind?: 'craft' | 'visual'
     model?: string
@@ -617,6 +623,7 @@ export async function fetchSimilarityGraph(
     total?: number
     page_size?: number
     neighbor_k?: number
+    cached?: boolean
     nodes?: Array<{
       capture_run_id: string
       site_domain: string | null
@@ -630,25 +637,31 @@ export async function fetchSimilarityGraph(
   }>(response)
   if (response.ok) {
     const apiNodes = body.nodes ?? []
-    // The embeddings graph handler only returns URLs/domain + capture ids.
-    // For readable UX we derive craft labels from live Library facets.
-    const screens = await fetchLibraryScreens()
-    const byCapture = new Map(
-      screens.map((screen) => [screen.capture_run_id, screen.design_facets ?? null]),
-    )
-    const nodes: SimilarityGraphNode[] = apiNodes.map((node) => {
-      const facets = byCapture.get(node.capture_run_id) ?? null
-      return {
-        ...node,
-        craft_label: formatCraftGraphLabel(facets as any, {
-          title: node.title,
-          domain: node.site_domain,
-        }),
-        cluster_label: describeCraftCluster(facets as any),
-        contrast_label: describeContrastCluster(facets as any),
-        industry_label: describeIndustryCluster(facets as any),
-      }
-    })
+    const labelNodes = (byCapture: Map<string, unknown>): SimilarityGraphNode[] =>
+      apiNodes.map((node) => {
+        const facets = byCapture.get(node.capture_run_id) ?? null
+        return {
+          ...node,
+          craft_label: formatCraftGraphLabel(facets as any, {
+            title: node.title,
+            domain: node.site_domain,
+          }),
+          cluster_label: describeCraftCluster(facets as any),
+          contrast_label: describeContrastCluster(facets as any),
+          industry_label: describeIndustryCluster(facets as any),
+        }
+      })
+
+    // Paint immediately from graph payload; enrich facets when screens arrive.
+    let nodes = labelNodes(new Map())
+    try {
+      const screens = await fetchLibraryScreens()
+      nodes = labelNodes(
+        new Map(screens.map((screen) => [screen.capture_run_id, screen.design_facets ?? null])),
+      )
+    } catch {
+      /* domain/title labels already set */
+    }
     return {
       kind: body.kind === 'visual' ? 'visual' : 'craft',
       model: body.model ?? '',

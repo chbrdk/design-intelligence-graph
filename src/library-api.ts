@@ -33,11 +33,17 @@ import { sectionsFromCompositionDoc, synthesizeRecipeParity } from "./recipe-fal
 
 type Box = { x: number; y: number; width: number; height: number };
 
-function sendJson(response: ServerResponse, status: number, body: unknown): void {
+function sendJson(
+  response: ServerResponse,
+  status: number,
+  body: unknown,
+  headers?: Record<string, string>
+): void {
   response.writeHead(status, {
     "content-type": "application/json; charset=utf-8",
     "cache-control": "no-store",
-    "access-control-allow-origin": "*"
+    "access-control-allow-origin": "*",
+    ...headers
   });
   response.end(JSON.stringify(body));
 }
@@ -947,9 +953,16 @@ export async function handleLibraryApi(
   if (request.method === "GET" && path === "/graph") {
     const kindRaw = (queryParam(requestUrl, "kind") ?? "craft").trim().toLowerCase();
     const kind: SimilarityGraphKind = kindRaw === "visual" ? "visual" : "craft";
+    const limitRaw = Number(queryParam(requestUrl, "limit") ?? "");
+    const refresh = (queryParam(requestUrl, "refresh") ?? "").trim() === "1";
     try {
-      const graph = await loadSimilarityGraph(client, kind);
-      sendJson(response, 200, graph);
+      const graph = await loadSimilarityGraph(client, kind, process.cwd(), {
+        ...(Number.isFinite(limitRaw) && limitRaw > 0 ? { limit: limitRaw } : {}),
+        ...(refresh ? { refresh: true } : {})
+      });
+      sendJson(response, 200, graph, {
+        "cache-control": graph.cached ? "private, max-age=60" : "private, no-store"
+      });
     } catch (error) {
       sendJson(response, 503, {
         error: "similarity_graph_unavailable",

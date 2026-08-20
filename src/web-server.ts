@@ -564,6 +564,23 @@ export function startWebServer(): void {
     const port = webPort();
     server.listen(port, host, () => {
       process.stdout.write(`DIG web listening on http://${host}:${port}\n`);
+      // Warm craft graph cache so /graph is not a 50s cold miss on first island open.
+      setTimeout(() => {
+        const pool = getPool();
+        if (!pool) return;
+        void import("./similarity-graph.js")
+          .then(({ loadSimilarityGraph }) => loadSimilarityGraph(pool, "craft"))
+          .then((graph) => {
+            process.stdout.write(
+              `Warmed craft similarity graph (${graph.nodes.length} nodes, ${graph.edges.length} edges)\n`
+            );
+          })
+          .catch((error: unknown) => {
+            process.stderr.write(
+              `similarity graph warm failed: ${error instanceof Error ? error.message : String(error)}\n`
+            );
+          });
+      }, 5_000);
     });
   });
 }

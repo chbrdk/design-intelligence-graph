@@ -311,6 +311,7 @@ export interface DigPaths {
     threshold?: number;
     pageSize?: number;
     neighborK?: number;
+    cacheTtlSec?: number;
   };
   llm: {
     enabledDefault: boolean;

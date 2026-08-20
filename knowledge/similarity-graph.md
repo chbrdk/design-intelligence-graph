@@ -3,7 +3,7 @@
 **Date:** 2026-08-20  
 **Config:** `knowledge/paths.json` → `similarityGraph`  
 **Island route:** `islandSurfaces.graphRoute` (`/graph`)  
-**API:** `GET /api/library/graph?kind=craft|visual`
+**API:** `GET /api/library/graph?kind=craft|visual` (`limit=`, `refresh=1`)
 
 Not Facebook Open Graph. This is a **neighbor network of Library screens**, presented Graphify-style: colored communities, degree-sized hubs, search, and an inspector for neighbor scores.
 
@@ -12,10 +12,8 @@ Not Facebook Open Graph. This is a **neighbor network of Library screens**, pres
 | `craft` | `dense_embeddings` 1024 | `screen` |
 | `visual` | `screenshot_embeddings` 768 | `screenshot` |
 
-API loads up to `nodeCap` (5000) newest embedding rows and builds **kNN edges** (`neighborK` = 8, cosine ≥ `threshold` 0.72), not a truncated full pairwise sample. Response includes `total`, `page_size`, `neighbor_k`.
+API loads up to `nodeCap` (5000) newest embedding rows and builds **kNN edges** (`neighborK` = 8, cosine ≥ `threshold` 0.72). Response includes `total`, `page_size`, `neighbor_k`, `cached`.
 
-Island shows the first `pageSize` (120) nodes, then **Load more** reveals the next chunk from the already-fetched corpus (edges filtered to the visible set). Force layout stays responsive.
+**Cache:** dig-api keeps an in-process TTL cache (`cacheTtlSec` = 600). Cold full builds can take tens of seconds; warm hits are sub-second. dig-api warms the craft graph a few seconds after boot. Island first requests `limit=pageSize` for a fast preview, then loads the full corpus (usually from cache).
 
-Communities come from craft facets (`contrast`, `style`, or primary `industry_tags`). Chrome is `@msqdx/ui`. Node/edge colors use theme role tokens.
-
-Until dig-api is deployed with this slice, staging may still return the old 80-node pairwise graph. Capture queue restores from Postgres on API restart (`capture_jobs`).
+Island shows the first `pageSize` (120) nodes, then **Load more** reveals further chunks. Search runs over the loaded corpus.

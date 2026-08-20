@@ -201,6 +201,8 @@ export const paths = {
     graphLoadMore: 'Load more',
     graphShowing: 'Showing',
     graphOf: 'of',
+    graphLoading: 'Building neighbor graph…',
+    graphLoadingFull: 'Loading full corpus…',
     queueLive: 'Now running',
     queueWaiting: 'Waiting',
     queueFailed: 'Failed',
@@ -261,6 +263,7 @@ export const paths = {
     threshold: 0.72,
     pageSize: 120,
     neighborK: 8,
+    cacheTtlSec: 600,
   },
   captureJobs: {
     maxConcurrent: 6,

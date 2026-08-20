@@ -561,7 +561,8 @@
     "edgeCap": 40000,
     "threshold": 0.72,
     "pageSize": 120,
-    "neighborK": 8
+    "neighborK": 8,
+    "cacheTtlSec": 600
   },
   "checkionV3": {
     "repo": "https://github.com/chbrdk/checkion-v3",

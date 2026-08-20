@@ -10,6 +10,7 @@ import {
   FilterRow,
   Input,
   KpiStrip,
+  LoadingText,
   MetricChip,
   Panel,
   RankedList,
@@ -63,6 +64,8 @@ export function GraphPageClient() {
   const [total, setTotal] = useState(0)
   const [pageSize, setPageSize] = useState<number>(paths.similarityGraph.pageSize)
   const [visibleCount, setVisibleCount] = useState<number>(paths.similarityGraph.pageSize)
+  const [loading, setLoading] = useState(true)
+  const [loadingFull, setLoadingFull] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -71,36 +74,59 @@ export function GraphPageClient() {
     setPathEndId(null)
     setPathPickMode(false)
     setVisibleCount(paths.similarityGraph.pageSize)
-    void fetchSimilarityGraph(kind)
-      .then((graph) => {
-        if (cancelled) return
-        setError(null)
-        setSource(graph.source)
-        setModel(graph.model)
-        setTotal(graph.total)
-        setPageSize(graph.page_size || paths.similarityGraph.pageSize)
+    setLoading(true)
+    setLoadingFull(false)
+    setError(null)
+
+    const applyGraph = (graph: Awaited<ReturnType<typeof fetchSimilarityGraph>>, mode: 'preview' | 'full') => {
+      if (cancelled) return
+      setSource(graph.source)
+      setModel(graph.model)
+      setTotal(graph.total)
+      setPageSize(graph.page_size || paths.similarityGraph.pageSize)
+      if (mode === 'preview') {
         setVisibleCount(graph.page_size || paths.similarityGraph.pageSize)
-        setNodes(
-          graph.nodes.map((node) => ({
-            capture_run_id: node.capture_run_id,
-            viewport_capture_id: node.viewport_capture_id,
-            site_domain: node.site_domain,
-            title: node.title,
-            craft_label: node.craft_label,
-            cluster_label: node.cluster_label,
-            contrast_label: node.contrast_label,
-            industry_label: node.industry_label,
-          })),
-        )
-        setEdges(graph.edges)
-      })
-      .catch((err: unknown) => {
+      }
+      setNodes(
+        graph.nodes.map((node) => ({
+          capture_run_id: node.capture_run_id,
+          viewport_capture_id: node.viewport_capture_id,
+          site_domain: node.site_domain,
+          title: node.title,
+          craft_label: node.craft_label,
+          cluster_label: node.cluster_label,
+          contrast_label: node.contrast_label,
+          industry_label: node.industry_label,
+        })),
+      )
+      setEdges(graph.edges)
+    }
+
+    void (async () => {
+      try {
+        const preview = await fetchSimilarityGraph(kind, {
+          limit: paths.similarityGraph.pageSize,
+        })
+        applyGraph(preview, 'preview')
+        if (cancelled) return
+        setLoading(false)
+        setLoadingFull(true)
+        const full = await fetchSimilarityGraph(kind)
+        applyGraph(full, 'full')
+      } catch (err: unknown) {
         if (cancelled) return
         setNodes([])
         setEdges([])
         setTotal(0)
         setError(err instanceof Error ? err.message : String(err))
-      })
+      } finally {
+        if (!cancelled) {
+          setLoading(false)
+          setLoadingFull(false)
+        }
+      }
+    })()
+
     return () => {
       cancelled = true
     }
@@ -289,9 +315,11 @@ export function GraphPageClient() {
           </Field>
 
           <Text role="hint">{paths.libraryCopy.graphifyHint}</Text>
+          {loading ? <LoadingText>{paths.libraryCopy.graphLoading}</LoadingText> : null}
+          {loadingFull ? <LoadingText>{paths.libraryCopy.graphLoadingFull}</LoadingText> : null}
           {pathPickMode ? <Text role="hint">{paths.libraryCopy.graphPathPickHint}</Text> : null}
           {source === 'facets' ? <Text role="hint">{paths.libraryCopy.graphFacets}</Text> : null}
-          {!error && !visibleEdges.length ? (
+          {!loading && !error && !visibleEdges.length ? (
             <Text role="hint">
               {kind === 'visual'
                 ? paths.libraryCopy.graphEmptyVisual
