@@ -8,7 +8,8 @@ const CATALOG_INDUSTRY: Record<string, string> = {
   "insurance-1000": "insurance",
   "insurance-plus-500": "insurance",
   "automotive-oem-50": "automotive",
-  "engineering-manufacturing-1000": "manufacturing"
+  "engineering-manufacturing-1000": "manufacturing",
+  "public-sector-1000": "government"
 };
 
 const GROUP_ALIASES: Array<[RegExp, string]> = [
@@ -25,7 +26,8 @@ const GROUP_ALIASES: Array<[RegExp, string]> = [
   [/real estate|property|housing/i, "real_estate"],
   [/manufactur|industrial|engineer|chemical|metal|semiconductor/i, "manufacturing"],
   [/luxury/i, "luxury"],
-  [/nonprofit|ngo|charity/i, "nonprofit"]
+  [/nonprofit|ngo|charity/i, "nonprofit"],
+  [/government|ministry|municipality|public sector|governance|city hall|civic/i, "government"]
 ];
 
 let hostIndex: Map<string, string[]> | null = null;

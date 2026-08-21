@@ -300,6 +300,7 @@
     "doc": "knowledge/capture-batch.md",
     "insuranceDoc": "knowledge/insurance-catalog.md",
     "designDiversityDoc": "knowledge/design-diversity-catalog.md",
+    "publicSectorDoc": "knowledge/public-sector-catalog.md",
     "maxConcurrent": 4,
     "hardTimeoutMs": 480000,
     "checkionTimeoutMs": 120000,
@@ -311,6 +312,7 @@
     "insurance1000": "knowledge/catalogs/insurance-1000.json",
     "insurancePlus500": "knowledge/catalogs/insurance-plus-500.json",
     "designDiversity1000": "knowledge/catalogs/design-diversity-1000.json",
+    "publicSector1000": "knowledge/catalogs/public-sector-1000.json",
     "maxBatch": 1000
   },
   "imageIngest": {

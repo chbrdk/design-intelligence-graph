@@ -25,6 +25,7 @@ test("captureJobsConfig reads maxConcurrent 4, hardTimeoutMs, and maxBatch from 
   assert.match(captureJobsConfig().insurance1000, /insurance-1000\.json$/);
   assert.match(captureJobsConfig().insurancePlus500, /insurance-plus-500\.json$/);
   assert.match(captureJobsConfig().designDiversity1000, /design-diversity-1000\.json$/);
+  assert.match(captureJobsConfig().publicSector1000, /public-sector-1000\.json$/);
 });
 
 test("cross-industry-100 catalog has 100 unique https urls across industries", () => {
@@ -157,4 +158,36 @@ test("design-diversity-1000 has 1000 unique https urls and skips prior catalogs"
   assert.ok(groups.size >= 10);
   assert.ok(urls.some((url) => url.includes("linear.app") || url.includes("notion")));
   assert.ok(urls.some((url) => url.includes("zalando") || url.includes("asos")));
+});
+
+test("public-sector-1000 has 1000 unique https urls and skips prior catalogs", () => {
+  const catalog = loadCaptureCatalog("public-sector-1000");
+  assert.equal(catalog.entries.length, 1000);
+  const urls = catalogUrls(catalog);
+  assert.equal(new Set(urls).size, 1000);
+  assert.equal(new Set(catalog.entries.map((entry) => entry.id)).size, 1000);
+  const hosts = new Set(
+    urls.map((url) => new URL(url).hostname.replace(/^www\./i, "").toLowerCase())
+  );
+  assert.equal(hosts.size, 1000);
+  for (const url of urls) {
+    assert.match(url, /^https:\/\//);
+  }
+  const priorHosts = new Set(
+    [
+      ...catalogUrls(loadCaptureCatalog("automotive-oem-50")),
+      ...catalogUrls(loadCaptureCatalog("cross-industry-100")),
+      ...catalogUrls(loadCaptureCatalog("engineering-manufacturing-1000")),
+      ...catalogUrls(loadCaptureCatalog("insurance-1000")),
+      ...catalogUrls(loadCaptureCatalog("insurance-plus-500")),
+      ...catalogUrls(loadCaptureCatalog("design-diversity-1000"))
+    ].map((url) => new URL(url).hostname.replace(/^www\./i, "").toLowerCase())
+  );
+  for (const host of hosts) {
+    assert.equal(priorHosts.has(host), false, `overlap with prior catalog host: ${host}`);
+  }
+  const groups = new Set(catalog.entries.map((entry) => entry.group));
+  assert.ok(groups.size >= 5);
+  assert.ok(urls.some((url) => url.includes("usa.gov") || url.includes("gov.uk")));
+  assert.ok(urls.some((url) => url.includes("berlin.de") || url.includes("nyc.gov") || url.includes("paris.fr")));
 });

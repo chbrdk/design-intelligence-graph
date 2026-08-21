@@ -9,7 +9,7 @@ import type { VisionPageDocument } from "./vision-page.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 import { buildLookContract, type LookContract } from "./look-contract.js";
 
-export const DESIGN_FACETS_VERSION = "0.4.0" as const;
+export const DESIGN_FACETS_VERSION = "0.4.1" as const;
 
 export const INDUSTRY_VOCAB = [
   "automotive",
@@ -27,6 +27,7 @@ export const INDUSTRY_VOCAB = [
   "fashion",
   "real_estate",
   "nonprofit",
+  "government",
   "other"
 ] as const;
 
@@ -317,7 +318,15 @@ const INDUSTRY_ALIASES: Record<string, (typeof INDUSTRY_VOCAB)[number]> = {
   property: "real_estate",
   housing: "real_estate",
   charity: "nonprofit",
-  ngo: "nonprofit"
+  ngo: "nonprofit",
+  government: "government",
+  gov: "government",
+  civic: "government",
+  municipality: "government",
+  ministry: "government",
+  "public sector": "government",
+  governance: "government",
+  city: "government"
 };
 
 const CONTENT_NOISE = [

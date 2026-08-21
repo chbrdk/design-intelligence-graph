@@ -5,7 +5,7 @@
 **API** `package.design_facets` on `GET /api/library/analyses/:capture_run_id`  
 **List/search:** `GET /api/library/screens?style=&layout=&industry=` (query keys in `knowledge/paths.json` → `libraryScreenFacets`)  
 **MCP:** `dig_screen_search` / `dig_capture_prompt_pack` — [`mcp-library-loop.md`](mcp-library-loop.md)  
-**Version:** `0.4.0`  
+**Version:** `0.4.1`  
 **Look contract:** [`look-contract.md`](look-contract.md)
 
 ## Library browse
@@ -25,7 +25,7 @@ Response also returns `facet_filters` (closed vocabs) and `facets_version`.
 | Field | Vocab / use |
 |-------|-------------|
 | `page_type` | Closed: `corporate_homepage`, `corporate_landing`, `marketing_landing`, `article`, `legal`, `portal`, `newsroom`, `product`, `blank`, `other` |
-| `industry_tags` | 1–3 of `automotive`, `insurance`, `finance`, `manufacturing`, `marketing_agency`, `luxury`, `ecommerce`, `media`, `tech`, `healthcare`, `travel`, `food`, `fashion`, `real_estate`, `nonprofit`, `other` |
+| `industry_tags` | 1–3 of `automotive`, `insurance`, `finance`, `manufacturing`, `marketing_agency`, `luxury`, `ecommerce`, `media`, `tech`, `healthcare`, `travel`, `food`, `fashion`, `real_estate`, `nonprofit`, `government`, `other` |
 | `style` | `minimal`, `editorial`, `high-energy`, `luxury-dark`, `corporate`, `playful`, `brutalist`, `photographic` |
 | `layout` | `full-bleed stacks`, `split columns`, `card grid`, `single column`, `mixed` |
 | `color_mood` | Short free text (truncated) |
