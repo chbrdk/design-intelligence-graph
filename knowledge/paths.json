@@ -301,6 +301,7 @@
     "insuranceDoc": "knowledge/insurance-catalog.md",
     "designDiversityDoc": "knowledge/design-diversity-catalog.md",
     "publicSectorDoc": "knowledge/public-sector-catalog.md",
+    "awwwardsDoc": "knowledge/awwwards-catalog.md",
     "maxConcurrent": 4,
     "hardTimeoutMs": 480000,
     "checkionTimeoutMs": 120000,
@@ -314,6 +315,7 @@
     "designDiversity1000": "knowledge/catalogs/design-diversity-1000.json",
     "publicSector1000": "knowledge/catalogs/public-sector-1000.json",
     "publicSectorPlus500": "knowledge/catalogs/public-sector-plus-500.json",
+    "awwwards500": "knowledge/catalogs/awwwards-500.json",
     "maxBatch": 1000
   },
   "imageIngest": {

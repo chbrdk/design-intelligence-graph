@@ -1,0 +1,4010 @@
+{
+  "id": "awwwards-500",
+  "title": "500 Awwwards-featured website homepages (Visit site targets)",
+  "source": "Resolved Visit-site links from awwwards.com/websites listings. Not an official Awwwards API — HTML scrape of public listing/detail pages. Hosts already in prior DIG catalogs are excluded.",
+  "sourceUrl": "https://www.awwwards.com/websites/",
+  "year": 2026,
+  "updated": "2026-08-21",
+  "entries": [
+    {
+      "rank": 1,
+      "id": "2526-update-katherine-picnic-katherine-le-com",
+      "name": "'25-26 update — katherine*",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://picnic.katherine-le.com/"
+    },
+    {
+      "rank": 2,
+      "id": "zeroz-brand-site-otsuka-air-jp",
+      "name": "/zeroz Brand Site",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://otsuka-air.jp/"
+    },
+    {
+      "rank": 3,
+      "id": "20-years-inspired-by-people-inspiring-nk-studio",
+      "name": "20 Years Inspired by People",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://inspiring.nk.studio/es"
+    },
+    {
+      "rank": 4,
+      "id": "21-hrs-on-the-moon-21hrs-space",
+      "name": "21 Hrs On The Moon",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.21hrs.space/"
+    },
+    {
+      "rank": 5,
+      "id": "25-years-of-university-in-zlin-jenamdvacetpet-cz",
+      "name": "25 Years of University in Zlin",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://jenamdvacetpet.cz/"
+    },
+    {
+      "rank": 6,
+      "id": "2advanced-field-station-02-keseysignal-2advanced-co",
+      "name": "2Advanced | Field Station 02",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://keseysignal.2advanced.com/"
+    },
+    {
+      "rank": 7,
+      "id": "2xa-studio-2xa-studio",
+      "name": "2xA Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://2xa.studio/"
+    },
+    {
+      "rank": 8,
+      "id": "363-car-social-club-363sudbury-com",
+      "name": "363 Car & Social Club",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://363sudbury.com/"
+    },
+    {
+      "rank": 9,
+      "id": "3dyco-3dyco-com",
+      "name": "3DYCO",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.3dyco.com/"
+    },
+    {
+      "rank": 10,
+      "id": "5051-punk-band-band5051-com",
+      "name": "5051 — Punk Band",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://band5051.com/"
+    },
+    {
+      "rank": 11,
+      "id": "a-better-lou-abetterlou-com",
+      "name": "A Better Lou",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://abetterlou.com/"
+    },
+    {
+      "rank": 12,
+      "id": "a-tribute-to-piet-mondrian-mondriantribute-com",
+      "name": "A tribute to Piet Mondrian",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.mondriantribute.com/"
+    },
+    {
+      "rank": 13,
+      "id": "acor-acor-moe-fr",
+      "name": "ACOR",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://acor-moe.fr"
+    },
+    {
+      "rank": 14,
+      "id": "ai-cybercafé-cybercafe-tw",
+      "name": "AI Cybercafé",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://cybercafe.tw/"
+    },
+    {
+      "rank": 15,
+      "id": "air-aircenter-space",
+      "name": "AIR",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://aircenter.space/"
+    },
+    {
+      "rank": 16,
+      "id": "aretè-immobiliare-areteimmobiliare-com",
+      "name": "ARETÈ IMMOBILIARE",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.areteimmobiliare.com"
+    },
+    {
+      "rank": 17,
+      "id": "arkitekweb-arkitekweb-com",
+      "name": "ARKITEKWEB",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.arkitekweb.com/"
+    },
+    {
+      "rank": 18,
+      "id": "ars-type-foundry-arstype-com",
+      "name": "ARS Type foundry",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.arstype.com/"
+    },
+    {
+      "rank": 19,
+      "id": "astrodither-astrodither-robertborghe",
+      "name": "ASTRODITHER",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://astrodither.robertborghesi.is/"
+    },
+    {
+      "rank": 20,
+      "id": "ato-痕時の器-atotimecapsule-com",
+      "name": "ATO 痕時の器",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.atotimecapsule.com/"
+    },
+    {
+      "rank": 21,
+      "id": "aardvark-book-club-aardvarkbookclub-com",
+      "name": "Aardvark Book Club",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://aardvarkbookclub.com"
+    },
+    {
+      "rank": 22,
+      "id": "abvtek-interiors-abvtek-com",
+      "name": "Abvtek Interiors",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://abvtek.com/"
+    },
+    {
+      "rank": 23,
+      "id": "achilles-heel-achillesheel-co-uk",
+      "name": "Achilles Heel",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.achillesheel.co.uk/"
+    },
+    {
+      "rank": 24,
+      "id": "acova-acova-ai",
+      "name": "Acova",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://acova.ai/"
+    },
+    {
+      "rank": 25,
+      "id": "adcker-adcker-com",
+      "name": "Adcker",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://adcker.com/"
+    },
+    {
+      "rank": 26,
+      "id": "aerodynamics-private-jets-aerodynamics-nl",
+      "name": "Aerodynamics Private Jets",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.aerodynamics.nl/"
+    },
+    {
+      "rank": 27,
+      "id": "aeruk-aerukart-com",
+      "name": "Aeruk",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://aerukart.com"
+    },
+    {
+      "rank": 28,
+      "id": "agence-3e-étage-agence3e-etage-com",
+      "name": "Agence 3e étage",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.agence3e-etage.com"
+    },
+    {
+      "rank": 29,
+      "id": "agencidev-agencidev-com",
+      "name": "Agencidev",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://agencidev.com"
+    },
+    {
+      "rank": 30,
+      "id": "agentura-agentura-framer-website",
+      "name": "Agentura",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://agentura.framer.website"
+    },
+    {
+      "rank": 31,
+      "id": "ai-in-design-report-2026-stateofaidesign-com",
+      "name": "Ai in Design Report 2026",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://stateofaidesign.com/"
+    },
+    {
+      "rank": 32,
+      "id": "aimee-s-papercraft-world-aimees-papercraft-world-",
+      "name": "Aimee's Papercraft World",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://aimees-papercraft-world.com/"
+    },
+    {
+      "rank": 33,
+      "id": "airfield-la-caminera-airfieldlacaminera-com",
+      "name": "Airfield La Caminera",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://airfieldlacaminera.com"
+    },
+    {
+      "rank": 34,
+      "id": "alethia-alethia-earth",
+      "name": "Alethia",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.alethia.earth/"
+    },
+    {
+      "rank": 35,
+      "id": "alkares-alkares-com",
+      "name": "Alkares",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://alkares.com/"
+    },
+    {
+      "rank": 36,
+      "id": "amp-one-amp-framer-media",
+      "name": "Amp One",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://amp.framer.media/"
+    },
+    {
+      "rank": 37,
+      "id": "and-we-were-canariasart-com",
+      "name": "And we were...",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://canariasart.com/"
+    },
+    {
+      "rank": 38,
+      "id": "apechain-apechain-com",
+      "name": "Apechain",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://apechain.com/"
+    },
+    {
+      "rank": 39,
+      "id": "apoha-apoha-com",
+      "name": "Apoha",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.apoha.com/"
+    },
+    {
+      "rank": 40,
+      "id": "ario-law-firm-ario-law",
+      "name": "Ario Law Firm",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ario.law/en/"
+    },
+    {
+      "rank": 41,
+      "id": "armory-armory-in",
+      "name": "Armory",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.armory.in/"
+    },
+    {
+      "rank": 42,
+      "id": "armory-ai-agency-armory-framer-ai",
+      "name": "Armory AI Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://armory.framer.ai/?via=eyitayo64"
+    },
+    {
+      "rank": 43,
+      "id": "artclass-artclasscontent-com",
+      "name": "ArtClass",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.artclasscontent.com/"
+    },
+    {
+      "rank": 44,
+      "id": "artem-shcherbakov-artemartemartem-com",
+      "name": "Artem Shcherbakov",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://artemartemartem.com/"
+    },
+    {
+      "rank": 45,
+      "id": "ashley-brooke-ashleybrookecs-com",
+      "name": "Ashley Brooke",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ashleybrookecs.com/"
+    },
+    {
+      "rank": 46,
+      "id": "atomic-black-atomic-black",
+      "name": "Atomic © Black",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://atomic.black/"
+    },
+    {
+      "rank": 47,
+      "id": "audi-f1-feel-every-second-f1-audi-com-au",
+      "name": "Audi F1 - Feel Every Second",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://f1.audi.com.au/"
+    },
+    {
+      "rank": 48,
+      "id": "auremin-auremin-com",
+      "name": "Auremin",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.auremin.com/"
+    },
+    {
+      "rank": 49,
+      "id": "auwa-auwa-life",
+      "name": "Auwa",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://auwa.life"
+    },
+    {
+      "rank": 50,
+      "id": "avinyr-avinyr-com",
+      "name": "Avinyr",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.avinyr.com/"
+    },
+    {
+      "rank": 51,
+      "id": "axiom-research-axiom-peppermint-id",
+      "name": "Axiom Research",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://axiom.peppermint.id/"
+    },
+    {
+      "rank": 52,
+      "id": "beauty-in-stem-beautyinstem-com",
+      "name": "BEAUTY IN STEM",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://beautyinstem.com/"
+    },
+    {
+      "rank": 53,
+      "id": "bicidea-biccamera-com",
+      "name": "BICIDEA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.biccamera.com/"
+    },
+    {
+      "rank": 54,
+      "id": "blueprint-blueprintapps-io",
+      "name": "BLUEPRINT",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://blueprintapps.io/"
+    },
+    {
+      "rank": 55,
+      "id": "ballena-fine-dining-ballenacabo-com",
+      "name": "Ballena | Fine Dining",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ballenacabo.com"
+    },
+    {
+      "rank": 56,
+      "id": "balmoral-balmoralrunning-com",
+      "name": "Balmoral",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.balmoralrunning.com"
+    },
+    {
+      "rank": 57,
+      "id": "banh-mi-world-banhmiworld-ca",
+      "name": "Banh Mi World",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://banhmiworld.ca/"
+    },
+    {
+      "rank": 58,
+      "id": "banh-mi-viet-nam-banhmivietnam-xyz",
+      "name": "Banh mi Viet Nam",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://banhmivietnam.xyz/"
+    },
+    {
+      "rank": 59,
+      "id": "benorth-studio-brand-studio-benorth-studio",
+      "name": "BeNorth Studio - Brand Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://benorth.studio/es"
+    },
+    {
+      "rank": 60,
+      "id": "become-a-yogi-final-bay-webflow-io",
+      "name": "Become A Yogi",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://final-bay.webflow.io/"
+    },
+    {
+      "rank": 61,
+      "id": "beetogreen-beetogreen-com",
+      "name": "Beetogreen",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://beetogreen.com/"
+    },
+    {
+      "rank": 62,
+      "id": "bellhop-bellhopco-com",
+      "name": "Bellhop",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.bellhopco.com/"
+    },
+    {
+      "rank": 63,
+      "id": "bevel-health-bevel-health",
+      "name": "Bevel Health",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.bevel.health/"
+    },
+    {
+      "rank": 64,
+      "id": "bill-chien-billchien-net",
+      "name": "Bill Chien",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.billchien.net/"
+    },
+    {
+      "rank": 65,
+      "id": "biofarma-biofarma-com-ar",
+      "name": "Biofarma",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://biofarma.com.ar/"
+    },
+    {
+      "rank": 66,
+      "id": "blit-studio-blit-studio",
+      "name": "Blit Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://blit.studio/"
+    },
+    {
+      "rank": 67,
+      "id": "blood-donation-blood-donation-com",
+      "name": "Blood Donation",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://blood-donation.com/"
+    },
+    {
+      "rank": 68,
+      "id": "bloom-bloom3d-studio",
+      "name": "Bloom",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.bloom3d.studio/"
+    },
+    {
+      "rank": 69,
+      "id": "blå-station-blastation-com",
+      "name": "Blå Station",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://blastation.com"
+    },
+    {
+      "rank": 70,
+      "id": "boa-concept-boa-concept-com",
+      "name": "Boa Concept",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.boa-concept.com/en-gb/"
+    },
+    {
+      "rank": 71,
+      "id": "boaz-walma-boazwalma-com",
+      "name": "Boaz Walma",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://boazwalma.com/"
+    },
+    {
+      "rank": 72,
+      "id": "brady-perron-bradyperron-com",
+      "name": "Brady Perron",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.bradyperron.com/"
+    },
+    {
+      "rank": 73,
+      "id": "brets-brets-fr",
+      "name": "Brets",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.brets.fr/fr"
+    },
+    {
+      "rank": 74,
+      "id": "bridgebio-bridgebio-com",
+      "name": "BridgeBio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://bridgebio.com"
+    },
+    {
+      "rank": 75,
+      "id": "britain-s-favourite-butterfly-britainsfavouritebutterf",
+      "name": "Britain's Favourite Butterfly",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://britainsfavouritebutterfly.co.uk/"
+    },
+    {
+      "rank": 76,
+      "id": "brunello-cucinelli-ai-ecom-shop-brunellocucinelli-c",
+      "name": "Brunello Cucinelli - AI E-com",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://shop.brunellocucinelli.com/en-gb/ai"
+    },
+    {
+      "rank": 77,
+      "id": "bruno-cisco-brunocis-co",
+      "name": "Bruno Cisco",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://brunocis.co"
+    },
+    {
+      "rank": 78,
+      "id": "bucks-sauce-buckssauce-com",
+      "name": "Bucks Sauce",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://buckssauce.com/"
+    },
+    {
+      "rank": 79,
+      "id": "bulgari-eclettica-eclettica-bulgari-com",
+      "name": "Bulgari Eclettica",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://eclettica.bulgari.com/emerald-strata"
+    },
+    {
+      "rank": 80,
+      "id": "burrito-madre-burritomadre-rs",
+      "name": "Burrito Madre",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://burritomadre.rs/en/"
+    },
+    {
+      "rank": 81,
+      "id": "ciao-energy-launch-website-ciaoenergy-com",
+      "name": "CIAO ENERGY - LAUNCH WEBSITE",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ciaoenergy.com/"
+    },
+    {
+      "rank": 82,
+      "id": "coveo-music-coveomusic-com",
+      "name": "COVEO Music",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://coveomusic.com/"
+    },
+    {
+      "rank": 83,
+      "id": "creativecue-creativecue-co",
+      "name": "CREATIVECUE®",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.creativecue.co/"
+    },
+    {
+      "rank": 84,
+      "id": "crxtianhub-portfolio-crxtianhub-com",
+      "name": "CRXTIANHUB — PORTFOLIO",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.crxtianhub.com/"
+    },
+    {
+      "rank": 85,
+      "id": "cta-inc-cta-gules-vercel-app",
+      "name": "CTA Inc",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://cta-gules.vercel.app/"
+    },
+    {
+      "rank": 86,
+      "id": "cura-curaclimate-com",
+      "name": "CURA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.curaclimate.com/"
+    },
+    {
+      "rank": 87,
+      "id": "café-binocle-cafebinocle-com",
+      "name": "Café Binocle",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cafebinocle.com/"
+    },
+    {
+      "rank": 88,
+      "id": "calarts-graphic-design-2026-design2026-calarts-edu",
+      "name": "CalArts Graphic Design 2026",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://design2026.calarts.edu/"
+    },
+    {
+      "rank": 89,
+      "id": "camper-nicholsons-camperandnicholsons-com",
+      "name": "Camper & Nicholsons",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://camperandnicholsons.com/"
+    },
+    {
+      "rank": 90,
+      "id": "cantor8-cantor8-io",
+      "name": "Cantor8",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cantor8.io/"
+    },
+    {
+      "rank": 91,
+      "id": "capitolium-collabcapitolium-fr",
+      "name": "Capitolium",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.collabcapitolium.fr"
+    },
+    {
+      "rank": 92,
+      "id": "carl-s-rapessed-oils-scrollytelling-explanide",
+      "name": "Carl's Rapessed Oils",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://scrollytelling.explanideo.de"
+    },
+    {
+      "rank": 93,
+      "id": "carlos-prado-carlosprado-dev",
+      "name": "Carlos Prado",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://carlosprado.dev/"
+    },
+    {
+      "rank": 94,
+      "id": "carmowood-carmowood-com",
+      "name": "CarmoWood",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.carmowood.com/"
+    },
+    {
+      "rank": 95,
+      "id": "carrière-scène-carrierescene-ca",
+      "name": "Carrière Scène",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://carrierescene.ca/"
+    },
+    {
+      "rank": 96,
+      "id": "cartier-watches-wonders-2026-cartier-com",
+      "name": "Cartier Watches & Wonders 2026",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cartier.com/en-fr/watchesandwonders"
+    },
+    {
+      "rank": 97,
+      "id": "catalyst-behavioral-catalystbehavioral-com",
+      "name": "Catalyst Behavioral",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://catalystbehavioral.com/"
+    },
+    {
+      "rank": 98,
+      "id": "cdiscount-jumping-max-jumpingmax-cdiscount-com",
+      "name": "Cdiscount - Jumping Max",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://jumpingmax.cdiscount.com/"
+    },
+    {
+      "rank": 99,
+      "id": "cecilie-bahnsen-ceciliebahnsen-com",
+      "name": "Cecilie Bahnsen",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ceciliebahnsen.com"
+    },
+    {
+      "rank": 100,
+      "id": "charmer-studio-charmerstudio-com",
+      "name": "Charmer Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://charmerstudio.com"
+    },
+    {
+      "rank": 101,
+      "id": "chris-macari-chrismacarifilms-com",
+      "name": "Chris Macari",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://chrismacarifilms.com"
+    },
+    {
+      "rank": 102,
+      "id": "christie-hemm-klok-christiehemmklok-com",
+      "name": "Christie Hemm Klok",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://christiehemmklok.com/"
+    },
+    {
+      "rank": 103,
+      "id": "cinética-studio-cinetica-studio",
+      "name": "Cinética Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cinetica.studio/"
+    },
+    {
+      "rank": 104,
+      "id": "cipher-cipher-tv",
+      "name": "Cipher",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://cipher.tv/"
+    },
+    {
+      "rank": 105,
+      "id": "cipher-digital-cipherdigital-com",
+      "name": "Cipher Digital",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://cipherdigital.com/"
+    },
+    {
+      "rank": 106,
+      "id": "cleo-ai-web-meetcleo-com",
+      "name": "Cleo AI",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://web.meetcleo.com/"
+    },
+    {
+      "rank": 107,
+      "id": "clevermellow-clevermellow-co",
+      "name": "Clevermellow",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.clevermellow.co/"
+    },
+    {
+      "rank": 108,
+      "id": "cloudstudio-this-site-is-awake-cloudstudio-es",
+      "name": "Cloudstudio this site is awake",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://cloudstudio.es"
+    },
+    {
+      "rank": 109,
+      "id": "cobloc-cobloc-archi",
+      "name": "Cobloc",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cobloc.archi/"
+    },
+    {
+      "rank": 110,
+      "id": "codapress-publishing-codapress-co-uk",
+      "name": "Codapress Publishing",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://codapress.co.uk"
+    },
+    {
+      "rank": 111,
+      "id": "code-by-jesse-codebyjesse-com",
+      "name": "Code by Jesse",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.codebyjesse.com/"
+    },
+    {
+      "rank": 112,
+      "id": "coffeetech-coffee-tech-com",
+      "name": "CoffeeTech®",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://coffee-tech.com/"
+    },
+    {
+      "rank": 113,
+      "id": "common-vow-influencer-agency-commonvow-com",
+      "name": "Common Vow Influencer Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.commonvow.com/"
+    },
+    {
+      "rank": 114,
+      "id": "cooldock-dock-cool",
+      "name": "Cooldock",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://dock.cool"
+    },
+    {
+      "rank": 115,
+      "id": "copula-agency-copula-agency",
+      "name": "Copula Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://copula.agency/"
+    },
+    {
+      "rank": 116,
+      "id": "craft-engineered-craft-wild-as",
+      "name": "Craft, engineered.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://craft.wild.as/"
+    },
+    {
+      "rank": 117,
+      "id": "crav-burgers-cravburgers-shop",
+      "name": "Crav Burgers",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cravburgers.shop/"
+    },
+    {
+      "rank": 118,
+      "id": "creative-cruise-2026-creativecruise-nl",
+      "name": "Creative Cruise 2026",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://creativecruise.nl"
+    },
+    {
+      "rank": 119,
+      "id": "creative-marketing-ai-creativemarketing-peachw",
+      "name": "Creative Marketing AI",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://creativemarketing.peachweb.io/"
+    },
+    {
+      "rank": 120,
+      "id": "cula-technologies-cula-tech",
+      "name": "Cula Technologies",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.cula.tech/"
+    },
+    {
+      "rank": 121,
+      "id": "cynx-ー-portfolio-2026-cynx-io",
+      "name": "Cynx ー Portfolio 2026",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://cynx.io"
+    },
+    {
+      "rank": 122,
+      "id": "d-d-o-t-t-type-foundry-ddott-net",
+      "name": "D D O T T Type Foundry",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ddott.net/"
+    },
+    {
+      "rank": 123,
+      "id": "danzan-danzan-jiejoe-com",
+      "name": "DANZAN",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://danzan.jiejoe.com"
+    },
+    {
+      "rank": 124,
+      "id": "die-antwoord-dieantwoord-com",
+      "name": "DIE ANTWOORD",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://dieantwoord.com"
+    },
+    {
+      "rank": 125,
+      "id": "doss-doss-com",
+      "name": "DOSS",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.doss.com/"
+    },
+    {
+      "rank": 126,
+      "id": "daily-rituals-0-ai-remote-rituals-framer-we",
+      "name": "Daily Rituals — 0% AI",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://remote-rituals.framer.website/"
+    },
+    {
+      "rank": 127,
+      "id": "daima-agency-wearedaima-framer-websit",
+      "name": "Daima® Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://wearedaima.framer.website/"
+    },
+    {
+      "rank": 128,
+      "id": "dash-creative-dashcreative-co",
+      "name": "Dash Creative",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.dashcreative.co"
+    },
+    {
+      "rank": 129,
+      "id": "dasupply-dasupply-xyz",
+      "name": "Dasupply",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://dasupply.xyz/"
+    },
+    {
+      "rank": 130,
+      "id": "david-spaeth-davidspaeth-com",
+      "name": "David Spaeth",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://davidspaeth.com"
+    },
+    {
+      "rank": 131,
+      "id": "dawn-website-refresh-dawn-la",
+      "name": "Dawn | Website Refresh",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://dawn.la/"
+    },
+    {
+      "rank": 132,
+      "id": "de-groene-afslag-degroeneafslag-nl",
+      "name": "De Groene Afslag",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.degroeneafslag.nl/"
+    },
+    {
+      "rank": 133,
+      "id": "decathlon-yestalgia-decathlonyestalgia-com",
+      "name": "Decathlon Yestalgia",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://decathlonyestalgia.com/"
+    },
+    {
+      "rank": 134,
+      "id": "defined-definedvc-com",
+      "name": "Defined",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://definedvc.com"
+    },
+    {
+      "rank": 135,
+      "id": "delvaux-digital-flagship-store-delvaux-com",
+      "name": "Delvaux Digital Flagship Store",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://delvaux.com"
+    },
+    {
+      "rank": 136,
+      "id": "depo-luxe-depoluxe-xyz",
+      "name": "Depo Luxe",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://depoluxe.xyz/"
+    },
+    {
+      "rank": 137,
+      "id": "detroit-paris-detroit-paris",
+      "name": "Detroit Paris",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.detroit.paris/"
+    },
+    {
+      "rank": 138,
+      "id": "diamante-diamante-io",
+      "name": "Diamante",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.diamante.io/"
+    },
+    {
+      "rank": 139,
+      "id": "digital-culture-digital-culture-valmax-d",
+      "name": "Digital Culture",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://digital-culture.valmax.dev/"
+    },
+    {
+      "rank": 140,
+      "id": "dirac-com-dirac-com",
+      "name": "Dirac.com",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.dirac.com"
+    },
+    {
+      "rank": 141,
+      "id": "displace-agency-displace-agency",
+      "name": "Displace Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://displace.agency/"
+    },
+    {
+      "rank": 142,
+      "id": "domitur-domitur-pt",
+      "name": "Domitur",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.domitur.pt/"
+    },
+    {
+      "rank": 143,
+      "id": "don-molinico-donmolinico-es",
+      "name": "Don Molinico",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.donmolinico.es/"
+    },
+    {
+      "rank": 144,
+      "id": "doronsupply-doronsupply-com",
+      "name": "Doronsupply",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.doronsupply.com/"
+    },
+    {
+      "rank": 145,
+      "id": "dr-grigoriak-grigoriak-doctor",
+      "name": "Dr Grigoriak",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://grigoriak.doctor/"
+    },
+    {
+      "rank": 146,
+      "id": "dragonfly-redux-dragonfly-xyz",
+      "name": "Dragonfly Redux",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.dragonfly.xyz/"
+    },
+    {
+      "rank": 147,
+      "id": "draniki-digital-studio-draniki-studio",
+      "name": "Draniki — Digital Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://draniki.studio/"
+    },
+    {
+      "rank": 148,
+      "id": "dropship-dropship-io",
+      "name": "Dropship",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.dropship.io"
+    },
+    {
+      "rank": 149,
+      "id": "ducati-superleggera-v4-superleggerav4centenario",
+      "name": "Ducati Superleggera V4",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://superleggerav4centenario.ducati.com/en/ww"
+    },
+    {
+      "rank": 150,
+      "id": "dungeons-dragons-dungeonsanddragons-com",
+      "name": "Dungeons & Dragons",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.dungeonsanddragons.com"
+    },
+    {
+      "rank": 151,
+      "id": "duyu-care-duyucare-dops-agency",
+      "name": "Duyu Care",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://duyucare.dops.agency/"
+    },
+    {
+      "rank": 152,
+      "id": "era-residence-era-residence-com",
+      "name": "ERA Residence",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.era-residence.com/"
+    },
+    {
+      "rank": 153,
+      "id": "eatnaked-eatnaked-co",
+      "name": "Eatnaked",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://eatnaked.co"
+    },
+    {
+      "rank": 154,
+      "id": "eleken-agency-eleken-co",
+      "name": "Eleken Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.eleken.co/"
+    },
+    {
+      "rank": 155,
+      "id": "eleos-eleos-la",
+      "name": "Eleos",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://eleos.la/"
+    },
+    {
+      "rank": 156,
+      "id": "elva-elva-labs-com",
+      "name": "Elva",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://elva-labs.com/"
+    },
+    {
+      "rank": 157,
+      "id": "emily-nixon-emilynixon-com",
+      "name": "Emily Nixon",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.emilynixon.com"
+    },
+    {
+      "rank": 158,
+      "id": "enerblock-enerblock-net",
+      "name": "Enerblock",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://enerblock.net/en/"
+    },
+    {
+      "rank": 159,
+      "id": "evagria-evagria-com",
+      "name": "Evagria",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://evagria.com"
+    },
+    {
+      "rank": 160,
+      "id": "everswap-everswap-com",
+      "name": "EverSwap",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://everswap.com/"
+    },
+    {
+      "rank": 161,
+      "id": "everest-the-ascent-everest-suraj-work",
+      "name": "Everest · The Ascent",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://everest.suraj.work"
+    },
+    {
+      "rank": 162,
+      "id": "exebenus-exebenus-com",
+      "name": "Exebenus",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://exebenus.com/"
+    },
+    {
+      "rank": 163,
+      "id": "fctry-lab-fctrylab-com",
+      "name": "FCTRY LAb",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://fctrylab.com/"
+    },
+    {
+      "rank": 164,
+      "id": "forn-studio-forn-dk",
+      "name": "FORN Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://forn.dk/en"
+    },
+    {
+      "rank": 165,
+      "id": "funtech-brand-identity-ci-funtech-inc",
+      "name": "FUNTECH BRAND IDENTITY",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ci.funtech.inc/en"
+    },
+    {
+      "rank": 166,
+      "id": "furo-web-furoweb-eu",
+      "name": "FURO Web",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.furoweb.eu/"
+    },
+    {
+      "rank": 167,
+      "id": "fauna-robotics-faunarobotics-com",
+      "name": "Fauna Robotics",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://faunarobotics.com"
+    },
+    {
+      "rank": 168,
+      "id": "ferr-studio-ferrstudio-ch",
+      "name": "Ferr Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ferrstudio.ch"
+    },
+    {
+      "rank": 169,
+      "id": "festival-les-francouvertes-francouvertes-com",
+      "name": "Festival Les Francouvertes",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://francouvertes.com/"
+    },
+    {
+      "rank": 170,
+      "id": "flesh-and-bones-wearefleshandbones-com",
+      "name": "Flesh and Bones",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://wearefleshandbones.com"
+    },
+    {
+      "rank": 171,
+      "id": "floema-floema-com",
+      "name": "Floema",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.floema.com/en"
+    },
+    {
+      "rank": 172,
+      "id": "flora-café-florawellnesscafe-com",
+      "name": "Flora Café",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.florawellnesscafe.com/"
+    },
+    {
+      "rank": 173,
+      "id": "flowty-flowty-co",
+      "name": "Flowty",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://flowty.co"
+    },
+    {
+      "rank": 174,
+      "id": "fluently-getfluently-app",
+      "name": "Fluently",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://getfluently.app"
+    },
+    {
+      "rank": 175,
+      "id": "flyward-flyward-com",
+      "name": "Flyward",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.flyward.com"
+    },
+    {
+      "rank": 176,
+      "id": "for-living-for-living-it",
+      "name": "For Living",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.for-living.it/"
+    },
+    {
+      "rank": 177,
+      "id": "forms-forms-world",
+      "name": "Forms",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.forms.world/"
+    },
+    {
+      "rank": 178,
+      "id": "fort-vega-fortvega-com",
+      "name": "Fort Vega",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.fortvega.com/"
+    },
+    {
+      "rank": 179,
+      "id": "fourmula-ai-fourmula-ai",
+      "name": "Fourmula AI",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://fourmula.ai"
+    },
+    {
+      "rank": 180,
+      "id": "frontier-dialogues-frontierdialogues-com",
+      "name": "Frontier Dialogues",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.frontierdialogues.com"
+    },
+    {
+      "rank": 181,
+      "id": "future-of-finance-futureoffinance-peachweb",
+      "name": "Future of Finance",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://futureoffinance.peachweb.io/"
+    },
+    {
+      "rank": 182,
+      "id": "geberit-campus-grand-opening-dev-n-h-ulm-de",
+      "name": "GEBERIT CAMPUS GRAND OPENING",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://dev.n-h-ulm.de/"
+    },
+    {
+      "rank": 183,
+      "id": "gobold-agency-gobold-live",
+      "name": "GOBOLD™ Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://gobold.live/"
+    },
+    {
+      "rank": 184,
+      "id": "genesis-reimagined-reimaginegenesis-com",
+      "name": "Genesis reimagined",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.reimaginegenesis.com/"
+    },
+    {
+      "rank": 185,
+      "id": "geolava-geolava-com",
+      "name": "Geolava",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://geolava.com/"
+    },
+    {
+      "rank": 186,
+      "id": "get-blue-getblue-com",
+      "name": "Get Blue",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.getblue.com/"
+    },
+    {
+      "rank": 187,
+      "id": "glitch-grit-glitchandgrit-com",
+      "name": "Glitch&Grit",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://glitchandgrit.com/"
+    },
+    {
+      "rank": 188,
+      "id": "glossar-glossar-app",
+      "name": "Glossar",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://glossar.app/"
+    },
+    {
+      "rank": 189,
+      "id": "goodman-gallery-goodman-gallery-com",
+      "name": "Goodman Gallery",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://goodman-gallery.com/"
+    },
+    {
+      "rank": 190,
+      "id": "grain-mortar-grainandmortar-com",
+      "name": "Grain & Mortar",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://grainandmortar.com"
+    },
+    {
+      "rank": 191,
+      "id": "grair-grair-undreamstudio-com",
+      "name": "Grair",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://grair.undreamstudio.com/"
+    },
+    {
+      "rank": 192,
+      "id": "gregor-collienne-gregorcollienne-com",
+      "name": "Gregor Collienne",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://gregorcollienne.com/"
+    },
+    {
+      "rank": 193,
+      "id": "growon-web-studio-growon-kr",
+      "name": "Growon Web Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://growon.kr"
+    },
+    {
+      "rank": 194,
+      "id": "gucci-mystery-unfolds-lafamigliamysteryunfolds",
+      "name": "Gucci: Mystery Unfolds",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lafamigliamysteryunfolds.gucci.com/"
+    },
+    {
+      "rank": 195,
+      "id": "gusta-gusta-studio",
+      "name": "Gusta",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://gusta.studio"
+    },
+    {
+      "rank": 196,
+      "id": "gustaf-furusten-portfolio-gustaffurusten-se",
+      "name": "Gustaf Furusten Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://gustaffurusten.se"
+    },
+    {
+      "rank": 197,
+      "id": "haoqi-design-haoqi-design",
+      "name": "HAOQI.DESIGN",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://haoqi.design"
+    },
+    {
+      "rank": 198,
+      "id": "hba-hba-com",
+      "name": "HBA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://hba.com/"
+    },
+    {
+      "rank": 199,
+      "id": "hobro-digital-hobro-digital",
+      "name": "HOBRO DIGITAL",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://hobro.digital"
+    },
+    {
+      "rank": 200,
+      "id": "hue-cry-huuuuue-agency",
+      "name": "HUE&CRY",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.huuuuue.agency"
+    },
+    {
+      "rank": 201,
+      "id": "hupr-hupr-ca",
+      "name": "HUPR",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://hupr.ca/"
+    },
+    {
+      "rank": 202,
+      "id": "hydroflow-hydroflowdrink-com",
+      "name": "HYDROFLOW",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://hydroflowdrink.com/"
+    },
+    {
+      "rank": 203,
+      "id": "halston-architecture-template-halston-architecture-tem",
+      "name": "Halston: Architecture template",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://halston-architecture-template.webflow.io/"
+    },
+    {
+      "rank": 204,
+      "id": "hamza-tariq-design-etc-hamzatariq-info",
+      "name": "Hamza Tariq — Design etc.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.hamzatariq.info"
+    },
+    {
+      "rank": 205,
+      "id": "happly-gethapply-com",
+      "name": "Happly",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://gethapply.com"
+    },
+    {
+      "rank": 206,
+      "id": "hashgraph-ventures-hashgraphvc-com",
+      "name": "Hashgraph Ventures",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://hashgraphvc.com/"
+    },
+    {
+      "rank": 207,
+      "id": "haven-constructions-havenconstructions-com-a",
+      "name": "Haven Constructions",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.havenconstructions.com.au/"
+    },
+    {
+      "rank": 208,
+      "id": "hearst-exhibit-2026-hollywoodexhibit2026-com",
+      "name": "Hearst Exhibit 2026",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.hollywoodexhibit2026.com"
+    },
+    {
+      "rank": 209,
+      "id": "heco-partners-heco-partners",
+      "name": "Heco Partners",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://heco.partners"
+    },
+    {
+      "rank": 210,
+      "id": "helix-earth-helixearth-com",
+      "name": "Helix Earth",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://helixearth.com/"
+    },
+    {
+      "rank": 211,
+      "id": "hello-party-thisishelloparty-com",
+      "name": "Hello Party",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://thisishelloparty.com/"
+    },
+    {
+      "rank": 212,
+      "id": "here-away-here-away-com",
+      "name": "Here & Away",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.here-away.com/"
+    },
+    {
+      "rank": 213,
+      "id": "hero-studios-herostudios-tv",
+      "name": "Hero Studios",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.herostudios.tv"
+    },
+    {
+      "rank": 214,
+      "id": "hex-pens-hexpens-com",
+      "name": "Hex Pens",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.hexpens.com"
+    },
+    {
+      "rank": 215,
+      "id": "hildén-kaira-hildenkaira-fi",
+      "name": "Hildén & Kaira",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.hildenkaira.fi/"
+    },
+    {
+      "rank": 216,
+      "id": "himachal-the-experience-himachal-cloud",
+      "name": "Himachal - The Experience",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://himachal.cloud/"
+    },
+    {
+      "rank": 217,
+      "id": "hiroto-sato-hirotos-com",
+      "name": "Hiroto Sato",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.hirotos.com"
+    },
+    {
+      "rank": 218,
+      "id": "horeca-social-made-viral-horeca-social-com",
+      "name": "Horeca Social – Made Viral",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.horeca-social.com/"
+    },
+    {
+      "rank": 219,
+      "id": "house-of-yellow-houseofyellow-nl",
+      "name": "House Of Yellow",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://houseofyellow.nl"
+    },
+    {
+      "rank": 220,
+      "id": "house-of-honey-houseofhoney-com",
+      "name": "House of Honey",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.houseofhoney.com/"
+    },
+    {
+      "rank": 221,
+      "id": "how-f1-has-evolved-since-1950-espn-com",
+      "name": "How F1 has evolved since 1950",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.espn.com/"
+    },
+    {
+      "rank": 222,
+      "id": "hubtown-hubtown-co-in",
+      "name": "Hubtown",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://hubtown.co.in/"
+    },
+    {
+      "rank": 223,
+      "id": "ignite-agency-igniteagency-com",
+      "name": "IGNITE® Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://igniteagency.com/"
+    },
+    {
+      "rank": 224,
+      "id": "ikea-taking-apart-the-30-family-ikea-es",
+      "name": "IKEA “Taking Apart the 30”",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.family.ikea.es/"
+    },
+    {
+      "rank": 225,
+      "id": "il-capo-production-ilcapoproduction-com",
+      "name": "IL CAPO PRODUCTION",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ilcapoproduction.com/"
+    },
+    {
+      "rank": 226,
+      "id": "ivress-spin-a-tale-brand-ivress-co-jp",
+      "name": "IVRESS SPIN A TALE",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://brand.ivress.co.jp/"
+    },
+    {
+      "rank": 227,
+      "id": "izanami-izanami-official-com",
+      "name": "IZANAMI",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://izanami-official.com/"
+    },
+    {
+      "rank": 228,
+      "id": "ian-coad-dp-iancoad-com",
+      "name": "Ian Coad DP",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://iancoad.com"
+    },
+    {
+      "rank": 229,
+      "id": "icare-a-worldlabs-showcase-icare-game-world",
+      "name": "Icare - A WorldLabs Showcase",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://icare-game.world"
+    },
+    {
+      "rank": 230,
+      "id": "icreon-digital-velocity-icreon-com",
+      "name": "Icreon - Digital Velocity",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.icreon.com/"
+    },
+    {
+      "rank": 231,
+      "id": "idyllic-disruptive-design-idyllic-co-nz",
+      "name": "Idyllic Disruptive Design",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.idyllic.co.nz"
+    },
+    {
+      "rank": 232,
+      "id": "illoca-illoca-unseen-co",
+      "name": "Illoca",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://illoca.unseen.co/"
+    },
+    {
+      "rank": 233,
+      "id": "imperiale-bolgheri-imperialebolgheri-com",
+      "name": "Imperiale Bolgheri",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.imperialebolgheri.com/en/"
+    },
+    {
+      "rank": 234,
+      "id": "indigo-laboratory-indigo-laboratory-it",
+      "name": "Indigo Laboratory",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://indigo-laboratory.it/"
+    },
+    {
+      "rank": 235,
+      "id": "interiorglobe-interiorglobe-co",
+      "name": "Interiorglobe",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.interiorglobe.co/"
+    },
+    {
+      "rank": 236,
+      "id": "interract-interractlabs-com",
+      "name": "Interract",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://interractlabs.com"
+    },
+    {
+      "rank": 237,
+      "id": "iper-iper-com-au",
+      "name": "Iper",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://iper.com.au/"
+    },
+    {
+      "rank": 238,
+      "id": "irina-moi-portfolio-irinamoi-com",
+      "name": "Irina Moi Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://irinamoi.com/"
+    },
+    {
+      "rank": 239,
+      "id": "iris-k-theirisk-com",
+      "name": "Iris K",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://theirisk.com/"
+    },
+    {
+      "rank": 240,
+      "id": "iiarmony-harmony-now",
+      "name": "I•IARMONY",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://harmony.now/"
+    },
+    {
+      "rank": 241,
+      "id": "jasmine-gunarto-jasminegunarto-com",
+      "name": "Jasmine Gunarto",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://jasminegunarto.com/"
+    },
+    {
+      "rank": 242,
+      "id": "john-and-patricia-s-space-john-and-patricias-comfo",
+      "name": "John and Patricia's Space",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://john-and-patricias-comfort-site-about-attachment-styles.com/"
+    },
+    {
+      "rank": 243,
+      "id": "jordi-garreta-creative-dev-jordigarreta-com",
+      "name": "Jordi Garreta [creative dev]",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.jordigarreta.com/"
+    },
+    {
+      "rank": 244,
+      "id": "joy-rush-drinkjoyrush-com",
+      "name": "Joy Rush",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://drinkjoyrush.com"
+    },
+    {
+      "rank": 245,
+      "id": "juan-mora-juanmora-co",
+      "name": "Juan Mora",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://juanmora.co/"
+    },
+    {
+      "rank": 246,
+      "id": "julia-krantz-juliakrantz-com",
+      "name": "Julia Krantz",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://juliakrantz.com/"
+    },
+    {
+      "rank": 247,
+      "id": "julien-calot-juliencalot-com",
+      "name": "Julien Calot",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.juliencalot.com"
+    },
+    {
+      "rank": 248,
+      "id": "julien-pianetti-julienpianetti-com",
+      "name": "Julien Pianetti",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.julienpianetti.com"
+    },
+    {
+      "rank": 249,
+      "id": "kei-inc-kei-inc-jp",
+      "name": "KEI inc.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://kei-inc.jp/"
+    },
+    {
+      "rank": 250,
+      "id": "khufu-s-khufus-com",
+      "name": "KHUFU'S",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://khufus.com"
+    },
+    {
+      "rank": 251,
+      "id": "kie-kie-design-com",
+      "name": "KIE",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.kie-design.com/"
+    },
+    {
+      "rank": 252,
+      "id": "kvs-studio-kvs-services",
+      "name": "KVS Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.kvs.services/"
+    },
+    {
+      "rank": 253,
+      "id": "kayiseisagu-kayiseisagu-com",
+      "name": "KayiSeisagu",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://kayiseisagu.com/"
+    },
+    {
+      "rank": 254,
+      "id": "kellerstöckl-kellerstoecklarchitektur",
+      "name": "Kellerstöckl",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.kellerstoecklarchitektur.at/"
+    },
+    {
+      "rank": 255,
+      "id": "kenichi-aikawa-aikawakenichi-com",
+      "name": "Kenichi Aikawa",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://aikawakenichi.com/"
+    },
+    {
+      "rank": 256,
+      "id": "kerna-studio-kerna-studio",
+      "name": "Kerna Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.kerna.studio/"
+    },
+    {
+      "rank": 257,
+      "id": "kindred-of-ireland-kindredofireland-com",
+      "name": "Kindred Of Ireland",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://kindredofireland.com"
+    },
+    {
+      "rank": 258,
+      "id": "kluster-collectif-klustercollectif-com",
+      "name": "Kluster Collectif",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://klustercollectif.com/"
+    },
+    {
+      "rank": 259,
+      "id": "komma-komma-kommakomma-is",
+      "name": "Komma Komma",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://kommakomma.is"
+    },
+    {
+      "rank": 260,
+      "id": "kononenko-architectural-bureau-kononenkogroup-com",
+      "name": "Kononenko Architectural Bureau",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://kononenkogroup.com"
+    },
+    {
+      "rank": 261,
+      "id": "korowa-anglican-girls-school-korowa-vic-edu-au",
+      "name": "Korowa Anglican Girls' School",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.korowa.vic.edu.au/"
+    },
+    {
+      "rank": 262,
+      "id": "l-oiseau-dé-loiseau-framer-website",
+      "name": "L'OISEAU DÉ",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://loiseau.framer.website/"
+    },
+    {
+      "rank": 263,
+      "id": "likova-likova-space",
+      "name": "LIKOVA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://likova.space"
+    },
+    {
+      "rank": 264,
+      "id": "loud-digital-product-company-loudsrl-com",
+      "name": "LOUD. Digital Product Company.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://loudsrl.com"
+    },
+    {
+      "rank": 265,
+      "id": "la-revoltosa-larevoltosa-es",
+      "name": "La Revoltosa",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://larevoltosa.es/"
+    },
+    {
+      "rank": 266,
+      "id": "lacoste-ace-breaker-members-play-lacoste-com",
+      "name": "Lacoste Ace Breaker",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://members-play.lacoste.com/ace-breaker-rg"
+    },
+    {
+      "rank": 267,
+      "id": "lama-lama-lamalama-com",
+      "name": "Lama Lama",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lamalama.com/"
+    },
+    {
+      "rank": 268,
+      "id": "lasala-plaza-hotel-lasalaplazahotel-com",
+      "name": "Lasala Plaza Hotel",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.lasalaplazahotel.com/"
+    },
+    {
+      "rank": 269,
+      "id": "laurenti-web-design-studio-laurentiwebdesign-it",
+      "name": "Laurenti Web Design Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://laurentiwebdesign.it/"
+    },
+    {
+      "rank": 270,
+      "id": "le-mans-classic-lemansclassic-richardmil",
+      "name": "Le Mans Classic",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lemansclassic.richardmille.com/"
+    },
+    {
+      "rank": 271,
+      "id": "left-coast-design-studio-leftcoast-refractweb-com",
+      "name": "Left Coast Design Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://leftcoast.refractweb.com/"
+    },
+    {
+      "rank": 272,
+      "id": "leil-saunas-leilsaunas-com",
+      "name": "Leil Saunas",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://leilsaunas.com"
+    },
+    {
+      "rank": 273,
+      "id": "lesse-studio-lessestudio-com",
+      "name": "Lesse Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lessestudio.com/"
+    },
+    {
+      "rank": 274,
+      "id": "linea-prompt-lineaprompt-com",
+      "name": "Linea Prompt",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lineaprompt.com"
+    },
+    {
+      "rank": 275,
+      "id": "linka-linkaproduction-com",
+      "name": "Linka",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://linkaproduction.com/"
+    },
+    {
+      "rank": 276,
+      "id": "loft-31-loftthirtyone-com",
+      "name": "Loft 31",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.loftthirtyone.com"
+    },
+    {
+      "rank": 277,
+      "id": "longbow-db-longbow-webflow-io",
+      "name": "Longbow",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://db-longbow.webflow.io/"
+    },
+    {
+      "rank": 278,
+      "id": "looking-for-parking-lookingforparkingthegame",
+      "name": "Looking for Parking",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lookingforparkingthegame.com"
+    },
+    {
+      "rank": 279,
+      "id": "luca-nardi-portfolio-aboutluca-com",
+      "name": "Luca Nardi Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.aboutluca.com/"
+    },
+    {
+      "rank": 280,
+      "id": "lucien-lucien-com",
+      "name": "Lucien",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.lucien.com/"
+    },
+    {
+      "rank": 281,
+      "id": "luke-baffait-lukebaffait-fr",
+      "name": "Luke Baffait",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.lukebaffait.fr"
+    },
+    {
+      "rank": 282,
+      "id": "lula-avocado-oil-lulaoil-com",
+      "name": "Lula Avocado Oil",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lulaoil.com/"
+    },
+    {
+      "rank": 283,
+      "id": "lumena-lumena-partners-com",
+      "name": "Lumena",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lumena-partners.com/"
+    },
+    {
+      "rank": 284,
+      "id": "lunasol-lunasol-ts-webflow-io",
+      "name": "LunaSol",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lunasol-ts.webflow.io"
+    },
+    {
+      "rank": 285,
+      "id": "lunchlab-lumen-lunchlab-fr",
+      "name": "Lunchlab - Lumen",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lunchlab.fr/"
+    },
+    {
+      "rank": 286,
+      "id": "luxury-places-luxury-places-ch",
+      "name": "Luxury Places",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.luxury-places.ch/"
+    },
+    {
+      "rank": 287,
+      "id": "lydia-leiwang-s-portfolio-lydialeiwang-com",
+      "name": "Lydia Leiwang's Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://lydialeiwang.com/"
+    },
+    {
+      "rank": 288,
+      "id": "mijiheon-mijiheon-com",
+      "name": "MIJIHEON",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://mijiheon.com/"
+    },
+    {
+      "rank": 289,
+      "id": "miu-miu-a-house-that-we-shaped-immersivebags-miumiu-com",
+      "name": "MIU MIU A House that we shaped",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://immersivebags.miumiu.com/"
+    },
+    {
+      "rank": 290,
+      "id": "mnbaq-mnbaq-org",
+      "name": "MNBAQ",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.mnbaq.org/"
+    },
+    {
+      "rank": 291,
+      "id": "monolog-bymonolog-com",
+      "name": "MONOLOG",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://bymonolog.com/"
+    },
+    {
+      "rank": 292,
+      "id": "mrm-brazil-mrmbrasil-com-br",
+      "name": "MRM Brazil",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://mrmbrasil.com.br/"
+    },
+    {
+      "rank": 293,
+      "id": "made-with-gsap-madewithgsap-com",
+      "name": "Made With Gsap",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://madewithgsap.com/"
+    },
+    {
+      "rank": 294,
+      "id": "made-in-may-madeinmay-studio",
+      "name": "Made in May",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.madeinmay.studio/"
+    },
+    {
+      "rank": 295,
+      "id": "madrepunk-studio-madrepunk-com",
+      "name": "Madrepunk™ Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.madrepunk.com/"
+    },
+    {
+      "rank": 296,
+      "id": "mads-matters-madsmatters-com",
+      "name": "Mads Matters",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://madsmatters.com"
+    },
+    {
+      "rank": 297,
+      "id": "major-media-agency-thiswasmajor-com",
+      "name": "Major Media Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://thiswasmajor.com/"
+    },
+    {
+      "rank": 298,
+      "id": "mara-marasrl-it",
+      "name": "Mara",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://marasrl.it/en/"
+    },
+    {
+      "rank": 299,
+      "id": "marimba-designs-portfolio-marimba-design",
+      "name": "Marimba. Designs Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://marimba.design"
+    },
+    {
+      "rank": 300,
+      "id": "marin-kurir-digital-designer-marinkurir-com",
+      "name": "Marin Kurir - Digital Designer",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.marinkurir.com/"
+    },
+    {
+      "rank": 301,
+      "id": "marsea-centremarsea-com",
+      "name": "Marsea",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.centremarsea.com/"
+    },
+    {
+      "rank": 302,
+      "id": "marvell-tile-stone-marvellco-com-au",
+      "name": "Marvell Tile & Stone",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.marvellco.com.au/"
+    },
+    {
+      "rank": 303,
+      "id": "matcha-cartel-matcha-cartel-com",
+      "name": "Matcha Cartel",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://matcha-cartel.com/"
+    },
+    {
+      "rank": 304,
+      "id": "matta-matta-ai",
+      "name": "Matta",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://matta.ai/"
+    },
+    {
+      "rank": 305,
+      "id": "matter-matter-com",
+      "name": "Matter",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.matter.com/"
+    },
+    {
+      "rank": 306,
+      "id": "matthäus-jandl-matthaeusjandl-com",
+      "name": "Matthäus Jandl",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.matthaeusjandl.com"
+    },
+    {
+      "rank": 307,
+      "id": "matveyan-designer-matveyan-com",
+      "name": "Matveyan designer",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://matveyan.com/"
+    },
+    {
+      "rank": 308,
+      "id": "max-kalinsky-kalinsky-design",
+      "name": "Max Kalinsky",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://kalinsky.design/"
+    },
+    {
+      "rank": 309,
+      "id": "meech213-meech213-com",
+      "name": "Meech213",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.meech213.com/"
+    },
+    {
+      "rank": 310,
+      "id": "meinhard-taxer-meinhardtaxer-com",
+      "name": "Meinhard Taxer",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://meinhardtaxer.com/"
+    },
+    {
+      "rank": 311,
+      "id": "men-s-health-week-menshealthweek-com-au",
+      "name": "Men's Health Week",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.menshealthweek.com.au"
+    },
+    {
+      "rank": 312,
+      "id": "menawer-journey-https",
+      "name": "Menawer Journey",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://Https://menawer.com"
+    },
+    {
+      "rank": 313,
+      "id": "micha-brandt-michabrandt-de",
+      "name": "Micha Brandt",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://michabrandt.de"
+    },
+    {
+      "rank": 314,
+      "id": "michael-gatt-michaelgatt-com",
+      "name": "Michael Gatt",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://michaelgatt.com/"
+    },
+    {
+      "rank": 315,
+      "id": "milledollars-milledollars-fr",
+      "name": "Milledollars",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://milledollars.fr/"
+    },
+    {
+      "rank": 316,
+      "id": "mily-group-milygroup-com",
+      "name": "Mily Group",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://milygroup.com"
+    },
+    {
+      "rank": 317,
+      "id": "mina-massoud-mina-massoud-com",
+      "name": "Mina Massoud",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://mina-massoud.com/"
+    },
+    {
+      "rank": 318,
+      "id": "mira-trymira-com",
+      "name": "Mira",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://trymira.com/"
+    },
+    {
+      "rank": 319,
+      "id": "modus-projects-modusprojects-nl",
+      "name": "Modus Projects",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.modusprojects.nl/"
+    },
+    {
+      "rank": 320,
+      "id": "mohamed-shehata-personal-mohamedshehata-net",
+      "name": "Mohamed Shehata Personal",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://mohamedshehata.net/"
+    },
+    {
+      "rank": 321,
+      "id": "momoamo-momoamo-com",
+      "name": "MomoAmo",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://momoamo.com"
+    },
+    {
+      "rank": 322,
+      "id": "monumoir-monumoir-com",
+      "name": "Monumoir",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.monumoir.com"
+    },
+    {
+      "rank": 323,
+      "id": "mors-creative-studio-mors-design",
+      "name": "Mors — Creative Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.mors.design"
+    },
+    {
+      "rank": 324,
+      "id": "mosby-s-files-mosbyfiles-com",
+      "name": "Mosby's Files",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.mosbyfiles.com/"
+    },
+    {
+      "rank": 325,
+      "id": "mount-street-printers-mountstreetprinters-com",
+      "name": "Mount Street Printers",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.mountstreetprinters.com/"
+    },
+    {
+      "rank": 326,
+      "id": "mr-day-mrday-it",
+      "name": "Mr Day",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://mrday.it/"
+    },
+    {
+      "rank": 327,
+      "id": "my-web-lab-web-agency-milano-myweblab-it",
+      "name": "My Web Lab - Web Agency Milano",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://myweblab.it"
+    },
+    {
+      "rank": 328,
+      "id": "méline-gobet-kinésiologue-melinegobet-fr",
+      "name": "Méline Gobet - Kinésiologue",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.melinegobet.fr/"
+    },
+    {
+      "rank": 329,
+      "id": "nesh-heynesh-com",
+      "name": "NESH®",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://heynesh.com"
+    },
+    {
+      "rank": 330,
+      "id": "nexola-agencys-website-nexola-framer-website",
+      "name": "NEXOLA - Agency’s Website",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://nexola.framer.website"
+    },
+    {
+      "rank": 331,
+      "id": "normal-is-boring-normalisboring-es",
+      "name": "NORMAL IS BORING",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://normalisboring.es/"
+    },
+    {
+      "rank": 332,
+      "id": "nothin-noth-in",
+      "name": "NOTHIN'",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.noth.in"
+    },
+    {
+      "rank": 333,
+      "id": "nrg-build-your-data-center-business-nrg-com",
+      "name": "NRG | Build Your Data Center",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://business.nrg.com/"
+    },
+    {
+      "rank": 334,
+      "id": "nvrmnd-studio-nvrmndstudio-com",
+      "name": "NVRMND Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.nvrmndstudio.com"
+    },
+    {
+      "rank": 335,
+      "id": "neko-engineering-neko-engineering",
+      "name": "Neko Engineering",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://neko.engineering/"
+    },
+    {
+      "rank": 336,
+      "id": "neoconda-neoconda-com",
+      "name": "Neoconda",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://neoconda.com"
+    },
+    {
+      "rank": 337,
+      "id": "netcraft-solutions-netcraft-solutions",
+      "name": "Netcraft Solutions",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://netcraft.solutions"
+    },
+    {
+      "rank": 338,
+      "id": "new-studio-partners-new-studio",
+      "name": "New Studio Partners",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.new.studio"
+    },
+    {
+      "rank": 339,
+      "id": "nextsense-nextsense-io",
+      "name": "NextSense",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://nextsense.io/"
+    },
+    {
+      "rank": 340,
+      "id": "nithin-visual-designer-nithinmwarrier-com",
+      "name": "Nithin • Visual Designer",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.nithinmwarrier.com"
+    },
+    {
+      "rank": 341,
+      "id": "no-art-noartmusic-com",
+      "name": "No Art",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.noartmusic.com/"
+    },
+    {
+      "rank": 342,
+      "id": "no-football-colors-nofootballcolors-com",
+      "name": "No Football Colors",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://nofootballcolors.com/"
+    },
+    {
+      "rank": 343,
+      "id": "nod-marketing-nodmarketing-se",
+      "name": "Nod Marketing",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://nodmarketing.se/"
+    },
+    {
+      "rank": 344,
+      "id": "nominal-nominal-so",
+      "name": "Nominal",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.nominal.so/"
+    },
+    {
+      "rank": 345,
+      "id": "noomo-showcase-showcase-noomoagency-com",
+      "name": "Noomo Showcase",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://showcase.noomoagency.com"
+    },
+    {
+      "rank": 346,
+      "id": "northgarden-northgarden-com",
+      "name": "NorthGarden",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.northgarden.com"
+    },
+    {
+      "rank": 347,
+      "id": "novu-just-talk-find-focus-withnovu-com",
+      "name": "Novu: Just talk. Find focus.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.withnovu.com"
+    },
+    {
+      "rank": 348,
+      "id": "noxediem-creative-production-noxediem-ch",
+      "name": "Noxediem Creative & Production",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://noxediem.ch/en/"
+    },
+    {
+      "rank": 349,
+      "id": "nube-espaciolanube-com",
+      "name": "Nube",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.espaciolanube.com"
+    },
+    {
+      "rank": 350,
+      "id": "nudot-studio-nudot-com-tw",
+      "name": "Nudot Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://nudot.com.tw"
+    },
+    {
+      "rank": 351,
+      "id": "nymphai-cosmetics-nymphaicosmetics-com",
+      "name": "Nymphai Cosmetics",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://nymphaicosmetics.com"
+    },
+    {
+      "rank": 352,
+      "id": "ný-ásýnd-vettvangs-brand-vettvangur-is",
+      "name": "Ný ásýnd Vettvangs",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://brand.vettvangur.is"
+    },
+    {
+      "rank": 353,
+      "id": "obscura-obscurastudio-webflow-io",
+      "name": "OBSCURA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://obscurastudio.webflow.io/"
+    },
+    {
+      "rank": 354,
+      "id": "ogon-es-ogon-es",
+      "name": "OGON.ES",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ogon.es/"
+    },
+    {
+      "rank": 355,
+      "id": "oji-global-brand-book-ojiholdings-co-jp",
+      "name": "OJI GLOBAL BRAND BOOK",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ojiholdings.co.jp/"
+    },
+    {
+      "rank": 356,
+      "id": "orbea-orbea-com",
+      "name": "ORBEA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.orbea.com/"
+    },
+    {
+      "rank": 357,
+      "id": "ordr-ordrhealth-com",
+      "name": "ORDR",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ordrhealth.com"
+    },
+    {
+      "rank": 358,
+      "id": "osi-90th-anniversary-storia-osi-swiss",
+      "name": "OSI 90th Anniversary",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://storia.osi.swiss/"
+    },
+    {
+      "rank": 359,
+      "id": "obama-presidency-oral-history-obamaoralhistory-columbi",
+      "name": "Obama Presidency Oral History",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://obamaoralhistory.columbia.edu/"
+    },
+    {
+      "rank": 360,
+      "id": "object-archive-objectandarchive-com",
+      "name": "Object & Archive",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://objectandarchive.com/"
+    },
+    {
+      "rank": 361,
+      "id": "obys-obys-agency",
+      "name": "Obys",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://obys.agency/"
+    },
+    {
+      "rank": 362,
+      "id": "obys-experiment-space-experiment-obys-agency",
+      "name": "Obys® Experiment Space",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://experiment.obys.agency/"
+    },
+    {
+      "rank": 363,
+      "id": "oddly-made-oddlymade-webflow-io",
+      "name": "Oddly Made",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://oddlymade.webflow.io"
+    },
+    {
+      "rank": 364,
+      "id": "off-menu-offmenu-design",
+      "name": "Off Menu",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://offmenu.design"
+    },
+    {
+      "rank": 365,
+      "id": "ohhmydesign-ohhmydesign-com",
+      "name": "OhhMyDesign",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ohhmydesign.com"
+    },
+    {
+      "rank": 366,
+      "id": "oimachi-oimachi-co",
+      "name": "Oimachi",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.oimachi.co"
+    },
+    {
+      "rank": 367,
+      "id": "oliver-gareis-olivergareis-com",
+      "name": "Oliver Gareis",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.olivergareis.com/"
+    },
+    {
+      "rank": 368,
+      "id": "olive-olivedesign-fr",
+      "name": "Olive®",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.olivedesign.fr"
+    },
+    {
+      "rank": 369,
+      "id": "ome-duo-events-omeduogroningen-nl",
+      "name": "Ome Duo Events",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://omeduogroningen.nl/"
+    },
+    {
+      "rank": 370,
+      "id": "oobexr-oobexr-zerotredici-app",
+      "name": "Oobe-Xr",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://oobexr.zerotredici.app/"
+    },
+    {
+      "rank": 371,
+      "id": "order-chaos-ordernchaos-aiziza-com",
+      "name": "Order & Chaos",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ordernchaos.aiziza.com/"
+    },
+    {
+      "rank": 372,
+      "id": "orionix-creative-agency-orionix-framer-website",
+      "name": "Orionix - Creative Agency",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://orionix.framer.website/"
+    },
+    {
+      "rank": 373,
+      "id": "outfit-outfit-hellohello-is",
+      "name": "Outfit",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://outfit.hellohello.is/"
+    },
+    {
+      "rank": 374,
+      "id": "ouzo-matarellis-matarellis-gr",
+      "name": "Ouzo Matarellis",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.matarellis.gr/en/"
+    },
+    {
+      "rank": 375,
+      "id": "overwatch-thelobbynews-com",
+      "name": "Overwatch",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://thelobbynews.com/overwatch"
+    },
+    {
+      "rank": 376,
+      "id": "ownitt-ownitt-fr",
+      "name": "Ownitt",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ownitt.fr/"
+    },
+    {
+      "rank": 377,
+      "id": "oz-gultekin-ozgur-design",
+      "name": "Oz Gultekin",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ozgur.design"
+    },
+    {
+      "rank": 378,
+      "id": "papa-tom-identity-studio-papatom-studio",
+      "name": "PAPA TOM Identity Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://papatom.studio/"
+    },
+    {
+      "rank": 379,
+      "id": "planetooote-digital-obsession-planetooote-tote-co-jp",
+      "name": "PLANETOOOTE :Digital Obsession",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://planetooote.tote.co.jp/"
+    },
+    {
+      "rank": 380,
+      "id": "poetic-poetic-com",
+      "name": "POETIC",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.poetic.com"
+    },
+    {
+      "rank": 381,
+      "id": "pp-neue-montreal-neuemontreal-com",
+      "name": "PP Neue Montreal",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://neuemontreal.com/"
+    },
+    {
+      "rank": 382,
+      "id": "praxis4-praxis4-vercel-app",
+      "name": "PRAXIS4",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://praxis4.vercel.app/"
+    },
+    {
+      "rank": 383,
+      "id": "prmo-inc-prm-ooo",
+      "name": "PRMO Inc.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://prm.ooo/"
+    },
+    {
+      "rank": 384,
+      "id": "px-push-pxpush-com",
+      "name": "PX PUSH",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pxpush.com/"
+    },
+    {
+      "rank": 385,
+      "id": "pacôme-pertant-portfolio-pacomepertant-com",
+      "name": "Pacôme Pertant Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pacomepertant.com/"
+    },
+    {
+      "rank": 386,
+      "id": "pahāri-pahari-vercel-app",
+      "name": "Pahāri",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pahari.vercel.app/"
+    },
+    {
+      "rank": 387,
+      "id": "palazzo-sogni-palazzosogni-com",
+      "name": "Palazzo Sogni",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.palazzosogni.com"
+    },
+    {
+      "rank": 388,
+      "id": "palladio-group-palladiogroup-com",
+      "name": "Palladio Group",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://palladiogroup.com/"
+    },
+    {
+      "rank": 389,
+      "id": "papumba-educational-app-papumba-com",
+      "name": "Papumba - Educational App",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.papumba.com/"
+    },
+    {
+      "rank": 390,
+      "id": "paradiso-institute-paradisoinstitute-org",
+      "name": "Paradiso Institute",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://paradisoinstitute.org/"
+    },
+    {
+      "rank": 391,
+      "id": "parallel-universe-paralleluniverse-com-ua",
+      "name": "Parallel Universe",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://paralleluniverse.com.ua/en/"
+    },
+    {
+      "rank": 392,
+      "id": "parinaz-s-desktop-portfolio-parinazkassemi-com",
+      "name": "Parinaz's Desktop Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.parinazkassemi.com"
+    },
+    {
+      "rank": 393,
+      "id": "partizan-partizan-com",
+      "name": "Partizan",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://partizan.com/"
+    },
+    {
+      "rank": 394,
+      "id": "patch-ai-thepatchsystem-com",
+      "name": "Patch Ai",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://thepatchsystem.com/ai"
+    },
+    {
+      "rank": 395,
+      "id": "pattern-breaking-patternbreak-ing",
+      "name": "Pattern Breaking",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://patternbreak.ing/"
+    },
+    {
+      "rank": 396,
+      "id": "paul-dunbar-selected-work-studiodunbar-xyz",
+      "name": "Paul Dunbar Selected Work",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://studiodunbar.xyz/"
+    },
+    {
+      "rank": 397,
+      "id": "paul-kalkbrenner-paulkalkbrenner-net",
+      "name": "Paul Kalkbrenner",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.paulkalkbrenner.net/"
+    },
+    {
+      "rank": 398,
+      "id": "pedro-belleza-s-personal-website-pedrobelleza-com",
+      "name": "Pedro Belleza's personal website",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.pedrobelleza.com/"
+    },
+    {
+      "rank": 399,
+      "id": "pelizzari-studio-pelizzari-com",
+      "name": "Pelizzari Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.pelizzari.com/"
+    },
+    {
+      "rank": 400,
+      "id": "penguin-capital-inc-penguin-capital-co-jp",
+      "name": "Penguin Capital Inc.",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.penguin-capital.co.jp"
+    },
+    {
+      "rank": 401,
+      "id": "pieterkoopt-pieterkoopt-nl",
+      "name": "PieterKoopt®",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pieterkoopt.nl/"
+    },
+    {
+      "rank": 402,
+      "id": "pil-rebranding-site-pilcommunication-com",
+      "name": "Pil Rebranding Site",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pilcommunication.com/"
+    },
+    {
+      "rank": 403,
+      "id": "piranha-bar-piranhabar-ie",
+      "name": "Piranha Bar",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://piranhabar.ie/"
+    },
+    {
+      "rank": 404,
+      "id": "pixelismo-studio-pixelismo-it",
+      "name": "Pixelismo Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.pixelismo.it"
+    },
+    {
+      "rank": 405,
+      "id": "pixila-digital-studio-pixila-net",
+      "name": "Pixila Digital Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pixila.net"
+    },
+    {
+      "rank": 406,
+      "id": "pizza-amici-pizza-amici-nl",
+      "name": "Pizza Amici",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.pizza-amici.nl/"
+    },
+    {
+      "rank": 407,
+      "id": "platse-rumbekeplatse-be",
+      "name": "Platse",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://rumbekeplatse.be"
+    },
+    {
+      "rank": 408,
+      "id": "playfight-letsplayfight-com",
+      "name": "Playfight",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.letsplayfight.com"
+    },
+    {
+      "rank": 409,
+      "id": "podium-podiumautomation-com",
+      "name": "Podium",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.podiumautomation.com/"
+    },
+    {
+      "rank": 410,
+      "id": "podium-podium-global",
+      "name": "Podium",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://podium.global/"
+    },
+    {
+      "rank": 411,
+      "id": "pomelo-pomelo-la",
+      "name": "Pomelo",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://pomelo.la/en"
+    },
+    {
+      "rank": 412,
+      "id": "ponder-ai-ponder-ai",
+      "name": "Ponder AI",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ponder.ai"
+    },
+    {
+      "rank": 413,
+      "id": "price-pierce-price-pierce-co-uk",
+      "name": "Price & Pierce",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.price-pierce.co.uk/"
+    },
+    {
+      "rank": 414,
+      "id": "primer-primer-com",
+      "name": "Primer",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://primer.com/"
+    },
+    {
+      "rank": 415,
+      "id": "primora-primora-xyz",
+      "name": "Primora",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://primora.xyz/"
+    },
+    {
+      "rank": 416,
+      "id": "produx-design-produx-design",
+      "name": "Produx Design",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.produx.design"
+    },
+    {
+      "rank": 417,
+      "id": "project-aperture-project-aperture-com",
+      "name": "Project Aperture",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.project-aperture.com/"
+    },
+    {
+      "rank": 418,
+      "id": "prolibu-prolibu-com",
+      "name": "Prolibu",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://prolibu.com"
+    },
+    {
+      "rank": 419,
+      "id": "qiao-qiaooli-com",
+      "name": "Qiao",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://qiaooli.com/"
+    },
+    {
+      "rank": 420,
+      "id": "rck-portfolio-rickallan-work",
+      "name": "RCK PORTFOLIO®",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.rickallan.work/"
+    },
+    {
+      "rank": 421,
+      "id": "ref-digital-ref-digital",
+      "name": "REF Digital",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ref.digital/"
+    },
+    {
+      "rank": 422,
+      "id": "risk-risk-film",
+      "name": "RISK",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.risk.film"
+    },
+    {
+      "rank": 423,
+      "id": "rpa-comunicación-rpacomunicacion-com",
+      "name": "RPA COMUNICACIÓN",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://rpacomunicacion.com/"
+    },
+    {
+      "rank": 424,
+      "id": "rsquad-blockchain-lab-rsquad-io",
+      "name": "RSquad Blockchain Lab",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://rsquad.io/"
+    },
+    {
+      "rank": 425,
+      "id": "rabanne-invictus-elixir-invictus-elixir-experien",
+      "name": "Rabanne - Invictus Elixir",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://invictus-elixir-experience.rabanne.com"
+    },
+    {
+      "rank": 426,
+      "id": "radian-rideradian-com",
+      "name": "Radian",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.rideradian.com/"
+    },
+    {
+      "rank": 427,
+      "id": "raw-house-rawhouseathens-gr",
+      "name": "Raw House",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://rawhouseathens.gr/en/"
+    },
+    {
+      "rank": 428,
+      "id": "razorpay-sprint-26-razorpay-com",
+      "name": "Razorpay Sprint 26",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://razorpay.com/sprint/26"
+    },
+    {
+      "rank": 429,
+      "id": "readymag-madrid-meetup-readymag-com",
+      "name": "Readymag Madrid Meetup",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://readymag.com/madrid-meetup?utm_source=awwwards&utm_medium=partnership_submission&utm_campaign=community"
+    },
+    {
+      "rank": 430,
+      "id": "really-up-there-reallyupthere-com",
+      "name": "Really Up There",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.reallyupthere.com"
+    },
+    {
+      "rank": 431,
+      "id": "rechroma-rechroma-com",
+      "name": "Rechroma",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://rechroma.com"
+    },
+    {
+      "rank": 432,
+      "id": "reckon-house-staples-reckon-house",
+      "name": "Reckon House Staples",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://reckon.house"
+    },
+    {
+      "rank": 433,
+      "id": "redondo-redondo-design",
+      "name": "Redondo",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.redondo.design/"
+    },
+    {
+      "rank": 434,
+      "id": "relais-rossar-relaisrossar-it",
+      "name": "Relais Rossar",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.relaisrossar.it"
+    },
+    {
+      "rank": 435,
+      "id": "revelatio-studio-revelatio-studio",
+      "name": "Revelatio Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://revelatio.studio/"
+    },
+    {
+      "rank": 436,
+      "id": "reverie-safaris-reveriesafaris-com",
+      "name": "Reverie Safaris",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://reveriesafaris.com/"
+    },
+    {
+      "rank": 437,
+      "id": "reyou-reyou-life",
+      "name": "Reyou",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.reyou.life"
+    },
+    {
+      "rank": 438,
+      "id": "ricardo-chance-portfolio-ricardochance-com",
+      "name": "Ricardo Chance — Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ricardochance.com/"
+    },
+    {
+      "rank": 439,
+      "id": "rocket-web-labs-rocketweblabs-com",
+      "name": "Rocket Web Labs",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.rocketweblabs.com/"
+    },
+    {
+      "rank": 440,
+      "id": "roshan-sahu-folio-roshan-sahu-com",
+      "name": "Roshan Sahu - folio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://roshan-sahu.com/"
+    },
+    {
+      "rank": 441,
+      "id": "ruinart-digital-fresco-fresque-ruinart-com",
+      "name": "Ruinart - Digital fresco",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://fresque.ruinart.com"
+    },
+    {
+      "rank": 442,
+      "id": "russell-numo-portfolio-russellnumo-nl",
+      "name": "Russell Numo ~ Portfolio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.russellnumo.nl/"
+    },
+    {
+      "rank": 443,
+      "id": "russell-smith-whereisrussell-com",
+      "name": "Russell Smith",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://whereisrussell.com"
+    },
+    {
+      "rank": 444,
+      "id": "ryan-ritzenthaler-portfolio-v2-ryanritzenthaler-com",
+      "name": "Ryan Ritzenthaler Portfolio V2",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ryanritzenthaler.com/"
+    },
+    {
+      "rank": 445,
+      "id": "scs-o-scs-com",
+      "name": "SCS",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://o-scs.com/"
+    },
+    {
+      "rank": 446,
+      "id": "sohub-sohub-digital",
+      "name": "SOHub",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sohub.digital"
+    },
+    {
+      "rank": 447,
+      "id": "spa-specialproduction-agency",
+      "name": "SPA",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.specialproduction.agency/"
+    },
+    {
+      "rank": 448,
+      "id": "sstr-friction-reduction-sstr-tech",
+      "name": "SSTR - Friction Reduction",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sstr.tech/en/"
+    },
+    {
+      "rank": 449,
+      "id": "sursur-élections-québec-sursur-ca",
+      "name": "SURSUR - Élections Québec",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sursur.ca/"
+    },
+    {
+      "rank": 450,
+      "id": "salo-creative-salo-uk",
+      "name": "Salo Creative",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://salo.uk"
+    },
+    {
+      "rank": 451,
+      "id": "samuel-regan-samuelregan-com",
+      "name": "Samuel Regan",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.samuelregan.com"
+    },
+    {
+      "rank": 452,
+      "id": "save-for-later-clicktokeep-com",
+      "name": "Save for later",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.clicktokeep.com/"
+    },
+    {
+      "rank": 453,
+      "id": "sazabi-sazabi-com",
+      "name": "Sazabi",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sazabi.com"
+    },
+    {
+      "rank": 454,
+      "id": "scottish-malt-whisky-society-outturn-smwsa-com",
+      "name": "Scottish Malt Whisky Society",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://outturn.smwsa.com/"
+    },
+    {
+      "rank": 455,
+      "id": "seek-and-deploy-seekanddeploy-com",
+      "name": "Seek and Deploy",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://seekanddeploy.com"
+    },
+    {
+      "rank": 456,
+      "id": "sentient-foundation-sentient-foundation",
+      "name": "Sentient Foundation",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sentient.foundation/"
+    },
+    {
+      "rank": 457,
+      "id": "septiembre-arquitectura-septiembrearquitectura-c",
+      "name": "Septiembre Arquitectura",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.septiembrearquitectura.com/"
+    },
+    {
+      "rank": 458,
+      "id": "serhat-durmus-serhatdurmus-com",
+      "name": "Serhat Durmus",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://serhatdurmus.com/"
+    },
+    {
+      "rank": 459,
+      "id": "serotoninn-serotoninn-com",
+      "name": "Serotoninn",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://serotoninn.com/"
+    },
+    {
+      "rank": 460,
+      "id": "serve-robotics-serverobotics-com",
+      "name": "Serve Robotics",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.serverobotics.com/"
+    },
+    {
+      "rank": 461,
+      "id": "shakanksh-sinha-shakanksh-com",
+      "name": "Shakanksh Sinha",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://shakanksh.com/"
+    },
+    {
+      "rank": 462,
+      "id": "shaky-picks-myshaky-com",
+      "name": "Shaky Picks",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://myshaky.com/picks"
+    },
+    {
+      "rank": 463,
+      "id": "share-bien-sharebien-com",
+      "name": "Share Bien",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.sharebien.com/"
+    },
+    {
+      "rank": 464,
+      "id": "sharplink-sharplink-com",
+      "name": "Sharplink",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.sharplink.com/"
+    },
+    {
+      "rank": 465,
+      "id": "shelby-shelby-ashfall-studio",
+      "name": "Shelby",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://shelby.ashfall.studio/"
+    },
+    {
+      "rank": 466,
+      "id": "shining-shining-302chanwoo-com",
+      "name": "Shining",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://shining.302chanwoo.com"
+    },
+    {
+      "rank": 467,
+      "id": "shinkei-systems-shinkei-systems",
+      "name": "Shinkei Systems",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://shinkei.systems/"
+    },
+    {
+      "rank": 468,
+      "id": "siberia-siberia-es",
+      "name": "Siberia",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://siberia.es/"
+    },
+    {
+      "rank": 469,
+      "id": "sidewave-sidewave-it",
+      "name": "Sidewave",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sidewave.it/"
+    },
+    {
+      "rank": 470,
+      "id": "signal-iq-concept-somyajain-com",
+      "name": "Signal IQ Concept",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.somyajain.com/signaliq-concept"
+    },
+    {
+      "rank": 471,
+      "id": "silent-house-silent-house-com",
+      "name": "Silent House",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://silent-house.com/"
+    },
+    {
+      "rank": 472,
+      "id": "silent-partners-studio-silentpartnersstudio-com",
+      "name": "Silent Partners Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://silentpartnersstudio.com/"
+    },
+    {
+      "rank": 473,
+      "id": "simonholm-studio-simonholm-studio",
+      "name": "Simonholm.studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.simonholm.studio"
+    },
+    {
+      "rank": 474,
+      "id": "since-you-arrived-sinceyouarrived-world",
+      "name": "Since You Arrived",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sinceyouarrived.world/hub"
+    },
+    {
+      "rank": 475,
+      "id": "sky-clinics-skyclinics-al",
+      "name": "Sky Clinics",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://skyclinics.al/"
+    },
+    {
+      "rank": 476,
+      "id": "slight-twist-slight-twist-co-nz",
+      "name": "Slight Twist",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.slight-twist.co.nz/"
+    },
+    {
+      "rank": 477,
+      "id": "slow-down-creative-slowdowncreative-com",
+      "name": "Slow Down Creative",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.slowdowncreative.com"
+    },
+    {
+      "rank": 478,
+      "id": "son-daven-sondaven-com",
+      "name": "Son Daven",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sondaven.com/en"
+    },
+    {
+      "rank": 479,
+      "id": "sounds-fun-soundsfun-co",
+      "name": "Sounds Fun",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.soundsfun.co/"
+    },
+    {
+      "rank": 480,
+      "id": "south-cliff-dental-group-southcliffdentalgroup-co",
+      "name": "South Cliff Dental Group",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://southcliffdentalgroup.com/"
+    },
+    {
+      "rank": 481,
+      "id": "sowieso-wero-sowieso-wero-wallet-eu",
+      "name": "Sowieso Wero",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sowieso.wero-wallet.eu/nl-en/merchant"
+    },
+    {
+      "rank": 482,
+      "id": "spatial-festival-spatial-festival-program",
+      "name": "Spatial Festival",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://spatial-festival.program.studio/"
+    },
+    {
+      "rank": 483,
+      "id": "specia1ne-specia1ne-com",
+      "name": "Specia1ne",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://specia1ne.com/"
+    },
+    {
+      "rank": 484,
+      "id": "spectral-field-robfwa-com",
+      "name": "Spectral Field",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.robfwa.com/"
+    },
+    {
+      "rank": 485,
+      "id": "spotify-wrapped-party-wrapped-party-activetheo",
+      "name": "Spotify Wrapped Party",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://wrapped-party.activetheory.dev"
+    },
+    {
+      "rank": 486,
+      "id": "spur-intelligence-spur-us",
+      "name": "Spur Intelligence",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://spur.us/"
+    },
+    {
+      "rank": 487,
+      "id": "squarespace-foundations-brand-squarespace-com",
+      "name": "Squarespace Foundations",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://brand.squarespace.com/"
+    },
+    {
+      "rank": 488,
+      "id": "steven-com-steven-com",
+      "name": "Steven.com",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://steven.com"
+    },
+    {
+      "rank": 489,
+      "id": "still-night-stillnight-joshua-garcia",
+      "name": "Still Night",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://stillnight.joshua-garcia.com"
+    },
+    {
+      "rank": 490,
+      "id": "strawberry-group-strawberrygroup-no",
+      "name": "Strawberry Group",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.strawberrygroup.no/"
+    },
+    {
+      "rank": 491,
+      "id": "studio-k95-k95-it",
+      "name": "Studio K95",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://k95.it"
+    },
+    {
+      "rank": 492,
+      "id": "studio-modular-studiomodular-be",
+      "name": "Studio Modular",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.studiomodular.be/"
+    },
+    {
+      "rank": 493,
+      "id": "studio-namma-studionamma-com",
+      "name": "Studio Namma",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://studionamma.com"
+    },
+    {
+      "rank": 494,
+      "id": "studio-ol-ol-studio",
+      "name": "Studio OL",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://ol.studio/"
+    },
+    {
+      "rank": 495,
+      "id": "studio-simms-studio-simms-com",
+      "name": "Studio Simms",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://studio-simms.com/"
+    },
+    {
+      "rank": 496,
+      "id": "studio375-375-studio",
+      "name": "Studio375",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://375.studio/en"
+    },
+    {
+      "rank": 497,
+      "id": "studiofmrg-fmrg-studio",
+      "name": "StudioFMRG",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://fmrg.studio/"
+    },
+    {
+      "rank": 498,
+      "id": "suero-studio-ethansuero-com",
+      "name": "Suero Studio",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.ethansuero.com/"
+    },
+    {
+      "rank": 499,
+      "id": "sui-sui-io",
+      "name": "Sui",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://www.sui.io/"
+    },
+    {
+      "rank": 500,
+      "id": "sunbeam-bagels-coffee-sunbeambagels-com",
+      "name": "Sunbeam Bagels & Coffee",
+      "group": "Featured",
+      "country": "XX",
+      "url": "https://sunbeambagels.com/"
+    }
+  ]
+}
