@@ -35,6 +35,12 @@ describe('island surfaces', () => {
         queuePollMs: number
         graphRoute?: string
       }
+      graphFloatingPanels: {
+        toolbar: string
+        communities: string
+        inspector: string
+        status: string
+      }
     }
     assert.equal(paths.islandSurfaces.homeRecentCount, catalog.islandSurfaces.homeRecentCount)
     assert.equal(paths.islandSurfaces.enrichmentListCap, catalog.islandSurfaces.enrichmentListCap)
@@ -45,6 +51,10 @@ describe('island surfaces', () => {
     assert.equal(paths.similarityGraph.nodeCap, 5000)
     assert.equal(paths.similarityGraph.pageSize, 120)
     assert.equal(paths.similarityGraph.neighborK, 8)
+    assert.equal(paths.graphFloatingPanels.toolbar, catalog.graphFloatingPanels.toolbar)
+    assert.equal(paths.graphFloatingPanels.communities, catalog.graphFloatingPanels.communities)
+    assert.equal(paths.graphFloatingPanels.inspector, catalog.graphFloatingPanels.inspector)
+    assert.equal(paths.graphFloatingPanels.status, catalog.graphFloatingPanels.status)
   })
 
   it('links a capture to the desktop library screen', () => {

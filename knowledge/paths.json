@@ -567,6 +567,12 @@
     "neighborK": 8,
     "cacheTtlSec": 600
   },
+  "graphFloatingPanels": {
+    "toolbar": "spirion.v1.graph.toolbar",
+    "communities": "spirion.v1.graph.communities",
+    "inspector": "spirion.v1.graph.inspector",
+    "status": "spirion.v1.graph.status"
+  },
   "checkionV3": {
     "repo": "https://github.com/chbrdk/checkion-v3",
     "localClone": "/Users/m1air/GITHUB/checkion-v3",

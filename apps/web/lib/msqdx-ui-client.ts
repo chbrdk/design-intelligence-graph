@@ -12,6 +12,14 @@ export type {
   ChatOverlayPlacement,
   ChatOverlayProps,
 } from '../../../../msqdx-ui/packages/ui/src/components/ChatOverlay'
+export { FloatingPanel } from '../../../../msqdx-ui/packages/ui/src/components/FloatingPanel'
+export type {
+  FloatingPanelProps,
+  FloatingPanelSurface,
+  FloatingPanelVariant,
+} from '../../../../msqdx-ui/packages/ui/src/components/FloatingPanel'
+export { FlowBoardStage } from '../../../../msqdx-ui/packages/ui/src/components/FlowBoardStage'
+export type { FlowBoardStageProps } from '../../../../msqdx-ui/packages/ui/src/components/FlowBoardStage'
 export { InfoTip } from '../../../../msqdx-ui/packages/ui/src/components/InfoTip'
 export type { InfoTipProps } from '../../../../msqdx-ui/packages/ui/src/components/InfoTip'
 export { Select } from '../../../../msqdx-ui/packages/ui/src/components/Select'

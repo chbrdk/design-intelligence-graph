@@ -7,6 +7,13 @@ export const paths = {
   mainGutterRem: 2.5,
   railDockEdge: 'left' as const,
   railDockStorageKey: 'spirion.v1.railDock',
+  /** FloatingPanel dock persistence for immersive Graph (creation-editor SnapDock). */
+  graphFloatingPanels: {
+    toolbar: 'spirion.v1.graph.toolbar',
+    communities: 'spirion.v1.graph.communities',
+    inspector: 'spirion.v1.graph.inspector',
+    status: 'spirion.v1.graph.status',
+  },
   brandCornerRadiusPx: 32,
   /** User-facing product name (Plexon sibling to CHECKION / AUDION / BRANDION). */
   brandLabel: 'SPIRION',
@@ -170,7 +177,7 @@ export const paths = {
     graphHint:
       'Community map of screens — colored neighborhoods, god nodes by degree, click for why they connect.',
     graphifyHint:
-      'Communities list the full loaded corpus (not only what’s drawn). Larger nodes are hubs. Scroll to zoom, drag empty space to pan. Path traces how two screens connect.',
+      'Drag overlay panels to dock them. Communities list the full loaded corpus. Scroll to zoom, drag empty space to pan.',
     graphEmptyCraft: 'No craft neighbors in this sample yet.',
     graphEmptyVisual:
       'No screenshot embeddings yet. Visual neighbors appear after the backfill runs (Gemini Embedding 2).',

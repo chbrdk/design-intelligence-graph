@@ -1,6 +1,13 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
+} from 'react'
 import { Button, MetricChip } from '../lib/msqdx-ui'
 import {
   communityTone,
@@ -31,8 +38,13 @@ type Props = {
   searchQuery?: string
   onNodeSelect?: (id: string) => void
   onResetView?: () => void
+  /** Logical layout size; ignored when fillParent measures the container. */
   width?: number
   height?: number
+  /** Fill the parent box (100% of stage) and drive layout from ResizeObserver. */
+  fillParent?: boolean
+  /** Hide built-in zoom chrome when overlays own it. */
+  showZoomBar?: boolean
   ariaLabel: string
 }
 
@@ -43,15 +55,19 @@ export function SimilarityGraphView({
   pathNodeIds = [],
   searchQuery = '',
   onNodeSelect,
-  width = 1100,
-  height = 720,
+  width: widthProp = 1100,
+  height: heightProp = 720,
+  fillParent = false,
+  showZoomBar = true,
   ariaLabel,
 }: Props) {
   const [placed, setPlaced] = useState<ForceNode[]>([])
   const [transform, setTransform] = useState({ x: 0, y: 0, k: 1 })
+  const [size, setSize] = useState({ width: widthProp, height: heightProp })
   const simRef = useRef<ForceNode[]>([])
   const frameRef = useRef<number | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
+  const rootRef = useRef<HTMLDivElement | null>(null)
   const dragRef = useRef<{
     pointerId: number
     startX: number
@@ -59,6 +75,29 @@ export function SimilarityGraphView({
     originX: number
     originY: number
   } | null>(null)
+
+  const width = fillParent ? size.width : widthProp
+  const height = fillParent ? size.height : heightProp
+
+  useEffect(() => {
+    if (!fillParent) {
+      setSize({ width: widthProp, height: heightProp })
+      return
+    }
+    const root = rootRef.current
+    if (!root || typeof ResizeObserver === 'undefined') return
+    const apply = () => {
+      const rect = root.getBoundingClientRect()
+      setSize({
+        width: Math.max(320, Math.round(rect.width)),
+        height: Math.max(240, Math.round(rect.height)),
+      })
+    }
+    apply()
+    const ro = new ResizeObserver(apply)
+    ro.observe(root)
+    return () => ro.disconnect()
+  }, [fillParent, widthProp, heightProp])
 
   const communities = useMemo(() => {
     const counts = new Map<string, number>()
@@ -100,6 +139,7 @@ export function SimilarityGraphView({
   }
 
   useEffect(() => {
+    if (width < 32 || height < 32) return
     simRef.current = createForceSimulation(
       nodes.map((n) => ({ id: n.id, label: n.label, community: n.community })),
       width,
@@ -188,13 +228,18 @@ export function SimilarityGraphView({
   }
 
   return (
-    <div className="dig-graph-viewport">
-      <div className="dig-row dig-graph-zoombar">
-        <Button type="button" variant="ghost" size="sm" onClick={() => setTransform({ x: 0, y: 0, k: 1 })}>
-          {paths.libraryCopy.graphResetView}
-        </Button>
-        <MetricChip label="Zoom">{`${Math.round(transform.k * 100)}%`}</MetricChip>
-      </div>
+    <div
+      ref={rootRef}
+      className={`dig-graph-viewport${fillParent ? ' dig-graph-viewport--fill' : ''}`}
+    >
+      {showZoomBar ? (
+        <div className="dig-row dig-graph-zoombar">
+          <Button type="button" variant="ghost" size="sm" onClick={() => setTransform({ x: 0, y: 0, k: 1 })}>
+            {paths.libraryCopy.graphResetView}
+          </Button>
+          <MetricChip label="Zoom">{`${Math.round(transform.k * 100)}%`}</MetricChip>
+        </div>
+      ) : null}
       <svg
         ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
