@@ -16,8 +16,9 @@ export function createForceSimulation(
   height: number,
 ): ForceNode[] {
   const communities = [...new Set(nodes.map((n) => n.community ?? 'mixed'))]
-  const communityRadius = Math.min(width, height) * 0.32
-  const localRadius = Math.min(width, height) * 0.08
+  // Spread community centers farther apart so clusters stay readable.
+  const communityRadius = Math.min(width, height) * 0.44
+  const localRadius = Math.min(width, height) * 0.16
   const centers = new Map<string, { x: number; y: number }>()
   communities.forEach((community, index) => {
     const angle = (Math.PI * 2 * index) / Math.max(communities.length, 1)
@@ -54,9 +55,9 @@ export function stepForceSimulation(
   alpha = 0.35,
 ): void {
   const index = new Map(nodes.map((node, i) => [node.id, i]))
-  const padding = 28
+  const padding = 44
   const communities = [...new Set(nodes.map((n) => n.community ?? 'mixed'))]
-  const communityRadius = Math.min(width, height) * 0.32
+  const communityRadius = Math.min(width, height) * 0.44
   const centers = new Map<string, { x: number; y: number }>()
   communities.forEach((community, i) => {
     const angle = (Math.PI * 2 * i) / Math.max(communities.length, 1)
@@ -73,8 +74,8 @@ export function stepForceSimulation(
       const same = (a.community ?? '') === (b.community ?? '')
       const dx = a.x - b.x
       const dy = a.y - b.y
-      const dist = Math.max(same ? 28 : 42, Math.hypot(dx, dy))
-      const force = ((same ? 380 : 620) / (dist * dist)) * alpha
+      const dist = Math.max(same ? 64 : 110, Math.hypot(dx, dy))
+      const force = ((same ? 720 : 1400) / (dist * dist)) * alpha
       const ux = dx / dist
       const uy = dy / dist
       a.vx += ux * force
@@ -93,7 +94,7 @@ export function stepForceSimulation(
     const dx = b.x - a.x
     const dy = b.y - a.y
     const dist = Math.max(1, Math.hypot(dx, dy))
-    const pull = (dist - 110) * 0.045 * edge.score * alpha
+    const pull = (dist - 200) * 0.03 * edge.score * alpha
     a.vx += (dx / dist) * pull
     a.vy += (dy / dist) * pull
     b.vx -= (dx / dist) * pull
@@ -102,10 +103,10 @@ export function stepForceSimulation(
 
   for (const node of nodes) {
     const center = centers.get(node.community ?? 'mixed') ?? { x: width / 2, y: height / 2 }
-    node.vx += (center.x - node.x) * 0.012 * alpha
-    node.vy += (center.y - node.y) * 0.012 * alpha
-    node.vx += (width / 2 - node.x) * 0.0004 * alpha
-    node.vy += (height / 2 - node.y) * 0.0004 * alpha
+    node.vx += (center.x - node.x) * 0.01 * alpha
+    node.vy += (center.y - node.y) * 0.01 * alpha
+    node.vx += (width / 2 - node.x) * 0.00025 * alpha
+    node.vy += (height / 2 - node.y) * 0.00025 * alpha
     node.vx *= 0.86
     node.vy *= 0.86
     node.x += node.vx

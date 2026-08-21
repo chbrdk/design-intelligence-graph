@@ -184,16 +184,17 @@ export function GraphPageClient() {
     [edges, visibleIds],
   )
 
+  // Legend uses the full loaded corpus so communities do not appear only after "Load more".
   const communities = useMemo(() => {
     const counts = new Map<string, number>()
-    for (const node of visibleNodes) {
+    for (const node of nodes) {
       const key = communityFor(node)
       counts.set(key, (counts.get(key) ?? 0) + 1)
     }
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1])
       .map(([label, count]) => ({ label, count }))
-  }, [visibleNodes, clusterBy])
+  }, [nodes, clusterBy])
 
   const communityOrder = useMemo(() => communities.map((c) => c.label), [communities])
 

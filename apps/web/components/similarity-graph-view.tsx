@@ -43,8 +43,8 @@ export function SimilarityGraphView({
   pathNodeIds = [],
   searchQuery = '',
   onNodeSelect,
-  width = 960,
-  height = 560,
+  width = 1100,
+  height = 720,
   ariaLabel,
 }: Props) {
   const [placed, setPlaced] = useState<ForceNode[]>([])

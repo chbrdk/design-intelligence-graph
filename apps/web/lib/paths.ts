@@ -170,7 +170,7 @@ export const paths = {
     graphHint:
       'Community map of screens — colored neighborhoods, god nodes by degree, click for why they connect.',
     graphifyHint:
-      'Communities group similar craft. Larger nodes are hubs. Scroll to zoom, drag empty space to pan. Path traces how two screens connect.',
+      'Communities list the full loaded corpus (not only what’s drawn). Larger nodes are hubs. Scroll to zoom, drag empty space to pan. Path traces how two screens connect.',
     graphEmptyCraft: 'No craft neighbors in this sample yet.',
     graphEmptyVisual:
       'No screenshot embeddings yet. Visual neighbors appear after the backfill runs (Gemini Embedding 2).',
