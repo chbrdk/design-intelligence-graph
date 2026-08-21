@@ -313,6 +313,7 @@
     "insurancePlus500": "knowledge/catalogs/insurance-plus-500.json",
     "designDiversity1000": "knowledge/catalogs/design-diversity-1000.json",
     "publicSector1000": "knowledge/catalogs/public-sector-1000.json",
+    "publicSectorPlus500": "knowledge/catalogs/public-sector-plus-500.json",
     "maxBatch": 1000
   },
   "imageIngest": {

@@ -173,6 +173,7 @@ export interface DigPaths {
     insurancePlus500?: string;
     designDiversity1000?: string;
     publicSector1000?: string;
+    publicSectorPlus500?: string;
     maxBatch?: number;
   };
   imageIngest?: {

@@ -37,6 +37,7 @@ export function captureJobsConfig(root = process.cwd()): {
   insurancePlus500: string;
   designDiversity1000: string;
   publicSector1000: string;
+  publicSectorPlus500: string;
   maxBatch: number;
 } {
   const cfg = loadDigPaths(root).captureJobs;
@@ -61,6 +62,7 @@ export function captureJobsConfig(root = process.cwd()): {
     insurancePlus500: cfg?.insurancePlus500 ?? "knowledge/catalogs/insurance-plus-500.json",
     designDiversity1000: cfg?.designDiversity1000 ?? "knowledge/catalogs/design-diversity-1000.json",
     publicSector1000: cfg?.publicSector1000 ?? "knowledge/catalogs/public-sector-1000.json",
+    publicSectorPlus500: cfg?.publicSectorPlus500 ?? "knowledge/catalogs/public-sector-plus-500.json",
     maxBatch: cfg?.maxBatch ?? 1000
   };
 }
@@ -74,6 +76,7 @@ export function resolveCaptureCatalogPath(catalogId: string, root = process.cwd(
   if (catalogId === "insurance-plus-500") return resolve(root, cfg.insurancePlus500);
   if (catalogId === "design-diversity-1000") return resolve(root, cfg.designDiversity1000);
   if (catalogId === "public-sector-1000") return resolve(root, cfg.publicSector1000);
+  if (catalogId === "public-sector-plus-500") return resolve(root, cfg.publicSectorPlus500);
   return resolve(root, cfg.catalogsDir, `${catalogId}.json`);
 }
 

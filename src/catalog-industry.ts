@@ -9,7 +9,8 @@ const CATALOG_INDUSTRY: Record<string, string> = {
   "insurance-plus-500": "insurance",
   "automotive-oem-50": "automotive",
   "engineering-manufacturing-1000": "manufacturing",
-  "public-sector-1000": "government"
+  "public-sector-1000": "government",
+  "public-sector-plus-500": "government"
 };
 
 const GROUP_ALIASES: Array<[RegExp, string]> = [

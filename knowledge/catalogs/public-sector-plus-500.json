@@ -1,0 +1,4010 @@
+{
+  "id": "public-sector-plus-500",
+  "title": "500 additional public-sector / city / governance homepages not in public-sector-1000",
+  "source": "Second public-sector capture wave (2026-08-21). Curated mid-tier cities and agencies first, then leftover Wikidata official websites round-robin by country. Hosts already in prior DIG catalogs including public-sector-1000 are excluded.",
+  "sourceUrl": "https://query.wikidata.org/",
+  "year": 2026,
+  "updated": "2026-08-21",
+  "entries": [
+    {
+      "rank": 1,
+      "id": "city-of-portland-portland-gov",
+      "name": "City of Portland",
+      "group": "City",
+      "country": "US",
+      "url": "https://www.portland.gov/"
+    },
+    {
+      "rank": 2,
+      "id": "city-of-philadelphia-phila-gov",
+      "name": "City of Philadelphia",
+      "group": "City",
+      "country": "US",
+      "url": "https://www.phila.gov/"
+    },
+    {
+      "rank": 3,
+      "id": "city-of-phoenix-phoenix-gov",
+      "name": "City of Phoenix",
+      "group": "City",
+      "country": "US",
+      "url": "https://www.phoenix.gov/"
+    },
+    {
+      "rank": 4,
+      "id": "city-of-san-diego-sandiego-gov",
+      "name": "City of San Diego",
+      "group": "City",
+      "country": "US",
+      "url": "https://www.sandiego.gov/"
+    },
+    {
+      "rank": 5,
+      "id": "city-of-minneapolis-minneapolismn-gov",
+      "name": "City of Minneapolis",
+      "group": "City",
+      "country": "US",
+      "url": "https://www.minneapolismn.gov/"
+    },
+    {
+      "rank": 6,
+      "id": "city-of-miami-miamigov-com",
+      "name": "City of Miami",
+      "group": "City",
+      "country": "US",
+      "url": "https://www.miamigov.com/"
+    },
+    {
+      "rank": 7,
+      "id": "city-of-montreal-montreal-ca",
+      "name": "City of Montreal",
+      "group": "City",
+      "country": "CA",
+      "url": "https://montreal.ca/"
+    },
+    {
+      "rank": 8,
+      "id": "city-of-ottawa-ottawa-ca",
+      "name": "City of Ottawa",
+      "group": "City",
+      "country": "CA",
+      "url": "https://ottawa.ca/"
+    },
+    {
+      "rank": 9,
+      "id": "city-of-calgary-calgary-ca",
+      "name": "City of Calgary",
+      "group": "City",
+      "country": "CA",
+      "url": "https://www.calgary.ca/"
+    },
+    {
+      "rank": 10,
+      "id": "city-of-manchester-manchester-gov-uk",
+      "name": "City of Manchester",
+      "group": "City",
+      "country": "GB",
+      "url": "https://www.manchester.gov.uk/"
+    },
+    {
+      "rank": 11,
+      "id": "city-of-birmingham-uk-birmingham-gov-uk",
+      "name": "City of Birmingham UK",
+      "group": "City",
+      "country": "GB",
+      "url": "https://www.birmingham.gov.uk/"
+    },
+    {
+      "rank": 12,
+      "id": "city-of-glasgow-glasgow-gov-uk",
+      "name": "City of Glasgow",
+      "group": "City",
+      "country": "GB",
+      "url": "https://www.glasgow.gov.uk/"
+    },
+    {
+      "rank": 13,
+      "id": "stadt-stuttgart-stuttgart-de",
+      "name": "Stadt Stuttgart",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.stuttgart.de/"
+    },
+    {
+      "rank": 14,
+      "id": "stadt-düsseldorf-duesseldorf-de",
+      "name": "Stadt Düsseldorf",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.duesseldorf.de/"
+    },
+    {
+      "rank": 15,
+      "id": "ville-de-lyon-lyon-fr",
+      "name": "Ville de Lyon",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.lyon.fr/"
+    },
+    {
+      "rank": 16,
+      "id": "ville-de-marseille-marseille-fr",
+      "name": "Ville de Marseille",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.marseille.fr/"
+    },
+    {
+      "rank": 17,
+      "id": "ville-de-lille-lille-fr",
+      "name": "Ville de Lille",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.lille.fr/"
+    },
+    {
+      "rank": 18,
+      "id": "gemeente-rotterdam-rotterdam-nl",
+      "name": "Gemeente Rotterdam",
+      "group": "City",
+      "country": "NL",
+      "url": "https://www.rotterdam.nl/"
+    },
+    {
+      "rank": 19,
+      "id": "gemeente-den-haag-denhaag-nl",
+      "name": "Gemeente Den Haag",
+      "group": "City",
+      "country": "NL",
+      "url": "https://www.denhaag.nl/"
+    },
+    {
+      "rank": 20,
+      "id": "stadt-basel-bs-ch",
+      "name": "Stadt Basel",
+      "group": "City",
+      "country": "CH",
+      "url": "https://www.bs.ch/"
+    },
+    {
+      "rank": 21,
+      "id": "comune-di-torino-comune-torino-it",
+      "name": "Comune di Torino",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.comune.torino.it/"
+    },
+    {
+      "rank": 22,
+      "id": "comune-di-napoli-comune-napoli-it",
+      "name": "Comune di Napoli",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.comune.napoli.it/"
+    },
+    {
+      "rank": 23,
+      "id": "ayuntamiento-de-valencia-valencia-es",
+      "name": "Ayuntamiento de Valencia",
+      "group": "City",
+      "country": "ES",
+      "url": "https://www.valencia.es/"
+    },
+    {
+      "rank": 24,
+      "id": "ayuntamiento-de-sevilla-sevilla-org",
+      "name": "Ayuntamiento de Sevilla",
+      "group": "City",
+      "country": "ES",
+      "url": "https://www.sevilla.org/"
+    },
+    {
+      "rank": 25,
+      "id": "city-of-brisbane-brisbane-qld-gov-au",
+      "name": "City of Brisbane",
+      "group": "City",
+      "country": "AU",
+      "url": "https://www.brisbane.qld.gov.au/"
+    },
+    {
+      "rank": 26,
+      "id": "city-of-perth-perth-wa-gov-au",
+      "name": "City of Perth",
+      "group": "City",
+      "country": "AU",
+      "url": "https://www.perth.wa.gov.au/"
+    },
+    {
+      "rank": 27,
+      "id": "wellington-city-council-wellington-govt-nz",
+      "name": "Wellington City Council",
+      "group": "City",
+      "country": "NZ",
+      "url": "https://wellington.govt.nz/"
+    },
+    {
+      "rank": 28,
+      "id": "florida-gov-fl-gov",
+      "name": "Florida.gov",
+      "group": "Region / state",
+      "country": "US",
+      "url": "https://www.fl.gov/"
+    },
+    {
+      "rank": 29,
+      "id": "illinois-gov-illinois-gov",
+      "name": "Illinois.gov",
+      "group": "Region / state",
+      "country": "US",
+      "url": "https://www.illinois.gov/"
+    },
+    {
+      "rank": 30,
+      "id": "massachusetts-gov-mass-gov",
+      "name": "Massachusetts.gov",
+      "group": "Region / state",
+      "country": "US",
+      "url": "https://www.mass.gov/"
+    },
+    {
+      "rank": 31,
+      "id": "badenwürttemberg-baden-wuerttemberg-de",
+      "name": "Baden-Württemberg",
+      "group": "Region / state",
+      "country": "DE",
+      "url": "https://www.baden-wuerttemberg.de/"
+    },
+    {
+      "rank": 32,
+      "id": "hessen-de-hessen-de",
+      "name": "Hessen.de",
+      "group": "Region / state",
+      "country": "DE",
+      "url": "https://hessen.de/"
+    },
+    {
+      "rank": 33,
+      "id": "provencealpescôte-d-azur-maregionsud-fr",
+      "name": "Provence-Alpes-Côte d'Azur",
+      "group": "Region / state",
+      "country": "FR",
+      "url": "https://www.maregionsud.fr/"
+    },
+    {
+      "rank": 34,
+      "id": "gsa-gsa-gov",
+      "name": "GSA",
+      "group": "Government agency",
+      "country": "US",
+      "url": "https://www.gsa.gov/"
+    },
+    {
+      "rank": 35,
+      "id": "noaa-noaa-gov",
+      "name": "NOAA",
+      "group": "Government agency",
+      "country": "US",
+      "url": "https://www.noaa.gov/"
+    },
+    {
+      "rank": 36,
+      "id": "nist-nist-gov",
+      "name": "NIST",
+      "group": "Government agency",
+      "country": "US",
+      "url": "https://www.nist.gov/"
+    },
+    {
+      "rank": 37,
+      "id": "gov-uk-design-system-design-system-service-go",
+      "name": "GOV.UK Design System",
+      "group": "Government agency",
+      "country": "GB",
+      "url": "https://design-system.service.gov.uk/"
+    },
+    {
+      "rank": 38,
+      "id": "digitalservice-bund-digitalservice-bund-de",
+      "name": "DigitalService Bund",
+      "group": "Government agency",
+      "country": "DE",
+      "url": "https://digitalservice.bund.de/"
+    },
+    {
+      "rank": 39,
+      "id": "dinum-france-numerique-gouv-fr",
+      "name": "DINUM France",
+      "group": "Government agency",
+      "country": "FR",
+      "url": "https://www.numerique.gouv.fr/"
+    },
+    {
+      "rank": 40,
+      "id": "u-s-census-bureau-census-gov",
+      "name": "U.S. Census Bureau",
+      "group": "Government agency",
+      "country": "US",
+      "url": "https://www.census.gov/"
+    },
+    {
+      "rank": 41,
+      "id": "bundesbank-bundesbank-de",
+      "name": "Bundesbank",
+      "group": "Government agency",
+      "country": "DE",
+      "url": "https://www.bundesbank.de/"
+    },
+    {
+      "rank": 42,
+      "id": "banque-de-france-banque-france-fr",
+      "name": "Banque de France",
+      "group": "Government agency",
+      "country": "FR",
+      "url": "https://www.banque-france.fr/"
+    },
+    {
+      "rank": 43,
+      "id": "swiss-national-bank-snb-ch",
+      "name": "Swiss National Bank",
+      "group": "Government agency",
+      "country": "CH",
+      "url": "https://www.snb.ch/"
+    },
+    {
+      "rank": 44,
+      "id": "rijksmuseum-rijksmuseum-nl",
+      "name": "Rijksmuseum",
+      "group": "Government agency",
+      "country": "NL",
+      "url": "https://www.rijksmuseum.nl/"
+    },
+    {
+      "rank": 45,
+      "id": "library-of-congress-loc-gov",
+      "name": "Library of Congress",
+      "group": "Government agency",
+      "country": "US",
+      "url": "https://www.loc.gov/"
+    },
+    {
+      "rank": 46,
+      "id": "tokyo-english-metro-tokyo-lg-j",
+      "name": "Tokyo",
+      "group": "City",
+      "country": "JA",
+      "url": "https://www.english.metro.tokyo.lg.jp/"
+    },
+    {
+      "rank": 47,
+      "id": "esslingen-am-neckar-esslingen-de",
+      "name": "Esslingen am Neckar",
+      "group": "City",
+      "country": "GE",
+      "url": "https://www.esslingen.de/"
+    },
+    {
+      "rank": 48,
+      "id": "oxford-oxford-gov-uk",
+      "name": "Oxford",
+      "group": "City",
+      "country": "UN",
+      "url": "https://www.oxford.gov.uk/"
+    },
+    {
+      "rank": 49,
+      "id": "hajós-hajosvaros-hu",
+      "name": "Hajós",
+      "group": "City",
+      "country": "HU",
+      "url": "https://www.hajosvaros.hu"
+    },
+    {
+      "rank": 50,
+      "id": "ovruch-ovruch-in-ua",
+      "name": "Ovruch",
+      "group": "City",
+      "country": "UK",
+      "url": "https://ovruch.in.ua/"
+    },
+    {
+      "rank": 51,
+      "id": "angers-angers-fr",
+      "name": "Angers",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.angers.fr"
+    },
+    {
+      "rank": 52,
+      "id": "fredericton-fredericton-ca",
+      "name": "Fredericton",
+      "group": "City",
+      "country": "CA",
+      "url": "https://fredericton.ca/fr"
+    },
+    {
+      "rank": 53,
+      "id": "jakarta-jakarta-go-id",
+      "name": "Jakarta",
+      "group": "City",
+      "country": "IN",
+      "url": "https://www.jakarta.go.id/"
+    },
+    {
+      "rank": 54,
+      "id": "skierniewice-skierniewice-eu",
+      "name": "Skierniewice",
+      "group": "City",
+      "country": "PO",
+      "url": "https://www.skierniewice.eu/"
+    },
+    {
+      "rank": 55,
+      "id": "krasnodar-krd-ru",
+      "name": "Krasnodar",
+      "group": "City",
+      "country": "RU",
+      "url": "https://krd.ru/"
+    },
+    {
+      "rank": 56,
+      "id": "pudong-pudong-gov-cn",
+      "name": "Pudong",
+      "group": "City",
+      "country": "PE",
+      "url": "https://pudong.gov.cn"
+    },
+    {
+      "rank": 57,
+      "id": "ankara-ankara-bel-tr",
+      "name": "Ankara",
+      "group": "City",
+      "country": "TU",
+      "url": "https://www.ankara.bel.tr/"
+    },
+    {
+      "rank": 58,
+      "id": "auckland-aucklandnz-com",
+      "name": "Auckland",
+      "group": "City",
+      "country": "NE",
+      "url": "https://aucklandnz.com"
+    },
+    {
+      "rank": 59,
+      "id": "bari-bari-e-it",
+      "name": "Bari",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.bari-e.it/"
+    },
+    {
+      "rank": 60,
+      "id": "lund-lund-se",
+      "name": "Lund",
+      "group": "City",
+      "country": "SW",
+      "url": "https://www.lund.se"
+    },
+    {
+      "rank": 61,
+      "id": "athens-cityofathens-gr",
+      "name": "Athens",
+      "group": "City",
+      "country": "GR",
+      "url": "https://www.cityofathens.gr"
+    },
+    {
+      "rank": 62,
+      "id": "kingston-pitcairners-org",
+      "name": "Kingston",
+      "group": "City",
+      "country": "AU",
+      "url": "https://www.pitcairners.org/vt_kingston.html"
+    },
+    {
+      "rank": 63,
+      "id": "nouakchott-crn-mr",
+      "name": "Nouakchott",
+      "group": "City",
+      "country": "MA",
+      "url": "https://crn.mr/fr/"
+    },
+    {
+      "rank": 64,
+      "id": "busan-busan-go-kr",
+      "name": "Busan",
+      "group": "City",
+      "country": "SO",
+      "url": "https://www.busan.go.kr/"
+    },
+    {
+      "rank": 65,
+      "id": "karachi-kmc-gos-pk",
+      "name": "Karachi",
+      "group": "City",
+      "country": "PA",
+      "url": "https://www.kmc.gos.pk/"
+    },
+    {
+      "rank": 66,
+      "id": "málaga-malaga-eu",
+      "name": "Málaga",
+      "group": "City",
+      "country": "SP",
+      "url": "https://www.malaga.eu/"
+    },
+    {
+      "rank": 67,
+      "id": "algiers-alger-mta-gov-dz",
+      "name": "Algiers",
+      "group": "City",
+      "country": "AL",
+      "url": "https://alger.mta.gov.dz/"
+    },
+    {
+      "rank": 68,
+      "id": "maputo-cmmaputo-gov-mz",
+      "name": "Maputo",
+      "group": "City",
+      "country": "MO",
+      "url": "https://www.cmmaputo.gov.mz"
+    },
+    {
+      "rank": 69,
+      "id": "novo-mesto-novomesto-si",
+      "name": "Novo Mesto",
+      "group": "City",
+      "country": "SL",
+      "url": "https://novomesto.si"
+    },
+    {
+      "rank": 70,
+      "id": "pardubice-pardubice-eu",
+      "name": "Pardubice",
+      "group": "City",
+      "country": "CZ",
+      "url": "https://pardubice.eu"
+    },
+    {
+      "rank": 71,
+      "id": "manama-capital-gov-bh",
+      "name": "Manama",
+      "group": "City",
+      "country": "BA",
+      "url": "https://www.capital.gov.bh"
+    },
+    {
+      "rank": 72,
+      "id": "goiânia-goiania-go-gov-br",
+      "name": "Goiânia",
+      "group": "City",
+      "country": "BR",
+      "url": "https://www.goiania.go.gov.br"
+    },
+    {
+      "rank": 73,
+      "id": "isfahan-isfahan-ir",
+      "name": "Isfahan",
+      "group": "City",
+      "country": "IR",
+      "url": "https://isfahan.ir/"
+    },
+    {
+      "rank": 74,
+      "id": "petah-tikva-govextra-gov-il",
+      "name": "Petah Tikva",
+      "group": "City",
+      "country": "IS",
+      "url": "https://govextra.gov.il/"
+    },
+    {
+      "rank": 75,
+      "id": "belmopan-belmopancityonline-com",
+      "name": "Belmopan",
+      "group": "City",
+      "country": "BE",
+      "url": "https://www.belmopancityonline.com/"
+    },
+    {
+      "rank": 76,
+      "id": "abuja-fcta-gov-ng",
+      "name": "Abuja",
+      "group": "City",
+      "country": "NI",
+      "url": "https://fcta.gov.ng/"
+    },
+    {
+      "rank": 77,
+      "id": "metro-manila-mmda-gov-ph",
+      "name": "Metro Manila",
+      "group": "City",
+      "country": "PH",
+      "url": "https://mmda.gov.ph"
+    },
+    {
+      "rank": 78,
+      "id": "la-paz-lapaz-bo",
+      "name": "La Paz",
+      "group": "City",
+      "country": "BO",
+      "url": "https://www.lapaz.bo/"
+    },
+    {
+      "rank": 79,
+      "id": "cartago-muni-carta-go-cr",
+      "name": "Cartago",
+      "group": "City",
+      "country": "CO",
+      "url": "https://www.muni-carta.go.cr/"
+    },
+    {
+      "rank": 80,
+      "id": "department-of-tourism-and-resorts-of-ajara-auton-gobatumi-com",
+      "name": "Department of Tourism and Resorts of Ajara Autonomous Republic",
+      "group": "Ministry",
+      "country": "XX",
+      "url": "https://gobatumi.com"
+    },
+    {
+      "rank": 81,
+      "id": "rietavas-rietavas-lt",
+      "name": "Rietavas",
+      "group": "City",
+      "country": "LI",
+      "url": "https://www.rietavas.lt"
+    },
+    {
+      "rank": 82,
+      "id": "horsens-horsens-dk",
+      "name": "Horsens",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.horsens.dk/"
+    },
+    {
+      "rank": 83,
+      "id": "taoyuan-eng-tycg-gov-tw",
+      "name": "Taoyuan",
+      "group": "City",
+      "country": "TA",
+      "url": "https://eng.tycg.gov.tw/"
+    },
+    {
+      "rank": 84,
+      "id": "colina-colina-cl",
+      "name": "Colina",
+      "group": "City",
+      "country": "CH",
+      "url": "https://www.colina.cl/"
+    },
+    {
+      "rank": 85,
+      "id": "guayaquil-guayaquil-gob-ec",
+      "name": "Guayaquil",
+      "group": "City",
+      "country": "EC",
+      "url": "https://www.guayaquil.gob.ec/"
+    },
+    {
+      "rank": 86,
+      "id": "hrazdan-hrazdan-am",
+      "name": "Hrazdan",
+      "group": "City",
+      "country": "AR",
+      "url": "https://hrazdan.am"
+    },
+    {
+      "rank": 87,
+      "id": "cairo-cairo-gov-eg",
+      "name": "Cairo",
+      "group": "City",
+      "country": "EG",
+      "url": "https://www.cairo.gov.eg/"
+    },
+    {
+      "rank": 88,
+      "id": "lahti-lahti-fi",
+      "name": "Lahti",
+      "group": "City",
+      "country": "FI",
+      "url": "https://www.lahti.fi/"
+    },
+    {
+      "rank": 89,
+      "id": "hermosillo-hermosillo-gob-mx",
+      "name": "Hermosillo",
+      "group": "City",
+      "country": "ME",
+      "url": "https://www.hermosillo.gob.mx/"
+    },
+    {
+      "rank": 90,
+      "id": "freetown-fcc-gov-sl",
+      "name": "Freetown",
+      "group": "City",
+      "country": "SI",
+      "url": "https://fcc.gov.sl/"
+    },
+    {
+      "rank": 91,
+      "id": "sofia-sofia-bg",
+      "name": "Sofia",
+      "group": "City",
+      "country": "BU",
+      "url": "https://sofia.bg"
+    },
+    {
+      "rank": 92,
+      "id": "nassau-nassauparadiseisland-com",
+      "name": "Nassau",
+      "group": "City",
+      "country": "TH",
+      "url": "https://www.nassauparadiseisland.com/"
+    },
+    {
+      "rank": 93,
+      "id": "accra-ama-gov-gh",
+      "name": "Accra",
+      "group": "City",
+      "country": "GH",
+      "url": "https://ama.gov.gh"
+    },
+    {
+      "rank": 94,
+      "id": "almaty-almaty-kz",
+      "name": "Almaty",
+      "group": "City",
+      "country": "KA",
+      "url": "https://almaty.kz"
+    },
+    {
+      "rank": 95,
+      "id": "belgrade-beograd-rs",
+      "name": "Belgrade",
+      "group": "City",
+      "country": "SE",
+      "url": "https://beograd.rs"
+    },
+    {
+      "rank": 96,
+      "id": "castries-castriescity-com",
+      "name": "Castries",
+      "group": "City",
+      "country": "SA",
+      "url": "https://castriescity.com/"
+    },
+    {
+      "rank": 97,
+      "id": "barquisimeto-barquisimeto-com",
+      "name": "Barquisimeto",
+      "group": "City",
+      "country": "VE",
+      "url": "https://www.barquisimeto.com/"
+    },
+    {
+      "rank": 98,
+      "id": "zadar-grad-zadar-hr",
+      "name": "Zadar",
+      "group": "City",
+      "country": "CR",
+      "url": "https://www.grad-zadar.hr/"
+    },
+    {
+      "rank": 99,
+      "id": "garðabær-gardabaer-is",
+      "name": "Garðabær",
+      "group": "City",
+      "country": "IC",
+      "url": "https://www.gardabaer.is/"
+    },
+    {
+      "rank": 100,
+      "id": "huế-hue-gov-vn",
+      "name": "Huế",
+      "group": "City",
+      "country": "VI",
+      "url": "https://hue.gov.vn/vi-vn/"
+    },
+    {
+      "rank": 101,
+      "id": "kyrenia-girnebelediyesi-com",
+      "name": "Kyrenia",
+      "group": "City",
+      "country": "NO",
+      "url": "https://www.girnebelediyesi.com/"
+    },
+    {
+      "rank": 102,
+      "id": "sopot-visit-sopot-pl",
+      "name": "Sopot",
+      "group": "City",
+      "country": "NA",
+      "url": "https://visit.sopot.pl/en/"
+    },
+    {
+      "rank": 103,
+      "id": "nakhchivan-nakhchivan-ih-gov-az",
+      "name": "Nakhchivan",
+      "group": "City",
+      "country": "AZ",
+      "url": "https://nakhchivan-ih.gov.az/"
+    },
+    {
+      "rank": 104,
+      "id": "luang-prabang-tourismluangprabang-gov-",
+      "name": "Luang Prabang",
+      "group": "City",
+      "country": "LA",
+      "url": "https://tourismluangprabang.gov.la/"
+    },
+    {
+      "rank": 105,
+      "id": "tyre-tyremunicipality-com",
+      "name": "Tyre",
+      "group": "City",
+      "country": "LE",
+      "url": "https://www.tyremunicipality.com/"
+    },
+    {
+      "rank": 106,
+      "id": "damascus-damascus-gov-sy",
+      "name": "Damascus",
+      "group": "City",
+      "country": "SY",
+      "url": "https://www.damascus.gov.sy/"
+    },
+    {
+      "rank": 107,
+      "id": "kandahar-kandahar-gov-af",
+      "name": "Kandahar",
+      "group": "City",
+      "country": "AF",
+      "url": "https://kandahar.gov.af"
+    },
+    {
+      "rank": 108,
+      "id": "mbabane-mbabane-org-sz",
+      "name": "Mbabane",
+      "group": "City",
+      "country": "ES",
+      "url": "https://www.mbabane.org.sz/"
+    },
+    {
+      "rank": 109,
+      "id": "addis-ababa-cityaddisababa-gov-et",
+      "name": "Addis Ababa",
+      "group": "City",
+      "country": "ET",
+      "url": "https://cityaddisababa.gov.et/"
+    },
+    {
+      "rank": 110,
+      "id": "ministry-of-tourism-omantourism-gov-om",
+      "name": "Ministry of Tourism",
+      "group": "Ministry",
+      "country": "OM",
+      "url": "https://www.omantourism.gov.om/"
+    },
+    {
+      "rank": 111,
+      "id": "colombo-cmc-lk",
+      "name": "Colombo",
+      "group": "City",
+      "country": "SR",
+      "url": "https://www.cmc.lk/"
+    },
+    {
+      "rank": 112,
+      "id": "cienfuegos-cienfuegos-gob-cu",
+      "name": "Cienfuegos",
+      "group": "City",
+      "country": "CU",
+      "url": "https://www.cienfuegos.gob.cu/es/"
+    },
+    {
+      "rank": 113,
+      "id": "santo-domingo-adn-gob-do",
+      "name": "Santo Domingo",
+      "group": "City",
+      "country": "DO",
+      "url": "https://adn.gob.do/"
+    },
+    {
+      "rank": 114,
+      "id": "baia-mare-baiamare-ro",
+      "name": "Baia Mare",
+      "group": "City",
+      "country": "RO",
+      "url": "https://www.baiamare.ro/"
+    },
+    {
+      "rank": 115,
+      "id": "port-of-spain-pos-gov-tt",
+      "name": "Port of Spain",
+      "group": "City",
+      "country": "TR",
+      "url": "https://www.pos.gov.tt/"
+    },
+    {
+      "rank": 116,
+      "id": "bissau-cmbissau-com",
+      "name": "Bissau",
+      "group": "City",
+      "country": "GU",
+      "url": "https://www.cmbissau.com/"
+    },
+    {
+      "rank": 117,
+      "id": "ar-ramtha-ramthacity-gov-jo",
+      "name": "Ar Ramtha",
+      "group": "City",
+      "country": "JO",
+      "url": "https://www.ramthacity.gov.jo"
+    },
+    {
+      "rank": 118,
+      "id": "pristina-prishtinaonline-com",
+      "name": "Pristina",
+      "group": "City",
+      "country": "KO",
+      "url": "https://prishtinaonline.com/"
+    },
+    {
+      "rank": 119,
+      "id": "bulawayo-citybyo-co-zw",
+      "name": "Bulawayo",
+      "group": "City",
+      "country": "ZI",
+      "url": "https://www.citybyo.co.zw"
+    },
+    {
+      "rank": 120,
+      "id": "saint-john-s-sjdcanu-com",
+      "name": "Saint John's",
+      "group": "City",
+      "country": "AN",
+      "url": "https://sjdcanu.com/"
+    },
+    {
+      "rank": 121,
+      "id": "ministry-of-the-interior-interieur-gouv-ci",
+      "name": "Ministry of the Interior",
+      "group": "Ministry",
+      "country": "IV",
+      "url": "https://www.interieur.gouv.ci/"
+    },
+    {
+      "rank": 122,
+      "id": "karakol-karakol-com-kg",
+      "name": "Karakol",
+      "group": "City",
+      "country": "KY",
+      "url": "https://www.karakol.com.kg/"
+    },
+    {
+      "rank": 123,
+      "id": "eschsuralzette-esch-lu",
+      "name": "Esch-sur-Alzette",
+      "group": "City",
+      "country": "LU",
+      "url": "https://www.esch.lu"
+    },
+    {
+      "rank": 124,
+      "id": "yangon-ycdc-gov-mm",
+      "name": "Yangon",
+      "group": "City",
+      "country": "MY",
+      "url": "https://www.ycdc.gov.mm/"
+    },
+    {
+      "rank": 125,
+      "id": "ministry-of-natural-resources-minirena-gov-rw",
+      "name": "Ministry of Natural Resources",
+      "group": "Ministry",
+      "country": "RW",
+      "url": "https://www.minirena.gov.rw/index.php?id=209"
+    },
+    {
+      "rank": 126,
+      "id": "bukhara-buxoro-uz",
+      "name": "Bukhara",
+      "group": "City",
+      "country": "UZ",
+      "url": "https://www.buxoro.uz/"
+    },
+    {
+      "rank": 127,
+      "id": "lusaka-lcc-gov-zm",
+      "name": "Lusaka",
+      "group": "City",
+      "country": "ZA",
+      "url": "https://www.lcc.gov.zm/"
+    },
+    {
+      "rank": 128,
+      "id": "ministry-of-tourism-mitur-gob-sv",
+      "name": "Ministry of Tourism",
+      "group": "Ministry",
+      "country": "EL",
+      "url": "https://www.mitur.gob.sv/"
+    },
+    {
+      "rank": 129,
+      "id": "libreville-libreville-ga",
+      "name": "Libreville",
+      "group": "City",
+      "country": "GA",
+      "url": "https://libreville.ga"
+    },
+    {
+      "rank": 130,
+      "id": "kisumu-kisumu-go-ke",
+      "name": "Kisumu",
+      "group": "City",
+      "country": "KE",
+      "url": "https://kisumu.go.ke"
+    },
+    {
+      "rank": 131,
+      "id": "ministry-of-higher-education-mohe-edu-kw",
+      "name": "Ministry of Higher Education",
+      "group": "Ministry",
+      "country": "KU",
+      "url": "https://www.mohe.edu.kw/site/Default.aspx"
+    },
+    {
+      "rank": 132,
+      "id": "kampala-kcca-go-ug",
+      "name": "Kampala",
+      "group": "City",
+      "country": "UG",
+      "url": "https://www.kcca.go.ug/"
+    },
+    {
+      "rank": 133,
+      "id": "ministry-of-education-menfp-gouv-ht",
+      "name": "Ministry of Education",
+      "group": "Ministry",
+      "country": "HA",
+      "url": "https://menfp.gouv.ht/"
+    },
+    {
+      "rank": 134,
+      "id": "ministry-of-development-planning-and-statistics-mdps-gov-qa",
+      "name": "Ministry of Development Planning and Statistics",
+      "group": "Ministry",
+      "country": "QA",
+      "url": "https://www.mdps.gov.qa/"
+    },
+    {
+      "rank": 135,
+      "id": "brazzaville-developpement-durable-go",
+      "name": "Brazzaville",
+      "group": "City",
+      "country": "RE",
+      "url": "https://developpement-durable.gouv.cg/"
+    },
+    {
+      "rank": 136,
+      "id": "paramaribo-paramaribo-com",
+      "name": "Paramaribo",
+      "group": "City",
+      "country": "SU",
+      "url": "https://www.paramaribo.com/"
+    },
+    {
+      "rank": 137,
+      "id": "ministry-of-agriculture-and-forestry-and-food-mafff-gov-to",
+      "name": "Ministry of Agriculture and Forestry and Food",
+      "group": "Government agency",
+      "country": "TO",
+      "url": "https://mafff.gov.to/"
+    },
+    {
+      "rank": 138,
+      "id": "thimphu-thimphucity-bt",
+      "name": "Thimphu",
+      "group": "City",
+      "country": "BH",
+      "url": "https://www.thimphucity.bt/"
+    },
+    {
+      "rank": 139,
+      "id": "ministry-of-education-sports-and-youth-moec-gov-cy",
+      "name": "Ministry of Education, Sports and Youth",
+      "group": "Ministry",
+      "country": "CY",
+      "url": "https://www.moec.gov.cy/"
+    },
+    {
+      "rank": 140,
+      "id": "malabo-ayuntamientodemalabo-com",
+      "name": "Malabo",
+      "group": "City",
+      "country": "EQ",
+      "url": "https://www.ayuntamientodemalabo.com/"
+    },
+    {
+      "rank": 141,
+      "id": "trzebiatów-trzebiatow-pl",
+      "name": "Trzebiatów",
+      "group": "City",
+      "country": "KI",
+      "url": "https://www.trzebiatow.pl/"
+    },
+    {
+      "rank": 142,
+      "id": "port-vila-pvmc-gov-vu",
+      "name": "Port Vila",
+      "group": "City",
+      "country": "VA",
+      "url": "https://pvmc.gov.vu/"
+    },
+    {
+      "rank": 143,
+      "id": "cour-pénale-spéciale-de-la-république-centrafric-cpsrca-cf",
+      "name": "Cour pénale spéciale de la République centrafricaine",
+      "group": "Government agency",
+      "country": "CE",
+      "url": "https://www.cpsrca.cf/"
+    },
+    {
+      "rank": 144,
+      "id": "djibouti-villededjibouti-dj",
+      "name": "Djibouti",
+      "group": "City",
+      "country": "DJ",
+      "url": "https://villededjibouti.dj/index.php"
+    },
+    {
+      "rank": 145,
+      "id": "senftenberg-senftenberg-de",
+      "name": "Senftenberg",
+      "group": "Municipality",
+      "country": "DU",
+      "url": "https://www.senftenberg.de/"
+    },
+    {
+      "rank": 146,
+      "id": "consulategeneral-of-the-republic-of-china-san-pe-taiwanembassy-o",
+      "name": "Consulate-General of the Republic of China, San Pedro Sula",
+      "group": "Government agency",
+      "country": "HO",
+      "url": "https://www.taiwanembassy.org/shan/"
+    },
+    {
+      "rank": 147,
+      "id": "consulate-of-angola-montevideo-consuladoangolaenuruguay",
+      "name": "Consulate of Angola, Montevideo",
+      "group": "Government agency",
+      "country": "UR",
+      "url": "https://www.consuladoangolaenuruguay.com/"
+    },
+    {
+      "rank": 148,
+      "id": "sanaa-sanaacity-com",
+      "name": "Sanaa",
+      "group": "City",
+      "country": "YE",
+      "url": "https://www.sanaacity.com/"
+    },
+    {
+      "rank": 149,
+      "id": "kingston-ksac-gov-jm",
+      "name": "Kingston",
+      "group": "City",
+      "country": "JA",
+      "url": "https://www.ksac.gov.jm/"
+    },
+    {
+      "rank": 150,
+      "id": "würzburg-wuerzburg-de",
+      "name": "Würzburg",
+      "group": "City",
+      "country": "GE",
+      "url": "https://www.wuerzburg.de/"
+    },
+    {
+      "rank": 151,
+      "id": "leeds-leeds-gov-uk",
+      "name": "Leeds",
+      "group": "City",
+      "country": "UN",
+      "url": "https://www.leeds.gov.uk/"
+    },
+    {
+      "rank": 152,
+      "id": "nádudvar-nadudvar-hu",
+      "name": "Nádudvar",
+      "group": "City",
+      "country": "HU",
+      "url": "https://www.nadudvar.hu"
+    },
+    {
+      "rank": 153,
+      "id": "kyiv-kyivcity-gov-ua",
+      "name": "Kyiv",
+      "group": "City",
+      "country": "UK",
+      "url": "https://kyivcity.gov.ua"
+    },
+    {
+      "rank": 154,
+      "id": "fortdefrance-fortdefrance-fr",
+      "name": "Fort-de-France",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.fortdefrance.fr"
+    },
+    {
+      "rank": 155,
+      "id": "praia-lojacmp-com",
+      "name": "Praia",
+      "group": "City",
+      "country": "CA",
+      "url": "https://lojacmp.com/"
+    },
+    {
+      "rank": 156,
+      "id": "amritsar-amritsarcorp-com",
+      "name": "Amritsar",
+      "group": "City",
+      "country": "IN",
+      "url": "https://www.amritsarcorp.com/"
+    },
+    {
+      "rank": 157,
+      "id": "lublin-lublin-eu",
+      "name": "Lublin",
+      "group": "City",
+      "country": "PO",
+      "url": "https://lublin.eu"
+    },
+    {
+      "rank": 158,
+      "id": "maykop-maikop-ru",
+      "name": "Maykop",
+      "group": "City",
+      "country": "RU",
+      "url": "https://maikop.ru/"
+    },
+    {
+      "rank": 159,
+      "id": "changchun-changchun-gov-cn",
+      "name": "Changchun",
+      "group": "City",
+      "country": "PE",
+      "url": "https://www.changchun.gov.cn"
+    },
+    {
+      "rank": 160,
+      "id": "miletus-muze-gov-tr",
+      "name": "Miletus",
+      "group": "City",
+      "country": "TU",
+      "url": "https://www.muze.gov.tr/miletus-en"
+    },
+    {
+      "rank": 161,
+      "id": "kathmandu-kathmandu-gov-np",
+      "name": "Kathmandu",
+      "group": "City",
+      "country": "NE",
+      "url": "https://kathmandu.gov.np/"
+    },
+    {
+      "rank": 162,
+      "id": "palermo-comune-palermo-it",
+      "name": "Palermo",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.comune.palermo.it"
+    },
+    {
+      "rank": 163,
+      "id": "malmö-malmo-se",
+      "name": "Malmö",
+      "group": "City",
+      "country": "SW",
+      "url": "https://www.malmo.se"
+    },
+    {
+      "rank": 164,
+      "id": "zakynthos-zakynthos-gov-gr",
+      "name": "Zakynthos",
+      "group": "City",
+      "country": "GR",
+      "url": "https://www.zakynthos.gov.gr/"
+    },
+    {
+      "rank": 165,
+      "id": "canberra-act-gov-au",
+      "name": "Canberra",
+      "group": "City",
+      "country": "AU",
+      "url": "https://act.gov.au"
+    },
+    {
+      "rank": 166,
+      "id": "lilongwe-llcitycouncil-org",
+      "name": "Lilongwe",
+      "group": "City",
+      "country": "MA",
+      "url": "https://www.llcitycouncil.org/"
+    },
+    {
+      "rank": 167,
+      "id": "mogadishu-bra-gov-so",
+      "name": "Mogadishu",
+      "group": "City",
+      "country": "SO",
+      "url": "https://bra.gov.so/"
+    },
+    {
+      "rank": 168,
+      "id": "panama-city-mupa-gob-pa",
+      "name": "Panama City",
+      "group": "City",
+      "country": "PA",
+      "url": "https://mupa.gob.pa/"
+    },
+    {
+      "rank": 169,
+      "id": "palma-palma-es",
+      "name": "Palma",
+      "group": "City",
+      "country": "SP",
+      "url": "https://www.palma.es/"
+    },
+    {
+      "rank": 170,
+      "id": "butrint-butrint-al",
+      "name": "Butrint",
+      "group": "City",
+      "country": "AL",
+      "url": "https://butrint.al"
+    },
+    {
+      "rank": 171,
+      "id": "bender-bendery-gospmr-org",
+      "name": "Bender",
+      "group": "City",
+      "country": "MO",
+      "url": "https://bendery.gospmr.org/"
+    },
+    {
+      "rank": 172,
+      "id": "bled-bled-si",
+      "name": "Bled",
+      "group": "City",
+      "country": "SL",
+      "url": "https://www.bled.si/"
+    },
+    {
+      "rank": 173,
+      "id": "mladá-boleslav-mb-net-cz",
+      "name": "Mladá Boleslav",
+      "group": "City",
+      "country": "CZ",
+      "url": "https://www.mb-net.cz/"
+    },
+    {
+      "rank": 174,
+      "id": "bridgetown-barbados-org",
+      "name": "Bridgetown",
+      "group": "City",
+      "country": "BA",
+      "url": "https://www.barbados.org/btown.htm"
+    },
+    {
+      "rank": 175,
+      "id": "brasília-brasilia-df-gov-br",
+      "name": "Brasília",
+      "group": "City",
+      "country": "BR",
+      "url": "https://www.brasilia.df.gov.br"
+    },
+    {
+      "rank": 176,
+      "id": "cork-corkcity-ie",
+      "name": "Cork",
+      "group": "City",
+      "country": "IR",
+      "url": "https://www.corkcity.ie/"
+    },
+    {
+      "rank": 177,
+      "id": "netanya-gonetanya-com",
+      "name": "Netanya",
+      "group": "City",
+      "country": "IS",
+      "url": "https://gonetanya.com/"
+    },
+    {
+      "rank": 178,
+      "id": "portonovo-villedeportonovo-com",
+      "name": "Porto-Novo",
+      "group": "City",
+      "country": "BE",
+      "url": "https://www.villedeportonovo.com"
+    },
+    {
+      "rank": 179,
+      "id": "lagos-lagosstate-gov-ng",
+      "name": "Lagos",
+      "group": "City",
+      "country": "NI",
+      "url": "https://www.lagosstate.gov.ng/"
+    },
+    {
+      "rank": 180,
+      "id": "ángeles-angelescity-gov-ph",
+      "name": "Ángeles",
+      "group": "City",
+      "country": "PH",
+      "url": "https://angelescity.gov.ph/"
+    },
+    {
+      "rank": 181,
+      "id": "sucre-sucre-bo",
+      "name": "Sucre",
+      "group": "City",
+      "country": "BO",
+      "url": "https://sucre.bo/"
+    },
+    {
+      "rank": 182,
+      "id": "puntarenas-puntarenas-go-cr",
+      "name": "Puntarenas",
+      "group": "City",
+      "country": "CO",
+      "url": "https://www.puntarenas.go.cr/"
+    },
+    {
+      "rank": 183,
+      "id": "ministry-of-tourism-wildlife-and-heritage-mtti-go-ug",
+      "name": "Ministry of Tourism, Wildlife and Heritage",
+      "group": "Ministry",
+      "country": "XX",
+      "url": "https://mtti.go.ug/"
+    },
+    {
+      "rank": 184,
+      "id": "tripoli-tripoli-info",
+      "name": "Tripoli",
+      "group": "City",
+      "country": "LI",
+      "url": "https://www.tripoli.info"
+    },
+    {
+      "rank": 185,
+      "id": "kinshasa-kinshasa-cd",
+      "name": "Kinshasa",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.kinshasa.cd"
+    },
+    {
+      "rank": 186,
+      "id": "taoyuan-tycg-gov-tw",
+      "name": "Taoyuan",
+      "group": "City",
+      "country": "TA",
+      "url": "https://www.tycg.gov.tw/"
+    },
+    {
+      "rank": 187,
+      "id": "arica-muniarica-cl",
+      "name": "Arica",
+      "group": "City",
+      "country": "CH",
+      "url": "https://www.muniarica.cl/"
+    },
+    {
+      "rank": 188,
+      "id": "ambato-ambato-gob-ec",
+      "name": "Ambato",
+      "group": "City",
+      "country": "EC",
+      "url": "https://ambato.gob.ec/historia-2/"
+    },
+    {
+      "rank": 189,
+      "id": "pico-truncado-munipicotruncado-gob-ar",
+      "name": "Pico Truncado",
+      "group": "City",
+      "country": "AR",
+      "url": "https://munipicotruncado.gob.ar/"
+    },
+    {
+      "rank": 190,
+      "id": "hurghada-hurghada-com",
+      "name": "Hurghada",
+      "group": "City",
+      "country": "EG",
+      "url": "https://hurghada.com/"
+    },
+    {
+      "rank": 191,
+      "id": "suva-suvacity-org",
+      "name": "Suva",
+      "group": "City",
+      "country": "FI",
+      "url": "https://www.suvacity.org"
+    },
+    {
+      "rank": 192,
+      "id": "león-de-los-aldama-leon-gob-mx",
+      "name": "León de Los Aldama",
+      "group": "City",
+      "country": "ME",
+      "url": "https://www.leon.gob.mx"
+    },
+    {
+      "rank": 193,
+      "id": "ministry-of-education-moe-gov-sg",
+      "name": "Ministry of Education",
+      "group": "Ministry",
+      "country": "SI",
+      "url": "https://www.moe.gov.sg/"
+    },
+    {
+      "rank": 194,
+      "id": "bujumbura-mairiebujumbura-gov-bi",
+      "name": "Bujumbura",
+      "group": "City",
+      "country": "BU",
+      "url": "https://www.mairiebujumbura.gov.bi"
+    },
+    {
+      "rank": 195,
+      "id": "banjul-banjulcity-gm",
+      "name": "Banjul",
+      "group": "City",
+      "country": "TH",
+      "url": "https://www.banjulcity.gm/"
+    },
+    {
+      "rank": 196,
+      "id": "tamale-tamale-ghanadistricts-go",
+      "name": "Tamale",
+      "group": "City",
+      "country": "GH",
+      "url": "https://www.tamale.ghanadistricts.gov.gh"
+    },
+    {
+      "rank": 197,
+      "id": "aktau-aktau-gov-kz",
+      "name": "Aktau",
+      "group": "City",
+      "country": "KA",
+      "url": "https://aktau.gov.kz/"
+    },
+    {
+      "rank": 198,
+      "id": "peja-peja-rks-gov-net",
+      "name": "Peja",
+      "group": "City",
+      "country": "SE",
+      "url": "https://peja.rks-gov.net/"
+    },
+    {
+      "rank": 199,
+      "id": "the-line-neom-com",
+      "name": "The Line",
+      "group": "City",
+      "country": "SA",
+      "url": "https://www.neom.com/"
+    },
+    {
+      "rank": 200,
+      "id": "charallave-charallave-gov-ve",
+      "name": "Charallave",
+      "group": "City",
+      "country": "VE",
+      "url": "https://www.charallave.gov.ve/"
+    },
+    {
+      "rank": 201,
+      "id": "korčula-korcula-hr",
+      "name": "Korčula",
+      "group": "City",
+      "country": "CR",
+      "url": "https://www.korcula.hr/"
+    },
+    {
+      "rank": 202,
+      "id": "selfoss-arborg-is",
+      "name": "Selfoss",
+      "group": "City",
+      "country": "IC",
+      "url": "https://www.arborg.is/"
+    },
+    {
+      "rank": 203,
+      "id": "cần-thơ-cantho-gov-vn",
+      "name": "Cần Thơ",
+      "group": "City",
+      "country": "VI",
+      "url": "https://cantho.gov.vn/"
+    },
+    {
+      "rank": 204,
+      "id": "kočani-kocani-gov-mk",
+      "name": "Kočani",
+      "group": "City",
+      "country": "NO",
+      "url": "https://www.kocani.gov.mk/"
+    },
+    {
+      "rank": 205,
+      "id": "sopot-sopot-pl",
+      "name": "Sopot",
+      "group": "City",
+      "country": "NA",
+      "url": "https://www.sopot.pl/"
+    },
+    {
+      "rank": 206,
+      "id": "ministry-of-science-and-education-of-the-republi-edu-gov-az",
+      "name": "Ministry of Science and Education of the Republic of Azerbaijan",
+      "group": "Ministry",
+      "country": "AZ",
+      "url": "https://www.edu.gov.az"
+    },
+    {
+      "rank": 207,
+      "id": "cēsis-cesis-lv",
+      "name": "Cēsis",
+      "group": "City",
+      "country": "LA",
+      "url": "https://www.cesis.lv/"
+    },
+    {
+      "rank": 208,
+      "id": "tripoli-tripoli-lebanon-org",
+      "name": "Tripoli",
+      "group": "City",
+      "country": "LE",
+      "url": "https://tripoli-lebanon.org/"
+    },
+    {
+      "rank": 209,
+      "id": "latakia-latakia-sy",
+      "name": "Latakia",
+      "group": "City",
+      "country": "SY",
+      "url": "https://latakia.sy/"
+    },
+    {
+      "rank": 210,
+      "id": "ministry-of-women-s-affairs-mowa-gov-af",
+      "name": "Ministry of Women's Affairs",
+      "group": "Ministry",
+      "country": "AF",
+      "url": "https://mowa.gov.af/en"
+    },
+    {
+      "rank": 211,
+      "id": "tallinn-tallinn-ee",
+      "name": "Tallinn",
+      "group": "City",
+      "country": "ES",
+      "url": "https://tallinn.ee"
+    },
+    {
+      "rank": 212,
+      "id": "harar-hararcity-gov-et",
+      "name": "Harar",
+      "group": "City",
+      "country": "ET",
+      "url": "https://hararcity.gov.et/"
+    },
+    {
+      "rank": 213,
+      "id": "ministry-of-education-oman-moe-gov-om",
+      "name": "Ministry of Education (Oman)",
+      "group": "Ministry",
+      "country": "OM",
+      "url": "https://www.moe.gov.om"
+    },
+    {
+      "rank": 214,
+      "id": "kandy-kandy-mc-gov-lk",
+      "name": "Kandy",
+      "group": "City",
+      "country": "SR",
+      "url": "https://kandy.mc.gov.lk/"
+    },
+    {
+      "rank": 215,
+      "id": "ciego-de-ávila-asambleaciegodeavila-gob",
+      "name": "Ciego de Ávila",
+      "group": "City",
+      "country": "CU",
+      "url": "https://www.asambleaciegodeavila.gob.cu/es/"
+    },
+    {
+      "rank": 216,
+      "id": "santiago-de-los-caballeros-santiagodeloscaballeros-",
+      "name": "Santiago de los Caballeros",
+      "group": "City",
+      "country": "DO",
+      "url": "https://santiagodeloscaballeros.gob.do/"
+    },
+    {
+      "rank": 217,
+      "id": "clujnapoca-primariaclujnapoca-ro",
+      "name": "Cluj-Napoca",
+      "group": "City",
+      "country": "RO",
+      "url": "https://primariaclujnapoca.ro/"
+    },
+    {
+      "rank": 218,
+      "id": "ministry-of-education-of-transnistria-minpros-info",
+      "name": "Ministry of Education of Transnistria",
+      "group": "Ministry",
+      "country": "TR",
+      "url": "https://minpros.info/"
+    },
+    {
+      "rank": 219,
+      "id": "antigua-guatemala-muniantigua-gob-gt",
+      "name": "Antigua Guatemala",
+      "group": "City",
+      "country": "GU",
+      "url": "https://muniantigua.gob.gt/"
+    },
+    {
+      "rank": 220,
+      "id": "amman-ammancity-gov-jo",
+      "name": "Amman",
+      "group": "City",
+      "country": "JO",
+      "url": "https://www.ammancity.gov.jo"
+    },
+    {
+      "rank": 221,
+      "id": "ministry-of-education-science-and-technology-masht-rks-gov-net",
+      "name": "Ministry of Education, Science and Technology",
+      "group": "Ministry",
+      "country": "KO",
+      "url": "https://masht.rks-gov.net"
+    },
+    {
+      "rank": 222,
+      "id": "harare-hararecity-co-zw",
+      "name": "Harare",
+      "group": "City",
+      "country": "ZI",
+      "url": "https://hararecity.co.zw"
+    },
+    {
+      "rank": 223,
+      "id": "ministry-of-economy-and-planning-mep-gov-ao",
+      "name": "Ministry of Economy and Planning",
+      "group": "Ministry",
+      "country": "AN",
+      "url": "https://mep.gov.ao"
+    },
+    {
+      "rank": 224,
+      "id": "ministry-of-higher-education-and-scientific-rese-enseignement-go",
+      "name": "Ministry of Higher Education and Scientific Research",
+      "group": "Ministry",
+      "country": "IV",
+      "url": "https://www.enseignement.gouv.ci/"
+    },
+    {
+      "rank": 225,
+      "id": "osh-oshcity-gov-kg",
+      "name": "Osh",
+      "group": "City",
+      "country": "KY",
+      "url": "https://www.oshcity.gov.kg/"
+    },
+    {
+      "rank": 226,
+      "id": "ministry-of-education-children-and-youth-men-public-lu",
+      "name": "Ministry of Education, Children and Youth",
+      "group": "Ministry",
+      "country": "LU",
+      "url": "https://www.men.public.lu/fr/index.html"
+    },
+    {
+      "rank": 227,
+      "id": "mandalay-mandalaycity-net",
+      "name": "Mandalay",
+      "group": "City",
+      "country": "MY",
+      "url": "https://www.mandalaycity.net/"
+    },
+    {
+      "rank": 228,
+      "id": "rwandan-ministry-of-education-mineduc-gov-rw",
+      "name": "Rwandan Ministry of Education",
+      "group": "Ministry",
+      "country": "RW",
+      "url": "https://www.mineduc.gov.rw/"
+    },
+    {
+      "rank": 229,
+      "id": "ministry-of-tourism-and-cultural-heritage-motas-uz",
+      "name": "Ministry of Tourism and Cultural Heritage",
+      "group": "Ministry",
+      "country": "UZ",
+      "url": "https://www.motas.uz"
+    },
+    {
+      "rank": 230,
+      "id": "ndola-cityofndola-gov-zm",
+      "name": "Ndola",
+      "group": "City",
+      "country": "ZA",
+      "url": "https://www.cityofndola.gov.zm"
+    },
+    {
+      "rank": 231,
+      "id": "ministry-of-education-science-and-technology-mined-gob-sv",
+      "name": "Ministry of Education, Science and Technology",
+      "group": "Ministry",
+      "country": "EL",
+      "url": "https://www.mined.gob.sv/"
+    },
+    {
+      "rank": 232,
+      "id": "ministry-of-transport-gabon-transports-gouv-ga",
+      "name": "Ministry of Transport (Gabon)",
+      "group": "Ministry",
+      "country": "GA",
+      "url": "https://www.transports.gouv.ga"
+    },
+    {
+      "rank": 233,
+      "id": "mombasa-mombasa-go-ke",
+      "name": "Mombasa",
+      "group": "City",
+      "country": "KE",
+      "url": "https://www.mombasa.go.ke/"
+    },
+    {
+      "rank": 234,
+      "id": "ministry-of-oil-moo-gov-kw",
+      "name": "Ministry of Oil",
+      "group": "Ministry",
+      "country": "KU",
+      "url": "https://www.moo.gov.kw"
+    },
+    {
+      "rank": 235,
+      "id": "ministry-of-education-and-sports-education-go-ug",
+      "name": "Ministry of Education and Sports",
+      "group": "Ministry",
+      "country": "UG",
+      "url": "https://www.education.go.ug/"
+    },
+    {
+      "rank": 236,
+      "id": "ministry-of-justice-and-public-security-mjsp-gouv-ht",
+      "name": "Ministry of Justice and Public Security",
+      "group": "Ministry",
+      "country": "HA",
+      "url": "https://mjsp.gouv.ht/"
+    },
+    {
+      "rank": 237,
+      "id": "ministry-of-transport-and-communications-motc-gov-qa",
+      "name": "Ministry of Transport and Communications",
+      "group": "Ministry",
+      "country": "QA",
+      "url": "https://www.motc.gov.qa/en"
+    },
+    {
+      "rank": 238,
+      "id": "sokhumi-abkhazia-gov-ge",
+      "name": "Sokhumi",
+      "group": "City",
+      "country": "RE",
+      "url": "https://abkhazia.gov.ge/cities/sokhumi"
+    },
+    {
+      "rank": 239,
+      "id": "ministry-of-finance-of-suriname-gov-sr",
+      "name": "Ministry of Finance of Suriname",
+      "group": "Ministry",
+      "country": "SU",
+      "url": "https://gov.sr/"
+    },
+    {
+      "rank": 240,
+      "id": "cour-d-appel-de-lomé-courdappeldelome-tg",
+      "name": "Cour d'appel de Lomé",
+      "group": "Government agency",
+      "country": "TO",
+      "url": "https://courdappeldelome.tg"
+    },
+    {
+      "rank": 241,
+      "id": "ministry-of-home-affairs-moha-gov-bt",
+      "name": "Ministry of Home Affairs",
+      "group": "Ministry",
+      "country": "BH",
+      "url": "https://www.moha.gov.bt/"
+    },
+    {
+      "rank": 242,
+      "id": "deputy-ministry-of-tourism-cyprus-gov-cy",
+      "name": "Deputy Ministry Of Tourism (Cyprus)",
+      "group": "Ministry",
+      "country": "CY",
+      "url": "https://www.gov.cy/tourism/"
+    },
+    {
+      "rank": 243,
+      "id": "ministry-of-agriculture-and-forestry-geagricultura-com",
+      "name": "Ministry of Agriculture and Forestry",
+      "group": "Government agency",
+      "country": "EQ",
+      "url": "https://www.geagricultura.com/"
+    },
+    {
+      "rank": 244,
+      "id": "ministry-of-women-youth-sports-and-social-affair-mwysa-gov-ki",
+      "name": "Ministry of Women, Youth, Sports and Social Affairs",
+      "group": "Ministry",
+      "country": "KI",
+      "url": "https://mwysa.gov.ki/"
+    },
+    {
+      "rank": 245,
+      "id": "vatican-city-vaticanstate-va",
+      "name": "Vatican City",
+      "group": "City",
+      "country": "VA",
+      "url": "https://www.vaticanstate.va/it/"
+    },
+    {
+      "rank": 246,
+      "id": "kawasaki-city-kawasaki-jp",
+      "name": "Kawasaki",
+      "group": "City",
+      "country": "JA",
+      "url": "https://www.city.kawasaki.jp/"
+    },
+    {
+      "rank": 247,
+      "id": "ulm-ulm-de",
+      "name": "Ulm",
+      "group": "City",
+      "country": "GE",
+      "url": "https://www.ulm.de/"
+    },
+    {
+      "rank": 248,
+      "id": "aberdeen-aberdeencity-gov-uk",
+      "name": "Aberdeen",
+      "group": "City",
+      "country": "UN",
+      "url": "https://www.aberdeencity.gov.uk/"
+    },
+    {
+      "rank": 249,
+      "id": "nagybajom-nagybajom-hu",
+      "name": "Nagybajom",
+      "group": "City",
+      "country": "HU",
+      "url": "https://nagybajom.hu"
+    },
+    {
+      "rank": 250,
+      "id": "donetsk-gorod-donetsk-com",
+      "name": "Donetsk",
+      "group": "City",
+      "country": "UK",
+      "url": "https://gorod-donetsk.com/"
+    },
+    {
+      "rank": 251,
+      "id": "la-rochelle-larochelle-fr",
+      "name": "La Rochelle",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.larochelle.fr/"
+    },
+    {
+      "rank": 252,
+      "id": "barrie-barrie-ca",
+      "name": "Barrie",
+      "group": "City",
+      "country": "CA",
+      "url": "https://www.barrie.ca/"
+    },
+    {
+      "rank": 253,
+      "id": "ludhiana-ludhiana-nic-in",
+      "name": "Ludhiana",
+      "group": "City",
+      "country": "IN",
+      "url": "https://ludhiana.nic.in"
+    },
+    {
+      "rank": 254,
+      "id": "lublin-lublintravel-pl",
+      "name": "Lublin",
+      "group": "City",
+      "country": "PO",
+      "url": "https://lublintravel.pl/"
+    },
+    {
+      "rank": 255,
+      "id": "yevpatoriya-my-evp-ru",
+      "name": "Yevpatoriya",
+      "group": "City",
+      "country": "RU",
+      "url": "https://my-evp.ru/"
+    },
+    {
+      "rank": 256,
+      "id": "tianjin-tj-gov-cn",
+      "name": "Tianjin",
+      "group": "City",
+      "country": "PE",
+      "url": "https://www.tj.gov.cn"
+    },
+    {
+      "rank": 257,
+      "id": "adana-adana-bel-tr",
+      "name": "Adana",
+      "group": "City",
+      "country": "TU",
+      "url": "https://www.adana.bel.tr/"
+    },
+    {
+      "rank": 258,
+      "id": "bergen-op-zoom-bergenopzoom-nl",
+      "name": "Bergen op Zoom",
+      "group": "City",
+      "country": "NE",
+      "url": "https://www.bergenopzoom.nl/"
+    },
+    {
+      "rank": 259,
+      "id": "l-aquila-comune-laquila-it",
+      "name": "L'Aquila",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.comune.laquila.it"
+    },
+    {
+      "rank": 260,
+      "id": "lugano-lugano-ch",
+      "name": "Lugano",
+      "group": "City",
+      "country": "SW",
+      "url": "https://www.lugano.ch/"
+    },
+    {
+      "rank": 261,
+      "id": "rhodes-rhodes-gr",
+      "name": "Rhodes",
+      "group": "City",
+      "country": "GR",
+      "url": "https://www.rhodes.gr/"
+    },
+    {
+      "rank": 262,
+      "id": "lismore-lismore-nsw-gov-au",
+      "name": "Lismore",
+      "group": "City",
+      "country": "AU",
+      "url": "https://www.lismore.nsw.gov.au"
+    },
+    {
+      "rank": 263,
+      "id": "bamako-bamako-ml",
+      "name": "Bamako",
+      "group": "City",
+      "country": "MA",
+      "url": "https://bamako.ml/"
+    },
+    {
+      "rank": 264,
+      "id": "johannesburg-joburg-org-za",
+      "name": "Johannesburg",
+      "group": "City",
+      "country": "SO",
+      "url": "https://joburg.org.za/"
+    },
+    {
+      "rank": 265,
+      "id": "asunción-asuncion-gov-py",
+      "name": "Asunción",
+      "group": "City",
+      "country": "PA",
+      "url": "https://www.asuncion.gov.py/"
+    },
+    {
+      "rank": 266,
+      "id": "coslada-coslada-es",
+      "name": "Coslada",
+      "group": "City",
+      "country": "SP",
+      "url": "https://coslada.es/"
+    },
+    {
+      "rank": 267,
+      "id": "fier-bashkiafier-gov-al",
+      "name": "Fier",
+      "group": "City",
+      "country": "AL",
+      "url": "https://bashkiafier.gov.al/"
+    },
+    {
+      "rank": 268,
+      "id": "ulcinj-ul-gov-me",
+      "name": "Ulcinj",
+      "group": "City",
+      "country": "MO",
+      "url": "https://www.ul-gov.me/Naslovna"
+    },
+    {
+      "rank": 269,
+      "id": "murska-sobota-murska-sobota-si",
+      "name": "Murska Sobota",
+      "group": "City",
+      "country": "SL",
+      "url": "https://murska-sobota.si"
+    },
+    {
+      "rank": 270,
+      "id": "olomouc-olomouc-eu",
+      "name": "Olomouc",
+      "group": "City",
+      "country": "CZ",
+      "url": "https://www.olomouc.eu/"
+    },
+    {
+      "rank": 271,
+      "id": "ministry-of-religious-affairs-mora-gov-bd",
+      "name": "Ministry of Religious Affairs",
+      "group": "Ministry",
+      "country": "BA",
+      "url": "https://www.mora.gov.bd/"
+    },
+    {
+      "rank": 272,
+      "id": "belo-horizonte-portalbelohorizonte-com-",
+      "name": "Belo Horizonte",
+      "group": "City",
+      "country": "BR",
+      "url": "https://portalbelohorizonte.com.br/"
+    },
+    {
+      "rank": 273,
+      "id": "sulaymaniyah-sharawani-com",
+      "name": "Sulaymaniyah",
+      "group": "City",
+      "country": "IR",
+      "url": "https://www.sharawani.com"
+    },
+    {
+      "rank": 274,
+      "id": "ramat-gan-ramat-gan-muni-il",
+      "name": "Ramat Gan",
+      "group": "City",
+      "country": "IS",
+      "url": "https://www.ramat-gan.muni.il/"
+    },
+    {
+      "rank": 275,
+      "id": "tongeren-tongeren-be",
+      "name": "Tongeren",
+      "group": "City",
+      "country": "BE",
+      "url": "https://www.tongeren.be"
+    },
+    {
+      "rank": 276,
+      "id": "aba-abiastate-gov-ng",
+      "name": "Aba",
+      "group": "City",
+      "country": "NI",
+      "url": "https://www.abiastate.gov.ng"
+    },
+    {
+      "rank": 277,
+      "id": "bamban-bambantarlac-gov-ph",
+      "name": "Bamban",
+      "group": "City",
+      "country": "PH",
+      "url": "https://bambantarlac.gov.ph/"
+    },
+    {
+      "rank": 278,
+      "id": "gaborone-gov-bw",
+      "name": "Gaborone",
+      "group": "City",
+      "country": "BO",
+      "url": "https://www.gov.bw/"
+    },
+    {
+      "rank": 279,
+      "id": "san-josé-msj-go-cr",
+      "name": "San José",
+      "group": "City",
+      "country": "CO",
+      "url": "https://www.msj.go.cr/"
+    },
+    {
+      "rank": 280,
+      "id": "ministry-for-police-and-emergency-services-emergency-nsw-gov-au",
+      "name": "Ministry for Police and Emergency Services",
+      "group": "Ministry",
+      "country": "XX",
+      "url": "https://www.emergency.nsw.gov.au/aboutus"
+    },
+    {
+      "rank": 281,
+      "id": "monrovia-monrovia-gov-lr",
+      "name": "Monrovia",
+      "group": "City",
+      "country": "LI",
+      "url": "https://monrovia.gov.lr/"
+    },
+    {
+      "rank": 282,
+      "id": "randers-randers-dk",
+      "name": "Randers",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.randers.dk/"
+    },
+    {
+      "rank": 283,
+      "id": "new-taipei-city-ntpc-gov-tw",
+      "name": "New Taipei City",
+      "group": "City",
+      "country": "TA",
+      "url": "https://www.ntpc.gov.tw"
+    },
+    {
+      "rank": 284,
+      "id": "la-calera-lacalera-cl",
+      "name": "La Calera",
+      "group": "City",
+      "country": "CH",
+      "url": "https://www.lacalera.cl/"
+    },
+    {
+      "rank": 285,
+      "id": "machala-machala-gob-ec",
+      "name": "Machala",
+      "group": "City",
+      "country": "EC",
+      "url": "https://www.machala.gob.ec/"
+    },
+    {
+      "rank": 286,
+      "id": "tartagal-tartagal-gov-ar",
+      "name": "Tartagal",
+      "group": "City",
+      "country": "AR",
+      "url": "https://www.tartagal.gov.ar/"
+    },
+    {
+      "rank": 287,
+      "id": "giza-giza-gov-eg",
+      "name": "Giza",
+      "group": "City",
+      "country": "EG",
+      "url": "https://www.giza.gov.eg/English/default.aspx"
+    },
+    {
+      "rank": 288,
+      "id": "turku-turku-fi",
+      "name": "Turku",
+      "group": "City",
+      "country": "FI",
+      "url": "https://turku.fi"
+    },
+    {
+      "rank": 289,
+      "id": "acapulco-de-juárez-acapulco-gob-mx",
+      "name": "Acapulco de Juárez",
+      "group": "City",
+      "country": "ME",
+      "url": "https://acapulco.gob.mx/"
+    },
+    {
+      "rank": 290,
+      "id": "ministry-of-transport-mot-gov-sg",
+      "name": "Ministry of Transport",
+      "group": "Ministry",
+      "country": "SI",
+      "url": "https://www.mot.gov.sg/"
+    },
+    {
+      "rank": 291,
+      "id": "philippopolis-visitplovdiv-bg",
+      "name": "Philippopolis",
+      "group": "City",
+      "country": "BU",
+      "url": "https://visitplovdiv.bg/"
+    },
+    {
+      "rank": 292,
+      "id": "phra-nakhon-si-ayutthaya-ayutthayacity-go-th",
+      "name": "Phra Nakhon Si Ayutthaya",
+      "group": "City",
+      "country": "TH",
+      "url": "https://www.ayutthayacity.go.th/"
+    },
+    {
+      "rank": 293,
+      "id": "ministry-of-tourism-arts-culture-motac-ghana-motac-gov-gh",
+      "name": "Ministry of Tourism, Arts & Culture (MoTAC) Ghana",
+      "group": "Ministry",
+      "country": "GH",
+      "url": "https://www.motac.gov.gh/"
+    },
+    {
+      "rank": 294,
+      "id": "baikonur-baikonuradm-ru",
+      "name": "Baikonur",
+      "group": "City",
+      "country": "KA",
+      "url": "https://www.baikonuradm.ru"
+    },
+    {
+      "rank": 295,
+      "id": "viminacium-viminacium-org-rs",
+      "name": "Viminacium",
+      "group": "City",
+      "country": "SE",
+      "url": "https://www.viminacium.org.rs/"
+    },
+    {
+      "rank": 296,
+      "id": "al-bahah-al-baha-net",
+      "name": "Al Bahah",
+      "group": "City",
+      "country": "SA",
+      "url": "https://www.al-baha.net/"
+    },
+    {
+      "rank": 297,
+      "id": "mérida-meridaturismovzla-com",
+      "name": "Mérida",
+      "group": "City",
+      "country": "VE",
+      "url": "https://meridaturismovzla.com/"
+    },
+    {
+      "rank": 298,
+      "id": "vukovar-vukovar-hr",
+      "name": "Vukovar",
+      "group": "City",
+      "country": "CR",
+      "url": "https://www.vukovar.hr"
+    },
+    {
+      "rank": 299,
+      "id": "akranes-akranes-is",
+      "name": "Akranes",
+      "group": "City",
+      "country": "IC",
+      "url": "https://akranes.is"
+    },
+    {
+      "rank": 300,
+      "id": "da-nang-danang-gov-vn",
+      "name": "Da Nang",
+      "group": "City",
+      "country": "VI",
+      "url": "https://www.danang.gov.vn/"
+    },
+    {
+      "rank": 301,
+      "id": "kirkenes-svk-no",
+      "name": "Kirkenes",
+      "group": "City",
+      "country": "NO",
+      "url": "https://www.svk.no/"
+    },
+    {
+      "rank": 302,
+      "id": "windhoek-windhoekcc-org-na",
+      "name": "Windhoek",
+      "group": "City",
+      "country": "NA",
+      "url": "https://www.windhoekcc.org.na/"
+    },
+    {
+      "rank": 303,
+      "id": "ministry-of-emergency-situations-fhn-gov-az",
+      "name": "Ministry of Emergency Situations",
+      "group": "Ministry",
+      "country": "AZ",
+      "url": "https://www.fhn.gov.az/"
+    },
+    {
+      "rank": 304,
+      "id": "riga-riga-lv",
+      "name": "Riga",
+      "group": "City",
+      "country": "LA",
+      "url": "https://www.riga.lv/"
+    },
+    {
+      "rank": 305,
+      "id": "byblos-jbail-byblos-gov-lb",
+      "name": "Byblos",
+      "group": "City",
+      "country": "LE",
+      "url": "https://www.jbail-byblos.gov.lb/"
+    },
+    {
+      "rank": 306,
+      "id": "aleppo-alp-city-sy",
+      "name": "Aleppo",
+      "group": "City",
+      "country": "SY",
+      "url": "https://alp-city.sy/"
+    },
+    {
+      "rank": 307,
+      "id": "ministry-of-rural-rehabilitation-and-development-mrrd-gov-af",
+      "name": "Ministry of Rural Rehabilitation and Development Afghanistan",
+      "group": "Ministry",
+      "country": "AF",
+      "url": "https://www.mrrd.gov.af"
+    },
+    {
+      "rank": 308,
+      "id": "tartu-tartu-ee",
+      "name": "Tartu",
+      "group": "City",
+      "country": "ES",
+      "url": "https://tartu.ee/"
+    },
+    {
+      "rank": 309,
+      "id": "gondar-visitethiopia-et",
+      "name": "Gondar",
+      "group": "City",
+      "country": "ET",
+      "url": "https://visitethiopia.et/space/gondar-1"
+    },
+    {
+      "rank": 310,
+      "id": "ministry-of-higher-education-moheri-gov-om",
+      "name": "Ministry of Higher Education",
+      "group": "Ministry",
+      "country": "OM",
+      "url": "https://www.moheri.gov.om/"
+    },
+    {
+      "rank": 311,
+      "id": "jaffna-jaffna-mc-gov-lk",
+      "name": "Jaffna",
+      "group": "City",
+      "country": "SR",
+      "url": "https://jaffna.mc.gov.lk/"
+    },
+    {
+      "rank": 312,
+      "id": "santiago-de-cuba-santiago-gob-cu",
+      "name": "Santiago de Cuba",
+      "group": "City",
+      "country": "CU",
+      "url": "https://www.santiago.gob.cu/es/"
+    },
+    {
+      "rank": 313,
+      "id": "ministry-of-tourism-of-the-dominican-republic-mitur-gob-do",
+      "name": "Ministry of Tourism of the Dominican Republic",
+      "group": "Ministry",
+      "country": "DO",
+      "url": "https://www.mitur.gob.do/"
+    },
+    {
+      "rank": 314,
+      "id": "ministry-for-development-public-works-and-admini-mdlpa-ro",
+      "name": "Ministry for Development, Public Works and Administration",
+      "group": "Ministry",
+      "country": "RO",
+      "url": "https://www.mdlpa.ro/"
+    },
+    {
+      "rank": 315,
+      "id": "ministry-of-finance-of-transnistria-minfin-pmr-org",
+      "name": "Ministry of Finance of Transnistria",
+      "group": "Ministry",
+      "country": "TR",
+      "url": "https://www.minfin-pmr.org/"
+    },
+    {
+      "rank": 316,
+      "id": "ministry-of-the-economy-of-guatemala-mineco-gob-gt",
+      "name": "Ministry of the Economy of Guatemala",
+      "group": "Ministry",
+      "country": "GU",
+      "url": "https://www.mineco.gob.gt/"
+    },
+    {
+      "rank": 317,
+      "id": "petra-visitpetra-jo",
+      "name": "Petra",
+      "group": "City",
+      "country": "JO",
+      "url": "https://www.visitpetra.jo/"
+    },
+    {
+      "rank": 318,
+      "id": "court-of-appeals-apeli-gjyqesori-rks-org",
+      "name": "Court of Appeals",
+      "group": "Government agency",
+      "country": "KO",
+      "url": "https://apeli.gjyqesori-rks.org/"
+    },
+    {
+      "rank": 319,
+      "id": "ministry-of-agriculture-mechanisation-and-irriga-moa-gov-zw",
+      "name": "Ministry of Agriculture Mechanisation and Irrigation Development",
+      "group": "Ministry",
+      "country": "ZI",
+      "url": "https://www.moa.gov.zw/"
+    },
+    {
+      "rank": 320,
+      "id": "ministry-of-tourism-of-andorra-turisme-ad",
+      "name": "Ministry of Tourism of Andorra",
+      "group": "Ministry",
+      "country": "AN",
+      "url": "https://www.turisme.ad/"
+    },
+    {
+      "rank": 321,
+      "id": "ministry-of-the-economy-and-finance-finances-gouv-ci",
+      "name": "Ministry of the Economy and Finance",
+      "group": "Ministry",
+      "country": "IV",
+      "url": "https://www.finances.gouv.ci/"
+    },
+    {
+      "rank": 322,
+      "id": "ministry-of-emergency-situations-of-kyrgyzstan-en-mes-kg",
+      "name": "Ministry of Emergency Situations of Kyrgyzstan",
+      "group": "Ministry",
+      "country": "KY",
+      "url": "https://en.mes.kg/"
+    },
+    {
+      "rank": 323,
+      "id": "ministry-of-education-children-and-youth-menej-gouvernement-lu",
+      "name": "Ministry of Education, Children and Youth",
+      "group": "Ministry",
+      "country": "LU",
+      "url": "https://menej.gouvernement.lu/"
+    },
+    {
+      "rank": 324,
+      "id": "ministry-of-education-of-myanmar-myanmar-education-edu-mm",
+      "name": "Ministry of Education of Myanmar",
+      "group": "Ministry",
+      "country": "MY",
+      "url": "https://www.myanmar-education.edu.mm/"
+    },
+    {
+      "rank": 325,
+      "id": "international-criminal-tribunal-for-rwanda-unictr-irmct-org",
+      "name": "International Criminal Tribunal for Rwanda",
+      "group": "Government agency",
+      "country": "RW",
+      "url": "https://unictr.irmct.org/"
+    },
+    {
+      "rank": 326,
+      "id": "ministry-of-labor-and-social-protection-of-popul-mehnat-uz",
+      "name": "Ministry of Labor and Social Protection of Population",
+      "group": "Ministry",
+      "country": "UZ",
+      "url": "https://mehnat.uz"
+    },
+    {
+      "rank": 327,
+      "id": "ministry-of-community-development-mother-and-chi-mcdmch-gov-zm",
+      "name": "Ministry of Community Development, Mother and Child Health",
+      "group": "Ministry",
+      "country": "ZA",
+      "url": "https://www.mcdmch.gov.zm/"
+    },
+    {
+      "rank": 328,
+      "id": "ministry-of-agriculture-and-livestock-mag-gob-sv",
+      "name": "Ministry of Agriculture and Livestock",
+      "group": "Government agency",
+      "country": "EL",
+      "url": "https://www.mag.gob.sv/"
+    },
+    {
+      "rank": 329,
+      "id": "tribunal-de-première-instance-gabon-journal-officiel-ga",
+      "name": "Tribunal de première instance (Gabon)",
+      "group": "Government agency",
+      "country": "GA",
+      "url": "https://journal-officiel.ga/5160-008-2019-/"
+    },
+    {
+      "rank": 330,
+      "id": "ministry-of-education-science-and-technology-education-go-ke",
+      "name": "Ministry of Education, Science and Technology",
+      "group": "Ministry",
+      "country": "KE",
+      "url": "https://www.education.go.ke/"
+    },
+    {
+      "rank": 331,
+      "id": "ministry-of-commerce-and-industry-moci-gov-kw",
+      "name": "Ministry of Commerce and Industry",
+      "group": "Government agency",
+      "country": "KU",
+      "url": "https://www.moci.gov.kw"
+    },
+    {
+      "rank": 332,
+      "id": "ministry-of-water-and-environment-mwe-go-ug",
+      "name": "Ministry of Water and Environment",
+      "group": "Government agency",
+      "country": "UG",
+      "url": "https://www.mwe.go.ug/"
+    },
+    {
+      "rank": 333,
+      "id": "ministry-of-economy-and-finance-mefhaiti-gouv-ht",
+      "name": "Ministry of Economy and Finance",
+      "group": "Government agency",
+      "country": "HA",
+      "url": "https://www.mefhaiti.gouv.ht/"
+    },
+    {
+      "rank": 334,
+      "id": "ministry-of-environment-and-climate-change-mme-gov-qa",
+      "name": "Ministry of Environment and Climate Change",
+      "group": "Government agency",
+      "country": "QA",
+      "url": "https://www.mme.gov.qa/cui/view.dox?id=316&siteID=1"
+    },
+    {
+      "rank": 335,
+      "id": "ministry-of-agriculture-minagro-nkr-am",
+      "name": "Ministry of Agriculture",
+      "group": "Government agency",
+      "country": "RE",
+      "url": "https://minagro.nkr.am/"
+    },
+    {
+      "rank": 336,
+      "id": "ministry-of-higher-education-and-scientific-rese-mohe-gov-sd",
+      "name": "Ministry of Higher Education and Scientific Research",
+      "group": "Ministry",
+      "country": "SU",
+      "url": "https://www.mohe.gov.sd/"
+    },
+    {
+      "rank": 337,
+      "id": "ministry-of-justice-togo-justice-gouv-tg",
+      "name": "Ministry of Justice (Togo)",
+      "group": "Government agency",
+      "country": "TO",
+      "url": "https://justice.gouv.tg"
+    },
+    {
+      "rank": 338,
+      "id": "sagamihara-city-sagamihara-kanagawa",
+      "name": "Sagamihara",
+      "group": "City",
+      "country": "JA",
+      "url": "https://www.city.sagamihara.kanagawa.jp/"
+    },
+    {
+      "rank": 339,
+      "id": "trier-trier-de",
+      "name": "Trier",
+      "group": "City",
+      "country": "GE",
+      "url": "https://www.trier.de/"
+    },
+    {
+      "rank": 340,
+      "id": "carlisle-carlisle-gov-uk",
+      "name": "Carlisle",
+      "group": "City",
+      "country": "UN",
+      "url": "https://www.carlisle.gov.uk/carlislecc/"
+    },
+    {
+      "rank": 341,
+      "id": "nagyhalász-nagyhalasz-hu",
+      "name": "Nagyhalász",
+      "group": "City",
+      "country": "HU",
+      "url": "https://www.nagyhalasz.hu/"
+    },
+    {
+      "rank": 342,
+      "id": "shakhtarsk-shahtersk-org",
+      "name": "Shakhtarsk",
+      "group": "City",
+      "country": "UK",
+      "url": "https://www.shahtersk.org"
+    },
+    {
+      "rank": 343,
+      "id": "avignon-avignon-fr",
+      "name": "Avignon",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.avignon.fr"
+    },
+    {
+      "rank": 344,
+      "id": "burlington-burlington-ca",
+      "name": "Burlington",
+      "group": "City",
+      "country": "CA",
+      "url": "https://www.burlington.ca/"
+    },
+    {
+      "rank": 345,
+      "id": "kadapa-kadapa-nic-in",
+      "name": "Kadapa",
+      "group": "City",
+      "country": "IN",
+      "url": "https://kadapa.nic.in/"
+    },
+    {
+      "rank": 346,
+      "id": "gryfino-gryfino-pl",
+      "name": "Gryfino",
+      "group": "City",
+      "country": "PO",
+      "url": "https://www.gryfino.pl"
+    },
+    {
+      "rank": 347,
+      "id": "sevastopol-sevastopolis-com",
+      "name": "Sevastopol",
+      "group": "City",
+      "country": "RU",
+      "url": "https://sevastopolis.com/"
+    },
+    {
+      "rank": 348,
+      "id": "lhasa-lasa-gov-cn",
+      "name": "Lhasa",
+      "group": "City",
+      "country": "PE",
+      "url": "https://www.lasa.gov.cn/"
+    },
+    {
+      "rank": 349,
+      "id": "ceyhan-ceyhan-bel-tr",
+      "name": "Ceyhan",
+      "group": "City",
+      "country": "TU",
+      "url": "https://www.ceyhan.bel.tr"
+    },
+    {
+      "rank": 350,
+      "id": "zwolle-zwolle-nl",
+      "name": "Zwolle",
+      "group": "City",
+      "country": "NE",
+      "url": "https://www.zwolle.nl/"
+    },
+    {
+      "rank": 351,
+      "id": "udine-comune-udine-it",
+      "name": "Udine",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.comune.udine.it/"
+    },
+    {
+      "rank": 352,
+      "id": "kalmar-kalmar-se",
+      "name": "Kalmar",
+      "group": "City",
+      "country": "SW",
+      "url": "https://www.kalmar.se/"
+    },
+    {
+      "rank": 353,
+      "id": "samos-samos-gr",
+      "name": "Samos",
+      "group": "City",
+      "country": "GR",
+      "url": "https://www.samos.gr/"
+    },
+    {
+      "rank": 354,
+      "id": "wollongong-wollongong-nsw-gov-au",
+      "name": "Wollongong",
+      "group": "City",
+      "country": "AU",
+      "url": "https://www.wollongong.nsw.gov.au"
+    },
+    {
+      "rank": 355,
+      "id": "żabbar-localgovernmentdivisionc",
+      "name": "Żabbar",
+      "group": "City",
+      "country": "MA",
+      "url": "https://localgovernmentdivisioncms.gov.mt/"
+    },
+    {
+      "rank": 356,
+      "id": "bloemfontein-bloemfontein-information",
+      "name": "Bloemfontein",
+      "group": "City",
+      "country": "SO",
+      "url": "https://www.bloemfontein-information.co.za/"
+    },
+    {
+      "rank": 357,
+      "id": "ciudad-del-este-mcde-gov-py",
+      "name": "Ciudad del Este",
+      "group": "City",
+      "country": "PA",
+      "url": "https://www.mcde.gov.py/"
+    },
+    {
+      "rank": 358,
+      "id": "monte-bernorio-s-oppidum-imbeac-com",
+      "name": "Monte Bernorio's oppidum",
+      "group": "City",
+      "country": "SP",
+      "url": "https://www.imbeac.com/"
+    },
+    {
+      "rank": 359,
+      "id": "sarandë-saranda-al",
+      "name": "Sarandë",
+      "group": "City",
+      "country": "AL",
+      "url": "https://saranda.al/"
+    },
+    {
+      "rank": 360,
+      "id": "tétouan-tetouan-ma",
+      "name": "Tétouan",
+      "group": "City",
+      "country": "MO",
+      "url": "https://www.tetouan.ma"
+    },
+    {
+      "rank": 361,
+      "id": "velenje-velenje-si",
+      "name": "Velenje",
+      "group": "City",
+      "country": "SL",
+      "url": "https://www.velenje.si/"
+    },
+    {
+      "rank": 362,
+      "id": "frýdekmístek-frydekmistek-cz",
+      "name": "Frýdek-Místek",
+      "group": "City",
+      "country": "CZ",
+      "url": "https://www.frydekmistek.cz"
+    },
+    {
+      "rank": 363,
+      "id": "ministry-of-planning-mop-gov-bd",
+      "name": "Ministry of Planning",
+      "group": "Ministry",
+      "country": "BA",
+      "url": "https://mop.gov.bd/"
+    },
+    {
+      "rank": 364,
+      "id": "fortaleza-fortaleza-ce-gov-br",
+      "name": "Fortaleza",
+      "group": "City",
+      "country": "BR",
+      "url": "https://www.fortaleza.ce.gov.br/"
+    },
+    {
+      "rank": 365,
+      "id": "baghdad-amanatbaghdad-gov-iq",
+      "name": "Baghdad",
+      "group": "City",
+      "country": "IR",
+      "url": "https://amanatbaghdad.gov.iq"
+    },
+    {
+      "rank": 366,
+      "id": "safed-zefat-muni-il",
+      "name": "Safed",
+      "group": "City",
+      "country": "IS",
+      "url": "https://www.zefat.muni.il/Pages/default.aspx"
+    },
+    {
+      "rank": 367,
+      "id": "charleroi-charleroi-be",
+      "name": "Charleroi",
+      "group": "City",
+      "country": "BE",
+      "url": "https://www.charleroi.be"
+    },
+    {
+      "rank": 368,
+      "id": "kaduna-kadunastate-gov-ng",
+      "name": "Kaduna",
+      "group": "City",
+      "country": "NI",
+      "url": "https://www.kadunastate.gov.ng/"
+    },
+    {
+      "rank": 369,
+      "id": "porac-poracpampanga-gov-ph",
+      "name": "Porac",
+      "group": "City",
+      "country": "PH",
+      "url": "https://www.poracpampanga.gov.ph/"
+    },
+    {
+      "rank": 370,
+      "id": "oruro-oruroweb-com",
+      "name": "Oruro",
+      "group": "City",
+      "country": "BO",
+      "url": "https://www.oruroweb.com/"
+    },
+    {
+      "rank": 371,
+      "id": "bogotá-bogota-gov-co",
+      "name": "Bogotá",
+      "group": "City",
+      "country": "CO",
+      "url": "https://bogota.gov.co"
+    },
+    {
+      "rank": 372,
+      "id": "ministry-of-internally-displaced-persons-from-th-mra-gov-ge",
+      "name": "Ministry of Internally Displaced Persons from the Occupied Territories, Accommodation and Refugees",
+      "group": "Ministry",
+      "country": "XX",
+      "url": "https://mra.gov.ge"
+    },
+    {
+      "rank": 373,
+      "id": "sabratha-sabratha-gov-ly",
+      "name": "Sabratha",
+      "group": "City",
+      "country": "LI",
+      "url": "https://www.sabratha.gov.ly/"
+    },
+    {
+      "rank": 374,
+      "id": "esbjerg-esbjerg-dk",
+      "name": "Esbjerg",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.esbjerg.dk/"
+    },
+    {
+      "rank": 375,
+      "id": "chiayi-city-chiayi-gov-tw",
+      "name": "Chiayi City",
+      "group": "City",
+      "country": "TA",
+      "url": "https://www.chiayi.gov.tw/"
+    },
+    {
+      "rank": 376,
+      "id": "casablanca-municasablanca-cl",
+      "name": "Casablanca",
+      "group": "City",
+      "country": "CH",
+      "url": "https://www.municasablanca.cl/"
+    },
+    {
+      "rank": 377,
+      "id": "santa-elena-gadse-gob-ec",
+      "name": "Santa Elena",
+      "group": "City",
+      "country": "EC",
+      "url": "https://www.gadse.gob.ec"
+    },
+    {
+      "rank": 378,
+      "id": "rosario-de-la-frontera-rosariodelafrontera-gob-",
+      "name": "Rosario de la Frontera",
+      "group": "City",
+      "country": "AR",
+      "url": "https://www.rosariodelafrontera.gob.ar/"
+    },
+    {
+      "rank": 379,
+      "id": "port-said-portsaid-gov-eg",
+      "name": "Port Said",
+      "group": "City",
+      "country": "EG",
+      "url": "https://www.portsaid.gov.eg/default.aspx"
+    },
+    {
+      "rank": 380,
+      "id": "kotka-kotka-fi",
+      "name": "Kotka",
+      "group": "City",
+      "country": "FI",
+      "url": "https://www.kotka.fi/"
+    },
+    {
+      "rank": 381,
+      "id": "cancun-cancun-gob-mx",
+      "name": "Cancun",
+      "group": "City",
+      "country": "ME",
+      "url": "https://cancun.gob.mx/"
+    },
+    {
+      "rank": 382,
+      "id": "ministry-of-digital-development-and-information-mci-gov-sg",
+      "name": "Ministry of Digital Development and Information",
+      "group": "Ministry",
+      "country": "SI",
+      "url": "https://www.mci.gov.sg/"
+    },
+    {
+      "rank": 383,
+      "id": "sozopol-sozopol-bg",
+      "name": "Sozopol",
+      "group": "City",
+      "country": "BU",
+      "url": "https://sozopol.bg"
+    },
+    {
+      "rank": 384,
+      "id": "pattaya-pattaya-go-th",
+      "name": "Pattaya",
+      "group": "City",
+      "country": "TH",
+      "url": "https://pattaya.go.th"
+    },
+    {
+      "rank": 385,
+      "id": "ministry-of-education-of-ghana-moe-gov-gh",
+      "name": "Ministry of Education of Ghana",
+      "group": "Ministry",
+      "country": "GH",
+      "url": "https://moe.gov.gh/"
+    },
+    {
+      "rank": 386,
+      "id": "ministry-of-oil-and-gas-mgm-gov-kz",
+      "name": "Ministry of Oil and Gas",
+      "group": "Ministry",
+      "country": "KA",
+      "url": "https://mgm.gov.kz/"
+    },
+    {
+      "rank": 387,
+      "id": "kladovo-kladovo-org-rs",
+      "name": "Kladovo",
+      "group": "City",
+      "country": "SE",
+      "url": "https://www.kladovo.org.rs/"
+    },
+    {
+      "rank": 388,
+      "id": "ministry-of-tourism-mt-gov-sa",
+      "name": "Ministry of Tourism",
+      "group": "Ministry",
+      "country": "SA",
+      "url": "https://mt.gov.sa/Pages/default.aspx"
+    },
+    {
+      "rank": 389,
+      "id": "ministry-of-popular-power-for-health-mpps-gob-ve",
+      "name": "Ministry of Popular Power for Health",
+      "group": "Ministry",
+      "country": "VE",
+      "url": "https://www.mpps.gob.ve/"
+    },
+    {
+      "rank": 390,
+      "id": "stari-grad-stari-grad-hr",
+      "name": "Stari Grad",
+      "group": "City",
+      "country": "CR",
+      "url": "https://stari-grad.hr/"
+    },
+    {
+      "rank": 391,
+      "id": "ísafjörður-isafjordur-is",
+      "name": "Ísafjörður",
+      "group": "City",
+      "country": "IC",
+      "url": "https://www.isafjordur.is/"
+    },
+    {
+      "rank": 392,
+      "id": "ministry-of-culture-sports-and-tourism-english-bvhttdl-gov-vn",
+      "name": "Ministry of Culture, Sports and Tourism",
+      "group": "Ministry",
+      "country": "VI",
+      "url": "https://english.bvhttdl.gov.vn/"
+    },
+    {
+      "rank": 393,
+      "id": "strumica-strumica-gov-mk",
+      "name": "Strumica",
+      "group": "City",
+      "country": "NO",
+      "url": "https://strumica.gov.mk"
+    },
+    {
+      "rank": 394,
+      "id": "walvis-bay-walvisbaycc-org-na",
+      "name": "Walvis Bay",
+      "group": "City",
+      "country": "NA",
+      "url": "https://www.walvisbaycc.org.na/"
+    },
+    {
+      "rank": 395,
+      "id": "ministry-of-defence-industry-of-azerbaijan-mdi-gov-az",
+      "name": "Ministry of Defence Industry of Azerbaijan",
+      "group": "Ministry",
+      "country": "AZ",
+      "url": "https://www.mdi.gov.az/"
+    },
+    {
+      "rank": 396,
+      "id": "kuldīga-kuldiga-lv",
+      "name": "Kuldīga",
+      "group": "City",
+      "country": "LA",
+      "url": "https://www.kuldiga.lv"
+    },
+    {
+      "rank": 397,
+      "id": "nabatieh-nabatieh-gov-lb",
+      "name": "Nabatieh",
+      "group": "City",
+      "country": "LE",
+      "url": "https://www.nabatieh.gov.lb/index.php"
+    },
+    {
+      "rank": 398,
+      "id": "khabab-chabab-sy",
+      "name": "Khabab",
+      "group": "City",
+      "country": "SY",
+      "url": "https://www.chabab.sy/"
+    },
+    {
+      "rank": 399,
+      "id": "ministry-of-counter-narcotics-of-afghanistan-mcn-gov-af",
+      "name": "Ministry of Counter Narcotics of Afghanistan",
+      "group": "Ministry",
+      "country": "AF",
+      "url": "https://www.mcn.gov.af"
+    },
+    {
+      "rank": 400,
+      "id": "viljandi-viljandi-ee",
+      "name": "Viljandi",
+      "group": "City",
+      "country": "ES",
+      "url": "https://viljandi.ee"
+    },
+    {
+      "rank": 401,
+      "id": "ministry-of-urban-developmenthousing-and-constru-mudco-gov-et",
+      "name": "Ministry of Urban Development,Housing and Construction",
+      "group": "Ministry",
+      "country": "ET",
+      "url": "https://www.mudco.gov.et/home"
+    },
+    {
+      "rank": 402,
+      "id": "ministry-of-endowments-and-religious-affairs-mara-gov-om",
+      "name": "Ministry of Endowments and Religious Affairs",
+      "group": "Ministry",
+      "country": "OM",
+      "url": "https://www.mara.gov.om/"
+    },
+    {
+      "rank": 403,
+      "id": "ministry-of-tourism-tourismmin-gov-lk",
+      "name": "Ministry of Tourism",
+      "group": "Ministry",
+      "country": "SR",
+      "url": "https://www.tourismmin.gov.lk/"
+    },
+    {
+      "rank": 404,
+      "id": "santa-clara-misantaclara-gob-cu",
+      "name": "Santa Clara",
+      "group": "City",
+      "country": "CU",
+      "url": "https://www.misantaclara.gob.cu/"
+    },
+    {
+      "rank": 405,
+      "id": "office-of-the-attorney-general-of-the-republic-pgr-gob-do",
+      "name": "Office of the Attorney General of the Republic",
+      "group": "Ministry",
+      "country": "DO",
+      "url": "https://pgr.gob.do/"
+    },
+    {
+      "rank": 406,
+      "id": "ministry-of-transport-and-infrastructure-of-roma-mt-gov-ro",
+      "name": "Ministry of Transport and Infrastructure of Romania",
+      "group": "Ministry",
+      "country": "RO",
+      "url": "https://mt.gov.ro/"
+    },
+    {
+      "rank": 407,
+      "id": "ministry-of-defence-of-transnistria-mopmr-org",
+      "name": "Ministry of Defence of Transnistria",
+      "group": "Ministry",
+      "country": "TR",
+      "url": "https://mopmr.org/"
+    },
+    {
+      "rank": 408,
+      "id": "ministry-of-education-mineduc-gob-gt",
+      "name": "Ministry of Education",
+      "group": "Ministry",
+      "country": "GU",
+      "url": "https://www.mineduc.gob.gt/"
+    },
+    {
+      "rank": 409,
+      "id": "irbid-irbid-gov-jo",
+      "name": "Irbid",
+      "group": "City",
+      "country": "JO",
+      "url": "https://irbid.gov.jo/"
+    },
+    {
+      "rank": 410,
+      "id": "ministry-of-industry-entrepreneurship-and-trade--mint-rks-gov-ne",
+      "name": "Ministry of Industry, Entrepreneurship, and Trade of Kosovo",
+      "group": "Government agency",
+      "country": "KO",
+      "url": "https://mint.rks-gov.net/"
+    },
+    {
+      "rank": 411,
+      "id": "ministry-of-lands-and-rural-resettlement-lands-gov-zw",
+      "name": "Ministry of Lands and Rural Resettlement",
+      "group": "Ministry",
+      "country": "ZI",
+      "url": "https://www.lands.gov.zw/"
+    },
+    {
+      "rank": 412,
+      "id": "ministry-of-education-and-higher-education-of-an-educacio-ad",
+      "name": "Ministry of Education and Higher Education of Andorra",
+      "group": "Ministry",
+      "country": "AN",
+      "url": "https://www.educacio.ad/"
+    },
+    {
+      "rank": 413,
+      "id": "ministry-of-national-education-and-technical-tra-education-ci-or",
+      "name": "Ministry of National Education and Technical Training",
+      "group": "Ministry",
+      "country": "IV",
+      "url": "https://www.education-ci.org/intro/"
+    },
+    {
+      "rank": 414,
+      "id": "ministry-of-education-and-science-of-the-kyrgyz--edu-gov-kg",
+      "name": "Ministry of Education and Science of the Kyrgyz Republic",
+      "group": "Ministry",
+      "country": "KY",
+      "url": "https://edu.gov.kg/ru/"
+    },
+    {
+      "rank": 415,
+      "id": "ministry-of-housing-mlog-gouvernement-lu",
+      "name": "Ministry of Housing",
+      "group": "Ministry",
+      "country": "LU",
+      "url": "https://mlog.gouvernement.lu/"
+    },
+    {
+      "rank": 416,
+      "id": "ministry-of-hotels-and-tourism-tourism-gov-mm",
+      "name": "Ministry of Hotels and Tourism",
+      "group": "Ministry",
+      "country": "MY",
+      "url": "https://tourism.gov.mm/"
+    },
+    {
+      "rank": 417,
+      "id": "ministry-of-environment-environment-gov-rw",
+      "name": "Ministry of Environment",
+      "group": "Government agency",
+      "country": "RW",
+      "url": "https://www.environment.gov.rw/"
+    },
+    {
+      "rank": 418,
+      "id": "consulate-general-of-turkey-samarkand-semerkant-bk-mfa-gov-tr",
+      "name": "Consulate General of Turkey, Samarkand",
+      "group": "Government agency",
+      "country": "UZ",
+      "url": "https://semerkant-bk.mfa.gov.tr/"
+    },
+    {
+      "rank": 419,
+      "id": "ministry-of-agriculture-and-livestock-agriculture-gov-zm",
+      "name": "Ministry of Agriculture and Livestock",
+      "group": "Ministry",
+      "country": "ZA",
+      "url": "https://www.agriculture.gov.zm"
+    },
+    {
+      "rank": 420,
+      "id": "ministry-of-justice-and-public-security-seguridad-gob-sv",
+      "name": "Ministry of Justice and Public Security",
+      "group": "Government agency",
+      "country": "EL",
+      "url": "https://www.seguridad.gob.sv/"
+    },
+    {
+      "rank": 421,
+      "id": "tribunal-de-première-instance-gabon-justice-gouv-ga",
+      "name": "Tribunal de première instance (Gabon)",
+      "group": "Government agency",
+      "country": "GA",
+      "url": "https://justice.gouv.ga/annexe-du-tribunal-de-libreville-inauguration-prevue-le-samedi-02-mai-2026/"
+    },
+    {
+      "rank": 422,
+      "id": "ministry-of-agriculture-and-livestock-developmen-kilimo-go-ke",
+      "name": "Ministry of Agriculture and Livestock Development",
+      "group": "Government agency",
+      "country": "KE",
+      "url": "https://kilimo.go.ke/"
+    },
+    {
+      "rank": 423,
+      "id": "ministry-of-justice-moj-gov-kw",
+      "name": "Ministry of Justice",
+      "group": "Government agency",
+      "country": "KU",
+      "url": "https://www.moj.gov.kw"
+    },
+    {
+      "rank": 424,
+      "id": "ministry-of-science-technology-and-innovation-sti-go-ug",
+      "name": "Ministry of Science, Technology and Innovation",
+      "group": "Government agency",
+      "country": "UG",
+      "url": "https://www.sti.go.ug/"
+    },
+    {
+      "rank": 425,
+      "id": "toyama-city-toyama-toyama-jp",
+      "name": "Toyama",
+      "group": "City",
+      "country": "JA",
+      "url": "https://www.city.toyama.toyama.jp/"
+    },
+    {
+      "rank": 426,
+      "id": "cottbus-cottbus-de",
+      "name": "Cottbus",
+      "group": "City",
+      "country": "GE",
+      "url": "https://www.cottbus.de/"
+    },
+    {
+      "rank": 427,
+      "id": "leicester-leicester-gov-uk",
+      "name": "Leicester",
+      "group": "City",
+      "country": "UN",
+      "url": "https://leicester.gov.uk"
+    },
+    {
+      "rank": 428,
+      "id": "nyírtelek-nyirtelek-hu",
+      "name": "Nyírtelek",
+      "group": "City",
+      "country": "HU",
+      "url": "https://www.nyirtelek.hu/"
+    },
+    {
+      "rank": 429,
+      "id": "mariupol-mariupol-r897-gosweb-gos",
+      "name": "Mariupol",
+      "group": "City",
+      "country": "UK",
+      "url": "https://mariupol-r897.gosweb.gosuslugi.ru/"
+    },
+    {
+      "rank": 430,
+      "id": "poitiers-poitiers-fr",
+      "name": "Poitiers",
+      "group": "City",
+      "country": "FR",
+      "url": "https://www.poitiers.fr/"
+    },
+    {
+      "rank": 431,
+      "id": "belleville-city-belleville-on-ca",
+      "name": "Belleville",
+      "group": "City",
+      "country": "CA",
+      "url": "https://www.city.belleville.on.ca/"
+    },
+    {
+      "rank": 432,
+      "id": "ketapang-ketapangkab-go-id",
+      "name": "Ketapang",
+      "group": "City",
+      "country": "IN",
+      "url": "https://www.ketapangkab.go.id/"
+    },
+    {
+      "rank": 433,
+      "id": "rawa-mazowiecka-rawamazowiecka-eu",
+      "name": "Rawa Mazowiecka",
+      "group": "City",
+      "country": "PO",
+      "url": "https://www.rawamazowiecka.eu/"
+    },
+    {
+      "rank": 434,
+      "id": "abaza-abaza-adm-ru",
+      "name": "Abaza",
+      "group": "City",
+      "country": "RU",
+      "url": "https://abaza-adm.ru"
+    },
+    {
+      "rank": 435,
+      "id": "harbin-harbin-gov-cn",
+      "name": "Harbin",
+      "group": "City",
+      "country": "PE",
+      "url": "https://www.harbin.gov.cn/"
+    },
+    {
+      "rank": 436,
+      "id": "mardin-mardin-bel-tr",
+      "name": "Mardin",
+      "group": "City",
+      "country": "TU",
+      "url": "https://www.mardin.bel.tr/"
+    },
+    {
+      "rank": 437,
+      "id": "almere-almere-nl",
+      "name": "Almere",
+      "group": "City",
+      "country": "NE",
+      "url": "https://www.almere.nl/"
+    },
+    {
+      "rank": 438,
+      "id": "pescara-comune-pescara-it",
+      "name": "Pescara",
+      "group": "City",
+      "country": "IT",
+      "url": "https://www.comune.pescara.it"
+    },
+    {
+      "rank": 439,
+      "id": "nyköping-nykoping-se",
+      "name": "Nyköping",
+      "group": "City",
+      "country": "SW",
+      "url": "https://www.nykoping.se/"
+    },
+    {
+      "rank": 440,
+      "id": "scyros-skyros-gr",
+      "name": "Scyros",
+      "group": "City",
+      "country": "GR",
+      "url": "https://skyros.gr/"
+    },
+    {
+      "rank": 441,
+      "id": "townsville-townsville-qld-gov-au",
+      "name": "Townsville",
+      "group": "City",
+      "country": "AU",
+      "url": "https://www.townsville.qld.gov.au"
+    },
+    {
+      "rank": 442,
+      "id": "mosta-mostalocalcouncil-com",
+      "name": "Mosta",
+      "group": "City",
+      "country": "MA",
+      "url": "https://www.mostalocalcouncil.com/"
+    },
+    {
+      "rank": 443,
+      "id": "kurakhove-gorsovet-org-ua",
+      "name": "Kurakhove",
+      "group": "City",
+      "country": "SO",
+      "url": "https://gorsovet.org.ua/"
+    },
+    {
+      "rank": 444,
+      "id": "multan-multan-gov-pk",
+      "name": "Multan",
+      "group": "City",
+      "country": "PA",
+      "url": "https://www.multan.gov.pk/"
+    },
+    {
+      "rank": 445,
+      "id": "lucentum-alicanteturismo-com",
+      "name": "Lucentum",
+      "group": "City",
+      "country": "SP",
+      "url": "https://alicanteturismo.com/"
+    },
+    {
+      "rank": 446,
+      "id": "constantine-wilaya-constantine-dz",
+      "name": "Constantine",
+      "group": "City",
+      "country": "AL",
+      "url": "https://www.wilaya-constantine.dz/"
+    },
+    {
+      "rank": 447,
+      "id": "herceg-novi-hercegnovi-me",
+      "name": "Herceg Novi",
+      "group": "City",
+      "country": "MO",
+      "url": "https://www.hercegnovi.me/"
+    },
+    {
+      "rank": 448,
+      "id": "grosuplje-grosuplje-si",
+      "name": "Grosuplje",
+      "group": "City",
+      "country": "SL",
+      "url": "https://www.grosuplje.si/"
+    },
+    {
+      "rank": 449,
+      "id": "děčín-mmdecin-cz",
+      "name": "Děčín",
+      "group": "City",
+      "country": "CZ",
+      "url": "https://www.mmdecin.cz/"
+    },
+    {
+      "rank": 450,
+      "id": "ministry-of-civil-aviation-and-tourism-mocat-gov-bd",
+      "name": "Ministry of Civil Aviation and Tourism",
+      "group": "Ministry",
+      "country": "BA",
+      "url": "https://mocat.gov.bd/"
+    },
+    {
+      "rank": 451,
+      "id": "rio-de-janeiro-riotur-rio",
+      "name": "Rio de Janeiro",
+      "group": "City",
+      "country": "BR",
+      "url": "https://riotur.rio/"
+    },
+    {
+      "rank": 452,
+      "id": "kilkenny-kilkenny-ie",
+      "name": "Kilkenny",
+      "group": "City",
+      "country": "IR",
+      "url": "https://www.kilkenny.ie"
+    },
+    {
+      "rank": 453,
+      "id": "rishon-lezion-my-rishonlezion-muni-il",
+      "name": "Rishon LeZion",
+      "group": "City",
+      "country": "IS",
+      "url": "https://my.rishonlezion.muni.il/"
+    },
+    {
+      "rank": 454,
+      "id": "belize-city-belizecitycouncil-org",
+      "name": "Belize City",
+      "group": "City",
+      "country": "BE",
+      "url": "https://www.belizecitycouncil.org/"
+    },
+    {
+      "rank": 455,
+      "id": "ministry-of-public-health-msp-ne",
+      "name": "Ministry of Public Health",
+      "group": "Ministry",
+      "country": "NI",
+      "url": "https://www.msp.ne/index.php/"
+    },
+    {
+      "rank": 456,
+      "id": "súbic-subic-gov-ph",
+      "name": "Súbic",
+      "group": "City",
+      "country": "PH",
+      "url": "https://subic.gov.ph/"
+    },
+    {
+      "rank": 457,
+      "id": "cobija-gmcobija-gob-bo",
+      "name": "Cobija",
+      "group": "City",
+      "country": "BO",
+      "url": "https://www.gmcobija.gob.bo/"
+    },
+    {
+      "rank": 458,
+      "id": "medellín-medellin-gov-co",
+      "name": "Medellín",
+      "group": "City",
+      "country": "CO",
+      "url": "https://www.medellin.gov.co/"
+    },
+    {
+      "rank": 459,
+      "id": "ministry-of-federal-education-and-professional-t-mofept-gov-pk",
+      "name": "Ministry of Federal Education and Professional Training (Pakistan)",
+      "group": "Ministry",
+      "country": "XX",
+      "url": "https://mofept.gov.pk"
+    },
+    {
+      "rank": 460,
+      "id": "birštonas-birstonas-lt",
+      "name": "Birštonas",
+      "group": "City",
+      "country": "LI",
+      "url": "https://birstonas.lt"
+    },
+    {
+      "rank": 461,
+      "id": "vejle-vejle-dk",
+      "name": "Vejle",
+      "group": "City",
+      "country": "DE",
+      "url": "https://www.vejle.dk/"
+    },
+    {
+      "rank": 462,
+      "id": "hsinchu-city-hccg-gov-tw",
+      "name": "Hsinchu City",
+      "group": "City",
+      "country": "TA",
+      "url": "https://www.hccg.gov.tw/hccg/index"
+    },
+    {
+      "rank": 463,
+      "id": "coronel-coronel-cl",
+      "name": "Coronel",
+      "group": "City",
+      "country": "CH",
+      "url": "https://www.coronel.cl/"
+    },
+    {
+      "rank": 464,
+      "id": "ministry-of-tourism-of-ecuador-turismo-gob-ec",
+      "name": "Ministry of Tourism of Ecuador",
+      "group": "Ministry",
+      "country": "EC",
+      "url": "https://www.turismo.gob.ec/"
+    },
+    {
+      "rank": 465,
+      "id": "gyumri-gyumricity-am",
+      "name": "Gyumri",
+      "group": "City",
+      "country": "AR",
+      "url": "https://gyumricity.am"
+    },
+    {
+      "rank": 466,
+      "id": "suez-suez-gov-eg",
+      "name": "Suez",
+      "group": "City",
+      "country": "EG",
+      "url": "https://www.suez.gov.eg/"
+    },
+    {
+      "rank": 467,
+      "id": "mikkeli-mikkeli-fi",
+      "name": "Mikkeli",
+      "group": "City",
+      "country": "FI",
+      "url": "https://mikkeli.fi/"
+    },
+    {
+      "rank": 468,
+      "id": "san-luis-potosí-ayuntamientoslp-gob-mx",
+      "name": "San Luis Potosí",
+      "group": "City",
+      "country": "ME",
+      "url": "https://www.ayuntamientoslp.gob.mx"
+    },
+    {
+      "rank": 469,
+      "id": "ministry-of-mineral-resources-of-sierra-leone-slminerals-org",
+      "name": "Ministry of Mineral Resources of Sierra Leone",
+      "group": "Ministry",
+      "country": "SI",
+      "url": "https://www.slminerals.org"
+    },
+    {
+      "rank": 470,
+      "id": "bobodioulasso-bobodioulasso-net",
+      "name": "Bobo-Dioulasso",
+      "group": "City",
+      "country": "BU",
+      "url": "https://www.bobodioulasso.net/"
+    },
+    {
+      "rank": 471,
+      "id": "phrae-phrae-go-th",
+      "name": "Phrae",
+      "group": "City",
+      "country": "TH",
+      "url": "https://www.phrae.go.th/"
+    },
+    {
+      "rank": 472,
+      "id": "ministry-of-transport-mot-gov-gh",
+      "name": "Ministry of Transport",
+      "group": "Ministry",
+      "country": "GH",
+      "url": "https://www.mot.gov.gh/"
+    },
+    {
+      "rank": 473,
+      "id": "ministry-of-education-and-science-edu-gov-kz",
+      "name": "Ministry of Education and Science",
+      "group": "Ministry",
+      "country": "KA",
+      "url": "https://www.edu.gov.kz/ru/"
+    },
+    {
+      "rank": 474,
+      "id": "ministry-of-trade-tourism-and-telecommunications-mtt-gov-rs",
+      "name": "Ministry of Trade, Tourism and Telecommunications of the Republic of Serbia",
+      "group": "Ministry",
+      "country": "SE",
+      "url": "https://mtt.gov.rs"
+    },
+    {
+      "rank": 475,
+      "id": "ministry-of-higher-education-mohe-gov-sa",
+      "name": "Ministry of Higher Education",
+      "group": "Ministry",
+      "country": "SA",
+      "url": "https://www.mohe.gov.sa/"
+    },
+    {
+      "rank": 476,
+      "id": "venezuelan-ministry-of-the-popular-participation-mindefensa-gob-",
+      "name": "Venezuelan Ministry of the Popular Participation for the Defense",
+      "group": "Ministry",
+      "country": "VE",
+      "url": "https://www.mindefensa.gob.ve/"
+    },
+    {
+      "rank": 477,
+      "id": "ministry-of-science-and-education-public-mzos-hr",
+      "name": "Ministry of Science and Education",
+      "group": "Ministry",
+      "country": "CR",
+      "url": "https://www.public.mzos.hr/"
+    },
+    {
+      "rank": 478,
+      "id": "hafnarfjörður-hafnarfjordur-is",
+      "name": "Hafnarfjörður",
+      "group": "City",
+      "country": "IC",
+      "url": "https://www.hafnarfjordur.is/"
+    },
+    {
+      "rank": 479,
+      "id": "ministry-of-culture-sports-and-tourism-bvhttdl-gov-vn",
+      "name": "Ministry of Culture, Sports and Tourism",
+      "group": "Ministry",
+      "country": "VI",
+      "url": "https://bvhttdl.gov.vn/"
+    },
+    {
+      "rank": 480,
+      "id": "trondheim-trondheim-kommune-no",
+      "name": "Trondheim",
+      "group": "City",
+      "country": "NO",
+      "url": "https://www.trondheim.kommune.no/"
+    },
+    {
+      "rank": 481,
+      "id": "ministry-of-higher-education-mheti-gov-na",
+      "name": "Ministry of Higher Education",
+      "group": "Ministry",
+      "country": "NA",
+      "url": "https://www.mheti.gov.na/"
+    },
+    {
+      "rank": 482,
+      "id": "ministry-of-labour-and-social-protection-of-the--sosial-gov-az",
+      "name": "Ministry of Labour and Social Protection of the Population (Azerbaijan)",
+      "group": "Ministry",
+      "country": "AZ",
+      "url": "https://sosial.gov.az/"
+    },
+    {
+      "rank": 483,
+      "id": "aizpute-aizpute-lv",
+      "name": "Aizpute",
+      "group": "City",
+      "country": "LA",
+      "url": "https://www.aizpute.lv"
+    },
+    {
+      "rank": 484,
+      "id": "jounieh-jounieh-gov-lb",
+      "name": "Jounieh",
+      "group": "City",
+      "country": "LE",
+      "url": "https://www.jounieh.gov.lb/"
+    },
+    {
+      "rank": 485,
+      "id": "daraa-esyria-sy",
+      "name": "Daraa",
+      "group": "City",
+      "country": "SY",
+      "url": "https://www.esyria.sy/edaraa/"
+    },
+    {
+      "rank": 486,
+      "id": "ministry-of-education-moe-gov-af",
+      "name": "Ministry of Education",
+      "group": "Ministry",
+      "country": "AF",
+      "url": "https://moe.gov.af/en"
+    },
+    {
+      "rank": 487,
+      "id": "pärnu-parnu-ee",
+      "name": "Pärnu",
+      "group": "City",
+      "country": "ES",
+      "url": "https://parnu.ee/"
+    },
+    {
+      "rank": 488,
+      "id": "ministry-of-water-and-energy-mowr-gov-et",
+      "name": "Ministry of Water and Energy",
+      "group": "Ministry",
+      "country": "ET",
+      "url": "https://www.mowr.gov.et/"
+    },
+    {
+      "rank": 489,
+      "id": "ministry-of-civil-service-mocs-gov-om",
+      "name": "Ministry of Civil Service",
+      "group": "Ministry",
+      "country": "OM",
+      "url": "https://www.mocs.gov.om/"
+    },
+    {
+      "rank": 490,
+      "id": "ministry-of-city-planning-and-water-supply-mwsd-gov-lk",
+      "name": "Ministry OF City Planning and Water Supply",
+      "group": "Ministry",
+      "country": "SR",
+      "url": "https://www.mwsd.gov.lk/"
+    },
+    {
+      "rank": 491,
+      "id": "pinar-del-río-pinardelrio-pinar-cu",
+      "name": "Pinar del Río",
+      "group": "City",
+      "country": "CU",
+      "url": "https://www.pinardelrio.pinar.cu/"
+    },
+    {
+      "rank": 492,
+      "id": "ministry-of-economy-planning-and-development-mepyd-gob-do",
+      "name": "Ministry of Economy, Planning and Development",
+      "group": "Ministry",
+      "country": "DO",
+      "url": "https://mepyd.gob.do/"
+    },
+    {
+      "rank": 493,
+      "id": "consulate-general-of-turkey-constanța-kostence-bk-mfa-gov-tr",
+      "name": "Consulate General of Turkey, Constanța",
+      "group": "Government agency",
+      "country": "RO",
+      "url": "https://kostence-bk.mfa.gov.tr"
+    },
+    {
+      "rank": 494,
+      "id": "ministry-of-health-of-transnistria-minzdravpmr-org",
+      "name": "Ministry of Health of Transnistria",
+      "group": "Ministry",
+      "country": "TR",
+      "url": "https://www.minzdravpmr.org/"
+    },
+    {
+      "rank": 495,
+      "id": "ministry-of-mines-and-geology-mines-gov-gn",
+      "name": "Ministry of Mines and Geology",
+      "group": "Ministry",
+      "country": "GU",
+      "url": "https://mines.gov.gn/en/"
+    },
+    {
+      "rank": 496,
+      "id": "zarqa-zm-gov-jo",
+      "name": "Zarqa",
+      "group": "City",
+      "country": "JO",
+      "url": "https://www.zm.gov.jo/ar"
+    },
+    {
+      "rank": 497,
+      "id": "ministry-of-justice-md-rks-gov-net",
+      "name": "Ministry of Justice",
+      "group": "Government agency",
+      "country": "KO",
+      "url": "https://md.rks-gov.net/"
+    },
+    {
+      "rank": 498,
+      "id": "ministry-of-sport-arts-and-recreation-moysar-gov-zw",
+      "name": "Ministry of Sport, Arts and Recreation",
+      "group": "Ministry",
+      "country": "ZI",
+      "url": "https://www.moysar.gov.zw/"
+    },
+    {
+      "rank": 499,
+      "id": "ministry-of-foreign-affairs-of-antigua-barbuda-foreignaffairs-go",
+      "name": "Ministry of Foreign Affairs of Antigua & Barbuda",
+      "group": "Ministry",
+      "country": "AN",
+      "url": "https://foreignaffairs.gov.ag/index.php"
+    },
+    {
+      "rank": 500,
+      "id": "ministry-of-water-and-forests-eauxetforets-gouv-ci",
+      "name": "Ministry of water and forests",
+      "group": "Government agency",
+      "country": "IV",
+      "url": "https://eauxetforets.gouv.ci/"
+    }
+  ]
+}

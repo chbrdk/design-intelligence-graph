@@ -9,7 +9,8 @@
 - `knowledge/catalogs/insurance-1000.json` (`insurance-1000`)
 - `knowledge/catalogs/insurance-plus-500.json` (`insurance-plus-500`)
 - `knowledge/catalogs/design-diversity-1000.json` (`design-diversity-1000`)
-- `knowledge/catalogs/public-sector-1000.json` (`public-sector-1000`)  
+- `knowledge/catalogs/public-sector-1000.json` (`public-sector-1000`)
+- `knowledge/catalogs/public-sector-plus-500.json` (`public-sector-plus-500`)  
 **API:** `POST /api/jobs/batch`
 
 Staging cannot run dozens of Chromium sessions at once. `JobRunner` caps Playwright at **`captureJobs.maxConcurrent: 6`**. Still-image ingest (bulk upload + Pinterest) uses a **separate** pool (`imageIngest.maxConcurrent: 4`) so moodboard jobs are not stuck behind URL captures. `maxBatch` is **1000**. See `knowledge/image-ingest.md`.
@@ -52,6 +53,10 @@ Content-Type: application/json
 { "catalog": "public-sector-1000" }
 ```
 
+```
+{ "catalog": "public-sector-plus-500" }
+```
+
 Optional: `{ "urls": ["https://www.toyota.com/"] }` (capped by `captureJobs.maxBatch`). Force recapture with `{ "skip_existing": false }`.
 
 Auth uses `assertDestructiveAuth` (token required even in dummy mode).
@@ -71,6 +76,8 @@ Auth uses `assertDestructiveAuth` (token required even in dummy mode).
 **design-diversity-1000** — 1000 cross-industry brand/product/agency homepages (banking, airlines, hotels, fashion, retail, SaaS, telecom, media, auto brands, curated QSR/fintech/creative). No overlap with the five earlier catalogs. Rebuild with `python3 scripts/build-design-diversity-1000.py`. Source snapshot: `knowledge/catalogs/sources/design-diversity-wikidata-2026.json`. See `knowledge/design-diversity-catalog.md`.
 
 **public-sector-1000** — 1000 public-sector / city / governance homepages (national portals, cities, municipalities, ministries, agencies, supranational). No overlap with prior catalogs. Rebuild with `python3 scripts/fetch-public-sector-wikidata.py` + `python3 scripts/build-public-sector-1000.py`. See `knowledge/public-sector-catalog.md`.
+
+**public-sector-plus-500** — 500 additional public-sector / city / governance homepages not in `public-sector-1000` or earlier catalogs. Curated mid-tier cities and agencies first, then leftover Wikidata official websites round-robin by country. Rebuild with `python3 scripts/build-public-sector-plus-500.py`.
 
 ~2–3 minutes per URL at concurrency 6 → roughly **20–30 minutes** for 50 URLs, **~40–60 minutes** for 100, **~8–10 hours** for 1000 remaining.
 
