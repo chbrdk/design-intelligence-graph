@@ -316,6 +316,7 @@
     "publicSector1000": "knowledge/catalogs/public-sector-1000.json",
     "publicSectorPlus500": "knowledge/catalogs/public-sector-plus-500.json",
     "awwwards500": "knowledge/catalogs/awwwards-500.json",
+    "awwwardsPlus1000": "knowledge/catalogs/awwwards-plus-1000.json",
     "maxBatch": 1000
   },
   "imageIngest": {

@@ -1,11 +1,11 @@
 # Awwwards featured websites catalog
 
-**Catalog id:** `awwwards-500`  
-**File:** `knowledge/catalogs/awwwards-500.json` (`paths.json` → `captureJobs.awwwards500`)  
-**Fetch:** `python3 scripts/fetch-awwwards-websites.py`  
-**Rebuild:** `python3 scripts/build-awwwards-500.py`  
-**Research snapshot:** `knowledge/catalogs/sources/awwwards-websites-2026.json`  
-**Queue:** `POST /api/jobs/batch` `{ "catalog": "awwwards-500", "skip_existing": true }`
+**Catalog ids:** `awwwards-500`, `awwwards-plus-1000`  
+**Files:** `knowledge/catalogs/awwwards-500.json`, `knowledge/catalogs/awwwards-plus-1000.json`  
+**Fetch:** `python3 scripts/fetch-awwwards-websites.py` (first wave) · `python3 scripts/fetch-awwwards-plus.py` (resume page 22+)  
+**Rebuild:** `python3 scripts/build-awwwards-500.py` · `python3 scripts/build-awwwards-plus-1000.py`  
+**Snapshots:** `knowledge/catalogs/sources/awwwards-websites-2026.json`, `awwwards-websites-plus-2026.json`  
+**Queue:** `{ "catalog": "awwwards-500" }` or `awwwards-plus-1000`
 
 ## Scope
 

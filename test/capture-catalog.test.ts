@@ -28,6 +28,7 @@ test("captureJobsConfig reads maxConcurrent 4, hardTimeoutMs, and maxBatch from 
   assert.match(captureJobsConfig().publicSector1000, /public-sector-1000\.json$/);
   assert.match(captureJobsConfig().publicSectorPlus500, /public-sector-plus-500\.json$/);
   assert.match(captureJobsConfig().awwwards500, /awwwards-500\.json$/);
+  assert.match(captureJobsConfig().awwwardsPlus1000, /awwwards-plus-1000\.json$/);
 });
 
 test("cross-industry-100 catalog has 100 unique https urls across industries", () => {
@@ -266,4 +267,35 @@ test("awwwards-500 has 500 unique https visit urls and skips prior catalogs", ()
     assert.equal(priorHosts.has(host), false, `overlap with prior catalog host: ${host}`);
   }
   assert.ok(urls.some((url) => url.includes("oimachi") || url.includes("cipher") || hosts.size === 500));
+});
+
+test("awwwards-plus-1000 has 1000 unique https visit urls and skips prior catalogs", () => {
+  const catalog = loadCaptureCatalog("awwwards-plus-1000");
+  assert.equal(catalog.entries.length, 1000);
+  const urls = catalogUrls(catalog);
+  assert.equal(new Set(urls).size, 1000);
+  const hosts = new Set(
+    urls.map((url) => new URL(url).hostname.replace(/^www\./i, "").toLowerCase())
+  );
+  assert.equal(hosts.size, 1000);
+  for (const url of urls) {
+    assert.match(url, /^https:\/\//);
+    assert.equal(url.includes("awwwards.com"), false);
+  }
+  const priorHosts = new Set(
+    [
+      ...catalogUrls(loadCaptureCatalog("automotive-oem-50")),
+      ...catalogUrls(loadCaptureCatalog("cross-industry-100")),
+      ...catalogUrls(loadCaptureCatalog("engineering-manufacturing-1000")),
+      ...catalogUrls(loadCaptureCatalog("insurance-1000")),
+      ...catalogUrls(loadCaptureCatalog("insurance-plus-500")),
+      ...catalogUrls(loadCaptureCatalog("design-diversity-1000")),
+      ...catalogUrls(loadCaptureCatalog("public-sector-1000")),
+      ...catalogUrls(loadCaptureCatalog("public-sector-plus-500")),
+      ...catalogUrls(loadCaptureCatalog("awwwards-500"))
+    ].map((url) => new URL(url).hostname.replace(/^www\./i, "").toLowerCase())
+  );
+  for (const host of hosts) {
+    assert.equal(priorHosts.has(host), false, `overlap: ${host}`);
+  }
 });

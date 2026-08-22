@@ -175,6 +175,7 @@ export interface DigPaths {
     publicSector1000?: string;
     publicSectorPlus500?: string;
     awwwards500?: string;
+    awwwardsPlus1000?: string;
     maxBatch?: number;
   };
   imageIngest?: {
