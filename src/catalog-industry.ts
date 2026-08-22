@@ -12,7 +12,8 @@ const CATALOG_INDUSTRY: Record<string, string> = {
   "public-sector-1000": "government",
   "public-sector-plus-500": "government",
   "awwwards-500": "tech",
-  "awwwards-plus-1000": "tech"
+  "awwwards-plus-1000": "tech",
+  "awwwards-plus-2000": "tech"
 };
 
 const GROUP_ALIASES: Array<[RegExp, string]> = [

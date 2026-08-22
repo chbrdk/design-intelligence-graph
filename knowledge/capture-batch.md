@@ -12,7 +12,7 @@
 - `knowledge/catalogs/public-sector-1000.json` (`public-sector-1000`)
 - `knowledge/catalogs/public-sector-plus-500.json` (`public-sector-plus-500`)
 - `knowledge/catalogs/awwwards-500.json` (`awwwards-500`)
-- `knowledge/catalogs/awwwards-plus-1000.json` (`awwwards-plus-1000`)  
+- `knowledge/catalogs/awwwards-plus-2000.json` (`awwwards-plus-2000`)  
 **API:** `POST /api/jobs/batch`
 
 Staging cannot run dozens of Chromium sessions at once. `JobRunner` caps Playwright at **`captureJobs.maxConcurrent: 6`**. Still-image ingest (bulk upload + Pinterest) uses a **separate** pool (`imageIngest.maxConcurrent: 4`) so moodboard jobs are not stuck behind URL captures. `maxBatch` is **1000**. See `knowledge/image-ingest.md`.
@@ -64,7 +64,7 @@ Content-Type: application/json
 ```
 
 ```
-{ "catalog": "awwwards-plus-1000" }
+{ "catalog": "awwwards-plus-2000" }
 ```
 
 Optional: `{ "urls": ["https://www.toyota.com/"] }` (capped by `captureJobs.maxBatch`). Force recapture with `{ "skip_existing": false }`.
@@ -91,7 +91,7 @@ Auth uses `assertDestructiveAuth` (token required even in dummy mode).
 
 **awwwards-500** — 500 Visit-site homepage targets from [awwwards.com/websites](https://www.awwwards.com/websites/). Fetch with `python3 scripts/fetch-awwwards-websites.py`, rebuild with `python3 scripts/build-awwwards-500.py`. See `knowledge/awwwards-catalog.md`.
 
-**awwwards-plus-1000** — 1000 additional Visit-site targets from `/websites/` page 22+. Resume fetch: `python3 scripts/fetch-awwwards-plus.py`, rebuild: `python3 scripts/build-awwwards-plus-1000.py`. Excludes `awwwards-500` and prior catalogs.
+**awwwards-plus-2000** — 1000 more Visit-site targets from `/websites/` page 235+. `python3 scripts/fetch-awwwards-plus-2000.py`, rebuild `build-awwwards-plus-2000.py`. Excludes prior Awwwards catalogs.
 
 ~2–3 minutes per URL at concurrency 6 → roughly **20–30 minutes** for 50 URLs, **~40–60 minutes** for 100, **~8–10 hours** for 1000 remaining.
 
