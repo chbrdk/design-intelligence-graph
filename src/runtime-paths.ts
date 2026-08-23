@@ -177,6 +177,7 @@ export interface DigPaths {
     awwwards500?: string;
     awwwardsPlus1000?: string;
     awwwardsPlus2000?: string;
+    awwwardsPlus3000?: string;
     maxBatch?: number;
   };
   imageIngest?: {

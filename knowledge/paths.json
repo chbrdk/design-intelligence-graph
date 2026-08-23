@@ -318,6 +318,7 @@
     "awwwards500": "knowledge/catalogs/awwwards-500.json",
     "awwwardsPlus1000": "knowledge/catalogs/awwwards-plus-1000.json",
     "awwwardsPlus2000": "knowledge/catalogs/awwwards-plus-2000.json",
+    "awwwardsPlus3000": "knowledge/catalogs/awwwards-plus-3000.json",
     "maxBatch": 1000
   },
   "imageIngest": {

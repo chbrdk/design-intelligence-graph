@@ -41,6 +41,7 @@ export function captureJobsConfig(root = process.cwd()): {
   awwwards500: string;
   awwwardsPlus1000: string;
   awwwardsPlus2000: string;
+  awwwardsPlus3000: string;
   maxBatch: number;
 } {
   const cfg = loadDigPaths(root).captureJobs;
@@ -69,6 +70,7 @@ export function captureJobsConfig(root = process.cwd()): {
     awwwards500: cfg?.awwwards500 ?? "knowledge/catalogs/awwwards-500.json",
     awwwardsPlus1000: cfg?.awwwardsPlus1000 ?? "knowledge/catalogs/awwwards-plus-1000.json",
     awwwardsPlus2000: cfg?.awwwardsPlus2000 ?? "knowledge/catalogs/awwwards-plus-2000.json",
+    awwwardsPlus3000: cfg?.awwwardsPlus3000 ?? "knowledge/catalogs/awwwards-plus-3000.json",
     maxBatch: cfg?.maxBatch ?? 1000
   };
 }
@@ -86,6 +88,7 @@ export function resolveCaptureCatalogPath(catalogId: string, root = process.cwd(
   if (catalogId === "awwwards-500") return resolve(root, cfg.awwwards500);
   if (catalogId === "awwwards-plus-1000") return resolve(root, cfg.awwwardsPlus1000);
   if (catalogId === "awwwards-plus-2000") return resolve(root, cfg.awwwardsPlus2000);
+  if (catalogId === "awwwards-plus-3000") return resolve(root, cfg.awwwardsPlus3000);
   return resolve(root, cfg.catalogsDir, `${catalogId}.json`);
 }
 
