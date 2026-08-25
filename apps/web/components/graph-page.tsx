@@ -230,7 +230,16 @@ export function GraphPageClient() {
 
   const selectedNeighbors = useMemo(() => {
     if (!selected) return []
-    return neighborsFor(selected.capture_run_id, edges, 6).map((item) => {
+    const metaById = new Map(
+      nodes.map((node) => [
+        node.capture_run_id,
+        {
+          domain: node.site_domain,
+          style: node.style_label && node.style_label !== 'unclassified' ? node.style_label : null,
+        },
+      ]),
+    )
+    return neighborsFor(selected.capture_run_id, edges, 6, metaById).map((item) => {
       const meta = nodes.find((node) => node.capture_run_id === item.id)
       return {
         id: item.id,

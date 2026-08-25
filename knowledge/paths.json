@@ -571,7 +571,15 @@
     "threshold": 0.72,
     "pageSize": 120,
     "neighborK": 8,
-    "cacheTtlSec": 600
+    "cacheTtlSec": 600,
+    "excludeDomains": [
+      "chromewebdata",
+      "spirion.projects-a.plygrnd.tech",
+      "forsale.godaddy.com"
+    ],
+    "candidatePool": 32,
+    "facetWeight": 0.35,
+    "mmrLambda": 0.7
   },
   "graphFloatingPanels": {
     "toolbar": "spirion.v1.graph.toolbar",

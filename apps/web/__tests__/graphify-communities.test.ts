@@ -68,6 +68,28 @@ describe('graphify communities', () => {
     )
   })
 
+  it('diversifies inspector neighbors by domain via MMR', () => {
+    const meta = new Map([
+      ['hub1', { domain: 'hub.example', style: 'editorial' }],
+      ['hub2', { domain: 'hub.example', style: 'editorial' }],
+      ['other', { domain: 'other.example', style: 'minimal' }],
+    ])
+    const neighbors = neighborsFor(
+      'a',
+      [
+        { from_id: 'a', to_id: 'hub1', score: 0.94 },
+        { from_id: 'a', to_id: 'hub2', score: 0.93 },
+        { from_id: 'a', to_id: 'other', score: 0.9 },
+      ],
+      2,
+      meta,
+    )
+    assert.deepEqual(
+      neighbors.map((item) => item.id).sort(),
+      ['hub1', 'other'],
+    )
+  })
+
   it('finds a shortest path between screens', () => {
     const path = shortestPath('a', 'd', [
       { from_id: 'a', to_id: 'b', score: 0.9 },

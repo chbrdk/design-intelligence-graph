@@ -320,6 +320,10 @@ export interface DigPaths {
     pageSize?: number;
     neighborK?: number;
     cacheTtlSec?: number;
+    excludeDomains?: string[];
+    candidatePool?: number;
+    facetWeight?: number;
+    mmrLambda?: number;
   };
   llm: {
     enabledDefault: boolean;

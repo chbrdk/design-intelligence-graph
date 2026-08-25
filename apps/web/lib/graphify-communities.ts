@@ -150,17 +150,59 @@ export function hullPath(points: Point[], padding = 18): string | null {
   return `M ${expanded.map((p) => `${p.x} ${p.y}`).join(' L ')} Z`
 }
 
+export type NeighborMeta = {
+  domain?: string | null
+  style?: string | null
+}
+
+/**
+ * Top neighbors by score with light MMR: prefer unique domains, then unique styles.
+ * Keeps cosine order when diversity ties.
+ */
 export function neighborsFor(
   nodeId: string,
   edges: Array<{ from_id: string; to_id: string; score: number }>,
   limit = 5,
+  metaById?: Map<string, NeighborMeta>,
+  mmrLambda = 0.7,
 ): Array<{ id: string; score: number }> {
   const out: Array<{ id: string; score: number }> = []
   for (const edge of edges) {
     if (edge.from_id === nodeId) out.push({ id: edge.to_id, score: edge.score })
     else if (edge.to_id === nodeId) out.push({ id: edge.from_id, score: edge.score })
   }
-  return out.sort((a, b) => b.score - a.score).slice(0, limit)
+  const ranked = out.sort((a, b) => b.score - a.score)
+  if (!metaById?.size || limit <= 0) return ranked.slice(0, limit)
+
+  const remaining = [...ranked]
+  const picked: Array<{ id: string; score: number }> = []
+  while (picked.length < limit && remaining.length) {
+    let bestIdx = 0
+    let bestValue = -Infinity
+    for (let i = 0; i < remaining.length; i += 1) {
+      const cand = remaining[i]!
+      const candMeta = metaById.get(cand.id)
+      const domain = (candMeta?.domain ?? '').replace(/^www\./i, '').toLowerCase()
+      const style = (candMeta?.style ?? '').toLowerCase()
+      let redundancy = 0
+      for (const prev of picked) {
+        const prevMeta = metaById.get(prev.id)
+        const prevDomain = (prevMeta?.domain ?? '').replace(/^www\./i, '').toLowerCase()
+        const prevStyle = (prevMeta?.style ?? '').toLowerCase()
+        let sim = 0
+        if (domain && prevDomain && domain === prevDomain) sim = 1
+        else if (style && prevStyle && style === prevStyle) sim = 0.45
+        redundancy = Math.max(redundancy, sim)
+      }
+      const value = mmrLambda * cand.score - (1 - mmrLambda) * redundancy
+      if (value > bestValue) {
+        bestValue = value
+        bestIdx = i
+      }
+    }
+    picked.push(remaining.splice(bestIdx, 1)[0]!)
+  }
+  return picked
 }
 
 /** Unweighted BFS shortest path (Graphify-style path query). */
