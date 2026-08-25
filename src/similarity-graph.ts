@@ -96,13 +96,13 @@ export function similarityGraphConfig(root = process.cwd()): {
 
 export function normalizeDomain(value: string | null | undefined): string {
   if (!value) return "";
-  return value
+  const host = value
     .trim()
     .toLowerCase()
     .replace(/^https?:\/\//, "")
     .replace(/^www\./, "")
-    .split("/")[0]
-    .replace(/:\d+$/, "");
+    .split("/")[0];
+  return (host ?? "").replace(/:\d+$/, "");
 }
 
 export function isExcludedDomain(
