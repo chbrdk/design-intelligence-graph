@@ -308,6 +308,117 @@ export async function listLibraryScreens(
   return screens;
 }
 
+/**
+ * Hydrate Library screen rows for known capture ids, preserving input order.
+ * Prefers desktop viewport; applies the same facet filter as listLibraryScreens.
+ */
+export async function listLibraryScreensByCaptureIds(
+  client: Queryable,
+  captureRunIds: string[],
+  opts: LibraryScreenListOpts = {}
+): Promise<LibraryScreenRecord[]> {
+  const ids = [...new Set(captureRunIds.map(String).filter(Boolean))];
+  if (!ids.length) return [];
+
+  const filter: ScreenFacetFilter = {
+    q: typeof opts.q === "string" ? opts.q.trim() : undefined,
+    style: normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB),
+    layout: normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB),
+    industry: normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB),
+    modules: Array.isArray(opts.modules) ? opts.modules.map(String).map((item) => item.trim()).filter(Boolean) : undefined,
+    craft_tags: Array.isArray(opts.craft_tags)
+      ? opts.craft_tags.map(String).map((item) => item.trim()).filter(Boolean)
+      : undefined,
+    imagery_density: normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB),
+    type_scale: normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB),
+    type_image_mode: normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB),
+    contrast_mode: normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB),
+    composition_energy: normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB),
+    chrome_weight: normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB)
+  };
+
+  const values: unknown[] = [ids];
+  const clauses = [`v.capture_run_id = ANY($1::text[])`];
+  if (opts.platformProjectId?.trim()) {
+    values.push(opts.platformProjectId.trim());
+    clauses.push(`c.platform_project_id = $${values.length}`);
+  }
+  const listedStatuses = captureNavConfig().libraryListedStatuses;
+  const statusPlaceholders = listedStatuses.map((status) => {
+    values.push(status);
+    return `$${values.length}`;
+  });
+  clauses.push(`(v.status IS NULL OR v.status IN (${statusPlaceholders.join(", ")}))`);
+
+  const result = await client.query(
+    `SELECT DISTINCT ON (v.capture_run_id)
+            v.id, v.capture_run_id, v.viewport_capture_id, v.name, v.status, v.width, v.height,
+            v.document_width, v.document_height,
+            v.title, v.settled_screenshot_path, v.full_page_screenshot_path,
+            c.canonical_url, c.site_domain, c.package_path
+     FROM viewports v
+     JOIN captures c ON c.capture_run_id = v.capture_run_id
+     WHERE ${clauses.join(" AND ")}
+     ORDER BY v.capture_run_id,
+              CASE WHEN v.name = 'desktop' THEN 0 ELSE 1 END,
+              v.name`,
+    values
+  );
+
+  const facetCache = new Map<string, ScreenFacetSummary | null>();
+  const uniquePackages = [
+    ...new Set(
+      result.rows
+        .map((row) => (typeof row.package_path === "string" ? row.package_path : ""))
+        .filter(Boolean)
+    )
+  ];
+  const rowByPackage = new Map<string, { site_domain?: unknown; canonical_url?: unknown }>();
+  for (const row of result.rows) {
+    const pkg = typeof row.package_path === "string" ? row.package_path : "";
+    if (pkg && !rowByPackage.has(pkg)) rowByPackage.set(pkg, row);
+  }
+  await Promise.all(
+    uniquePackages.map((pkg) => {
+      const row = rowByPackage.get(pkg);
+      return compactFacetsForPackage(pkg, facetCache, {
+        site_domain: typeof row?.site_domain === "string" ? row.site_domain : null,
+        canonical_url: typeof row?.canonical_url === "string" ? row.canonical_url : null
+      });
+    })
+  );
+
+  const byCapture = new Map<string, LibraryScreenRecord>();
+  for (const row of result.rows) {
+    const capture_run_id = String(row.capture_run_id ?? "");
+    if (!capture_run_id || byCapture.has(capture_run_id)) continue;
+    const packagePath = typeof row.package_path === "string" ? row.package_path : null;
+    const design_facets = packagePath ? (facetCache.get(packagePath) ?? null) : null;
+    // Do not apply text-q here — retrieval already ranked by embedding query.
+    const facetOnly = { ...filter, q: undefined };
+    if (!screenFacetsMatch(design_facets, facetOnly)) continue;
+    byCapture.set(capture_run_id, {
+      ...row,
+      capture_run_id,
+      viewport_capture_id: String(row.viewport_capture_id ?? ""),
+      name: String(row.name ?? ""),
+      title: typeof row.title === "string" ? row.title : null,
+      site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
+      canonical_url: String(row.canonical_url ?? ""),
+      package_path: packagePath,
+      full_page_screenshot_path: libraryCardScreenshotPath(row),
+      design_facets
+    });
+  }
+
+  const ordered: LibraryScreenRecord[] = [];
+  for (const id of captureRunIds) {
+    const row = byCapture.get(id);
+    if (row) ordered.push(row);
+  }
+  return ordered;
+}
+
 export function libraryScreenFacetCatalog() {
   return {
     facet_filters: designFacetFilterCatalog(),

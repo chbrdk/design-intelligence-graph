@@ -9,9 +9,7 @@ import { searchEmbeddings } from "./embeddings.js";
 import { searchDenseEmbeddings } from "./dense-embeddings.js";
 import { searchScreenshotEmbeddings } from "./screenshot-embeddings.js";
 import {
-  rankLibraryScreens,
-  resolveScreenSearchProvider,
-  usesSemanticScreenQuery
+  resolveScreenSearchProvider
 } from "./library-screen-rank.js";
 import { loadSimilarityGraph, type SimilarityGraphKind } from "./similarity-graph.js";
 import { buildFigmaExport } from "./figma-export.js";
@@ -22,7 +20,7 @@ import type { SectionCompositionDocument } from "./section-composition.js";
 import type { CaptureManifest } from "./types.js";
 import { buildDesignFacets } from "./design-facets.js";
 import { assemblePromptPackForCaptureRun } from "./capture-prompt-pack.js";
-import { libraryScreenFacetCatalog, listLibraryScreens } from "./library-screens.js";
+import { libraryScreenFacetCatalog } from "./library-screens.js";
 import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-tokens.js";
 import { asLookContract } from "./look-contract.js";
 import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
@@ -515,8 +513,13 @@ export async function handleLibraryApi(
     const facetKeys = libraryScreenFacetQueryKeys();
     const q = queryParam(requestUrl, "q");
     const provider = resolveScreenSearchProvider(queryParam(requestUrl, "provider"), q);
-    const listed = await listLibraryScreens(client, {
-      ...(usesSemanticScreenQuery(provider) || !q ? {} : { q }),
+    const limitRaw = Number(queryParam(requestUrl, "limit") ?? "");
+    const limit = Number.isFinite(limitRaw) && limitRaw > 0 ? Math.min(100, Math.floor(limitRaw)) : 40;
+    const { searchLibraryScreens } = await import("./library-screen-rank.js");
+    const searched = await searchLibraryScreens(client, {
+      q: q ?? undefined,
+      provider,
+      limit,
       style: queryParam(requestUrl, facetKeys.style),
       layout: queryParam(requestUrl, facetKeys.layout),
       industry: queryParam(requestUrl, facetKeys.industry),
@@ -531,8 +534,7 @@ export async function handleLibraryApi(
       platformProjectId:
         queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
     });
-    const ranked = await rankLibraryScreens(client, listed, q, provider);
-    const screens = ranked.map((row) => {
+    const screens = searched.screens.map((row) => {
       const captureRunId = String(row.capture_run_id ?? "");
       return {
         ...row,
@@ -541,7 +543,8 @@ export async function handleLibraryApi(
     });
     sendJson(response, 200, {
       screens,
-      provider,
+      provider: searched.provider,
+      retrieval: searched.retrieval,
       ...libraryScreenFacetCatalog()
     });
     return true;

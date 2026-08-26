@@ -134,7 +134,7 @@ Record Recall@10 vs hashing on the same set. Flip MCP default to dense only if d
 
 ## MCP (2026-08-19)
 
-`dig_screen_search` / `GET /api/library/screens`: when `q` is set, default `provider=dense` (facet chips first, then cosine). Island Library search box stays hashing-free; compose stays on MCP.
+`dig_screen_search` / `GET /api/library/screens`: when `q` is set, default `provider=dense` and search is **retrieval-first** over the full dense corpus, then facet filters + hydrate (desktop row). Without `q`, browse stays newest-first. Response includes `retrieval: "corpus" | "window"`. Island Library search box stays hashing-free; compose stays on MCP.
 
 `GET /api/library/search` **must** stay `provider=hashing` when `provider` is omitted.
 

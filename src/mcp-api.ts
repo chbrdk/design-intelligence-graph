@@ -10,11 +10,6 @@ import {
   type SpirionToolName
 } from "./mcp-spirion.js";
 import { loadDigPaths } from "./runtime-paths.js";
-import {
-  rankLibraryScreens,
-  resolveScreenSearchProvider,
-  usesSemanticScreenQuery
-} from "./library-screen-rank.js";
 
 export const MCP_API_VERSION = "0.1.0";
 export type McpToolName =
@@ -428,26 +423,23 @@ export async function callDigLibraryTool(
   if (name === "dig_screen_search") {
     const { assertCollectionScopeAllowed } = await import("./design-reference-library.js");
     const { getPool } = await import("./db.js");
-    const {
-      libraryScreenFacetCatalog,
-      listLibraryScreens,
-      publicLibraryScreenHit
-    } = await import("./library-screens.js");
+    const { libraryScreenFacetCatalog, publicLibraryScreenHit } = await import("./library-screens.js");
+    const { resolveScreenSearchProvider, searchLibraryScreens } = await import("./library-screen-rank.js");
     assertCollectionScopeAllowed(platformProjectId);
     const client = getPool();
     if (!client) throw new Error("database_unavailable");
     const limit =
       typeof args.limit === "number" && Number.isFinite(args.limit)
-        ? Math.max(1, Math.min(20, Math.floor(args.limit)))
+        ? Math.max(1, Math.min(40, Math.floor(args.limit)))
         : 20;
     const provider = resolveScreenSearchProvider(
       typeof args.provider === "string" ? args.provider : null,
       typeof args.q === "string" ? args.q : null
     );
-    const listed = await listLibraryScreens(client, {
-      ...(usesSemanticScreenQuery(provider) || typeof args.q !== "string" || !args.q.trim()
-        ? {}
-        : { q: args.q }),
+    const searched = await searchLibraryScreens(client, {
+      q: typeof args.q === "string" ? args.q : undefined,
+      provider,
+      limit,
       style: typeof args.style === "string" ? args.style : undefined,
       layout: typeof args.layout === "string" ? args.layout : undefined,
       industry: typeof args.industry === "string" ? args.industry : undefined,
@@ -461,17 +453,16 @@ export async function callDigLibraryTool(
       contrast_mode: typeof args.contrast_mode === "string" ? args.contrast_mode : undefined,
       composition_energy: typeof args.composition_energy === "string" ? args.composition_energy : undefined,
       chrome_weight: typeof args.chrome_weight === "string" ? args.chrome_weight : undefined,
-      platformProjectId,
-      limit: 200
+      platformProjectId
     });
-    const ranked = await rankLibraryScreens(
-      client,
-      listed,
-      typeof args.q === "string" ? args.q : null,
-      provider
-    );
-    const screens = ranked.slice(0, limit).map(publicLibraryScreenHit);
-    return { count: screens.length, screens, provider, ...libraryScreenFacetCatalog() };
+    const screens = searched.screens.map(publicLibraryScreenHit);
+    return {
+      count: screens.length,
+      screens,
+      provider: searched.provider,
+      retrieval: searched.retrieval,
+      ...libraryScreenFacetCatalog()
+    };
   }
   const captureRunId =
     typeof args.capture_run_id === "string"
