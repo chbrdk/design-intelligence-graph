@@ -15,6 +15,9 @@
 - `knowledge/catalogs/awwwards-plus-2000.json` (`awwwards-plus-2000`)
 - `knowledge/catalogs/awwwards-plus-3000.json` (`awwwards-plus-3000`)
 - `knowledge/catalogs/awwwards-plus-4000.json` (`awwwards-plus-4000`)  
+- `knowledge/catalogs/siteinspire-1000.json` (`siteinspire-1000`)
+- `knowledge/catalogs/cssda-wotd-1000.json` (`cssda-wotd-1000`)
+- `knowledge/catalogs/thefwa-1000.json` (`thefwa-1000`)  
 **API:** `POST /api/jobs/batch`
 
 Staging cannot run dozens of Chromium sessions at once. `JobRunner` caps Playwright at **`captureJobs.maxConcurrent: 6`**. Still-image ingest (bulk upload + Pinterest) uses a **separate** pool (`imageIngest.maxConcurrent: 4`) so moodboard jobs are not stuck behind URL captures. `maxBatch` is **1000**. See `knowledge/image-ingest.md`.
@@ -77,6 +80,14 @@ Content-Type: application/json
 { "catalog": "awwwards-plus-4000" }
 ```
 
+```
+{ "catalog": "thefwa-1000" }
+```
+
+```
+{ "catalog": "cssda-wotd-1000" }
+```
+
 Optional: `{ "urls": ["https://www.toyota.com/"] }` (capped by `captureJobs.maxBatch`). Force recapture with `{ "skip_existing": false }`.
 
 Auth uses `assertDestructiveAuth` (token required even in dummy mode).
@@ -106,6 +117,12 @@ Auth uses `assertDestructiveAuth` (token required even in dummy mode).
 **awwwards-plus-3000** — 1000 more Visit-site targets from `/websites/` page 306+. `python3 scripts/fetch-awwwards-plus-3000.py`, rebuild `build-awwwards-plus-3000.py`. Excludes prior Awwwards catalogs.
 
 **awwwards-plus-4000** — 1000 more Visit-site targets from page 341+ and deeper category listings (`sites_of_the_day` page 25+). `python3 scripts/fetch-awwwards-plus-4000.py`, rebuild `build-awwwards-plus-4000.py`. Excludes prior Awwwards catalogs.
+
+**siteinspire-1000** — 1000 additional Visit-site targets from SiteInspire curated listings (`/websites/page/{n}` + detail pages). Fetch with `python3 scripts/fetch-siteinspire-websites.py`, rebuild `python3 scripts/build-siteinspire-websites.py`.
+
+**cssda-wotd-1000** — 1000 Visit-site targets from CSS Design Awards WOTD winners (`/wotd-award-winners?page={n}` + detail pages). Fetch with `python3 scripts/fetch-cssda-wotd-websites.py`, rebuild `python3 scripts/build-cssda-wotd-websites.py`.
+
+**thefwa-1000** — 1000 Visit-site targets from The FWA awards timeline (`/api/timeline/?limit=...&offset=...`). Fetch with `python3 scripts/fetch-thefwa-awards-volume.py`, rebuild with `python3 scripts/build-thefwa-awards-volume.py`.
 
 ~2–3 minutes per URL at concurrency 6 → roughly **20–30 minutes** for 50 URLs, **~40–60 minutes** for 100, **~8–10 hours** for 1000 remaining.
 

@@ -179,6 +179,9 @@ export interface DigPaths {
     awwwardsPlus2000?: string;
     awwwardsPlus3000?: string;
     awwwardsPlus4000?: string;
+    siteInspire1000?: string;
+    cssdaWotd1000?: string;
+    theFwa1000?: string;
     maxBatch?: number;
   };
   imageIngest?: {
