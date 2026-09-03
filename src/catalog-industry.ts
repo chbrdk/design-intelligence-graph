@@ -14,7 +14,8 @@ const CATALOG_INDUSTRY: Record<string, string> = {
   "awwwards-500": "tech",
   "awwwards-plus-1000": "tech",
   "awwwards-plus-2000": "tech",
-  "awwwards-plus-3000": "tech"
+  "awwwards-plus-3000": "tech",
+  "awwwards-plus-4000": "tech"
 };
 
 const GROUP_ALIASES: Array<[RegExp, string]> = [

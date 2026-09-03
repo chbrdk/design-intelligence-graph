@@ -13,7 +13,8 @@
 - `knowledge/catalogs/public-sector-plus-500.json` (`public-sector-plus-500`)
 - `knowledge/catalogs/awwwards-500.json` (`awwwards-500`)
 - `knowledge/catalogs/awwwards-plus-2000.json` (`awwwards-plus-2000`)
-- `knowledge/catalogs/awwwards-plus-3000.json` (`awwwards-plus-3000`)  
+- `knowledge/catalogs/awwwards-plus-3000.json` (`awwwards-plus-3000`)
+- `knowledge/catalogs/awwwards-plus-4000.json` (`awwwards-plus-4000`)  
 **API:** `POST /api/jobs/batch`
 
 Staging cannot run dozens of Chromium sessions at once. `JobRunner` caps Playwright at **`captureJobs.maxConcurrent: 6`**. Still-image ingest (bulk upload + Pinterest) uses a **separate** pool (`imageIngest.maxConcurrent: 4`) so moodboard jobs are not stuck behind URL captures. `maxBatch` is **1000**. See `knowledge/image-ingest.md`.
@@ -72,6 +73,10 @@ Content-Type: application/json
 { "catalog": "awwwards-plus-3000" }
 ```
 
+```
+{ "catalog": "awwwards-plus-4000" }
+```
+
 Optional: `{ "urls": ["https://www.toyota.com/"] }` (capped by `captureJobs.maxBatch`). Force recapture with `{ "skip_existing": false }`.
 
 Auth uses `assertDestructiveAuth` (token required even in dummy mode).
@@ -99,6 +104,8 @@ Auth uses `assertDestructiveAuth` (token required even in dummy mode).
 **awwwards-plus-2000** — 1000 more Visit-site targets from `/websites/` page 235+. `python3 scripts/fetch-awwwards-plus-2000.py`, rebuild `build-awwwards-plus-2000.py`. Excludes prior Awwwards catalogs.
 
 **awwwards-plus-3000** — 1000 more Visit-site targets from `/websites/` page 306+. `python3 scripts/fetch-awwwards-plus-3000.py`, rebuild `build-awwwards-plus-3000.py`. Excludes prior Awwwards catalogs.
+
+**awwwards-plus-4000** — 1000 more Visit-site targets from page 341+ and deeper category listings (`sites_of_the_day` page 25+). `python3 scripts/fetch-awwwards-plus-4000.py`, rebuild `build-awwwards-plus-4000.py`. Excludes prior Awwwards catalogs.
 
 ~2–3 minutes per URL at concurrency 6 → roughly **20–30 minutes** for 50 URLs, **~40–60 minutes** for 100, **~8–10 hours** for 1000 remaining.
 
