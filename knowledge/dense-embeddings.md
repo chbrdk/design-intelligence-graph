@@ -136,6 +136,8 @@ Record Recall@10 vs hashing on the same set. Flip MCP default to dense only if d
 
 `dig_screen_search` / `GET /api/library/screens`: when `q` is set, default `provider=dense` and search is **retrieval-first** over the full dense corpus, then facet filters + hydrate (desktop row). Without `q`, browse stays newest-first. Response includes `retrieval: "corpus" | "window"`. Island Library search box stays hashing-free; compose stays on MCP.
 
+**Diversification (2026-09-04):** after corpus retrieval, results are re-ranked with **MMR** (`libraryScreenSearch.diversify`, default on) so Top-k prefers relevance but punishes same-domain / same-style repeats. Candidate pool defaults to **128** (cap **200**) via `libraryScreenSearch` in `paths.json`. This stops sticky hubs when many screens score similarly (e.g. “minimal monochrome”).
+
 `GET /api/library/search` **must** stay `provider=hashing` when `provider` is omitted.
 
-Live after the next **dig-api** deploy. Do not restart the API while the capture queue is draining.
+Live after the next **dig-api** deploy. Capture queue is Postgres-backed; prefer idle queue when possible, but MMR is read-path only.

@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   captureIdsFromVectorHits,
+  diversifyLibraryScreens,
+  libraryScreenSearchConfig,
   rankLibraryScreens,
   rankScreensByDense,
   resolveScreenSearchProvider,
@@ -30,6 +32,30 @@ test("captureIdsFromVectorHits drops junk hosts and dedupes", () => {
     ["chromewebdata"]
   );
   assert.deepEqual(ids, ["cap_a", "cap_b"]);
+});
+
+test("libraryScreenSearchConfig exposes corpus pool and MMR defaults", () => {
+  const cfg = libraryScreenSearchConfig();
+  assert.equal(cfg.candidatePool, 128);
+  assert.equal(cfg.candidatePoolCap, 200);
+  assert.equal(cfg.diversify, true);
+  assert.ok(cfg.mmrLambda > 0 && cfg.mmrLambda <= 1);
+});
+
+test("diversifyLibraryScreens breaks same-domain sticky hubs", () => {
+  const screens = [
+    { capture_run_id: "a1", site_domain: "hub.example", score: 0.95, design_facets: { style: "minimal" } },
+    { capture_run_id: "a2", site_domain: "hub.example", score: 0.94, design_facets: { style: "minimal" } },
+    { capture_run_id: "a3", site_domain: "hub.example", score: 0.93, design_facets: { style: "minimal" } },
+    { capture_run_id: "b1", site_domain: "other.example", score: 0.9, design_facets: { style: "editorial" } },
+    { capture_run_id: "c1", site_domain: "third.example", score: 0.88, design_facets: { style: "minimal" } }
+  ];
+  const diversified = diversifyLibraryScreens(screens, 3, { mmrLambda: 0.65 });
+  assert.equal(diversified.length, 3);
+  const domains = new Set(diversified.map((row) => row.site_domain));
+  assert.ok(domains.size >= 2, "expected at least two domains in Top-3");
+  assert.equal(diversified[0]?.capture_run_id, "a1");
+  assert.ok(diversified.some((row) => row.site_domain === "other.example" || row.site_domain === "third.example"));
 });
 
 test("rankScreensByDense orders by cosine score and skips facet-q duty", async () => {

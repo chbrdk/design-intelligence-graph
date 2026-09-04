@@ -16,6 +16,10 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.embeddings?.screenshot?.model, "google/gemini-embedding-2");
   assert.equal(paths.embeddings?.screenshot?.dims, 768);
   assert.equal(paths.similarityGraph?.nodeCap, 5000);
+  assert.equal(paths.similarityGraph?.candidatePool, 32);
+  assert.equal(paths.libraryScreenSearch?.candidatePool, 128);
+  assert.equal(paths.libraryScreenSearch?.candidatePoolCap, 200);
+  assert.equal(paths.libraryScreenSearch?.diversify, true);
   assert.equal(paths.islandSurfaces?.graphRoute, "/graph");
   assert.equal(paths.api.libraryPath, "/api/library");
   assert.equal(paths.libraryReset?.confirm, "reset-library");

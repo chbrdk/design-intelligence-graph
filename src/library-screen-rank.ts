@@ -13,13 +13,73 @@ import {
   type LibraryScreenRecord
 } from "./library-screens.js";
 import { screenshotEmbeddingsEnabled, searchScreenshotEmbeddings } from "./screenshot-embeddings.js";
-import { isExcludedDomain, similarityGraphConfig } from "./similarity-graph.js";
+import { loadDigPaths } from "./runtime-paths.js";
+import {
+  isExcludedDomain,
+  mmrSelectNeighbors,
+  normalizeDomain,
+  similarityGraphConfig
+} from "./similarity-graph.js";
 
 export type ScreenSearchProvider = "dense" | "hashing" | "screenshot";
 
 export type LibraryScreenSearchHit = LibraryScreenRecord & {
   score?: number;
 };
+
+export type LibraryScreenSearchConfig = {
+  candidatePool: number;
+  candidatePoolCap: number;
+  mmrLambda: number;
+  diversify: boolean;
+};
+
+/** Corpus search pool + MMR diversification for inspiration results. */
+export function libraryScreenSearchConfig(root = process.cwd()): LibraryScreenSearchConfig {
+  const cfg = loadDigPaths(root).libraryScreenSearch;
+  const graph = similarityGraphConfig(root);
+  const pool = Number(cfg?.candidatePool);
+  const cap = Number(cfg?.candidatePoolCap);
+  const lambda = Number(cfg?.mmrLambda);
+  return {
+    candidatePool: Number.isFinite(pool) && pool > 0 ? Math.round(pool) : 128,
+    candidatePoolCap: Number.isFinite(cap) && cap > 0 ? Math.round(cap) : 200,
+    mmrLambda: Number.isFinite(lambda) ? Math.min(1, Math.max(0, lambda)) : graph.mmrLambda,
+    diversify: cfg?.diversify !== false
+  };
+}
+
+/**
+ * Maximal Marginal Relevance over scored library screens.
+ * Punishes same-domain and same-style repeats so Top-k is not one sticky hub.
+ */
+export function diversifyLibraryScreens<T extends LibraryScreenSearchHit>(
+  screens: T[],
+  limit: number,
+  options: { mmrLambda?: number } = {}
+): T[] {
+  if (limit <= 0 || !screens.length) return [];
+  if (screens.length <= limit) return screens;
+  const lambda =
+    typeof options.mmrLambda === "number" && Number.isFinite(options.mmrLambda)
+      ? Math.min(1, Math.max(0, options.mmrLambda))
+      : 0.7;
+  const byId = new Map(screens.map((row) => [row.capture_run_id, row]));
+  const candidates = screens.map((row) => ({
+    id: row.capture_run_id,
+    cosine: typeof row.score === "number" ? row.score : 0,
+    score: typeof row.score === "number" ? row.score : 0,
+    domain: normalizeDomain(row.site_domain),
+    style: row.design_facets?.style ?? null
+  }));
+  const picked = mmrSelectNeighbors(candidates, limit, lambda);
+  const out: T[] = [];
+  for (const hit of picked) {
+    const row = byId.get(hit.id);
+    if (row) out.push(row);
+  }
+  return out;
+}
 
 export function resolveScreenSearchProvider(
   raw: string | null | undefined,
@@ -179,11 +239,12 @@ export async function searchLibraryScreens(
   };
 
   if (q && usesSemanticScreenQuery(provider)) {
+    const searchCfg = libraryScreenSearchConfig(root);
     const poolRaw =
       typeof opts.candidatePool === "number" && Number.isFinite(opts.candidatePool)
         ? Math.floor(opts.candidatePool)
-        : Math.max(limit * 4, 48);
-    const pool = Math.max(limit, Math.min(100, poolRaw));
+        : Math.max(limit * 8, searchCfg.candidatePool);
+    const pool = Math.max(limit, Math.min(searchCfg.candidatePoolCap, poolRaw));
     const excludeDomains = similarityGraphConfig(root).excludeDomains;
 
     try {
@@ -200,11 +261,17 @@ export async function searchLibraryScreens(
         const orderedIds = captureIdsFromVectorHits(hits, excludeDomains);
         if (orderedIds.length) {
           const hydrated = await listLibraryScreensByCaptureIds(client, orderedIds, facetOpts);
-          const screens: LibraryScreenSearchHit[] = [];
-          for (const row of hydrated.slice(0, limit)) {
-            const score = scores.get(row.capture_run_id);
-            screens.push(score === undefined ? row : { ...row, score });
+          const byId = new Map(hydrated.map((row) => [row.capture_run_id, row]));
+          const ordered: LibraryScreenSearchHit[] = [];
+          for (const id of orderedIds) {
+            const row = byId.get(id);
+            if (!row) continue;
+            const score = scores.get(id);
+            ordered.push(score === undefined ? row : { ...row, score });
           }
+          const screens = searchCfg.diversify
+            ? diversifyLibraryScreens(ordered, limit, { mmrLambda: searchCfg.mmrLambda })
+            : ordered.slice(0, limit);
           return { screens, provider, retrieval: "corpus" };
         }
       }

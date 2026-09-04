@@ -568,6 +568,13 @@
       "maxBytes": 2000000
     }
   },
+  "libraryScreenSearch": {
+    "doc": "knowledge/dense-embeddings.md",
+    "candidatePool": 128,
+    "candidatePoolCap": 200,
+    "mmrLambda": 0.65,
+    "diversify": true
+  },
   "similarityGraph": {
     "doc": "knowledge/similarity-graph.md",
     "nodeCap": 5000,

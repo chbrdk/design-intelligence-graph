@@ -316,6 +316,13 @@ export interface DigPaths {
       maxBytes: number;
     };
   };
+  libraryScreenSearch?: {
+    doc?: string;
+    candidatePool?: number;
+    candidatePoolCap?: number;
+    mmrLambda?: number;
+    diversify?: boolean;
+  };
   similarityGraph?: {
     doc?: string;
     nodeCap?: number;
