@@ -140,6 +140,8 @@ Record Recall@10 vs hashing on the same set. Flip MCP default to dense only if d
 
 **Fine facets + NL intent (2026-09-04, Phase 2):** screen canonical includes `value:` / `palette:`; `q` soft-infers craft facets (`inferred_facets` on the response) without hard-emptying results. Explicit `value_key` / `palette` query params remain hard filters. Re-embed improves retrieval for the new tokens; list-time facets update on read.
 
+**Source weights (2026-09-04, Phase 4):** after soft facets, `/screens` applies `catalogSourceWeights` (CSSDA quality > FWA/Awwwards volume; vertical catalogs get an extra boost when `industry` matches). Compose-brief prefers quality hosts and diversifies domains.
+
 `GET /api/library/search` **must** stay `provider=hashing` when `provider` is omitted.
 
 Live after the next **dig-api** deploy. Capture queue is Postgres-backed; prefer idle queue when possible, but MMR is read-path only.

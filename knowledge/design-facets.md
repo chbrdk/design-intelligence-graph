@@ -51,6 +51,18 @@ Dense canonical text also carries `value:` / `palette:` so re-embedded screens r
 
 `src/catalog-industry.ts` pins industry only for vertical catalogs. Award volume/quality catalogs (`AWARD_CATALOG_IDS`) contribute **no** default industry — vision/LLM `category_tags` win; `tech` is never injected from Awwwards/FWA/CSSDA/SiteInspire.
 
+## Source weights (Phase 4)
+
+`src/catalog-source.ts` tags hosts by catalog tier:
+
+| Tier | Catalogs | Role |
+|------|----------|------|
+| `quality` | `cssda-wotd-1000` | Highest additive boost for craft inspiration / compose |
+| `volume` | Awwwards waves, FWA, SiteInspire | Breadth; smaller boost |
+| `vertical` | Insurance, automotive, manufacturing, public-sector | Extra boost when `industry` filter matches |
+
+Config: `catalogSourceWeights` in `knowledge/paths.json`. Applied on `/screens` dense search (before MMR), DesignReference search, and compose-brief domain diversification.
+
 ## Recipe / page flow
 
 If the LLM `section_recipes` stage returns empty, read path and reindex synthesize ordered `page_flow` + `recipe_insights` from measured section compositions (`src/recipe-fallback.ts`). Existing packages pick this up on `GET /analyses/:id` without a recapture.

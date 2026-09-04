@@ -17,6 +17,10 @@ import {
 import { screenshotEmbeddingsEnabled, searchScreenshotEmbeddings } from "./screenshot-embeddings.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import {
+  catalogSourceScoreBoost,
+  catalogSourceTiersForHost
+} from "./catalog-source.js";
+import {
   explicitScreenFacetFilter,
   inferScreenSearchFacetsFromQuery,
   mergeScreenSearchFacets,
@@ -38,6 +42,7 @@ export type ScreenSearchProvider = "dense" | "hashing" | "screenshot";
 
 export type LibraryScreenSearchHit = LibraryScreenRecord & {
   score?: number;
+  catalog_source?: string;
 };
 
 export type LibraryScreenSearchConfig = {
@@ -169,6 +174,37 @@ function applySoftFacetScoring<T extends LibraryScreenSearchHit>(
   boosted.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
   const minPrefer = Math.min(limit, Math.max(6, Math.ceil(limit * 0.75)));
   return preferSoftFacetMatches(boosted, soft, minPrefer);
+}
+
+/** Prefer CSSDA quality / vertical industry hosts over pure award volume. */
+export function applyCatalogSourceScoring<T extends LibraryScreenSearchHit>(
+  screens: T[],
+  opts: { industry?: string | null; root?: string } = {}
+): T[] {
+  if (!screens.length) return screens;
+  const root = opts.root ?? process.cwd();
+  const industry = opts.industry ?? null;
+  let changed = false;
+  const boosted = screens.map((row) => {
+    const bump = catalogSourceScoreBoost(
+      {
+        canonicalUrl: row.canonical_url,
+        siteDomain: row.site_domain,
+        industry
+      },
+      root
+    );
+    if (!bump) return row;
+    changed = true;
+    const base = typeof row.score === "number" ? row.score : 0;
+    return {
+      ...row,
+      score: base + bump,
+      catalog_source: catalogSourceTiersForHost(row.canonical_url, row.site_domain, root)
+    };
+  });
+  if (!changed) return screens;
+  return [...boosted].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 }
 
 export function resolveScreenSearchIntent(
@@ -327,9 +363,13 @@ export async function searchLibraryScreens(
             ordered.push(score === undefined ? row : { ...row, score });
           }
           const gated = applySoftFacetScoring(ordered, intent.soft, limit);
+          const weighted = applyCatalogSourceScoring(gated, {
+            industry: intent.hard.industry ?? intent.soft.industry ?? null,
+            root
+          });
           const screens = searchCfg.diversify
-            ? diversifyLibraryScreens(gated, limit, { mmrLambda: searchCfg.mmrLambda })
-            : gated.slice(0, limit);
+            ? diversifyLibraryScreens(weighted, limit, { mmrLambda: searchCfg.mmrLambda })
+            : weighted.slice(0, limit);
           return {
             screens,
             provider,
@@ -358,7 +398,11 @@ export async function searchLibraryScreens(
     deduped.push(row);
   }
   const gated = applySoftFacetScoring(deduped, intent.soft, limit);
-  const screens = gated.slice(0, limit);
+  const weighted = applyCatalogSourceScoring(gated, {
+    industry: intent.hard.industry ?? intent.soft.industry ?? null,
+    root
+  });
+  const screens = weighted.slice(0, limit);
   return {
     screens,
     provider,

@@ -235,6 +235,69 @@ function referenceScore(query: DesignReferenceSearchQuery, ref: DesignReferenceR
   return score;
 }
 
+async function captureDomainsById(
+  client: Queryable,
+  captureRunIds: string[]
+): Promise<Map<string, { site_domain: string | null; canonical_url: string | null }>> {
+  const ids = [...new Set(captureRunIds.map(String).filter(Boolean))];
+  const out = new Map<string, { site_domain: string | null; canonical_url: string | null }>();
+  if (!ids.length) return out;
+  const result = await client.query(
+    `SELECT capture_run_id, site_domain, canonical_url
+     FROM captures
+     WHERE capture_run_id = ANY($1::text[])`,
+    [ids]
+  );
+  for (const row of result.rows as Array<{
+    capture_run_id?: unknown;
+    site_domain?: unknown;
+    canonical_url?: unknown;
+  }>) {
+    const id = String(row.capture_run_id ?? "");
+    if (!id) continue;
+    out.set(id, {
+      site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
+      canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : null
+    });
+  }
+  return out;
+}
+
+async function rankReferencesWithSourceWeights(
+  client: Queryable,
+  query: DesignReferenceSearchQuery,
+  refs: DesignReferenceRecord[]
+): Promise<DesignReferenceRecord[]> {
+  if (!refs.length) return refs;
+  const { catalogSourceScoreBoost } = await import("./catalog-source.js");
+  const domains = await captureDomainsById(
+    client,
+    refs.map((ref) => ref.capture_run_id)
+  );
+  return [...refs]
+    .sort((a, b) => {
+      const da = domains.get(a.capture_run_id);
+      const db = domains.get(b.capture_run_id);
+      const sa =
+        referenceScore(query, a) +
+        catalogSourceScoreBoost({
+          canonicalUrl: da?.canonical_url,
+          siteDomain: da?.site_domain,
+          industry: query.industry
+        }) *
+          100;
+      const sb =
+        referenceScore(query, b) +
+        catalogSourceScoreBoost({
+          canonicalUrl: db?.canonical_url,
+          siteDomain: db?.site_domain,
+          industry: query.industry
+        }) *
+          100;
+      return sb - sa;
+    });
+}
+
 export async function searchDesignReferences(
   query: DesignReferenceSearchQuery,
   client: Queryable | null = getPool()
@@ -275,7 +338,24 @@ export async function searchDesignReferences(
         limit: clampLimit(query.limit)
       });
       if (neighbors.length) {
-        return neighbors.map((row) => row.payload);
+        const domains = await captureDomainsById(
+          client,
+          neighbors.map((row) => row.payload.capture_run_id)
+        );
+        const { catalogSourceScoreBoost } = await import("./catalog-source.js");
+        return [...neighbors]
+          .map((row) => {
+            const domain = domains.get(row.payload.capture_run_id);
+            const boost = catalogSourceScoreBoost({
+              canonicalUrl: domain?.canonical_url,
+              siteDomain: domain?.site_domain,
+              industry: query.industry
+            });
+            return { ref: row.payload, score: Number(row.score ?? 0) + boost };
+          })
+          .sort((a, b) => b.score - a.score)
+          .map((row) => row.ref)
+          .slice(0, clampLimit(query.limit));
       }
     } catch {
       /* fall through to lexical if vector unavailable */
@@ -325,11 +405,10 @@ export async function searchDesignReferences(
      LIMIT $${values.length}`,
     values
   );
-  return (result.rows as Array<Record<string, unknown>>)
+  const matched = (result.rows as Array<Record<string, unknown>>)
     .map(mapPayload)
-    .filter((ref) => referenceMatchesCraft(query, ref))
-    .sort((a, b) => referenceScore(query, b) - referenceScore(query, a))
-    .slice(0, limit);
+    .filter((ref) => referenceMatchesCraft(query, ref));
+  return (await rankReferencesWithSourceWeights(client, query, matched)).slice(0, limit);
 }
 
 export async function getDesignReference(

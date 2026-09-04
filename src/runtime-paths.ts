@@ -323,6 +323,15 @@ export interface DigPaths {
     mmrLambda?: number;
     diversify?: boolean;
   };
+  catalogSourceWeights?: {
+    doc?: string;
+    enabled?: boolean;
+    quality?: number;
+    volume?: number;
+    vertical?: number;
+    unknown?: number;
+    industryVerticalBoost?: number;
+  };
   similarityGraph?: {
     doc?: string;
     nodeCap?: number;

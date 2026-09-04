@@ -56,12 +56,70 @@ function stringArray(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean) : [];
 }
 
-function uniqueRefs(refs: DesignReferenceRecord[]): DesignReferenceRecord[] {
-  const seen = new Set<string>();
+async function uniqueRefsForCompose(
+  refs: DesignReferenceRecord[],
+  client: Queryable
+): Promise<DesignReferenceRecord[]> {
+  const { catalogSourceScoreBoost, catalogSourceTiersForHost } = await import("./catalog-source.js");
+  const ids = [...new Set(refs.map((ref) => ref.capture_run_id).filter(Boolean))];
+  const domains = new Map<string, { site_domain: string | null; canonical_url: string | null }>();
+  if (ids.length) {
+    const result = await client.query(
+      `SELECT capture_run_id, site_domain, canonical_url FROM captures WHERE capture_run_id = ANY($1::text[])`,
+      [ids]
+    );
+    for (const row of result.rows as Array<{
+      capture_run_id?: unknown;
+      site_domain?: unknown;
+      canonical_url?: unknown;
+    }>) {
+      const id = String(row.capture_run_id ?? "");
+      if (!id) continue;
+      domains.set(id, {
+        site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
+        canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : null
+      });
+    }
+  }
+
+  const ranked = [...refs].sort((a, b) => {
+    const da = domains.get(a.capture_run_id);
+    const db = domains.get(b.capture_run_id);
+    const sa = catalogSourceScoreBoost({
+      canonicalUrl: da?.canonical_url,
+      siteDomain: da?.site_domain
+    });
+    const sb = catalogSourceScoreBoost({
+      canonicalUrl: db?.canonical_url,
+      siteDomain: db?.site_domain
+    });
+    if (sb !== sa) return sb - sa;
+    const ta = catalogSourceTiersForHost(da?.canonical_url, da?.site_domain);
+    const tb = catalogSourceTiersForHost(db?.canonical_url, db?.site_domain);
+    if (ta === "quality" && tb !== "quality") return -1;
+    if (tb === "quality" && ta !== "quality") return 1;
+    return 0;
+  });
+
+  const seenRef = new Set<string>();
+  const seenDomain = new Set<string>();
   const out: DesignReferenceRecord[] = [];
-  for (const ref of refs) {
-    if (!ref.reference_id || seen.has(ref.reference_id)) continue;
-    seen.add(ref.reference_id);
+  const deferred: DesignReferenceRecord[] = [];
+  for (const ref of ranked) {
+    if (!ref.reference_id || seenRef.has(ref.reference_id)) continue;
+    const host = (domains.get(ref.capture_run_id)?.site_domain ?? "").toLowerCase().replace(/^www\./, "");
+    if (host && seenDomain.has(host)) {
+      deferred.push(ref);
+      continue;
+    }
+    seenRef.add(ref.reference_id);
+    if (host) seenDomain.add(host);
+    out.push(ref);
+    if (out.length >= 8) return out;
+  }
+  for (const ref of deferred) {
+    if (seenRef.has(ref.reference_id)) continue;
+    seenRef.add(ref.reference_id);
     out.push(ref);
     if (out.length >= 8) break;
   }
@@ -163,7 +221,7 @@ export async function assembleCompositionBrief(
     references.push(...listed);
   }
 
-  const unique = uniqueRefs(references);
+  const unique = await uniqueRefsForCompose(references, client);
   if (!unique.length) throw new Error("reference_ids or capture_run_ids required");
 
   const anchorCaptureRunId = unique[0]!.capture_run_id;

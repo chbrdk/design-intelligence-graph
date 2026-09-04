@@ -575,6 +575,15 @@
     "mmrLambda": 0.65,
     "diversify": true
   },
+  "catalogSourceWeights": {
+    "doc": "knowledge/design-facets.md",
+    "enabled": true,
+    "quality": 0.06,
+    "volume": 0.02,
+    "vertical": 0.03,
+    "unknown": 0,
+    "industryVerticalBoost": 0.08
+  },
   "similarityGraph": {
     "doc": "knowledge/similarity-graph.md",
     "nodeCap": 5000,
