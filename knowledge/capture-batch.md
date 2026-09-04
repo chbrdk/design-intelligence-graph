@@ -161,7 +161,7 @@ Mitigations:
 1. `captureJobs.hardTimeoutMs` (default 480s) — JobRunner aborts the capture AbortSignal and force-kills Chromium/Firefox
 2. `forceCloseBrowser` — SIGKILL if `browser.close()` hangs (>8s)
 3. `captureJobs.checkionTimeoutMs` (default 120s) — CHECKION attach cannot block the pipeline
-4. `captureJobs.maxConcurrent` at **4** (child-process captures; was briefly 2 after event-loop wedges)
+4. `captureJobs.maxConcurrent` at **6** (child-process captures; was 4 after event-loop wedges, briefly 2)
 5. Boot defers `runner.kick()` until craft graph warm finishes so kNN + Playwright do not wedge the event loop together
 6. Override anytime with `DIG_CAPTURE_MAX_CONCURRENT`
 7. Playwright runs in a **forked child** (`src/capture-child.ts`) via `captureViaChildOrInProcess` — abort/hard-timeout SIGKILLs the child (and Chromium). Set `DIG_CAPTURE_IN_PROCESS=1` to force in-process capture for debugging.

@@ -302,7 +302,7 @@
     "designDiversityDoc": "knowledge/design-diversity-catalog.md",
     "publicSectorDoc": "knowledge/public-sector-catalog.md",
     "awwwardsDoc": "knowledge/awwwards-catalog.md",
-    "maxConcurrent": 4,
+    "maxConcurrent": 6,
     "hardTimeoutMs": 480000,
     "checkionTimeoutMs": 120000,
     "batchPath": "/batch",
