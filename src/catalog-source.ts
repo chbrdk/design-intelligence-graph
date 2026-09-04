@@ -139,9 +139,9 @@ export function catalogSourceCatalogsForHost(
  */
 export function catalogSourceScoreBoost(
   opts: {
-    canonicalUrl?: string | null;
-    siteDomain?: string | null;
-    industry?: string | null;
+    canonicalUrl?: string | null | undefined;
+    siteDomain?: string | null | undefined;
+    industry?: string | null | undefined;
   },
   root = process.cwd()
 ): number {
