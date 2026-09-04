@@ -332,6 +332,15 @@ export interface DigPaths {
     unknown?: number;
     industryVerticalBoost?: number;
   };
+  generateReferenceGate?: {
+    doc?: string;
+    enabled?: boolean;
+    minDomains?: number;
+    maxSameStyle?: number;
+    minReferences?: number;
+    maxReferences?: number;
+    topUpLimit?: number;
+  };
   similarityGraph?: {
     doc?: string;
     nodeCap?: number;

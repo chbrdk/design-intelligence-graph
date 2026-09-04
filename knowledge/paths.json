@@ -584,6 +584,15 @@
     "unknown": 0,
     "industryVerticalBoost": 0.08
   },
+  "generateReferenceGate": {
+    "doc": "knowledge/design-facets.md",
+    "enabled": true,
+    "minDomains": 3,
+    "maxSameStyle": 2,
+    "minReferences": 3,
+    "maxReferences": 6,
+    "topUpLimit": 24
+  },
   "similarityGraph": {
     "doc": "knowledge/similarity-graph.md",
     "nodeCap": 5000,

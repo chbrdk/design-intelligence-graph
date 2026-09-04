@@ -63,6 +63,16 @@ Dense canonical text also carries `value:` / `palette:` so re-embedded screens r
 
 Config: `catalogSourceWeights` in `knowledge/paths.json`. Applied on `/screens` dense search (before MMR), DesignReference search, and compose-brief domain diversification.
 
+## Generate reference gate (Phase 5)
+
+Before look-conditioned `dig_generate` / compose-brief / reference pack, `src/generate-reference-gate.ts` checks:
+
+- ≥ **3** distinct domains
+- ≤ **2** references with the same style label
+- ≥ **3** references
+
+If short, it tops up from `searchDesignReferences(intent)` preferring new domains and non-repeating styles. Response includes `gate` (`ok`, `warnings`, `topped_up`). Config: `generateReferenceGate` in `paths.json`.
+
 ## Recipe / page flow
 
 If the LLM `section_recipes` stage returns empty, read path and reindex synthesize ordered `page_flow` + `recipe_insights` from measured section compositions (`src/recipe-fallback.ts`). Existing packages pick this up on `GET /analyses/:id` without a recapture.

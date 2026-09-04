@@ -45,6 +45,14 @@ export type DesignReferencePack = {
   references: DesignReferenceRecord[];
   synthesis_mode: "structural" | "look_conditioned";
   constraints: { forbid_source_copy: true };
+  gate?: {
+    ok: boolean;
+    domain_count: number;
+    max_style_count: number;
+    reference_count: number;
+    topped_up: string[];
+    warnings: string[];
+  };
 };
 
 function clampLimit(limit: unknown): number {
@@ -467,11 +475,31 @@ export async function assembleDesignReferencePack(
     if (!ref) throw new Error(`Unknown reference_id: ${id}`);
     references.push(ref);
   }
+  const synthesis_mode =
+    input.synthesis_mode === "look_conditioned" ? "look_conditioned" : "structural";
+  let finalRefs = references;
+  let gateReport: DesignReferencePack["gate"];
+  if (synthesis_mode === "look_conditioned" && client) {
+    const { ensureGenerateReferenceGate } = await import("./generate-reference-gate.js");
+    const ensured = await ensureGenerateReferenceGate(client, intent, references, {
+      platformProjectId: input.platformProjectId
+    });
+    finalRefs = ensured.references;
+    gateReport = {
+      ok: ensured.gate.ok,
+      domain_count: ensured.gate.domain_count,
+      max_style_count: ensured.gate.max_style_count,
+      reference_count: ensured.gate.reference_count,
+      topped_up: ensured.gate.topped_up,
+      warnings: ensured.gate.warnings
+    };
+  }
   return {
     schema_version: "0.1.0",
     intent,
-    references,
-    synthesis_mode: input.synthesis_mode === "look_conditioned" ? "look_conditioned" : "structural",
-    constraints: { forbid_source_copy: true }
+    references: finalRefs,
+    synthesis_mode,
+    constraints: { forbid_source_copy: true },
+    ...(gateReport ? { gate: gateReport } : {})
   };
 }

@@ -46,6 +46,7 @@ export type CompositionBrief = {
   look_contract: LookContract | null;
   page_rhythm: PageRhythm | null;
   prompt_pack: ReturnType<typeof assembleDesignPromptPack>;
+  gate?: DesignReferencePack["gate"];
 };
 
 function trimString(value: unknown): string | null {
@@ -224,31 +225,22 @@ export async function assembleCompositionBrief(
   const unique = await uniqueRefsForCompose(references, client);
   if (!unique.length) throw new Error("reference_ids or capture_run_ids required");
 
-  const anchorCaptureRunId = unique[0]!.capture_run_id;
+  const pack = await assembleDesignReferencePack(
+    {
+      intent,
+      reference_ids: unique.map((ref) => ref.reference_id),
+      synthesis_mode: "look_conditioned",
+      platformProjectId: platformProjectId ?? null
+    },
+    client
+  );
+  const gatedRefs = pack.references;
+  const anchorCaptureRunId = gatedRefs[0]!.capture_run_id;
   const context = await loadCaptureContext(client, anchorCaptureRunId, platformProjectId);
   const look_contract = asLookContract(body.look_contract) ?? context.look_contract;
   const page_rhythm = asPageRhythm(body.page_rhythm) ?? context.page_rhythm;
 
-  const pack: DesignReferencePack =
-    explicitReferenceIds.length && explicitReferenceIds.length === unique.length
-      ? await assembleDesignReferencePack(
-          {
-            intent,
-            reference_ids: unique.map((ref) => ref.reference_id),
-            synthesis_mode: "look_conditioned",
-            platformProjectId: context.platformProjectId
-          },
-          client
-        )
-      : {
-          schema_version: "0.1.0",
-          intent,
-          references: unique,
-          synthesis_mode: "look_conditioned",
-          constraints: { forbid_source_copy: true }
-        };
-
-  const craft_constraints = buildCraftConstraints(unique, context.facets);
+  const craft_constraints = buildCraftConstraints(gatedRefs, context.facets);
   const brief =
     trimString(body.brief) ??
     `${intent}. Compose from cited references, keep measured look_contract literal, and combine module craft without copying source marketing text.`;
@@ -269,14 +261,14 @@ export async function assembleCompositionBrief(
     compose_brief_version: COMPOSITION_BRIEF_VERSION,
     role: "design_composition",
     intent,
-    references: unique.map((ref) => ({
+    references: gatedRefs.map((ref) => ({
       reference_id: ref.reference_id,
       capture_run_id: ref.capture_run_id,
       category: ref.taxonomy.category,
       signature: ref.composition.signature,
       source_kind: "reference"
     })),
-    module_blueprint: unique.slice(0, 6).map((ref, index) => ({
+    module_blueprint: gatedRefs.slice(0, 6).map((ref, index) => ({
       module_id: `mod_${index + 1}`,
       reference_id: ref.reference_id,
       capture_run_id: ref.capture_run_id,
@@ -290,6 +282,7 @@ export async function assembleCompositionBrief(
     avoid: [...new Set([...(look_contract?.avoid ?? []), ...(page_rhythm?.avoid ?? [])])],
     look_contract,
     page_rhythm,
-    prompt_pack
+    prompt_pack,
+    ...(pack.gate ? { gate: pack.gate } : {})
   };
 }
