@@ -117,6 +117,7 @@ export async function buildDenseEmbeddingSubjects(
     chrome_weight: summary.chrome_weight ?? null,
     value_key: summary.value_key ?? null,
     palette: summary.palette ?? null,
+    screen_patterns: summary.screen_patterns ?? null,
     look_summary: llm.design_summary || visionPage?.overall_atmosphere || null,
     design_summary: llm.design_summary || null,
     rhythm_summary: rhythmSummary(pageRhythm),

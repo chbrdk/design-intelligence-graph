@@ -64,7 +64,8 @@ test("buildDesignFacets from MSQ-like vision_page and bands", () => {
   assert.deepEqual(facets.section_categories, ["hero", "content", "feature", "footer"]);
   assert.equal(facets.confidence, 0.85);
   assert.equal(designFacetsHaveSignal(facets), true);
-  assert.equal(facets.facets_version, "0.5.0");
+  assert.equal(facets.facets_version, "0.6.0");
+  assert.deepEqual(facets.screen_patterns, ["Marketing home"]);
   assert.ok(facets.look_contract?.avoid.some((item) => item.includes("glassmorphism")));
   assert.ok(facets.look_contract?.avoid.includes("card grid in the hero"));
 });

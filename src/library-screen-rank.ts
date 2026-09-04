@@ -323,7 +323,8 @@ export async function searchLibraryScreens(
     composition_energy: opts.composition_energy,
     chrome_weight: opts.chrome_weight,
     value_key: opts.value_key,
-    palette: opts.palette
+    palette: opts.palette,
+    screen_pattern: opts.screen_pattern
   };
   const intent = resolveScreenSearchIntent(q, explicit);
   const hardFacetOpts: LibraryScreenListOpts = {

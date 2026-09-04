@@ -44,6 +44,7 @@ test("assertFlowActionIds rejects unknown ids", () => {
 test("suggestFlowActionsFromPath uses path_hints deterministically", () => {
   assert.deepEqual(suggestFlowActionsFromPath("/login"), ["dig:flow.logging_in"]);
   assert.deepEqual(suggestFlowActionsFromPath("/checkout/confirm"), ["dig:flow.checkout"]);
+  assert.deepEqual(suggestFlowActionsFromPath("/forgot-password"), ["dig:flow.password_recovery"]);
   assert.deepEqual(suggestFlowActionsFromPath("/about"), ["dig:flow.unknown"]);
 });
 

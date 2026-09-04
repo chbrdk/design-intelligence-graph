@@ -184,7 +184,7 @@ export function stageSystemPrompt(stageId: LlmStageId): string {
   if (stageId === "screen_patterns") {
     return `You label web/app screen patterns like Mobbin screen filters.
 Return ONLY JSON: {"screen_patterns":[{"name":string,"confidence":number,"evidence_refs":string[]}]}
-Rules: 1-5 patterns; names short (e.g. "Marketing Home", "Product Showcase"); use only provided evidence.`;
+Rules: 1-5 patterns; prefer these closed names when they fit: Login, Onboarding, Sign up, Dashboard, Settings, Pricing, Paywall, Empty state, Checkout, Chat, Search, Profile, Product, Marketing home, Feed, Form, Error, Notifications, Media player, Map; use only provided evidence.`;
   }
   if (stageId === "ui_elements") {
     return `You list notable UI elements like Mobbin UI element filters.

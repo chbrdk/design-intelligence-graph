@@ -199,6 +199,7 @@ export function listDigTools() {
           chrome_weight: { type: "string" },
           value_key: { type: "string" },
           palette: { type: "string" },
+          screen_pattern: { type: "string" },
           provider: { type: "string", enum: ["dense", "hashing", "screenshot"] },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
@@ -457,6 +458,7 @@ export async function callDigLibraryTool(
       chrome_weight: typeof args.chrome_weight === "string" ? args.chrome_weight : undefined,
       value_key: typeof args.value_key === "string" ? args.value_key : undefined,
       palette: typeof args.palette === "string" ? args.palette : undefined,
+      screen_pattern: typeof args.screen_pattern === "string" ? args.screen_pattern : undefined,
       platformProjectId
     });
     const screens = searched.screens.map(publicLibraryScreenHit);

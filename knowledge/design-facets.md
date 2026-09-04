@@ -3,10 +3,11 @@
 **Date:** 2026-09-04  
 **Code:** [`src/design-facets.ts`](../src/design-facets.ts) · intent [`src/screen-search-intent.ts`](../src/screen-search-intent.ts) · catalog hosts [`src/catalog-industry.ts`](../src/catalog-industry.ts)  
 **API** `package.design_facets` on `GET /api/library/analyses/:capture_run_id`  
-**List/search:** `GET /api/library/screens?style=&layout=&industry=&value_key=&palette=` (query keys in `knowledge/paths.json` → `libraryScreenFacets`)  
+**List/search:** `GET /api/library/screens?style=&layout=&industry=&value_key=&palette=&screen_pattern=` (query keys in `knowledge/paths.json` → `libraryScreenFacets`)  
 **MCP:** `dig_screen_search` / `dig_capture_prompt_pack` — [`mcp-library-loop.md`](mcp-library-loop.md)  
-**Version:** `0.5.0`  
-**Look contract:** [`look-contract.md`](look-contract.md)
+**Version:** `0.6.0`  
+**Look contract:** [`look-contract.md`](look-contract.md)  
+**Screen patterns (Mobbin-parity filters):** [`mobbin-parity-taxonomy-gaps.md`](mobbin-parity-taxonomy-gaps.md) · catalog [`screen-patterns-catalog.json`](screen-patterns-catalog.json)
 
 ## Library browse
 
@@ -32,6 +33,7 @@ Response also returns `facet_filters` (closed vocabs) and `facets_version`. Scre
 | `contrast_mode` | `monochrome`, `low_contrast`, `saturated`, `mixed`, … |
 | `value_key` | `light`, `dark`, `mixed` (measured bg luminance + prose) |
 | `palette` | `mono`, `duo`, `multi` (token chroma / contrast) |
+| `screen_patterns` | Closed labels from [`screen-patterns-catalog.json`](screen-patterns-catalog.json) (Login, Dashboard, …); filter via `?screen_pattern=` |
 | `color_mood` | Short free text (truncated) |
 | `typography` | Short free text |
 | `above_fold_job` | One line |

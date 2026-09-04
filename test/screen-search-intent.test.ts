@@ -44,6 +44,12 @@ test("soft vs hard facet split for screen search intent", () => {
   assert.equal(softScreenFacetFilter({ industry: "insurance" }, { industry: "insurance", style: "minimal" }).style, "minimal");
 });
 
+test("inferScreenSearchFacetsFromQuery maps login screen pattern", () => {
+  const hit = inferScreenSearchFacetsFromQuery("login screen fintech");
+  assert.equal(hit.screen_pattern, "Login");
+  assert.ok(hit.inferred.includes("screen_pattern:Login"));
+});
+
 test("preferSoftFacetMatches keeps pool when too few matches", () => {
   const soft = { style: "minimal", contrast_mode: "monochrome" };
   const screens = [

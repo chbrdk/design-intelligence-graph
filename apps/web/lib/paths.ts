@@ -303,6 +303,7 @@ export const paths = {
     style: 'style',
     layout: 'layout',
     industry: 'industry',
+    screenPattern: 'screen_pattern',
   },
   /** Keep in sync with knowledge/paths.json libraryScreenFacets.pollMs */
   libraryScreensPollMs: 15_000,

@@ -143,13 +143,17 @@ export type ScreenFacetSummary = {
   contrast_mode?: string | null
   composition_energy?: string | null
   chrome_weight?: string | null
+  value_key?: string | null
+  palette?: string | null
   craft_tags?: string[]
+  screen_patterns?: string[]
 }
 
 export type LibraryFacetFilters = {
   style: string[]
   layout: string[]
   industry: string[]
+  screen_pattern?: string[]
 }
 
 export const EMPTY_LIBRARY_FACET_FILTERS: LibraryFacetFilters = {
@@ -180,6 +184,7 @@ export type LibraryScreensQuery = {
   style?: string | null
   layout?: string | null
   industry?: string | null
+  screenPattern?: string | null
 }
 
 export function facetChipLabel(value: string): string {
@@ -192,6 +197,9 @@ export function buildLibraryScreensSearchParams(opts?: LibraryScreensQuery): URL
   if (opts?.style?.trim()) params.set(paths.libraryFacetQuery.style, opts.style.trim())
   if (opts?.layout?.trim()) params.set(paths.libraryFacetQuery.layout, opts.layout.trim())
   if (opts?.industry?.trim()) params.set(paths.libraryFacetQuery.industry, opts.industry.trim())
+  if (opts?.screenPattern?.trim()) {
+    params.set(paths.libraryFacetQuery.screenPattern, opts.screenPattern.trim())
+  }
   return params
 }
 

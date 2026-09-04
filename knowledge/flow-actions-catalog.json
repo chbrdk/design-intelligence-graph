@@ -1,8 +1,9 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "idPrefix": "dig:flow.",
   "doc": "knowledge/mobbin-user-flows.md",
   "spec": "docs/DIG-011-user-flow-graph.md",
+  "gapDoc": "knowledge/mobbin-parity-taxonomy-gaps.md",
   "actions": [
     {
       "id": "dig:flow.onboarding",
@@ -87,6 +88,48 @@
       "label": "Content browsing",
       "aliases": ["browse", "explore", "feed"],
       "path_hints": ["/explore", "/browse", "/feed"]
+    },
+    {
+      "id": "dig:flow.password_recovery",
+      "label": "Password recovery",
+      "aliases": ["forgot password", "reset password", "recover account"],
+      "path_hints": ["/forgot-password", "/reset-password", "/password/reset", "/recover"]
+    },
+    {
+      "id": "dig:flow.notifications",
+      "label": "Notifications",
+      "aliases": ["alerts", "notification center", "inbox alerts"],
+      "path_hints": ["/notifications", "/alerts"]
+    },
+    {
+      "id": "dig:flow.permissions_consent",
+      "label": "Permissions & consent",
+      "aliases": ["permissions", "consent", "allow access", "privacy consent"],
+      "path_hints": ["/permissions", "/consent", "/privacy/consent"]
+    },
+    {
+      "id": "dig:flow.deleting_account",
+      "label": "Deleting account",
+      "aliases": ["delete account", "close account", "account deletion"],
+      "path_hints": ["/account/delete", "/settings/delete", "/close-account"]
+    },
+    {
+      "id": "dig:flow.uploading_media",
+      "label": "Uploading media",
+      "aliases": ["upload", "file upload", "add photo", "attach file"],
+      "path_hints": ["/upload", "/media/upload"]
+    },
+    {
+      "id": "dig:flow.booking_scheduling",
+      "label": "Booking & scheduling",
+      "aliases": ["book", "schedule", "appointment", "reservation"],
+      "path_hints": ["/book", "/booking", "/schedule", "/appointments"]
+    },
+    {
+      "id": "dig:flow.identity_verification",
+      "label": "Identity verification",
+      "aliases": ["kyc", "verify identity", "id check", "document upload"],
+      "path_hints": ["/verify", "/kyc", "/identity", "/verification"]
     },
     {
       "id": "dig:flow.unknown",

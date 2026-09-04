@@ -22,6 +22,7 @@ import {
   type ScreenFacetFilter,
   type ScreenFacetSummary
 } from "./design-facets.js";
+import { normalizeScreenPatternLabel } from "./screen-patterns.js";
 
 function slug(value: string): string {
   return value.toLowerCase().replace(/[_|/-]+/g, " ").replace(/\s+/g, " ").trim();
@@ -109,6 +110,12 @@ export function inferScreenSearchFacetsFromQuery(query: string | null | undefine
     inferred.push(`palette:${palette}`);
   }
 
+  const screenPattern = normalizeScreenPatternLabel(hay);
+  if (screenPattern) {
+    out.screen_pattern = screenPattern;
+    inferred.push(`screen_pattern:${screenPattern}`);
+  }
+
   let valueKey: string | null = null;
   if (includesAny(hay, ["dark mode", "dark ui", "dunkl", "night", "noir", "black background"])) {
     valueKey = "dark";
@@ -194,6 +201,7 @@ export function mergeScreenSearchFacets(
     chrome_weight: pick(explicit.chrome_weight, inferred.chrome_weight),
     value_key: pick(explicit.value_key, inferred.value_key),
     palette: pick(explicit.palette, inferred.palette),
+    screen_pattern: pick(explicit.screen_pattern, inferred.screen_pattern),
     inferred: inferred.inferred
   };
 }
@@ -207,6 +215,7 @@ export function explicitScreenFacetFilter(explicit: ScreenFacetFilter): ScreenFa
   }
   if (explicit.modules?.length) out.modules = explicit.modules;
   if (explicit.craft_tags?.length) out.craft_tags = explicit.craft_tags;
+  if (hasFacetValue(explicit.screen_pattern)) out.screen_pattern = explicit.screen_pattern;
   return out;
 }
 
@@ -225,11 +234,17 @@ export function softScreenFacetFilter(
   }
   if (!explicit.modules?.length && merged.modules?.length) out.modules = merged.modules;
   if (!explicit.craft_tags?.length && merged.craft_tags?.length) out.craft_tags = merged.craft_tags;
+  if (!hasFacetValue(explicit.screen_pattern) && hasFacetValue(merged.screen_pattern)) {
+    out.screen_pattern = merged.screen_pattern;
+  }
   return out;
 }
 
 export function softFacetFilterActive(filter: ScreenFacetFilter): boolean {
-  return SOFT_FACET_KEYS.some((key) => hasFacetValue(filter[key])) || Boolean(filter.modules?.length || filter.craft_tags?.length);
+  return (
+    SOFT_FACET_KEYS.some((key) => hasFacetValue(filter[key])) ||
+    Boolean(filter.modules?.length || filter.craft_tags?.length || hasFacetValue(filter.screen_pattern))
+  );
 }
 
 /** Small additive score when a screen matches inferred craft intent. */
@@ -247,6 +262,11 @@ export function softFacetMatchBoost(summary: ScreenFacetSummary | null | undefin
     }
     const have = summary[key as keyof ScreenFacetSummary];
     if (have === want) hits += 1;
+  }
+  if (hasFacetValue(soft.screen_pattern)) {
+    checks += 1;
+    const want = String(soft.screen_pattern).toLowerCase();
+    if ((summary.screen_patterns ?? []).some((item) => item.toLowerCase() === want)) hits += 1;
   }
   if (!checks) return 0;
   return (hits / checks) * 0.08;

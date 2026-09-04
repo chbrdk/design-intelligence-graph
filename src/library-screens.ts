@@ -30,6 +30,7 @@ import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadDesignTokensDocument } from "./design-tokens.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 import { captureNavConfig } from "./capture-nav.js";
+import { normalizeScreenPatternLabel } from "./screen-patterns.js";
 
 export type LibraryScreenListOpts = ScreenFacetFilter & {
   platformProjectId?: string | null | undefined;
@@ -104,6 +105,7 @@ async function compactFacetsForPackage(
     summary.type_image_mode ||
     summary.value_key ||
     summary.palette ||
+    (summary.screen_patterns?.length ?? 0) ||
     (summary.industry_tags?.length ?? 0) ||
     summary.color_mood;
   const value = usable ? summary : null;
@@ -205,7 +207,8 @@ export function normalizeLibraryScreenFacetFilter(opts: ScreenFacetFilter): Scre
     composition_energy: normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB),
     chrome_weight: normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB),
     value_key: normalizeFacetFilterValue(opts.value_key ?? null, VALUE_KEY_VOCAB),
-    palette: normalizeFacetFilterValue(opts.palette ?? null, PALETTE_VOCAB)
+    palette: normalizeFacetFilterValue(opts.palette ?? null, PALETTE_VOCAB),
+    screen_pattern: normalizeScreenPatternLabel(opts.screen_pattern ?? null) ?? undefined
   };
 }
 
@@ -224,6 +227,7 @@ export function hasScreenFacetFilters(opts: ScreenFacetFilter): boolean {
       filter.chrome_weight ||
       filter.value_key ||
       filter.palette ||
+      filter.screen_pattern ||
       (filter.modules ?? []).length ||
       (filter.craft_tags ?? []).length
   );

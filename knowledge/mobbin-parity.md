@@ -16,6 +16,8 @@ Multi-screen user journeys are specified separately in [`docs/DIG-011-user-flow-
 
 Not a Mobbin clone yet — we generate structured evidence from captures, then enrich with small sequential LLM calls.
 
+Taxonomy gap inventory (closed screen patterns + flow actions without Mobbin content): [`mobbin-parity-taxonomy-gaps.md`](mobbin-parity-taxonomy-gaps.md).
+
 ## Why staged prompts
 
 One giant prompt timed out on Apple-scale pages (~70k tokens). Smaller steps:

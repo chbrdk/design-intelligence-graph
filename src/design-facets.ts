@@ -8,8 +8,9 @@ import type { VisionLayoutBand } from "./vision-layout.js";
 import type { VisionPageDocument } from "./vision-page.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 import { buildLookContract, type LookContract } from "./look-contract.js";
+import { normalizeScreenPatternLabel, normalizeScreenPatternLabels, screenPatternFilterCatalog } from "./screen-patterns.js";
 
-export const DESIGN_FACETS_VERSION = "0.5.0" as const;
+export const DESIGN_FACETS_VERSION = "0.6.0" as const;
 
 export const INDUSTRY_VOCAB = [
   "automotive",
@@ -109,6 +110,8 @@ export type DesignFacets = {
   value_key: string | null;
   palette: string | null;
   craft_tags: string[];
+  /** Closed Mobbin-parity screen pattern labels (Login, Dashboard, …). */
+  screen_patterns: string[];
   confidence: number | null;
   look_contract: LookContract | null;
 };
@@ -624,6 +627,7 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
   const composition_energy = deriveCompositionEnergy(page, style);
   const chrome_weight = deriveChromeWeight(page);
   const craft_tags = deriveCraftTags(page);
+  const screen_patterns = normalizeScreenPatternLabels(input.screen_pattern_labels ?? [], 5);
 
   const confidence =
     typeof page?.confidence === "number" && Number.isFinite(page.confidence)
@@ -664,6 +668,7 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
     value_key,
     palette,
     craft_tags,
+    screen_patterns,
     confidence,
     look_contract
   };
@@ -685,6 +690,7 @@ export function designFacetsHaveSignal(facets: DesignFacets): boolean {
       facets.value_key ||
       facets.palette ||
       facets.craft_tags.length ||
+      facets.screen_patterns.length ||
       facets.industry_tags.length ||
       facets.section_categories.length ||
       facets.above_fold_job ||
@@ -711,6 +717,7 @@ export type ScreenFacetSummary = {
   value_key?: string | null;
   palette?: string | null;
   craft_tags?: string[];
+  screen_patterns?: string[];
 };
 
 export type ScreenFacetFilter = {
@@ -720,6 +727,8 @@ export type ScreenFacetFilter = {
   industry?: string | null | undefined;
   modules?: string[] | null | undefined;
   craft_tags?: string[] | null | undefined;
+  /** Closed screen pattern label (Login, Dashboard, …). */
+  screen_pattern?: string | null | undefined;
   imagery_density?: string | null | undefined;
   type_scale?: string | null | undefined;
   type_image_mode?: string | null | undefined;
@@ -748,7 +757,8 @@ export function summarizeDesignFacets(facets: DesignFacets): ScreenFacetSummary 
     chrome_weight: facets.chrome_weight,
     value_key: facets.value_key,
     palette: facets.palette,
-    craft_tags: [...facets.craft_tags]
+    craft_tags: [...facets.craft_tags],
+    screen_patterns: [...facets.screen_patterns]
   };
 }
 
@@ -764,6 +774,7 @@ export function designFacetFilterCatalog(): {
   chrome_weight: Array<(typeof CHROME_WEIGHT_VOCAB)[number]>;
   value_key: Array<(typeof VALUE_KEY_VOCAB)[number]>;
   palette: Array<(typeof PALETTE_VOCAB)[number]>;
+  screen_pattern: string[];
 } {
   return {
     style: [...STYLE_VOCAB],
@@ -776,7 +787,8 @@ export function designFacetFilterCatalog(): {
     composition_energy: [...COMPOSITION_ENERGY_VOCAB],
     chrome_weight: [...CHROME_WEIGHT_VOCAB],
     value_key: [...VALUE_KEY_VOCAB],
-    palette: [...PALETTE_VOCAB]
+    palette: [...PALETTE_VOCAB],
+    screen_pattern: screenPatternFilterCatalog()
   };
 }
 
@@ -806,6 +818,8 @@ export function screenFacetsMatch(
   const chrome_weight = filter.chrome_weight?.trim() || null;
   const value_key = filter.value_key?.trim() || null;
   const palette = filter.palette?.trim() || null;
+  const screen_pattern =
+    normalizeScreenPatternLabel(filter.screen_pattern) ?? (filter.screen_pattern?.trim() || null);
   const modules = (filter.modules ?? []).map((item) => item.trim().toLowerCase()).filter(Boolean);
   const craft_tags = (filter.craft_tags ?? []).map((item) => item.trim().toLowerCase()).filter(Boolean);
   if (
@@ -821,6 +835,7 @@ export function screenFacetsMatch(
     !chrome_weight &&
     !value_key &&
     !palette &&
+    !screen_pattern &&
     !modules.length &&
     !craft_tags.length
   ) return true;
@@ -838,7 +853,8 @@ export function screenFacetsMatch(
       summary.palette,
       ...(summary.industry_tags ?? []),
       ...(summary.modules ?? []),
-      ...(summary.craft_tags ?? [])
+      ...(summary.craft_tags ?? []),
+      ...(summary.screen_patterns ?? [])
     ]
       .filter(Boolean)
       .join(" ")
@@ -856,6 +872,12 @@ export function screenFacetsMatch(
   if (chrome_weight && summary.chrome_weight !== chrome_weight) return false;
   if (value_key && summary.value_key !== value_key) return false;
   if (palette && summary.palette !== palette) return false;
+  if (
+    screen_pattern &&
+    !(summary.screen_patterns ?? []).some((item) => item.toLowerCase() === screen_pattern.toLowerCase())
+  ) {
+    return false;
+  }
   if (modules.length && !modules.every((item) => (summary.modules ?? []).map((value) => value.toLowerCase()).includes(item))) return false;
   if (craft_tags.length && !craft_tags.every((item) => (summary.craft_tags ?? []).map((value) => value.toLowerCase()).includes(item))) return false;
   return true;

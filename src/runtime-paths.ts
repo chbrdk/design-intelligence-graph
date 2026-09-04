@@ -117,8 +117,10 @@ export interface DigPaths {
     queryStyle?: string;
     queryLayout?: string;
     queryIndustry?: string;
+    queryScreenPattern?: string;
     pollMs?: number;
     doc?: string;
+    screenPatternsDoc?: string;
   };
   libraryScreenGallery?: {
     doc?: string;
@@ -486,12 +488,14 @@ export function libraryScreenFacetQueryKeys(root = process.cwd()): {
   style: string;
   layout: string;
   industry: string;
+  screenPattern: string;
 } {
   const cfg = loadDigPaths(root).libraryScreenFacets;
   return {
     style: cfg?.queryStyle ?? "style",
     layout: cfg?.queryLayout ?? "layout",
-    industry: cfg?.queryIndustry ?? "industry"
+    industry: cfg?.queryIndustry ?? "industry",
+    screenPattern: cfg?.queryScreenPattern ?? "screen_pattern"
   };
 }
 

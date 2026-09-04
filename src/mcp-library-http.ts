@@ -74,7 +74,8 @@ export async function callDigLibraryToolHttp(
       "composition_energy",
       "chrome_weight",
       "value_key",
-      "palette"
+      "palette",
+      "screen_pattern"
     ] as const) {
       if (typeof args[key] === "string" && args[key].trim()) params.set(key, args[key].trim());
     }

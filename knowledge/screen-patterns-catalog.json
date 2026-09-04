@@ -1,0 +1,113 @@
+{
+  "version": "0.1.0",
+  "idPrefix": "dig:screen.",
+  "doc": "knowledge/mobbin-parity-taxonomy-gaps.md",
+  "source": "Mobbin MCP query demand (public blog Jul 2026) + DIG web/app capture needs — closed labels only, no Mobbin content",
+  "patterns": [
+    {
+      "id": "dig:screen.login",
+      "label": "Login",
+      "aliases": ["sign in", "signin", "logging in", "auth login"]
+    },
+    {
+      "id": "dig:screen.onboarding",
+      "label": "Onboarding",
+      "aliases": ["welcome", "getting started", "first run", "intro"]
+    },
+    {
+      "id": "dig:screen.signup",
+      "label": "Sign up",
+      "aliases": ["register", "create account", "creating account"]
+    },
+    {
+      "id": "dig:screen.dashboard",
+      "label": "Dashboard",
+      "aliases": ["home dashboard", "analytics home", "overview"]
+    },
+    {
+      "id": "dig:screen.settings",
+      "label": "Settings",
+      "aliases": ["preferences", "account settings", "workspace settings"]
+    },
+    {
+      "id": "dig:screen.pricing",
+      "label": "Pricing",
+      "aliases": ["pricing page", "plans", "billing plans"]
+    },
+    {
+      "id": "dig:screen.paywall",
+      "label": "Paywall",
+      "aliases": ["upgrade wall", "subscribe wall", "premium gate"]
+    },
+    {
+      "id": "dig:screen.empty_state",
+      "label": "Empty state",
+      "aliases": ["no results", "nothing here", "blank state"]
+    },
+    {
+      "id": "dig:screen.checkout",
+      "label": "Checkout",
+      "aliases": ["cart", "payment", "order summary"]
+    },
+    {
+      "id": "dig:screen.chat",
+      "label": "Chat",
+      "aliases": ["messaging", "inbox", "conversation", "ai chat"]
+    },
+    {
+      "id": "dig:screen.search",
+      "label": "Search",
+      "aliases": ["search results", "find", "browse search"]
+    },
+    {
+      "id": "dig:screen.profile",
+      "label": "Profile",
+      "aliases": ["user profile", "account profile", "edit profile"]
+    },
+    {
+      "id": "dig:screen.product",
+      "label": "Product",
+      "aliases": ["product detail", "pdp", "item detail"]
+    },
+    {
+      "id": "dig:screen.marketing_home",
+      "label": "Marketing home",
+      "aliases": ["marketing landing", "landing home", "brand home"]
+    },
+    {
+      "id": "dig:screen.feed",
+      "label": "Feed",
+      "aliases": ["timeline", "activity feed", "stream"]
+    },
+    {
+      "id": "dig:screen.form",
+      "label": "Form",
+      "aliases": ["multi step form", "application form", "intake"]
+    },
+    {
+      "id": "dig:screen.error",
+      "label": "Error",
+      "aliases": ["404", "error page", "failure state"]
+    },
+    {
+      "id": "dig:screen.notifications",
+      "label": "Notifications",
+      "aliases": ["notification center", "alerts list"]
+    },
+    {
+      "id": "dig:screen.media_player",
+      "label": "Media player",
+      "aliases": ["player", "session player", "now playing"]
+    },
+    {
+      "id": "dig:screen.map",
+      "label": "Map",
+      "aliases": ["map view", "location map"]
+    },
+    {
+      "id": "dig:screen.unknown",
+      "label": "Unknown screen",
+      "aliases": []
+    }
+  ]
+}

@@ -34,6 +34,7 @@ test("screen canonical is ordered craft text without identity", () => {
     chrome_weight: "minimal",
     value_key: "dark",
     palette: "mono",
+    screen_patterns: ["Login", "Dashboard"],
     look_summary: "Large type over a quiet photographic field.",
     rhythm_summary: "Hero then proof then contact.",
     module_signatures: ["brand_hero", "stats_column"]
@@ -45,6 +46,7 @@ test("screen canonical is ordered craft text without identity", () => {
   assert.match(text, /contrast:monochrome/);
   assert.match(text, /value:dark/);
   assert.match(text, /palette:mono/);
+  assert.match(text, /pattern:login dashboard/);
   assert.match(text, /chrome:minimal/);
   assert.match(text, /modules:brand_hero stats_column/);
   assert.equal(canonicalOmitsIdentity(text), true);

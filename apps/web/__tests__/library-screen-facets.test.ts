@@ -17,12 +17,14 @@ describe('library screen facet filters', () => {
         queryStyle: string
         queryLayout: string
         queryIndustry: string
+        queryScreenPattern: string
         pollMs: number
       }
     }
     assert.equal(paths.libraryFacetQuery.style, catalog.libraryScreenFacets.queryStyle)
     assert.equal(paths.libraryFacetQuery.layout, catalog.libraryScreenFacets.queryLayout)
     assert.equal(paths.libraryFacetQuery.industry, catalog.libraryScreenFacets.queryIndustry)
+    assert.equal(paths.libraryFacetQuery.screenPattern, catalog.libraryScreenFacets.queryScreenPattern)
     assert.equal(paths.libraryScreensPollMs, catalog.libraryScreenFacets.pollMs)
   })
 

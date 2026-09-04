@@ -533,6 +533,7 @@ export async function handleLibraryApi(
       chrome_weight: queryParam(requestUrl, "chrome_weight"),
       value_key: queryParam(requestUrl, "value_key"),
       palette: queryParam(requestUrl, "palette"),
+      screen_pattern: queryParam(requestUrl, facetKeys.screenPattern ?? "screen_pattern"),
       platformProjectId:
         queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
     });

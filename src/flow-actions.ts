@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { resolveRepoRoot } from "./repo-root.js";
 
-export const FLOW_ACTIONS_VERSION = "0.1.0";
+export const FLOW_ACTIONS_VERSION = "0.2.0";
 
 export interface FlowActionTerm {
   id: string;

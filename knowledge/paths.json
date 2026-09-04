@@ -246,8 +246,10 @@
     "queryStyle": "style",
     "queryLayout": "layout",
     "queryIndustry": "industry",
+    "queryScreenPattern": "screen_pattern",
     "pollMs": 15000,
-    "doc": "knowledge/design-facets.md"
+    "doc": "knowledge/design-facets.md",
+    "screenPatternsDoc": "knowledge/mobbin-parity-taxonomy-gaps.md"
   },
   "libraryScreenGallery": {
     "doc": "knowledge/library-screen-gallery.md",
@@ -462,7 +464,10 @@
     "sectionComponentCatalog": "knowledge/section-component-catalog.json",
     "ontologyVersion": "0.2.0",
     "flowActionsCatalog": "knowledge/flow-actions-catalog.json",
-    "flowActionsVersion": "0.1.0",
+    "flowActionsVersion": "0.2.0",
+    "screenPatternsCatalog": "knowledge/screen-patterns-catalog.json",
+    "screenPatternsVersion": "0.1.0",
+    "taxonomyGapsDoc": "knowledge/mobbin-parity-taxonomy-gaps.md",
     "flowSpec": "docs/DIG-011-user-flow-graph.md",
     "flowStatus": "docs/DIG-011-implementation-status.md",
     "flowKnowledgeIndex": "knowledge/dig-011-flow-graph.md",
