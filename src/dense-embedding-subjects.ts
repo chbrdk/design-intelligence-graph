@@ -61,10 +61,23 @@ export async function buildDenseEmbeddingSubjects(
   const llm = await loadLlmDesign(packageRoot);
   if (!llm || llm.status !== "complete") return [];
 
-  const [visionPage, pageRhythm, tokens] = await Promise.all([
+  const [visionPage, pageRhythm, tokens, packageHints] = await Promise.all([
     loadVisionPageDocument(packageRoot).catch(() => null),
     loadPageRhythmForPackage(packageRoot).catch(() => null),
-    loadDesignTokensDocument(packageRoot).catch(() => null)
+    loadDesignTokensDocument(packageRoot).catch(() => null),
+    readFile(resolve(packageRoot, "manifest.json"), "utf8")
+      .then((raw) => {
+        const manifest = JSON.parse(raw) as {
+          canonical_url?: string;
+          site_domain?: string;
+          url?: string;
+        };
+        return {
+          canonical_url: manifest.canonical_url ?? manifest.url ?? null,
+          site_domain: manifest.site_domain ?? null
+        };
+      })
+      .catch(() => ({ canonical_url: null as string | null, site_domain: null as string | null }))
   ]);
 
   const facets = buildDesignFacets({
@@ -76,7 +89,9 @@ export async function buildDenseEmbeddingSubjects(
       .map((item) => String(item.name ?? "").trim())
       .filter(Boolean),
     design_summary: llm.design_summary ?? null,
-    tokens
+    tokens,
+    site_domain: packageHints.site_domain,
+    canonical_url: packageHints.canonical_url
   });
   if (!designFacetsHaveSignal(facets)) return [];
 

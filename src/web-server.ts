@@ -318,9 +318,11 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
   if (request.method === "POST" && url.pathname === `${paths.api.embeddingsPath ?? "/api/embeddings"}/backfill`) {
     if (rejectIfDestructiveUnauthorized(request, response)) return true;
     try {
-      const body = (await readJson(request)) as { limit?: unknown };
+      const body = (await readJson(request)) as { limit?: unknown; mode?: unknown };
       const limitRaw = typeof body.limit === "number" ? body.limit : Number(body.limit ?? 25);
       const limit = Number.isFinite(limitRaw) ? limitRaw : 25;
+      const modeRaw = typeof body.mode === "string" ? body.mode.trim().toLowerCase() : "missing";
+      const mode = modeRaw === "refresh" ? "refresh" : "missing";
       const pool = getPool();
       if (!pool) {
         sendJson(response, 503, { error: "database_unavailable" });
@@ -328,6 +330,7 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
       }
       const {
         embedDenseCapturePackage,
+        listCapturesForDenseRefresh,
         listCapturesMissingDenseScreens
       } = await import("./dense-embedding-package.js");
       const {
@@ -335,7 +338,10 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         listCapturesMissingScreenshots,
         screenshotEmbeddingsEnabled
       } = await import("./screenshot-embeddings.js");
-      const pending = await listCapturesMissingDenseScreens(pool, limit);
+      const pending =
+        mode === "refresh"
+          ? await listCapturesForDenseRefresh(pool, limit)
+          : await listCapturesMissingDenseScreens(pool, limit);
       const results: Array<{ capture_run_id: string; written: number; subjects: number; error?: string }> = [];
       for (const row of pending) {
         try {
@@ -354,17 +360,23 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
           });
         }
       }
-      const screenshotResults: Array<{ capture_run_id: string; written: number; error?: string }> = [];
-      if (screenshotEmbeddingsEnabled(process.env)) {
+      const screenshotResults: Array<{ capture_run_id: string; written: number; error?: string; skip?: string }> = [];
+      if (mode === "missing" && screenshotEmbeddingsEnabled(process.env)) {
         const shotPending = await listCapturesMissingScreenshots(pool, limit);
         for (const row of shotPending) {
           try {
             let skipReason: string | undefined;
             const written = await embedScreenshotForPackage(row.package_path, {
               client: pool,
-              onSkip: (reason) => { skipReason = reason; }
+              onSkip: (reason) => {
+                skipReason = reason;
+              }
             });
-            screenshotResults.push({ capture_run_id: row.capture_run_id, written, ...(skipReason ? { skip: skipReason } : {}) });
+            screenshotResults.push({
+              capture_run_id: row.capture_run_id,
+              written,
+              ...(skipReason ? { skip: skipReason } : {})
+            });
           } catch (error: unknown) {
             screenshotResults.push({
               capture_run_id: row.capture_run_id,
@@ -376,6 +388,7 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
       }
       sendJson(response, 202, {
         ok: true,
+        mode,
         queued: pending.length,
         embedded: results.filter((row) => row.written > 0).length,
         screenshot_queued: screenshotResults.length,

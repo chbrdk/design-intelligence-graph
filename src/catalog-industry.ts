@@ -1,25 +1,31 @@
 /**
  * Map capture URLs onto closed industry facets via catalog hosts.
+ * Vertical catalogs pin industry; award/inspiration catalogs do not (vision/LLM wins).
  * @see knowledge/design-facets.md
  */
 import { loadCaptureCatalog } from "./capture-catalog.js";
 
+/** Vertical / sector catalogs only — award volume catalogs must not inject `tech`. */
 const CATALOG_INDUSTRY: Record<string, string> = {
   "insurance-1000": "insurance",
   "insurance-plus-500": "insurance",
   "automotive-oem-50": "automotive",
   "engineering-manufacturing-1000": "manufacturing",
   "public-sector-1000": "government",
-  "public-sector-plus-500": "government",
-  "awwwards-500": "tech",
-  "awwwards-plus-1000": "tech",
-  "awwwards-plus-2000": "tech",
-  "awwwards-plus-3000": "tech",
-  "awwwards-plus-4000": "tech",
-  "siteinspire-1000": "tech",
-  "cssda-wotd-1000": "tech",
-  "thefwa-1000": "tech"
+  "public-sector-plus-500": "government"
 };
+
+/** Inspiration sources used for quality/volume mix — no default industry tag. */
+export const AWARD_CATALOG_IDS = [
+  "awwwards-500",
+  "awwwards-plus-1000",
+  "awwwards-plus-2000",
+  "awwwards-plus-3000",
+  "awwwards-plus-4000",
+  "siteinspire-1000",
+  "cssda-wotd-1000",
+  "thefwa-1000"
+] as const;
 
 const GROUP_ALIASES: Array<[RegExp, string]> = [
   [/insur|reinsurance|takaful|broker/i, "insurance"],
@@ -27,7 +33,7 @@ const GROUP_ALIASES: Array<[RegExp, string]> = [
   [/bank|fintech|payment|finance/i, "finance"],
   [/retail|marketplace|commerce|shop/i, "ecommerce"],
   [/media|stream|entertainment|publish/i, "media"],
-  [/tech|saas|software|telecom/i, "tech"],
+  [/tech|saas|software|telecom|technology/i, "tech"],
   [/health|pharma|hospital/i, "healthcare"],
   [/travel|airline|hotel/i, "travel"],
   [/food|grocery|restaurant/i, "food"],
@@ -36,7 +42,8 @@ const GROUP_ALIASES: Array<[RegExp, string]> = [
   [/manufactur|industrial|engineer|chemical|metal|semiconductor/i, "manufacturing"],
   [/luxury/i, "luxury"],
   [/nonprofit|ngo|charity/i, "nonprofit"],
-  [/government|ministry|municipality|public sector|governance|city hall|civic/i, "government"]
+  [/government|ministry|municipality|public sector|governance|city hall|civic/i, "government"],
+  [/agency|studio|creative agency|design studio|marketing agency/i, "marketing_agency"]
 ];
 
 let hostIndex: Map<string, string[]> | null = null;
@@ -67,6 +74,11 @@ function industryFromGroup(group: string): string | null {
   return null;
 }
 
+/** Reset cached host→industry map (tests). */
+export function clearCatalogIndustryCache(): void {
+  hostIndex = null;
+}
+
 function loadHostIndex(): Map<string, string[]> {
   if (hostIndex) return hostIndex;
   const index = new Map<string, string[]>();
@@ -87,6 +99,8 @@ function loadHostIndex(): Map<string, string[]> {
   } catch {
     /* optional */
   }
+  // Award catalogs: never blanket-pin industry. Groups like "Featured" / "The FWA"
+  // are not sector labels; do not infer from marketing-y site titles either.
   hostIndex = index;
   return index;
 }

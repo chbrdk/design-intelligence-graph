@@ -134,3 +134,33 @@ export async function listCapturesMissingDenseScreens(
   );
   return result.rows as Array<{ capture_run_id: string; package_path: string }>;
 }
+
+/**
+ * Captures that already have a dense screen row — re-run package embed so changed
+ * canonical text (e.g. value:/palette:) upserts when sha differs.
+ */
+export async function listCapturesForDenseRefresh(
+  client: Queryable,
+  limit: number,
+  root = process.cwd()
+): Promise<Array<{ capture_run_id: string; package_path: string }>> {
+  const table = denseEmbeddingConfig(root).table;
+  const model = denseEmbeddingConfig(root).model;
+  const capped = Math.max(1, Math.min(500, Math.floor(limit)));
+  const result = await client.query(
+    `SELECT c.capture_run_id, c.package_path
+     FROM captures c
+     JOIN llm_analyses la ON la.capture_run_id = c.capture_run_id AND la.status = 'complete'
+     WHERE c.package_path IS NOT NULL
+       AND EXISTS (
+         SELECT 1 FROM ${table} de
+         WHERE de.capture_run_id = c.capture_run_id
+           AND de.subject_kind = 'screen'
+           AND de.model = $1
+       )
+     ORDER BY c.indexed_at DESC NULLS LAST
+     LIMIT $2`,
+    [model, capped]
+  );
+  return result.rows as Array<{ capture_run_id: string; package_path: string }>;
+}

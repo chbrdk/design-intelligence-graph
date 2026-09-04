@@ -17,7 +17,7 @@ Screen cards carry a compact `design_facets` summary derived at list time from, 
 3. `derived/llm-design.json` `design_summary` + style/pattern labels (when vision_page is missing)
 4. Catalog host → industry (`insurance-1000` → `insurance`, OEM → `automotive`, engineering → `manufacturing`, cross-industry group)
 
-Filters AND across dimensions. Screens without craft still match an industry-only filter if the host is in a catalog.
+Filters AND across dimensions. Screens without craft still match an industry-only filter if the host is in a **vertical** catalog (insurance, automotive, …). Award/inspiration catalogs (Awwwards, FWA, CSSDA, SiteInspire) do **not** pin `tech` — industry comes from vision/LLM first, then optional name/group aliases.
 
 Response also returns `facet_filters` (closed vocabs) and `facets_version`. Screen search with `q` may also return `inferred_facets` (soft craft intent from NL).
 
@@ -46,6 +46,10 @@ Campaign / content noise (`cannes lions`, `sustainability`, `hero`, `ticker`) is
 Natural-language `q` (e.g. “minimal monochrome”) maps onto closed facets via `inferScreenSearchFacetsFromQuery`. Explicit query params stay **hard** AND filters. Inferred facets are **soft**: score boost + prefer matching candidates when enough remain; they do not empty the result set.
 
 Dense canonical text also carries `value:` / `palette:` so re-embedded screens retrieve finer craft slices.
+
+## Award catalogs vs industry (Phase 3)
+
+`src/catalog-industry.ts` pins industry only for vertical catalogs. Award volume/quality catalogs (`AWARD_CATALOG_IDS`) contribute **no** default industry — vision/LLM `category_tags` win; `tech` is never injected from Awwwards/FWA/CSSDA/SiteInspire.
 
 ## Recipe / page flow
 

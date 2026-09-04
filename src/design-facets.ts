@@ -596,18 +596,15 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
   const aboveFold =
     clean(page?.above_fold_job, 120) ?? clean(page?.above_the_fold, 120);
 
-  const industry = uniqueStrings(
-    [
-      ...industryTagsForHost(input.canonical_url, input.site_domain),
-      ...normalizeIndustryTags([
-        ...(Array.isArray(page?.category_tags) ? page!.category_tags!.map(String) : []),
-        page?.page_type ?? "",
-        ...(input.screen_pattern_labels ?? []).map(String),
-        input.design_summary ?? ""
-      ])
-    ],
-    3
-  );
+  const fromContent = normalizeIndustryTags([
+    ...(Array.isArray(page?.category_tags) ? page!.category_tags!.map(String) : []),
+    page?.page_type ?? "",
+    ...(input.screen_pattern_labels ?? []).map(String),
+    input.design_summary ?? ""
+  ]);
+  const fromCatalog = industryTagsForHost(input.canonical_url, input.site_domain);
+  // Vision/LLM industry first; vertical catalog fills gaps. Award catalogs no longer pin `tech`.
+  const industry = uniqueStrings([...fromContent, ...fromCatalog], 3);
 
   const sectionCategories = uniqueStrings(
     (input.bands ?? [])

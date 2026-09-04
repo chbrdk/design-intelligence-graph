@@ -109,7 +109,7 @@ Skip upsert when `canonical_sha256` is unchanged.
 
 1. Enrichment job completes → existing DB reindex (hashing, as today).
 2. **Dense embed** in-process after reindex: build canonicals → OpenRouter embeddings → upsert `dense_embeddings` (skip unchanged `canonical_sha256`).
-3. Backfill: `POST /api/embeddings/backfill` `{ "limit": 25 }` (Bearer auth) over captures with `llm_analyses.status=complete` and no dense screen row.
+3. Backfill: `POST /api/embeddings/backfill` `{ "limit": 25 }` (Bearer auth) over captures with `llm_analyses.status=complete` and no dense screen row. Use `{ "mode": "refresh", "limit": 50 }` to re-embed packages that already have a screen row when canonical text changed (e.g. `value:` / `palette:` after Phase 2) — unchanged `canonical_sha256` still skips the OpenRouter call.
 4. Search: `GET /api/library/search?q=&provider=dense` (+ optional `subject_kind=screen|module|design_reference`). Default remains `provider=hashing`.
 
 Hashing `GET /search` stays as `provider=hashing` default until dense eval passes.
