@@ -138,6 +138,8 @@ export async function listCapturesMissingDenseScreens(
 /**
  * Captures that already have a dense screen row — re-run package embed so changed
  * canonical text (e.g. value:/palette:) upserts when sha differs.
+ * Prefers oldest screen embeddings so refresh walks the corpus instead of
+ * re-checking the same newest slice.
  */
 export async function listCapturesForDenseRefresh(
   client: Queryable,
@@ -151,14 +153,17 @@ export async function listCapturesForDenseRefresh(
     `SELECT c.capture_run_id, c.package_path
      FROM captures c
      JOIN llm_analyses la ON la.capture_run_id = c.capture_run_id AND la.status = 'complete'
+     JOIN LATERAL (
+       SELECT de.created_at
+       FROM ${table} de
+       WHERE de.capture_run_id = c.capture_run_id
+         AND de.subject_kind = 'screen'
+         AND de.model = $1
+       ORDER BY de.created_at ASC
+       LIMIT 1
+     ) screen ON true
      WHERE c.package_path IS NOT NULL
-       AND EXISTS (
-         SELECT 1 FROM ${table} de
-         WHERE de.capture_run_id = c.capture_run_id
-           AND de.subject_kind = 'screen'
-           AND de.model = $1
-       )
-     ORDER BY c.indexed_at DESC NULLS LAST
+     ORDER BY screen.created_at ASC
      LIMIT $2`,
     [model, capped]
   );
