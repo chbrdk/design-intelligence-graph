@@ -228,7 +228,7 @@
     "version": "0.1.0",
     "doc": "knowledge/look-contract.md",
     "sourceTokensRelativePath": "derived/design-tokens.json",
-    "facetsVersion": "0.4.0",
+    "facetsVersion": "0.5.0",
     "generateConstraintCap": 28,
     "generationVersion": "0.4.0",
     "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack",

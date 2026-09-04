@@ -136,7 +136,9 @@ Record Recall@10 vs hashing on the same set. Flip MCP default to dense only if d
 
 `dig_screen_search` / `GET /api/library/screens`: when `q` is set, default `provider=dense` and search is **retrieval-first** over the full dense corpus, then facet filters + hydrate (desktop row). Without `q`, browse stays newest-first. Response includes `retrieval: "corpus" | "window"`. Island Library search box stays hashing-free; compose stays on MCP.
 
-**Diversification (2026-09-04):** after corpus retrieval, results are re-ranked with **MMR** (`libraryScreenSearch.diversify`, default on) so Top-k prefers relevance but punishes same-domain / same-style repeats. Candidate pool defaults to **128** (cap **200**) via `libraryScreenSearch` in `paths.json`. This stops sticky hubs when many screens score similarly (e.g. “minimal monochrome”).
+**Diversification (2026-09-04):** after corpus retrieval, results are re-ranked with **MMR** (`libraryScreenSearch.diversify`, default on) so Top-k prefers relevance but punishes same-domain / same-style / same-contrast repeats. Candidate pool defaults to **128** (cap **200**) via `libraryScreenSearch` in `paths.json`. This stops sticky hubs when many screens score similarly (e.g. “minimal monochrome”).
+
+**Fine facets + NL intent (2026-09-04, Phase 2):** screen canonical includes `value:` / `palette:`; `q` soft-infers craft facets (`inferred_facets` on the response) without hard-emptying results. Explicit `value_key` / `palette` query params remain hard filters. Re-embed improves retrieval for the new tokens; list-time facets update on read.
 
 `GET /api/library/search` **must** stay `provider=hashing` when `provider` is omitted.
 

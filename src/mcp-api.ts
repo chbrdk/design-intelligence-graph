@@ -197,6 +197,8 @@ export function listDigTools() {
           contrast_mode: { type: "string" },
           composition_energy: { type: "string" },
           chrome_weight: { type: "string" },
+          value_key: { type: "string" },
+          palette: { type: "string" },
           provider: { type: "string", enum: ["dense", "hashing", "screenshot"] },
           platformProjectId: { type: "string" },
           limit: { type: "number" }
@@ -453,6 +455,8 @@ export async function callDigLibraryTool(
       contrast_mode: typeof args.contrast_mode === "string" ? args.contrast_mode : undefined,
       composition_energy: typeof args.composition_energy === "string" ? args.composition_energy : undefined,
       chrome_weight: typeof args.chrome_weight === "string" ? args.chrome_weight : undefined,
+      value_key: typeof args.value_key === "string" ? args.value_key : undefined,
+      palette: typeof args.palette === "string" ? args.palette : undefined,
       platformProjectId
     });
     const screens = searched.screens.map(publicLibraryScreenHit);
@@ -461,6 +465,7 @@ export async function callDigLibraryTool(
       screens,
       provider: searched.provider,
       retrieval: searched.retrieval,
+      ...(searched.inferred_facets?.length ? { inferred_facets: searched.inferred_facets } : {}),
       ...libraryScreenFacetCatalog()
     };
   }

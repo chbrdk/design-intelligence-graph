@@ -154,6 +154,8 @@ test("searchLibraryScreens retrieval-first hydrates corpus hits before window br
     });
     assert.equal(result.retrieval, "corpus");
     assert.equal(result.provider, "dense");
+    assert.ok(result.inferred_facets?.includes("style:minimal"));
+    assert.ok(result.inferred_facets?.includes("contrast_mode:monochrome"));
     assert.deepEqual(
       result.screens.map((row) => row.capture_run_id),
       ["cap_old", "cap_new"]

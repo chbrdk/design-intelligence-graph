@@ -139,6 +139,14 @@ export function facetAffinity(
     weight += 1;
     score += a.contrast_mode === b.contrast_mode ? 1 : 0;
   }
+  if (a.value_key && b.value_key) {
+    weight += 1;
+    score += a.value_key === b.value_key ? 1 : 0;
+  }
+  if (a.palette && b.palette) {
+    weight += 1;
+    score += a.palette === b.palette ? 1 : 0;
+  }
   if (a.imagery_density && b.imagery_density) {
     weight += 1;
     score += a.imagery_density === b.imagery_density ? 1 : 0;
@@ -184,9 +192,11 @@ type RankedCandidate = {
   score: number;
   domain: string;
   style: string | null;
+  contrast_mode?: string | null;
+  palette?: string | null;
 };
 
-/** Maximal Marginal Relevance — prefer relevance, punish same-domain / same-style repeats. */
+/** Maximal Marginal Relevance — prefer relevance, punish same-domain / same-craft repeats. */
 export function mmrSelectNeighbors(
   candidates: RankedCandidate[],
   limit: number,
@@ -206,6 +216,12 @@ export function mmrSelectNeighbors(
         let sim = 0;
         if (cand.domain && prev.domain && cand.domain === prev.domain) sim = 1;
         else if (cand.style && prev.style && cand.style === prev.style) sim = 0.45;
+        if (cand.contrast_mode && prev.contrast_mode && cand.contrast_mode === prev.contrast_mode) {
+          sim = Math.max(sim, 0.35);
+        }
+        if (cand.palette && prev.palette && cand.palette === prev.palette) {
+          sim = Math.max(sim, 0.25);
+        }
         redundancy = Math.max(redundancy, sim);
       }
       const value = lambda * cand.score - (1 - lambda) * redundancy;

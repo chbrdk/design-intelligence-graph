@@ -72,7 +72,9 @@ export async function callDigLibraryToolHttp(
       "type_image_mode",
       "contrast_mode",
       "composition_energy",
-      "chrome_weight"
+      "chrome_weight",
+      "value_key",
+      "palette"
     ] as const) {
       if (typeof args[key] === "string" && args[key].trim()) params.set(key, args[key].trim());
     }

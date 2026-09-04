@@ -1,8 +1,10 @@
 /**
  * Library screen search: retrieval-first dense/screenshot, then facet hydrate.
  * Facet-only browse still uses newest-first listLibraryScreens.
+ * NL queries infer soft craft facets (explicit API params stay hard filters).
  * @see knowledge/dense-embeddings.md
  * @see knowledge/screenshot-embeddings.md
+ * @see knowledge/design-facets.md
  */
 import type { Queryable } from "./db.js";
 import { denseEmbeddingsEnabled, searchDenseEmbeddings } from "./dense-embeddings.js";
@@ -15,11 +17,22 @@ import {
 import { screenshotEmbeddingsEnabled, searchScreenshotEmbeddings } from "./screenshot-embeddings.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import {
+  explicitScreenFacetFilter,
+  inferScreenSearchFacetsFromQuery,
+  mergeScreenSearchFacets,
+  preferSoftFacetMatches,
+  softFacetFilterActive,
+  softFacetMatchBoost,
+  softScreenFacetFilter,
+  type InferredScreenSearchFacets
+} from "./screen-search-intent.js";
+import {
   isExcludedDomain,
   mmrSelectNeighbors,
   normalizeDomain,
   similarityGraphConfig
 } from "./similarity-graph.js";
+import type { ScreenFacetFilter } from "./design-facets.js";
 
 export type ScreenSearchProvider = "dense" | "hashing" | "screenshot";
 
@@ -51,7 +64,7 @@ export function libraryScreenSearchConfig(root = process.cwd()): LibraryScreenSe
 
 /**
  * Maximal Marginal Relevance over scored library screens.
- * Punishes same-domain and same-style repeats so Top-k is not one sticky hub.
+ * Punishes same-domain and same craft-slice repeats so Top-k is not one sticky hub.
  */
 export function diversifyLibraryScreens<T extends LibraryScreenSearchHit>(
   screens: T[],
@@ -70,7 +83,9 @@ export function diversifyLibraryScreens<T extends LibraryScreenSearchHit>(
     cosine: typeof row.score === "number" ? row.score : 0,
     score: typeof row.score === "number" ? row.score : 0,
     domain: normalizeDomain(row.site_domain),
-    style: row.design_facets?.style ?? null
+    style: row.design_facets?.style ?? null,
+    contrast_mode: row.design_facets?.contrast_mode ?? null,
+    palette: row.design_facets?.palette ?? null
   }));
   const picked = mmrSelectNeighbors(candidates, limit, lambda);
   const out: T[] = [];
@@ -137,6 +152,36 @@ export function captureIdsFromVectorHits(
     out.push(id);
   }
   return out;
+}
+
+function applySoftFacetScoring<T extends LibraryScreenSearchHit>(
+  screens: T[],
+  soft: ScreenFacetFilter,
+  limit: number
+): T[] {
+  if (!softFacetFilterActive(soft) || !screens.length) return screens;
+  const boosted = screens.map((row) => {
+    const bump = softFacetMatchBoost(row.design_facets, soft);
+    if (!bump) return row;
+    const base = typeof row.score === "number" ? row.score : 0;
+    return { ...row, score: base + bump };
+  });
+  boosted.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  const minPrefer = Math.min(limit, Math.max(6, Math.ceil(limit * 0.75)));
+  return preferSoftFacetMatches(boosted, soft, minPrefer);
+}
+
+export function resolveScreenSearchIntent(
+  q: string,
+  explicit: ScreenFacetFilter
+): { hard: ScreenFacetFilter; soft: ScreenFacetFilter; inferred: InferredScreenSearchFacets } {
+  const inferred = inferScreenSearchFacetsFromQuery(q || null);
+  const merged = mergeScreenSearchFacets(explicit, inferred);
+  return {
+    hard: explicitScreenFacetFilter(explicit),
+    soft: softScreenFacetFilter(explicit, merged),
+    inferred
+  };
 }
 
 export async function rankScreensByDense<T extends { capture_run_id: string }>(
@@ -215,7 +260,12 @@ export type SearchLibraryScreensOpts = LibraryScreenListOpts & {
 export async function searchLibraryScreens(
   client: Queryable,
   opts: SearchLibraryScreensOpts = {}
-): Promise<{ screens: LibraryScreenSearchHit[]; provider: ScreenSearchProvider; retrieval: "corpus" | "window" }> {
+): Promise<{
+  screens: LibraryScreenSearchHit[];
+  provider: ScreenSearchProvider;
+  retrieval: "corpus" | "window";
+  inferred_facets?: string[];
+}> {
   const root = opts.root ?? process.cwd();
   const q = typeof opts.q === "string" ? opts.q.trim() : "";
   const provider = resolveScreenSearchProvider(opts.provider, q || null);
@@ -223,7 +273,8 @@ export async function searchLibraryScreens(
     typeof opts.limit === "number" && Number.isFinite(opts.limit)
       ? Math.max(1, Math.min(100, Math.floor(opts.limit)))
       : 40;
-  const facetOpts: LibraryScreenListOpts = {
+
+  const explicit: ScreenFacetFilter = {
     style: opts.style,
     layout: opts.layout,
     industry: opts.industry,
@@ -235,6 +286,12 @@ export async function searchLibraryScreens(
     contrast_mode: opts.contrast_mode,
     composition_energy: opts.composition_energy,
     chrome_weight: opts.chrome_weight,
+    value_key: opts.value_key,
+    palette: opts.palette
+  };
+  const intent = resolveScreenSearchIntent(q, explicit);
+  const hardFacetOpts: LibraryScreenListOpts = {
+    ...intent.hard,
     platformProjectId: opts.platformProjectId
   };
 
@@ -260,7 +317,7 @@ export async function searchLibraryScreens(
         const scores = scoreMapFromHits(hits);
         const orderedIds = captureIdsFromVectorHits(hits, excludeDomains);
         if (orderedIds.length) {
-          const hydrated = await listLibraryScreensByCaptureIds(client, orderedIds, facetOpts);
+          const hydrated = await listLibraryScreensByCaptureIds(client, orderedIds, hardFacetOpts);
           const byId = new Map(hydrated.map((row) => [row.capture_run_id, row]));
           const ordered: LibraryScreenSearchHit[] = [];
           for (const id of orderedIds) {
@@ -269,10 +326,16 @@ export async function searchLibraryScreens(
             const score = scores.get(id);
             ordered.push(score === undefined ? row : { ...row, score });
           }
+          const gated = applySoftFacetScoring(ordered, intent.soft, limit);
           const screens = searchCfg.diversify
-            ? diversifyLibraryScreens(ordered, limit, { mmrLambda: searchCfg.mmrLambda })
-            : ordered.slice(0, limit);
-          return { screens, provider, retrieval: "corpus" };
+            ? diversifyLibraryScreens(gated, limit, { mmrLambda: searchCfg.mmrLambda })
+            : gated.slice(0, limit);
+          return {
+            screens,
+            provider,
+            retrieval: "corpus",
+            ...(intent.inferred.inferred.length ? { inferred_facets: intent.inferred.inferred } : {})
+          };
         }
       }
     } catch {
@@ -281,19 +344,25 @@ export async function searchLibraryScreens(
   }
 
   const listed = await listLibraryScreens(client, {
-    ...facetOpts,
+    ...hardFacetOpts,
     ...(q && !usesSemanticScreenQuery(provider) ? { q } : {}),
     limit: 200
   });
   const ranked = await rankLibraryScreens(client, listed, q || null, provider, { root });
   // Deduplicate viewports to one row per capture (prefer already-listed order)
   const seen = new Set<string>();
-  const screens: LibraryScreenSearchHit[] = [];
+  const deduped: LibraryScreenSearchHit[] = [];
   for (const row of ranked) {
     if (seen.has(row.capture_run_id)) continue;
     seen.add(row.capture_run_id);
-    screens.push(row);
-    if (screens.length >= limit) break;
+    deduped.push(row);
   }
-  return { screens, provider, retrieval: "window" };
+  const gated = applySoftFacetScoring(deduped, intent.soft, limit);
+  const screens = gated.slice(0, limit);
+  return {
+    screens,
+    provider,
+    retrieval: "window",
+    ...(intent.inferred.inferred.length ? { inferred_facets: intent.inferred.inferred } : {})
+  };
 }

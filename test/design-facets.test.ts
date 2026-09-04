@@ -64,7 +64,7 @@ test("buildDesignFacets from MSQ-like vision_page and bands", () => {
   assert.deepEqual(facets.section_categories, ["hero", "content", "feature", "footer"]);
   assert.equal(facets.confidence, 0.85);
   assert.equal(designFacetsHaveSignal(facets), true);
-  assert.equal(facets.facets_version, "0.4.1");
+  assert.equal(facets.facets_version, "0.5.0");
   assert.ok(facets.look_contract?.avoid.some((item) => item.includes("glassmorphism")));
   assert.ok(facets.look_contract?.avoid.includes("card grid in the hero"));
 });
@@ -151,6 +151,46 @@ test("screenFacetsMatch ANDs style layout industry and drops unfaceted rows", ()
   assert.equal(normalizeFacetFilterValue("nope", STYLE_VOCAB), null);
   assert.ok(designFacetFilterCatalog().industry.includes("insurance"));
   assert.ok(designFacetFilterCatalog().industry.includes("manufacturing"));
+  assert.ok(designFacetFilterCatalog().value_key.includes("dark"));
+  assert.ok(designFacetFilterCatalog().palette.includes("mono"));
+});
+
+test("buildDesignFacets derives value_key and mono palette from tokens", () => {
+  const facets = buildDesignFacets({
+    vision_page: {
+      page_type: "corporate_homepage",
+      overall_atmosphere: "minimal calm",
+      color_mood: "black and white"
+    },
+    tokens: {
+      schema_version: "0.1.0",
+      design_tokens_version: "0.1.0",
+      generated_at: "2026-09-04T00:00:00.000Z",
+      source: {
+        viewport_name: "desktop",
+        viewport_capture_id: "vpc",
+        visual_language_path: "derived/visual-language.json"
+      },
+      roles: {
+        colors: [
+          { hex: "#0a0a0a", hex_rgb: "#0a0a0a", role: "bg", occurrences: 4, source_roles: ["background"] },
+          { hex: "#f5f5f5", hex_rgb: "#f5f5f5", role: "fg", occurrences: 3, source_roles: ["foreground"] }
+        ],
+        typography: [],
+        radii: [],
+        motion: { animated: false, properties: [], runtime_instances: 0 }
+      },
+      recipes: {
+        primary_cta: { style: "outline", fill: null, ink: "#fff", radius_px: 0, notes: "" },
+        scrim: { style: "none", stops: [], notes: "" },
+        surface: { bg: "#0a0a0a", ink: "#fff", notes: "" }
+      },
+      dtcg: {}
+    }
+  });
+  assert.equal(facets.value_key, "dark");
+  assert.equal(facets.palette, "mono");
+  assert.equal(facets.contrast_mode, "monochrome");
 });
 
 test("normalizePageType collapses landing variants", () => {

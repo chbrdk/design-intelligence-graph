@@ -531,6 +531,8 @@ export async function handleLibraryApi(
       contrast_mode: queryParam(requestUrl, "contrast_mode"),
       composition_energy: queryParam(requestUrl, "composition_energy"),
       chrome_weight: queryParam(requestUrl, "chrome_weight"),
+      value_key: queryParam(requestUrl, "value_key"),
+      palette: queryParam(requestUrl, "palette"),
       platformProjectId:
         queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
     });
@@ -545,6 +547,7 @@ export async function handleLibraryApi(
       screens,
       provider: searched.provider,
       retrieval: searched.retrieval,
+      ...(searched.inferred_facets?.length ? { inferred_facets: searched.inferred_facets } : {}),
       ...libraryScreenFacetCatalog()
     });
     return true;

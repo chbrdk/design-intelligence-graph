@@ -14,9 +14,11 @@ import {
   IMAGERY_DENSITY_VOCAB,
   INDUSTRY_VOCAB,
   LAYOUT_VOCAB,
+  PALETTE_VOCAB,
   STYLE_VOCAB,
   TYPE_IMAGE_MODE_VOCAB,
   TYPE_SCALE_VOCAB,
+  VALUE_KEY_VOCAB,
   designFacetFilterCatalog,
   normalizeFacetFilterValue,
   screenFacetsMatch,
@@ -25,6 +27,7 @@ import {
   type ScreenFacetSummary
 } from "./design-facets.js";
 import { libraryCardScreenshotPath } from "./library-screenshot.js";
+import { loadDesignTokensDocument } from "./design-tokens.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 import { captureNavConfig } from "./capture-nav.js";
 
@@ -68,9 +71,10 @@ async function compactFacetsForPackage(
 ): Promise<ScreenFacetSummary | null> {
   if (!packagePath) return null;
   if (cache.has(packagePath)) return cache.get(packagePath) ?? null;
-  const [visionPage, llm] = await Promise.all([
+  const [visionPage, llm, tokens] = await Promise.all([
     loadVisionPageDocument(packagePath).catch(() => null),
-    loadLlmDesignDisk(packagePath)
+    loadLlmDesignDisk(packagePath),
+    loadDesignTokensDocument(packagePath).catch(() => null)
   ]);
   const screen_pattern_labels = (llm?.mobbin?.screen_patterns ?? [])
     .map((item) => String(item.name ?? "").trim())
@@ -84,6 +88,7 @@ async function compactFacetsForPackage(
       screen_pattern_labels,
       visual_style_labels,
       design_summary: llm?.design_summary ?? null,
+      tokens,
       site_domain: hints.site_domain ?? null,
       canonical_url: hints.canonical_url ?? null
     })
@@ -97,6 +102,8 @@ async function compactFacetsForPackage(
     summary.composition_energy ||
     summary.chrome_weight ||
     summary.type_image_mode ||
+    summary.value_key ||
+    summary.palette ||
     (summary.industry_tags?.length ?? 0) ||
     summary.color_mood;
   const value = usable ? summary : null;
@@ -180,20 +187,45 @@ async function loadLlmDesignDisk(packagePath: string): Promise<LlmDisk | null> {
   }
 }
 
+/** Normalize closed facet query params for list/hydrate filters. */
+export function normalizeLibraryScreenFacetFilter(opts: ScreenFacetFilter): ScreenFacetFilter {
+  return {
+    q: typeof opts.q === "string" ? opts.q.trim() : undefined,
+    style: normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB),
+    layout: normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB),
+    industry: normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB),
+    modules: Array.isArray(opts.modules) ? opts.modules.map(String).map((item) => item.trim()).filter(Boolean) : undefined,
+    craft_tags: Array.isArray(opts.craft_tags)
+      ? opts.craft_tags.map(String).map((item) => item.trim()).filter(Boolean)
+      : undefined,
+    imagery_density: normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB),
+    type_scale: normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB),
+    type_image_mode: normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB),
+    contrast_mode: normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB),
+    composition_energy: normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB),
+    chrome_weight: normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB),
+    value_key: normalizeFacetFilterValue(opts.value_key ?? null, VALUE_KEY_VOCAB),
+    palette: normalizeFacetFilterValue(opts.palette ?? null, PALETTE_VOCAB)
+  };
+}
+
 export function hasScreenFacetFilters(opts: ScreenFacetFilter): boolean {
+  const filter = normalizeLibraryScreenFacetFilter(opts);
   return Boolean(
-    opts.q?.trim() ||
-    normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB) ||
-      normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB) ||
-      normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB) ||
-      normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB) ||
-      normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB) ||
-      normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB) ||
-      normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB) ||
-      normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB) ||
-      normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB) ||
-      (opts.modules ?? []).some((item) => item.trim()) ||
-      (opts.craft_tags ?? []).some((item) => item.trim())
+    filter.q ||
+      filter.style ||
+      filter.layout ||
+      filter.industry ||
+      filter.imagery_density ||
+      filter.type_scale ||
+      filter.type_image_mode ||
+      filter.contrast_mode ||
+      filter.composition_energy ||
+      filter.chrome_weight ||
+      filter.value_key ||
+      filter.palette ||
+      (filter.modules ?? []).length ||
+      (filter.craft_tags ?? []).length
   );
 }
 
@@ -222,22 +254,7 @@ export async function listLibraryScreens(
   client: Queryable,
   opts: LibraryScreenListOpts = {}
 ): Promise<LibraryScreenRecord[]> {
-  const filter: ScreenFacetFilter = {
-    q: typeof opts.q === "string" ? opts.q.trim() : undefined,
-    style: normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB),
-    layout: normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB),
-    industry: normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB),
-    modules: Array.isArray(opts.modules) ? opts.modules.map(String).map((item) => item.trim()).filter(Boolean) : undefined,
-    craft_tags: Array.isArray(opts.craft_tags)
-      ? opts.craft_tags.map(String).map((item) => item.trim()).filter(Boolean)
-      : undefined,
-    imagery_density: normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB),
-    type_scale: normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB),
-    type_image_mode: normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB),
-    contrast_mode: normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB),
-    composition_energy: normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB),
-    chrome_weight: normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB)
-  };
+  const filter = normalizeLibraryScreenFacetFilter(opts);
   const limit = clampLimit(opts.limit, 200, 200);
   const values: unknown[] = [];
   const clauses: string[] = [];
@@ -320,22 +337,7 @@ export async function listLibraryScreensByCaptureIds(
   const ids = [...new Set(captureRunIds.map(String).filter(Boolean))];
   if (!ids.length) return [];
 
-  const filter: ScreenFacetFilter = {
-    q: typeof opts.q === "string" ? opts.q.trim() : undefined,
-    style: normalizeFacetFilterValue(opts.style ?? null, STYLE_VOCAB),
-    layout: normalizeFacetFilterValue(opts.layout ?? null, LAYOUT_VOCAB),
-    industry: normalizeFacetFilterValue(opts.industry ?? null, INDUSTRY_VOCAB),
-    modules: Array.isArray(opts.modules) ? opts.modules.map(String).map((item) => item.trim()).filter(Boolean) : undefined,
-    craft_tags: Array.isArray(opts.craft_tags)
-      ? opts.craft_tags.map(String).map((item) => item.trim()).filter(Boolean)
-      : undefined,
-    imagery_density: normalizeFacetFilterValue(opts.imagery_density ?? null, IMAGERY_DENSITY_VOCAB),
-    type_scale: normalizeFacetFilterValue(opts.type_scale ?? null, TYPE_SCALE_VOCAB),
-    type_image_mode: normalizeFacetFilterValue(opts.type_image_mode ?? null, TYPE_IMAGE_MODE_VOCAB),
-    contrast_mode: normalizeFacetFilterValue(opts.contrast_mode ?? null, CONTRAST_MODE_VOCAB),
-    composition_energy: normalizeFacetFilterValue(opts.composition_energy ?? null, COMPOSITION_ENERGY_VOCAB),
-    chrome_weight: normalizeFacetFilterValue(opts.chrome_weight ?? null, CHROME_WEIGHT_VOCAB)
-  };
+  const filter = normalizeLibraryScreenFacetFilter(opts);
 
   const values: unknown[] = [ids];
   const clauses = [`v.capture_run_id = ANY($1::text[])`];

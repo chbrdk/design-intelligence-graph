@@ -17,6 +17,7 @@ import {
   summarizeDesignFacets
 } from "./design-facets.js";
 import type { LlmDesignAnalysis } from "./llm-design.js";
+import { loadDesignTokensDocument } from "./design-tokens.js";
 import { loadPageRhythmForPackage } from "./page-rhythm.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import type { SectionLookDescription } from "./section-look.js";
@@ -60,9 +61,10 @@ export async function buildDenseEmbeddingSubjects(
   const llm = await loadLlmDesign(packageRoot);
   if (!llm || llm.status !== "complete") return [];
 
-  const [visionPage, pageRhythm] = await Promise.all([
+  const [visionPage, pageRhythm, tokens] = await Promise.all([
     loadVisionPageDocument(packageRoot).catch(() => null),
-    loadPageRhythmForPackage(packageRoot).catch(() => null)
+    loadPageRhythmForPackage(packageRoot).catch(() => null),
+    loadDesignTokensDocument(packageRoot).catch(() => null)
   ]);
 
   const facets = buildDesignFacets({
@@ -73,7 +75,8 @@ export async function buildDenseEmbeddingSubjects(
     visual_style_labels: (llm.mobbin?.visual_style_labels ?? [])
       .map((item) => String(item.name ?? "").trim())
       .filter(Boolean),
-    design_summary: llm.design_summary ?? null
+    design_summary: llm.design_summary ?? null,
+    tokens
   });
   if (!designFacetsHaveSignal(facets)) return [];
 
@@ -97,6 +100,8 @@ export async function buildDenseEmbeddingSubjects(
     contrast_mode: summary.contrast_mode ?? null,
     composition_energy: summary.composition_energy ?? null,
     chrome_weight: summary.chrome_weight ?? null,
+    value_key: summary.value_key ?? null,
+    palette: summary.palette ?? null,
     look_summary: llm.design_summary || visionPage?.overall_atmosphere || null,
     design_summary: llm.design_summary || null,
     rhythm_summary: rhythmSummary(pageRhythm),

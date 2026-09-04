@@ -9,7 +9,7 @@ import type { VisionPageDocument } from "./vision-page.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 import { buildLookContract, type LookContract } from "./look-contract.js";
 
-export const DESIGN_FACETS_VERSION = "0.4.1" as const;
+export const DESIGN_FACETS_VERSION = "0.5.0" as const;
 
 export const INDUSTRY_VOCAB = [
   "automotive",
@@ -71,6 +71,10 @@ export const TYPE_IMAGE_MODE_VOCAB = ["separate", "adjacent", "overlap", "throug
 export const CONTRAST_MODE_VOCAB = ["monochrome", "low_contrast", "mixed", "saturated"] as const;
 export const COMPOSITION_ENERGY_VOCAB = ["calm", "balanced", "dynamic"] as const;
 export const CHROME_WEIGHT_VOCAB = ["minimal", "balanced", "interface_heavy"] as const;
+/** Light/dark key of the page (bg-led). */
+export const VALUE_KEY_VOCAB = ["light", "dark", "mixed"] as const;
+/** Palette cardinality for fine differentiation beyond style. */
+export const PALETTE_VOCAB = ["mono", "duo", "multi"] as const;
 
 const LAYOUT_ALIASES: Record<string, (typeof LAYOUT_VOCAB)[number]> = {
   "full bleed": "full-bleed stacks",
@@ -102,6 +106,8 @@ export type DesignFacets = {
   contrast_mode: string | null;
   composition_energy: string | null;
   chrome_weight: string | null;
+  value_key: string | null;
+  palette: string | null;
   craft_tags: string[];
   confidence: number | null;
   look_contract: LookContract | null;
@@ -188,15 +194,92 @@ function deriveTypeImageMode(page: Partial<VisionPageDocument> | null): (typeof 
 
 function deriveContrastMode(page: Partial<VisionPageDocument> | null): (typeof CONTRAST_MODE_VOCAB)[number] | null {
   const hay = slug(
-    [page?.color_mood, page?.overall_atmosphere, page?.visual_craft?.imagery_craft]
+    [page?.color_mood, page?.overall_atmosphere, page?.visual_craft?.imagery_craft, page?.typography_feel]
       .filter(Boolean)
       .join(" ")
   );
   if (!hay) return null;
-  if (includesAny(hay, ["monochrome", "black and white", "grayscale", "monochrome slate"])) return "monochrome";
-  if (includesAny(hay, ["muted", "soft contrast", "low contrast"])) return "low_contrast";
-  if (includesAny(hay, ["vibrant", "saturated", "neon", "bright accent", "colorful"])) return "saturated";
+  if (includesAny(hay, ["monochrome", "black and white", "schwarzweiss", "grayscale", "greyscale", "monochrome slate", "bw "])) {
+    return "monochrome";
+  }
+  if (includesAny(hay, ["muted", "soft contrast", "low contrast", "desaturated", "washed"])) return "low_contrast";
+  if (includesAny(hay, ["vibrant", "saturated", "neon", "bright accent", "colorful", "multicolor"])) return "saturated";
   return "mixed";
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  const raw = hex.trim().replace(/^#/, "");
+  if (!/^[0-9a-f]{6}$/i.test(raw)) return null;
+  const n = Number.parseInt(raw, 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function relativeLuminance(hex: string): number | null {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  const lin = (c: number) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * lin(rgb.r) + 0.7152 * lin(rgb.g) + 0.0722 * lin(rgb.b);
+}
+
+function chromaSpan(hex: string): number | null {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  return (Math.max(rgb.r, rgb.g, rgb.b) - Math.min(rgb.r, rgb.g, rgb.b)) / 255;
+}
+
+function tokenHexes(tokens: DesignTokensDocument | null | undefined): string[] {
+  const out: string[] = [];
+  for (const item of tokens?.roles.colors ?? []) {
+    const hex = item.hex_rgb ?? null;
+    if (hex) out.push(hex);
+  }
+  return out;
+}
+
+export function deriveValueKey(
+  page: Partial<VisionPageDocument> | null,
+  tokens: DesignTokensDocument | null | undefined,
+  look: LookContract | null | undefined
+): (typeof VALUE_KEY_VOCAB)[number] | null {
+  const hay = slug([page?.color_mood, page?.overall_atmosphere, page?.visual_craft?.imagery_craft].filter(Boolean).join(" "));
+  if (includesAny(hay, ["dark mode", "dark ui", "noir", "night", "black background", "dunkl"])) return "dark";
+  if (includesAny(hay, ["light mode", "white background", "paper", "bright airy", "hell"])) return "light";
+
+  const bg = look?.colors.bg ?? tokens?.roles.colors.find((c) => c.role === "bg")?.hex_rgb ?? null;
+  if (bg) {
+    const L = relativeLuminance(bg);
+    if (L != null) {
+      if (L < 0.28) return "dark";
+      if (L > 0.72) return "light";
+      return "mixed";
+    }
+  }
+  return null;
+}
+
+export function derivePalette(
+  page: Partial<VisionPageDocument> | null,
+  tokens: DesignTokensDocument | null | undefined,
+  contrastMode: string | null
+): (typeof PALETTE_VOCAB)[number] | null {
+  if (contrastMode === "monochrome") return "mono";
+  const hay = slug([page?.color_mood, page?.overall_atmosphere].filter(Boolean).join(" "));
+  if (includesAny(hay, ["monochrome", "black and white", "grayscale", "greyscale", "einfarbig"])) return "mono";
+  if (includesAny(hay, ["two tone", "duotone", "duo chrome"])) return "duo";
+  if (includesAny(hay, ["multicolor", "colorful", "rainbow", "vibrant palette"])) return "multi";
+
+  const hexes = tokenHexes(tokens);
+  if (hexes.length) {
+    const chromas = hexes.map(chromaSpan).filter((v): v is number => v != null);
+    const chromatic = chromas.filter((c) => c > 0.12).length;
+    if (chromatic <= 1 && chromas.every((c) => c <= 0.18)) return "mono";
+    if (chromatic <= 2) return "duo";
+    return "multi";
+  }
+  return null;
 }
 
 function deriveCompositionEnergy(
@@ -540,7 +623,7 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
   const imagery_density = deriveImageryDensity(page);
   const type_scale = deriveTypeScale(page);
   const type_image_mode = deriveTypeImageMode(page);
-  const contrast_mode = deriveContrastMode(page);
+  let contrast_mode = deriveContrastMode(page);
   const composition_energy = deriveCompositionEnergy(page, style);
   const chrome_weight = deriveChromeWeight(page);
   const craft_tags = deriveCraftTags(page);
@@ -556,6 +639,12 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
     layout,
     style
   });
+
+  // Token-backed palette can upgrade prose contrast to monochrome.
+  const palette = derivePalette(page, input.tokens ?? null, contrast_mode);
+  if (!contrast_mode && palette === "mono") contrast_mode = "monochrome";
+  if (palette === "mono" && contrast_mode === "mixed") contrast_mode = "monochrome";
+  const value_key = deriveValueKey(page, input.tokens ?? null, look_contract);
 
   return {
     schema_version: "0.1.0",
@@ -575,6 +664,8 @@ export function buildDesignFacets(input: DesignFacetsInput): DesignFacets {
     contrast_mode,
     composition_energy,
     chrome_weight,
+    value_key,
+    palette,
     craft_tags,
     confidence,
     look_contract
@@ -594,6 +685,8 @@ export function designFacetsHaveSignal(facets: DesignFacets): boolean {
       facets.contrast_mode ||
       facets.composition_energy ||
       facets.chrome_weight ||
+      facets.value_key ||
+      facets.palette ||
       facets.craft_tags.length ||
       facets.industry_tags.length ||
       facets.section_categories.length ||
@@ -618,6 +711,8 @@ export type ScreenFacetSummary = {
   contrast_mode?: string | null;
   composition_energy?: string | null;
   chrome_weight?: string | null;
+  value_key?: string | null;
+  palette?: string | null;
   craft_tags?: string[];
 };
 
@@ -634,6 +729,8 @@ export type ScreenFacetFilter = {
   contrast_mode?: string | null | undefined;
   composition_energy?: string | null | undefined;
   chrome_weight?: string | null | undefined;
+  value_key?: string | null | undefined;
+  palette?: string | null | undefined;
 };
 
 export function summarizeDesignFacets(facets: DesignFacets): ScreenFacetSummary {
@@ -652,6 +749,8 @@ export function summarizeDesignFacets(facets: DesignFacets): ScreenFacetSummary 
     contrast_mode: facets.contrast_mode,
     composition_energy: facets.composition_energy,
     chrome_weight: facets.chrome_weight,
+    value_key: facets.value_key,
+    palette: facets.palette,
     craft_tags: [...facets.craft_tags]
   };
 }
@@ -666,6 +765,8 @@ export function designFacetFilterCatalog(): {
   contrast_mode: Array<(typeof CONTRAST_MODE_VOCAB)[number]>;
   composition_energy: Array<(typeof COMPOSITION_ENERGY_VOCAB)[number]>;
   chrome_weight: Array<(typeof CHROME_WEIGHT_VOCAB)[number]>;
+  value_key: Array<(typeof VALUE_KEY_VOCAB)[number]>;
+  palette: Array<(typeof PALETTE_VOCAB)[number]>;
 } {
   return {
     style: [...STYLE_VOCAB],
@@ -676,7 +777,9 @@ export function designFacetFilterCatalog(): {
     type_image_mode: [...TYPE_IMAGE_MODE_VOCAB],
     contrast_mode: [...CONTRAST_MODE_VOCAB],
     composition_energy: [...COMPOSITION_ENERGY_VOCAB],
-    chrome_weight: [...CHROME_WEIGHT_VOCAB]
+    chrome_weight: [...CHROME_WEIGHT_VOCAB],
+    value_key: [...VALUE_KEY_VOCAB],
+    palette: [...PALETTE_VOCAB]
   };
 }
 
@@ -704,6 +807,8 @@ export function screenFacetsMatch(
   const contrast_mode = filter.contrast_mode?.trim() || null;
   const composition_energy = filter.composition_energy?.trim() || null;
   const chrome_weight = filter.chrome_weight?.trim() || null;
+  const value_key = filter.value_key?.trim() || null;
+  const palette = filter.palette?.trim() || null;
   const modules = (filter.modules ?? []).map((item) => item.trim().toLowerCase()).filter(Boolean);
   const craft_tags = (filter.craft_tags ?? []).map((item) => item.trim().toLowerCase()).filter(Boolean);
   if (
@@ -717,6 +822,8 @@ export function screenFacetsMatch(
     !contrast_mode &&
     !composition_energy &&
     !chrome_weight &&
+    !value_key &&
+    !palette &&
     !modules.length &&
     !craft_tags.length
   ) return true;
@@ -729,6 +836,9 @@ export function screenFacetsMatch(
       summary.typography,
       summary.color_mood,
       summary.above_fold_job,
+      summary.contrast_mode,
+      summary.value_key,
+      summary.palette,
       ...(summary.industry_tags ?? []),
       ...(summary.modules ?? []),
       ...(summary.craft_tags ?? [])
@@ -747,6 +857,8 @@ export function screenFacetsMatch(
   if (contrast_mode && summary.contrast_mode !== contrast_mode) return false;
   if (composition_energy && summary.composition_energy !== composition_energy) return false;
   if (chrome_weight && summary.chrome_weight !== chrome_weight) return false;
+  if (value_key && summary.value_key !== value_key) return false;
+  if (palette && summary.palette !== palette) return false;
   if (modules.length && !modules.every((item) => (summary.modules ?? []).map((value) => value.toLowerCase()).includes(item))) return false;
   if (craft_tags.length && !craft_tags.every((item) => (summary.craft_tags ?? []).map((value) => value.toLowerCase()).includes(item))) return false;
   return true;

@@ -16,6 +16,8 @@ export type ScreenEmbeddingInput = {
   contrast_mode?: string | null;
   composition_energy?: string | null;
   chrome_weight?: string | null;
+  value_key?: string | null;
+  palette?: string | null;
   look_summary?: string | null;
   design_summary?: string | null;
   rhythm_summary?: string | null;
@@ -79,6 +81,8 @@ export function buildScreenEmbeddingCanonical(input: ScreenEmbeddingInput): stri
       `imagery:${token(input.imagery_density)}`,
       `type:${token(input.type_scale)} ${token(input.type_image_mode)}`.trim(),
       `contrast:${token(input.contrast_mode)}`,
+      `value:${token(input.value_key)}`,
+      `palette:${token(input.palette)}`,
       `energy:${token(input.composition_energy)}`,
       `chrome:${token(input.chrome_weight)}`,
       `look:${lookText}`,
