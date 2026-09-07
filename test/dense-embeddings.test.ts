@@ -152,6 +152,22 @@ test("buildDenseEmbeddingSubjects emits screen + gallery modules after enrichmen
   assert.equal(subjects.some((item) => item.subject_id === "body_1"), false);
 });
 
+test("touchDenseScreenRefreshCursor updates screen created_at only", async () => {
+  const { touchDenseScreenRefreshCursor } = await import("../src/dense-embedding-package.js");
+  const calls: Array<{ sql: string; params?: unknown[] }> = [];
+  const client = {
+    async query(sql: string, params?: unknown[]) {
+      calls.push({ sql, params });
+      return { rows: [] };
+    }
+  };
+  await touchDenseScreenRefreshCursor(client, "cap_cursor_test");
+  assert.equal(calls.length, 1);
+  assert.match(calls[0]!.sql, /SET created_at = NOW\(\)/i);
+  assert.match(calls[0]!.sql, /subject_kind = 'screen'/i);
+  assert.equal(calls[0]!.params?.[0], "cap_cursor_test");
+});
+
 test("denseSubjectsForDesignReferences uses design reference canonical", () => {
   const subjects = denseSubjectsForDesignReferences([
     {

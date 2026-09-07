@@ -138,8 +138,10 @@ export async function listCapturesMissingDenseScreens(
 /**
  * Captures that already have a dense screen row — re-run package embed so changed
  * canonical text (e.g. value:/palette:) upserts when sha differs.
- * Prefers oldest screen embeddings so refresh walks the corpus instead of
- * re-checking the same newest slice.
+ * Prefers oldest screen `created_at` so refresh walks the corpus.
+ * Call `touchDenseScreenRefreshCursor` after each check (write or skip) so the
+ * cursor advances; otherwise skip/module-only updates stick at the front and a
+ * full written=0 batch can stop the walk early.
  */
 export async function listCapturesForDenseRefresh(
   client: Queryable,
@@ -168,4 +170,22 @@ export async function listCapturesForDenseRefresh(
     [model, capped]
   );
   return result.rows as Array<{ capture_run_id: string; package_path: string }>;
+}
+
+/** Advance refresh queue cursor after a capture was checked (even when written=0). */
+export async function touchDenseScreenRefreshCursor(
+  client: Queryable,
+  captureRunId: string,
+  root = process.cwd()
+): Promise<void> {
+  const table = denseEmbeddingConfig(root).table;
+  const model = denseEmbeddingConfig(root).model;
+  await client.query(
+    `UPDATE ${table}
+     SET created_at = NOW()
+     WHERE capture_run_id = $1
+       AND subject_kind = 'screen'
+       AND model = $2`,
+    [captureRunId, model]
+  );
 }

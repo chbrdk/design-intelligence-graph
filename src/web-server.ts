@@ -331,7 +331,8 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
       const {
         embedDenseCapturePackage,
         listCapturesForDenseRefresh,
-        listCapturesMissingDenseScreens
+        listCapturesMissingDenseScreens,
+        touchDenseScreenRefreshCursor
       } = await import("./dense-embedding-package.js");
       const {
         embedScreenshotForPackage,
@@ -358,6 +359,13 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
             subjects: 0,
             error: error instanceof Error ? error.message : String(error)
           });
+        }
+        if (mode === "refresh") {
+          try {
+            await touchDenseScreenRefreshCursor(pool, row.capture_run_id);
+          } catch {
+            // Cursor touch is best-effort; next batch may recheck this capture.
+          }
         }
       }
       const screenshotResults: Array<{ capture_run_id: string; written: number; error?: string; skip?: string }> = [];

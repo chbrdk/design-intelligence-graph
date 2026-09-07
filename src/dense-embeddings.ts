@@ -186,8 +186,8 @@ export async function upsertDenseEmbeddingSubjects(
          dims = EXCLUDED.dims,
          content_text = EXCLUDED.content_text,
          canonical_sha256 = EXCLUDED.canonical_sha256,
-         embedding = EXCLUDED.embedding,
-         created_at = NOW()`,
+         embedding = EXCLUDED.embedding`,
+      // created_at is the refresh-queue cursor; advance via touchDenseScreenRefreshCursor.
       [
         captureRunId,
         subject.subject_kind,
