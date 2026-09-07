@@ -154,6 +154,19 @@ export function detectFlowActionsL2(screens: FlowDetectScreen[]): FlowActionAssi
         layer: "L2"
       });
     }
+    // Marketing / portfolio corpora rarely use /explore — treat common IA segments as browse.
+    if (
+      /\/(work|works|project|projects|portfolio|archive|stories|story|case-stud(?:y|ies)|chapters|overview|collections|products?|shop|gallery)(\/|$)/i.test(
+        path
+      )
+    ) {
+      upsertAction(byId, {
+        taxonomy_id: "dig:flow.content_browse",
+        confidence: 0.7,
+        method: "path_segment_browse",
+        layer: "L2"
+      });
+    }
     if (hasNavSignal(screen) && ordered.length >= 1) {
       upsertAction(byId, {
         taxonomy_id: "dig:flow.navigation_ia",

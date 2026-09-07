@@ -16,7 +16,7 @@ import type { CaptureManifest } from "./types.js";
 const BAD_FOLLOW_HOST =
   /(^|\.)(apps\.apple\.com|itunes\.apple\.com|play\.google\.com|facebook\.com|instagram\.com|twitter\.com|x\.com|linkedin\.com|youtube\.com|login\.microsoftonline\.com)$/i;
 const BAD_FOLLOW_PATH =
-  /\/(legal|privacy|cookie|cookies|impressum|terms|agb|datenschutz|consent|gdpr|newsletter|unsubscribe|cart|checkout|account|my-account|password|login|signin|sign-in|signup|sign-up)(\/|$|\?)/i;
+  /\/(legal|privacy(?:-policy)?|cookie(?:s|-policy)?|impressum|terms|agb|datenschutz|consent|gdpr|newsletter|unsubscribe|cart|checkout|account|my-account|password|login|signin|sign-in|signup|sign-up|signups|publishing-information|imprint)(\/|$|\?|-)/i;
 
 /** Drop storefronts, legal, auth, and redacted tracking URLs from follow enqueue. */
 export function isLowValueFollowUrl(url: string): boolean {

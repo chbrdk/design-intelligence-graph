@@ -57,7 +57,7 @@
       "id": "dig:flow.checkout",
       "label": "Checkout",
       "aliases": ["cart", "bag", "purchase", "payment"],
-      "path_hints": ["/checkout", "/cart", "/bag", "/payment"]
+      "path_hints": ["/checkout", "/cart", "/bag", "/payment", "/shop/cart"]
     },
     {
       "id": "dig:flow.searching",
@@ -86,8 +86,30 @@
     {
       "id": "dig:flow.content_browse",
       "label": "Content browsing",
-      "aliases": ["browse", "explore", "feed"],
-      "path_hints": ["/explore", "/browse", "/feed"]
+      "aliases": ["browse", "explore", "feed", "portfolio", "case study", "work"],
+      "path_hints": [
+        "/explore",
+        "/browse",
+        "/feed",
+        "/work",
+        "/works",
+        "/project",
+        "/projects",
+        "/portfolio",
+        "/archive",
+        "/stories",
+        "/story",
+        "/case-studies",
+        "/case-study",
+        "/chapters",
+        "/overview",
+        "/about",
+        "/collections",
+        "/products",
+        "/product",
+        "/shop",
+        "/gallery"
+      ]
     },
     {
       "id": "dig:flow.password_recovery",

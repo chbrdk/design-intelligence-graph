@@ -29,6 +29,9 @@ test("isLowValueFollowUrl drops stores legal and auth paths", async () => {
   assert.equal(isLowValueFollowUrl("https://apps.apple.com/gb/app/1"), true);
   assert.equal(isLowValueFollowUrl("https://shop.example/legal/terms"), true);
   assert.equal(isLowValueFollowUrl("https://shop.example/my-account"), true);
+  assert.equal(isLowValueFollowUrl("https://museum.example/en/privacy-policy/"), true);
+  assert.equal(isLowValueFollowUrl("https://museum.example/en/publishing-information/"), true);
+  assert.equal(isLowValueFollowUrl("https://dribbble.com/signups/new"), true);
   assert.equal(isLowValueFollowUrl("https://shop.example/work/case-study"), false);
 });
 

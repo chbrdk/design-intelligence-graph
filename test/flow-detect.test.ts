@@ -7,6 +7,19 @@ import {
   parseFlowActionsStage
 } from "../src/flow-detect.js";
 
+test("portfolio work paths label as content_browse instead of unknown", () => {
+  const l2 = detectFlowActionsL2([
+    { order: 0, url: "https://studio.example/" },
+    { order: 1, url: "https://studio.example/work/havaianas/" },
+    { order: 2, url: "https://studio.example/project/fuse/" }
+  ]);
+  assert.ok(l2.some((item) => item.taxonomy_id === "dig:flow.content_browse"));
+  assert.equal(
+    l2.some((item) => item.taxonomy_id === "dig:flow.unknown"),
+    false
+  );
+});
+
 test("login two-step seed expects dig:flow.logging_in via L2 path_ontology_rule", () => {
   const l2 = detectFlowActionsL2([
     {
