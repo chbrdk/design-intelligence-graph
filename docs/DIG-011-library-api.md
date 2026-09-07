@@ -50,7 +50,9 @@ Query params for list:
 
 ### Detail — `flow-library-detail.schema.json`
 
-Wraps a full `flow-graph` object plus optional `media` map keyed by `flow_screen_id` (`primary_image_path` relative to captures/indexes — opaque string for now).
+Wraps a full `flow-graph` object plus optional `media` map keyed by `flow_screen_id` and **`screen_analyses`**: per step the same analysis SSOT as single-screen Library (design_summary, screen_patterns, visual_style, ui_elements) plus `flow_context` (prev/next, edge counts).
+
+Optional C2: set `DIG_FLOW_ACTIONS_LLM=true` on dig-api so seed/discover merges L3 `flow_actions` (catalog-validated) into the indexed graph.
 
 ### Interactive — `flow-interactive.schema.json`
 

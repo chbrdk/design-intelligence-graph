@@ -496,7 +496,8 @@ export async function callDigFlowTool(
     });
   }
   if (name === "dig_flow_get") {
-    const detail = await digFlowGet(String(args.flow_id ?? ""));
+    const { getPool } = await import("./db.js");
+    const detail = await digFlowGet(String(args.flow_id ?? ""), getPool());
     if (!detail) throw new Error(`Unknown flow_id: ${String(args.flow_id ?? "")}`);
     return detail;
   }

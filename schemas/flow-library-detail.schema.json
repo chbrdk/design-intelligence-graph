@@ -16,6 +16,20 @@
           "checkion_scan_id": { "type": ["string", "null"] }
         }
       }
+    },
+    "screen_analyses": {
+      "type": "array",
+      "description": "Per-step single-screen analysis SSOT + flow_context",
+      "items": { "type": "object" }
+    },
+    "analysis_coverage": {
+      "type": "object",
+      "properties": {
+        "screens": { "type": "integer" },
+        "with_summary": { "type": "integer" },
+        "with_patterns": { "type": "integer" },
+        "complete_status": { "type": "integer" }
+      }
     }
   }
 }

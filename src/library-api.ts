@@ -589,7 +589,12 @@ export async function handleLibraryApi(
     const media = client
       ? await resolveFlowScreenMedia(client, graph.screens)
       : {};
-    sendJson(response, 200, getFlowDetailEnvelope(graph, media));
+    let screenAnalyses: import("./flow-screen-enrich.js").FlowScreenAnalysisCompact[] = [];
+    if (client) {
+      const { loadFlowScreenAnalyses } = await import("./flow-screen-enrich.js");
+      screenAnalyses = await loadFlowScreenAnalyses(client, graph);
+    }
+    sendJson(response, 200, getFlowDetailEnvelope(graph, media, screenAnalyses));
     return true;
   }
 

@@ -188,7 +188,7 @@ export async function discoverFlowsFromCaptures(
       capture_run_id: screen.capture_run_id
     }));
     const flow_actions = detectFlowActionsL2(detectScreens);
-    const graph = assembleFlowGraph({
+    let graph = assembleFlowGraph({
       appScopeId,
       flowSessionId: null,
       screens: screens.map((screen) => ({
@@ -200,6 +200,13 @@ export async function discoverFlowsFromCaptures(
       title: `Discover ${host}`,
       notes: `source=href_discover; host=${host}; href_join=${hrefEdges.length}; hotspots=${hotspotCount}`
     });
+    try {
+      const { applyFlowActionsEnrichmentToGraph } = await import("./flow-actions-enrich.js");
+      const enriched = await applyFlowActionsEnrichmentToGraph(graph, []);
+      graph = enriched.graph;
+    } catch {
+      /* C2 optional */
+    }
 
     let flowId: string | null = graph.flow_id;
     if (options.indexLibrary !== false) {
@@ -213,7 +220,7 @@ export async function discoverFlowsFromCaptures(
       href_edge_count: hrefEdges.length,
       hotspot_count: hotspotCount,
       flow_id: flowId,
-      flow_action_ids: flow_actions.map((item) => item.taxonomy_id)
+      flow_action_ids: graph.flow_actions.map((item) => item.taxonomy_id)
     });
   }
 

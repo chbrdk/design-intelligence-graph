@@ -300,10 +300,9 @@ async function finalizeFlowSeedSession(input: {
       capture_run_id: step.capture_run_id
     }));
     const flow_actions = detectFlowActionsL2(detectScreens);
-    flow_action_ids = flow_actions.map((item) => item.taxonomy_id);
     const hrefCount = edges.edges.filter((edge) => edge.method === "href_join").length;
     const hotspotCount = edges.edges.filter((edge) => Boolean(edge.hotspot)).length;
-    const graph = assembleFlowGraph({
+    let graph = assembleFlowGraph({
       appScopeId: input.session.app_scope_id,
       flowSessionId: input.session.flow_session_id,
       screens: matched.map((step, order) => ({
@@ -317,8 +316,16 @@ async function finalizeFlowSeedSession(input: {
       title: `Seed ${input.session.app_scope_id}`,
       notes: `seed_source=${input.session.seed_source}; href_join=${hrefCount}; hotspots=${hotspotCount}`
     });
+    try {
+      const { applyFlowActionsEnrichmentToGraph } = await import("./flow-actions-enrich.js");
+      const enriched = await applyFlowActionsEnrichmentToGraph(graph, []);
+      graph = enriched.graph;
+    } catch {
+      /* C2 optional */
+    }
     flow_id = graph.flow_id;
     flow_graph_path = await indexFlowGraph(graph);
+    flow_action_ids = graph.flow_actions.map((item) => item.taxonomy_id);
   }
 
   return {

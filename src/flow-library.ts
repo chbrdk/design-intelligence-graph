@@ -13,6 +13,10 @@ import {
 } from "./flow-api-project.js";
 import type { FlowGraphDocument } from "./flow-assemble.js";
 import { listFlowActions } from "./flow-actions.js";
+import {
+  attachAnalysesToFlowDetail,
+  type FlowScreenAnalysisCompact
+} from "./flow-screen-enrich.js";
 import { resolveRepoRoot } from "./repo-root.js";
 import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadDigPaths, indexesDirectory, libraryApiPath } from "./runtime-paths.js";
@@ -153,7 +157,8 @@ export function getFlowInteractiveEnvelope(
 
 export function getFlowDetailEnvelope(
   graph: FlowGraph,
-  mediaByScreenId: FlowScreenMediaMap = {}
+  mediaByScreenId: FlowScreenMediaMap = {},
+  screenAnalyses: FlowScreenAnalysisCompact[] = []
 ) {
   const media: Record<string, { primary_image_path: string | null; checkion_scan_id: string | null }> =
     {};
@@ -164,11 +169,13 @@ export function getFlowDetailEnvelope(
       checkion_scan_id: screen.checkion_scan_id ?? null
     };
   }
-  return {
+  const detail = {
     schema_version: "0.1.0" as const,
     flow: graph,
     media
   };
+  if (!screenAnalyses.length) return detail;
+  return attachAnalysesToFlowDetail(detail, screenAnalyses);
 }
 
 export function getFlowNeighborsEnvelope(graph: FlowGraph, flowScreenId: string) {
@@ -185,11 +192,17 @@ export async function digFlowSearch(args: {
   return listFlowsEnvelope(graphs, args);
 }
 
-export async function digFlowGet(flowId: string) {
+export async function digFlowGet(flowId: string, client?: Queryable | null) {
   const graphs = await loadFlowLibraryGraphs();
   const graph = graphs.find((item) => item.flow_id === flowId);
   if (!graph) return null;
-  return getFlowDetailEnvelope(graph);
+  const media = client ? await resolveFlowScreenMedia(client, graph.screens) : {};
+  let screenAnalyses: FlowScreenAnalysisCompact[] = [];
+  if (client) {
+    const { loadFlowScreenAnalyses } = await import("./flow-screen-enrich.js");
+    screenAnalyses = await loadFlowScreenAnalyses(client, graph);
+  }
+  return getFlowDetailEnvelope(graph, media, screenAnalyses);
 }
 
 export async function digFlowNeighbors(flowId: string, flowScreenId: string) {
