@@ -15,7 +15,7 @@ import {
   type CheckionConfig,
   type CheckionDomainOverview
 } from "./checkion-client.js";
-import { normalizeFlowJoinUrl, seedSequenceEdges, type FlowEdgesDocument } from "./flow-edges.js";
+import { normalizeFlowJoinUrl, seedSequenceEdges, hrefJoinEdges, mergeFlowEdgeDocuments, loadFlowScreenFromPackage, type FlowEdgesDocument, type FlowScreenRef } from "./flow-edges.js";
 import { indexesDirectory, loadDigPaths } from "./runtime-paths.js";
 
 export const FLOW_SEED_SOURCE_CHECKION = "checkion_domain_scan";
@@ -51,6 +51,7 @@ export interface FlowSeedCaptureRef {
   capture_run_id: string;
   screen_id?: string;
   checkion_scan_id?: string | null;
+  package_path?: string | null;
 }
 
 /** Prefer overview.pageSamples; always include root URL when present. */
@@ -141,9 +142,17 @@ export async function fetchCheckionDomainSeedSession(
 /** Match seed URLs to existing CaptureRuns via normalized join keys. */
 export function matchSeedUrlsToCaptures(
   session: FlowSeedSession,
-  captures: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>
+  captures: Array<{
+    capture_run_id: string;
+    canonical_url: string;
+    screen_id?: string;
+    package_path?: string | null;
+  }>
 ): FlowSeedCaptureRef[] {
-  const byKey = new Map<string, { capture_run_id: string; screen_id?: string; canonical_url: string }>();
+  const byKey = new Map<
+    string,
+    { capture_run_id: string; screen_id?: string; canonical_url: string; package_path?: string | null }
+  >();
   for (const capture of captures) {
     const key = normalizeFlowJoinUrl(capture.canonical_url);
     if (!key || byKey.has(key)) continue;
@@ -159,7 +168,8 @@ export function matchSeedUrlsToCaptures(
       url: entry.url,
       capture_run_id: hit.capture_run_id,
       ...(hit.screen_id ? { screen_id: hit.screen_id } : {}),
-      checkion_scan_id: entry.checkion_scan_id ?? null
+      checkion_scan_id: entry.checkion_scan_id ?? null,
+      ...(hit.package_path ? { package_path: hit.package_path } : {})
     });
   }
   return matched;
@@ -167,7 +177,8 @@ export function matchSeedUrlsToCaptures(
 
 export function edgesFromSeedSession(
   session: FlowSeedSession,
-  matched: FlowSeedCaptureRef[]
+  matched: FlowSeedCaptureRef[],
+  screens?: FlowScreenRef[]
 ): FlowEdgesDocument {
   return seedSequenceEdges({
     appScopeId: session.app_scope_id,
@@ -178,7 +189,8 @@ export function edgesFromSeedSession(
       capture_run_id: step.capture_run_id,
       ...(step.screen_id ? { screen_id: step.screen_id } : {})
     })),
-    ...(session.seed_ref ? { seedRef: session.seed_ref } : {})
+    ...(session.seed_ref ? { seedRef: session.seed_ref } : {}),
+    ...(screens?.length ? { screens } : {})
   });
 }
 
@@ -222,7 +234,12 @@ export type FlowSeedPassResult = {
 async function finalizeFlowSeedSession(input: {
   session: FlowSeedSession;
   persist?: boolean;
-  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
+  captures?: Array<{
+    capture_run_id: string;
+    canonical_url: string;
+    screen_id?: string;
+    package_path?: string | null;
+  }>;
   enqueueCapture?: EnqueueCaptureFn;
   /** When true (default), assemble C1 + index Library graph if ≥2 matched screens. */
   indexLibrary?: boolean;
@@ -246,7 +263,29 @@ async function finalizeFlowSeedSession(input: {
     }
   }
 
-  const edges = matched.length >= 2 ? edgesFromSeedSession(input.session, matched) : null;
+  const packageScreens: FlowScreenRef[] = [];
+  for (const step of matched) {
+    const pkg = step.package_path?.trim();
+    if (!pkg) continue;
+    const screen = await loadFlowScreenFromPackage(pkg);
+    if (screen) packageScreens.push(screen);
+  }
+
+  const seedEdges =
+    matched.length >= 2 ? edgesFromSeedSession(input.session, matched, packageScreens) : null;
+  const hrefEdges =
+    packageScreens.length >= 2
+      ? hrefJoinEdges({
+          appScopeId: input.session.app_scope_id,
+          flowSessionId: input.session.flow_session_id,
+          screens: packageScreens
+        })
+      : null;
+  const edges =
+    seedEdges && hrefEdges
+      ? mergeFlowEdgeDocuments(seedEdges, hrefEdges)
+      : seedEdges ?? hrefEdges;
+
   let flow_id: string | null = null;
   let flow_graph_path: string | null = null;
   let flow_action_ids: string[] = [];
@@ -262,6 +301,8 @@ async function finalizeFlowSeedSession(input: {
     }));
     const flow_actions = detectFlowActionsL2(detectScreens);
     flow_action_ids = flow_actions.map((item) => item.taxonomy_id);
+    const hrefCount = edges.edges.filter((edge) => edge.method === "href_join").length;
+    const hotspotCount = edges.edges.filter((edge) => Boolean(edge.hotspot)).length;
     const graph = assembleFlowGraph({
       appScopeId: input.session.app_scope_id,
       flowSessionId: input.session.flow_session_id,
@@ -274,7 +315,7 @@ async function finalizeFlowSeedSession(input: {
       edges: edges.edges,
       flow_actions,
       title: `Seed ${input.session.app_scope_id}`,
-      notes: `seed_source=${input.session.seed_source}`
+      notes: `seed_source=${input.session.seed_source}; href_join=${hrefCount}; hotspots=${hotspotCount}`
     });
     flow_id = graph.flow_id;
     flow_graph_path = await indexFlowGraph(graph);
@@ -307,7 +348,12 @@ export async function runManualFlowSeed(input: {
   flowSessionId?: string;
   maxUrls?: number;
   persist?: boolean;
-  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
+  captures?: Array<{
+    capture_run_id: string;
+    canonical_url: string;
+    screen_id?: string;
+    package_path?: string | null;
+  }>;
   enqueueCapture?: EnqueueCaptureFn;
   indexLibrary?: boolean;
 }): Promise<FlowSeedPassResult> {
@@ -341,7 +387,12 @@ export async function runCheckionDomainSeed(input: {
   flowSessionId?: string;
   maxUrls?: number;
   persist?: boolean;
-  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
+  captures?: Array<{
+    capture_run_id: string;
+    canonical_url: string;
+    screen_id?: string;
+    package_path?: string | null;
+  }>;
   enqueueCapture?: EnqueueCaptureFn;
   config?: CheckionConfig;
   overview?: CheckionDomainOverview;

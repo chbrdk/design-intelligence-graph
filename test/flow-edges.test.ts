@@ -4,6 +4,7 @@ import {
   assertSafeActivateAllowed,
   buildSafeActivateEdge,
   hrefJoinEdges,
+  mergeFlowEdgeDocuments,
   normalizeFlowJoinUrl,
   seedSequenceEdges
 } from "../src/flow-edges.js";
@@ -64,6 +65,36 @@ test("href-join / → /pricing yields inferred_href_only edge", () => {
   assert.ok(edge.hotspot);
   const issues = validateAgainstSchema("flowEdges", doc);
   assert.equal(issues.length, 0, issues.map((item) => item.message).join("; "));
+});
+
+test("mergeFlowEdgeDocuments prefers href_join with hotspot over bare seed", () => {
+  const seed = seedSequenceEdges({
+    appScopeId: "app_fixture_shop",
+    seedSource: "manual",
+    steps: [
+      { url: "https://shop.example/", capture_run_id: "run_home" },
+      { url: "https://shop.example/pricing", capture_run_id: "run_pricing" }
+    ]
+  });
+  const href = hrefJoinEdges({
+    appScopeId: "app_fixture_shop",
+    screens: [
+      {
+        capture_run_id: "run_home",
+        canonical_url: "https://shop.example/",
+        candidates: [candidate({ candidate_id: "cand_pricing", node_id: "n_pricing" })]
+      },
+      {
+        capture_run_id: "run_pricing",
+        canonical_url: "https://shop.example/pricing",
+        candidates: []
+      }
+    ]
+  });
+  const merged = mergeFlowEdgeDocuments(seed, href);
+  assert.equal(merged.edges.length, 1);
+  assert.equal(merged.edges[0]!.method, "href_join");
+  assert.ok(merged.edges[0]!.hotspot);
 });
 
 test("seed_sequence consecutive URLs produce capped confidence edges", () => {

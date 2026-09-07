@@ -33,7 +33,9 @@ Optional later: per URL `checkion_scan_id` if a WCAG single scan already exists 
 | `seed_source` | `audion_journey` |
 | `seed_ref` | AUDION run / session id |
 | `urls[]` | Ordered step URLs (same pattern as AUDION→CHECKION single-scan handoff) |
-| DIG action | Capture in order; B2 edges; optional B4 full import if AUDION exports graph JSON |
+| DIG action | Capture in order; B2 edges + B1 href-join when packages have candidates; optional B4 full import if AUDION exports graph JSON |
+
+**Role split:** AUDION finds *purposeful* journeys (agent walks a goal). DIG indexes design evidence on those URLs and grounds transitions via href/hotspots. Live AUDION HTTP pull is still deferred — today pass the step URL list into `POST /flows/seed` with `seed_source: "audion_journey"`.
 
 CHECKION quality on a step remains AUDION/CHECKION’s existing `mode: single` path — DIG may mirror correlation ids on FlowScreens.
 
@@ -59,7 +61,7 @@ curl -sS -X POST "$DIG/api/library/flows/seed" \
       "https://linear.app/pricing"
     ]
   }'
-# Re-POST after captures complete to emit B2 edges + Library graph (C1 actions).
+# Re-POST after captures complete to emit B2 edges + B1 href-join (when candidates exist) + Library graph (C1 actions).
 ```
 
 CLI:
@@ -70,7 +72,7 @@ npm run flow:seed -- --manual --app-scope-id=app_linear \
   --enqueue
 ```
 
-When ≥2 seed URLs match existing CaptureRuns, the seed pass also **assembles + indexes** a DIG-011 flow (`indexes/flows/{flow_id}.json`) with L2 `flow_actions`.
+When ≥2 seed URLs match existing CaptureRuns, the seed pass also **assembles + indexes** a DIG-011 flow (`indexes/flows/{flow_id}.json`) with L2 `flow_actions`. Package `derived/flow-candidates.json` upgrades consecutive seed edges to **href_join** with hotspots when destinations resolve inside the seed set.
 
 ## Out of scope
 

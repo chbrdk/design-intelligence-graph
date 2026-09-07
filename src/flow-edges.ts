@@ -185,6 +185,40 @@ export function hrefJoinEdges(input: {
   };
 }
 
+/**
+ * Merge B1 href-join + B2 seed edges. Same from→to keeps the stronger edge
+ * (href_join / hotspot / higher confidence wins over bare seed_sequence).
+ */
+export function mergeFlowEdgeDocuments(
+  base: FlowEdgesDocument,
+  ...extra: Array<FlowEdgesDocument | null | undefined>
+): FlowEdgesDocument {
+  const rank = (edge: FlowEdge): number => {
+    let score = edge.confidence;
+    if (edge.method === "href_join") score += 1;
+    if (edge.hotspot) score += 0.5;
+    if (edge.activation === "inferred_href_only") score += 0.25;
+    if (edge.activation === "observed") score += 0.5;
+    return score;
+  };
+  const byPair = new Map<string, FlowEdge>();
+  for (const doc of [base, ...extra]) {
+    if (!doc) continue;
+    for (const edge of doc.edges) {
+      const key = `${edge.from_capture_run_id}|${edge.to_capture_run_id}`;
+      const existing = byPair.get(key);
+      if (!existing || rank(edge) > rank(existing)) byPair.set(key, edge);
+    }
+  }
+  const edges = [...byPair.values()].sort((a, b) => a.edge_id.localeCompare(b.edge_id));
+  return {
+    schema_version: "0.1.0",
+    app_scope_id: base.app_scope_id,
+    flow_session_id: base.flow_session_id,
+    edges
+  };
+}
+
 export function seedSequenceEdges(input: {
   appScopeId: string;
   flowSessionId?: string | null;

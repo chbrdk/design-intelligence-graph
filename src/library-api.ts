@@ -343,19 +343,22 @@ export async function handleLibraryApi(
       const maxUrlsRaw = body.max_urls ?? body.maxUrls;
       const maxUrls = typeof maxUrlsRaw === "number" ? maxUrlsRaw : Number(maxUrlsRaw);
 
-      let captures: Array<{ capture_run_id: string; canonical_url: string }> = [];
+      let captures: Array<{ capture_run_id: string; canonical_url: string; package_path?: string | null }> = [];
       if (client) {
         const listed = await client.query(
-          `SELECT capture_run_id, canonical_url
+          `SELECT capture_run_id, canonical_url, package_path
            FROM captures
            WHERE canonical_url IS NOT NULL
            ORDER BY indexed_at DESC
            LIMIT 2000`
         );
-        captures = (listed.rows as Array<{ capture_run_id: unknown; canonical_url: unknown }>)
+        captures = (
+          listed.rows as Array<{ capture_run_id: unknown; canonical_url: unknown; package_path?: unknown }>
+        )
           .map((row) => ({
             capture_run_id: String(row.capture_run_id ?? ""),
-            canonical_url: String(row.canonical_url ?? "")
+            canonical_url: String(row.canonical_url ?? ""),
+            package_path: row.package_path != null ? String(row.package_path) : null
           }))
           .filter((row) => row.capture_run_id && row.canonical_url);
       }
