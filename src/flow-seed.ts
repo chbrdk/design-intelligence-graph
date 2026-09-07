@@ -325,10 +325,10 @@ export async function runManualFlowSeed(input: {
   });
   return finalizeFlowSeedSession({
     session,
-    persist: input.persist,
-    captures: input.captures,
-    enqueueCapture: input.enqueueCapture,
-    indexLibrary: input.indexLibrary
+    ...(input.persist !== undefined ? { persist: input.persist } : {}),
+    ...(input.captures !== undefined ? { captures: input.captures } : {}),
+    ...(input.enqueueCapture !== undefined ? { enqueueCapture: input.enqueueCapture } : {}),
+    ...(input.indexLibrary !== undefined ? { indexLibrary: input.indexLibrary } : {})
   });
 }
 
@@ -360,10 +360,10 @@ export async function runCheckionDomainSeed(input: {
 
   return finalizeFlowSeedSession({
     session,
-    persist: input.persist,
-    captures: input.captures,
-    enqueueCapture: input.enqueueCapture,
-    indexLibrary: input.indexLibrary
+    ...(input.persist !== undefined ? { persist: input.persist } : {}),
+    ...(input.captures !== undefined ? { captures: input.captures } : {}),
+    ...(input.enqueueCapture !== undefined ? { enqueueCapture: input.enqueueCapture } : {}),
+    ...(input.indexLibrary !== undefined ? { indexLibrary: input.indexLibrary } : {})
   });
 }
 
