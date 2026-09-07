@@ -299,6 +299,53 @@ export async function handleLibraryApi(
     if (rejectIfUnauthorized(request, response)) return true;
   }
 
+  if (path === "/flows/discover") {
+    if (rejectIfUnauthorized(request, response)) return true;
+  }
+
+  // DIG-011 Library flows: file-backed; no Postgres required (media enrichment optional).
+  if (request.method === "POST" && path === "/flows/discover") {
+    if (!client) {
+      sendJson(response, 503, { error: "database_unavailable" });
+      return true;
+    }
+    try {
+      const body = await readJsonBody(request);
+      const num = (value: unknown, fallback: number) => {
+        const n = typeof value === "number" ? value : Number(value);
+        return Number.isFinite(n) ? n : fallback;
+      };
+      const hostsRaw = Array.isArray(body.hosts)
+        ? body.hosts.filter((item): item is string => typeof item === "string" && Boolean(item.trim()))
+        : [];
+      const { runFlowDiscover } = await import("./flow-discover.js");
+      const result = await runFlowDiscover(client, {
+        captureLimit: num(body.capture_limit ?? body.captureLimit, 2000),
+        minScreens: num(body.min_screens ?? body.minScreens, 2),
+        maxScreensPerSite: num(body.max_screens_per_site ?? body.maxScreensPerSite, 12),
+        maxSites: num(body.max_sites ?? body.maxSites, 25),
+        minHrefEdges: num(body.min_href_edges ?? body.minHrefEdges, 1),
+        indexLibrary: body.dry_run === true || body.dryRun === true ? false : true,
+        ...(hostsRaw.length ? { hostAllowlist: hostsRaw } : {})
+      });
+      sendJson(response, 200, {
+        ok: true,
+        capture_rows: result.capture_rows,
+        sites_considered: result.sites_considered,
+        indexed_count: result.indexed.length,
+        skipped_count: result.skipped.length,
+        indexed: result.indexed,
+        skipped: result.skipped.slice(0, 50)
+      });
+    } catch (error: unknown) {
+      sendJson(response, 500, {
+        error: "flow_discover_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
   // DIG-011 Library flows: file-backed; no Postgres required (media enrichment optional).
   if (request.method === "POST" && path === "/flows/seed") {
     try {

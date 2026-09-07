@@ -14,7 +14,7 @@
 | `GET /api/library/flows` | DIG-011 multi-screen Flows |
 | `GET /api/library/flows/:flow_id` | Flow detail = assembled graph + media hints |
 | `GET /api/library/flows/:flow_id/interactive` | Playback steps for hotspot UI |
-| `POST /api/library/flows/seed` | CHECKION `domain_scan_id` **or** manual `urls[]` → FlowSession + optional capture enqueue / B2 edges + Library index |
+| `POST /api/library/flows/discover` | Cluster captures by host → B1 href-join flows (no fixed journeys) |
 
 Until implementation, today’s `GET …/flows` remains page_flow-only; clients MUST NOT assume DIG-011 semantics.
 

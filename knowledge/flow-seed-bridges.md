@@ -74,6 +74,17 @@ npm run flow:seed -- --manual --app-scope-id=app_linear \
 
 When ≥2 seed URLs match existing CaptureRuns, the seed pass also **assembles + indexes** a DIG-011 flow (`indexes/flows/{flow_id}.json`) with L2 `flow_actions`. Package `derived/flow-candidates.json` upgrades consecutive seed edges to **href_join** with hotspots when destinations resolve inside the seed set.
 
+## Corpus discover (no fixed journeys)
+
+Cluster existing captures by host and index flows where Phase A candidates resolve to sibling captures:
+
+```bash
+curl -sS -X POST "$DIG/api/library/flows/discover" \
+  -H "Content-Type: application/json" \
+  -d '{ "max_sites": 25, "min_screens": 2, "min_href_edges": 1 }'
+# Optional: { "hosts": ["linear.app"], "dry_run": true }
+```
+
 ## Out of scope
 
 - Calling CHECKION Puppeteer/spider modules in-process  

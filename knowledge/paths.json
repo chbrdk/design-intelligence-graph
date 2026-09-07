@@ -452,6 +452,13 @@
     "doc": "knowledge/flow-seed-bridges.md",
     "cli": "scripts/flow-seed-cli.ts"
   },
+  "flowDiscover": {
+    "minScreens": 2,
+    "maxScreensPerSite": 12,
+    "maxSites": 25,
+    "minHrefEdges": 1,
+    "doc": "knowledge/flow-seed-bridges.md"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",
