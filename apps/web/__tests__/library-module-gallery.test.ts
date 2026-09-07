@@ -73,7 +73,7 @@ describe('library module gallery', () => {
     assert.equal(paths.libraryCopy.sectionsLabel, 'Modules')
   })
 
-  it('drops content-body dumps and keeps distinctive modules', () => {
+  it('drops content-body dumps and keeps multiple modules per capture', () => {
     assert.equal(isThinModule({ category: 'content', signature: 'body' }), true)
     assert.equal(isThinModule({ category: 'hero', signature: 'media' }), false)
     const cards = buildModuleGalleryCards(
@@ -85,6 +85,21 @@ describe('library module gallery', () => {
           signature: 'media>cta',
           section_id: 'sec_hero_weak',
           confidence: 0.4,
+          root_box: { x: 0, y: 700, width: 1440, height: 200 },
+        }),
+        section({
+          category: 'feature',
+          signature: 'grid',
+          section_id: 'sec_feat_a',
+          confidence: 0.8,
+          root_box: { x: 0, y: 900, width: 1440, height: 400 },
+        }),
+        section({
+          category: 'feature',
+          signature: 'split',
+          section_id: 'sec_feat_b',
+          confidence: 0.75,
+          root_box: { x: 0, y: 1400, width: 1440, height: 400 },
         }),
         section({
           category: 'nav',
@@ -104,9 +119,33 @@ describe('library module gallery', () => {
       'all',
     )
     assert.deepEqual(
-      cards.map((card) => `${card.section.category}:${card.section.section_id}`),
-      ['hero:sec_hero', 'nav:sec_nav'],
+      cards.map((card) => `${card.section.category}:${card.section.section_id}`).sort(),
+      ['feature:sec_feat_a', 'feature:sec_feat_b', 'hero:sec_hero', 'hero:sec_hero_weak', 'nav:sec_nav'].sort(),
     )
+  })
+
+  it('uses section-joined media when the screens list misses the capture', () => {
+    const cards = buildModuleGalleryCards(
+      [
+        section({
+          category: 'hero',
+          signature: 'media',
+          section_id: 'sec_remote',
+          capture_run_id: 'cap_remote',
+          full_page_url: '/api/library/media?path=full.webp',
+          primary_url: '/api/library/media?path=full.webp',
+          viewport_capture_id: 'vpc_remote',
+          site_domain: 'remote.example',
+          document_height: 4000,
+          width: 1440,
+        }),
+      ],
+      [],
+      'hero',
+    )
+    assert.equal(cards.length, 1)
+    assert.equal(cards[0]?.screen.site_domain, 'remote.example')
+    assert.ok(cards[0]?.screen.full_page_url)
   })
 
   it('clamps off-canvas boxes and expands thin nav toward card aspect', () => {

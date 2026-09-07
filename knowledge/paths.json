@@ -272,8 +272,8 @@
     "categories": ["hero", "nav", "feature", "conversion", "commerce", "social_proof"],
     "thinCategories": ["content"],
     "thinSignatures": ["body", "unknown"],
-    "maxPerCategory": 12,
-    "maxFiltered": 40,
+    "maxPerCategory": 48,
+    "maxFiltered": 160,
     "cardAspect": 1.7778
   },
   "islandChunkReload": {

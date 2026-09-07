@@ -260,6 +260,18 @@ export interface LibrarySection {
   root_box?: { x: number; y: number; width: number; height: number } | null
   viewport_width?: number | null
   viewport_height?: number | null
+  /** Joined from viewports/captures on GET /sections (Modules gallery). */
+  viewport_capture_id?: string | null
+  site_domain?: string | null
+  canonical_url?: string | null
+  title?: string | null
+  width?: number | null
+  height?: number | null
+  document_width?: number | null
+  document_height?: number | null
+  settled_url?: string | null
+  full_page_url?: string | null
+  primary_url?: string | null
 }
 
 export interface LibrarySearchHit {

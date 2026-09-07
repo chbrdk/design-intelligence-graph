@@ -157,7 +157,7 @@ export const paths = {
       'Desktop captures only. Filter by style, layout, and industry. Open a card for full-page screenshot, overlay, and look contract.',
     moduleGalleryTitle: 'Modules',
     moduleGalleryHint:
-      'Hero, nav, feature, and conversion bands from desktop captures. Body paragraphs stay out of this grid.',
+      'Hero, nav, feature, and conversion bands from desktop captures — several per page when measured. Body paragraphs stay out of this grid.',
     moduleGalleryEmpty: 'No modules match this filter yet.',
     homeLead: 'Queue health on the meters. Latest screens below, or start a new URL.',
     homeRecentTitle: 'Latest screens',
@@ -254,8 +254,8 @@ export const paths = {
     categories: ['hero', 'nav', 'feature', 'conversion', 'commerce', 'social_proof'] as const,
     thinCategories: ['content'] as const,
     thinSignatures: ['body', 'unknown'] as const,
-    maxPerCategory: 12,
-    maxFiltered: 40,
+    maxPerCategory: 48,
+    maxFiltered: 160,
     cardAspect: 1.7778,
   },
   /** Keep in sync with knowledge/paths.json islandSurfaces. */

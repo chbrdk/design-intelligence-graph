@@ -81,8 +81,10 @@ export function moduleImageSize(
   section: LibrarySection,
   screen: LibraryScreen,
 ): { width: number; height: number } {
-  const width = Number(screen.width ?? section.viewport_width ?? 1440)
-  const height = Number(screen.document_height ?? screen.height ?? 1000)
+  const width = Number(screen.width ?? section.viewport_width ?? section.width ?? 1440)
+  const height = Number(
+    screen.document_height ?? section.document_height ?? screen.height ?? 1000,
+  )
   return {
     width: Number.isFinite(width) && width > 0 ? width : 1440,
     height: Number.isFinite(height) && height > 0 ? height : 1000,
@@ -94,6 +96,41 @@ function screenForSection(screens: LibraryScreen[], section: LibrarySection): Li
     (screen) =>
       screen.capture_run_id === section.capture_run_id && screen.name === section.viewport_name,
   )
+}
+
+/** Prefer the screens list; fall back to media joined onto GET /sections. */
+export function resolveModuleScreen(
+  section: LibrarySection,
+  screens: LibraryScreen[],
+): LibraryScreen | undefined {
+  const listed = screenForSection(screens, section)
+  if (listed) return listed
+  const media = section.full_page_url ?? section.primary_url ?? section.settled_url
+  if (!media) return undefined
+  return {
+    capture_run_id: section.capture_run_id,
+    viewport_capture_id: section.viewport_capture_id ?? `${section.capture_run_id}:${section.viewport_name}`,
+    name: section.viewport_name,
+    title: section.title ?? null,
+    site_domain: section.site_domain ?? null,
+    canonical_url: section.canonical_url ?? '',
+    primary_url: section.primary_url ?? media,
+    settled_url: section.settled_url ?? null,
+    full_page_url: section.full_page_url ?? media,
+    width: section.width ?? section.viewport_width ?? null,
+    height: section.height ?? section.viewport_height ?? null,
+    document_width: section.document_width ?? null,
+    document_height: section.document_height ?? null,
+  }
+}
+
+function sectionGalleryKey(section: LibrarySection): string {
+  if (section.section_id?.trim()) return `${section.capture_run_id}:${section.section_id}`
+  const box = section.root_box
+  const boxKey = box
+    ? `${Math.round(box.x)}:${Math.round(box.y)}:${Math.round(box.width)}:${Math.round(box.height)}`
+    : 'nobox'
+  return `${section.capture_run_id}:${section.category}:${section.signature}:${boxKey}`
 }
 
 export function buildModuleGalleryCards(
@@ -111,14 +148,14 @@ export function buildModuleGalleryCards(
     } else if (section.category !== filter) {
       continue
     }
-    const key = `${section.capture_run_id}:${section.category}`
+    const key = sectionGalleryKey(section)
     const prev = chosen.get(key)
     if (!prev || section.confidence > prev.confidence) chosen.set(key, section)
   }
 
   const grouped = new Map<string, ModuleGalleryCard[]>()
   for (const section of chosen.values()) {
-    const screen = screenForSection(screens, section)
+    const screen = resolveModuleScreen(section, screens)
     if (!screen) continue
     const size = moduleImageSize(section, screen)
     const raw = section.root_box

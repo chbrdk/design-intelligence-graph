@@ -642,29 +642,67 @@ export async function handleLibraryApi(
     const values: unknown[] = [];
     if (category) {
       values.push(category);
-      clauses.push(`category = $${values.length}`);
+      clauses.push(`s.category = $${values.length}`);
     }
     if (signature) {
       values.push(signature);
-      clauses.push(`signature = $${values.length}`);
+      clauses.push(`s.signature = $${values.length}`);
     }
     if (q) {
       values.push(`%${q.toLocaleLowerCase()}%`);
       clauses.push(
-        `(LOWER(taxonomy_id) LIKE $${values.length} OR LOWER(signature) LIKE $${values.length} OR LOWER(text_signals::text) LIKE $${values.length})`
+        `(LOWER(s.taxonomy_id) LIKE $${values.length} OR LOWER(s.signature) LIKE $${values.length} OR LOWER(s.text_signals::text) LIKE $${values.length})`
       );
     }
     const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
+    // Join viewport media so Modules gallery is not capped by the screens list window.
     const result = await client.query(
-      `SELECT id, capture_run_id, viewport_name, section_id, taxonomy_id, category, signature,
-              confidence, method, recipe, text_signals, root_box, viewport_width, viewport_height
-       FROM sections
+      `SELECT s.id, s.capture_run_id, s.viewport_name, s.section_id, s.taxonomy_id, s.category, s.signature,
+              s.confidence, s.method, s.recipe, s.text_signals, s.root_box, s.viewport_width, s.viewport_height,
+              v.viewport_capture_id, v.width AS screen_width, v.height AS screen_height,
+              v.document_width, v.document_height, v.title AS screen_title,
+              v.settled_screenshot_path, v.full_page_screenshot_path,
+              c.canonical_url, c.site_domain
+       FROM sections s
+       LEFT JOIN viewports v
+         ON v.capture_run_id = s.capture_run_id AND v.name = s.viewport_name
+       LEFT JOIN captures c ON c.capture_run_id = s.capture_run_id
        ${where}
-       ORDER BY confidence DESC, id DESC
-       LIMIT 200`,
+       ORDER BY s.confidence DESC, s.id DESC
+       LIMIT 500`,
       values
     );
-    sendJson(response, 200, { sections: result.rows });
+    const sections = result.rows.map((row) => {
+      const captureRunId = String(row.capture_run_id ?? "");
+      const media = screenMediaUrls(base, captureRunId, row);
+      return {
+        id: row.id,
+        capture_run_id: captureRunId,
+        viewport_name: row.viewport_name,
+        section_id: row.section_id,
+        taxonomy_id: row.taxonomy_id,
+        category: row.category,
+        signature: row.signature,
+        confidence: row.confidence,
+        method: row.method,
+        recipe: row.recipe,
+        text_signals: row.text_signals,
+        root_box: row.root_box,
+        viewport_width: row.viewport_width,
+        viewport_height: row.viewport_height,
+        viewport_capture_id:
+          typeof row.viewport_capture_id === "string" ? row.viewport_capture_id : null,
+        site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
+        canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : null,
+        title: typeof row.screen_title === "string" ? row.screen_title : null,
+        width: row.screen_width ?? row.viewport_width ?? null,
+        height: row.screen_height ?? row.viewport_height ?? null,
+        document_width: row.document_width ?? null,
+        document_height: row.document_height ?? null,
+        ...media
+      };
+    });
+    sendJson(response, 200, { sections });
     return true;
   }
 
