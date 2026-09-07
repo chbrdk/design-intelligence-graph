@@ -292,7 +292,7 @@ async function finalizeFlowSeedSession(input: {
 
   if (edges && matched.length >= 2 && input.indexLibrary !== false) {
     const { detectFlowActionsL2 } = await import("./flow-detect.js");
-    const { assembleFlowGraph } = await import("./flow-assemble.js");
+    const { assembleFlowGraph, stableScopedFlowId } = await import("./flow-assemble.js");
     const { indexFlowGraph } = await import("./flow-library.js");
     const detectScreens = matched.map((step, order) => ({
       order,
@@ -303,6 +303,7 @@ async function finalizeFlowSeedSession(input: {
     const hrefCount = edges.edges.filter((edge) => edge.method === "href_join").length;
     const hotspotCount = edges.edges.filter((edge) => Boolean(edge.hotspot)).length;
     let graph = assembleFlowGraph({
+      flowId: stableScopedFlowId(input.session.app_scope_id, `seed:${input.session.seed_source}`),
       appScopeId: input.session.app_scope_id,
       flowSessionId: input.session.flow_session_id,
       screens: matched.map((step, order) => ({

@@ -57,6 +57,11 @@ function stableFlowId(parts: string[]): string {
   return `flow_${createHash("sha256").update(parts.join("|")).digest("hex").slice(0, 16)}`;
 }
 
+/** Stable id for re-indexable Library flows (discover/seed overwrite same file). */
+export function stableScopedFlowId(appScopeId: string, kind: string): string {
+  return stableFlowId([appScopeId, kind]);
+}
+
 function defaultScreenId(captureRunId: string): string {
   return `fs_${captureRunId.replace(/^cap_|^run_/, "").slice(0, 16)}`;
 }

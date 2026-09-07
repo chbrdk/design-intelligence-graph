@@ -124,6 +124,31 @@ test("discoverFlowsFromCaptures indexes href_join flows", async () => {
     assert.equal(result.indexed[0]!.href_edge_count, 1);
     assert.equal(result.indexed[0]!.hotspot_count, 1);
     assert.ok(result.indexed[0]!.flow_id);
+    const firstId = result.indexed[0]!.flow_id;
+    const again = await discoverFlowsFromCaptures(
+      [
+        {
+          capture_run_id: "cap_home",
+          canonical_url: "https://shop.example/",
+          package_path: home,
+          site_domain: "shop.example"
+        },
+        {
+          capture_run_id: "cap_pricing",
+          canonical_url: "https://shop.example/pricing",
+          package_path: pricing,
+          site_domain: "shop.example"
+        },
+        {
+          capture_run_id: "cap_extra",
+          canonical_url: "https://shop.example/about",
+          package_path: pricing,
+          site_domain: "shop.example"
+        }
+      ],
+      { maxSites: 5, minHrefEdges: 1 }
+    );
+    assert.equal(again.indexed[0]!.flow_id, firstId);
   } finally {
     if (prev === undefined) delete process.env.DIG_INDEXES_DIR;
     else process.env.DIG_INDEXES_DIR = prev;

@@ -101,6 +101,29 @@ export async function loadFlowLibraryGraphs(options: { includeFixtures?: boolean
   return [];
 }
 
+export function preferFlowGraph(left: FlowGraph, right: FlowGraph): FlowGraph {
+  const score = (graph: FlowGraph) =>
+    (graph.screens?.length ?? 0) * 1000 + (graph.edges?.length ?? 0);
+  const leftScore = score(left);
+  const rightScore = score(right);
+  if (leftScore !== rightScore) return leftScore >= rightScore ? left : right;
+  const leftDiscover = (left.title ?? "").startsWith("Discover");
+  const rightDiscover = (right.title ?? "").startsWith("Discover");
+  if (leftDiscover !== rightDiscover) return leftDiscover ? left : right;
+  return left.flow_id.localeCompare(right.flow_id) <= 0 ? left : right;
+}
+
+/** One card per app_scope — keep the densest graph (Discover preferred on ties). */
+export function dedupeFlowGraphsByAppScope(graphs: FlowGraph[]): FlowGraph[] {
+  const byScope = new Map<string, FlowGraph>();
+  for (const graph of graphs) {
+    const key = graph.app_scope_id?.trim() || graph.flow_id;
+    const prev = byScope.get(key);
+    byScope.set(key, prev ? preferFlowGraph(prev, graph) : graph);
+  }
+  return [...byScope.values()];
+}
+
 export function filterFlowGraphs(
   graphs: FlowGraph[],
   query: {
@@ -126,20 +149,26 @@ export function filterFlowGraphs(
     actionId = match?.id.toLowerCase() ?? action;
   }
 
-  return graphs
-    .filter((graph) => {
-      if (scope && graph.app_scope_id !== scope) return false;
-      if (actionId) {
-        const ids = (graph.flow_actions ?? []).map((item) => item.taxonomy_id.toLowerCase());
-        if (!ids.some((id) => id === actionId || id.includes(actionId))) return false;
-      }
-      if (q) {
-        const hay = `${graph.title ?? ""} ${graph.notes ?? ""} ${graph.flow_id}`.toLowerCase();
-        if (!hay.includes(q)) return false;
-      }
-      return true;
-    })
-    .sort((a, b) => a.flow_id.localeCompare(b.flow_id))
+  const filtered = graphs.filter((graph) => {
+    if (scope && graph.app_scope_id !== scope) return false;
+    if (actionId) {
+      const ids = (graph.flow_actions ?? []).map((item) => item.taxonomy_id.toLowerCase());
+      if (!ids.some((id) => id === actionId || id.includes(actionId))) return false;
+    }
+    if (q) {
+      const hay = `${graph.title ?? ""} ${graph.notes ?? ""} ${graph.flow_id}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  return dedupeFlowGraphsByAppScope(filtered)
+    .sort(
+      (a, b) =>
+        (b.screens?.length ?? 0) - (a.screens?.length ?? 0) ||
+        (b.edges?.length ?? 0) - (a.edges?.length ?? 0) ||
+        a.flow_id.localeCompare(b.flow_id)
+    )
     .slice(0, limit);
 }
 

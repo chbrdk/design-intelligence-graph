@@ -156,7 +156,7 @@ export function detectFlowActionsL2(screens: FlowDetectScreen[]): FlowActionAssi
     }
     // Marketing / portfolio corpora rarely use /explore — treat common IA segments as browse.
     if (
-      /\/(work|works|project|projects|portfolio|archive|stories|story|case-stud(?:y|ies)|chapters|overview|collections|products?|shop|gallery)(\/|$)/i.test(
+      /\/(work|works|project|projects|portfolio|archive|stories|story|case-stud(?:y|ies)|chapters|overview|collections|products?|shop|gallery|content|blog|quiz|contact)(\/|$)/i.test(
         path
       )
     ) {

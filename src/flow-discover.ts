@@ -3,7 +3,7 @@
  * No fixed industry journeys — clusters by host, joins via Phase A candidates.
  */
 import type { Queryable } from "./db.js";
-import { assembleFlowGraph } from "./flow-assemble.js";
+import { assembleFlowGraph, stableScopedFlowId } from "./flow-assemble.js";
 import { detectFlowActionsL2 } from "./flow-detect.js";
 import {
   hrefJoinEdges,
@@ -189,6 +189,7 @@ export async function discoverFlowsFromCaptures(
     }));
     const flow_actions = detectFlowActionsL2(detectScreens);
     let graph = assembleFlowGraph({
+      flowId: stableScopedFlowId(appScopeId, "href_discover"),
       appScopeId,
       flowSessionId: null,
       screens: screens.map((screen) => ({

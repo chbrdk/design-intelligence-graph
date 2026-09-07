@@ -8,8 +8,10 @@ import {
   digFlowGet,
   digFlowNeighbors,
   digFlowSearch,
+  dedupeFlowGraphsByAppScope,
   setFlowLibraryStoreForTests
 } from "../src/flow-library.js";
+import { stableScopedFlowId } from "../src/flow-assemble.js";
 import type { FlowCandidate } from "../src/flow-candidates.js";
 
 function candidate(partial: Partial<FlowCandidate> & Pick<FlowCandidate, "candidate_id" | "node_id">): FlowCandidate {
@@ -27,6 +29,57 @@ function candidate(partial: Partial<FlowCandidate> & Pick<FlowCandidate, "candid
     ...partial
   };
 }
+
+test("stableScopedFlowId is stable across screen set changes", () => {
+  assert.equal(
+    stableScopedFlowId("app_shop", "href_discover"),
+    stableScopedFlowId("app_shop", "href_discover")
+  );
+  assert.notEqual(
+    stableScopedFlowId("app_shop", "href_discover"),
+    stableScopedFlowId("app_shop", "seed:manual")
+  );
+});
+
+test("dedupeFlowGraphsByAppScope keeps densest Discover graph", () => {
+  const thin = assembleFlowGraph({
+    flowId: "flow_thin",
+    appScopeId: "app_shop",
+    screens: [
+      { capture_run_id: "a", primary_url: "https://shop.example/" },
+      { capture_run_id: "b", primary_url: "https://shop.example/login" }
+    ],
+    edges: [],
+    flow_actions: [{ taxonomy_id: "dig:flow.logging_in", confidence: 0.9, method: "t", layer: "L2" }],
+    title: "Seed app_shop"
+  });
+  const dense = assembleFlowGraph({
+    flowId: "flow_dense",
+    appScopeId: "app_shop",
+    screens: [
+      { capture_run_id: "a", primary_url: "https://shop.example/" },
+      { capture_run_id: "b", primary_url: "https://shop.example/login" },
+      { capture_run_id: "c", primary_url: "https://shop.example/pricing" }
+    ],
+    edges: [
+      {
+        edge_id: "e1",
+        from_capture_run_id: "a",
+        to_capture_run_id: "b",
+        trigger: { kind: "href", href: "/login", destination_url: "https://shop.example/login" },
+        activation: "inferred_href_only",
+        method: "href_join",
+        confidence: 0.8,
+        provenance: { layer: "L2" }
+      }
+    ],
+    flow_actions: [{ taxonomy_id: "dig:flow.logging_in", confidence: 0.9, method: "t", layer: "L2" }],
+    title: "Discover shop.example"
+  });
+  const kept = dedupeFlowGraphsByAppScope([thin, dense]);
+  assert.equal(kept.length, 1);
+  assert.equal(kept[0]!.flow_id, "flow_dense");
+});
 
 test("assembleFlowGraph builds schema-valid login href-join flow", () => {
   const edgesDoc = hrefJoinEdges({

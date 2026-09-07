@@ -108,7 +108,12 @@
         "/products",
         "/product",
         "/shop",
-        "/gallery"
+        "/gallery",
+        "/content",
+        "/blog",
+        "/quiz",
+        "/contact",
+        "/contacts"
       ]
     },
     {
