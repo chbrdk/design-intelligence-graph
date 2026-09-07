@@ -452,7 +452,7 @@ test("cssda-wotd-1000 has 1000 unique https visit urls and skips prior catalogs"
   );
   assert.equal(hosts.size, 1000);
   for (const url of urls) {
-    assert.match(url, /^https:\/\//=);
+    assert.match(url, /^https:\/\//);
     assert.equal(url.includes("cssdesignawards.com"), false);
   }
   const priorHosts = new Set(
