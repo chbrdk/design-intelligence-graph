@@ -24,6 +24,14 @@ function cand(partial: Partial<FlowCandidate> & Pick<FlowCandidate, "candidate_i
   };
 }
 
+test("isLowValueFollowUrl drops stores legal and auth paths", async () => {
+  const { isLowValueFollowUrl } = await import("../src/flow-follow.js");
+  assert.equal(isLowValueFollowUrl("https://apps.apple.com/gb/app/1"), true);
+  assert.equal(isLowValueFollowUrl("https://shop.example/legal/terms"), true);
+  assert.equal(isLowValueFollowUrl("https://shop.example/my-account"), true);
+  assert.equal(isLowValueFollowUrl("https://shop.example/work/case-study"), false);
+});
+
 test("resolveSameOriginFollowUrl keeps same origin and drops external", () => {
   assert.equal(
     resolveSameOriginFollowUrl(
@@ -66,7 +74,7 @@ test("collectFlowFollowSuggestions skips urls already in corpus", async () => {
         generated_at: new Date().toISOString(),
         candidates: [
           cand({ candidate_id: "c1", destination: "/pricing", candidacy_score: 0.95 }),
-          cand({ candidate_id: "c2", destination: "/login", candidacy_score: 0.8 }),
+          cand({ candidate_id: "c2", destination: "/work/case-study", candidacy_score: 0.8 }),
           cand({ candidate_id: "c3", destination: "/", candidacy_score: 0.99 })
         ]
       })
@@ -89,7 +97,7 @@ test("collectFlowFollowSuggestions skips urls already in corpus", async () => {
       { maxPerHost: 4, minScore: 0.3 }
     );
     assert.equal(suggestions.some((item) => item.url.includes("/pricing")), false);
-    assert.equal(suggestions.some((item) => item.url.includes("/login")), true);
+    assert.equal(suggestions.some((item) => item.url.includes("/work/case-study")), true);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

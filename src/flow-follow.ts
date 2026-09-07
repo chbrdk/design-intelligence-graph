@@ -13,6 +13,26 @@ import { getFlowSeedEnqueueCapture } from "./flow-seed.js";
 import { loadDigPaths } from "./runtime-paths.js";
 import type { CaptureManifest } from "./types.js";
 
+const BAD_FOLLOW_HOST =
+  /(^|\.)(apps\.apple\.com|itunes\.apple\.com|play\.google\.com|facebook\.com|instagram\.com|twitter\.com|x\.com|linkedin\.com|youtube\.com|login\.microsoftonline\.com)$/i;
+const BAD_FOLLOW_PATH =
+  /\/(legal|privacy|cookie|cookies|impressum|terms|agb|datenschutz|consent|gdpr|newsletter|unsubscribe|cart|checkout|account|my-account|password|login|signin|sign-in|signup|sign-up)(\/|$|\?)/i;
+
+/** Drop storefronts, legal, auth, and redacted tracking URLs from follow enqueue. */
+export function isLowValueFollowUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    if (BAD_FOLLOW_HOST.test(host)) return true;
+    if (BAD_FOLLOW_PATH.test(parsed.pathname || "/")) return true;
+    if (/%5bredacted%5d/i.test(url) || /\[redacted\]/i.test(url)) return true;
+    if ((parsed.search || "").length > 80) return true;
+    return false;
+  } catch {
+    return true;
+  }
+}
+
 export type FlowFollowSuggestion = {
   url: string;
   from_capture_run_id: string;
@@ -99,6 +119,7 @@ export async function collectFlowFollowSuggestions(
     for (const candidate of ranked) {
       const url = resolveSameOriginFollowUrl(manifestUrl, candidate);
       if (!url) continue;
+      if (isLowValueFollowUrl(url)) continue;
       const join = normalizeFlowJoinUrl(url);
       if (!join) continue;
       const key = captureIdentityKey(url);
