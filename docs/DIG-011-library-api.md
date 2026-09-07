@@ -15,6 +15,7 @@
 | `GET /api/library/flows/:flow_id` | Flow detail = assembled graph + media hints |
 | `GET /api/library/flows/:flow_id/interactive` | Playback steps for hotspot UI |
 | `POST /api/library/flows/discover` | Cluster captures by host → B1 href-join flows (no fixed journeys) |
+| `POST /api/library/flows/follow` | Enqueue missing same-origin destinations from Phase A candidates |
 
 Until implementation, today’s `GET …/flows` remains page_flow-only; clients MUST NOT assume DIG-011 semantics.
 

@@ -303,6 +303,69 @@ export async function handleLibraryApi(
     if (rejectIfUnauthorized(request, response)) return true;
   }
 
+  if (path === "/flows/follow") {
+    if (rejectIfUnauthorized(request, response)) return true;
+  }
+
+  if (request.method === "POST" && path === "/flows/follow") {
+    if (!client) {
+      sendJson(response, 503, { error: "database_unavailable" });
+      return true;
+    }
+    try {
+      const body = await readJsonBody(request);
+      const num = (value: unknown, fallback: number) => {
+        const n = typeof value === "number" ? value : Number(value);
+        return Number.isFinite(n) ? n : fallback;
+      };
+      const enqueue =
+        body.enqueue !== false &&
+        body.enqueue_captures !== false &&
+        body.dry_run !== true &&
+        body.dryRun !== true;
+
+      const existingKeys = new Set<string>();
+      try {
+        const { listIndexedCaptureUrlKeys } = await import("./library-reset.js");
+        const { listActiveCaptureUrlKeys } = await import("./capture-job-store.js");
+        const { captureIdentityKey } = await import("./capture-identity.js");
+        for (const key of await listIndexedCaptureUrlKeys(client)) existingKeys.add(key);
+        for (const url of await listActiveCaptureUrlKeys(client)) {
+          const key = captureIdentityKey(url);
+          if (key) existingKeys.add(key);
+        }
+      } catch {
+        /* best-effort skip set */
+      }
+
+      const { runFlowFollow } = await import("./flow-follow.js");
+      const result = await runFlowFollow(client, {
+        captureLimit: num(body.capture_limit ?? body.captureLimit, 1500),
+        maxEnqueue: num(body.max_enqueue ?? body.maxEnqueue, 40),
+        maxPerHost: num(body.max_per_host ?? body.maxPerHost, 4),
+        minScore: num(body.min_score ?? body.minScore, 0.35),
+        enqueue,
+        existingUrlKeys: existingKeys
+      });
+      sendJson(response, 200, {
+        ok: true,
+        enqueue,
+        capture_rows: result.capture_rows,
+        suggested_count: result.suggested.length,
+        enqueued_count: result.enqueued_jobs.length,
+        skipped_existing: result.skipped_existing,
+        enqueued_jobs: result.enqueued_jobs,
+        suggested: result.suggested.slice(0, 80)
+      });
+    } catch (error: unknown) {
+      sendJson(response, 500, {
+        error: "flow_follow_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
   // DIG-011 Library flows: file-backed; no Postgres required (media enrichment optional).
   if (request.method === "POST" && path === "/flows/discover") {
     if (!client) {

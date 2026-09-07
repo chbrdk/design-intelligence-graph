@@ -459,6 +459,12 @@
     "minHrefEdges": 1,
     "doc": "knowledge/flow-seed-bridges.md"
   },
+  "flowFollow": {
+    "maxEnqueue": 40,
+    "maxPerHost": 4,
+    "minScore": 0.35,
+    "doc": "knowledge/flow-seed-bridges.md"
+  },
   "rebuildBrief": {
     "relativePath": "derived/rebuild-brief.md",
     "doc": "knowledge/synthesize-rebuild-brief.md",

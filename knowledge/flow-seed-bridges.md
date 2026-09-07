@@ -85,6 +85,16 @@ curl -sS -X POST "$DIG/api/library/flows/discover" \
 # Optional: { "hosts": ["linear.app"], "dry_run": true }
 ```
 
+Grow coverage without catalog dumps — follow high-score same-origin candidate links not yet captured:
+
+```bash
+curl -sS -X POST "$DIG/api/library/flows/follow" \
+  -H "Content-Type: application/json" \
+  -d '{ "max_enqueue": 40, "max_per_host": 4 }'
+# dry_run: { "dry_run": true }
+# After captures complete, re-run /flows/discover
+```
+
 ## Out of scope
 
 - Calling CHECKION Puppeteer/spider modules in-process  
