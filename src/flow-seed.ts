@@ -207,42 +207,30 @@ export function getFlowSeedEnqueueCapture(): EnqueueCaptureFn | null {
   return enqueueCaptureHook;
 }
 
-/**
- * Full CHECKION seed pass: fetch overview → session → optional capture enqueue → edges when captures match.
- */
-export async function runCheckionDomainSeed(input: {
-  domainScanId: string;
-  appScopeId: string;
-  flowSessionId?: string;
-  maxUrls?: number;
-  persist?: boolean;
-  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
-  enqueueCapture?: EnqueueCaptureFn;
-  config?: CheckionConfig;
-  overview?: CheckionDomainOverview;
-}): Promise<{
+export type FlowSeedPassResult = {
   session: FlowSeedSession;
   session_path: string | null;
   matched: FlowSeedCaptureRef[];
   edges: FlowEdgesDocument | null;
   enqueued_jobs: string[];
   missing_urls: string[];
-}> {
-  const { session } = await fetchCheckionDomainSeedSession(
-    {
-      domainScanId: input.domainScanId,
-      appScopeId: input.appScopeId,
-      ...(input.flowSessionId !== undefined ? { flowSessionId: input.flowSessionId } : {}),
-      ...(input.maxUrls !== undefined ? { maxUrls: input.maxUrls } : {}),
-      ...(input.overview !== undefined ? { overview: input.overview } : {})
-    },
-    input.config ?? checkionConfig()
-  );
+  flow_id: string | null;
+  flow_graph_path: string | null;
+  flow_action_ids: string[];
+};
 
-  const sessionPath = input.persist === false ? null : await persistFlowSeedSession(session);
-  const matched = matchSeedUrlsToCaptures(session, input.captures ?? []);
+async function finalizeFlowSeedSession(input: {
+  session: FlowSeedSession;
+  persist?: boolean;
+  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
+  enqueueCapture?: EnqueueCaptureFn;
+  /** When true (default), assemble C1 + index Library graph if ≥2 matched screens. */
+  indexLibrary?: boolean;
+}): Promise<FlowSeedPassResult> {
+  const sessionPath = input.persist === false ? null : await persistFlowSeedSession(input.session);
+  const matched = matchSeedUrlsToCaptures(input.session, input.captures ?? []);
   const matchedKeys = new Set(matched.map((item) => normalizeFlowJoinUrl(item.url) ?? item.url));
-  const missing = session.urls.filter((item) => {
+  const missing = input.session.urls.filter((item) => {
     const key = normalizeFlowJoinUrl(item.url) ?? item.url;
     return !matchedKeys.has(key);
   });
@@ -258,19 +246,125 @@ export async function runCheckionDomainSeed(input: {
     }
   }
 
-  const edges =
-    matched.length >= 2
-      ? edgesFromSeedSession(session, matched)
-      : null;
+  const edges = matched.length >= 2 ? edgesFromSeedSession(input.session, matched) : null;
+  let flow_id: string | null = null;
+  let flow_graph_path: string | null = null;
+  let flow_action_ids: string[] = [];
+
+  if (edges && matched.length >= 2 && input.indexLibrary !== false) {
+    const { detectFlowActionsL2 } = await import("./flow-detect.js");
+    const { assembleFlowGraph } = await import("./flow-assemble.js");
+    const { indexFlowGraph } = await import("./flow-library.js");
+    const detectScreens = matched.map((step, order) => ({
+      order,
+      url: step.url,
+      capture_run_id: step.capture_run_id
+    }));
+    const flow_actions = detectFlowActionsL2(detectScreens);
+    flow_action_ids = flow_actions.map((item) => item.taxonomy_id);
+    const graph = assembleFlowGraph({
+      appScopeId: input.session.app_scope_id,
+      flowSessionId: input.session.flow_session_id,
+      screens: matched.map((step, order) => ({
+        capture_run_id: step.capture_run_id,
+        primary_url: step.url,
+        order,
+        checkion_scan_id: step.checkion_scan_id ?? null
+      })),
+      edges: edges.edges,
+      flow_actions,
+      title: `Seed ${input.session.app_scope_id}`,
+      notes: `seed_source=${input.session.seed_source}`
+    });
+    flow_id = graph.flow_id;
+    flow_graph_path = await indexFlowGraph(graph);
+  }
 
   return {
-    session,
+    session: input.session,
     session_path: sessionPath,
     matched,
     edges,
     enqueued_jobs: enqueued,
-    missing_urls: missing.map((item) => item.url)
+    missing_urls: missing.map((item) => item.url),
+    flow_id,
+    flow_graph_path,
+    flow_action_ids
   };
+}
+
+/**
+ * Manual / fixture / AUDION URL seed → optional capture enqueue → B2 edges + Library index.
+ */
+export async function runManualFlowSeed(input: {
+  appScopeId: string;
+  urls: Array<string | FlowSeedUrl>;
+  seedSource?:
+    | typeof FLOW_SEED_SOURCE_MANUAL
+    | typeof FLOW_SEED_SOURCE_FIXTURE
+    | typeof FLOW_SEED_SOURCE_AUDION;
+  seedRef?: string | null;
+  flowSessionId?: string;
+  maxUrls?: number;
+  persist?: boolean;
+  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
+  enqueueCapture?: EnqueueCaptureFn;
+  indexLibrary?: boolean;
+}): Promise<FlowSeedPassResult> {
+  const seedSource = input.seedSource ?? FLOW_SEED_SOURCE_MANUAL;
+  const maxUrls = input.maxUrls && input.maxUrls > 0 ? input.maxUrls : 24;
+  const capped = input.urls.slice(0, maxUrls);
+  if (!capped.length) throw new Error("manual_flow_seed_urls_required");
+  const session = buildFlowSeedSession({
+    seedSource,
+    seedRef: input.seedRef ?? null,
+    appScopeId: input.appScopeId,
+    ...(input.flowSessionId !== undefined ? { flowSessionId: input.flowSessionId } : {}),
+    urls: capped,
+    rootUrl: typeof capped[0] === "string" ? capped[0] : capped[0]!.url
+  });
+  return finalizeFlowSeedSession({
+    session,
+    persist: input.persist,
+    captures: input.captures,
+    enqueueCapture: input.enqueueCapture,
+    indexLibrary: input.indexLibrary
+  });
+}
+
+/**
+ * Full CHECKION seed pass: fetch overview → session → optional capture enqueue → edges when captures match.
+ */
+export async function runCheckionDomainSeed(input: {
+  domainScanId: string;
+  appScopeId: string;
+  flowSessionId?: string;
+  maxUrls?: number;
+  persist?: boolean;
+  captures?: Array<{ capture_run_id: string; canonical_url: string; screen_id?: string }>;
+  enqueueCapture?: EnqueueCaptureFn;
+  config?: CheckionConfig;
+  overview?: CheckionDomainOverview;
+  indexLibrary?: boolean;
+}): Promise<FlowSeedPassResult> {
+  const { session } = await fetchCheckionDomainSeedSession(
+    {
+      domainScanId: input.domainScanId,
+      appScopeId: input.appScopeId,
+      ...(input.flowSessionId !== undefined ? { flowSessionId: input.flowSessionId } : {}),
+      ...(input.maxUrls !== undefined ? { maxUrls: input.maxUrls } : {}),
+      ...(input.overview !== undefined ? { overview: input.overview } : {})
+    },
+    input.config ?? checkionConfig()
+  );
+
+  return finalizeFlowSeedSession({
+    session,
+    persist: input.persist,
+    captures: input.captures,
+    enqueueCapture: input.enqueueCapture,
+    indexLibrary: input.indexLibrary
+  });
 }
 
 export function stableAppScopeFromRootUrl(rootUrl: string): string {

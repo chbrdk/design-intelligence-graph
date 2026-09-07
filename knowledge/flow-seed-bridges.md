@@ -42,7 +42,35 @@ CHECKION quality on a step remains AUDION/CHECKION’s existing `mode: single` p
 | `seed_source` | `manual` or `fixture` |
 | `urls[]` | Operator-provided |
 
-Used for CI and local eval without CHECKION/AUDION. `buildFlowSeedSession` supports these sources.
+Used for CI, local eval, and the Linear pilot without CHECKION/AUDION. `buildFlowSeedSession` / `runManualFlowSeed` support these sources.
+
+```bash
+# HTTP (island proxy or dig-api):
+curl -sS -X POST "$DIG/api/library/flows/seed" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "seed_source": "manual",
+    "app_scope_id": "app_linear",
+    "enqueue_captures": true,
+    "urls": [
+      "https://linear.app",
+      "https://linear.app/login",
+      "https://linear.app/signup",
+      "https://linear.app/pricing"
+    ]
+  }'
+# Re-POST after captures complete to emit B2 edges + Library graph (C1 actions).
+```
+
+CLI:
+
+```bash
+npm run flow:seed -- --manual --app-scope-id=app_linear \
+  --urls=https://linear.app,https://linear.app/login,https://linear.app/pricing \
+  --enqueue
+```
+
+When ≥2 seed URLs match existing CaptureRuns, the seed pass also **assembles + indexes** a DIG-011 flow (`indexes/flows/{flow_id}.json`) with L2 `flow_actions`.
 
 ## Out of scope
 

@@ -81,6 +81,43 @@ test("persistFlowSeedSession writes under indexes/flow-seeds", async () => {
   }
 });
 
+test("runManualFlowSeed indexes Library graph when captures match", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "dig-flow-manual-"));
+  const previous = process.env.DIG_INDEXES_DIR;
+  process.env.DIG_INDEXES_DIR = dir;
+  try {
+    const { runManualFlowSeed, FLOW_SEED_SOURCE_MANUAL } = await import("../src/flow-seed.js");
+    const result = await runManualFlowSeed({
+      appScopeId: "app_linear_pilot",
+      seedSource: FLOW_SEED_SOURCE_MANUAL,
+      flowSessionId: "fsess_manual_pilot",
+      persist: true,
+      urls: [
+        "https://linear.app",
+        "https://linear.app/login",
+        "https://linear.app/pricing"
+      ],
+      captures: [
+        { capture_run_id: "cap_home", canonical_url: "https://linear.app/" },
+        { capture_run_id: "cap_login", canonical_url: "https://linear.app/login" },
+        { capture_run_id: "cap_pricing", canonical_url: "https://linear.app/pricing" }
+      ]
+    });
+    assert.equal(result.missing_urls.length, 0);
+    assert.equal(result.edges?.edges.length, 2);
+    assert.ok(result.flow_id);
+    assert.ok(result.flow_graph_path);
+    assert.ok(result.flow_action_ids.includes("dig:flow.logging_in"));
+    const raw = await readFile(result.flow_graph_path!, "utf8");
+    assert.match(raw, /dig:flow.logging_in/);
+    assert.match(raw, /seed_sequence/);
+  } finally {
+    if (previous === undefined) delete process.env.DIG_INDEXES_DIR;
+    else process.env.DIG_INDEXES_DIR = previous;
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test("runCheckionDomainSeed enqueues missing captures and skips edges until matched", async () => {
   const jobs: string[] = [];
   const result = await runCheckionDomainSeed({

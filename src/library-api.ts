@@ -315,8 +315,25 @@ export async function handleLibraryApi(
           : typeof body.appScopeId === "string"
             ? body.appScopeId
             : null;
-      if (!domainScanId || !appScopeId) {
-        sendJson(response, 400, { error: "domain_scan_id and app_scope_id are required" });
+      const urlsRaw = Array.isArray(body.urls)
+        ? body.urls.filter((item): item is string => typeof item === "string" && Boolean(item.trim()))
+        : [];
+      const seedSourceRaw =
+        typeof body.seed_source === "string"
+          ? body.seed_source.trim().toLowerCase()
+          : typeof body.seedSource === "string"
+            ? body.seedSource.trim().toLowerCase()
+            : urlsRaw.length
+              ? "manual"
+              : "checkion_domain_scan";
+      if (!appScopeId) {
+        sendJson(response, 400, { error: "app_scope_id is required" });
+        return true;
+      }
+      if (!domainScanId && !urlsRaw.length) {
+        sendJson(response, 400, {
+          error: "domain_scan_id or urls[] is required"
+        });
         return true;
       }
       const enqueueCaptures =
@@ -333,7 +350,7 @@ export async function handleLibraryApi(
            FROM captures
            WHERE canonical_url IS NOT NULL
            ORDER BY indexed_at DESC
-           LIMIT 500`
+           LIMIT 2000`
         );
         captures = (listed.rows as Array<{ capture_run_id: unknown; canonical_url: unknown }>)
           .map((row) => ({
@@ -343,16 +360,37 @@ export async function handleLibraryApi(
           .filter((row) => row.capture_run_id && row.canonical_url);
       }
 
-      const { runCheckionDomainSeed } = await import("./flow-seed.js");
+      const { runCheckionDomainSeed, runManualFlowSeed } = await import("./flow-seed.js");
       const maxUrlsResolved = Number.isFinite(maxUrls) && maxUrls > 0 ? maxUrls : undefined;
-      const result = await runCheckionDomainSeed({
-        domainScanId,
+      const seedOpts = {
         appScopeId,
-        persist: true,
+        persist: true as const,
         captures,
         ...(maxUrlsResolved !== undefined ? { maxUrls: maxUrlsResolved } : {}),
         ...(enqueueCaptures ? {} : { enqueueCapture: async () => undefined })
-      });
+      };
+      const result =
+        urlsRaw.length || seedSourceRaw === "manual" || seedSourceRaw === "fixture" || seedSourceRaw === "audion_journey"
+          ? await runManualFlowSeed({
+              ...seedOpts,
+              urls: urlsRaw,
+              seedSource:
+                seedSourceRaw === "fixture"
+                  ? "fixture"
+                  : seedSourceRaw === "audion_journey"
+                    ? "audion_journey"
+                    : "manual",
+              seedRef:
+                typeof body.seed_ref === "string"
+                  ? body.seed_ref
+                  : typeof body.seedRef === "string"
+                    ? body.seedRef
+                    : null
+            })
+          : await runCheckionDomainSeed({
+              ...seedOpts,
+              domainScanId: domainScanId!
+            });
 
       sendJson(response, 200, {
         seed_source: result.session.seed_source,
@@ -365,7 +403,10 @@ export async function handleLibraryApi(
         missing_urls: result.missing_urls,
         enqueued_jobs: result.enqueued_jobs,
         edge_count: result.edges?.edges.length ?? 0,
-        edges: result.edges
+        edges: result.edges,
+        flow_id: result.flow_id,
+        flow_graph_path: result.flow_graph_path,
+        flow_action_ids: result.flow_action_ids
       });
     } catch (error: unknown) {
       sendJson(response, 502, {

@@ -188,7 +188,7 @@ test("library API lists DIG-011 flows without database", async () => {
   assert.ok(body.items.length >= 1);
 });
 
-test("library API flow seed requires domain_scan_id and app_scope_id", async () => {
+test("library API flow seed requires app_scope_id and domain_scan_id or urls", async () => {
   async function* emptyBody() {
     /* no chunks */
   }
@@ -201,7 +201,33 @@ test("library API flow seed requires domain_scan_id and app_scope_id", async () 
   );
   assert.equal(handled, true);
   assert.equal(mock.statusCode, 400);
-  assert.match(mock.body, /domain_scan_id/);
+  assert.match(mock.body, /app_scope_id/);
+
+  async function* bodyWithoutScope() {
+    yield Buffer.from(JSON.stringify({ urls: ["https://linear.app/"] }));
+  }
+  const mock2 = mockResponse();
+  await handleLibraryApi(
+    { method: "POST", headers: {}, [Symbol.asyncIterator]: bodyWithoutScope } as unknown as IncomingMessage,
+    mock2.response,
+    new URL("http://127.0.0.1/api/library/flows/seed"),
+    { async query() { return { rows: [] }; } }
+  );
+  assert.equal(mock2.statusCode, 400);
+  assert.match(mock2.body, /app_scope_id/);
+
+  async function* bodyWithoutUrls() {
+    yield Buffer.from(JSON.stringify({ app_scope_id: "app_x" }));
+  }
+  const mock3 = mockResponse();
+  await handleLibraryApi(
+    { method: "POST", headers: {}, [Symbol.asyncIterator]: bodyWithoutUrls } as unknown as IncomingMessage,
+    mock3.response,
+    new URL("http://127.0.0.1/api/library/flows/seed"),
+    { async query() { return { rows: [] }; } }
+  );
+  assert.equal(mock3.statusCode, 400);
+  assert.match(mock3.body, /domain_scan_id or urls/);
 });
 
 test("library API lists DIG-011 flows and returns detail", async () => {
