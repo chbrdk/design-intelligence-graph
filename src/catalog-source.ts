@@ -10,7 +10,7 @@ import { loadDigPaths } from "./runtime-paths.js";
 
 export type CatalogSourceTier = "quality" | "volume" | "vertical" | "unknown";
 
-const QUALITY_CATALOG_IDS = ["cssda-wotd-1000"] as const;
+const QUALITY_CATALOG_IDS = ["cssda-wotd-1000", "cssda-wotd-plus-1000"] as const;
 const VOLUME_CATALOG_IDS = [
   "awwwards-500",
   "awwwards-plus-1000",

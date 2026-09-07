@@ -45,6 +45,7 @@ export function captureJobsConfig(root = process.cwd()): {
   awwwardsPlus4000: string;
   siteInspire1000: string;
   cssdaWotd1000: string;
+  cssdaWotdPlus1000: string;
   theFwa1000: string;
   maxBatch: number;
 } {
@@ -78,6 +79,7 @@ export function captureJobsConfig(root = process.cwd()): {
     awwwardsPlus4000: cfg?.awwwardsPlus4000 ?? "knowledge/catalogs/awwwards-plus-4000.json",
     siteInspire1000: cfg?.siteInspire1000 ?? "knowledge/catalogs/siteinspire-1000.json",
     cssdaWotd1000: cfg?.cssdaWotd1000 ?? "knowledge/catalogs/cssda-wotd-1000.json",
+    cssdaWotdPlus1000: cfg?.cssdaWotdPlus1000 ?? "knowledge/catalogs/cssda-wotd-plus-1000.json",
     theFwa1000: cfg?.theFwa1000 ?? "knowledge/catalogs/thefwa-1000.json",
     maxBatch: cfg?.maxBatch ?? 1000
   };
@@ -100,6 +102,7 @@ export function resolveCaptureCatalogPath(catalogId: string, root = process.cwd(
   if (catalogId === "awwwards-plus-4000") return resolve(root, cfg.awwwardsPlus4000);
   if (catalogId === "siteinspire-1000") return resolve(root, cfg.siteInspire1000);
   if (catalogId === "cssda-wotd-1000") return resolve(root, cfg.cssdaWotd1000);
+  if (catalogId === "cssda-wotd-plus-1000") return resolve(root, cfg.cssdaWotdPlus1000);
   if (catalogId === "thefwa-1000") return resolve(root, cfg.theFwa1000);
   return resolve(root, cfg.catalogsDir, `${catalogId}.json`);
 }

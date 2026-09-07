@@ -324,6 +324,7 @@
     "awwwardsPlus4000": "knowledge/catalogs/awwwards-plus-4000.json",
     "siteInspire1000": "knowledge/catalogs/siteinspire-1000.json",
     "cssdaWotd1000": "knowledge/catalogs/cssda-wotd-1000.json",
+    "cssdaWotdPlus1000": "knowledge/catalogs/cssda-wotd-plus-1000.json",
     "theFwa1000": "knowledge/catalogs/thefwa-1000.json",
     "maxBatch": 1000
   },

@@ -24,6 +24,7 @@ export const AWARD_CATALOG_IDS = [
   "awwwards-plus-4000",
   "siteinspire-1000",
   "cssda-wotd-1000",
+  "cssda-wotd-plus-1000",
   "thefwa-1000"
 ] as const;
 

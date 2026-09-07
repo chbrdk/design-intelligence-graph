@@ -47,6 +47,7 @@ test("paths expose webp and database config", () => {
   assert.equal(paths.captureJobs?.awwwardsPlus4000, "knowledge/catalogs/awwwards-plus-4000.json");
   assert.equal(paths.captureJobs?.siteInspire1000, "knowledge/catalogs/siteinspire-1000.json");
   assert.equal(paths.captureJobs?.cssdaWotd1000, "knowledge/catalogs/cssda-wotd-1000.json");
+  assert.equal(paths.captureJobs?.cssdaWotdPlus1000, "knowledge/catalogs/cssda-wotd-plus-1000.json");
   assert.equal(paths.captureJobs?.theFwa1000, "knowledge/catalogs/thefwa-1000.json");
   assert.equal(paths.islandChunkReload?.storageKey, "spirion.v1.chunkReload");
   assert.equal(paths.islandChunkReload?.maxAttempts, 2);
