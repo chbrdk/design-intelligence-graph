@@ -41,6 +41,8 @@
     "test:docker": "docker compose run --rm dig npm run typecheck && docker compose run --rm dig npm test && docker compose run --rm dig npm run test:e2e",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "flow:seed": "node --import tsx scripts/flow-seed-cli.ts",
+    "flow:product-journeys": "python3 scripts/flow-product-journeys-run.py",
+    "flow:product-journey-wave": "python3 scripts/flow-product-journey-wave.py",
     "db:migrate": "npm run build --silent && node dist/src/db-migrate-cli.js"
   },
   "engines": {

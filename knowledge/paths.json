@@ -450,7 +450,9 @@
     "sessionsRelativeDir": "flow-seeds",
     "maxUrlsDefault": 24,
     "doc": "knowledge/flow-seed-bridges.md",
-    "cli": "scripts/flow-seed-cli.ts"
+    "cli": "scripts/flow-seed-cli.ts",
+    "productJourneys": "knowledge/flow-product-journeys.json",
+    "productJourneysRunner": "scripts/flow-product-journeys-run.py"
   },
   "flowDiscover": {
     "minScreens": 2,

@@ -95,6 +95,22 @@ curl -sS -X POST "$DIG/api/library/flows/follow" \
 # After captures complete, re-run /flows/discover
 ```
 
+## Product journeys (manual catalog)
+
+Href-discover fills **portfolio browse**. For intentional SaaS journeys (marketing → login → signup → pricing), use the curated list:
+
+- Catalog: `knowledge/flow-product-journeys.json`
+- Runner: `python3 scripts/flow-product-journeys-run.py` (optional `--no-enqueue`, `--dry-run`)
+
+```bash
+# After the open follow wave drains + discover:
+python3 scripts/flow-product-journeys-run.py
+# When captures complete, assemble edges without re-queue:
+python3 scripts/flow-product-journeys-run.py --no-enqueue
+```
+
+Do **not** keep stacking `/flows/follow` after this — product seeds are the preferred coverage path for auth/pricing flows.
+
 ## Out of scope
 
 - Calling CHECKION Puppeteer/spider modules in-process  

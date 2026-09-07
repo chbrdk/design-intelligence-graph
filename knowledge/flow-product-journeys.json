@@ -1,0 +1,67 @@
+{
+  "version": "0.1.0",
+  "doc": "knowledge/flow-seed-bridges.md",
+  "intent": "Purposeful multi-screen product journeys (login / signup / pricing), not href-discover portfolio browse.",
+  "journeys": [
+    {
+      "app_scope_id": "app_notion",
+      "title": "Notion marketing → auth → pricing",
+      "urls": [
+        "https://www.notion.so",
+        "https://www.notion.so/login",
+        "https://www.notion.so/signup",
+        "https://www.notion.so/pricing"
+      ]
+    },
+    {
+      "app_scope_id": "app_figma",
+      "title": "Figma marketing → auth → pricing",
+      "urls": [
+        "https://www.figma.com",
+        "https://www.figma.com/login",
+        "https://www.figma.com/signup",
+        "https://www.figma.com/pricing"
+      ]
+    },
+    {
+      "app_scope_id": "app_vercel",
+      "title": "Vercel marketing → auth → pricing",
+      "urls": [
+        "https://vercel.com",
+        "https://vercel.com/login",
+        "https://vercel.com/signup",
+        "https://vercel.com/pricing"
+      ]
+    },
+    {
+      "app_scope_id": "app_framer",
+      "title": "Framer marketing → auth → pricing",
+      "urls": [
+        "https://www.framer.com",
+        "https://www.framer.com/login",
+        "https://www.framer.com/signup",
+        "https://www.framer.com/pricing"
+      ]
+    },
+    {
+      "app_scope_id": "app_webflow",
+      "title": "Webflow marketing → auth → pricing",
+      "urls": [
+        "https://webflow.com",
+        "https://webflow.com/login",
+        "https://webflow.com/signup",
+        "https://webflow.com/pricing"
+      ]
+    },
+    {
+      "app_scope_id": "app_asana",
+      "title": "Asana marketing → auth → pricing",
+      "urls": [
+        "https://asana.com",
+        "https://asana.com/login",
+        "https://asana.com/create-account",
+        "https://asana.com/pricing"
+      ]
+    }
+  ]
+}
