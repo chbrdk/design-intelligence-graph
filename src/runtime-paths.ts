@@ -63,9 +63,12 @@ export interface DigPaths {
     settleMs?: number;
     initialWaitMs?: number;
     postScrollQuietMs?: number;
+    stabilizeTimeoutMs?: number;
+    fontsReadyTimeoutMs?: number;
     scrollStepPx?: number;
     scrollMaxPx?: number;
     scrollPauseMs?: number;
+    scrollMaxDurationMs?: number;
   };
   captureLimits?: {
     maxHtmlBytes?: number;

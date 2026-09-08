@@ -151,9 +151,12 @@
     "settleMs": 2500,
     "initialWaitMs": 2500,
     "postScrollQuietMs": 1500,
-    "scrollStepPx": 100,
-    "scrollMaxPx": 8000,
-    "scrollPauseMs": 80
+    "stabilizeTimeoutMs": 12000,
+    "fontsReadyTimeoutMs": 5000,
+    "scrollStepPx": 150,
+    "scrollMaxPx": 6000,
+    "scrollPauseMs": 50,
+    "scrollMaxDurationMs": 18000
   },
   "captureLimits": {
     "maxHtmlBytes": 8000000,

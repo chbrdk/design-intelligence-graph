@@ -212,20 +212,44 @@ async function captureViewport(
       await page.waitForTimeout(settle.initialWaitMs);
       warnings.push(`initial_wait_ms:${settle.initialWaitMs}`);
     }
-    const settled = await stabilizePage(page, options.settleMs, options.timeoutMs);
+    // Pause CSS motion before quiet waits so animated marketing sites can settle
+    // within stabilizeTimeoutMs instead of burning the job hard timeout.
+    try {
+      await pauseAnimations(page);
+      warnings.push("animations_paused_pre_settle");
+    } catch (error) {
+      warnings.push(`animations_pause_pre_settle_failed:${error instanceof Error ? error.message : String(error)}`);
+    }
+    const stabilizeBudget = Math.min(settle.stabilizeTimeoutMs, options.timeoutMs);
+    const settled = await stabilizePage(
+      page,
+      options.settleMs,
+      stabilizeBudget,
+      settle.fontsReadyTimeoutMs
+    );
     if (!settled) warnings.push("stabilization_timeout");
     try {
       const scrollSettle = await scrollSettlePage(page, {
         stepPx: settle.scrollStepPx,
         maxPx: settle.scrollMaxPx,
-        pauseMs: settle.scrollPauseMs
+        pauseMs: settle.scrollPauseMs,
+        maxDurationMs: settle.scrollMaxDurationMs
       });
       if (scrollSettle.scrolled_px > 0) {
         warnings.push(`scroll_settle_px:${scrollSettle.scrolled_px}`);
       }
-      // Quiet window after lazy loads (config; no longer hard-capped at 400ms).
-      const postQuiet = Math.min(settle.postScrollQuietMs, options.timeoutMs);
-      const postScrollQuiet = await stabilizePage(page, postQuiet, Math.min(options.timeoutMs, Math.max(postQuiet * 4, 5000)));
+      if (scrollSettle.timed_out) {
+        warnings.push("scroll_settle_duration_timeout");
+      }
+      // Quiet window after lazy loads — capped by stabilizeTimeoutMs, not full jobTimeoutMs.
+      const postQuiet = Math.min(settle.postScrollQuietMs, stabilizeBudget);
+      const postBudget = Math.min(stabilizeBudget, Math.max(postQuiet * 4, 5000));
+      const postScrollQuiet = await stabilizePage(
+        page,
+        postQuiet,
+        postBudget,
+        settle.fontsReadyTimeoutMs
+      );
       if (!postScrollQuiet) warnings.push("post_scroll_settle_timeout");
     } catch (error) {
       warnings.push(`scroll_settle_failed:${error instanceof Error ? error.message : String(error)}`);

@@ -1,7 +1,19 @@
 import type { Page } from "playwright";
 
-export async function stabilizePage(page: Page, quietWindowMs: number, timeoutMs: number): Promise<boolean> {
-  await page.evaluate(() => document.fonts.ready);
+export async function stabilizePage(
+  page: Page,
+  quietWindowMs: number,
+  timeoutMs: number,
+  fontsReadyTimeoutMs = 5000
+): Promise<boolean> {
+  try {
+    await Promise.race([
+      page.evaluate(() => document.fonts.ready),
+      page.waitForTimeout(Math.max(0, fontsReadyTimeoutMs))
+    ]);
+  } catch {
+    // Font wait is best-effort; continue into MutationObserver quiet window.
+  }
   return page.evaluate(({ quietWindowMs, timeoutMs }) => new Promise<boolean>((resolve) => {
     let lastMutation = performance.now();
     const started = performance.now();
@@ -29,13 +41,14 @@ export async function stabilizePage(page: Page, quietWindowMs: number, timeoutMs
  */
 export async function scrollSettlePage(
   page: Page,
-  options: { stepPx?: number; maxPx?: number; pauseMs?: number } = {}
-): Promise<{ scrolled_px: number; document_height: number }> {
-  const stepPx = options.stepPx ?? 100;
-  const maxPx = options.maxPx ?? 8000;
-  const pauseMs = options.pauseMs ?? 40;
+  options: { stepPx?: number; maxPx?: number; pauseMs?: number; maxDurationMs?: number } = {}
+): Promise<{ scrolled_px: number; document_height: number; timed_out?: boolean }> {
+  const stepPx = options.stepPx ?? 150;
+  const maxPx = options.maxPx ?? 6000;
+  const pauseMs = options.pauseMs ?? 50;
+  const maxDurationMs = options.maxDurationMs ?? 18000;
   return page.evaluate(
-    async ({ stepPx, maxPx, pauseMs }) => {
+    async ({ stepPx, maxPx, pauseMs, maxDurationMs }) => {
       const sleep = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
       const height = () =>
         Math.max(
@@ -43,10 +56,16 @@ export async function scrollSettlePage(
           document.body?.scrollHeight ?? 0,
           document.documentElement.clientHeight
         );
+      const started = performance.now();
       let y = 0;
       let scrolled = 0;
+      let timedOut = false;
       const limit = Math.min(height(), maxPx);
       while (y < limit) {
+        if (performance.now() - started >= maxDurationMs) {
+          timedOut = true;
+          break;
+        }
         y = Math.min(y + stepPx, limit);
         window.scrollTo(0, y);
         scrolled = y;
@@ -54,9 +73,9 @@ export async function scrollSettlePage(
       }
       window.scrollTo(0, 0);
       await sleep(200);
-      return { scrolled_px: scrolled, document_height: height() };
+      return { scrolled_px: scrolled, document_height: height(), timed_out: timedOut };
     },
-    { stepPx, maxPx, pauseMs }
+    { stepPx, maxPx, pauseMs, maxDurationMs }
   );
 }
 
