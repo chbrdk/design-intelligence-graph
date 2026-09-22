@@ -2,7 +2,7 @@
 
 **Path:** `derived/graphic-craft-metrics.json` (per capture package)  
 **Config:** `knowledge/paths.json` → `graphicCraftMetrics`  
-**Catalog:** `src/graphic-craft-metrics-catalog.ts` (~113 closed axes)  
+**Catalog:** `src/graphic-craft-metrics-catalog.ts` (~200 closed axes, v0.2.0)  
 **Code:** `src/graphic-craft-metrics.ts` · wired from `src/graphic-llm-enrich.ts`
 
 Fine-grained craft scores for campaign / print / social artboards. Complements coarse Library `design_facets` and the compact `composition_contract`. Web screens do **not** run this stage.
@@ -19,7 +19,7 @@ Fine-grained craft scores for campaign / print / social artboards. Complements c
 
 ## Groups
 
-format · composition · space · type · color · image · brand · tone · risk · production
+format · composition · space · type · color · image · illustration · brand · tone · material · narrative · risk · production
 
 Scores are `0..1`. Enums / booleans / hex / short text use closed vocabs from the catalog.
 

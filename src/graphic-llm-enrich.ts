@@ -156,7 +156,7 @@ export async function applyGraphicLlmEnrichment(
     ...(options.provider ? { provider: options.provider } : {}),
     stageCache,
     persist: true,
-    maxTokens: 4500
+    maxTokens: 12_000
   });
   stages.push({
     stage_id: "vision_page",

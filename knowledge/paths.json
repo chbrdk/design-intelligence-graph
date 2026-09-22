@@ -246,10 +246,10 @@
     "corpusSpec": "plexon specs/domain/spirion-campaign-motif-corpus.md"
   },
   "graphicCraftMetrics": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "doc": "knowledge/graphic-craft-metrics.md",
     "relativePath": "derived/graphic-craft-metrics.json",
-    "metricCount": 113
+    "metricCount": 200
   },
   "northlineRebuild": {
     "doc": "knowledge/northline-insurance-rebuild.md",
