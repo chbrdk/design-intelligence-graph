@@ -399,6 +399,79 @@ a {
   grid-column: 1 / -1;
 }
 
+.dig-craft-metrics {
+  display: grid;
+  gap: var(--space-3, 0.75rem);
+  min-width: 0;
+  margin-block: var(--space-4, 1rem);
+}
+
+.dig-craft-metrics-highlights {
+  display: grid;
+  gap: var(--space-3, 0.75rem);
+}
+
+.dig-craft-metrics-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.dig-craft-metric-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.dig-craft-metric {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.dig-craft-metric[data-kind='hex'],
+.dig-craft-metric[data-kind='enum'],
+.dig-craft-metric[data-kind='boolean'],
+.dig-craft-metric[data-kind='text'] {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dig-craft-metric[data-kind='hex'] {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.dig-craft-metric-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: var(--type-sm, 0.875rem);
+}
+
+.dig-craft-metric-val {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.dig-craft-metric-bar {
+  height: 0.28rem;
+  background: color-mix(in srgb, var(--line, var(--border)) 70%, transparent);
+  overflow: hidden;
+}
+
+.dig-craft-metric-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--fg, currentColor);
+}
+
+.dig-craft-metric-swatch {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--line, var(--border));
+}
+
 .dig-section-spec-thumb {
   width: 100%;
   max-height: 14rem;

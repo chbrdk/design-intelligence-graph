@@ -17,6 +17,7 @@ import { paths } from '../lib/paths'
 import { ScreenInsightStrip } from './screen-insight-strip'
 import { ScreenDetailSplit } from './screen-detail-split'
 import { VisualCraftPanel } from './visual-craft-panel'
+import { GraphicCraftMetricsPanel } from './graphic-craft-metrics-panel'
 import { UxAssessmentPanel } from './ux-assessment-panel'
 import { FunctionalityPanel } from './functionality-panel'
 import { SpecAtomGrid } from './spec-atom-grid'
@@ -266,6 +267,7 @@ export function LibraryScreenDetailPanel(props: {
           notes={layoutNotes}
         />
         <VisualCraftPanel craft={visualCraft} embedded />
+        <GraphicCraftMetricsPanel doc={analysis?.package?.graphic_craft_metrics} />
         <UxAssessmentPanel page={analysis?.package?.vision_page} summary={summary} />
         <FunctionalityPanel
           ui={functionalityUi}

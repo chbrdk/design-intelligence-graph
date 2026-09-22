@@ -435,7 +435,22 @@ export interface LibraryAnalysisDetail {
     } | null
     design_facets?: DesignFacets | null
     page_rhythm?: PageRhythm | null
+    graphic_craft_metrics?: GraphicCraftMetricsSummary | null
   }
+}
+
+export type GraphicCraftMetricValue = number | string | boolean | null
+
+export type GraphicCraftMetricsSummary = {
+  status?: string
+  metric_count?: number
+  filled_count?: number
+  confidence?: number | null
+  groups?: Record<string, number> | null
+  metrics?: Record<string, GraphicCraftMetricValue> | null
+  measured?: Record<string, GraphicCraftMetricValue> | null
+  model?: string | null
+  source_screenshot?: string | null
 }
 
 function asStringArray(value: unknown): string[] {
@@ -520,6 +535,67 @@ function normalizePageRhythm(raw: unknown): PageRhythm | null {
   }
 }
 
+function normalizeGraphicCraftMetrics(raw: unknown): GraphicCraftMetricsSummary | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
+  const record = raw as Record<string, unknown>
+  const metricsRaw =
+    record.metrics && typeof record.metrics === 'object' && !Array.isArray(record.metrics)
+      ? (record.metrics as Record<string, unknown>)
+      : null
+  const measuredRaw =
+    record.measured && typeof record.measured === 'object' && !Array.isArray(record.measured)
+      ? (record.measured as Record<string, unknown>)
+      : null
+  const groupsRaw =
+    record.groups && typeof record.groups === 'object' && !Array.isArray(record.groups)
+      ? (record.groups as Record<string, unknown>)
+      : null
+  const metrics: Record<string, GraphicCraftMetricValue> = {}
+  if (metricsRaw) {
+    for (const [key, value] of Object.entries(metricsRaw)) {
+      if (typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean') {
+        metrics[key] = value
+      } else if (value === null) {
+        metrics[key] = null
+      }
+    }
+  }
+  const measured: Record<string, GraphicCraftMetricValue> = {}
+  if (measuredRaw) {
+    for (const [key, value] of Object.entries(measuredRaw)) {
+      if (typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean') {
+        measured[key] = value
+      } else if (value === null) {
+        measured[key] = null
+      }
+    }
+  }
+  const groups: Record<string, number> = {}
+  if (groupsRaw) {
+    for (const [key, value] of Object.entries(groupsRaw)) {
+      if (typeof value === 'number' && Number.isFinite(value)) groups[key] = value
+    }
+  }
+  if (
+    !Object.keys(metrics).length &&
+    typeof record.metric_count !== 'number' &&
+    typeof record.status !== 'string'
+  ) {
+    return null
+  }
+  return {
+    status: typeof record.status === 'string' ? record.status : undefined,
+    metric_count: typeof record.metric_count === 'number' ? record.metric_count : undefined,
+    filled_count: typeof record.filled_count === 'number' ? record.filled_count : undefined,
+    confidence: typeof record.confidence === 'number' ? record.confidence : null,
+    groups: Object.keys(groups).length ? groups : null,
+    metrics: Object.keys(metrics).length ? metrics : null,
+    measured: Object.keys(measured).length ? measured : null,
+    model: asNullableString(record.model),
+    source_screenshot: asNullableString(record.source_screenshot),
+  }
+}
+
 function normalizeDesignFacets(raw: unknown): DesignFacets | null {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null
   const record = raw as Record<string, unknown>
@@ -570,6 +646,7 @@ export function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryA
   }
       const design_facets = normalizeDesignFacets(pkgRaw?.design_facets)
       const page_rhythm = normalizePageRhythm(pkgRaw?.page_rhythm)
+      const graphic_craft_metrics = normalizeGraphicCraftMetrics(pkgRaw?.graphic_craft_metrics)
       let packageExtras: LibraryAnalysisDetail['package']
       if (pkgRaw) {
         packageExtras = {
@@ -586,6 +663,7 @@ export function normalizeAnalysisDetail(body: Record<string, unknown>): LibraryA
             null,
           ...(design_facets ? { design_facets } : {}),
           ...(page_rhythm ? { page_rhythm } : {}),
+          ...(graphic_craft_metrics ? { graphic_craft_metrics } : {}),
         }
       }
   return {

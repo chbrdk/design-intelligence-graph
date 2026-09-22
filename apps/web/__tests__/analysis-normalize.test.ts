@@ -64,6 +64,31 @@ describe('analysis detail normalization', () => {
     assert.equal(detail.package?.page_rhythm?.page_arc, 'hero → feature → footer')
   })
 
+  it('passes graphic_craft_metrics through package', () => {
+    const detail = normalizeAnalysisDetail({
+      analysis: { status: 'complete' },
+      items: { section_look: [] },
+      package: {
+        graphic_craft_metrics: {
+          status: 'complete',
+          metric_count: 200,
+          filled_count: 199,
+          confidence: 0.98,
+          groups: { tone: 15, risk: 15 },
+          metrics: {
+            'tone.editorial': 0.82,
+            'risk.busy_center': 0.4,
+            'color.dominant_hex': '#111111',
+          },
+        },
+      },
+    })
+    assert.equal(detail.package?.graphic_craft_metrics?.metric_count, 200)
+    assert.equal(detail.package?.graphic_craft_metrics?.filled_count, 199)
+    assert.equal(detail.package?.graphic_craft_metrics?.metrics?.['tone.editorial'], 0.82)
+    assert.equal(detail.package?.graphic_craft_metrics?.metrics?.['color.dominant_hex'], '#111111')
+  })
+
   it('serializes a prompt pack for clipboard paste into Cursor', () => {
     const text = formatPromptPackForClipboard({
       role: 'design_synthesis',
