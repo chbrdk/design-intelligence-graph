@@ -102,7 +102,7 @@ describe('flow action filter options', () => {
     const options = listFlowActionFilterOptions()
     assert.ok(options.every((item) => item.id !== 'dig:flow.unknown'))
     assert.equal(labelForFlowAction('dig:flow.logging_in'), 'Logging in')
-    assert.deepEqual(paths.libraryModes, ['screens', 'devices', 'sections', 'flows'])
+    assert.deepEqual(paths.libraryModes, ['screens', 'graphics', 'devices', 'sections', 'flows'])
     assert.equal(paths.libraryCopy.screensLabel, 'Screens')
     assert.equal(paths.libraryCopy.sectionsLabel, 'Modules')
     assert.equal(paths.libraryCopy.contentsLabel, 'Contents')
