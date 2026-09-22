@@ -12,8 +12,8 @@ import {
 import type { GraphicCraftMetricsSummary } from '../lib/dig-api'
 import {
   formatGraphicCraftValue,
+  graphicCraftAccordionRadarPoints,
   graphicCraftGroups,
-  graphicCraftGroupRadarPoints,
   graphicCraftMetricRows,
   graphicCraftTopScores,
   type GraphicCraftMetricRow,
@@ -52,6 +52,57 @@ function MetricRow({ row }: { row: GraphicCraftMetricRow }) {
   )
 }
 
+function GroupPanel({
+  rows,
+  groupLabel,
+}: {
+  rows: GraphicCraftMetricRow[]
+  groupLabel: string
+}) {
+  const copy = paths.libraryCopy
+  const { points, truncated, scoreCount } = graphicCraftAccordionRadarPoints(rows)
+  const radarData = points.map((p) => ({ label: p.label, value: p.value }))
+  const nonScores = rows.filter((row) => row.kind !== 'score')
+  const scoreRows = rows.filter((row) => row.kind === 'score')
+
+  return (
+    <div className="dig-craft-group-panel">
+      {radarData.length >= 3 ? (
+        <div className="dig-craft-metrics-radar">
+          <RadarChart
+            data={radarData}
+            ariaLabel={`${groupLabel} ${copy.screenInsightCraftMetricsRadarAria}`}
+            size={260}
+          />
+          {truncated ? (
+            <Text role="meta">
+              {copy.screenInsightCraftMetricsRadarTop
+                .replace('{shown}', String(radarData.length))
+                .replace('{total}', String(scoreCount))}
+            </Text>
+          ) : null}
+        </div>
+      ) : null}
+
+      {nonScores.length > 0 ? (
+        <div className="dig-craft-metric-list dig-craft-metric-list--meta">
+          {nonScores.map((row) => (
+            <MetricRow key={row.id} row={row} />
+          ))}
+        </div>
+      ) : null}
+
+      {scoreRows.length > 0 ? (
+        <div className="dig-craft-metric-list">
+          {scoreRows.map((row) => (
+            <MetricRow key={row.id} row={row} />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 export function GraphicCraftMetricsPanel({
   doc,
 }: {
@@ -60,11 +111,6 @@ export function GraphicCraftMetricsPanel({
   const copy = paths.libraryCopy
   const rows = useMemo(() => graphicCraftMetricRows(doc), [doc])
   const groups = useMemo(() => graphicCraftGroups(rows), [rows])
-  const radarAxes = useMemo(() => graphicCraftGroupRadarPoints(rows), [rows])
-  const radarData = useMemo(
-    () => radarAxes.map((axis) => ({ label: axis.label, value: axis.value })),
-    [radarAxes],
-  )
   const topTone = useMemo(() => graphicCraftTopScores(rows, 'tone', 4), [rows])
   const topRisk = useMemo(() => graphicCraftTopScores(rows, 'risk', 4), [rows])
   const [openGroup, setOpenGroup] = useState<string | null>(null)
@@ -88,21 +134,6 @@ export function GraphicCraftMetricsPanel({
         {filled}/{total} {copy.screenInsightCraftMetricsFilled}
         {confidence ? ` · ${copy.screenInsightCraftMetricsConfidence} ${confidence}` : ''}
       </Text>
-
-      {radarData.length >= 3 ? (
-        <div className="dig-craft-metrics-radar">
-          <RadarChart
-            data={radarData}
-            title={copy.screenInsightCraftMetricsRadar}
-            ariaLabel={copy.screenInsightCraftMetricsRadarAria}
-            size={280}
-            onPointClick={(point) => {
-              const axis = radarAxes.find((a) => a.label === point.label)
-              if (axis) setOpenGroup(axis.group)
-            }}
-          />
-        </div>
-      ) : null}
 
       {(topTone.length > 0 || topRisk.length > 0) && (
         <div className="dig-craft-metrics-highlights">
@@ -144,13 +175,7 @@ export function GraphicCraftMetricsPanel({
             .slice(0, 3)
             .map((row) => row.label)
             .join(' · '),
-          panel: (
-            <div className="dig-craft-metric-list">
-              {group.rows.map((row) => (
-                <MetricRow key={row.id} row={row} />
-              ))}
-            </div>
-          ),
+          panel: <GroupPanel rows={group.rows} groupLabel={group.label} />,
         }))}
       />
     </section>

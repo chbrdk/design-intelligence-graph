@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'vitest'
 import {
   formatGraphicCraftValue,
+  graphicCraftAccordionRadarPoints,
   graphicCraftGroupFromMetricId,
   graphicCraftGroups,
-  graphicCraftGroupRadarPoints,
   graphicCraftMetricRows,
   graphicCraftTopScores,
 } from '../lib/graphic-craft-metrics-ui'
@@ -34,23 +34,19 @@ describe('graphic craft metrics ui helpers', () => {
     assert.equal(formatGraphicCraftValue(top[0]!), '90')
   })
 
-  it('builds group radar means from score metrics', () => {
-    const rows = graphicCraftMetricRows({
-      status: 'complete',
-      metrics: {
-        'tone.editorial': 1,
-        'tone.minimal': 0,
-        'comp.balance': 0.5,
-        'risk.busy_center': 0.25,
-        'prod.cta_present': true,
-      },
-    })
-    const axes = graphicCraftGroupRadarPoints(rows)
-    assert.ok(axes.length >= 3)
-    const tone = axes.find((a) => a.group === 'tone')
-    assert.equal(tone?.label, 'Tone')
-    assert.equal(tone?.value, 0.5)
-    const composition = axes.find((a) => a.group === 'composition')
-    assert.equal(composition?.value, 0.5)
+  it('builds accordion radar from group score metrics and truncates', () => {
+    const metrics: Record<string, number> = {}
+    for (let i = 0; i < 12; i++) {
+      metrics[`tone.axis_${String(i).padStart(2, '0')}`] = i / 11
+    }
+    const rows = graphicCraftMetricRows({ status: 'complete', metrics })
+    const tone = graphicCraftGroups(rows).find((g) => g.group === 'tone')
+    assert.ok(tone)
+    const { points, truncated, scoreCount } = graphicCraftAccordionRadarPoints(tone!.rows, 10)
+    assert.equal(scoreCount, 12)
+    assert.equal(truncated, true)
+    assert.equal(points.length, 10)
+    assert.equal(points[0]?.value, 1)
+    assert.ok((points[0]?.value ?? 0) >= (points[9]?.value ?? 1))
   })
 })

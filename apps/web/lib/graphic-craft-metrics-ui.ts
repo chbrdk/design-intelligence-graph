@@ -141,43 +141,37 @@ export function graphicCraftTopScores(
     .slice(0, limit)
 }
 
-export type GraphicCraftRadarAxis = {
-  group: string
+export type GraphicCraftRadarPoint = {
+  id: string
   label: string
   value: number
 }
 
-/** Mean of score metrics per catalog group — overview spider axes. */
-export function graphicCraftGroupRadarPoints(
-  rows: GraphicCraftMetricRow[],
-): GraphicCraftRadarAxis[] {
-  const sums = new Map<string, { sum: number; n: number }>()
-  for (const row of rows) {
-    if (row.kind !== 'score' || typeof row.value !== 'number') continue
-    const cur = sums.get(row.group) ?? { sum: 0, n: 0 }
-    cur.sum += row.value
-    cur.n += 1
-    sums.set(row.group, cur)
+/** Max spider axes per accordion panel — more and labels collide. */
+export const GRAPHIC_CRAFT_ACCORDION_RADAR_MAX = 10
+
+/**
+ * Score metrics for an accordion group radar.
+ * If more than `maxAxes`, keeps the highest scores (stable id tie-break).
+ */
+export function graphicCraftAccordionRadarPoints(
+  groupRows: GraphicCraftMetricRow[],
+  maxAxes = GRAPHIC_CRAFT_ACCORDION_RADAR_MAX,
+): { points: GraphicCraftRadarPoint[]; truncated: boolean; scoreCount: number } {
+  const scores = groupRows
+    .filter((row) => row.kind === 'score' && typeof row.value === 'number')
+    .map((row) => ({
+      id: row.id,
+      label: row.label,
+      value: row.value as number,
+    }))
+    .sort((a, b) => b.value - a.value || a.id.localeCompare(b.id))
+  const truncated = scores.length > maxAxes
+  return {
+    points: truncated ? scores.slice(0, maxAxes) : scores,
+    truncated,
+    scoreCount: scores.length,
   }
-  const ordered: GraphicCraftRadarAxis[] = GROUP_ORDER.filter((group) =>
-    sums.has(group),
-  ).map((group) => {
-    const { sum, n } = sums.get(group)!
-    return {
-      group,
-      label: graphicCraftGroupLabel(group),
-      value: n > 0 ? sum / n : 0,
-    }
-  })
-  for (const [group, { sum, n }] of sums) {
-    if ((GROUP_ORDER as readonly string[]).includes(group)) continue
-    ordered.push({
-      group,
-      label: graphicCraftGroupLabel(group),
-      value: n > 0 ? sum / n : 0,
-    })
-  }
-  return ordered
 }
 
 export function formatGraphicCraftValue(row: GraphicCraftMetricRow): string {
