@@ -29,6 +29,7 @@ export interface DigPaths {
     embeddingsPath?: string;
     mcpPath?: string;
     pinterestPath?: string;
+    dribbblePath?: string;
   };
   runtime: {
     capturesDir: string;
@@ -107,6 +108,13 @@ export interface DigPaths {
     generationVersion?: string;
     capturePromptPackPath?: string;
     composeBriefPath?: string;
+  };
+  compositionContract?: {
+    version?: string;
+    doc?: string;
+    relativePath?: string;
+    schema?: string;
+    corpusSpec?: string;
   };
   northlineRebuild?: {
     doc?: string;
@@ -223,6 +231,28 @@ export interface DigPaths {
     privacyPath?: string;
     website?: string;
     submissionDoc?: string;
+  };
+  dribbble?: {
+    doc?: string;
+    apiBase?: string;
+    oauthAuthorize?: string;
+    oauthToken?: string;
+    shotUrlTemplate?: string;
+    oauthScopes?: string[];
+    clientIdEnv?: string;
+    clientSecretEnv?: string;
+    redirectUriEnv?: string;
+    islandCallbackPath?: string;
+    tokenFile?: string;
+    pageSize?: number;
+    maxShotsPerSync?: number;
+    rateLimitPerMinute?: number;
+    rateLimitPerDay?: number;
+    policyVersion?: string;
+    imageHostSuffixes?: string[];
+    defaultAssetKind?: string;
+    licenseClass?: string;
+    craftEligibleDefault?: boolean;
   };
   mcpLibraryTools?: {
     screenSearch?: string;
@@ -606,6 +636,60 @@ export function pinterestConfig(root = process.cwd()): {
     viewportName: cfg?.viewportName ?? "desktop",
     imageHostSuffixes: cfg?.imageHostSuffixes?.length ? cfg.imageHostSuffixes : ["pinimg.com", "pinterest.com"],
     apiPrefix: paths.api.pinterestPath ?? "/api/pinterest"
+  };
+}
+
+export function dribbbleConfig(root = process.cwd()): {
+  apiBase: string;
+  oauthAuthorize: string;
+  oauthToken: string;
+  shotUrlTemplate: string;
+  oauthScopes: string[];
+  clientIdEnv: string;
+  clientSecretEnv: string;
+  redirectUriEnv: string;
+  islandCallbackPath: string;
+  tokenFile: string;
+  pageSize: number;
+  maxShotsPerSync: number;
+  rateLimitPerMinute: number;
+  rateLimitPerDay: number;
+  policyVersion: string;
+  imageHostSuffixes: string[];
+  defaultAssetKind: string;
+  licenseClass: string;
+  craftEligibleDefault: boolean;
+  apiPrefix: string;
+} {
+  const paths = loadDigPaths(root);
+  const cfg = paths.dribbble;
+  const pageSize = Number(cfg?.pageSize);
+  const maxShots = Number(cfg?.maxShotsPerSync);
+  const perMin = Number(cfg?.rateLimitPerMinute);
+  const perDay = Number(cfg?.rateLimitPerDay);
+  return {
+    apiBase: (cfg?.apiBase ?? "https://api.dribbble.com/v2").replace(/\/$/, ""),
+    oauthAuthorize: cfg?.oauthAuthorize ?? "https://dribbble.com/oauth/authorize",
+    oauthToken: cfg?.oauthToken ?? "https://dribbble.com/oauth/token",
+    shotUrlTemplate: cfg?.shotUrlTemplate ?? "https://dribbble.com/shots/{shot_id}",
+    oauthScopes: cfg?.oauthScopes?.length ? cfg.oauthScopes : ["public"],
+    clientIdEnv: cfg?.clientIdEnv ?? "DRIBBBLE_CLIENT_ID",
+    clientSecretEnv: cfg?.clientSecretEnv ?? "DRIBBBLE_CLIENT_SECRET",
+    redirectUriEnv: cfg?.redirectUriEnv ?? "DRIBBBLE_REDIRECT_URI",
+    islandCallbackPath: cfg?.islandCallbackPath ?? "/api/dribbble/callback",
+    tokenFile: cfg?.tokenFile ?? "dribbble-oauth.json",
+    pageSize: Number.isFinite(pageSize) ? Math.min(100, Math.max(1, Math.round(pageSize))) : 30,
+    maxShotsPerSync: Number.isFinite(maxShots) ? Math.min(100, Math.max(1, Math.round(maxShots))) : 40,
+    rateLimitPerMinute: Number.isFinite(perMin) ? Math.max(1, Math.round(perMin)) : 60,
+    rateLimitPerDay: Number.isFinite(perDay) ? Math.max(1, Math.round(perDay)) : 1440,
+    policyVersion: cfg?.policyVersion ?? "dribbble_api_v2_2026-09",
+    imageHostSuffixes: cfg?.imageHostSuffixes?.length
+      ? cfg.imageHostSuffixes
+      : ["cdn.dribbble.com", "dribbble.com"],
+    defaultAssetKind: cfg?.defaultAssetKind ?? "other_graphic",
+    licenseClass: cfg?.licenseClass ?? "connector_tos",
+    craftEligibleDefault: cfg?.craftEligibleDefault === true,
+    apiPrefix: paths.api.dribbblePath ?? "/api/dribbble"
   };
 }
 

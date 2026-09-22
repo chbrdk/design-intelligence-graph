@@ -14,6 +14,7 @@ import { EnrichmentQueue, publicEnrichmentView } from "./enrichment-queue.js";
 import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-store.js";
 import { handleLibraryApi } from "./library-api.js";
 import { handlePinterestApi } from "./pinterest-api.js";
+import { handleDribbbleApi } from "./dribbble-api.js";
 import { handleMcpHttp } from "./mcp-http.js";
 import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
@@ -148,6 +149,7 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
 
   if (await handleLibraryApi(request, response, url)) return true;
   if (await handlePinterestApi(request, response, url)) return true;
+  if (await handleDribbbleApi(request, response, url)) return true;
   if (await handlePlatformProvisioningApi(request, response, url)) return true;
 
   if (request.method === "OPTIONS") {
@@ -287,7 +289,11 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         });
         return true;
       }
-      const jobs = runner.startUploadJobs(parsed.files, {
+      const files = parsed.files.map((file) => ({
+        ...file,
+        asset_kind: file.asset_kind ?? parsed.assetKind ?? "other_graphic"
+      }));
+      const jobs = runner.startUploadJobs(files, {
         platformProjectId: parsed.platformProjectId
       });
       sendJson(response, 202, {
@@ -295,6 +301,7 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         queued: jobs.length,
         skipped: parsed.skipped.length,
         skipped_files: parsed.skipped,
+        asset_kind: parsed.assetKind ?? "other_graphic",
         max_image_concurrent: imageIngestConfig().maxConcurrent,
         jobs: jobs.map(publicJobView)
       });

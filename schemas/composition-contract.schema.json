@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-intelligence-graph.dev/schemas/0.1.0/composition-contract.schema.json",
+  "title": "SPIRION Composition Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "composition_contract_version",
+    "focal",
+    "hierarchy",
+    "negativeSpace",
+    "typeRoles",
+    "colorAxes",
+    "marginBleed",
+    "layoutFamily",
+    "avoid",
+    "ctaRole"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "composition_contract_version": { "type": "string" },
+    "focal": { "type": ["string", "null"] },
+    "hierarchy": { "type": "array", "items": { "type": "string" } },
+    "negativeSpace": {
+      "type": ["string", "null"],
+      "enum": ["tight", "balanced", "airy", null]
+    },
+    "typeRoles": {
+      "type": "object",
+      "properties": {
+        "display": { "type": ["string", "null"] },
+        "title": { "type": ["string", "null"] },
+        "body": { "type": ["string", "null"] },
+        "legal": { "type": ["string", "null"] }
+      }
+    },
+    "colorAxes": {
+      "type": "object",
+      "properties": {
+        "dominant": { "type": ["string", "null"] },
+        "accent": { "type": ["string", "null"] },
+        "ground": { "type": ["string", "null"] }
+      }
+    },
+    "marginBleed": {
+      "type": "object",
+      "properties": {
+        "safeRel": { "type": ["number", "null"] },
+        "bleedRel": { "type": ["number", "null"] },
+        "quietZoneRel": { "type": ["number", "null"] }
+      }
+    },
+    "layoutFamily": { "type": ["string", "null"] },
+    "avoid": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "ctaRole": { "type": ["string", "null"], "enum": ["present", "absent", null] }
+  },
+  "additionalProperties": false
+}

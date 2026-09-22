@@ -209,7 +209,7 @@ export function listDigTools() {
     {
       name: "dig_capture_prompt_pack",
       description:
-        "Assemble a DesignPromptPack from one capture (look_contract + page_rhythm). Use after dig_screen_search.",
+        "Assemble a DesignPromptPack from one capture (look/rhythm and/or composition_contract).",
       inputSchema: {
         type: "object",
         required: ["capture_run_id"],
@@ -219,7 +219,16 @@ export function listDigTools() {
           platformProjectId: { type: "string" },
           output_contract: {
             type: "string",
-            enum: ["layout_hints_json", "prose_brief", "both"]
+            enum: [
+              "layout_hints_json",
+              "prose_brief",
+              "both",
+              "look",
+              "rhythm",
+              "composition",
+              "graphic",
+              "auto"
+            ]
           }
         }
       }

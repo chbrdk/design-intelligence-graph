@@ -1,5 +1,6 @@
 /**
- * Capture → DesignPromptPack (look_contract + page_rhythm). Shared by HTTP + MCP.
+ * Capture → DesignPromptPack (look_contract + page_rhythm + composition_contract).
+ * Shared by HTTP + MCP. Welle 2: output_contract graphic|composition|auto.
  */
 
 import type { Queryable } from "./db.js";
@@ -8,8 +9,20 @@ import { buildDesignFacets } from "./design-facets.js";
 import { loadDesignTokensDocument } from "./design-tokens.js";
 import { asLookContract } from "./look-contract.js";
 import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
+import {
+  asCompositionContract,
+  loadCompositionContract
+} from "./composition-contract.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { loadVisionPageDocument } from "./vision-page.js";
+import {
+  normalizeAssetKind,
+  resolvePackOutputContract,
+  wantsComposition,
+  wantsLook,
+  wantsRhythm,
+  type SpirionAssetKind
+} from "./spirion-asset.js";
 
 export async function assemblePromptPackForCaptureRun(
   client: Queryable | null,
@@ -26,15 +39,24 @@ export async function assemblePromptPackForCaptureRun(
   );
   const { assembleDesignPromptPack, syntheticScreenReference } = await import("./design-prompt-pack.js");
   const capture = await client.query(
-    `SELECT package_path, platform_project_id FROM captures WHERE capture_run_id = $1 LIMIT 1`,
+    `SELECT package_path, platform_project_id, asset_kind, composition_contract
+     FROM captures WHERE capture_run_id = $1 LIMIT 1`,
     [captureRunId]
   );
-  const row = capture.rows[0] as { package_path?: string; platform_project_id?: string | null } | undefined;
+  const row = capture.rows[0] as
+    | {
+        package_path?: string;
+        platform_project_id?: string | null;
+        asset_kind?: string | null;
+        composition_contract?: unknown;
+      }
+    | undefined;
   if (!row?.package_path) {
     const error = new Error("capture_not_found");
     (error as Error & { status?: number }).status = 404;
     throw error;
   }
+  const assetKind: SpirionAssetKind = normalizeAssetKind(row.asset_kind, "web_screen");
   const platformProjectId =
     typeof body.platformProjectId === "string"
       ? body.platformProjectId
@@ -68,9 +90,19 @@ export async function assemblePromptPackForCaptureRun(
     bands: visionLayout?.bands ?? [],
     tokens
   });
-  const look_contract = asLookContract(body.look_contract) ?? facets.look_contract;
-  const page_rhythm =
-    asPageRhythm(body.page_rhythm) ?? (await loadPageRhythmForPackage(row.package_path).catch(() => null));
+  const packContract = resolvePackOutputContract(body.output_contract, assetKind);
+  const look_contract = wantsLook(packContract)
+    ? asLookContract(body.look_contract) ?? facets.look_contract
+    : null;
+  const page_rhythm = wantsRhythm(packContract)
+    ? asPageRhythm(body.page_rhythm) ??
+      (await loadPageRhythmForPackage(row.package_path).catch(() => null))
+    : null;
+  const composition_contract = wantsComposition(packContract)
+    ? asCompositionContract(body.composition_contract) ??
+      asCompositionContract(row.composition_contract) ??
+      (await loadCompositionContract(row.package_path).catch(() => null))
+    : asCompositionContract(body.composition_contract) ?? null;
 
   if (!references.length) {
     references = [
@@ -87,11 +119,9 @@ export async function assemblePromptPackForCaptureRun(
   const brief =
     typeof body.brief === "string" && body.brief.trim()
       ? body.brief.trim()
-      : `Rebuild this screen using look_contract. Cite ${references[0]!.reference_id}.`;
-  const output_contract =
-    body.output_contract === "prose_brief" || body.output_contract === "both"
-      ? body.output_contract
-      : "layout_hints_json";
+      : wantsComposition(packContract)
+        ? `Rebuild this artboard using composition_contract. Cite ${references[0]!.reference_id}.`
+        : `Rebuild this screen using look_contract. Cite ${references[0]!.reference_id}.`;
 
   return assembleDesignPromptPack({
     brief,
@@ -102,14 +132,16 @@ export async function assemblePromptPackForCaptureRun(
       synthesis_mode: "look_conditioned",
       constraints: { forbid_source_copy: true }
     },
-    output_contract,
+    output_contract: packContract,
     look_contract,
     page_rhythm,
+    composition_contract,
     tokens,
     layout: facets.layout,
     style: facets.style,
     spacing_feel: visionPage?.spacing_feel ?? null,
-    visual_craft: visionPage?.visual_craft ?? null
+    visual_craft: visionPage?.visual_craft ?? null,
+    asset_kind: assetKind
   });
 }
 

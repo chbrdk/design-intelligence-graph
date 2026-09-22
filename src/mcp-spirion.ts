@@ -23,6 +23,7 @@ export type SpirionToolName =
   | "spirion.enrichment_list"
   | "spirion.enrichment_get"
   | "spirion.captures_list"
+  | "spirion.assets_list"
   | "spirion.analyses_list"
   | "spirion.analysis_get"
   | "spirion.screens_search"
@@ -139,12 +140,32 @@ export function listSpirionTools(): ToolDef[] {
     },
     {
       name: "spirion.captures_list",
-      description: "GET /api/library/captures — indexed captures (no package_path).",
+      description:
+        "GET /api/library/captures — indexed captures/assets (no package_path). Filter by assetKind / craftEligible.",
       inputSchema: {
         type: "object",
         properties: {
           platformProjectId: { type: "string" },
           digProjectId: { type: "string" },
+          assetKind: { type: "string" },
+          asset_kind: { type: "string" },
+          craftEligible: { type: "boolean" },
+          craft_eligible: { type: "boolean" },
+          limit: { type: "number" }
+        }
+      }
+    },
+    {
+      name: "spirion.assets_list",
+      description:
+        "Alias of spirion.captures_list — preferred name for multi-kind SpirionAsset library.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          platformProjectId: { type: "string" },
+          digProjectId: { type: "string" },
+          assetKind: { type: "string" },
+          craftEligible: { type: "boolean" },
           limit: { type: "number" }
         }
       }
@@ -189,7 +210,8 @@ export function listSpirionTools(): ToolDef[] {
     },
     {
       name: "spirion.capture_prompt_pack",
-      description: "Alias of dig_capture_prompt_pack — look_contract + page_rhythm for one capture.",
+      description:
+        "Alias of dig_capture_prompt_pack — look/rhythm and/or composition_contract for one asset.",
       inputSchema: {
         type: "object",
         required: ["capture_run_id"],
@@ -197,7 +219,19 @@ export function listSpirionTools(): ToolDef[] {
           capture_run_id: { type: "string" },
           brief: { type: "string" },
           platformProjectId: { type: "string" },
-          output_contract: { type: "string", enum: ["layout_hints_json", "prose_brief", "both"] }
+          output_contract: {
+            type: "string",
+            enum: [
+              "layout_hints_json",
+              "prose_brief",
+              "both",
+              "look",
+              "rhythm",
+              "composition",
+              "graphic",
+              "auto"
+            ]
+          }
         }
       }
     },
@@ -319,6 +353,16 @@ async function listCaptures(args: Record<string, unknown>) {
   if (!client) throw new Error("database_unavailable");
   const platformProjectId = str(args, "platformProjectId", "platform_project_id");
   const digProjectId = str(args, "digProjectId", "dig_project_id");
+  const assetKind = str(args, "assetKind", "asset_kind");
+  const craftEligibleRaw = args.craftEligible ?? args.craft_eligible;
+  const craftEligible =
+    typeof craftEligibleRaw === "boolean"
+      ? craftEligibleRaw
+      : craftEligibleRaw === "true" || craftEligibleRaw === "1"
+        ? true
+        : craftEligibleRaw === "false" || craftEligibleRaw === "0"
+          ? false
+          : null;
   const limit =
     typeof args.limit === "number" && Number.isFinite(args.limit)
       ? Math.max(1, Math.min(100, Math.floor(args.limit)))
@@ -333,19 +377,40 @@ async function listCaptures(args: Record<string, unknown>) {
     values.push(digProjectId);
     clauses.push(`dig_project_id = $${values.length}`);
   }
+  if (assetKind) {
+    values.push(assetKind);
+    clauses.push(`asset_kind = $${values.length}`);
+  }
+  if (craftEligible !== null) {
+    values.push(craftEligible);
+    clauses.push(`craft_eligible = $${values.length}`);
+  }
   const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
   values.push(limit);
   const result = await client.query(
     `SELECT capture_run_id, requested_url, canonical_url, status, site_domain, page_route,
             quality_overall, quality_rating, started_at, completed_at, indexed_at,
-            dig_project_id, platform_project_id
+            dig_project_id, platform_project_id,
+            asset_kind, source, source_id, license_class, craft_eligible, enrichment_status,
+            format, tags
      FROM captures
      ${where}
      ORDER BY indexed_at DESC
      LIMIT $${values.length}`,
     values
   );
-  return { captures: result.rows };
+  const captures = result.rows.map((row) => {
+    const r = row as Record<string, unknown>;
+    return {
+      ...r,
+      id: r.capture_run_id,
+      assetKind: r.asset_kind,
+      craftEligible: r.craft_eligible,
+      enrichmentStatus: r.enrichment_status,
+      licenseClass: r.license_class
+    };
+  });
+  return { captures, assets: captures };
 }
 
 async function listAnalyses(args: Record<string, unknown>) {
@@ -455,7 +520,7 @@ export async function callSpirionTool(name: SpirionToolName, args: Record<string
     return mcpEnrichmentView(job);
   }
 
-  if (name === "spirion.captures_list") return listCaptures(args);
+  if (name === "spirion.captures_list" || name === "spirion.assets_list") return listCaptures(args);
   if (name === "spirion.analyses_list") return listAnalyses(args);
   if (name === "spirion.analysis_get") {
     const captureRunId = str(args, "capture_run_id", "captureRunId");

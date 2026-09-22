@@ -17,6 +17,7 @@ export type ParsedImageUploads = {
   files: UploadedImageIngest[];
   skipped: SkippedUpload[];
   platformProjectId: string | null;
+  assetKind: string | null;
 };
 
 const MIME_BY_EXT: Record<string, string> = {
@@ -56,6 +57,7 @@ export async function parseMultipartImageUploads(
   const files: UploadedImageIngest[] = [];
   const skipped: SkippedUpload[] = [];
   let platformProjectId: string | null = null;
+  let assetKind: string | null = null;
 
   const busboy = Busboy({
     headers: { ...request.headers, "content-type": contentType },
@@ -73,6 +75,10 @@ export async function parseMultipartImageUploads(
     if (fieldname === "platformProjectId" || fieldname === "platform_project_id") {
       const trimmed = value.trim();
       platformProjectId = trimmed || null;
+    }
+    if (fieldname === "assetKind" || fieldname === "asset_kind") {
+      const trimmed = value.trim();
+      assetKind = trimmed || null;
     }
   });
 
@@ -101,7 +107,12 @@ export async function parseMultipartImageUploads(
             skipped.push({ filename: safeName, reason: "too_large" });
             return;
           }
-          files.push({ source_id: sourceId, filename: safeName, path: dest });
+          files.push({
+            source_id: sourceId,
+            filename: safeName,
+            path: dest,
+            ...(assetKind ? { asset_kind: assetKind } : {})
+          });
         } catch (error: unknown) {
           await unlink(dest).catch(() => undefined);
           skipped.push({
@@ -123,7 +134,12 @@ export async function parseMultipartImageUploads(
     request.pipe(busboy);
   });
   await Promise.all(tasks);
-  return { files, skipped, platformProjectId };
+  if (assetKind) {
+    for (const file of files) {
+      if (!file.asset_kind) file.asset_kind = assetKind;
+    }
+  }
+  return { files, skipped, platformProjectId, assetKind };
 }
 
 function extensionForMime(mime: string): string {

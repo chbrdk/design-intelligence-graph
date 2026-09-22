@@ -609,6 +609,15 @@ export async function handleLibraryApi(
   if (request.method === "GET" && path === "/captures") {
     const platformProjectId = queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id");
     const digProjectId = queryParam(requestUrl, "digProjectId") ?? queryParam(requestUrl, "dig_project_id");
+    const assetKind = queryParam(requestUrl, "assetKind") ?? queryParam(requestUrl, "asset_kind");
+    const craftEligibleRaw =
+      queryParam(requestUrl, "craftEligible") ?? queryParam(requestUrl, "craft_eligible");
+    const craftEligible =
+      craftEligibleRaw === "true" || craftEligibleRaw === "1"
+        ? true
+        : craftEligibleRaw === "false" || craftEligibleRaw === "0"
+          ? false
+          : null;
     const clauses: string[] = [];
     const values: unknown[] = [];
     if (platformProjectId) {
@@ -619,18 +628,41 @@ export async function handleLibraryApi(
       values.push(digProjectId);
       clauses.push(`dig_project_id = $${values.length}`);
     }
+    if (assetKind) {
+      values.push(assetKind);
+      clauses.push(`asset_kind = $${values.length}`);
+    }
+    if (craftEligible !== null) {
+      values.push(craftEligible);
+      clauses.push(`craft_eligible = $${values.length}`);
+    }
     const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
     const result = await client.query(
       `SELECT capture_run_id, package_path, requested_url, canonical_url, status, site_domain, page_route,
               quality_overall, quality_rating, started_at, completed_at, indexed_at,
-              dig_project_id, platform_project_id
+              dig_project_id, platform_project_id,
+              asset_kind, source, source_id, license_class, craft_eligible, enrichment_status,
+              format, tags
        FROM captures
        ${where}
        ORDER BY indexed_at DESC
        LIMIT 100`,
       values
     );
-    sendJson(response, 200, { captures: result.rows });
+    sendJson(response, 200, {
+      captures: result.rows,
+      assets: result.rows.map((row) => {
+        const r = row as Record<string, unknown>;
+        return {
+          ...r,
+          id: r.capture_run_id,
+          assetKind: r.asset_kind,
+          craftEligible: r.craft_eligible,
+          enrichmentStatus: r.enrichment_status,
+          licenseClass: r.license_class
+        };
+      })
+    });
     return true;
   }
 

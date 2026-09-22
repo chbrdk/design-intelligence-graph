@@ -18,6 +18,17 @@ import { verifyCapturePackage } from "./verify.js";
 import { downloadPinImage, type PinterestPin } from "./pinterest-client.js";
 import { ingestPinterestPinPackage } from "./pinterest-package.js";
 import { ingestUploadedImagePackage, type UploadedImageIngest } from "./image-ingest.js";
+import {
+  enrichGraphicFromImage,
+  writeCompositionContract
+} from "./composition-contract.js";
+import {
+  craftEligibleFromLicense,
+  isGraphicAssetKind,
+  normalizeAssetKind,
+  normalizeLicenseClass
+} from "./spirion-asset.js";
+import type { IndexCaptureScope } from "./db-index.js";
 
 export type JobStage = "queued" | "capturing" | "analyzing" | "verifying" | "indexing" | "complete" | "failed" | "skipped";
 
@@ -686,9 +697,11 @@ export class JobRunner {
       this.emit(job, { stage: "indexing", message: "Ingesting into portable knowledge graph" });
       const indexed = await indexFn(captureResult.packageRoot, indexesDir);
       try {
+        const assetScope = await buildAssetIndexScope(job, captureResult.packageRoot);
         const dbIndex = await indexCapturePackageToDatabase(captureResult.packageRoot, undefined, {
           platformProjectId: job.platform_project_id ?? null,
-          digProjectId: job.dig_project_id ?? null
+          digProjectId: job.dig_project_id ?? null,
+          ...assetScope
         });
         if (dbIndex.indexed) {
           this.emit(job, {
@@ -763,6 +776,74 @@ export class JobRunner {
 
 function isImageIngestJob(job: JobRecord): boolean {
   return job.ingest_source === "pinterest" || job.ingest_source === "upload";
+}
+
+async function buildAssetIndexScope(
+  job: JobRecord,
+  packageRoot: string
+): Promise<Partial<IndexCaptureScope>> {
+  if (job.ingest_source === "upload" && job.upload_image) {
+    const isDribbble = job.upload_image.source_id.startsWith("dribbble_");
+    const kind = normalizeAssetKind(
+      job.upload_image.asset_kind,
+      isDribbble ? "other_graphic" : "other_graphic"
+    );
+    const license = normalizeLicenseClass(isDribbble ? "connector_tos" : "customer_owned");
+    const base: Partial<IndexCaptureScope> = {
+      assetKind: kind,
+      source: isDribbble ? "connector:dribbble" : "upload",
+      sourceId: isDribbble
+        ? job.upload_image.source_id.replace(/^dribbble_/, "")
+        : job.upload_image.source_id,
+      sourceUri: job.url,
+      licenseClass: license,
+      craftEligible: craftEligibleFromLicense(license, isDribbble ? false : true),
+      enrichmentStatus: "pending",
+      fetchedAt: new Date().toISOString(),
+      ...(isDribbble
+        ? { connectorPolicyVersion: "dribbble_api_v2_2026-09" }
+        : {})
+    };
+    if (!isGraphicAssetKind(kind)) {
+      return { ...base, enrichmentStatus: "ready" };
+    }
+    try {
+      const image = await readFile(job.upload_image.path);
+      const enriched = await enrichGraphicFromImage(image);
+      await writeCompositionContract(packageRoot, enriched.composition_contract);
+      return {
+        ...base,
+        format: enriched.format as Record<string, unknown>,
+        tags: enriched.tags,
+        compositionContract: enriched.composition_contract as unknown as Record<string, unknown>,
+        contentHash: enriched.content_hash,
+        enrichmentStatus: enriched.thin ? "failed" : "ready",
+        craftEligible: enriched.thin ? false : craftEligibleFromLicense(license, true)
+      };
+    } catch {
+      return { ...base, enrichmentStatus: "failed", craftEligible: false };
+    }
+  }
+  if (job.ingest_source === "pinterest" && job.pinterest_pin) {
+    const license = normalizeLicenseClass("connector_tos");
+    return {
+      assetKind: "moodboard",
+      source: "connector:pinterest",
+      sourceId: job.pinterest_pin.pin_id,
+      sourceUri: job.url,
+      licenseClass: license,
+      craftEligible: craftEligibleFromLicense(license, false),
+      enrichmentStatus: "pending",
+      fetchedAt: new Date().toISOString()
+    };
+  }
+  return {
+    assetKind: "web_screen",
+    source: "web_capture",
+    licenseClass: "studio_curated",
+    craftEligible: true,
+    enrichmentStatus: "ready"
+  };
 }
 
 /** Keep job.error readable when verify dumps dozens of duplicate ontology ids. */

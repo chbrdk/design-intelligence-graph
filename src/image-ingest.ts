@@ -6,6 +6,8 @@ export type UploadedImageIngest = {
   source_id: string;
   filename: string;
   path: string;
+  /** Optional SPIRION assetKind for graphic uploads. */
+  asset_kind?: string;
 };
 
 export async function ingestUploadedImagePackage(input: {

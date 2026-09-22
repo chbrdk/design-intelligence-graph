@@ -14,15 +14,21 @@ import {
 } from "./look-contract.js";
 import type { PageRhythm } from "./page-rhythm.js";
 import { pageRhythmHasSignal, pageRhythmRules } from "./page-rhythm.js";
+import {
+  compositionContractRules,
+  type CompositionContract
+} from "./composition-contract.js";
 import type { DesignTokensDocument } from "./design-tokens.js";
 import type { VisualCraft } from "./vision-page.js";
 import { visualCraftHasSignal } from "./vision-page.js";
+import type { PackOutputContract, SpirionAssetKind } from "./spirion-asset.js";
+import { wantsComposition, wantsLook, wantsRhythm } from "./spirion-asset.js";
 
 export const DESIGN_PROMPT_PACK_SCHEMA_VERSION = "0.1.0" as const;
 export const PROMPT_PACK_MAX_BYTES = 16_000;
 export const COMPACT_REF_MAX_BYTES = 2_500;
 
-export type PromptOutputContract = "layout_hints_json" | "prose_brief" | "both";
+export type PromptOutputContract = PackOutputContract;
 
 export type CompactReference = {
   reference_id: string;
@@ -59,7 +65,9 @@ export type DesignPromptPack = {
   output_contract: PromptOutputContract;
   look_contract?: LookContract;
   page_rhythm?: PageRhythm;
+  composition_contract?: CompositionContract;
   visual_craft?: VisualCraft;
+  asset_kind?: SpirionAssetKind;
 };
 
 export const HARD_RULES: string[] = [
@@ -70,6 +78,7 @@ export const HARD_RULES: string[] = [
   "Separate structure (signature, roles, taxonomy) from feel (look_summary, tokens).",
   "If look_contract is present, it outranks vibe adjectives in the brief.",
   "If page_rhythm is present, it outranks generic landing-page / card-kit structure.",
+  "If composition_contract is present, treat the brief as a single artboard — not a scroll page.",
   "If visual_craft is present, implement type/image layering and typographic composition literally; do not flatten into a generic card kit."
 ];
 
@@ -231,14 +240,21 @@ function buildAsk(
   contract: PromptOutputContract,
   primaryId: string,
   hasRhythm: boolean,
-  hasCraft: boolean
+  hasCraft: boolean,
+  hasComposition: boolean
 ): string {
+  if (contract === "composition" || contract === "graphic" || hasComposition) {
+    return `Return artboard craft direction citing ${primaryId}. Obey composition_contract (focal, hierarchy, layoutFamily, avoid, margins). Do not invent web page_rhythm bands. Do not copy source brand marks 1:1.`;
+  }
   const rhythm = hasRhythm ? " Obey page_rhythm.page_arc; do not collapse into a card-kit hero." : "";
   const craft = hasCraft
     ? " Obey visual_craft: type/image overlap, typographic composition, imagery treatments, and rebuild_spec."
     : "";
-  if (contract === "prose_brief") {
+  if (contract === "prose_brief" || contract === "look") {
     return `Write a ≤280-word creative direction citing ${primaryId}. Follow look_contract.${rhythm}${craft} Do not copy source marketing copy.`;
+  }
+  if (contract === "rhythm") {
+    return `Return layout direction citing ${primaryId}. Obey page_rhythm primarily.${craft}`;
   }
   if (contract === "both") {
     return `Return layout_hints_json first (DIG-012 contract), then a short prose rationale. Cite ${primaryId}. Obey look_contract.avoid.${rhythm}${craft}`;
@@ -252,38 +268,50 @@ export function assembleDesignPromptPack(input: {
   output_contract?: PromptOutputContract;
   look_contract?: LookContract | null;
   page_rhythm?: PageRhythm | null;
+  composition_contract?: CompositionContract | null;
   tokens?: DesignTokensDocument | null;
   layout?: string | null;
   style?: string | null;
   spacing_feel?: string | null;
   visual_craft?: VisualCraft | null;
+  asset_kind?: SpirionAssetKind | null;
 }): DesignPromptPack {
   const brief = input.brief.trim();
   if (!brief) throw new Error("brief required");
   const refs = input.pack.references.slice(0, 8);
   if (!refs.length) throw new Error("pack.references required");
 
+  const contract = input.output_contract ?? "layout_hints_json";
+  const includeLook = wantsLook(contract) || Boolean(input.look_contract);
+  const includeRhythm = wantsRhythm(contract);
+  const includeComposition =
+    wantsComposition(contract) || Boolean(input.composition_contract);
+
   const primary = refs[0]!;
   const compactTokens = primary.tokens as CompactLookTokens | undefined;
-  const look_contract = resolveLookContract({
-    look_contract: input.look_contract ?? null,
-    tokens: input.tokens ?? null,
-    compact_tokens: compactTokens ?? null,
-    spacing_feel: input.spacing_feel ?? null,
-    layout: input.layout ?? primary.composition.stack_summary,
-    style: input.style ?? compactTokens?.style_labels?.[0] ?? null
-  });
-  const page_rhythm = pageRhythmHasSignal(input.page_rhythm) ? input.page_rhythm! : null;
+  const look_contract = includeLook
+    ? resolveLookContract({
+        look_contract: input.look_contract ?? null,
+        tokens: input.tokens ?? null,
+        compact_tokens: compactTokens ?? null,
+        spacing_feel: input.spacing_feel ?? null,
+        layout: input.layout ?? primary.composition.stack_summary,
+        style: input.style ?? compactTokens?.style_labels?.[0] ?? null
+      })
+    : undefined;
+  const page_rhythm =
+    includeRhythm && pageRhythmHasSignal(input.page_rhythm) ? input.page_rhythm! : null;
+  const composition_contract = includeComposition ? input.composition_contract ?? null : null;
   const visual_craft = visualCraftHasSignal(input.visual_craft) ? input.visual_craft! : null;
 
   const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
   const rules = [
     ...HARD_RULES,
-    ...lookContractRules(look_contract),
+    ...(look_contract ? lookContractRules(look_contract) : []),
     ...(page_rhythm ? pageRhythmRules(page_rhythm) : []),
+    ...(composition_contract ? compositionContractRules(composition_contract) : []),
     ...(forbid ? ["forbid_source_copy is absolute for this pack."] : [])
   ];
-  const contract = input.output_contract ?? "layout_hints_json";
   const primaryId = refs[0]!.reference_id;
 
   let compacted = refs.map(compactDesignReference);
@@ -293,11 +321,19 @@ export function assembleDesignPromptPack(input: {
     brief,
     rules,
     references: compacted,
-    ask: buildAsk(contract, primaryId, Boolean(page_rhythm), Boolean(visual_craft)),
+    ask: buildAsk(
+      contract,
+      primaryId,
+      Boolean(page_rhythm),
+      Boolean(visual_craft),
+      Boolean(composition_contract)
+    ),
     output_contract: contract,
-    look_contract,
+    ...(look_contract ? { look_contract } : {}),
     ...(page_rhythm ? { page_rhythm } : {}),
-    ...(visual_craft ? { visual_craft } : {})
+    ...(composition_contract ? { composition_contract } : {}),
+    ...(visual_craft ? { visual_craft } : {}),
+    ...(input.asset_kind ? { asset_kind: input.asset_kind } : {})
   };
 
   // Drop page-level noise already omitted; if still over budget, shrink look summaries.

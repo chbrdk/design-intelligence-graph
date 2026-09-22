@@ -30,7 +30,8 @@
     "enrichmentPath": "/api/enrichment",
     "embeddingsPath": "/api/embeddings",
     "mcpPath": "/mcp",
-    "pinterestPath": "/api/pinterest"
+    "pinterestPath": "/api/pinterest",
+    "dribbblePath": "/api/dribbble"
   },
   "runtime": {
     "capturesDir": "captures",
@@ -237,6 +238,13 @@
     "capturePromptPackPath": "/api/library/analyses/:capture_run_id/prompt-pack",
     "composeBriefPath": "/api/library/references/compose-brief"
   },
+  "compositionContract": {
+    "version": "0.1.0",
+    "doc": "knowledge/composition-contract.md",
+    "relativePath": "derived/composition-contract.json",
+    "schema": "schemas/composition-contract.schema.json",
+    "corpusSpec": "plexon specs/domain/spirion-campaign-motif-corpus.md"
+  },
   "northlineRebuild": {
     "doc": "knowledge/northline-insurance-rebuild.md",
     "route": "/rebuild/northline",
@@ -364,6 +372,28 @@
     "privacyPath": "/privacy",
     "website": "https://spirion.projects-a.plygrnd.tech",
     "submissionDoc": "knowledge/pinterest-app-submission.md"
+  },
+  "dribbble": {
+    "doc": "knowledge/dribbble-connector.md",
+    "apiBase": "https://api.dribbble.com/v2",
+    "oauthAuthorize": "https://dribbble.com/oauth/authorize",
+    "oauthToken": "https://dribbble.com/oauth/token",
+    "shotUrlTemplate": "https://dribbble.com/shots/{shot_id}",
+    "oauthScopes": ["public"],
+    "clientIdEnv": "DRIBBBLE_CLIENT_ID",
+    "clientSecretEnv": "DRIBBBLE_CLIENT_SECRET",
+    "redirectUriEnv": "DRIBBBLE_REDIRECT_URI",
+    "islandCallbackPath": "/api/dribbble/callback",
+    "tokenFile": "dribbble-oauth.json",
+    "pageSize": 30,
+    "maxShotsPerSync": 40,
+    "rateLimitPerMinute": 60,
+    "rateLimitPerDay": 1440,
+    "policyVersion": "dribbble_api_v2_2026-09",
+    "imageHostSuffixes": ["cdn.dribbble.com", "dribbble.com"],
+    "defaultAssetKind": "other_graphic",
+    "licenseClass": "connector_tos",
+    "craftEligibleDefault": false
   },
   "mcpLibraryTools": {
     "screenSearch": "dig_screen_search",

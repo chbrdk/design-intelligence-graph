@@ -70,6 +70,19 @@ function boxFromEntity(entity: OntologyEntity): Box | null {
 export type IndexCaptureScope = {
   platformProjectId?: string | null;
   digProjectId?: string | null;
+  assetKind?: string | null;
+  source?: string | null;
+  sourceId?: string | null;
+  sourceUri?: string | null;
+  licenseClass?: string | null;
+  craftEligible?: boolean | null;
+  enrichmentStatus?: string | null;
+  format?: Record<string, unknown> | null;
+  tags?: string[] | null;
+  compositionContract?: Record<string, unknown> | null;
+  contentHash?: string | null;
+  connectorPolicyVersion?: string | null;
+  fetchedAt?: string | null;
 };
 
 /** Prefer explicit scope; otherwise reuse Collection ids already stored on the capture row. */
@@ -144,8 +157,14 @@ export async function indexCapturePackageToDatabase(
     `INSERT INTO captures (
       capture_run_id, package_path, requested_url, canonical_url, status,
       site_domain, page_route, quality_overall, quality_rating, started_at, completed_at, indexed_at,
-      dig_project_id, platform_project_id
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,NOW(),$12,$13)
+      dig_project_id, platform_project_id,
+      asset_kind, source, source_id, source_uri, license_class, craft_eligible, enrichment_status,
+      format, tags, composition_contract, content_hash, connector_policy_version, fetched_at
+    ) VALUES (
+      $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,NOW(),$12,$13,
+      $14,$15,$16,$17,$18,$19,$20,
+      $21::jsonb,$22::jsonb,$23::jsonb,$24,$25,$26
+    )
     ON CONFLICT (capture_run_id) DO UPDATE SET
       package_path = EXCLUDED.package_path,
       status = EXCLUDED.status,
@@ -154,6 +173,25 @@ export async function indexCapturePackageToDatabase(
       completed_at = EXCLUDED.completed_at,
       dig_project_id = COALESCE(EXCLUDED.dig_project_id, captures.dig_project_id),
       platform_project_id = COALESCE(EXCLUDED.platform_project_id, captures.platform_project_id),
+      asset_kind = COALESCE(EXCLUDED.asset_kind, captures.asset_kind),
+      source = COALESCE(EXCLUDED.source, captures.source),
+      source_id = COALESCE(EXCLUDED.source_id, captures.source_id),
+      source_uri = COALESCE(EXCLUDED.source_uri, captures.source_uri),
+      license_class = COALESCE(EXCLUDED.license_class, captures.license_class),
+      craft_eligible = COALESCE(EXCLUDED.craft_eligible, captures.craft_eligible),
+      enrichment_status = COALESCE(EXCLUDED.enrichment_status, captures.enrichment_status),
+      format = CASE
+        WHEN EXCLUDED.format IS NOT NULL AND EXCLUDED.format <> '{}'::jsonb THEN EXCLUDED.format
+        ELSE captures.format
+      END,
+      tags = CASE
+        WHEN EXCLUDED.tags IS NOT NULL AND EXCLUDED.tags <> '[]'::jsonb THEN EXCLUDED.tags
+        ELSE captures.tags
+      END,
+      composition_contract = COALESCE(EXCLUDED.composition_contract, captures.composition_contract),
+      content_hash = COALESCE(EXCLUDED.content_hash, captures.content_hash),
+      connector_policy_version = COALESCE(EXCLUDED.connector_policy_version, captures.connector_policy_version),
+      fetched_at = COALESCE(EXCLUDED.fetched_at, captures.fetched_at),
       indexed_at = NOW()`,
     [
       captureRunId,
@@ -168,7 +206,20 @@ export async function indexCapturePackageToDatabase(
       manifest.started_at,
       manifest.completed_at,
       digProjectId,
-      platformProjectId
+      platformProjectId,
+      scope.assetKind?.trim() || "web_screen",
+      scope.source?.trim() || "web_capture",
+      scope.sourceId?.trim() || null,
+      scope.sourceUri?.trim() || null,
+      scope.licenseClass?.trim() || "studio_curated",
+      typeof scope.craftEligible === "boolean" ? scope.craftEligible : true,
+      scope.enrichmentStatus?.trim() || "ready",
+      JSON.stringify(scope.format ?? {}),
+      JSON.stringify(scope.tags ?? []),
+      scope.compositionContract ? JSON.stringify(scope.compositionContract) : null,
+      scope.contentHash?.trim() || null,
+      scope.connectorPolicyVersion?.trim() || null,
+      scope.fetchedAt?.trim() || null
     ]
   );
 

@@ -21,7 +21,33 @@
     },
     "ask": { "type": "string", "minLength": 1 },
     "output_contract": {
-      "enum": ["layout_hints_json", "prose_brief", "both"]
+      "enum": [
+        "layout_hints_json",
+        "prose_brief",
+        "both",
+        "look",
+        "rhythm",
+        "composition",
+        "graphic",
+        "auto"
+      ]
+    },
+    "composition_contract": {
+      "type": "object",
+      "description": "Single-artboard composition hints for campaign/graphic assets.",
+      "properties": {
+        "schema_version": { "const": "0.1.0" },
+        "composition_contract_version": { "type": "string" },
+        "focal": { "type": ["string", "null"] },
+        "hierarchy": { "type": "array", "items": { "type": "string" } },
+        "negativeSpace": { "type": ["string", "null"] },
+        "typeRoles": { "type": "object" },
+        "colorAxes": { "type": "object" },
+        "marginBleed": { "type": "object" },
+        "layoutFamily": { "type": ["string", "null"] },
+        "avoid": { "type": "array", "items": { "type": "string" } },
+        "ctaRole": { "type": ["string", "null"] }
+      }
     },
     "look_contract": {
       "type": "object",
