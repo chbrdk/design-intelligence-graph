@@ -10,7 +10,7 @@ Upload is kind-first. The multipart field `assetKind` (default `campaign_keyvisu
 
 | Kind | Pipeline | Package shape |
 |------|----------|---------------|
-| `campaign_keyvisual`, `print_ad`, `social_post`, `brand_system`, `moodboard`, `other_graphic` | **Graphic** (`graphic_asset_ingest:<kind>`) | Native artboard viewport, `composition_contract`, no `page_rhythm`, no web LLM |
+| `campaign_keyvisual`, `print_ad`, `social_post`, `brand_system`, `moodboard`, `other_graphic` | **Graphic** (`graphic_asset_ingest:<kind>`) | Native artboard viewport, `composition_contract`, vision enrichment (no web LLM / `page_rhythm`) |
 | `web_screen` | Legacy still → desktop viewport (`bulk_image_upload`) | Same path as Pinterest pins |
 
 URL captures keep Playwright + CHECKION. Pinterest stays moodboard/web-screen style.
@@ -48,4 +48,4 @@ Auth uses `assertDestructiveAuth` (Bearer even in dummy mode), same as catalog b
 
 ## Graphic verify / index
 
-Graphic packages skip web relation checks. Index scope loads `derived/composition-contract.json` + `derived/spirion-asset.json` written at ingest time — no second image enrich pass, no web LLM enrichment.
+Graphic packages skip web relation checks. Ingest writes `derived/composition-contract.json` + `derived/spirion-asset.json`. JobRunner then queues **graphic vision enrichment** (`src/graphic-llm-enrich.ts`) so Library gets `vision_page` / design facets — not the web section/`page_rhythm` LLM path.

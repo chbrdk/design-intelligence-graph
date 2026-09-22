@@ -1,4 +1,4 @@
-import { applyLlmDesignAnalysis } from "./llm-enrich.js";
+import { applyPackageLlmEnrichment } from "./llm-enrich.js";
 import { createDefaultStageCache, type LlmStageCache } from "./llm-stage-cache.js";
 import { localLlmConfig, type LlmCompleter, type LlmProviderConfig } from "./llm-provider.js";
 import { createEnrichmentJobId, resolveScalingRoles } from "./llm-routing.js";
@@ -35,7 +35,7 @@ export interface EnrichmentJobRecord {
 
 export interface EnrichmentQueueOptions {
   now?: () => Date;
-  analyzeFn?: typeof applyLlmDesignAnalysis;
+  analyzeFn?: typeof applyPackageLlmEnrichment;
   reindexFn?: typeof indexCapturePackageToDatabase;
   stageCache?: LlmStageCache;
   provider?: LlmCompleter;
@@ -171,7 +171,7 @@ export class EnrichmentQueue {
     }, 30_000);
     heartbeat.unref?.();
 
-    const analyzeFn = this.options.analyzeFn ?? applyLlmDesignAnalysis;
+    const analyzeFn = this.options.analyzeFn ?? applyPackageLlmEnrichment;
     const reindexFn = this.options.reindexFn ?? indexCapturePackageToDatabase;
     const config = this.options.config ?? localLlmConfig();
     const roles = resolveScalingRoles();
@@ -222,7 +222,51 @@ export class EnrichmentQueue {
           ? `Enrichment complete (${job.hypothesis_count} hypotheses${job.vision_status ? `, vision=${job.vision_status}` : ""})`
           : "Enrichment finished without artifact update";
         try {
-          await reindexFn(job.package_path);
+          const reindexScope: import("./db-index.js").IndexCaptureScope = {
+            enrichmentStatus: "ready"
+          };
+          try {
+            const { readFile } = await import("node:fs/promises");
+            const { resolve } = await import("node:path");
+            const manifest = JSON.parse(
+              await readFile(resolve(job.package_path, "manifest.json"), "utf8")
+            ) as { interventions?: string[] };
+            const { isGraphicIngestPackage } = await import("./graphic-package.js");
+            if (isGraphicIngestPackage(manifest)) {
+              const { loadCompositionContract } = await import("./composition-contract.js");
+              const composition = await loadCompositionContract(job.package_path);
+              try {
+                const assetRaw = JSON.parse(
+                  await readFile(resolve(job.package_path, "derived/spirion-asset.json"), "utf8")
+                ) as {
+                  asset_kind?: string;
+                  source?: string;
+                  source_id?: string;
+                  format?: Record<string, unknown>;
+                  tags?: string[];
+                  content_hash?: string;
+                };
+                reindexScope.assetKind = assetRaw.asset_kind ?? "other_graphic";
+                reindexScope.source = assetRaw.source ?? "upload";
+                reindexScope.sourceId = assetRaw.source_id ?? null;
+                reindexScope.format = assetRaw.format ?? {};
+                reindexScope.tags = assetRaw.tags ?? [];
+                reindexScope.contentHash = assetRaw.content_hash ?? null;
+                reindexScope.licenseClass = "customer_owned";
+                reindexScope.craftEligible = true;
+              } catch {
+                reindexScope.assetKind = "other_graphic";
+                reindexScope.source = "upload";
+                reindexScope.licenseClass = "customer_owned";
+              }
+              if (composition) {
+                reindexScope.compositionContract = composition as unknown as Record<string, unknown>;
+              }
+            }
+          } catch {
+            /* keep enrichmentStatus-only scope */
+          }
+          await reindexFn(job.package_path, undefined, reindexScope);
           try {
             const { embedDenseCapturePackage } = await import("./dense-embedding-package.js");
             const dense = await embedDenseCapturePackage(job.package_path);

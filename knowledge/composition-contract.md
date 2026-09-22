@@ -18,8 +18,8 @@ Upload / Dribbble sync → dedicated **graphic artboard package** (`src/graphic-
 
 1. User picks `assetKind` on upload (campaign / print / social / …).
 2. `enrichGraphicFromImage` + kind defaults write `composition_contract`.
-3. JobRunner skips web LLM (`skipped_graphic_pipeline`).
+3. JobRunner queues **graphic vision enrichment** (`applyGraphicLlmEnrichment` via EnrichmentQueue) — artboard `vision_page` + `llm-design.json`, no web section/`page_rhythm` stages.
 4. Verify requires artboard + composition_contract; skips web relations.
-5. Index sets `enrichment_status=ready` when the asset is not craft-thin.
+5. Index sets `enrichment_status=pending` until vision completes, then `ready`.
 
 Web screens keep `look_contract` + `page_rhythm` on the Playwright / legacy still path.

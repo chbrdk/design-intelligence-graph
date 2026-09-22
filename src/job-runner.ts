@@ -611,11 +611,60 @@ export class JobRunner {
         isGraphicAssetKind(normalizeAssetKind(job.upload_image?.asset_kind, "other_graphic"));
 
       if (graphicUpload) {
-        llmStatus = "skipped_graphic_pipeline";
-        this.emit(job, {
-          stage: "analyzing",
-          message: "Graphic pipeline — skip web LLM; composition_contract already written"
-        });
+        if (llmConfig.enabled && useAsync && this.options.enrichmentQueue) {
+          const enqueued = this.options.enrichmentQueue.enqueue({
+            package_path: captureResult.packageRoot,
+            capture_run_id: captureResult.manifest.capture_run_id,
+            capture_job_id: job.job_id
+          });
+          enrichmentJobId = enqueued.enrichment_job_id;
+          enrichmentStatus = enqueued.status;
+          llmStatus = "queued";
+          this.emit(job, {
+            stage: "analyzing",
+            message: `Graphic vision enrichment queued (${enqueued.enrichment_job_id})`,
+            result: {
+              package_root: captureResult.packageRoot,
+              capture_run_id: captureResult.manifest.capture_run_id,
+              capture_status: captureResult.manifest.status,
+              llm_status: llmStatus,
+              enrichment_job_id: enrichmentJobId,
+              enrichment_status: enrichmentStatus ?? "queued",
+              pipeline: "graphic"
+            }
+          });
+        } else if (llmConfig.enabled) {
+          this.emit(job, {
+            stage: "analyzing",
+            message: `Graphic vision analysis with ${llmConfig.visionModel ?? llmConfig.model}`
+          });
+          const { applyGraphicLlmEnrichment } = await import("./graphic-llm-enrich.js");
+          const enrichment = await applyGraphicLlmEnrichment(captureResult.packageRoot);
+          llmStatus = enrichment.llm.status;
+          llmHypothesisCount = enrichment.llm.hypotheses.length;
+          if (enrichment.llm.design_summary) designSummary = enrichment.llm.design_summary;
+          this.emit(job, {
+            stage: "analyzing",
+            message: enrichment.updated
+              ? `Graphic vision complete (${enrichment.llm.vision?.status ?? llmStatus})`
+              : "Graphic vision skipped",
+            result: {
+              package_root: captureResult.packageRoot,
+              capture_run_id: captureResult.manifest.capture_run_id,
+              capture_status: captureResult.manifest.status,
+              llm_status: llmStatus,
+              llm_hypothesis_count: llmHypothesisCount,
+              pipeline: "graphic",
+              ...(designSummary ? { design_summary: designSummary } : {})
+            }
+          });
+        } else {
+          llmStatus = "skipped_graphic_no_llm";
+          this.emit(job, {
+            stage: "analyzing",
+            message: "Graphic pipeline — composition_contract only (LLM disabled)"
+          });
+        }
       } else if (captureResult.manifest.status === "blocked") {
         llmStatus = "skipped";
         this.emit(job, {
@@ -838,6 +887,10 @@ async function buildAssetIndexScope(
       } catch {
         /* composition alone is enough for index scope */
       }
+      // Stay pending until vision enrichment writes llm-design / vision_page.
+      const hasVision = await readFile(`${packageRoot}/derived/llm-design.json`, "utf8")
+        .then(() => true)
+        .catch(() => false);
       return {
         ...base,
         format,
@@ -846,7 +899,7 @@ async function buildAssetIndexScope(
           ? (composition as unknown as Record<string, unknown>)
           : null,
         contentHash,
-        enrichmentStatus: thin || !composition ? "failed" : "ready",
+        enrichmentStatus: thin || !composition ? "failed" : hasVision ? "ready" : "pending",
         craftEligible: thin
           ? false
           : craftEligibleFromLicense(license, isDribbble ? false : true)

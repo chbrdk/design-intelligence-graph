@@ -570,6 +570,7 @@ export function findLayoutScreenshot(
   manifest: CaptureManifest
 ): { absolute: string; relative: string } | null {
   const preferred =
+    manifest.viewport_captures.find((viewport) => viewport.name === "artboard") ??
     manifest.viewport_captures.find((viewport) => viewport.name === "desktop") ??
     manifest.viewport_captures[0];
   if (!preferred?.artifacts) return null;

@@ -127,6 +127,7 @@ export function resolveVisionModel(config: LlmProviderConfig, environment: NodeJ
 
 export function findSettledScreenshot(packageRoot: string, manifest: CaptureManifest): string | null {
   const preferred =
+    manifest.viewport_captures.find((viewport) => viewport.name === "artboard") ??
     manifest.viewport_captures.find((viewport) => viewport.name === "desktop") ??
     manifest.viewport_captures[0];
   const preferFull =
@@ -150,6 +151,7 @@ export function visionMaxBytes(environment: NodeJS.ProcessEnv = process.env): nu
 
 function screenshotCandidates(packageRoot: string, manifest: CaptureManifest): string[] {
   const preferred =
+    manifest.viewport_captures.find((viewport) => viewport.name === "artboard") ??
     manifest.viewport_captures.find((viewport) => viewport.name === "desktop") ??
     manifest.viewport_captures[0];
   if (!preferred?.artifacts) return [];
@@ -318,6 +320,8 @@ export async function runVisionPageAnalysis(
     stageCache?: LlmStageCache;
     maxTokens?: number;
     persist?: boolean;
+    /** Override the default desktop-marketing user text (e.g. graphic artboard). */
+    userPrompt?: string;
   }
 ): Promise<LlmVisionPageResult> {
   if (!visionEnabled()) {
@@ -410,7 +414,9 @@ export async function runVisionPageAnalysis(
           content: [
             {
               type: "text",
-              text: "Catalog this desktop full-page marketing screenshot in rich visual detail. Return JSON only."
+              text:
+                options.userPrompt?.trim() ||
+                "Catalog this desktop full-page marketing screenshot in rich visual detail. Return JSON only."
             },
             { type: "image_url", image_url: { url: dataUrl } }
           ]

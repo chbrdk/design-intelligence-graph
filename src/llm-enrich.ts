@@ -520,3 +520,43 @@ export async function applyLlmDesignAnalysis(
 
   return { llm, analysis: merged, updated: true };
 }
+
+/** Dispatch: graphic artboard packages use vision-only enrichment; web keeps full staged LLM. */
+export async function applyPackageLlmEnrichment(
+  packageRoot: string,
+  options: {
+    config?: LlmProviderConfig;
+    provider?: LlmCompleter;
+    stageCache?: LlmStageCache;
+  } = {}
+): Promise<{ llm: LlmDesignAnalysis; analysis: AnalysisReport; updated: boolean }> {
+  const manifest = JSON.parse(
+    await readFile(resolve(packageRoot, "manifest.json"), "utf8")
+  ) as CaptureManifest;
+  const { isGraphicIngestPackage } = await import("./graphic-package.js");
+  if (isGraphicIngestPackage(manifest)) {
+    const { applyGraphicLlmEnrichment } = await import("./graphic-llm-enrich.js");
+    const graphic = await applyGraphicLlmEnrichment(packageRoot, options);
+    let analysis: AnalysisReport;
+    try {
+      const analysisPath = resolve(
+        packageRoot,
+        manifest.run_artifacts.analysis?.path ?? "derived/analysis-report.json"
+      );
+      analysis = JSON.parse(await readFile(analysisPath, "utf8")) as AnalysisReport;
+    } catch {
+      analysis = {
+        schema_version: "0.1.0",
+        analysis_pipeline_version: "0.1.0",
+        generated_at: new Date().toISOString(),
+        stages: [],
+        findings: [],
+        semantic_inputs: [],
+        quality: { overall: 0, rating: "poor", formula_version: "0", gate: "review" },
+        provenance: { method: "deterministic_analysis_orchestration", confidence: 1 }
+      };
+    }
+    return { llm: graphic.llm, analysis, updated: graphic.updated };
+  }
+  return applyLlmDesignAnalysis(packageRoot, options);
+}
