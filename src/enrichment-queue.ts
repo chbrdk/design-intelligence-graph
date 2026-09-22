@@ -232,7 +232,7 @@ export class EnrichmentQueue {
               await readFile(resolve(job.package_path, "manifest.json"), "utf8")
             ) as { interventions?: string[] };
             const { isGraphicIngestPackage } = await import("./graphic-package.js");
-            if (isGraphicIngestPackage(manifest)) {
+            if (isGraphicIngestPackage({ interventions: manifest.interventions ?? [] })) {
               const { loadCompositionContract } = await import("./composition-contract.js");
               const composition = await loadCompositionContract(job.package_path);
               try {

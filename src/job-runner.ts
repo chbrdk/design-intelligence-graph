@@ -629,8 +629,7 @@ export class JobRunner {
               capture_status: captureResult.manifest.status,
               llm_status: llmStatus,
               enrichment_job_id: enrichmentJobId,
-              enrichment_status: enrichmentStatus ?? "queued",
-              pipeline: "graphic"
+              enrichment_status: enrichmentStatus ?? "queued"
             }
           });
         } else if (llmConfig.enabled) {
@@ -654,7 +653,6 @@ export class JobRunner {
               capture_status: captureResult.manifest.status,
               llm_status: llmStatus,
               llm_hypothesis_count: llmHypothesisCount,
-              pipeline: "graphic",
               ...(designSummary ? { design_summary: designSummary } : {})
             }
           });

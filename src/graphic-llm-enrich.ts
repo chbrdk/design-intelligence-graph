@@ -106,7 +106,7 @@ export async function applyGraphicLlmEnrichment(
       design_summary: "",
       hypotheses: [],
       analysis_mode: "staged",
-      stages: [{ stage_id: "graphic_vision", status: "skipped", error: "LLM disabled" }]
+      stages: [{ stage_id: "vision_page", status: "skipped", error: "LLM disabled" }]
     };
     return { llm: skipped, updated: false };
   }
@@ -123,9 +123,9 @@ export async function applyGraphicLlmEnrichment(
     userPrompt: GRAPHIC_VISION_USER_PROMPT
   });
 
-  const stages = [
+  const stages: LlmDesignAnalysis["stages"] = [
     {
-      stage_id: "graphic_vision",
+      stage_id: "vision_page",
       status: visionPage.status,
       ...(visionPage.raw_sha256 ? { raw_sha256: visionPage.raw_sha256 } : {}),
       ...(visionPage.error ? { error: visionPage.error } : {}),
