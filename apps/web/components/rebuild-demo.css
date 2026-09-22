@@ -1,5 +1,8 @@
 /* SPIRION rebuild demo — luxury automotive direction from Porsche capture brief.
-   Monochrome high-contrast is intentional (measured), not generic AI dark UI. */
+   Monochrome high-contrast is intentional (measured), not generic AI dark UI.
+   Fonts load at runtime via CSS (not next/font/google) so Coolify builds stay offline. */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap');
 
 .rebuild-demo {
   --ink: #0a0a0a;
@@ -7,6 +10,8 @@
   --mute: #b8b8b4;
   --line: rgba(255, 255, 255, 0.18);
   --radius: 16px;
+  --rebuild-display: 'Syne';
+  --rebuild-body: 'Manrope';
   min-height: 100vh;
   background: var(--ink);
   color: var(--paper);

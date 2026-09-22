@@ -2,20 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Manrope, Syne } from 'next/font/google'
 import { paths } from '../lib/paths'
-
-const display = Syne({
-  subsets: ['latin'],
-  weight: ['600', '700', '800'],
-  variable: '--rebuild-display',
-})
-
-const body = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--rebuild-body',
-})
 
 const MODELS = [
   { id: '911', name: '911', line: 'Ikone. Neu interpretiert.', cta: 'Entdecken' },
@@ -26,7 +13,7 @@ const MODELS = [
 export function RebuildDemoPage() {
   const demo = paths.rebuildDemo
   return (
-    <div className={`rebuild-demo ${display.variable} ${body.variable}`}>
+    <div className="rebuild-demo">
       <a className="rebuild-skip" href="#inventory">
         Zur Modellübersicht
       </a>
