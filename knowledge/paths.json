@@ -265,6 +265,7 @@
   "libraryScreenGallery": {
     "doc": "knowledge/library-screen-gallery.md",
     "primaryViewport": "desktop",
+    "graphicViewport": "artboard",
     "deviceViewports": ["tablet", "mobile"],
     "devicesQueryParam": "viewport",
     "devicesAllValue": "all"

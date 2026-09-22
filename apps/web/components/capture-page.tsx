@@ -313,6 +313,12 @@ function CaptureBody() {
           })}
         </ol>
         {job?.message ? <Text role="body">{job.message}</Text> : null}
+        {job?.stage === 'complete' && job.ingest_source === 'upload' ? (
+          <Text role="body">
+            Graphic indexed.{' '}
+            <a href={`${paths.routes.library}#/library/graphics`}>Open Library → Graphics</a>
+          </Text>
+        ) : null}
         {liveEnrichment ? (
           <Text role="meta">
             Enrichment {liveEnrichment.status}: {liveEnrichment.message}

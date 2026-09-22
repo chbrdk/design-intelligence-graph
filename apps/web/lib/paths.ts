@@ -58,11 +58,15 @@ export const paths = {
   digApiLibraryReferences: '/api/library/references',
   digApiEnrichment: '/api/enrichment',
   digApiPinterest: '/api/pinterest',
-  libraryModes: ['screens', 'devices', 'sections', 'flows'] as const,
+  libraryModes: ['screens', 'graphics', 'devices', 'sections', 'flows'] as const,
   libraryCopy: {
     contentsLabel: 'Contents',
     libraryModeAria: 'Library mode',
     screensLabel: 'Screens',
+    graphicsLabel: 'Graphics',
+    graphicsHint:
+      'Campaign, print, social, and other artboard uploads — separate from web screens.',
+    graphicsEmpty: 'No graphic artboards indexed yet. Upload from Capture with a graphic asset kind.',
     sectionsLabel: 'Modules',
     flowsLabel: 'Flows',
     devicesLabel: 'Devices',
@@ -237,6 +241,7 @@ export const paths = {
   /** Keep in sync with knowledge/paths.json libraryScreenGallery. */
   libraryScreenGallery: {
     primaryViewport: 'desktop',
+    graphicViewport: 'artboard',
     deviceViewports: ['tablet', 'mobile'] as const,
     devicesQueryParam: 'viewport',
     devicesAllValue: 'all',

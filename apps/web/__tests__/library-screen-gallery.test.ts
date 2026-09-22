@@ -5,6 +5,7 @@ import { describe, it } from 'vitest'
 import type { LibraryScreen } from '../lib/dig-api'
 import {
   filterDeviceGalleryScreens,
+  filterGraphicGalleryScreens,
   filterPrimaryGalleryScreens,
   parseDeviceGalleryFilter,
   preferredScreenForCapture,
@@ -29,6 +30,7 @@ describe('library screen gallery split', () => {
     ) as {
       libraryScreenGallery: {
         primaryViewport: string
+        graphicViewport: string
         deviceViewports: string[]
         devicesQueryParam: string
         devicesAllValue: string
@@ -37,6 +39,10 @@ describe('library screen gallery split', () => {
     assert.equal(
       paths.libraryScreenGallery.primaryViewport,
       catalog.libraryScreenGallery.primaryViewport,
+    )
+    assert.equal(
+      paths.libraryScreenGallery.graphicViewport,
+      catalog.libraryScreenGallery.graphicViewport,
     )
     assert.deepEqual(
       [...paths.libraryScreenGallery.deviceViewports],
@@ -50,14 +56,18 @@ describe('library screen gallery split', () => {
       paths.libraryScreenGallery.devicesAllValue,
       catalog.libraryScreenGallery.devicesAllValue,
     )
-    assert.deepEqual(paths.libraryModes, ['screens', 'devices', 'sections', 'flows'])
+    assert.deepEqual(paths.libraryModes, ['screens', 'graphics', 'devices', 'sections', 'flows'])
   })
 
   it('shows desktop in the primary gallery and tablet/mobile on the devices page', () => {
-    const screens = [screen('desktop'), screen('tablet'), screen('mobile')]
+    const screens = [screen('desktop'), screen('tablet'), screen('mobile'), screen('artboard')]
     assert.deepEqual(
       filterPrimaryGalleryScreens(screens).map((item) => item.name),
       ['desktop'],
+    )
+    assert.deepEqual(
+      filterGraphicGalleryScreens(screens).map((item) => item.name),
+      ['artboard'],
     )
     assert.deepEqual(
       filterDeviceGalleryScreens(screens).map((item) => item.name),
@@ -80,5 +90,7 @@ describe('library screen gallery split', () => {
     assert.equal(parseDeviceGalleryFilter('desktop'), 'all')
     const screens = [screen('mobile', 'cap_a', 'vpc_m'), screen('desktop', 'cap_a', 'vpc_d')]
     assert.equal(preferredScreenForCapture(screens, 'cap_a')?.viewport_capture_id, 'vpc_d')
+    const graphicOnly = [screen('artboard', 'cap_g', 'vpc_g')]
+    assert.equal(preferredScreenForCapture(graphicOnly, 'cap_g')?.viewport_capture_id, 'vpc_g')
   })
 })

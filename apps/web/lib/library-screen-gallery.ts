@@ -7,6 +7,10 @@ export function isPrimaryGalleryViewport(name: string): boolean {
   return name === paths.libraryScreenGallery.primaryViewport
 }
 
+export function isGraphicGalleryViewport(name: string): boolean {
+  return name === paths.libraryScreenGallery.graphicViewport
+}
+
 export function isDeviceGalleryViewport(name: string): boolean {
   return (paths.libraryScreenGallery.deviceViewports as readonly string[]).includes(name)
 }
@@ -19,6 +23,10 @@ export function parseDeviceGalleryFilter(raw: string | null | undefined): Device
 
 export function filterPrimaryGalleryScreens(screens: LibraryScreen[]): LibraryScreen[] {
   return screens.filter((screen) => isPrimaryGalleryViewport(screen.name))
+}
+
+export function filterGraphicGalleryScreens(screens: LibraryScreen[]): LibraryScreen[] {
+  return screens.filter((screen) => isGraphicGalleryViewport(screen.name))
 }
 
 export function filterDeviceGalleryScreens(
@@ -38,5 +46,9 @@ export function preferredScreenForCapture(
   captureRunId: string,
 ): LibraryScreen | undefined {
   const matches = screens.filter((screen) => screen.capture_run_id === captureRunId)
-  return matches.find((screen) => isPrimaryGalleryViewport(screen.name)) ?? matches[0]
+  return (
+    matches.find((screen) => isPrimaryGalleryViewport(screen.name)) ??
+    matches.find((screen) => isGraphicGalleryViewport(screen.name)) ??
+    matches[0]
+  )
 }

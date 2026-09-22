@@ -6,7 +6,8 @@ import { paths } from './paths'
 
 export type LibraryHashState =
   | { view: 'screens' }
-  | { view: 'screen_detail'; viewportCaptureId: string }
+  | { view: 'graphics' }
+  | { view: 'screen_detail'; viewportCaptureId: string; from?: 'screens' | 'graphics' | 'devices' }
   | { view: 'devices'; viewport?: DeviceGalleryFilter }
   | { view: 'sections'; module?: ModuleGalleryFilter }
   | { view: 'flows' }
@@ -32,8 +33,22 @@ export function parseLibraryHash(hash: string): LibraryHashState {
     )
     return { view: 'devices', viewport }
   }
+  if (segments[1] === 'graphics') {
+    if (segments[2]) {
+      return {
+        view: 'screen_detail',
+        viewportCaptureId: decodeURIComponent(segments[2]),
+        from: 'graphics',
+      }
+    }
+    return { view: 'graphics' }
+  }
   if (segments[1] === 'screens' && segments[2]) {
-    return { view: 'screen_detail', viewportCaptureId: decodeURIComponent(segments[2]) }
+    return {
+      view: 'screen_detail',
+      viewportCaptureId: decodeURIComponent(segments[2]),
+      from: 'screens',
+    }
   }
   if (segments[1] === 'flows') {
     const flowId = segments[2] ? decodeURIComponent(segments[2]) : null
@@ -52,6 +67,7 @@ export function libraryModeLabel(item: (typeof paths.libraryModes)[number]): str
   if (item === 'flows') return paths.libraryCopy.flowsLabel
   if (item === 'devices') return paths.libraryCopy.devicesLabel
   if (item === 'sections') return paths.libraryCopy.sectionsLabel
+  if (item === 'graphics') return paths.libraryCopy.graphicsLabel
   return paths.libraryCopy.screensLabel
 }
 
@@ -59,6 +75,7 @@ export function libraryModeHash(item: (typeof paths.libraryModes)[number]): Libr
   if (item === 'flows') return { view: 'flows' }
   if (item === 'sections') return { view: 'sections' }
   if (item === 'devices') return { view: 'devices' }
+  if (item === 'graphics') return { view: 'graphics' }
   return { view: 'screens' }
 }
 
@@ -78,6 +95,7 @@ export function libraryModeNavItems(): Array<{
 
 export function formatLibraryHash(state: LibraryHashState): string {
   if (state.view === 'screens') return '#/library/screens'
+  if (state.view === 'graphics') return '#/library/graphics'
   if (state.view === 'devices') {
     const param = paths.libraryScreenGallery.devicesQueryParam
     const all = paths.libraryScreenGallery.devicesAllValue
@@ -88,7 +106,11 @@ export function formatLibraryHash(state: LibraryHashState): string {
     return `#/library/devices${viewport}`
   }
   if (state.view === 'screen_detail') {
-    return `#/library/screens/${encodeURIComponent(state.viewportCaptureId)}`
+    const base =
+      state.from === 'graphics'
+        ? '#/library/graphics'
+        : '#/library/screens'
+    return `${base}/${encodeURIComponent(state.viewportCaptureId)}`
   }
   if (state.view === 'sections') {
     const param = paths.libraryModuleGallery.queryParam

@@ -22,8 +22,10 @@ import {
 import { formatLibraryHash, libraryModeNavItems, parseLibraryHash, type LibraryHashState } from '../lib/library-hash'
 import {
   filterDeviceGalleryScreens,
+  filterGraphicGalleryScreens,
   filterPrimaryGalleryScreens,
   isDeviceGalleryViewport,
+  isGraphicGalleryViewport,
   type DeviceGalleryFilter,
 } from '../lib/library-screen-gallery'
 import { LibraryModuleGallery } from './library-module-gallery'
@@ -156,7 +158,11 @@ function LibraryPageInner() {
   }, [hashState.view, moduleFilter])
 
   function openScreen(screen: LibraryScreen) {
-    applyHash({ view: 'screen_detail', viewportCaptureId: screen.viewport_capture_id })
+    applyHash({
+      view: 'screen_detail',
+      viewportCaptureId: screen.viewport_capture_id,
+      from: isGraphicGalleryViewport(screen.name) ? 'graphics' : 'screens',
+    })
   }
 
   const mode =
@@ -168,7 +174,10 @@ function LibraryPageInner() {
         ? 'sections'
         : hashState.view === 'devices'
           ? 'devices'
-          : 'screens'
+          : hashState.view === 'graphics' ||
+              (hashState.view === 'screen_detail' && hashState.from === 'graphics')
+            ? 'graphics'
+            : 'screens'
   const screenDetailId =
     hashState.view === 'screen_detail' ? hashState.viewportCaptureId : null
   const detailScreen = screenDetailId
@@ -177,21 +186,34 @@ function LibraryPageInner() {
   const deviceViewport: DeviceGalleryFilter =
     hashState.view === 'devices' ? hashState.viewport ?? 'all' : 'all'
   const desktopScreens = filterPrimaryGalleryScreens(screens)
+  const graphicScreens = filterGraphicGalleryScreens(screens)
   const deviceScreens = filterDeviceGalleryScreens(screens, deviceViewport)
+
+  const openGraphic = (screen: LibraryScreen) => {
+    applyHash({
+      view: 'screen_detail',
+      viewportCaptureId: screen.viewport_capture_id,
+      from: 'graphics',
+    })
+  }
 
   return (
     <AppShell
       title="Library"
       description={
-        screenDetailId ? undefined : 'Browse captured screens, modules, and flows.'
+        screenDetailId ? undefined : 'Browse captured screens, graphic artboards, modules, and flows.'
       }
       onBack={
         screenDetailId
           ? () =>
               applyHash(
-                detailScreen && isDeviceGalleryViewport(detailScreen.name)
-                  ? { view: 'devices' }
-                  : { view: 'screens' },
+                hashState.view === 'screen_detail' && hashState.from === 'graphics'
+                  ? { view: 'graphics' }
+                  : detailScreen && isDeviceGalleryViewport(detailScreen.name)
+                    ? { view: 'devices' }
+                    : detailScreen && isGraphicGalleryViewport(detailScreen.name)
+                      ? { view: 'graphics' }
+                      : { view: 'screens' },
               )
           : undefined
       }
@@ -248,11 +270,24 @@ function LibraryPageInner() {
         </Panel>
       ) : null}
 
-      {mode === 'screens' && screenDetailId ? (
+      {(mode === 'screens' || mode === 'graphics') && screenDetailId ? (
         <LibraryScreenDetailPanel
           key={screenDetailId}
           viewportCaptureId={screenDetailId}
         />
+      ) : null}
+
+      {mode === 'graphics' && !screenDetailId ? (
+        <Panel className="dig-panel">
+          <Text role="title">{paths.libraryCopy.graphicsLabel}</Text>
+          <Text role="hint">{paths.libraryCopy.graphicsHint}</Text>
+          <LibraryScreenGrid
+            screens={graphicScreens}
+            variant="desktop"
+            onOpen={openGraphic}
+            empty={paths.libraryCopy.graphicsEmpty}
+          />
+        </Panel>
       ) : null}
 
       {mode === 'screens' && !screenDetailId ? (
