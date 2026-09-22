@@ -18,10 +18,7 @@ import { verifyCapturePackage } from "./verify.js";
 import { downloadPinImage, type PinterestPin } from "./pinterest-client.js";
 import { ingestPinterestPinPackage } from "./pinterest-package.js";
 import { ingestUploadedImagePackage, type UploadedImageIngest } from "./image-ingest.js";
-import {
-  enrichGraphicFromImage,
-  writeCompositionContract
-} from "./composition-contract.js";
+import { loadCompositionContract } from "./composition-contract.js";
 import {
   craftEligibleFromLicense,
   isGraphicAssetKind,
@@ -480,7 +477,10 @@ export class JobRunner {
           image,
           outputDirectory: capturesDir,
           sourceId: job.upload_image.source_id,
-          filename: job.upload_image.filename
+          filename: job.upload_image.filename,
+          ...(job.upload_image.asset_kind
+            ? { assetKind: job.upload_image.asset_kind }
+            : {})
         });
       } else if (job.ingest_source === "pinterest" && job.pinterest_pin) {
         const image = await downloadPinImage(job.pinterest_pin.image_url);
@@ -606,8 +606,17 @@ export class JobRunner {
       let enrichmentStatus: string | undefined;
       const useAsync =
         this.options.asyncEnrichment ?? asyncEnrichmentEnabled(process.env, llmConfig.enabled);
+      const graphicUpload =
+        job.ingest_source === "upload" &&
+        isGraphicAssetKind(normalizeAssetKind(job.upload_image?.asset_kind, "other_graphic"));
 
-      if (captureResult.manifest.status === "blocked") {
+      if (graphicUpload) {
+        llmStatus = "skipped_graphic_pipeline";
+        this.emit(job, {
+          stage: "analyzing",
+          message: "Graphic pipeline — skip web LLM; composition_contract already written"
+        });
+      } else if (captureResult.manifest.status === "blocked") {
         llmStatus = "skipped";
         this.emit(job, {
           stage: "analyzing",
@@ -808,17 +817,39 @@ async function buildAssetIndexScope(
       return { ...base, enrichmentStatus: "ready" };
     }
     try {
-      const image = await readFile(job.upload_image.path);
-      const enriched = await enrichGraphicFromImage(image);
-      await writeCompositionContract(packageRoot, enriched.composition_contract);
+      const composition = await loadCompositionContract(packageRoot);
+      let contentHash: string | null = null;
+      let format: Record<string, unknown> = {};
+      let tags: string[] = [`kind:${kind}`, "pipeline:graphic"];
+      let thin = false;
+      try {
+        const assetRaw = JSON.parse(
+          await readFile(`${packageRoot}/derived/spirion-asset.json`, "utf8")
+        ) as {
+          content_hash?: string;
+          format?: Record<string, unknown>;
+          tags?: string[];
+          thin?: boolean;
+        };
+        contentHash = assetRaw.content_hash ?? null;
+        format = assetRaw.format ?? {};
+        tags = assetRaw.tags ?? tags;
+        thin = Boolean(assetRaw.thin);
+      } catch {
+        /* composition alone is enough for index scope */
+      }
       return {
         ...base,
-        format: enriched.format as Record<string, unknown>,
-        tags: enriched.tags,
-        compositionContract: enriched.composition_contract as unknown as Record<string, unknown>,
-        contentHash: enriched.content_hash,
-        enrichmentStatus: enriched.thin ? "failed" : "ready",
-        craftEligible: enriched.thin ? false : craftEligibleFromLicense(license, true)
+        format,
+        tags,
+        compositionContract: composition
+          ? (composition as unknown as Record<string, unknown>)
+          : null,
+        contentHash,
+        enrichmentStatus: thin || !composition ? "failed" : "ready",
+        craftEligible: thin
+          ? false
+          : craftEligibleFromLicense(license, isDribbble ? false : true)
       };
     } catch {
       return { ...base, enrichmentStatus: "failed", craftEligible: false };

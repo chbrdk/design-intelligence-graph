@@ -1,5 +1,11 @@
 import { ingestPinterestPinPackage } from "./pinterest-package.js";
+import { ingestGraphicAssetPackage } from "./graphic-package.js";
 import { imageIngestConfig, uploadedImageUrl } from "./runtime-paths.js";
+import {
+  isGraphicAssetKind,
+  normalizeAssetKind,
+  type SpirionAssetKind
+} from "./spirion-asset.js";
 import type { CaptureManifest } from "./types.js";
 
 export type UploadedImageIngest = {
@@ -15,7 +21,20 @@ export async function ingestUploadedImagePackage(input: {
   outputDirectory: string;
   sourceId: string;
   filename: string;
+  assetKind?: string | null;
 }): Promise<{ packageRoot: string; manifest: CaptureManifest }> {
+  const kind = normalizeAssetKind(input.assetKind, "other_graphic");
+  if (isGraphicAssetKind(kind)) {
+    return ingestGraphicAssetPackage({
+      image: input.image,
+      outputDirectory: input.outputDirectory,
+      sourceId: input.sourceId,
+      filename: input.filename,
+      assetKind: kind
+    });
+  }
+
+  // Explicit web_screen uploads keep the legacy still-image → desktop viewport path.
   const cfg = imageIngestConfig();
   const canonicalUrl = uploadedImageUrl(input.sourceId);
   return ingestPinterestPinPackage({
@@ -35,4 +54,8 @@ export async function ingestUploadedImagePackage(input: {
     userAgent: "spirion-image-ingest",
     experiment: `image_upload:${input.sourceId}`
   });
+}
+
+export function resolveUploadAssetKind(raw: string | null | undefined): SpirionAssetKind {
+  return normalizeAssetKind(raw, "other_graphic");
 }

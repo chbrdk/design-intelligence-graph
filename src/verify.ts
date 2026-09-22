@@ -345,6 +345,10 @@ export async function verifyCapturePackage(packageRootInput: string): Promise<Ve
     issues.push({ code: "invalid_capture_run_id", path: "manifest.json", message: "capture_run_id is missing or invalid" });
   }
 
+  const isGraphic = (manifest.interventions ?? []).some(
+    (item) => typeof item === "string" && item.startsWith("graphic_asset_ingest:")
+  );
+
   const artifactEntries = collectArtifacts(manifest);
   const seenPaths = new Set<string>();
   let checkedArtifacts = 0;
@@ -381,6 +385,31 @@ export async function verifyCapturePackage(packageRootInput: string): Promise<Ve
       issues.push({ code: "artifact_unreadable", path: artifact.path, message: error instanceof Error ? error.message : String(error) });
     }
   }
+
+  if (isGraphic) {
+    if (!manifest.run_artifacts?.composition_contract) {
+      issues.push({
+        code: "graphic_composition_missing",
+        path: "manifest.json",
+        message: "graphic packages require composition_contract"
+      });
+    }
+    if (!manifest.viewport_captures?.some((v) => v.name === "artboard")) {
+      issues.push({
+        code: "graphic_artboard_missing",
+        path: "manifest.json",
+        message: "graphic packages require an artboard viewport"
+      });
+    }
+    return {
+      valid: issues.length === 0,
+      package_root: packageRoot,
+      capture_run_id: manifest.capture_run_id,
+      checked_artifacts: checkedArtifacts,
+      issues
+    };
+  }
+
   issues.push(...await verifyRelations(packageRoot, manifest));
   return {
     valid: issues.length === 0,

@@ -1058,7 +1058,7 @@ export async function fetchPinterestBoards(): Promise<PinterestBoard[]> {
 
 export async function uploadCaptureImages(
   files: File[],
-  opts?: { platformProjectId?: string | null },
+  opts?: { platformProjectId?: string | null; assetKind?: string | null },
 ): Promise<{ queued: number; skipped: number; jobs: JobSnapshot[] }> {
   const form = new FormData()
   for (const file of files) {
@@ -1066,6 +1066,10 @@ export async function uploadCaptureImages(
   }
   if (opts?.platformProjectId) {
     form.append(paths.platformProjectQueryParam, opts.platformProjectId)
+  }
+  const assetKind = opts?.assetKind?.trim()
+  if (assetKind) {
+    form.append(paths.imageIngest.assetKindField, assetKind)
   }
   const response = await fetch(`${BASE}${paths.digApiJobs}${paths.imageIngest.imagesPath}`, {
     method: 'POST',

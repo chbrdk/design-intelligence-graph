@@ -14,4 +14,12 @@ focal · hierarchy · negativeSpace · typeRoles · colorAxes · marginBleed · 
 
 ## Enrichment
 
-Upload / Dribbble sync → deterministic image analysis (`enrichGraphicFromImage`) writes the contract and sets `enrichment_status=ready` when the asset is not craft-thin.
+Upload / Dribbble sync → dedicated **graphic artboard package** (`src/graphic-package.ts`):
+
+1. User picks `assetKind` on upload (campaign / print / social / …).
+2. `enrichGraphicFromImage` + kind defaults write `composition_contract`.
+3. JobRunner skips web LLM (`skipped_graphic_pipeline`).
+4. Verify requires artboard + composition_contract; skips web relations.
+5. Index sets `enrichment_status=ready` when the asset is not craft-thin.
+
+Web screens keep `look_contract` + `page_rhythm` on the Playwright / legacy still path.

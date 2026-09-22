@@ -1,12 +1,19 @@
 # Still-image ingest (bulk upload)
 
-**Date:** 2026-08-18  
+**Date:** 2026-09-22  
 **Config:** `knowledge/paths.json` → `imageIngest`  
-**Code:** `src/image-upload.ts` · `src/image-ingest.ts` · `JobRunner` image pool  
+**Code:** `src/image-upload.ts` · `src/image-ingest.ts` · `src/graphic-package.ts` · `JobRunner` image pool  
 **API:** `POST /api/jobs/images`  
-**UI:** Capture → **Bulk image upload**
+**UI:** Capture → **Graphic & campaign upload**
 
-Pinterest Trial access is still pending. Until OAuth works, moodboard stills go through the same desktop ingest as board pins: Sharp resize → verify → graph/Postgres index → async enrichment. URL captures keep using Playwright + CHECKION.
+Upload is kind-first. The multipart field `assetKind` (default `campaign_keyvisual`) selects the pipeline:
+
+| Kind | Pipeline | Package shape |
+|------|----------|---------------|
+| `campaign_keyvisual`, `print_ad`, `social_post`, `brand_system`, `moodboard`, `other_graphic` | **Graphic** (`graphic_asset_ingest:<kind>`) | Native artboard viewport, `composition_contract`, no `page_rhythm`, no web LLM |
+| `web_screen` | Legacy still → desktop viewport (`bulk_image_upload`) | Same path as Pinterest pins |
+
+URL captures keep Playwright + CHECKION. Pinterest stays moodboard/web-screen style.
 
 ## Parallelism
 
@@ -27,6 +34,7 @@ Authorization: Bearer $DIG_API_TOKEN
 Content-Type: multipart/form-data
 
 files: (repeated image parts)
+assetKind: campaign_keyvisual | print_ad | social_post | … | web_screen
 platformProjectId: optional collection id
 ```
 
@@ -37,3 +45,7 @@ Canonical URLs use `imageIngest.urlTemplate` with `{website}` from `pinterest.we
 Island Capture posts through `/api/dig` + `/api/jobs` + `/images`. `apps/web/next.config.ts` reads `imageIngest.islandProxyMaxBody` from `knowledge/paths.json` (copied into the island image so `next start` can load the config).
 
 Auth uses `assertDestructiveAuth` (Bearer even in dummy mode), same as catalog batch.
+
+## Graphic verify / index
+
+Graphic packages skip web relation checks. Index scope loads `derived/composition-contract.json` + `derived/spirion-asset.json` written at ingest time — no second image enrich pass, no web LLM enrichment.

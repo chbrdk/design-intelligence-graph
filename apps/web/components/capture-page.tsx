@@ -39,6 +39,7 @@ function CaptureBody() {
   const [importing, setImporting] = useState(false)
   const [importMessage, setImportMessage] = useState<string | null>(null)
   const [uploadFiles, setUploadFiles] = useState<File[]>([])
+  const [uploadAssetKind, setUploadAssetKind] = useState<string>(paths.imageIngest.defaultAssetKind)
   const [uploading, setUploading] = useState(false)
   const [uploadMessage, setUploadMessage] = useState<string | null>(null)
 
@@ -174,10 +175,13 @@ function CaptureBody() {
             setUploading(true)
             setUploadMessage(null)
             setError(null)
-            void uploadCaptureImages(uploadFiles, { platformProjectId })
+            void uploadCaptureImages(uploadFiles, {
+              platformProjectId,
+              assetKind: uploadAssetKind,
+            })
               .then(async (result) => {
                 setUploadMessage(
-                  `Queued ${result.queued} images` +
+                  `Queued ${result.queued} · ${uploadAssetKind}` +
                     (result.skipped ? `, skipped ${result.skipped}` : ''),
                 )
                 setUploadFiles([])
@@ -191,6 +195,19 @@ function CaptureBody() {
               .finally(() => setUploading(false))
           }}
         >
+          <Field label={paths.libraryCopy.uploadKindLabel}>
+            <select
+              className="dig-select"
+              value={uploadAssetKind}
+              onChange={(event) => setUploadAssetKind(event.target.value)}
+            >
+              {paths.imageIngest.uploadAssetKinds.map((kind) => (
+                <option key={kind.value} value={kind.value}>
+                  {kind.label}
+                </option>
+              ))}
+            </select>
+          </Field>
           <Field label="Images">
             <Input
               key={uploadMessage ?? 'files'}
