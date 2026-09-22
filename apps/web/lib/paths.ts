@@ -130,6 +130,8 @@ export const paths = {
     screenInsightCraftMetricsConfidence: 'confidence',
     screenInsightCraftMetricsTone: 'Tone leaders',
     screenInsightCraftMetricsRisks: 'Top risks',
+    screenInsightCraftMetricsRadar: 'Group profile',
+    screenInsightCraftMetricsRadarAria: 'Craft metrics by group',
     screenInsightTypeImage: 'Type and image',
     screenInsightTypeCraft: 'Typography',
     screenInsightImagery: 'Imagery',

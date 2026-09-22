@@ -35,6 +35,8 @@ export { RankedList, RankedRow } from '../../../../msqdx-ui/packages/ui/src/comp
 export { Text } from '../../../../msqdx-ui/packages/ui/src/components/Text'
 export { Textarea } from '../../../../msqdx-ui/packages/ui/src/components/Textarea'
 export type { TextareaProps } from '../../../../msqdx-ui/packages/ui/src/components/Textarea'
+export { RadarChart } from '../../../../msqdx-ui/packages/ui/src/components/RadarChart'
+export type { RadarChartProps } from '../../../../msqdx-ui/packages/ui/src/components/RadarChart'
 export { Meter, MeterList } from '../../../../msqdx-ui/packages/ui/src/components/Meter'
 export { SectionChrome } from '../../../../msqdx-ui/packages/ui/src/SectionChrome'
 export { Lede, LedeStrip } from '../../../../msqdx-ui/packages/ui/src/components/Lede'

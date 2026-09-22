@@ -406,6 +406,14 @@ a {
   margin-block: var(--space-4, 1rem);
 }
 
+.dig-craft-metrics-radar {
+  margin: var(--space-2, 0.5rem) 0 var(--space-3, 0.75rem);
+}
+
+.dig-craft-metrics-radar .briefing-radar-svg {
+  width: min(100%, 20rem);
+}
+
 .dig-craft-metrics-highlights {
   display: grid;
   gap: var(--space-3, 0.75rem);

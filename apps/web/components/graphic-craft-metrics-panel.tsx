@@ -1,11 +1,19 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Accordion, Chip, IconSparkles, SectionChrome, Text } from '../lib/msqdx-ui'
+import {
+  Accordion,
+  Chip,
+  IconSparkles,
+  RadarChart,
+  SectionChrome,
+  Text,
+} from '../lib/msqdx-ui'
 import type { GraphicCraftMetricsSummary } from '../lib/dig-api'
 import {
   formatGraphicCraftValue,
   graphicCraftGroups,
+  graphicCraftGroupRadarPoints,
   graphicCraftMetricRows,
   graphicCraftTopScores,
   type GraphicCraftMetricRow,
@@ -52,6 +60,11 @@ export function GraphicCraftMetricsPanel({
   const copy = paths.libraryCopy
   const rows = useMemo(() => graphicCraftMetricRows(doc), [doc])
   const groups = useMemo(() => graphicCraftGroups(rows), [rows])
+  const radarAxes = useMemo(() => graphicCraftGroupRadarPoints(rows), [rows])
+  const radarData = useMemo(
+    () => radarAxes.map((axis) => ({ label: axis.label, value: axis.value })),
+    [radarAxes],
+  )
   const topTone = useMemo(() => graphicCraftTopScores(rows, 'tone', 4), [rows])
   const topRisk = useMemo(() => graphicCraftTopScores(rows, 'risk', 4), [rows])
   const [openGroup, setOpenGroup] = useState<string | null>(null)
@@ -75,6 +88,21 @@ export function GraphicCraftMetricsPanel({
         {filled}/{total} {copy.screenInsightCraftMetricsFilled}
         {confidence ? ` · ${copy.screenInsightCraftMetricsConfidence} ${confidence}` : ''}
       </Text>
+
+      {radarData.length >= 3 ? (
+        <div className="dig-craft-metrics-radar">
+          <RadarChart
+            data={radarData}
+            title={copy.screenInsightCraftMetricsRadar}
+            ariaLabel={copy.screenInsightCraftMetricsRadarAria}
+            size={280}
+            onPointClick={(point) => {
+              const axis = radarAxes.find((a) => a.label === point.label)
+              if (axis) setOpenGroup(axis.group)
+            }}
+          />
+        </div>
+      ) : null}
 
       {(topTone.length > 0 || topRisk.length > 0) && (
         <div className="dig-craft-metrics-highlights">

@@ -30,6 +30,6 @@ Scores are `0..1`. Enums / booleans / hex / short text use closed vocabs from th
 | `design_facets` | Coarse style / layout / palette / energy via `designFacetHintsFromGraphicMetrics` |
 | `composition_contract` | focal, layoutFamily, negativeSpace, avoid[], colorAxes |
 | Library analysis | Full metrics blob for craft UI / SPIRION motifs |
-| Library screen detail | `GraphicCraftMetricsPanel` — grouped accordion + tone/risk highlights |
+| Library screen detail | `GraphicCraftMetricsPanel` — group radar overview + accordion detail + tone/risk highlights |
 
 Version bumps live in `GRAPHIC_CRAFT_METRICS_VERSION`; stage cache keys include the version + image evidence hash.

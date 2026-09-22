@@ -40,8 +40,30 @@ const GROUP_LABELS: Record<string, string> = {
   production: 'Production',
 }
 
+/** Catalog id prefixes (comp.*, prod.*, …) → canonical group keys. */
+const ID_PREFIX_TO_GROUP: Record<string, string> = {
+  format: 'format',
+  comp: 'composition',
+  space: 'space',
+  type: 'type',
+  color: 'color',
+  image: 'image',
+  illu: 'illustration',
+  brand: 'brand',
+  tone: 'tone',
+  mat: 'material',
+  narr: 'narrative',
+  risk: 'risk',
+  prod: 'production',
+}
+
 export function graphicCraftGroupLabel(group: string): string {
   return GROUP_LABELS[group] ?? group.replace(/_/g, ' ')
+}
+
+export function graphicCraftGroupFromMetricId(id: string): string {
+  const prefix = id.includes('.') ? id.slice(0, id.indexOf('.')) : id
+  return ID_PREFIX_TO_GROUP[prefix] ?? prefix
 }
 
 export function graphicCraftMetricLabel(id: string): string {
@@ -66,7 +88,7 @@ export function graphicCraftMetricRows(
   const rows: GraphicCraftMetricRow[] = []
   for (const [id, value] of Object.entries(metrics)) {
     if (value === null || value === undefined) continue
-    const group = id.includes('.') ? id.slice(0, id.indexOf('.')) : 'other'
+    const group = graphicCraftGroupFromMetricId(id)
     rows.push({
       id,
       group,
@@ -117,6 +139,45 @@ export function graphicCraftTopScores(
     .filter((row) => row.group === group && row.kind === 'score' && typeof row.value === 'number')
     .sort((a, b) => Number(b.value) - Number(a.value))
     .slice(0, limit)
+}
+
+export type GraphicCraftRadarAxis = {
+  group: string
+  label: string
+  value: number
+}
+
+/** Mean of score metrics per catalog group — overview spider axes. */
+export function graphicCraftGroupRadarPoints(
+  rows: GraphicCraftMetricRow[],
+): GraphicCraftRadarAxis[] {
+  const sums = new Map<string, { sum: number; n: number }>()
+  for (const row of rows) {
+    if (row.kind !== 'score' || typeof row.value !== 'number') continue
+    const cur = sums.get(row.group) ?? { sum: 0, n: 0 }
+    cur.sum += row.value
+    cur.n += 1
+    sums.set(row.group, cur)
+  }
+  const ordered: GraphicCraftRadarAxis[] = GROUP_ORDER.filter((group) =>
+    sums.has(group),
+  ).map((group) => {
+    const { sum, n } = sums.get(group)!
+    return {
+      group,
+      label: graphicCraftGroupLabel(group),
+      value: n > 0 ? sum / n : 0,
+    }
+  })
+  for (const [group, { sum, n }] of sums) {
+    if ((GROUP_ORDER as readonly string[]).includes(group)) continue
+    ordered.push({
+      group,
+      label: graphicCraftGroupLabel(group),
+      value: n > 0 ? sum / n : 0,
+    })
+  }
+  return ordered
 }
 
 export function formatGraphicCraftValue(row: GraphicCraftMetricRow): string {
