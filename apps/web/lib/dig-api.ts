@@ -185,6 +185,8 @@ export type LibraryScreensQuery = {
   layout?: string | null
   industry?: string | null
   screenPattern?: string | null
+  viewport?: string | null
+  limit?: number | null
 }
 
 export function facetChipLabel(value: string): string {
@@ -199,6 +201,10 @@ export function buildLibraryScreensSearchParams(opts?: LibraryScreensQuery): URL
   if (opts?.industry?.trim()) params.set(paths.libraryFacetQuery.industry, opts.industry.trim())
   if (opts?.screenPattern?.trim()) {
     params.set(paths.libraryFacetQuery.screenPattern, opts.screenPattern.trim())
+  }
+  if (opts?.viewport?.trim()) params.set('viewport', opts.viewport.trim())
+  if (opts?.limit != null && Number.isFinite(opts.limit) && opts.limit > 0) {
+    params.set('limit', String(Math.floor(opts.limit)))
   }
   return params
 }

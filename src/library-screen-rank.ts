@@ -329,7 +329,8 @@ export async function searchLibraryScreens(
   const intent = resolveScreenSearchIntent(q, explicit);
   const hardFacetOpts: LibraryScreenListOpts = {
     ...intent.hard,
-    platformProjectId: opts.platformProjectId
+    platformProjectId: opts.platformProjectId,
+    ...(opts.viewportName?.trim() ? { viewportName: opts.viewportName.trim() } : {})
   };
 
   if (q && usesSemanticScreenQuery(provider)) {

@@ -43,4 +43,13 @@ describe('library screen facet filters', () => {
     assert.equal(facetChipLabel('marketing_agency'), 'marketing agency')
     assert.equal(paths.libraryCopy.screenFacetAll, 'All')
   })
+
+  it('builds Graphics gallery params with artboard viewport + limit', () => {
+    const params = buildLibraryScreensSearchParams({
+      viewport: paths.libraryScreenGallery.graphicViewport,
+      limit: 100,
+    })
+    assert.equal(params.get('viewport'), 'artboard')
+    assert.equal(params.get('limit'), '100')
+  })
 })

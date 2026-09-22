@@ -763,6 +763,10 @@ export async function handleLibraryApi(
       value_key: queryParam(requestUrl, "value_key"),
       palette: queryParam(requestUrl, "palette"),
       screen_pattern: queryParam(requestUrl, facetKeys.screenPattern ?? "screen_pattern"),
+      viewportName:
+        queryParam(requestUrl, "viewport") ??
+        queryParam(requestUrl, "viewportName") ??
+        queryParam(requestUrl, "viewport_name"),
       platformProjectId:
         queryParam(requestUrl, "platformProjectId") ?? queryParam(requestUrl, "platform_project_id")
     });

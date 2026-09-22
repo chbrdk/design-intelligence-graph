@@ -35,6 +35,8 @@ import { normalizeScreenPatternLabel } from "./screen-patterns.js";
 export type LibraryScreenListOpts = ScreenFacetFilter & {
   platformProjectId?: string | null | undefined;
   limit?: number | undefined;
+  /** Exact viewport name match, e.g. desktop | artboard | mobile. */
+  viewportName?: string | null | undefined;
 };
 
 export type LibraryScreenRecord = Record<string, unknown> & {
@@ -266,6 +268,10 @@ export async function listLibraryScreens(
     values.push(opts.platformProjectId.trim());
     clauses.push(`c.platform_project_id = $${values.length}`);
   }
+  if (opts.viewportName?.trim()) {
+    values.push(opts.viewportName.trim());
+    clauses.push(`v.name = $${values.length}`);
+  }
   const listedStatuses = captureNavConfig().libraryListedStatuses;
   const statusPlaceholders = listedStatuses.map((status) => {
     values.push(status);
@@ -349,12 +355,17 @@ export async function listLibraryScreensByCaptureIds(
     values.push(opts.platformProjectId.trim());
     clauses.push(`c.platform_project_id = $${values.length}`);
   }
+  if (opts.viewportName?.trim()) {
+    values.push(opts.viewportName.trim());
+    clauses.push(`v.name = $${values.length}`);
+  }
   const listedStatuses = captureNavConfig().libraryListedStatuses;
   const statusPlaceholders = listedStatuses.map((status) => {
     values.push(status);
     return `$${values.length}`;
   });
   clauses.push(`(v.status IS NULL OR v.status IN (${statusPlaceholders.join(", ")}))`);
+  const preferredViewport = opts.viewportName?.trim() || "desktop";
 
   const result = await client.query(
     `SELECT DISTINCT ON (v.capture_run_id)
@@ -366,9 +377,9 @@ export async function listLibraryScreensByCaptureIds(
      JOIN captures c ON c.capture_run_id = v.capture_run_id
      WHERE ${clauses.join(" AND ")}
      ORDER BY v.capture_run_id,
-              CASE WHEN v.name = 'desktop' THEN 0 ELSE 1 END,
+              CASE WHEN v.name = $${values.length + 1} THEN 0 ELSE 1 END,
               v.name`,
-    values
+    [...values, preferredViewport]
   );
 
   const facetCache = new Map<string, ScreenFacetSummary | null>();

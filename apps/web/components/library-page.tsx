@@ -108,14 +108,25 @@ function LibraryPageInner() {
   async function refresh() {
     setError(null)
     try {
-      const page = await fetchLibraryScreensPage({
-        platformProjectId,
-        style: facetStyle,
-        layout: facetLayout,
-        industry: facetIndustry,
-      })
+      const graphicsMode =
+        hashState.view === 'graphics' ||
+        (hashState.view === 'screen_detail' && hashState.from === 'graphics')
+      const page = await fetchLibraryScreensPage(
+        graphicsMode
+          ? {
+              platformProjectId,
+              viewport: paths.libraryScreenGallery.graphicViewport,
+              limit: 100,
+            }
+          : {
+              platformProjectId,
+              style: facetStyle,
+              layout: facetLayout,
+              industry: facetIndustry,
+            },
+      )
       setScreens(page.screens)
-      setFacetFilters(page.facet_filters)
+      if (!graphicsMode) setFacetFilters(page.facet_filters)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
       setScreens([])
@@ -126,8 +137,8 @@ function LibraryPageInner() {
     void refresh()
     const timer = window.setInterval(() => void refresh(), paths.libraryScreensPollMs)
     return () => window.clearInterval(timer)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope and facet query drive refresh
-  }, [platformProjectId, facetStyle, facetLayout, facetIndustry])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Collection scope, mode, and facet query drive refresh
+  }, [platformProjectId, facetStyle, facetLayout, facetIndustry, hashState.view])
 
   const moduleFilter: ModuleGalleryFilter =
     hashState.view === 'sections'
