@@ -125,7 +125,7 @@ export const paths = {
     screenInsightCraft: 'Visual craft',
     screenInsightCraftKicker: 'Type, image, space, and chrome',
     screenInsightCraftMetrics: 'Craft metrics',
-    screenInsightCraftMetricsKicker: '200 fine-grained artboard axes',
+    screenInsightCraftMetricsKicker: '300 fine-grained artboard axes',
     screenInsightCraftMetricsFilled: 'metrics filled',
     screenInsightCraftMetricsConfidence: 'confidence',
     screenInsightCraftMetricsTone: 'Tone leaders',

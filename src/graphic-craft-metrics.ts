@@ -386,7 +386,7 @@ export async function runGraphicCraftMetricsAnalysis(
         }
       ],
       {
-        maxTokens: options.maxTokens ?? 12_000,
+        maxTokens: options.maxTokens ?? 16_000,
         model: visionModel,
         reasoningEffort: "none" as const
       }

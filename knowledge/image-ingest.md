@@ -48,4 +48,4 @@ Auth uses `assertDestructiveAuth` (Bearer even in dummy mode), same as catalog b
 
 ## Graphic verify / index
 
-Graphic packages skip web relation checks. Ingest writes `derived/composition-contract.json` + `derived/spirion-asset.json`. JobRunner then queues **graphic vision enrichment** (`src/graphic-llm-enrich.ts`) so Library gets `vision_page`, **~200 craft metrics** (`derived/graphic-craft-metrics.json`), and design facets — not the web section/`page_rhythm` LLM path. See `knowledge/graphic-craft-metrics.md`.
+Graphic packages skip web relation checks. Ingest writes `derived/composition-contract.json` + `derived/spirion-asset.json`. JobRunner then queues **graphic vision enrichment** (`src/graphic-llm-enrich.ts`) so Library gets `vision_page`, **~300 craft metrics** (`derived/graphic-craft-metrics.json`), and design facets — not the web section/`page_rhythm` LLM path. See `knowledge/graphic-craft-metrics.md`.

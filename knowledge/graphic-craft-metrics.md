@@ -2,7 +2,7 @@
 
 **Path:** `derived/graphic-craft-metrics.json` (per capture package)  
 **Config:** `knowledge/paths.json` → `graphicCraftMetrics`  
-**Catalog:** `src/graphic-craft-metrics-catalog.ts` (~200 closed axes, v0.2.0)  
+**Catalog:** `src/graphic-craft-metrics-catalog.ts` (~300 closed axes, v0.3.0)  
 **Code:** `src/graphic-craft-metrics.ts` · wired from `src/graphic-llm-enrich.ts`
 
 Fine-grained craft scores for campaign / print / social artboards. Complements coarse Library `design_facets` and the compact `composition_contract`. Web screens do **not** run this stage.

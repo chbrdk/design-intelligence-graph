@@ -71,7 +71,7 @@ describe('analysis detail normalization', () => {
       package: {
         graphic_craft_metrics: {
           status: 'complete',
-          metric_count: 200,
+          metric_count: 300,
           filled_count: 199,
           confidence: 0.98,
           groups: { tone: 15, risk: 15 },
@@ -83,7 +83,7 @@ describe('analysis detail normalization', () => {
         },
       },
     })
-    assert.equal(detail.package?.graphic_craft_metrics?.metric_count, 200)
+    assert.equal(detail.package?.graphic_craft_metrics?.metric_count, 300)
     assert.equal(detail.package?.graphic_craft_metrics?.filled_count, 199)
     assert.equal(detail.package?.graphic_craft_metrics?.metrics?.['tone.editorial'], 0.82)
     assert.equal(detail.package?.graphic_craft_metrics?.metrics?.['color.dominant_hex'], '#111111')

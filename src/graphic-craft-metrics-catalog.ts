@@ -1,9 +1,9 @@
 /**
- * Closed catalog of fine-grained artboard / campaign craft metrics (~200).
+ * Closed catalog of fine-grained artboard / campaign craft metrics (~300).
  * Spec: knowledge/graphic-craft-metrics.md
  */
 
-export const GRAPHIC_CRAFT_METRICS_VERSION = "0.2.0" as const;
+export const GRAPHIC_CRAFT_METRICS_VERSION = "0.3.0" as const;
 
 export type GraphicMetricKind = "score" | "enum" | "boolean" | "hex" | "text";
 
@@ -38,9 +38,9 @@ function text(id: string, group: string, label: string): GraphicMetricDef {
   return { id, group, kind: "text", label };
 }
 
-/** Canonical metric definitions — keep count near 200; IDs are stable SSOT. */
+/** Canonical metric definitions — keep count near 300; IDs are stable SSOT. */
 export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
-  // —— format (12)
+  // —— format (18)
   en("format.orientation", "format", "Orientation", ["portrait", "landscape", "square"]),
   en("format.aspect_family", "format", "Aspect family", [
     "1:1",
@@ -78,8 +78,19 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
     "screen",
     "unclear"
   ]),
+  score("format.corner_radius_feel", "format", "Corner radius / soft-edge feel"),
+  bool("format.device_frame", "format", "Device / bezel frame present"),
+  score("format.canvas_utilization", "format", "Canvas utilization"),
+  en("format.ratio_lock", "format", "Ratio lock intent", [
+    "strict",
+    "loose",
+    "crop_flexible",
+    "unclear"
+  ]),
+  score("format.dpi_print_feel", "format", "Print DPI / resolution feel"),
+  score("format.safe_margin_symmetry", "format", "Safe-margin symmetry"),
 
-  // —— composition (23)
+  // —— composition (31)
   en("comp.focal_zone", "composition", "Focal zone", [
     "center",
     "upper_third",
@@ -128,8 +139,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("comp.mass_vs_void", "composition", "Mass-vs-void contrast"),
   score("comp.peripheral_anchors", "composition", "Peripheral anchors"),
   score("comp.z_axis_stacking", "composition", "Z-axis stacking clarity"),
+  score("comp.golden_ratio_hint", "composition", "Golden-ratio hint"),
+  score("comp.radial_focus", "composition", "Radial focus strength"),
+  score("comp.triadic_anchors", "composition", "Triadic anchor layout"),
+  score("comp.horizon_line", "composition", "Horizon-line discipline"),
+  score("comp.entry_exit_flow", "composition", "Entry / exit visual flow"),
+  score("comp.occlusion_control", "composition", "Occlusion control"),
+  score("comp.scale_jump", "composition", "Scale-jump drama"),
+  score("comp.negative_shape", "composition", "Negative-shape intentionality"),
 
-  // —— space (12)
+  // —— space (18)
   score("space.overall", "space", "Negative space amount"),
   score("space.quiet_zone_brand", "space", "Quiet zone around brand"),
   score("space.quiet_zone_claim", "space", "Quiet zone around claim"),
@@ -142,8 +161,14 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("space.cluster_tightness", "space", "Cluster tightness"),
   score("space.white_space_shape", "space", "White-space shape intentionality"),
   score("space.bottom_weight", "space", "Bottom-heavy weight"),
+  score("space.top_weight", "space", "Top-heavy weight"),
+  score("space.gutter_rhythm", "space", "Gutter rhythm consistency"),
+  score("space.column_breathing", "space", "Column breathing"),
+  score("space.micro_macro_gap", "space", "Micro vs macro gap contrast"),
+  score("space.corner_relief", "space", "Corner relief"),
+  score("space.overlap_void", "space", "Overlap-void clarity"),
 
-  // —— typography (26)
+  // —— typography (34)
   score("type.display_dominance", "type", "Display type dominance"),
   score("type.scale_contrast", "type", "Type scale contrast"),
   score("type.weight_contrast", "type", "Weight contrast"),
@@ -186,8 +211,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
     "mixed",
     "none"
   ]),
+  score("type.xheight_feel", "type", "X-height feel"),
+  score("type.condensed_pressure", "type", "Condensed pressure"),
+  score("type.expanded_display", "type", "Expanded display width"),
+  score("type.variable_axis_play", "type", "Variable-axis play"),
+  score("type.super_sub_script", "type", "Super/subscript craft"),
+  score("type.ligature_craft", "type", "Ligature craft"),
+  score("type.rivers_orphans", "type", "Rivers / orphans risk"),
+  score("type.color_fill_type", "type", "Colored fill type strength"),
 
-  // —— color (22)
+  // —— color (30)
   en("color.value_key", "color", "Value key", ["light", "dark", "mixed"]),
   en("color.temperature", "color", "Temperature", ["warm", "cool", "neutral", "mixed"]),
   score("color.saturation", "color", "Saturation intensity"),
@@ -210,8 +243,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("color.halftone_feel", "color", "Halftone / print-screen feel"),
   score("color.transparency_layers", "color", "Transparency layering"),
   hex("color.secondary_hex", "color", "Secondary hex"),
+  score("color.complementary_clash", "color", "Complementary clash energy"),
+  score("color.triadic_spread", "color", "Triadic spread"),
+  score("color.pastel_wash", "color", "Pastel wash"),
+  score("color.earth_tone", "color", "Earth-tone grounding"),
+  score("color.fluorescent_pop", "color", "Fluorescent pop"),
+  score("color.sepia_vintage", "color", "Sepia / vintage cast"),
+  score("color.invert_knockout", "color", "Invert / knockout color play"),
+  hex("color.highlight_hex", "color", "Highlight hex"),
 
-  // —— imagery / photo (18)
+  // —— imagery / photo (26)
   en("image.media_mode", "image", "Media mode", [
     "photo",
     "illustration",
@@ -237,8 +278,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("image.prop_storytelling", "image", "Prop storytelling"),
   score("image.environment_context", "image", "Environment context"),
   score("image.silhouette_strength", "image", "Silhouette strength"),
+  score("image.lens_flare", "image", "Lens flare / light leak"),
+  score("image.color_grade_strength", "image", "Color-grade strength"),
+  score("image.macro_detail", "image", "Macro detail feel"),
+  score("image.wide_angle_distortion", "image", "Wide-angle distortion"),
+  score("image.dutch_tilt", "image", "Dutch tilt energy"),
+  score("image.backlight_rim", "image", "Backlight / rim light"),
+  score("image.studio_vs_location", "image", "Studio vs location feel"),
+  bool("image.multi_shot_collage", "image", "Multi-shot collage"),
 
-  // —— illustration / graphic marks (11)
+  // —— illustration / graphic marks (18)
   score("illu.line_weight_drama", "illustration", "Line-weight drama"),
   score("illu.flat_vs_shaded", "illustration", "Flat vs shaded"),
   score("illu.vector_cleanliness", "illustration", "Vector cleanliness"),
@@ -250,8 +299,15 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("illu.sticker_cutout", "illustration", "Sticker / die-cut feel"),
   bool("illu.has_icons", "illustration", "Has icons / pictograms"),
   bool("illu.has_diagram", "illustration", "Has diagram / chart"),
+  score("illu.isometric_depth", "illustration", "Isometric depth"),
+  score("illu.pixel_art_feel", "illustration", "Pixel-art feel"),
+  score("illu.ink_wash", "illustration", "Ink wash / brush"),
+  score("illu.comic_panel", "illustration", "Comic panel rhythm"),
+  score("illu.glyph_ornament", "illustration", "Glyph / ornament density"),
+  score("illu.map_infographic", "illustration", "Map / infographic feel"),
+  bool("illu.has_mascot", "illustration", "Has mascot / character"),
 
-  // —— brand (14)
+  // —— brand (20)
   score("brand.mark_presence", "brand", "Brand mark presence"),
   score("brand.mark_prominence", "brand", "Brand mark prominence"),
   en("brand.mark_placement", "brand", "Mark placement", [
@@ -275,8 +331,14 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("brand.campaign_extension", "brand", "Campaign system extension"),
   bool("brand.has_tagline", "brand", "Tagline present"),
   score("brand.equity_signal", "brand", "Brand equity signal"),
+  score("brand.endorsement_mark", "brand", "Endorsement / seal mark"),
+  score("brand.subbrand_clarity", "brand", "Sub-brand clarity"),
+  score("brand.retailer_lockup", "brand", "Retailer / channel lockup"),
+  score("brand.anniversary_mark", "brand", "Anniversary / badge mark"),
+  bool("brand.has_claim_device", "brand", "Claim device / mnemonic"),
+  score("brand.voice_match", "brand", "Visual voice match to brand"),
 
-  // —— tone / energy (15)
+  // —— tone / energy (23)
   score("tone.luxury", "tone", "Luxury"),
   score("tone.editorial", "tone", "Editorial"),
   score("tone.corporate", "tone", "Corporate"),
@@ -292,8 +354,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("tone.clinical", "tone", "Clinical / medical"),
   score("tone.nostalgic", "tone", "Nostalgic"),
   score("tone.avant_garde", "tone", "Avant-garde"),
+  score("tone.sensual", "tone", "Sensual / intimate"),
+  score("tone.sporty", "tone", "Sporty / kinetic"),
+  score("tone.eco", "tone", "Eco / natural"),
+  score("tone.festive", "tone", "Festive / celebratory"),
+  score("tone.authoritative", "tone", "Authoritative"),
+  score("tone.whimsical", "tone", "Whimsical"),
+  score("tone.industrial", "tone", "Industrial"),
+  score("tone.poetic", "tone", "Poetic / lyrical"),
 
-  // —— material / finish (8)
+  // —— material / finish (16)
   score("mat.paper_texture", "material", "Paper texture feel"),
   score("mat.metallic_ink", "material", "Metallic ink feel"),
   score("mat.soft_touch", "material", "Soft-touch feel"),
@@ -302,8 +372,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("mat.stone_mineral", "material", "Stone / mineral"),
   score("mat.plastic_product", "material", "Plastic product sheen"),
   score("mat.digital_glow", "material", "Digital screen glow"),
+  score("mat.foil_stamp", "material", "Foil stamp feel"),
+  score("mat.emboss_deboss", "material", "Emboss / deboss feel"),
+  score("mat.wood_grain", "material", "Wood grain"),
+  score("mat.concrete_brutal", "material", "Concrete / brutal material"),
+  score("mat.liquid_chrome", "material", "Liquid chrome"),
+  score("mat.frosted_glass", "material", "Frosted glass"),
+  score("mat.velvet_matte", "material", "Velvet matte"),
+  score("mat.carbon_tech", "material", "Carbon / tech weave"),
 
-  // —— narrative / campaign (10)
+  // —— narrative / campaign (18)
   score("narr.story_beat_clarity", "narrative", "Story beat clarity"),
   score("narr.tension_arc", "narrative", "Tension / conflict arc"),
   score("narr.benefit_clarity", "narrative", "Benefit clarity"),
@@ -321,8 +399,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   ]),
   text("narr.theme_guess", "narrative", "Theme guess"),
   text("narr.audience_guess", "narrative", "Audience guess"),
+  score("narr.before_after", "narrative", "Before/after implication"),
+  score("narr.problem_agitation", "narrative", "Problem agitation"),
+  score("narr.social_proof", "narrative", "Social-proof signal"),
+  score("narr.seasonal_hook", "narrative", "Seasonal hook"),
+  score("narr.local_relevance", "narrative", "Local / geo relevance"),
+  score("narr.aspiration_gap", "narrative", "Aspiration gap"),
+  text("narr.hero_object", "narrative", "Hero object guess"),
+  text("narr.conflict_label", "narrative", "Conflict label guess"),
 
-  // —— craft risks (15) — higher = more risk
+  // —— craft risks (25) — higher = more risk
   score("risk.busy_center", "risk", "Busy center"),
   score("risk.tiny_legal_collision", "risk", "Tiny legal collision"),
   score("risk.low_contrast_type", "risk", "Low-contrast type"),
@@ -338,8 +424,18 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   score("risk.ai_artifact", "risk", "AI artifact tell"),
   score("risk.over_sharpen", "risk", "Over-sharpen / halos"),
   score("risk.dead_space_waste", "risk", "Dead-space waste"),
+  score("risk.logo_stretch", "risk", "Logo stretch / warp"),
+  score("risk.moire", "risk", "Moire / pattern clash"),
+  score("risk.banding", "risk", "Gradient banding"),
+  score("risk.compression_blockies", "risk", "Compression blockies"),
+  score("risk.uneven_bleed", "risk", "Uneven bleed crop"),
+  score("risk.orphan_cta", "risk", "Orphan / floating CTA"),
+  score("risk.color_clash", "risk", "Harsh color clash"),
+  score("risk.too_many_fonts", "risk", "Too many typefaces"),
+  score("risk.center_everything", "risk", "Center-everything laziness"),
+  score("risk.lorem_placeholder", "risk", "Lorem / placeholder tell"),
 
-  // —— production / content (14)
+  // —— production / content (23)
   bool("prod.cta_present", "production", "CTA present"),
   bool("prod.legal_present", "production", "Legal present"),
   bool("prod.qr_or_code", "production", "QR / code present"),
@@ -353,7 +449,16 @@ export const GRAPHIC_CRAFT_METRIC_DEFS: readonly GraphicMetricDef[] = [
   bool("prod.has_rating_stars", "production", "Rating / stars present"),
   score("prod.offer_urgency", "production", "Offer urgency"),
   score("prod.disclaimer_weight", "production", "Disclaimer weight"),
-  text("prod.cta_label_guess", "production", "CTA label guess")
+  text("prod.cta_label_guess", "production", "CTA label guess"),
+  bool("prod.has_app_store_badge", "production", "App-store badge present"),
+  bool("prod.has_social_handles", "production", "Social handles present"),
+  bool("prod.has_barcode", "production", "Barcode present"),
+  bool("prod.has_coupon", "production", "Coupon / code present"),
+  score("prod.sku_specificity", "production", "SKU / product specificity"),
+  score("prod.locale_clarity", "production", "Locale / language clarity"),
+  score("prod.multi_language", "production", "Multi-language density"),
+  text("prod.offer_guess", "production", "Offer / promo guess"),
+  text("prod.secondary_claim_guess", "production", "Secondary claim guess")
 ] as const;
 
 export const GRAPHIC_CRAFT_METRIC_IDS = GRAPHIC_CRAFT_METRIC_DEFS.map((d) => d.id);

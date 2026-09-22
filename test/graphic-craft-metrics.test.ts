@@ -16,9 +16,9 @@ import {
 } from "../src/graphic-craft-metrics.js";
 import { loadDigPaths } from "../src/runtime-paths.js";
 
-test("craft metric catalog stays near 200 closed axes", () => {
+test("craft metric catalog stays near 300 closed axes", () => {
   const n = graphicCraftMetricCount();
-  assert.ok(n >= 190 && n <= 220, `expected ~200 metrics, got ${n}`);
+  assert.ok(n >= 290 && n <= 320, `expected ~300 metrics, got ${n}`);
   const ids = new Set(GRAPHIC_CRAFT_METRIC_DEFS.map((d) => d.id));
   assert.equal(ids.size, n);
   assert.match(loadDigPaths().graphicCraftMetrics?.relativePath ?? "", /graphic-craft-metrics/);
