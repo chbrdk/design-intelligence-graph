@@ -116,6 +116,12 @@ export interface DigPaths {
     schema?: string;
     corpusSpec?: string;
   };
+  graphicCraftMetrics?: {
+    version?: string;
+    doc?: string;
+    relativePath?: string;
+    metricCount?: number;
+  };
   northlineRebuild?: {
     doc?: string;
     route?: string;

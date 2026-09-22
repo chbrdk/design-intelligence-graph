@@ -245,6 +245,12 @@
     "schema": "schemas/composition-contract.schema.json",
     "corpusSpec": "plexon specs/domain/spirion-campaign-motif-corpus.md"
   },
+  "graphicCraftMetrics": {
+    "version": "0.1.0",
+    "doc": "knowledge/graphic-craft-metrics.md",
+    "relativePath": "derived/graphic-craft-metrics.json",
+    "metricCount": 113
+  },
   "northlineRebuild": {
     "doc": "knowledge/northline-insurance-rebuild.md",
     "route": "/rebuild/northline",

@@ -22,6 +22,10 @@ import { buildDesignFacets } from "./design-facets.js";
 import { assemblePromptPackForCaptureRun } from "./capture-prompt-pack.js";
 import { libraryScreenFacetCatalog } from "./library-screens.js";
 import { loadDesignTokensDocument, type DesignTokensDocument } from "./design-tokens.js";
+import {
+  loadGraphicCraftMetricsDocument,
+  mergeFacetsWithGraphicCraftHints
+} from "./graphic-craft-metrics.js";
 import { asLookContract } from "./look-contract.js";
 import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
@@ -1068,13 +1072,14 @@ export async function handleLibraryApi(
         const visionPage = await loadVisionPageDocument(packagePath).catch(() => null);
         const visionLayout = await loadVisionLayoutDocument(packagePath).catch(() => null);
         const tokens = await loadDesignTokensDocument(packagePath).catch(() => null);
+        const graphicCraft = await loadGraphicCraftMetricsDocument(packagePath).catch(() => null);
         const screenPatternLabels = grouped.screen_patterns
           .map((item) => String((item as { name?: unknown }).name ?? "").trim())
           .filter(Boolean);
         const visualStyleLabels = grouped.visual_style
           .map((item) => String((item as { name?: unknown }).name ?? "").trim())
           .filter(Boolean);
-        const design_facets = buildDesignFacets({
+        const design_facets_base = buildDesignFacets({
           vision_page: visionPage,
           bands: visionLayout?.bands ?? [],
           screen_pattern_labels: screenPatternLabels,
@@ -1084,6 +1089,10 @@ export async function handleLibraryApi(
           site_domain: typeof row.site_domain === "string" ? row.site_domain : null,
           canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : null
         });
+        const design_facets =
+          graphicCraft?.status === "complete"
+            ? mergeFacetsWithGraphicCraftHints(design_facets_base, graphicCraft.metrics)
+            : design_facets_base;
         const page_rhythm = await loadPageRhythmForPackage(packagePath).catch(() => null);
         packageExtras = {
           vision: llm.vision ?? null,
@@ -1103,6 +1112,21 @@ export async function handleLibraryApi(
               }
             : null,
           design_facets,
+          ...(graphicCraft
+            ? {
+                graphic_craft_metrics: {
+                  status: graphicCraft.status,
+                  metric_count: graphicCraft.metric_count,
+                  filled_count: graphicCraft.filled_count,
+                  confidence: graphicCraft.confidence,
+                  groups: graphicCraft.groups,
+                  metrics: graphicCraft.metrics,
+                  measured: graphicCraft.measured,
+                  model: graphicCraft.model,
+                  source_screenshot: graphicCraft.source_screenshot
+                }
+              }
+            : {}),
           ...(page_rhythm ? { page_rhythm } : {})
         };
       } catch {

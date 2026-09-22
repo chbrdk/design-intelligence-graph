@@ -28,6 +28,10 @@ import {
 } from "./design-facets.js";
 import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadDesignTokensDocument } from "./design-tokens.js";
+import {
+  loadGraphicCraftMetricsDocument,
+  mergeFacetsWithGraphicCraftHints
+} from "./graphic-craft-metrics.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 import { captureNavConfig } from "./capture-nav.js";
 import { normalizeScreenPatternLabel } from "./screen-patterns.js";
@@ -74,10 +78,11 @@ async function compactFacetsForPackage(
 ): Promise<ScreenFacetSummary | null> {
   if (!packagePath) return null;
   if (cache.has(packagePath)) return cache.get(packagePath) ?? null;
-  const [visionPage, llm, tokens] = await Promise.all([
+  const [visionPage, llm, tokens, craft] = await Promise.all([
     loadVisionPageDocument(packagePath).catch(() => null),
     loadLlmDesignDisk(packagePath),
-    loadDesignTokensDocument(packagePath).catch(() => null)
+    loadDesignTokensDocument(packagePath).catch(() => null),
+    loadGraphicCraftMetricsDocument(packagePath).catch(() => null)
   ]);
   const screen_pattern_labels = (llm?.mobbin?.screen_patterns ?? [])
     .map((item) => String(item.name ?? "").trim())
@@ -85,17 +90,20 @@ async function compactFacetsForPackage(
   const visual_style_labels = (llm?.mobbin?.visual_style_labels ?? [])
     .map((item) => String(item.name ?? "").trim())
     .filter(Boolean);
-  const summary = summarizeDesignFacets(
-    buildDesignFacets({
-      vision_page: visionPage,
-      screen_pattern_labels,
-      visual_style_labels,
-      design_summary: llm?.design_summary ?? null,
-      tokens,
-      site_domain: hints.site_domain ?? null,
-      canonical_url: hints.canonical_url ?? null
-    })
-  );
+  const built = buildDesignFacets({
+    vision_page: visionPage,
+    screen_pattern_labels,
+    visual_style_labels,
+    design_summary: llm?.design_summary ?? null,
+    tokens,
+    site_domain: hints.site_domain ?? null,
+    canonical_url: hints.canonical_url ?? null
+  });
+  const withCraft =
+    craft?.status === "complete"
+      ? mergeFacetsWithGraphicCraftHints(built, craft.metrics)
+      : built;
+  const summary = summarizeDesignFacets(withCraft);
   const usable =
     summary.style ||
     summary.layout ||

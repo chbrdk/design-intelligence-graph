@@ -18,8 +18,10 @@ Upload / Dribbble sync → dedicated **graphic artboard package** (`src/graphic-
 
 1. User picks `assetKind` on upload (campaign / print / social / …).
 2. `enrichGraphicFromImage` + kind defaults write `composition_contract`.
-3. JobRunner queues **graphic vision enrichment** (`applyGraphicLlmEnrichment` via EnrichmentQueue) — artboard `vision_page` + `llm-design.json`, no web section/`page_rhythm` stages.
+3. JobRunner queues **graphic vision enrichment** (`applyGraphicLlmEnrichment` via EnrichmentQueue) — artboard `vision_page`, fine **graphic_craft_metrics** (~113 axes), and `llm-design.json`. No web section/`page_rhythm` stages.
 4. Verify requires artboard + composition_contract; skips web relations.
 5. Index sets `enrichment_status=pending` until vision completes, then `ready`.
+
+Craft metric document: `knowledge/graphic-craft-metrics.md` → `derived/graphic-craft-metrics.json`.
 
 Web screens keep `look_contract` + `page_rhythm` on the Playwright / legacy still path.

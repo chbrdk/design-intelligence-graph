@@ -19,6 +19,12 @@ import { createDefaultStageCache, type LlmStageCache } from "./llm-stage-cache.j
 import { runVisionPageAnalysis } from "./llm-vision.js";
 import type { CaptureManifest } from "./types.js";
 import { designSummaryFromVisionPage, type VisionPageDocument } from "./vision-page.js";
+import {
+  designFacetHintsFromGraphicMetrics,
+  refineCompositionFromCraftMetrics,
+  runGraphicCraftMetricsAnalysis,
+  graphicCraftMetricCount
+} from "./graphic-craft-metrics.js";
 
 const GRAPHIC_VISION_USER_PROMPT =
   "Catalog this single graphic / campaign artboard (print ad, key visual, or social post) in rich visual detail. Treat it as one artboard — not a scrollable web page. Return JSON only.";
@@ -136,20 +142,64 @@ export async function applyGraphicLlmEnrichment(
       }
     }
   ];
-  const cost = visionPage.cost ? aggregateCosts([visionPage.cost]) : undefined;
+  const costRecords = visionPage.cost ? [visionPage.cost] : [];
 
   let design_summary = "";
+  let composition = (await loadCompositionContract(packageRoot)) ?? asCompositionContract({})!;
   if (visionPage.status === "complete" && visionPage.document) {
     design_summary = designSummaryFromVisionPage(visionPage.document, []);
-    const existing = (await loadCompositionContract(packageRoot)) ?? asCompositionContract({})!;
-    const refined = refineCompositionFromVision(existing, visionPage.document);
-    await writeCompositionContract(packageRoot, refined);
+    composition = refineCompositionFromVision(composition, visionPage.document);
   }
 
+  const craftMetrics = await runGraphicCraftMetricsAnalysis(packageRoot, manifest, {
+    config: { ...config, timeoutMs: visionTimeoutMs },
+    ...(options.provider ? { provider: options.provider } : {}),
+    stageCache,
+    persist: true,
+    maxTokens: 4500
+  });
+  stages.push({
+    stage_id: "vision_page",
+    status: craftMetrics.status,
+    ...(craftMetrics.raw_sha256 ? { raw_sha256: craftMetrics.raw_sha256 } : {}),
+    ...(craftMetrics.error ? { error: craftMetrics.error } : {}),
+    data: {
+      kind: "graphic_craft_metrics",
+      metric_count: craftMetrics.document?.metric_count ?? graphicCraftMetricCount(),
+      filled_count: craftMetrics.document?.filled_count ?? 0,
+      confidence: craftMetrics.document?.confidence ?? null,
+      groups: craftMetrics.document?.groups ?? null
+    }
+  });
+  if (craftMetrics.cost) costRecords.push(craftMetrics.cost);
+
+  if (craftMetrics.status === "complete" && craftMetrics.document) {
+    composition = refineCompositionFromCraftMetrics(composition, craftMetrics.document.metrics);
+    const hints = designFacetHintsFromGraphicMetrics(craftMetrics.document.metrics);
+    const claim =
+      typeof craftMetrics.document.metrics["prod.primary_claim_guess"] === "string"
+        ? String(craftMetrics.document.metrics["prod.primary_claim_guess"])
+        : "";
+    const metricLine = [
+      hints.style ? `style=${hints.style}` : null,
+      hints.layout ? `layout=${hints.layout}` : null,
+      hints.color_mood ? `mood=${hints.color_mood}` : null,
+      `metrics=${craftMetrics.document.filled_count}/${craftMetrics.document.metric_count}`
+    ]
+      .filter(Boolean)
+      .join("; ");
+    design_summary = [design_summary, claim ? `Claim guess: ${claim}` : "", metricLine]
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  await writeCompositionContract(packageRoot, composition);
+  const cost = costRecords.length ? aggregateCosts(costRecords) : undefined;
+
   const status: LlmDesignAnalysis["status"] =
-    visionPage.status === "complete"
+    visionPage.status === "complete" || craftMetrics.status === "complete"
       ? "complete"
-      : visionPage.status === "skipped"
+      : visionPage.status === "skipped" && craftMetrics.status === "skipped"
         ? "skipped"
         : "failed";
 
@@ -157,7 +207,7 @@ export async function applyGraphicLlmEnrichment(
     schema_version: "0.1.0",
     llm_design_version: LLM_DESIGN_VERSION,
     generated_at: new Date().toISOString(),
-    model: visionPage.model ?? config.visionModel ?? config.model,
+    model: craftMetrics.model ?? visionPage.model ?? config.visionModel ?? config.model,
     base_url: config.baseUrl,
     status,
     design_summary,
@@ -167,7 +217,9 @@ export async function applyGraphicLlmEnrichment(
     vision_page: visionPage,
     ...(visionPage.compat ? { vision: visionPage.compat } : {}),
     ...(cost ? { cost } : {}),
-    ...(visionPage.error ? { error: visionPage.error } : {})
+    ...(visionPage.error || craftMetrics.error
+      ? { error: [visionPage.error, craftMetrics.error].filter(Boolean).join("; ") }
+      : {})
   };
 
   if (status !== "complete") {
