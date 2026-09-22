@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 FROM base AS ds
 ARG MSQDX_UI_REPO=https://github.com/chbrdk/msqdx-ui.git
 # Pin: bump when DIG barrels need newer primitives (ChatOverlay / ReactNode return).
-ARG MSQDX_UI_REF=fabd43b44a8d4c24adfe14d2a538260a577e788f
+ARG MSQDX_UI_REF=5ce3d41edb153af739747b252cef67fa937a1175
 RUN git init /workspace/msqdx-ui \
     && cd /workspace/msqdx-ui \
     && git remote add origin "${MSQDX_UI_REPO}" \
