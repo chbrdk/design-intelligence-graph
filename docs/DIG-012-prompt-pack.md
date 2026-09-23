@@ -24,10 +24,14 @@ DesignPromptPack {
   output_contract: "layout_hints_json" | "prose_brief" | "both"
   look_contract?: LookContract          // measured hex/type/radius/CTA + avoid[]
   page_rhythm?: PageRhythm              // page_arc + bands; outranks card-kit templates
+  composition_contract?: …              // single artboard (graphics)
+  graphic_craft_brief?: …               // compact craft literals/directives (graphics)
 }
 ```
 
 `CompactReference` is a DesignReference with optional fields dropped to stay under token budget (see § Budgets).
+
+For **graphic / campaign** captures, `spirion.capture_prompt_pack` also loads `derived/graphic-craft-metrics.json` and attaches `graphic_craft_brief` (literals + rebuild_directives). The full ~300-axis map stays on analysis detail — packs stay under budget.
 
 ## Hard rules (MUST appear in every pack)
 
@@ -39,6 +43,7 @@ DesignPromptPack {
 6. If `forbid_source_copy` is true on the pack, treat it as absolute.  
 7. If `look_contract` is present, it outranks vibe adjectives; obey `look_contract.avoid` and measured colors/type/radius/CTA (no glassmorphic defaults).
 8. If `page_rhythm` is present, it outranks generic landing-page / card-kit structure; follow `page_arc`.
+9. If `graphic_craft_brief` is present, obey `literals` + `rebuild_directives` for artboard craft; do not invent scroll bands.
 
 ## Templates
 

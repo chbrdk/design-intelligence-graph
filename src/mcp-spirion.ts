@@ -211,7 +211,7 @@ export function listSpirionTools(): ToolDef[] {
     {
       name: "spirion.capture_prompt_pack",
       description:
-        "Alias of dig_capture_prompt_pack — look/rhythm and/or composition_contract for one asset.",
+        "Alias of dig_capture_prompt_pack — look/rhythm and/or composition_contract + graphic_craft_brief for one asset.",
       inputSchema: {
         type: "object",
         required: ["capture_run_id"],
@@ -286,7 +286,8 @@ export function listSpirionTools(): ToolDef[] {
     },
     {
       name: "spirion.compose_brief",
-      description: "Alias of dig_compose_brief — merge captures/references into one builder brief.",
+      description:
+        "Alias of dig_compose_brief — merge captures/references into one builder brief (includes graphic_craft_brief when enriched).",
       inputSchema: {
         type: "object",
         required: ["intent"],

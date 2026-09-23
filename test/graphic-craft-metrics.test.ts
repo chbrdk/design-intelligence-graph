@@ -12,7 +12,8 @@ import {
   designFacetHintsFromGraphicMetrics,
   mergeFacetsWithGraphicCraftHints,
   parseGraphicCraftMetricsResponse,
-  refineCompositionFromCraftMetrics
+  refineCompositionFromCraftMetrics,
+  compactGraphicCraftBrief
 } from "../src/graphic-craft-metrics.js";
 import { loadDigPaths } from "../src/runtime-paths.js";
 
@@ -105,4 +106,46 @@ test("facet + composition refine from craft metrics", () => {
   assert.equal(refined.ctaRole, "absent");
   assert.ok(refined.avoid.includes("busy-center"));
   assert.equal(refined.colorAxes.dominant, "#111111");
+});
+
+test("compactGraphicCraftBrief emits MCP rebuild literals without dumping 300 axes", () => {
+  const brief = compactGraphicCraftBrief({
+    schema_version: "0.1.0",
+    graphic_craft_metrics_version: "0.3.0",
+    generated_at: new Date().toISOString(),
+    source_screenshot: "artboard.webp",
+    model: "test",
+    status: "complete",
+    metric_count: 300,
+    filled_count: 40,
+    confidence: 0.91,
+    metrics: {
+      "comp.layout_family": "full-bleed-product",
+      "comp.focal_role": "face",
+      "format.orientation": "portrait",
+      "format.aspect_family": "4:5",
+      "color.dominant_hex": "#ff7f33",
+      "color.ground_hex": "#1a1a1a",
+      "color.accent_hex": "#ffffff",
+      "tone.editorial": 0.82,
+      "tone.luxury": 0.2,
+      "risk.busy_center": 0.7,
+      "prod.primary_claim_guess": "TRACK NUMBER 09",
+      "prod.cta_present": false,
+      "space.feel": "airy",
+      "comp.balance": 0.74
+    },
+    measured: {},
+    groups: { tone: 2, risk: 1 }
+  });
+  assert.ok(brief);
+  assert.equal(brief!.literals["comp.layout_family"], "full-bleed-product");
+  assert.equal(brief!.literals["color.dominant_hex"], "#ff7f33");
+  assert.equal(brief!.tone_top[0]?.id, "tone.editorial");
+  assert.equal(brief!.risks[0]?.id, "risk.busy_center");
+  assert.ok(brief!.rebuild_directives.some((line) => /full-bleed-product/i.test(line)));
+  assert.ok(brief!.rebuild_directives.some((line) => /TRACK NUMBER 09/i.test(line)));
+  assert.ok(!("tone.editorial" in brief!.literals));
+  assert.ok(JSON.stringify(brief).length < 4_000);
+  assert.equal(compactGraphicCraftBrief(null), null);
 });

@@ -571,4 +571,229 @@ export function refineCompositionFromCraftMetrics(
   })!;
 }
 
+/** Closed set of metric ids copied into MCP prompt packs as rebuild literals. */
+export const GRAPHIC_CRAFT_BRIEF_LITERAL_IDS = [
+  "format.orientation",
+  "format.aspect_family",
+  "format.channel_fit",
+  "format.size_class",
+  "comp.layout_family",
+  "comp.focal_role",
+  "comp.balance",
+  "space.feel",
+  "space.overall",
+  "color.dominant_hex",
+  "color.ground_hex",
+  "color.accent_hex",
+  "color.value_key",
+  "color.mood_label",
+  "color.contrast_punch",
+  "color.saturation",
+  "type.family_feel",
+  "type.case_mode",
+  "type.display_dominance",
+  "type.scale_contrast",
+  "image.media_mode",
+  "image.full_bleed_photo",
+  "prod.cta_present",
+  "prod.primary_claim_guess",
+  "narr.emotion_hook",
+  "narr.benefit_clarity"
+] as const;
+
+export type GraphicCraftBrief = {
+  schema_version: "0.1.0";
+  graphic_craft_metrics_version: string;
+  status: "complete" | "failed" | "skipped";
+  confidence: number;
+  filled_count: number;
+  metric_count: number;
+  /** Mean of filled score metrics per catalog group (0..1). */
+  group_scores: Record<string, number>;
+  /** High-signal enums / hex / text / bools / key scores for rebuild. */
+  literals: Record<string, number | string | boolean>;
+  /** Top tone.* scores (≥0.55), highest first. */
+  tone_top: Array<{ id: string; score: number }>;
+  /** risk.* scores ≥0.55 (higher = avoid / mitigate). */
+  risks: Array<{ id: string; score: number }>;
+  /** Short imperative directives for an MCP rebuild agent. */
+  rebuild_directives: string[];
+};
+
+function round3(n: number): number {
+  return Math.round(n * 1000) / 1000;
+}
+
+function groupScoreMeans(metrics: Record<string, GraphicMetricValue>): Record<string, number> {
+  const sums: Record<string, { sum: number; n: number }> = {};
+  for (const def of GRAPHIC_CRAFT_METRIC_DEFS) {
+    if (def.kind !== "score") continue;
+    const v = metrics[def.id];
+    if (typeof v !== "number" || !Number.isFinite(v)) continue;
+    const bucket = sums[def.group] ?? { sum: 0, n: 0 };
+    bucket.sum += v;
+    bucket.n += 1;
+    sums[def.group] = bucket;
+  }
+  const out: Record<string, number> = {};
+  for (const [group, { sum, n }] of Object.entries(sums)) {
+    if (n > 0) out[group] = round3(sum / n);
+  }
+  return out;
+}
+
+function pickLiterals(metrics: Record<string, GraphicMetricValue>): Record<string, number | string | boolean> {
+  const out: Record<string, number | string | boolean> = {};
+  for (const id of GRAPHIC_CRAFT_BRIEF_LITERAL_IDS) {
+    const v = metrics[id];
+    if (v === null || v === undefined) continue;
+    if (typeof v === "number") {
+      if (!Number.isFinite(v)) continue;
+      out[id] = round3(v);
+    } else if (typeof v === "boolean") {
+      out[id] = v;
+    } else if (typeof v === "string" && v.trim()) {
+      out[id] = v.trim().slice(0, 120);
+    }
+  }
+  return out;
+}
+
+function rankedScores(
+  metrics: Record<string, GraphicMetricValue>,
+  prefix: string,
+  min = 0.55,
+  limit = 6
+): Array<{ id: string; score: number }> {
+  const rows: Array<{ id: string; score: number }> = [];
+  for (const [id, value] of Object.entries(metrics)) {
+    if (!id.startsWith(prefix)) continue;
+    if (typeof value !== "number" || !Number.isFinite(value) || value < min) continue;
+    rows.push({ id, score: round3(value) });
+  }
+  return rows.sort((a, b) => b.score - a.score).slice(0, limit);
+}
+
+function buildRebuildDirectives(
+  literals: Record<string, number | string | boolean>,
+  toneTop: Array<{ id: string; score: number }>,
+  risks: Array<{ id: string; score: number }>
+): string[] {
+  const directives: string[] = [];
+  const push = (line: string | null | undefined) => {
+    if (!line || directives.includes(line)) return;
+    directives.push(line);
+  };
+
+  const layout = literals["comp.layout_family"];
+  if (typeof layout === "string") push(`Use layoutFamily=${layout} as the primary artboard pattern.`);
+  const focal = literals["comp.focal_role"];
+  if (typeof focal === "string") push(`Keep focal attention on: ${focal}.`);
+  const orientation = literals["format.orientation"];
+  const aspect = literals["format.aspect_family"];
+  if (typeof orientation === "string" || typeof aspect === "string") {
+    push(
+      `Respect format ${[orientation, aspect].filter((v): v is string => typeof v === "string").join(" / ")}.`
+    );
+  }
+  const space = literals["space.feel"];
+  if (typeof space === "string") push(`Negative space feel: ${space}.`);
+  const hexes = [
+    literals["color.dominant_hex"],
+    literals["color.ground_hex"],
+    literals["color.accent_hex"]
+  ].filter((v): v is string => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v));
+  if (hexes.length) push(`Lock palette hexes: ${hexes.join(", ")}.`);
+  const valueKey = literals["color.value_key"];
+  if (typeof valueKey === "string") push(`Value key: ${valueKey}.`);
+  const mood = literals["color.mood_label"];
+  if (typeof mood === "string") push(`Color mood: ${mood}.`);
+  const media = literals["image.media_mode"];
+  if (typeof media === "string") push(`Imagery mode: ${media}.`);
+  if (literals["image.full_bleed_photo"] === true) push("Run photography edge-to-edge (full-bleed).");
+  if (literals["prod.cta_present"] === false) push("No web CTA required — claim/lockup may stand alone.");
+  if (literals["prod.cta_present"] === true) push("Include a clear CTA treatment matching the artboard craft.");
+  const claim = literals["prod.primary_claim_guess"];
+  if (typeof claim === "string") {
+    push(`Echo claim structure (do not copy brand 1:1): “${claim}”.`);
+  }
+  const typeFeel = literals["type.family_feel"];
+  if (typeof typeFeel === "string") push(`Typography family feel: ${typeFeel}.`);
+  const caseMode = literals["type.case_mode"];
+  if (typeof caseMode === "string") push(`Type case mode: ${caseMode}.`);
+  if (toneTop[0]) {
+    const leaf = toneTop[0].id.includes(".") ? toneTop[0].id.slice(toneTop[0].id.indexOf(".") + 1) : toneTop[0].id;
+    push(`Lead tone: ${leaf} (${toneTop[0].score}).`);
+  }
+  for (const risk of risks.slice(0, 4)) {
+    const leaf = risk.id.includes(".") ? risk.id.slice(risk.id.indexOf(".") + 1) : risk.id;
+    push(`Mitigate risk.${leaf} (score ${risk.score}).`);
+  }
+  return directives.slice(0, 12);
+}
+
+/**
+ * Compact craft map for MCP rebuild agents — NOT the full ~300 metric dump.
+ * Fits inside DesignPromptPack budget alongside composition_contract.
+ */
+export function compactGraphicCraftBrief(
+  doc: GraphicCraftMetricsDocument | null | undefined
+): GraphicCraftBrief | null {
+  if (!doc || doc.status !== "complete" || !doc.metrics) return null;
+  const literals = pickLiterals(doc.metrics);
+  const tone_top = rankedScores(doc.metrics, "tone.", 0.55, 5);
+  const risks = rankedScores(doc.metrics, "risk.", 0.55, 6);
+  const group_scores = groupScoreMeans(doc.metrics);
+  const rebuild_directives = buildRebuildDirectives(literals, tone_top, risks);
+  if (!Object.keys(literals).length && !rebuild_directives.length && !tone_top.length) {
+    return null;
+  }
+  return {
+    schema_version: "0.1.0",
+    graphic_craft_metrics_version: doc.graphic_craft_metrics_version ?? GRAPHIC_CRAFT_METRICS_VERSION,
+    status: doc.status,
+    confidence: round3(clamp01(doc.confidence ?? 0)),
+    filled_count: doc.filled_count ?? 0,
+    metric_count: doc.metric_count ?? graphicCraftMetricCount(),
+    group_scores,
+    literals,
+    tone_top,
+    risks,
+    rebuild_directives
+  };
+}
+
+export function graphicCraftBriefHasSignal(brief: GraphicCraftBrief | null | undefined): boolean {
+  if (!brief) return false;
+  return (
+    Object.keys(brief.literals).length > 0 ||
+    brief.rebuild_directives.length > 0 ||
+    brief.tone_top.length > 0 ||
+    brief.risks.length > 0
+  );
+}
+
+export function graphicCraftBriefRules(brief: GraphicCraftBrief): string[] {
+  const rules: string[] = [
+    "If graphic_craft_brief is present, treat literals + rebuild_directives as soft craft truth for the artboard rebuild.",
+    "Prefer graphic_craft_brief.literals hex/layout/focal over vibe adjectives; composition_contract still wins on avoid[] / hierarchy when both exist."
+  ];
+  for (const line of brief.rebuild_directives.slice(0, 8)) {
+    rules.push(line);
+  }
+  for (const risk of brief.risks.slice(0, 4)) {
+    const leaf = risk.id.includes(".") ? risk.id.slice(risk.id.indexOf(".") + 1) : risk.id;
+    rules.push(`Avoid / mitigate: ${leaf.replace(/_/g, "-")}.`);
+  }
+  return rules;
+}
+
+export async function loadGraphicCraftBriefForPackage(
+  packageRoot: string,
+  root = process.cwd()
+): Promise<GraphicCraftBrief | null> {
+  const doc = await loadGraphicCraftMetricsDocument(packageRoot, root);
+  return compactGraphicCraftBrief(doc);
+}
+
 export { GRAPHIC_CRAFT_METRIC_BY_ID, graphicCraftMetricCount, GRAPHIC_CRAFT_METRICS_VERSION };

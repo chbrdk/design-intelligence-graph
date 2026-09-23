@@ -23,6 +23,11 @@ import type { VisualCraft } from "./vision-page.js";
 import { visualCraftHasSignal } from "./vision-page.js";
 import type { PackOutputContract, SpirionAssetKind } from "./spirion-asset.js";
 import { wantsComposition, wantsLook, wantsRhythm } from "./spirion-asset.js";
+import {
+  graphicCraftBriefHasSignal,
+  graphicCraftBriefRules,
+  type GraphicCraftBrief
+} from "./graphic-craft-metrics.js";
 
 export const DESIGN_PROMPT_PACK_SCHEMA_VERSION = "0.1.0" as const;
 export const PROMPT_PACK_MAX_BYTES = 16_000;
@@ -67,6 +72,8 @@ export type DesignPromptPack = {
   page_rhythm?: PageRhythm;
   composition_contract?: CompositionContract;
   visual_craft?: VisualCraft;
+  /** Compact craft map for graphic rebuilds (not the full ~300 metric dump). */
+  graphic_craft_brief?: GraphicCraftBrief;
   asset_kind?: SpirionAssetKind;
 };
 
@@ -79,7 +86,8 @@ export const HARD_RULES: string[] = [
   "If look_contract is present, it outranks vibe adjectives in the brief.",
   "If page_rhythm is present, it outranks generic landing-page / card-kit structure.",
   "If composition_contract is present, treat the brief as a single artboard — not a scroll page.",
-  "If visual_craft is present, implement type/image layering and typographic composition literally; do not flatten into a generic card kit."
+  "If visual_craft is present, implement type/image layering and typographic composition literally; do not flatten into a generic card kit.",
+  "If graphic_craft_brief is present, obey literals + rebuild_directives for artboard craft; do not invent scroll bands."
 ];
 
 function truncate(text: string, max: number): string {
@@ -241,25 +249,29 @@ function buildAsk(
   primaryId: string,
   hasRhythm: boolean,
   hasCraft: boolean,
-  hasComposition: boolean
+  hasComposition: boolean,
+  hasGraphicCraft: boolean
 ): string {
+  const graphicCraft = hasGraphicCraft
+    ? " Obey graphic_craft_brief.literals and rebuild_directives (palette hexes, layoutFamily, focal, tone, risks)."
+    : "";
   if (contract === "composition" || contract === "graphic" || hasComposition) {
-    return `Return artboard craft direction citing ${primaryId}. Obey composition_contract (focal, hierarchy, layoutFamily, avoid, margins). Do not invent web page_rhythm bands. Do not copy source brand marks 1:1.`;
+    return `Return artboard craft direction citing ${primaryId}. Obey composition_contract (focal, hierarchy, layoutFamily, avoid, margins).${graphicCraft} Do not invent web page_rhythm bands. Do not copy source brand marks 1:1.`;
   }
   const rhythm = hasRhythm ? " Obey page_rhythm.page_arc; do not collapse into a card-kit hero." : "";
   const craft = hasCraft
     ? " Obey visual_craft: type/image overlap, typographic composition, imagery treatments, and rebuild_spec."
     : "";
   if (contract === "prose_brief" || contract === "look") {
-    return `Write a ≤280-word creative direction citing ${primaryId}. Follow look_contract.${rhythm}${craft} Do not copy source marketing copy.`;
+    return `Write a ≤280-word creative direction citing ${primaryId}. Follow look_contract.${rhythm}${craft}${graphicCraft} Do not copy source marketing copy.`;
   }
   if (contract === "rhythm") {
-    return `Return layout direction citing ${primaryId}. Obey page_rhythm primarily.${craft}`;
+    return `Return layout direction citing ${primaryId}. Obey page_rhythm primarily.${craft}${graphicCraft}`;
   }
   if (contract === "both") {
-    return `Return layout_hints_json first (DIG-012 contract), then a short prose rationale. Cite ${primaryId}. Obey look_contract.avoid.${rhythm}${craft}`;
+    return `Return layout_hints_json first (DIG-012 contract), then a short prose rationale. Cite ${primaryId}. Obey look_contract.avoid.${rhythm}${craft}${graphicCraft}`;
   }
-  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.${rhythm}${craft}`;
+  return `Return ONLY layout_hints_json matching the DIG-012 layout hints contract. Cite ${primaryId}. Apply look_contract colors/type/radius/CTA; never substitute glassmorphic defaults.${rhythm}${craft}${graphicCraft}`;
 }
 
 export function assembleDesignPromptPack(input: {
@@ -274,6 +286,7 @@ export function assembleDesignPromptPack(input: {
   style?: string | null;
   spacing_feel?: string | null;
   visual_craft?: VisualCraft | null;
+  graphic_craft_brief?: GraphicCraftBrief | null;
   asset_kind?: SpirionAssetKind | null;
 }): DesignPromptPack {
   const brief = input.brief.trim();
@@ -303,6 +316,9 @@ export function assembleDesignPromptPack(input: {
     includeRhythm && pageRhythmHasSignal(input.page_rhythm) ? input.page_rhythm! : null;
   const composition_contract = includeComposition ? input.composition_contract ?? null : null;
   const visual_craft = visualCraftHasSignal(input.visual_craft) ? input.visual_craft! : null;
+  const graphic_craft_brief = graphicCraftBriefHasSignal(input.graphic_craft_brief)
+    ? input.graphic_craft_brief!
+    : null;
 
   const forbid = Boolean(input.pack.constraints?.forbid_source_copy);
   const rules = [
@@ -310,6 +326,7 @@ export function assembleDesignPromptPack(input: {
     ...(look_contract ? lookContractRules(look_contract) : []),
     ...(page_rhythm ? pageRhythmRules(page_rhythm) : []),
     ...(composition_contract ? compositionContractRules(composition_contract) : []),
+    ...(graphic_craft_brief ? graphicCraftBriefRules(graphic_craft_brief) : []),
     ...(forbid ? ["forbid_source_copy is absolute for this pack."] : [])
   ];
   const primaryId = refs[0]!.reference_id;
@@ -326,13 +343,15 @@ export function assembleDesignPromptPack(input: {
       primaryId,
       Boolean(page_rhythm),
       Boolean(visual_craft),
-      Boolean(composition_contract)
+      Boolean(composition_contract),
+      Boolean(graphic_craft_brief)
     ),
     output_contract: contract,
     ...(look_contract ? { look_contract } : {}),
     ...(page_rhythm ? { page_rhythm } : {}),
     ...(composition_contract ? { composition_contract } : {}),
     ...(visual_craft ? { visual_craft } : {}),
+    ...(graphic_craft_brief ? { graphic_craft_brief } : {}),
     ...(input.asset_kind ? { asset_kind: input.asset_kind } : {})
   };
 
@@ -347,6 +366,19 @@ export function assembleDesignPromptPack(input: {
       look: { ...ref.look, look_summary: truncate(ref.look.look_summary, 120) }
     }));
     prompt = { ...prompt, references: compacted };
+  }
+  if (
+    JSON.stringify(prompt).length > PROMPT_PACK_MAX_BYTES &&
+    prompt.graphic_craft_brief
+  ) {
+    const trimmed: GraphicCraftBrief = {
+      ...prompt.graphic_craft_brief,
+      group_scores: {},
+      tone_top: prompt.graphic_craft_brief.tone_top.slice(0, 3),
+      risks: prompt.graphic_craft_brief.risks.slice(0, 3),
+      rebuild_directives: prompt.graphic_craft_brief.rebuild_directives.slice(0, 6)
+    };
+    prompt = { ...prompt, graphic_craft_brief: trimmed };
   }
 
   const issues = validateAgainstSchema("designPromptPack", prompt);

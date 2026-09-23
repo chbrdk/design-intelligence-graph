@@ -13,6 +13,7 @@ import {
   asCompositionContract,
   loadCompositionContract
 } from "./composition-contract.js";
+import { loadGraphicCraftBriefForPackage } from "./graphic-craft-metrics.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 import {
@@ -103,6 +104,10 @@ export async function assemblePromptPackForCaptureRun(
       asCompositionContract(row.composition_contract) ??
       (await loadCompositionContract(row.package_path).catch(() => null))
     : asCompositionContract(body.composition_contract) ?? null;
+  const graphic_craft_brief =
+    wantsComposition(packContract) || composition_contract
+      ? await loadGraphicCraftBriefForPackage(row.package_path).catch(() => null)
+      : null;
 
   if (!references.length) {
     references = [
@@ -120,7 +125,9 @@ export async function assemblePromptPackForCaptureRun(
     typeof body.brief === "string" && body.brief.trim()
       ? body.brief.trim()
       : wantsComposition(packContract)
-        ? `Rebuild this artboard using composition_contract. Cite ${references[0]!.reference_id}.`
+        ? graphic_craft_brief
+          ? `Rebuild this artboard using composition_contract and graphic_craft_brief. Cite ${references[0]!.reference_id}.`
+          : `Rebuild this artboard using composition_contract. Cite ${references[0]!.reference_id}.`
         : `Rebuild this screen using look_contract. Cite ${references[0]!.reference_id}.`;
 
   return assembleDesignPromptPack({
@@ -136,6 +143,7 @@ export async function assemblePromptPackForCaptureRun(
     look_contract,
     page_rhythm,
     composition_contract,
+    graphic_craft_brief,
     tokens,
     layout: facets.layout,
     style: facets.style,

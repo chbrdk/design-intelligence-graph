@@ -16,6 +16,16 @@ import type { PageRhythm } from "./page-rhythm.js";
 import { asPageRhythm, loadPageRhythmForPackage } from "./page-rhythm.js";
 import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { loadVisionPageDocument } from "./vision-page.js";
+import {
+  loadGraphicCraftBriefForPackage,
+  type GraphicCraftBrief
+} from "./graphic-craft-metrics.js";
+import {
+  asCompositionContract,
+  loadCompositionContract,
+  type CompositionContract
+} from "./composition-contract.js";
+import { normalizeAssetKind } from "./spirion-asset.js";
 
 export const COMPOSITION_BRIEF_VERSION = "0.1.0";
 
@@ -45,6 +55,8 @@ export type CompositionBrief = {
   avoid: string[];
   look_contract: LookContract | null;
   page_rhythm: PageRhythm | null;
+  composition_contract: CompositionContract | null;
+  graphic_craft_brief: GraphicCraftBrief | null;
   prompt_pack: ReturnType<typeof assembleDesignPromptPack>;
   gate?: DesignReferencePack["gate"];
 };
@@ -161,10 +173,17 @@ async function resolveCaptureRunIdFromScreenId(
 
 async function loadCaptureContext(client: Queryable, captureRunId: string, platformProjectId?: string | null) {
   const capture = await client.query(
-    `SELECT package_path, platform_project_id FROM captures WHERE capture_run_id = $1 LIMIT 1`,
+    `SELECT package_path, platform_project_id, asset_kind, composition_contract FROM captures WHERE capture_run_id = $1 LIMIT 1`,
     [captureRunId]
   );
-  const row = capture.rows[0] as { package_path?: string; platform_project_id?: string | null } | undefined;
+  const row = capture.rows[0] as
+    | {
+        package_path?: string;
+        platform_project_id?: string | null;
+        asset_kind?: string | null;
+        composition_contract?: unknown;
+      }
+    | undefined;
   if (!row?.package_path) throw new Error("capture_not_found");
   const effectivePlatformProjectId = platformProjectId ?? row.platform_project_id ?? null;
   const tokens = await loadDesignTokensDocument(row.package_path).catch(() => null);
@@ -177,6 +196,11 @@ async function loadCaptureContext(client: Queryable, captureRunId: string, platf
   });
   const look_contract = facets.look_contract;
   const page_rhythm = await loadPageRhythmForPackage(row.package_path).catch(() => null);
+  const composition_contract =
+    asCompositionContract(row.composition_contract) ??
+    (await loadCompositionContract(row.package_path).catch(() => null));
+  const graphic_craft_brief = await loadGraphicCraftBriefForPackage(row.package_path).catch(() => null);
+  const asset_kind = normalizeAssetKind(row.asset_kind, "web_screen");
   return {
     packagePath: row.package_path,
     platformProjectId: effectivePlatformProjectId,
@@ -184,7 +208,10 @@ async function loadCaptureContext(client: Queryable, captureRunId: string, platf
     visionPage,
     facets,
     look_contract,
-    page_rhythm
+    page_rhythm,
+    composition_contract,
+    graphic_craft_brief,
+    asset_kind
   };
 }
 
@@ -239,8 +266,16 @@ export async function assembleCompositionBrief(
   const context = await loadCaptureContext(client, anchorCaptureRunId, platformProjectId);
   const look_contract = asLookContract(body.look_contract) ?? context.look_contract;
   const page_rhythm = asPageRhythm(body.page_rhythm) ?? context.page_rhythm;
+  const composition_contract =
+    asCompositionContract(body.composition_contract) ?? context.composition_contract;
+  const graphic_craft_brief = context.graphic_craft_brief;
 
   const craft_constraints = buildCraftConstraints(gatedRefs, context.facets);
+  if (graphic_craft_brief) {
+    for (const line of graphic_craft_brief.rebuild_directives.slice(0, 6)) {
+      if (!craft_constraints.includes(line)) craft_constraints.push(line);
+    }
+  }
   const brief =
     trimString(body.brief) ??
     `${intent}. Compose from cited references, keep measured look_contract literal, and combine module craft without copying source marketing text.`;
@@ -250,11 +285,14 @@ export async function assembleCompositionBrief(
     output_contract,
     look_contract,
     page_rhythm,
+    composition_contract,
+    graphic_craft_brief,
     tokens: context.tokens,
     layout: context.facets.layout,
     style: context.facets.style,
     spacing_feel: context.visionPage?.spacing_feel ?? null,
-    visual_craft: context.visionPage?.visual_craft ?? null
+    visual_craft: context.visionPage?.visual_craft ?? null,
+    asset_kind: context.asset_kind
   });
   return {
     schema_version: "0.1.0",
@@ -278,10 +316,21 @@ export async function assembleCompositionBrief(
       look_summary: ref.look.look_summary,
       craft_tags: ref.craft?.craft_tags ?? []
     })),
-    craft_constraints,
-    avoid: [...new Set([...(look_contract?.avoid ?? []), ...(page_rhythm?.avoid ?? [])])],
+    craft_constraints: craft_constraints.slice(0, 20),
+    avoid: [
+      ...new Set([
+        ...(look_contract?.avoid ?? []),
+        ...(page_rhythm?.avoid ?? []),
+        ...(composition_contract?.avoid ?? []),
+        ...((graphic_craft_brief?.risks ?? []).map((r) =>
+          r.id.includes(".") ? r.id.slice(r.id.indexOf(".") + 1).replace(/_/g, "-") : r.id
+        ) ?? [])
+      ])
+    ],
     look_contract,
     page_rhythm,
+    composition_contract,
+    graphic_craft_brief,
     prompt_pack,
     ...(pack.gate ? { gate: pack.gate } : {})
   };

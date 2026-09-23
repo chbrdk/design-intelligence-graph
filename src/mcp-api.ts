@@ -150,7 +150,7 @@ export function listDigTools() {
     },
     {
       name: "dig_compose_brief",
-      description: "Compose a builder-facing brief from references and/or captures with merged craft, look_contract, and page_rhythm.",
+      description: "Compose a builder-facing brief from references and/or captures with merged craft, look_contract, page_rhythm, and graphic_craft_brief when present.",
       inputSchema: {
         type: "object",
         required: ["intent"],
@@ -209,7 +209,7 @@ export function listDigTools() {
     {
       name: "dig_capture_prompt_pack",
       description:
-        "Assemble a DesignPromptPack from one capture (look/rhythm and/or composition_contract).",
+        "Assemble a DesignPromptPack from one capture (look/rhythm and/or composition_contract + graphic_craft_brief).",
       inputSchema: {
         type: "object",
         required: ["capture_run_id"],

@@ -106,8 +106,17 @@ test("assembleCompositionBrief merges references into a builder brief", async ()
       if (sql.includes("SELECT payload FROM design_references WHERE reference_id = $1")) {
         return { rows: refs.filter((ref) => ref.reference_id === values[0]).map((payload) => ({ payload })) };
       }
-      if (sql.includes("SELECT package_path, platform_project_id FROM captures WHERE capture_run_id = $1")) {
-        return { rows: [{ package_path: root, platform_project_id: "pp_1" }] };
+      if (sql.includes("SELECT package_path, platform_project_id")) {
+        return {
+          rows: [
+            {
+              package_path: root,
+              platform_project_id: "pp_1",
+              asset_kind: "web_screen",
+              composition_contract: null
+            }
+          ]
+        };
       }
       return { rows: [] };
     }

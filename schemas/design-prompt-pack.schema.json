@@ -88,6 +88,51 @@
         "rebuild_spec": { "type": "string" }
       }
     },
+    "graphic_craft_brief": {
+      "type": "object",
+      "description": "Compact artboard craft summary for MCP rebuild agents (not the full ~300 metric map).",
+      "properties": {
+        "schema_version": { "const": "0.1.0" },
+        "graphic_craft_metrics_version": { "type": "string" },
+        "status": { "enum": ["complete", "failed", "skipped"] },
+        "confidence": { "type": "number" },
+        "filled_count": { "type": "number" },
+        "metric_count": { "type": "number" },
+        "group_scores": { "type": "object", "additionalProperties": { "type": "number" } },
+        "literals": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "tone_top": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "score"],
+            "properties": {
+              "id": { "type": "string" },
+              "score": { "type": "number" }
+            }
+          }
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "score"],
+            "properties": {
+              "id": { "type": "string" },
+              "score": { "type": "number" }
+            }
+          }
+        },
+        "rebuild_directives": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
     "page_rhythm": {
       "type": "object",
       "description": "Measured vertical page order (arc, above-fold recipe, bands).",

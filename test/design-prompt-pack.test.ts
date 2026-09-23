@@ -161,3 +161,57 @@ test("prompt pack keeps visual_craft rebuild_spec for LLM rebuilds", () => {
   assert.ok(HARD_RULES.some((line) => line.includes("type/image")));
   assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
 });
+
+test("prompt pack includes graphic_craft_brief rules and ask for artboard rebuild", () => {
+  const aurora = JSON.parse(readFileSync(join(FIX, "aurora-hero.reference.json"), "utf8")) as DesignReferenceRecord;
+  const prompt = assembleDesignPromptPack({
+    brief: "Rebuild this artboard.",
+    pack: {
+      schema_version: "0.1.0",
+      intent: "rebuild",
+      references: [aurora],
+      synthesis_mode: "look_conditioned",
+      constraints: { forbid_source_copy: true }
+    },
+    output_contract: "graphic",
+    composition_contract: {
+      schema_version: "0.1.0",
+      composition_contract_version: "0.1.0",
+      focal: "face",
+      hierarchy: ["claim", "product"],
+      negativeSpace: "airy",
+      typeRoles: {},
+      colorAxes: { dominant: "#ff7f33", accent: "#ffffff", ground: "#1a1a1a" },
+      marginBleed: {},
+      layoutFamily: "full-bleed-product",
+      avoid: ["busy-center"],
+      ctaRole: "absent"
+    },
+    graphic_craft_brief: {
+      schema_version: "0.1.0",
+      graphic_craft_metrics_version: "0.3.0",
+      status: "complete",
+      confidence: 0.9,
+      filled_count: 40,
+      metric_count: 300,
+      group_scores: { tone: 0.7, color: 0.6 },
+      literals: {
+        "comp.layout_family": "full-bleed-product",
+        "comp.focal_role": "face",
+        "color.dominant_hex": "#ff7f33",
+        "prod.primary_claim_guess": "TRACK NUMBER 09"
+      },
+      tone_top: [{ id: "tone.editorial", score: 0.82 }],
+      risks: [{ id: "risk.busy_center", score: 0.7 }],
+      rebuild_directives: [
+        "Use layoutFamily=full-bleed-product as the primary artboard pattern.",
+        "Lock palette hexes: #ff7f33."
+      ]
+    }
+  });
+  assert.equal(prompt.graphic_craft_brief?.literals["comp.layout_family"], "full-bleed-product");
+  assert.ok(prompt.rules.some((line) => /full-bleed-product/i.test(line)));
+  assert.match(prompt.ask, /graphic_craft_brief/);
+  assert.ok(JSON.stringify(prompt).length <= PROMPT_PACK_MAX_BYTES);
+  assert.equal(validateAgainstSchema("designPromptPack", prompt).length, 0);
+});
