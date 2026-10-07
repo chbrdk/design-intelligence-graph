@@ -290,9 +290,10 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         });
         return true;
       }
+      const defaultKind = parsed.assetKind ?? "other_graphic";
       const files = parsed.files.map((file) => ({
         ...file,
-        asset_kind: file.asset_kind ?? parsed.assetKind ?? "other_graphic"
+        asset_kind: file.asset_kind ?? defaultKind
       }));
       let novel = files;
       let skippedExistingHash: Awaited<ReturnType<typeof partitionUploadsByContentHash>>["duplicates"] =
@@ -301,7 +302,10 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
       if (pool) {
         try {
           const partitioned = await partitionUploadsByContentHash(files, pool);
-          novel = partitioned.novel;
+          novel = partitioned.novel.map((file) => ({
+            ...file,
+            asset_kind: file.asset_kind ?? defaultKind
+          }));
           skippedExistingHash = partitioned.duplicates;
         } catch {
           /* queue anyway if hash lookup fails */
