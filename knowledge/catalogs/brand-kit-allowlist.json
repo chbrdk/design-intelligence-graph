@@ -180,6 +180,114 @@
           "role": "logo"
         }
       ]
+    },
+    {
+      "id": "tailwind",
+      "name": "Tailwind CSS",
+      "guidelinesUrl": "https://tailwindcss.com/brand",
+      "hostAllowlist": ["tailwindcss.com"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "frontend", "css"],
+      "assets": [
+        {
+          "url": "https://tailwindcss.com/brand/tailwindcss-logotype.zip",
+          "zipMember": "tailwindcss-logotype/tailwindcss-logotype.svg",
+          "filename": "tailwindcss-logotype.svg",
+          "role": "logo"
+        },
+        {
+          "url": "https://tailwindcss.com/brand/tailwindcss-logotype.zip",
+          "zipMember": "tailwindcss-logotype/tailwindcss-logotype-white.svg",
+          "filename": "tailwindcss-logotype-white.svg",
+          "role": "logo"
+        },
+        {
+          "url": "https://tailwindcss.com/favicons/apple-touch-icon.png",
+          "filename": "tailwind-apple-touch-icon.png",
+          "role": "icon"
+        }
+      ]
+    },
+    {
+      "id": "astro",
+      "name": "Astro",
+      "guidelinesUrl": "https://astro.build/press",
+      "hostAllowlist": ["astro.build"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "frontend", "web"],
+      "assets": [
+        {
+          "url": "https://astro.build/assets/press/astro-logo-dark.png",
+          "filename": "astro-logo-dark.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://astro.build/assets/press/astro-icon-light.png",
+          "filename": "astro-icon-light.png",
+          "role": "icon"
+        },
+        {
+          "url": "https://astro.build/assets/press/astro-logos.zip",
+          "zipMember": "logomark-dark.png",
+          "filename": "astro-logomark-dark.png",
+          "role": "mark"
+        }
+      ]
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "guidelinesUrl": "https://www.python.org/community/logos/",
+      "hostAllowlist": ["www.python.org", "python.org"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "language", "open_source"],
+      "assets": [
+        {
+          "url": "https://www.python.org/static/community_logos/python-logo-master-v3-TM.png",
+          "filename": "python-logo-master-v3-TM.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://www.python.org/static/community_logos/python-logo.png",
+          "filename": "python-logo.png",
+          "role": "logo"
+        }
+      ]
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "guidelinesUrl": "https://nodejs.org/",
+      "hostAllowlist": ["nodejs.org"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "runtime", "javascript"],
+      "assets": [
+        {
+          "url": "https://nodejs.org/static/images/logo.svg",
+          "filename": "nodejs-logo.svg",
+          "role": "logo"
+        }
+      ]
+    },
+    {
+      "id": "bun",
+      "name": "Bun",
+      "guidelinesUrl": "https://bun.sh/",
+      "hostAllowlist": ["bun.sh"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "runtime", "javascript"],
+      "assets": [
+        {
+          "url": "https://bun.sh/logo.svg",
+          "filename": "bun-logo.svg",
+          "role": "logo"
+        }
+      ]
     }
   ]
 }

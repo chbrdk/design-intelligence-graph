@@ -13,7 +13,7 @@ import {
 
 test("loadBrandKitCatalog exposes core kits including vercel and github", async () => {
   const catalog = await loadBrandKitCatalog();
-  assert.ok(catalog.kits.length >= 5);
+  assert.ok(catalog.kits.length >= 10);
   const pulumi = findBrandKit(catalog, "pulumi");
   assert.ok(pulumi);
   assert.equal(pulumi?.licenseClass, "connector_tos");
@@ -24,6 +24,9 @@ test("loadBrandKitCatalog exposes core kits including vercel and github", async 
   assert.ok(venice?.assets.some((a) => a.zipMember));
   assert.ok(findBrandKit(catalog, "vercel")?.assets.some((a) => a.zipMember));
   assert.ok(findBrandKit(catalog, "github"));
+  assert.ok(findBrandKit(catalog, "tailwind"));
+  assert.ok(findBrandKit(catalog, "astro"));
+  assert.ok(findBrandKit(catalog, "python"));
 });
 
 test("isHostAllowed accepts exact and subdomain hosts", () => {

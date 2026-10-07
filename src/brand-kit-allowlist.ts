@@ -175,6 +175,7 @@ function guessImageContentType(filename: string): string {
   if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
   if (lower.endsWith(".webp")) return "image/webp";
   if (lower.endsWith(".gif")) return "image/gif";
+  if (lower.endsWith(".svg")) return "image/svg+xml";
   return "application/octet-stream";
 }
 
@@ -222,7 +223,8 @@ export async function downloadAllowlistedBrandAsset(
       redirect: "follow",
       signal: controller.signal,
       headers: {
-        accept: "image/png,image/jpeg,image/webp,image/gif,application/zip,application/octet-stream,*/*;q=0.1"
+        accept:
+          "image/png,image/jpeg,image/webp,image/gif,image/svg+xml,application/zip,application/octet-stream,*/*;q=0.1"
       }
     });
     if (!response.ok) {

@@ -41,9 +41,18 @@ curl -sS -X POST -H "Authorization: Bearer $DIG_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"kitId":"pulumi"}' \
   "$SPIRION_API/api/brand-kits/sync"
+
+# sync wave (no Dribbble OAuth) — one kit per call, limit caps queue size
+for kit in pulumi venice vercel nextjs github tailwind astro python nodejs bun creativecommons; do
+  curl -sS -X POST -H "Authorization: Bearer $DIG_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d "{\"kitId\":\"$kit\",\"limit\":6}" \
+    "$SPIRION_API/api/brand-kits/sync"
+  echo
+done
 ```
 
-Review with craft PATCH before Creation craft selection.
+`DIG_API_TOKEN` = Coolify dig-api env (never commit). Review with craft PATCH before Creation craft selection.
 
 ## Adding a kit
 
