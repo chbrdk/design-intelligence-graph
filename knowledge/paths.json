@@ -886,6 +886,10 @@
       "syncPost": "Bearer DIG_API_TOKEN"
     },
     "coolifyAppUuid": "fjlcya8d9jnlecj4s44yru4q",
-    "coolifyAppName": "dig-v3:api"
+    "coolifyAppName": "dig-v3:api",
+    "coolifyEnvsPath": "/applications/{uuid}/envs",
+    "digApiTokenEnvKey": "DIG_API_TOKEN",
+    "libraryListPath": "/api/library/captures",
+    "libraryListAssetKind": "brand_system"
   }
 }

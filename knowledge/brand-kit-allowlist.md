@@ -52,7 +52,18 @@ for kit in pulumi venice vercel nextjs github tailwind astro python nodejs bun c
 done
 ```
 
-`DIG_API_TOKEN` = Coolify dig-api env (never commit). Review with craft PATCH before Creation craft selection.
+`DIG_API_TOKEN` from Coolify REST (MCP never returns env **values**):
+
+```bash
+# token = same Bearer as ~/.cursor/mcp.json coolify (never commit)
+COOLIFY_API=https://coolify.plygrnd.tech/api/v1
+DIG_APP=fjlcya8d9jnlecj4s44yru4q   # paths.json → brandKitAllowlist.coolifyAppUuid
+DIG_API_TOKEN=$(curl -sS -H "Authorization: Bearer $COOLIFY_TOKEN" \
+  "$COOLIFY_API/applications/$DIG_APP/envs" \
+  | python3 -c 'import sys,json; d=json.load(sys.stdin); items=d if isinstance(d,list) else d.get("data",[]); print(next(e["value"] for e in items if e.get("key")=="DIG_API_TOKEN"))')
+```
+
+Review with craft PATCH before Creation craft selection.
 
 ## Adding a kit
 
@@ -76,7 +87,7 @@ done
 | `GET /api/brand-kits` (no auth) | 200 · 11 kits / 30 assets (`tailwind`…`bun` added) |
 | `GET /api/brand-kits/venice` | ZIP rows include `zipMember`; token PNGs direct |
 | `POST /api/brand-kits/sync` without Bearer | 401 |
-| `POST /api/brand-kits/sync` `{ "kitId":"pulumi","limit":2 }` + Bearer | queues `brand_system` / `connector:brand_kit` |
+| Full-kit sync wave (Coolify REST → `DIG_API_TOKEN`) | **30 queued** · `GET /api/library/captures?assetKind=brand_system` → 32 rows · `source=connector:brand_kit` |
 | Local network dry-run | `downloadAllowlistedBrandAsset` extracts Venice zipMember PNG |
 
-Paths: `knowledge/paths.json` → `brandKitAllowlist`.
+Paths: `knowledge/paths.json` → `brandKitAllowlist`. Coolify env REST: plexon `knowledge/coolify-deploy-api.md` § Set app env.
