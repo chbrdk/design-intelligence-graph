@@ -20,11 +20,13 @@ test("normalizeAssetKind defaults and aliases", () => {
   assert.equal(normalizeAssetKind("social_post"), "social_post");
 });
 
-test("craftEligibleFromLicense blocks unknown and connector_tos by default", () => {
+test("craftEligibleFromLicense blocks unknown, connector_tos, and public_domain by default", () => {
   assert.equal(craftEligibleFromLicense("unknown"), false);
   assert.equal(craftEligibleFromLicense("connector_tos"), false);
+  assert.equal(craftEligibleFromLicense("public_domain"), false);
   assert.equal(craftEligibleFromLicense("customer_owned"), true);
   assert.equal(craftEligibleFromLicense("connector_tos", true), true);
+  assert.equal(craftEligibleFromLicense("public_domain", true), true);
 });
 
 test("resolvePackOutputContract auto derives from assetKind", () => {

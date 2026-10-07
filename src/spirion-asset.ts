@@ -28,6 +28,7 @@ export const LICENSE_CLASSES = [
   "customer_owned",
   "studio_curated",
   "connector_tos",
+  "public_domain",
   "unknown"
 ] as const;
 
@@ -109,7 +110,14 @@ export function craftEligibleFromLicense(
   explicit?: boolean | null
 ): boolean {
   if (typeof explicit === "boolean") return explicit;
-  if (licenseClass === "unknown" || licenseClass === "connector_tos") return false;
+  // unknown / connector ToS / PD allowlist → research-only until review PATCH
+  if (
+    licenseClass === "unknown" ||
+    licenseClass === "connector_tos" ||
+    licenseClass === "public_domain"
+  ) {
+    return false;
+  }
   return true;
 }
 

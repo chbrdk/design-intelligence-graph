@@ -11,7 +11,7 @@
 
 Ingest **explicitly listed** public brand-kit images (logos / lockups) as SPIRION `brand_system` assets — **no HTML scrape**, no directory crawling.
 
-Brand kits complement campaign/print motifs: Marks + guideline imagery for research / Brandion-adjacent bind, **not** craft-eligible campaign clones by default.
+Brand kits are **logos / marks** for research / Brandion-adjacent bind — **not** campaign craft references. Real print/campaign motifs use `/api/campaign-motifs` (`knowledge/campaign-motif-allowlist.md`).
 
 ## Rules
 

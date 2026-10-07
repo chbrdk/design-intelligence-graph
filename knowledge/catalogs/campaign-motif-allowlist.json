@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1.0",
+  "policy_version": "campaign_motif_allowlist_2026-10",
+  "doc": "knowledge/campaign-motif-allowlist.md",
+  "notes": "Explicit Wikimedia Commons file URLs only — no scrape, no search crawl. Prefer ≤12MiB (thumb for oversized originals). licenseClass=public_domain; craftEligible=false until review PATCH. Brand kits (logos) stay on /api/brand-kits.",
+  "packs": [
+    {
+      "id": "wwi_wwii_posters",
+      "name": "WWI / WWII print posters (PD)",
+      "sourcePage": "https://commons.wikimedia.org/wiki/Category:World_War_II_posters_of_the_United_States",
+      "hostAllowlist": ["upload.wikimedia.org", "thumb.wikimedia.org", "commons.wikimedia.org"],
+      "licenseClass": "public_domain",
+      "craftEligibleDefault": false,
+      "defaultAssetKind": "print_ad",
+      "industryTags": ["print", "poster", "propaganda_history", "claim_layout", "ooh_energy"],
+      "assets": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/1/13/EatMolassesSaveSugarWWIPoster.jpg",
+          "filename": "eat-molasses-save-sugar-wwi.jpg",
+          "role": "poster",
+          "assetKind": "print_ad",
+          "commonsTitle": "File:EatMolassesSaveSugarWWIPoster.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Uncle_Sam_%28pointing_finger%29.jpg",
+          "filename": "uncle-sam-pointing-finger.jpg",
+          "role": "poster",
+          "assetKind": "campaign_keyvisual",
+          "commonsTitle": "File:Uncle Sam (pointing finger).jpg"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/We_Can_Do_It%21_NARA_535413_-_Restoration.jpg/1920px-We_Can_Do_It%21_NARA_535413_-_Restoration.jpg",
+          "filename": "we-can-do-it-nara-1920.jpg",
+          "role": "poster",
+          "assetKind": "print_ad",
+          "commonsTitle": "File:We Can Do It! NARA 535413 - Restoration.jpg",
+          "notes": "Original ~54MiB; allowlisted 1920px Commons thumb under maxBytes"
+        }
+      ]
+    },
+    {
+      "id": "midcentury_political_print",
+      "name": "Mid-century political / aid print (PD)",
+      "sourcePage": "https://commons.wikimedia.org/wiki/Category:Political_posters_of_the_United_States",
+      "hostAllowlist": ["upload.wikimedia.org", "thumb.wikimedia.org", "commons.wikimedia.org"],
+      "licenseClass": "public_domain",
+      "craftEligibleDefault": false,
+      "defaultAssetKind": "print_ad",
+      "industryTags": ["print", "poster", "political", "claim_layout", "editorial"],
+      "assets": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Leadership_for_the_60s_-_John_Fitzgerald_Kennedy.jpg",
+          "filename": "leadership-for-the-60s-jfk.jpg",
+          "role": "poster",
+          "assetKind": "campaign_keyvisual",
+          "commonsTitle": "File:Leadership for the 60s - John Fitzgerald Kennedy.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Marshall_Plan_poster_%28cropped%29.JPG",
+          "filename": "marshall-plan-poster-cropped.jpg",
+          "role": "poster",
+          "assetKind": "print_ad",
+          "commonsTitle": "File:Marshall Plan poster (cropped).JPG"
+        }
+      ]
+    }
+  ]
+}

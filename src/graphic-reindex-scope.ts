@@ -1,6 +1,6 @@
 /**
  * Resolve IndexCaptureScope fields after graphic enrichment.
- * Connector brand-kit / dribbble rows must stay craftEligible=false until review PATCH.
+ * Connector brand-kit / campaign-motif / dribbble rows must stay craftEligible=false until review PATCH.
  */
 import { craftEligibleFromLicense, normalizeLicenseClass, type LicenseClass } from "./spirion-asset.js";
 
@@ -21,6 +21,9 @@ export function resolveConnectorSource(sourceId: string | null | undefined, sour
   const id = typeof sourceId === "string" ? sourceId : "";
   if (id.startsWith("brandkit_")) {
     return { source: "connector:brand_kit", isConnector: true };
+  }
+  if (id.startsWith("motif_")) {
+    return { source: "connector:campaign_motif", isConnector: true };
   }
   if (id.startsWith("dribbble_")) {
     return { source: "connector:dribbble", isConnector: true };
@@ -44,10 +47,13 @@ export function graphicReindexScopeFromAssetRaw(assetRaw: GraphicAssetRaw): {
 } {
   const sourceId = typeof assetRaw.source_id === "string" ? assetRaw.source_id : null;
   const { source, isConnector } = resolveConnectorSource(sourceId, assetRaw.source);
-  const licenseClass = normalizeLicenseClass(
-    assetRaw.license_class,
-    isConnector ? "connector_tos" : "customer_owned"
-  );
+  const defaultLicense: LicenseClass =
+    source === "connector:campaign_motif"
+      ? "public_domain"
+      : isConnector
+        ? "connector_tos"
+        : "customer_owned";
+  const licenseClass = normalizeLicenseClass(assetRaw.license_class, defaultLicense);
   return {
     assetKind: typeof assetRaw.asset_kind === "string" && assetRaw.asset_kind.trim()
       ? assetRaw.asset_kind.trim()

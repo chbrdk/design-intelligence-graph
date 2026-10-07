@@ -202,16 +202,24 @@ export async function ingestGraphicAssetPackage(
   const sourceId = input.sourceId;
   const source = sourceId.startsWith("brandkit_")
     ? "connector:brand_kit"
-    : sourceId.startsWith("dribbble_")
-      ? "connector:dribbble"
-      : "upload";
+    : sourceId.startsWith("motif_")
+      ? "connector:campaign_motif"
+      : sourceId.startsWith("dribbble_")
+        ? "connector:dribbble"
+        : "upload";
+  const licenseClass =
+    source === "connector:campaign_motif"
+      ? "public_domain"
+      : source.startsWith("connector:")
+        ? "connector_tos"
+        : "customer_owned";
   const assetMeta = {
     schema_version: "0.1.0",
     pipeline: "graphic",
     asset_kind: kind,
     source,
     source_id: sourceId,
-    license_class: source.startsWith("connector:") ? "connector_tos" : "customer_owned",
+    license_class: licenseClass,
     filename: input.filename,
     format: enriched.format,
     tags: [...enriched.tags, `kind:${kind}`, "pipeline:graphic"],
