@@ -63,13 +63,13 @@ Review with craft PATCH before Creation craft selection.
 - Treating brand-kit logos as campaign motifs  
 - Auto craft-eligible foreign campaigns without review  
 
-## Staging smoke
+## Staging smoke (2026-10-07)
 
-| Check | Expect |
+| Check | Result |
 |-------|--------|
-| `GET /api/campaign-motifs` | 200 · packs ≥1 · default kinds print/campaign |
+| Deploy | dig-api `697ba67` · Coolify `fjlcya8d9jnlecj4s44yru4q` · healthy · migration `017_public_domain_license.sql` |
+| `GET /api/campaign-motifs` | 200 · 2 packs / 5 assets (`wwi_wwii_posters`, `midcentury_political_print`) |
 | `POST …/sync` without Bearer | 401 |
-| Sync wave | queued jobs · library `print_ad` / `campaign_keyvisual` · `source=connector:campaign_motif` · `license_class=public_domain` |
-| DB | migration `017_public_domain_license.sql` (CHECK includes `public_domain`) |
+| Sync wave | **5 queued** · library rows `connector:campaign_motif` · `public_domain` · `craft_eligible=false` · enrichment pending→async |
 
 Paths: `knowledge/paths.json` → `campaignMotifAllowlist`.
