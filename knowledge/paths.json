@@ -31,7 +31,8 @@
     "embeddingsPath": "/api/embeddings",
     "mcpPath": "/mcp",
     "pinterestPath": "/api/pinterest",
-    "dribbblePath": "/api/dribbble"
+    "dribbblePath": "/api/dribbble",
+    "brandKitsPath": "/api/brand-kits"
   },
   "runtime": {
     "capturesDir": "captures",
@@ -867,5 +868,15 @@
     "stagingDoc": "knowledge/coolify-dig-staging.md",
     "checkionAppUuid": "valb5m9m099d9k7i2d1xkv6p",
     "plexonAppUuid": "n6f9gy85xsk3a0txflzavk3j"
+  },
+  "brandKitAllowlist": {
+    "doc": "knowledge/brand-kit-allowlist.md",
+    "catalogPath": "knowledge/catalogs/brand-kit-allowlist.json",
+    "apiPrefix": "/api/brand-kits",
+    "policyVersion": "brand_kit_allowlist_2026-10",
+    "defaultAssetKind": "brand_system",
+    "maxAssetsPerSync": 20,
+    "timeoutMs": 30000,
+    "maxBytes": 12582912
   }
 }

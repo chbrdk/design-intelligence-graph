@@ -15,6 +15,7 @@ import { getEnrichmentJobFromDb, listEnrichmentJobsFromDb } from "./enrichment-s
 import { handleLibraryApi } from "./library-api.js";
 import { handlePinterestApi } from "./pinterest-api.js";
 import { handleDribbbleApi } from "./dribbble-api.js";
+import { handleBrandKitApi } from "./brand-kit-api.js";
 import { handleMcpHttp } from "./mcp-http.js";
 import { handlePlatformProvisioningApi } from "./platform-provisioning-api.js";
 import { loadDotEnv } from "./load-env.js";
@@ -151,6 +152,7 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
   if (await handleLibraryApi(request, response, url)) return true;
   if (await handlePinterestApi(request, response, url)) return true;
   if (await handleDribbbleApi(request, response, url)) return true;
+  if (await handleBrandKitApi(request, response, url)) return true;
   if (await handlePlatformProvisioningApi(request, response, url)) return true;
 
   if (request.method === "OPTIONS") {

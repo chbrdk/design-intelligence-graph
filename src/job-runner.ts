@@ -840,25 +840,38 @@ async function buildAssetIndexScope(
 ): Promise<Partial<IndexCaptureScope>> {
   if (job.ingest_source === "upload" && job.upload_image) {
     const isDribbble = job.upload_image.source_id.startsWith("dribbble_");
+    const isBrandKit = job.upload_image.source_id.startsWith("brandkit_");
     const kind = normalizeAssetKind(
       job.upload_image.asset_kind,
-      isDribbble ? "other_graphic" : "other_graphic"
+      isBrandKit ? "brand_system" : "other_graphic"
     );
-    const license = normalizeLicenseClass(isDribbble ? "connector_tos" : "customer_owned");
+    const license = normalizeLicenseClass(
+      isDribbble || isBrandKit ? "connector_tos" : "customer_owned"
+    );
+    const connectorDefaultEligible = false;
     const base: Partial<IndexCaptureScope> = {
       assetKind: kind,
-      source: isDribbble ? "connector:dribbble" : "upload",
+      source: isDribbble
+        ? "connector:dribbble"
+        : isBrandKit
+          ? "connector:brand_kit"
+          : "upload",
       sourceId: isDribbble
         ? job.upload_image.source_id.replace(/^dribbble_/, "")
         : job.upload_image.source_id,
       sourceUri: job.url,
       licenseClass: license,
-      craftEligible: craftEligibleFromLicense(license, isDribbble ? false : true),
+      craftEligible: craftEligibleFromLicense(
+        license,
+        isDribbble || isBrandKit ? connectorDefaultEligible : true
+      ),
       enrichmentStatus: "pending",
       fetchedAt: new Date().toISOString(),
       ...(isDribbble
         ? { connectorPolicyVersion: "dribbble_api_v2_2026-09" }
-        : {})
+        : isBrandKit
+          ? { connectorPolicyVersion: "brand_kit_allowlist_2026-10" }
+          : {})
     };
     if (!isGraphicAssetKind(kind)) {
       return { ...base, enrichmentStatus: "ready" };
@@ -900,7 +913,10 @@ async function buildAssetIndexScope(
         enrichmentStatus: thin || !composition ? "failed" : hasVision ? "ready" : "pending",
         craftEligible: thin
           ? false
-          : craftEligibleFromLicense(license, isDribbble ? false : true)
+          : craftEligibleFromLicense(
+              license,
+              isDribbble || isBrandKit ? connectorDefaultEligible : true
+            )
       };
     } catch {
       return { ...base, enrichmentStatus: "failed", craftEligible: false };

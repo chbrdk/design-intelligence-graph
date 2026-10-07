@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "policy_version": "brand_kit_allowlist_2026-10",
+  "doc": "knowledge/brand-kit-allowlist.md",
+  "notes": "Explicit asset URLs only — no HTML scrape. Default craftEligible=false; licenseClass=connector_tos until review.",
+  "kits": [
+    {
+      "id": "pulumi",
+      "name": "Pulumi",
+      "guidelinesUrl": "https://brand.pulumi.com/",
+      "hostAllowlist": ["brand.pulumi.com"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "cloud", "infrastructure"],
+      "assets": [
+        {
+          "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-logo-horizontal-color-light.png",
+          "filename": "pulumi-logo-horizontal-color-light.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-logo-horizontal-color-dark.png",
+          "filename": "pulumi-logo-horizontal-color-dark.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-icon-rounded-light.png",
+          "filename": "pulumi-icon-rounded-light.png",
+          "role": "icon"
+        }
+      ]
+    },
+    {
+      "id": "creativecommons",
+      "name": "Creative Commons",
+      "guidelinesUrl": "https://creativecommons.org/mission/downloads/",
+      "hostAllowlist": ["mirrors.creativecommons.org", "creativecommons.org"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["nonprofit", "licensing", "open_culture"],
+      "assets": [
+        {
+          "url": "https://mirrors.creativecommons.org/presskit/icons/cc.large.png",
+          "filename": "cc-logo-large.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://mirrors.creativecommons.org/presskit/icons/cc.xlarge.png",
+          "filename": "cc-logo-xlarge.png",
+          "role": "logo"
+        }
+      ]
+    }
+  ]
+}
