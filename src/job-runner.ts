@@ -902,6 +902,14 @@ async function buildAssetIndexScope(
       const hasVision = await readFile(`${packageRoot}/derived/llm-design.json`, "utf8")
         .then(() => true)
         .catch(() => false);
+      // Brand-kit marks are often thin wordmarks — do not fail ingest; keep craftEligible false.
+      const enrichmentStatus = !composition
+        ? "failed"
+        : thin && !isBrandKit && !isDribbble
+          ? "failed"
+          : hasVision
+            ? "ready"
+            : "pending";
       return {
         ...base,
         format,
@@ -910,7 +918,7 @@ async function buildAssetIndexScope(
           ? (composition as unknown as Record<string, unknown>)
           : null,
         contentHash,
-        enrichmentStatus: thin || !composition ? "failed" : hasVision ? "ready" : "pending",
+        enrichmentStatus,
         craftEligible: thin
           ? false
           : craftEligibleFromLicense(

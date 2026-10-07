@@ -238,26 +238,22 @@ export class EnrichmentQueue {
               try {
                 const assetRaw = JSON.parse(
                   await readFile(resolve(job.package_path, "derived/spirion-asset.json"), "utf8")
-                ) as {
-                  asset_kind?: string;
-                  source?: string;
-                  source_id?: string;
-                  format?: Record<string, unknown>;
-                  tags?: string[];
-                  content_hash?: string;
-                };
-                reindexScope.assetKind = assetRaw.asset_kind ?? "other_graphic";
-                reindexScope.source = assetRaw.source ?? "upload";
-                reindexScope.sourceId = assetRaw.source_id ?? null;
-                reindexScope.format = assetRaw.format ?? {};
-                reindexScope.tags = assetRaw.tags ?? [];
-                reindexScope.contentHash = assetRaw.content_hash ?? null;
-                reindexScope.licenseClass = "customer_owned";
-                reindexScope.craftEligible = true;
+                ) as import("./graphic-reindex-scope.js").GraphicAssetRaw;
+                const { graphicReindexScopeFromAssetRaw } = await import("./graphic-reindex-scope.js");
+                const resolved = graphicReindexScopeFromAssetRaw(assetRaw);
+                reindexScope.assetKind = resolved.assetKind;
+                reindexScope.source = resolved.source;
+                reindexScope.sourceId = resolved.sourceId;
+                reindexScope.format = resolved.format;
+                reindexScope.tags = resolved.tags;
+                reindexScope.contentHash = resolved.contentHash;
+                reindexScope.licenseClass = resolved.licenseClass;
+                reindexScope.craftEligible = resolved.craftEligible;
               } catch {
                 reindexScope.assetKind = "other_graphic";
                 reindexScope.source = "upload";
                 reindexScope.licenseClass = "customer_owned";
+                reindexScope.craftEligible = true;
               }
               if (composition) {
                 reindexScope.compositionContract = composition as unknown as Record<string, unknown>;

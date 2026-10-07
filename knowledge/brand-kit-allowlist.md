@@ -88,6 +88,6 @@ Review with craft PATCH before Creation craft selection.
 | `GET /api/brand-kits/venice` | ZIP rows include `zipMember`; token PNGs direct |
 | `POST /api/brand-kits/sync` without Bearer | 401 |
 | Full-kit sync wave (Coolify REST → `DIG_API_TOKEN`) | **30 queued** · `GET /api/library/captures?assetKind=brand_system` → 32 rows · `source=connector:brand_kit` |
-| Local network dry-run | `downloadAllowlistedBrandAsset` extracts Venice zipMember PNG |
+| Follow-up | Enrichment no longer flips brand-kit → `craftEligible=true`; SVG wordmarks densify to 1200×630; thin brand marks not failed |
 
 Paths: `knowledge/paths.json` → `brandKitAllowlist`. Coolify env REST: plexon `knowledge/coolify-deploy-api.md` § Set app env.

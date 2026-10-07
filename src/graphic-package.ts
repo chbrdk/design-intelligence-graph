@@ -199,12 +199,19 @@ export async function ingestGraphicAssetPackage(
     "application/json"
   );
 
+  const sourceId = input.sourceId;
+  const source = sourceId.startsWith("brandkit_")
+    ? "connector:brand_kit"
+    : sourceId.startsWith("dribbble_")
+      ? "connector:dribbble"
+      : "upload";
   const assetMeta = {
     schema_version: "0.1.0",
     pipeline: "graphic",
     asset_kind: kind,
-    source: "upload",
-    source_id: input.sourceId,
+    source,
+    source_id: sourceId,
+    license_class: source.startsWith("connector:") ? "connector_tos" : "customer_owned",
     filename: input.filename,
     format: enriched.format,
     tags: [...enriched.tags, `kind:${kind}`, "pipeline:graphic"],

@@ -54,13 +54,30 @@ function kitSummary(kit: BrandKitEntry) {
   };
 }
 
-async function rasterizeToPng(buffer: Buffer, contentType: string): Promise<Buffer> {
+async function rasterizeToPng(
+  buffer: Buffer,
+  contentType: string,
+  filename = "asset.png"
+): Promise<Buffer> {
   const type = contentType.toLowerCase();
   if (type.includes("png") || type.includes("jpeg") || type.includes("jpg") || type.includes("webp") || type.includes("gif")) {
     return sharp(buffer, { failOn: "none" }).rotate().png().toBuffer();
   }
-  // SVG / unknown: attempt sharp decode (may fail for exotic vectors)
-  return sharp(buffer, { failOn: "none" }).png().toBuffer();
+  // SVG: denser render + pad into a brand tile so wordmarks aren't 262×33 "craft-thin".
+  const lower = filename.toLowerCase();
+  const darkGround = /white|off-white|light|on-dark|dark-bg/.test(lower);
+  const ground = darkGround
+    ? { r: 10, g: 10, b: 12, alpha: 1 }
+    : { r: 255, g: 255, b: 255, alpha: 1 };
+  return sharp(buffer, { failOn: "none", density: 384 })
+    .resize({
+      width: 1200,
+      height: 630,
+      fit: "contain",
+      background: ground
+    })
+    .png()
+    .toBuffer();
 }
 
 function extensionForFilename(filename: string): string {
@@ -177,7 +194,7 @@ export async function handleBrandKitApi(
               timeoutMs: cfg.timeoutMs,
               maxBytes: cfg.maxBytes
             });
-            const png = await rasterizeToPng(downloaded.buffer, downloaded.contentType);
+            const png = await rasterizeToPng(downloaded.buffer, downloaded.contentType, asset.filename);
             const sourceId = brandKitSourceId(kit.id, asset.url, asset.zipMember);
             const dest = join(stagingDir, `${sourceId}${extensionForFilename(asset.filename)}`);
             await writeFile(dest, png);
