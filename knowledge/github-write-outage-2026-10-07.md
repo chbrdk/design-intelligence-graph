@@ -9,6 +9,6 @@
 | `POST /git/blobs`, `PUT /contents/*`, `POST /issues` | HTTP 500 |
 | `POST /git/refs` pointing at an **existing** SHA | OK (201) |
 
-**Impact:** dig-api public brand-kit GET fix (`expose brand-kit catalog GETs without auth`) sits local-only; staging remains on `4be0267` (catalog GET still Bearer-gated).
+**Impact (temporary):** blocked push of public brand-kit GET fix for ~10 minutes.
 
-**Mitigation:** Retry push when GitHub object writes recover; then Coolify force-deploy dig-api `fjlcya8d9jnlecj4s44yru4q` and confirm `GET /api/brand-kits` → 200 without Authorization.
+**Resolved:** push succeeded ~15:17Z → Coolify deploy `fd176a9` · `GET /api/brand-kits` → 200 without Authorization.

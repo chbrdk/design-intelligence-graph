@@ -60,12 +60,11 @@ Review with craft PATCH before Creation craft selection.
 
 ## Staging smoke (2026-10-07)
 
-Deploy dig-api `4be0267` healthy (`coolify` app `fjlcya8d9jnlecj4s44yru4q`).
+| Deploy | dig-api `fd176a9` · Coolify `fjlcya8d9jnlecj4s44yru4q` · healthy |
+|--------|------------------------------------------------------------------|
+| `GET /api/brand-kits` (no auth) | 200 · kits `pulumi`, `creativecommons` |
+| `GET /api/brand-kits/:kitId` (no auth) | 200 · asset list |
+| `POST /api/brand-kits/sync` without Bearer | 401 |
+| `POST /api/brand-kits/sync` `{ "kitId":"pulumi","limit":2 }` + Bearer | queues `brand_system` / `connector:brand_kit` |
 
-| Check | Result |
-|-------|--------|
-| `GET /api/brand-kits` with Bearer | lists `pulumi` + `creativecommons` |
-| `GET /api/brand-kits` without auth | **401** on `4be0267` (auth still required until public-GET fix lands) |
-| `POST /api/brand-kits/sync` `{ "kitId":"pulumi","limit":2 }` + Bearer | queues `brand_system` / `connector:brand_kit` jobs |
-
-**Pending deploy:** local commit making catalog GETs public (Bearer only on sync). Blocked 2026-10-07 by GitHub object-write `Internal Server Error` on push/Contents/blobs (reads + same-SHA refs OK). Paths: `knowledge/paths.json` → `brandKitAllowlist`.
+Paths: `knowledge/paths.json` → `brandKitAllowlist`. GitHub write blip: `knowledge/github-write-outage-2026-10-07.md`.
