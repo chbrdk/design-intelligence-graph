@@ -62,6 +62,30 @@ test("GET /api/brand-kits/:id 404 for unknown kit", async () => {
   assert.equal(mock.statusCode, 404);
 });
 
+test("POST /api/brand-kits/repair-provenance requires Bearer", async () => {
+  const prevToken = process.env.DIG_API_TOKEN;
+  process.env.DIG_API_TOKEN = "dig_secret_test";
+  try {
+    const unauth = mockResponse();
+    const handledUnauth = await handleBrandKitApi(
+      {
+        method: "POST",
+        headers: {},
+        async *[Symbol.asyncIterator]() {
+          yield Buffer.from("{}");
+        }
+      } as unknown as IncomingMessage,
+      unauth.response,
+      new URL("http://127.0.0.1/api/brand-kits/repair-provenance")
+    );
+    assert.equal(handledUnauth, true);
+    assert.equal(unauth.statusCode, 401);
+  } finally {
+    if (prevToken === undefined) delete process.env.DIG_API_TOKEN;
+    else process.env.DIG_API_TOKEN = prevToken;
+  }
+});
+
 test("POST /api/brand-kits/sync queues brandkit upload jobs for pulumi", async () => {
   const prevToken = process.env.DIG_API_TOKEN;
   process.env.DIG_API_TOKEN = "dig_secret_test";

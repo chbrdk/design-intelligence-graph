@@ -29,6 +29,7 @@ Brand kits complement campaign/print motifs: Marks + guideline imagery for resea
 | GET | `/api/brand-kits` | Catalog summary (ids, asset counts, policy) |
 | GET | `/api/brand-kits/:kitId` | One kit + asset list |
 | POST | `/api/brand-kits/sync` | Bearer `DIG_API_TOKEN` · body `{ "kitId"?: "pulumi", "limit"?: 10 }` |
+| POST | `/api/brand-kits/repair-provenance` | Bearer · fix `brandkit_*` rows to `connector:brand_kit` / `connector_tos` / `craftEligible=false`; optional `{ "requeueEnrichment": true }` |
 
 ## Operator
 

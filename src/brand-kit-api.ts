@@ -16,6 +16,7 @@ import {
   type BrandKitAsset,
   type BrandKitEntry
 } from "./brand-kit-allowlist.js";
+import { getPool } from "./db.js";
 import { requireDigApiRuntime } from "./dig-api-runtime.js";
 import { imageIngestConfig } from "./runtime-paths.js";
 
@@ -139,6 +140,77 @@ export async function handleBrandKitApi(
     } catch (error: unknown) {
       sendJson(response, 500, {
         error: "brand_kit_catalog_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
+    return true;
+  }
+
+  // Fix rows poisoned by pre-178b3ae enrichment (source=upload / customer_owned).
+  if (request.method === "POST" && path === "/repair-provenance") {
+    if (rejectIfDestructiveUnauthorized(request, response, environment, root)) return true;
+    const pool = getPool();
+    if (!pool) {
+      sendJson(response, 503, { error: "database_unavailable" });
+      return true;
+    }
+    try {
+      const body = await readJsonBody(request);
+      const requeue = body.requeueEnrichment === true || body.requeue_enrichment === true;
+      const updated = await pool.query(
+        `UPDATE captures
+         SET source = 'connector:brand_kit',
+             license_class = 'connector_tos',
+             craft_eligible = FALSE
+         WHERE source_id LIKE 'brandkit\\_%' ESCAPE '\\'
+           AND (
+             source IS DISTINCT FROM 'connector:brand_kit'
+             OR license_class IS DISTINCT FROM 'connector_tos'
+             OR craft_eligible IS DISTINCT FROM FALSE
+           )
+         RETURNING capture_run_id, source_id, source, license_class, craft_eligible, enrichment_status`
+      );
+      const rows = updated.rows as Array<Record<string, unknown>>;
+      const requeued: string[] = [];
+      if (requeue) {
+        const runtime = requireDigApiRuntime();
+        const pending = await pool.query(
+          `SELECT capture_run_id, package_path
+           FROM captures
+           WHERE source_id LIKE 'brandkit\\_%' ESCAPE '\\'
+             AND enrichment_status = 'pending'
+             AND package_path IS NOT NULL
+           ORDER BY completed_at DESC NULLS LAST
+           LIMIT 40`
+        );
+        for (const row of pending.rows as Array<{ capture_run_id?: string; package_path?: string }>) {
+          const captureRunId = row.capture_run_id;
+          const packagePath = row.package_path;
+          if (!captureRunId || !packagePath) continue;
+          runtime.enrichmentQueue.enqueue({
+            package_path: packagePath,
+            capture_run_id: captureRunId
+          });
+          requeued.push(captureRunId);
+        }
+      }
+      sendJson(response, 200, {
+        ok: true,
+        repaired: rows.length,
+        rows: rows.map((r) => ({
+          capture_run_id: r.capture_run_id,
+          source_id: r.source_id,
+          source: r.source,
+          license_class: r.license_class,
+          craft_eligible: r.craft_eligible,
+          enrichment_status: r.enrichment_status
+        })),
+        requeued_enrichment: requeued.length,
+        requeued_capture_run_ids: requeued
+      });
+    } catch (error: unknown) {
+      sendJson(response, 500, {
+        error: "brand_kit_repair_failed",
         message: error instanceof Error ? error.message : String(error)
       });
     }
