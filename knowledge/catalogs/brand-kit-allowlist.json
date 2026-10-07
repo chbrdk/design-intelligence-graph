@@ -104,6 +104,82 @@
           "role": "mark"
         }
       ]
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "guidelinesUrl": "https://brand.vercel.com/",
+      "hostAllowlist": [
+        "k2mkucxia43oc7fa.public.blob.vercel-storage.com",
+        "assets.vercel.com",
+        "brand.vercel.com"
+      ],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "cloud", "frontend"],
+      "assets": [
+        {
+          "url": "https://k2mkucxia43oc7fa.public.blob.vercel-storage.com/front/press/vercel-assets.zip",
+          "zipMember": "Vercel/logotype/light/vercel-logotype-light.png",
+          "filename": "vercel-logotype-light.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://k2mkucxia43oc7fa.public.blob.vercel-storage.com/front/press/vercel-assets.zip",
+          "zipMember": "Vercel/icon/dark/vercel-icon-dark.png",
+          "filename": "vercel-icon-dark.png",
+          "role": "icon"
+        },
+        {
+          "url": "https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png",
+          "filename": "vercel-favicon-180.png",
+          "role": "icon"
+        }
+      ]
+    },
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "guidelinesUrl": "https://brand.vercel.com/",
+      "hostAllowlist": ["k2mkucxia43oc7fa.public.blob.vercel-storage.com", "brand.vercel.com"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "frontend", "react"],
+      "assets": [
+        {
+          "url": "https://k2mkucxia43oc7fa.public.blob.vercel-storage.com/front/press/nextjs-assets.zip",
+          "zipMember": "NEXTJS/logotype/light-background/nextjs-logotype-light-background.png",
+          "filename": "nextjs-logotype-light-background.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://k2mkucxia43oc7fa.public.blob.vercel-storage.com/front/press/nextjs-assets.zip",
+          "zipMember": "NEXTJS/icon/dark-background/nextjs-icon-dark-background.png",
+          "filename": "nextjs-icon-dark-background.png",
+          "role": "icon"
+        }
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "guidelinesUrl": "https://github.com/logos",
+      "hostAllowlist": ["github.githubassets.com", "github.com"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["devtools", "open_source", "collaboration"],
+      "assets": [
+        {
+          "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+          "filename": "github-mark.png",
+          "role": "mark"
+        },
+        {
+          "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png",
+          "filename": "github-logo.png",
+          "role": "logo"
+        }
+      ]
     }
   ]
 }

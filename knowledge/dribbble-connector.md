@@ -1,9 +1,11 @@
 # Dribbble connector (SPIRION)
 
-**Status:** P1 scaffold (OAuth + sync job)  
+**Status:** P1 scaffold — **Blocked 2026-10-07** (no Dribbble OAuth app / Coolify secrets)  
 **Config:** `knowledge/paths.json` → `dribbble`  
 **API prefix:** `/api/dribbble`  
-**Env (dig-api / Coolify):** `DRIBBBLE_CLIENT_ID` · `DRIBBBLE_CLIENT_SECRET` · optional `DRIBBBLE_REDIRECT_URI`
+**Env (dig-api / Coolify):** `DRIBBBLE_CLIENT_ID` · `DRIBBBLE_CLIENT_SECRET` · optional `DRIBBBLE_REDIRECT_URI`  
+
+Corpus growth continues via **bulk upload** + **brand-kit allowlist** (`knowledge/brand-kit-allowlist.md`) until Dribbble credentials exist.
 
 ## Rules
 

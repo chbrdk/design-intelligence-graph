@@ -64,7 +64,7 @@ Review with craft PATCH before Creation craft selection.
 
 | Deploy | dig-api `7ce912b` · Coolify `fjlcya8d9jnlecj4s44yru4q` · healthy |
 |--------|------------------------------------------------------------------|
-| `GET /api/brand-kits` (no auth) | 200 · kits `pulumi` (6), `creativecommons` (2), `venice` (5) |
+| `GET /api/brand-kits` (no auth) | 200 · kits include `pulumi`, `creativecommons`, `venice`, `vercel`, `nextjs`, `github` |
 | `GET /api/brand-kits/venice` | ZIP rows include `zipMember`; token PNGs direct |
 | `POST /api/brand-kits/sync` without Bearer | 401 |
 | `POST /api/brand-kits/sync` `{ "kitId":"pulumi","limit":2 }` + Bearer | queues `brand_system` / `connector:brand_kit` |

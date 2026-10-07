@@ -11,9 +11,9 @@ import {
   loadBrandKitCatalog
 } from "../src/brand-kit-allowlist.js";
 
-test("loadBrandKitCatalog exposes pulumi, creativecommons, and venice kits", async () => {
+test("loadBrandKitCatalog exposes core kits including vercel and github", async () => {
   const catalog = await loadBrandKitCatalog();
-  assert.ok(catalog.kits.length >= 3);
+  assert.ok(catalog.kits.length >= 5);
   const pulumi = findBrandKit(catalog, "pulumi");
   assert.ok(pulumi);
   assert.equal(pulumi?.licenseClass, "connector_tos");
@@ -22,6 +22,8 @@ test("loadBrandKitCatalog exposes pulumi, creativecommons, and venice kits", asy
   const venice = findBrandKit(catalog, "venice");
   assert.ok(venice);
   assert.ok(venice?.assets.some((a) => a.zipMember));
+  assert.ok(findBrandKit(catalog, "vercel")?.assets.some((a) => a.zipMember));
+  assert.ok(findBrandKit(catalog, "github"));
 });
 
 test("isHostAllowed accepts exact and subdomain hosts", () => {
