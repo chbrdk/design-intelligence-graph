@@ -69,6 +69,7 @@ Review with craft PATCH before Creation craft selection.
 |-------|--------|
 | `GET /api/campaign-motifs` | 200 · packs ≥1 · default kinds print/campaign |
 | `POST …/sync` without Bearer | 401 |
-| Sync wave | queued jobs · library `print_ad` / `campaign_keyvisual` · `source=connector:campaign_motif` |
+| Sync wave | queued jobs · library `print_ad` / `campaign_keyvisual` · `source=connector:campaign_motif` · `license_class=public_domain` |
+| DB | migration `017_public_domain_license.sql` (CHECK includes `public_domain`) |
 
 Paths: `knowledge/paths.json` → `campaignMotifAllowlist`.
