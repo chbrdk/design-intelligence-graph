@@ -140,3 +140,101 @@ test("assembleCompositionBrief merges references into a builder brief", async ()
   assert.equal(brief.prompt_pack.look_contract?.density, "tight");
   assert.ok(brief.prompt_pack.references.length >= 2);
 });
+
+test("assembleCompositionBrief resolves output_contract graphic|auto from assetKind", async () => {
+  const { mkdtemp, writeFile, mkdir, rm } = await import("node:fs/promises");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const root = await mkdtemp(join(tmpdir(), "dig-compose-graphic-"));
+  try {
+    await mkdir(join(root, "derived"), { recursive: true });
+    const composition = {
+      schema_version: "0.1.0",
+      composition_contract_version: "0.1.0",
+      focal: "claim",
+      hierarchy: ["brand", "claim", "support"],
+      negativeSpace: "airy",
+      typeRoles: {
+        display: "relative large",
+        title: "relative medium",
+        body: "relative small",
+        legal: "relative micro"
+      },
+      colorAxes: { dominant: "#111111", accent: "#ff6600", ground: "#f5f5f5" },
+      marginBleed: { safeRel: 0.06, bleedRel: 0.02, quietZoneRel: 0.12 },
+      layoutFamily: "centered_claim",
+      avoid: ["busy collage", "glassmorphism"],
+      ctaRole: "absent"
+    };
+    await writeFile(join(root, "derived", "composition-contract.json"), JSON.stringify(composition));
+    const refs = [
+      {
+        reference_id: "ref_g1",
+        capture_run_id: "cap_g1",
+        taxonomy: { category: "campaign", family: "keyvisual", intent: "brand" },
+        composition: {
+          signature: "lockup>claim",
+          stack_summary: "Centered lockup",
+          density: "tight",
+          section_count: 1,
+          band_heights_px: [900]
+        },
+        look: {
+          look_summary: "Bold KV",
+          contrast_mode: "high",
+          typography_role: "display",
+          imagery_role: "hero",
+          cta_style: "none",
+          surface_style: "flat"
+        },
+        craft: { craft_tags: ["keyvisual"] },
+        provenance: { evidence_refs: [], methods: [], layers: [] }
+      }
+    ];
+    const client = {
+      async query(sql: string, values: unknown[] = []) {
+        if (sql.includes("SELECT payload FROM design_references WHERE reference_id = $1")) {
+          return {
+            rows: refs.filter((ref) => ref.reference_id === values[0]).map((payload) => ({ payload }))
+          };
+        }
+        if (sql.includes("SELECT package_path, platform_project_id")) {
+          return {
+            rows: [
+              {
+                package_path: root,
+                platform_project_id: null,
+                asset_kind: "campaign_keyvisual",
+                composition_contract: composition
+              }
+            ]
+          };
+        }
+        return { rows: [] };
+      }
+    };
+
+    const graphic = await assembleCompositionBrief(
+      {
+        intent: "Key visual for spring campaign",
+        reference_ids: ["ref_g1"],
+        output_contract: "auto"
+      },
+      client
+    );
+    assert.equal(graphic.prompt_pack.output_contract, "graphic");
+    assert.ok(graphic.composition_contract);
+
+    const explicit = await assembleCompositionBrief(
+      {
+        intent: "Key visual for spring campaign",
+        reference_ids: ["ref_g1"],
+        output_contract: "graphic"
+      },
+      client
+    );
+    assert.equal(explicit.prompt_pack.output_contract, "graphic");
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});

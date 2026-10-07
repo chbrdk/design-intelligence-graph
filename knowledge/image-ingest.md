@@ -46,6 +46,17 @@ Island Capture posts through `/api/dig` + `/api/jobs` + `/images`. `apps/web/nex
 
 Auth uses `assertDestructiveAuth` (Bearer even in dummy mode), same as catalog batch.
 
+## Content-hash idempotency
+
+Before queueing, dig-api hashes each uploaded file (`sha256` via `hashImageBuffer`) and looks up `captures.content_hash`.
+
+- **Hit** → skip enqueue, unlink staging file, return under `skipped_existing_hash_files` with existing `capture_run_id`
+- **Miss** → normal upload job + enrichment
+- Same-batch duplicates of an identical byte payload are also skipped
+
+Response fields on `POST /api/jobs/images`: `skipped_existing_hash`, `skipped_existing_hash_files`.  
+Code: `src/image-ingest-dedupe.ts`.
+
 ## Graphic verify / index
 
 Graphic packages skip web relation checks. Ingest writes `derived/composition-contract.json` + `derived/spirion-asset.json`. JobRunner then queues **graphic vision enrichment** (`src/graphic-llm-enrich.ts`) so Library gets `vision_page`, **~300 craft metrics** (`derived/graphic-craft-metrics.json`), and design facets — not the web section/`page_rhythm` LLM path. See `knowledge/graphic-craft-metrics.md`.

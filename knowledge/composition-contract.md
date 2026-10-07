@@ -24,4 +24,8 @@ Upload / Dribbble sync → dedicated **graphic artboard package** (`src/graphic-
 
 Craft metric document: `knowledge/graphic-craft-metrics.md` → `derived/graphic-craft-metrics.json`.
 
+HTTP `compose_brief` / references prompt-pack resolve `output_contract` via `resolvePackOutputContract` (same as MCP `capture_prompt_pack`) — `graphic` | `auto` | `composition` | …  
+
 Web screens keep `look_contract` + `page_rhythm` on the Playwright / legacy still path.
+
+Hardening smoke: `knowledge/spirion-welle2-hardening-smoke.md`.

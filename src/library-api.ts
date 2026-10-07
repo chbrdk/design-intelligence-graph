@@ -32,6 +32,8 @@ import { loadVisionLayoutDocument } from "./vision-layout.js";
 import { libraryCardScreenshotPath } from "./library-screenshot.js";
 import { loadVisionPageDocument } from "./vision-page.js";
 import { sectionsFromCompositionDoc, synthesizeRecipeParity } from "./recipe-fallback.js";
+import { parseCraftReviewPatchBody } from "./craft-review.js";
+import { isPackOutputContract, normalizeAssetKind, resolvePackOutputContract } from "./spirion-asset.js";
 
 type Box = { x: number; y: number; width: number; height: number };
 
@@ -667,6 +669,56 @@ export async function handleLibraryApi(
         };
       })
     });
+    return true;
+  }
+
+  const captureReview = path.match(/^\/captures\/([^/]+)$/);
+  if (request.method === "PATCH" && captureReview) {
+    if (rejectIfDestructiveUnauthorized(request, response)) return true;
+    const captureRunId = decodeURIComponent(captureReview[1] ?? "").trim();
+    if (!captureRunId) {
+      sendJson(response, 400, { error: "capture_run_id_required" });
+      return true;
+    }
+    const body = await readJsonBody(request);
+    const parsed = parseCraftReviewPatchBody(body);
+    if ("error" in parsed) {
+      sendJson(response, 400, { error: parsed.error });
+      return true;
+    }
+    try {
+      const updated = await client.query(
+        `UPDATE captures
+         SET craft_eligible = $2,
+             craft_reviewed_at = NOW(),
+             craft_review_note = $3
+         WHERE capture_run_id = $1
+         RETURNING capture_run_id, asset_kind, source, license_class, craft_eligible,
+                   enrichment_status, craft_reviewed_at, craft_review_note`,
+        [captureRunId, parsed.craftEligible, parsed.reviewNote]
+      );
+      const row = updated.rows[0] as Record<string, unknown> | undefined;
+      if (!row) {
+        sendJson(response, 404, { error: "capture_not_found", capture_run_id: captureRunId });
+        return true;
+      }
+      sendJson(response, 200, {
+        ok: true,
+        capture_run_id: row.capture_run_id,
+        assetKind: row.asset_kind,
+        licenseClass: row.license_class,
+        craftEligible: row.craft_eligible,
+        enrichmentStatus: row.enrichment_status,
+        craftReviewedAt: row.craft_reviewed_at,
+        craftReviewNote: row.craft_review_note,
+        source: row.source
+      });
+    } catch (error: unknown) {
+      sendJson(response, 500, {
+        error: "craft_review_failed",
+        message: error instanceof Error ? error.message : String(error)
+      });
+    }
     return true;
   }
 
@@ -1499,10 +1551,23 @@ export async function handleLibraryApi(
         typeof body.brief === "string" && body.brief.trim()
           ? body.brief.trim()
           : pack.intent;
-      const output_contract =
-        body.output_contract === "prose_brief" || body.output_contract === "both"
-          ? body.output_contract
-          : "layout_hints_json";
+      const anchorCaptureId = pack.references[0]?.capture_run_id;
+      let assetKind = normalizeAssetKind(body.assetKind ?? body.asset_kind, "web_screen");
+      if (anchorCaptureId) {
+        try {
+          const kindRow = await client.query(
+            `SELECT asset_kind FROM captures WHERE capture_run_id = $1 LIMIT 1`,
+            [anchorCaptureId]
+          );
+          const rawKind = (kindRow.rows[0] as { asset_kind?: unknown } | undefined)?.asset_kind;
+          assetKind = normalizeAssetKind(rawKind, assetKind);
+        } catch {
+          /* keep body/default kind */
+        }
+      }
+      const output_contract = isPackOutputContract(body.output_contract)
+        ? resolvePackOutputContract(body.output_contract, assetKind)
+        : "layout_hints_json";
       const look_contract = asLookContract(body.look_contract);
       const tokens = look_contract
         ? null

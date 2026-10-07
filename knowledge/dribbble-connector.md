@@ -20,10 +20,28 @@
 | GET | `/api/dribbble/oauth/start` | authorize URL |
 | GET | `/api/dribbble/oauth/callback` | code exchange |
 | POST | `/api/dribbble/sync` | pull authorized user shots → upload ingest |
+| PATCH | `/api/library/captures/:captureRunId` | craft review allowlist (Bearer `DIG_API_TOKEN`) |
+
+## Craft review (allowlist)
+
+Synced Dribbble rows stay `craftEligible=false` / `licenseClass=connector_tos` until an operator allowlists them:
+
+```bash
+curl -sS -X PATCH \
+  -H "Authorization: Bearer $DIG_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"craftEligible":true,"reviewNote":"visual QA ok"}' \
+  "https://spirion-api.projects-a.plygrnd.tech/api/library/captures/cap_…"
+```
+
+Body: `craftEligible` (required boolean) · optional `reviewNote` / `review_note` (≤2000 chars).  
+Response includes `craftReviewedAt` + `craftReviewNote`. List with `?craftEligible=true` (HTTP or MCP `spirion.assets_list`).
+
+Config: `knowledge/paths.json` → `libraryCraftReview`.
 
 ## Operator
 
 1. Register Dribbble app; set Coolify env on dig-api uuid `fjlcya8d9jnlecj4s44yru4q`
 2. Open `/api/dribbble/oauth/start` → authorize
 3. `POST /api/dribbble/sync` with optional `{ "limit": 10 }`
-4. Review assets; set `craft_eligible=true` only after allowlist
+4. Review assets; `PATCH /api/library/captures/:id` with `craftEligible=true` only after allowlist

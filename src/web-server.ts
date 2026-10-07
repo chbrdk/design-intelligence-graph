@@ -22,6 +22,7 @@ import { imageIngestConfig, loadDigPaths, webHost, webPort, webStaticDir } from 
 import { setFlowSeedEnqueueCapture } from "./flow-seed.js";
 import { setDigApiRuntime } from "./dig-api-runtime.js";
 import { parseMultipartImageUploads } from "./image-upload.js";
+import { partitionUploadsByContentHash } from "./image-ingest-dedupe.js";
 
 loadDotEnv();
 const enrichmentQueue = new EnrichmentQueue({ autoStart: true });
@@ -293,14 +294,31 @@ async function handleApi(request: IncomingMessage, response: ServerResponse, url
         ...file,
         asset_kind: file.asset_kind ?? parsed.assetKind ?? "other_graphic"
       }));
-      const jobs = runner.startUploadJobs(files, {
-        platformProjectId: parsed.platformProjectId
-      });
+      let novel = files;
+      let skippedExistingHash: Awaited<ReturnType<typeof partitionUploadsByContentHash>>["duplicates"] =
+        [];
+      const pool = getPool();
+      if (pool) {
+        try {
+          const partitioned = await partitionUploadsByContentHash(files, pool);
+          novel = partitioned.novel;
+          skippedExistingHash = partitioned.duplicates;
+        } catch {
+          /* queue anyway if hash lookup fails */
+        }
+      }
+      const jobs = novel.length
+        ? runner.startUploadJobs(novel, {
+            platformProjectId: parsed.platformProjectId
+          })
+        : [];
       sendJson(response, 202, {
         ok: true,
         queued: jobs.length,
         skipped: parsed.skipped.length,
         skipped_files: parsed.skipped,
+        skipped_existing_hash: skippedExistingHash.length,
+        skipped_existing_hash_files: skippedExistingHash,
         asset_kind: parsed.assetKind ?? "other_graphic",
         max_image_concurrent: imageIngestConfig().maxConcurrent,
         jobs: jobs.map(publicJobView)

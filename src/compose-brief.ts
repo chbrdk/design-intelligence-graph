@@ -8,7 +8,7 @@ import {
   listDesignReferencesForCapture,
   type DesignReferencePack
 } from "./design-reference-library.js";
-import { assembleDesignPromptPack, type PromptOutputContract } from "./design-prompt-pack.js";
+import { assembleDesignPromptPack } from "./design-prompt-pack.js";
 import { loadDesignTokensDocument } from "./design-tokens.js";
 import type { LookContract } from "./look-contract.js";
 import { asLookContract } from "./look-contract.js";
@@ -25,7 +25,7 @@ import {
   loadCompositionContract,
   type CompositionContract
 } from "./composition-contract.js";
-import { normalizeAssetKind } from "./spirion-asset.js";
+import { isPackOutputContract, normalizeAssetKind, resolvePackOutputContract } from "./spirion-asset.js";
 
 export const COMPOSITION_BRIEF_VERSION = "0.1.0";
 
@@ -226,10 +226,6 @@ export async function assembleCompositionBrief(
   const captureRunIds = stringArray(body.capture_run_ids);
   const primaryScreenId = trimString(body.primary_screen_id) ?? trimString(body.primaryScreenId);
   const platformProjectId = trimString(body.platformProjectId) ?? trimString(body.platform_project_id);
-  const output_contract =
-    body.output_contract === "prose_brief" || body.output_contract === "both"
-      ? (body.output_contract as PromptOutputContract)
-      : "layout_hints_json";
 
   const references: DesignReferenceRecord[] = [];
   for (const id of explicitReferenceIds) {
@@ -264,6 +260,9 @@ export async function assembleCompositionBrief(
   const gatedRefs = pack.references;
   const anchorCaptureRunId = gatedRefs[0]!.capture_run_id;
   const context = await loadCaptureContext(client, anchorCaptureRunId, platformProjectId);
+  const output_contract = isPackOutputContract(body.output_contract)
+    ? resolvePackOutputContract(body.output_contract, context.asset_kind)
+    : "layout_hints_json";
   const look_contract = asLookContract(body.look_contract) ?? context.look_contract;
   const page_rhythm = asPageRhythm(body.page_rhythm) ?? context.page_rhythm;
   const composition_contract =
