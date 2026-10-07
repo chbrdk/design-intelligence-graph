@@ -35,15 +35,18 @@ node --import tsx --test \
 
 **Result 2026-10-07:** local unit gate green.
 
-## Staging probe (live dig-api, pre-deploy of this hardening)
+## Staging probe
+
+**Deploy:** Coolify `dig-v3:api` (`fjlcya8d9jnlecj4s44yru4q`) · commit `720a907` · status finished/healthy · logs `Applied migrations: 016_craft_review.sql`
 
 | Check | Result |
 |-------|--------|
 | `GET /api/health` | ok · `dig-api` |
-| MCP `initialize` | `serverInfo.name=spirion` |
-| `spirion.captures_list` / `assets_list` `assetKind=other_graphic` + `craftEligible=true` | ≥1 ready graphic upload |
-| `spirion.capture_prompt_pack` `output_contract=graphic` on `cap_1e70fd5a…` | `composition_contract` + `graphic_craft_brief` present |
-| plexon `campaign_motif_ref_v1` unit | `__tests__/creation-craft-modules.test.ts` 23/23 green |
-| PATCH craft review + content-hash skip | **needs deploy** of this branch + migration `016` |
+| MCP `assets_list` graphic + `craftEligible` | ≥1 |
+| `spirion.capture_prompt_pack` `output_contract=graphic` | `composition_contract` + `graphic_craft_brief` |
+| plexon `campaign_motif_ref_v1` unit | 23/23 green |
+| `PATCH /api/library/captures/cap_1e70fd5a…` | **200** · `craftEligible=true` · note set · listed in `craftEligible=true` |
+| Re-upload same PNG bytes | **queued=0** · `skipped_existing_hash=1` · existing `capture_run_id` returned |
+| Unauthorized PATCH | **401** (gate intact) |
 
-After Coolify deploy: re-run checklist steps 2, 6, 7 with `DIG_API_TOKEN`.
+Operator date: 2026-10-07.
