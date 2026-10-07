@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "policy_version": "brand_kit_allowlist_2026-10",
   "doc": "knowledge/brand-kit-allowlist.md",
-  "notes": "Explicit asset URLs only — no HTML scrape. Default craftEligible=false; licenseClass=connector_tos until review.",
+  "notes": "Explicit asset URLs only — no HTML scrape. ZIP rows require zipMember. Default craftEligible=false; licenseClass=connector_tos until review.",
   "kits": [
     {
       "id": "pulumi",
@@ -24,8 +24,23 @@
           "role": "logo"
         },
         {
+          "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-logo-stacked-color-light.png",
+          "filename": "pulumi-logo-stacked-color-light.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-logo-mark-color-light.png",
+          "filename": "pulumi-logo-mark-color-light.png",
+          "role": "mark"
+        },
+        {
           "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-icon-rounded-light.png",
           "filename": "pulumi-icon-rounded-light.png",
+          "role": "icon"
+        },
+        {
+          "url": "https://brand.pulumi.com/brand-assets/logos/png/pulumi-icon-circle-light.png",
+          "filename": "pulumi-icon-circle-light.png",
           "role": "icon"
         }
       ]
@@ -48,6 +63,45 @@
           "url": "https://mirrors.creativecommons.org/presskit/icons/cc.xlarge.png",
           "filename": "cc-logo-xlarge.png",
           "role": "logo"
+        }
+      ]
+    },
+    {
+      "id": "venice",
+      "name": "Venice AI",
+      "guidelinesUrl": "https://cdn.venice.ai/brand",
+      "hostAllowlist": ["cdn.venice.ai", "venice.ai"],
+      "licenseClass": "connector_tos",
+      "craftEligibleDefault": false,
+      "industryTags": ["ai", "devtools", "privacy"],
+      "assets": [
+        {
+          "url": "https://cdn.venice.ai/brand/venice-wordmark-png.zip",
+          "zipMember": "Venice Wordmark PNG/venice-wordmark-deep-blue.png",
+          "filename": "venice-wordmark-deep-blue.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://cdn.venice.ai/brand/venice-keys-png.zip",
+          "zipMember": "Venice Keys PNG/venice-keys-deep-blue.png",
+          "filename": "venice-keys-deep-blue.png",
+          "role": "icon"
+        },
+        {
+          "url": "https://cdn.venice.ai/brand/venice-lockup-png.zip",
+          "zipMember": "Venice Lockup PNG/venice-logo-lockup-deep-blue.png",
+          "filename": "venice-logo-lockup-deep-blue.png",
+          "role": "logo"
+        },
+        {
+          "url": "https://cdn.venice.ai/brand/vvv-token-red.png",
+          "filename": "vvv-token-red.png",
+          "role": "mark"
+        },
+        {
+          "url": "https://cdn.venice.ai/brand/diem-sea-mid.png",
+          "filename": "diem-sea-mid.png",
+          "role": "mark"
         }
       ]
     }

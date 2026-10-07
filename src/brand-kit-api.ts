@@ -178,7 +178,7 @@ export async function handleBrandKitApi(
               maxBytes: cfg.maxBytes
             });
             const png = await rasterizeToPng(downloaded.buffer, downloaded.contentType);
-            const sourceId = brandKitSourceId(kit.id, asset.url);
+            const sourceId = brandKitSourceId(kit.id, asset.url, asset.zipMember);
             const dest = join(stagingDir, `${sourceId}${extensionForFilename(asset.filename)}`);
             await writeFile(dest, png);
             const job = runtime.runner.startUploadJob(
@@ -196,6 +196,7 @@ export async function handleBrandKitApi(
               source: "connector:brand_kit",
               source_id: sourceId,
               asset_url: asset.url,
+              zip_member: asset.zipMember ?? null,
               role: asset.role ?? null,
               policy_version: catalog.policy_version,
               license_class: kit.licenseClass,

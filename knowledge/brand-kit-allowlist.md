@@ -20,6 +20,7 @@ Brand kits complement campaign/print motifs: Marks + guideline imagery for resea
 3. Copy media into SPIRION staging → existing upload/graphic pipeline (`assetKind=brand_system`).
 4. Provenance: `source=connector:brand_kit`, `source_id=brandkit_{kitId}_{…}`, `licenseClass=connector_tos`, `craftEligible=false` until `PATCH /api/library/captures/:id`.
 5. Do not treat Brandfetch hotlinks or scraped brand pages as SSOT.
+6. ZIP rows require explicit `zipMember` (exact path inside the ZIP). No zip directory crawl; `source_id` includes the member.
 
 ## Endpoints
 
@@ -49,8 +50,9 @@ Review with craft PATCH before Creation craft selection.
 1. Confirm the brand publishes **direct asset URLs** (ZIP/README or CDN file links).
 2. Append a kit object to `brand-kit-allowlist.json` with concrete `assets[].url` entries.
 3. Prefer PNG/JPEG/WebP (ingest MIME allowlist). Skip SVG unless rasterized upstream.
-4. Bump `policy_version` when rules change.
-5. Unit test host allow + sync dry-run stays green.
+4. For ZIP kits: set `zipMember` to the exact in-archive path (e.g. Venice wordmark PNG zip).
+5. Bump `policy_version` when rules change.
+6. Unit test host allow + zip member extract stays green.
 
 ## Non-goals
 
