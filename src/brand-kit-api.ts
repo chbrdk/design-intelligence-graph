@@ -6,7 +6,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { mkdir, writeFile } from "node:fs/promises";
 import { extname, join, resolve } from "node:path";
 import sharp from "sharp";
-import { rejectIfDestructiveUnauthorized, rejectIfUnauthorized } from "./api-auth.js";
+import { rejectIfDestructiveUnauthorized } from "./api-auth.js";
 import {
   brandKitAllowlistConfig,
   brandKitSourceId,
@@ -82,8 +82,8 @@ export async function handleBrandKitApi(
 
   const path = requestUrl.pathname.slice(base.length) || "/";
 
+  // Catalog is public (shipped in git); sync remains Bearer-gated.
   if (request.method === "GET" && (path === "/" || path === "")) {
-    if (rejectIfUnauthorized(request, response, environment, root)) return true;
     try {
       const catalog = await loadBrandKitCatalog(root);
       sendJson(response, 200, {
@@ -104,7 +104,6 @@ export async function handleBrandKitApi(
 
   const kitDetail = path.match(/^\/([^/]+)$/);
   if (request.method === "GET" && kitDetail && kitDetail[1] !== "sync") {
-    if (rejectIfUnauthorized(request, response, environment, root)) return true;
     try {
       const catalog = await loadBrandKitCatalog(root);
       const kit = findBrandKit(catalog, decodeURIComponent(kitDetail[1] ?? ""));

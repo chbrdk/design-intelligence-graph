@@ -57,3 +57,15 @@ Review with craft PATCH before Creation craft selection.
 - Scraping `brand.*` HTML for links  
 - Bulk Brandfetch mirror as craft corpus  
 - Trademark-unrestricted remix of company logos in customer scenes without review  
+
+## Staging smoke (2026-10-07)
+
+Deploy dig-api `4be0267` healthy (`coolify` app `fjlcya8d9jnlecj4s44yru4q`).
+
+| Check | Result |
+|-------|--------|
+| `GET /api/brand-kits` with Bearer | lists `pulumi` + `creativecommons` |
+| `GET /api/brand-kits` without auth | **401** on `4be0267` (auth still required until public-GET fix lands) |
+| `POST /api/brand-kits/sync` `{ "kitId":"pulumi","limit":2 }` + Bearer | queues `brand_system` / `connector:brand_kit` jobs |
+
+**Pending deploy:** local commit making catalog GETs public (Bearer only on sync). Blocked 2026-10-07 by GitHub object-write `Internal Server Error` on push/Contents/blobs (reads + same-SHA refs OK). Paths: `knowledge/paths.json` → `brandKitAllowlist`.

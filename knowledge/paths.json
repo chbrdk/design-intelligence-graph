@@ -877,6 +877,15 @@
     "defaultAssetKind": "brand_system",
     "maxAssetsPerSync": 20,
     "timeoutMs": 30000,
-    "maxBytes": 12582912
+    "maxBytes": 12582912,
+    "stagingBaseUrl": "https://spirion-api.projects-a.plygrnd.tech",
+    "stagingCatalogUrl": "https://spirion-api.projects-a.plygrnd.tech/api/brand-kits",
+    "stagingSyncUrl": "https://spirion-api.projects-a.plygrnd.tech/api/brand-kits/sync",
+    "auth": {
+      "catalogGet": "public",
+      "syncPost": "Bearer DIG_API_TOKEN"
+    },
+    "coolifyAppUuid": "fjlcya8d9jnlecj4s44yru4q",
+    "coolifyAppName": "dig-v3:api"
   }
 }
